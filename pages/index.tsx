@@ -2,10 +2,46 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { Inter } from '@next/font/google';
 import styles from '../styles/Home.module.css';
+import { Configuration, FrontendApi, Session, Identity } from '@ory/client';
+import { edgeConfig } from '@ory/integrations/next';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
+const ory = new FrontendApi(new Configuration(edgeConfig));
+
+// Returns either the email or the username depending on the user's Identity Schema
+const getUserName = (identity: Identity) => identity.traits.email || identity.traits.username;
+
 export default function Home() {
+  const router = useRouter();
+
+  const [session, setSession] = useState<Session | undefined>();
+  const [logoutUrl, setLogoutUrl] = useState<string | undefined>();
+
+  useEffect(() => {
+    ory
+      .toSession()
+      .then(({ data }) => {
+        // User has a session!
+        setSession(data);
+        // Create a logout url
+        ory.createBrowserLogoutFlow().then(({ data }) => {
+          setLogoutUrl(data.logout_url);
+        });
+      })
+      .catch(() => {
+        // Redirect to login page
+        return router.push(edgeConfig.basePath + '/ui/login');
+      });
+  }, [router]);
+
+  if (!session) {
+    // Still loading
+    return null;
+  }
+
   return (
     <>
       <Head>
@@ -15,11 +51,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
+        Welcome {getUserName(session?.identity)}!
         <div className={styles.center}>
           <div className={styles.thirteen}>
             <div className="text-2xl">HUB</div>
           </div>
         </div>
+        <p className={styles.description}>
+          <a href={logoutUrl}>Log out</a>
+        </p>
       </main>
     </>
   );
