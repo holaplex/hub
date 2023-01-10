@@ -1,15 +1,15 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import { Inter } from '@next/font/google';
 import styles from '../styles/Home.module.css';
-import { Configuration, FrontendApi, Session, Identity } from '@ory/client';
-import { edgeConfig } from '@ory/integrations/next';
+import { Session, Identity } from '@ory/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
+import Link from 'next/link';
+import ory from '../modules/ory/sdk';
+import { LogoutLink } from '../modules/ory';
 
 const inter = Inter({ subsets: ['latin'] });
-
-const ory = new FrontendApi(new Configuration(edgeConfig));
 
 // Returns either the email or the username depending on the user's Identity Schema
 const getUserName = (identity: Identity) => identity.traits.email || identity.traits.username;
@@ -18,7 +18,8 @@ export default function Home() {
   const router = useRouter();
 
   const [session, setSession] = useState<Session | undefined>();
-  const [logoutUrl, setLogoutUrl] = useState<string | undefined>();
+  // const [logoutUrl, setLogoutUrl] = useState<string | undefined>();
+  const onLogout = LogoutLink();
 
   useEffect(() => {
     ory
@@ -27,13 +28,32 @@ export default function Home() {
         // User has a session!
         setSession(data);
         // Create a logout url
-        ory.createBrowserLogoutFlow().then(({ data }) => {
-          setLogoutUrl(data.logout_url);
-        });
+        // ory.createBrowserLogoutFlow().then(({ data }) => {
+        //   setLogoutUrl(data.logout_url);
+        // });
       })
-      .catch(() => {
-        // Redirect to login page
-        return router.push(edgeConfig.basePath + '/ui/login');
+      .catch((err: AxiosError) => {
+        // Redirect to ory inbuilt login page
+        //return router.push(edgeConfig.basePath + '/ui/login');
+
+        switch (err.response?.status) {
+          case 403:
+          // This is a legacy error code thrown. See code 422 for
+          // more details.
+          case 422:
+            // This status code is returned when we are trying to
+            // validate a session which has not yet completed
+            // its second factor
+            return router.push('/login?aal=aal2');
+          case 401:
+            // the user is not logged in
+            return router.push('/login');
+          // do nothing,
+          //return;
+        }
+
+        // Something else happened!
+        return Promise.reject(err);
       });
   }, [router]);
 
@@ -51,14 +71,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        Welcome {getUserName(session?.identity)}!
+        {session && <>Welcome {getUserName(session?.identity)}!</>}
         <div className={styles.center}>
           <div className={styles.thirteen}>
             <div className="text-2xl">HUB</div>
           </div>
         </div>
         <p className={styles.description}>
-          <a href={logoutUrl}>Log out</a>
+          <button onClick={onLogout}>Log out</button>
         </p>
       </main>
     </>
