@@ -1,13 +1,10 @@
 import Head from 'next/head';
 import { Inter } from '@next/font/google';
 import styles from '../styles/Home.module.css';
-import { Session, Identity } from '@ory/client';
+import { Identity } from '@ory/client';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { AxiosError } from 'axios';
-import Link from 'next/link';
-import ory from '../modules/ory/sdk';
-import { LogoutLink } from '../modules/ory';
+
+import { useSession } from '../providers/SessionProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -15,47 +12,29 @@ const inter = Inter({ subsets: ['latin'] });
 const getUserName = (identity: Identity) => identity.traits.email || identity.traits.username;
 
 export default function Home() {
+  const { session, error, logout } = useSession();
   const router = useRouter();
 
-  const [session, setSession] = useState<Session | undefined>();
-  // const [logoutUrl, setLogoutUrl] = useState<string | undefined>();
-  const onLogout = LogoutLink();
+  if (error) {
+    switch (error.response?.status) {
+      case 403:
+      // This is a legacy error code thrown. See code 422 for
+      // more details.
+      case 422:
+        // This status code is returned when we are trying to
+        // validate a session which has not yet completed
+        // its second factor
+        return router.push('/login?aal=aal2');
+      case 401:
+        // the user is not logged in
+        return router.push('/login');
+      // do nothing,
+      //return;
+    }
 
-  useEffect(() => {
-    ory
-      .toSession()
-      .then(({ data }) => {
-        // User has a session!
-        setSession(data);
-        // Create a logout url
-        // ory.createBrowserLogoutFlow().then(({ data }) => {
-        //   setLogoutUrl(data.logout_url);
-        // });
-      })
-      .catch((err: AxiosError) => {
-        // Redirect to ory inbuilt login page
-        //return router.push(edgeConfig.basePath + '/ui/login');
-
-        switch (err.response?.status) {
-          case 403:
-          // This is a legacy error code thrown. See code 422 for
-          // more details.
-          case 422:
-            // This status code is returned when we are trying to
-            // validate a session which has not yet completed
-            // its second factor
-            return router.push('/login?aal=aal2');
-          case 401:
-            // the user is not logged in
-            return router.push('/login');
-          // do nothing,
-          //return;
-        }
-
-        // Something else happened!
-        return Promise.reject(err);
-      });
-  }, [router]);
+    // Something else happened!
+    //return Promise.reject(error);
+  }
 
   if (!session) {
     // Still loading
@@ -78,7 +57,7 @@ export default function Home() {
           </div>
         </div>
         <p className={styles.description}>
-          <button onClick={onLogout}>Log out</button>
+          <button onClick={logout}>Log out</button>
         </p>
       </main>
     </>

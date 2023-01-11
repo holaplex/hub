@@ -150,7 +150,12 @@ export class Flow<T extends Values> extends Component<Props<T>, State<T>> {
     }
 
     return (
-      <form action={flow.ui.action} method={flow.ui.method} onSubmit={this.handleSubmit}>
+      <form
+        action={flow.ui.action}
+        method={flow.ui.method}
+        onSubmit={this.handleSubmit}
+        className="flex flex-col gap-2"
+      >
         {!hideGlobalMessages ? <Messages messages={flow.ui.messages} /> : null}
         {nodes.map((node, k) => {
           const id = getNodeId(node) as keyof Values;
