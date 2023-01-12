@@ -13,7 +13,7 @@ export type SessionContextType = {
 
 const SessionContext = createContext<SessionContextType>({} as SessionContextType);
 
-export const SessionProvider = ({ children }: { children: React.ReactNode }) => {
+export function SessionProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const onLogout = LogoutLink();
   const [session, setSession] = useState<Session | null>(null);
@@ -39,12 +39,12 @@ export const SessionProvider = ({ children }: { children: React.ReactNode }) => 
       <>{children}</>
     </SessionContext.Provider>
   );
-};
+}
 
-export const useSession = () => {
+export function useSession() {
   const context = useContext(SessionContext);
   if (context === undefined) {
     throw new Error('useSession must be used within a SessionProvider');
   }
   return context;
-};
+}

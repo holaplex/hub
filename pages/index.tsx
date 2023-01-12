@@ -5,6 +5,7 @@ import { Identity } from '@ory/client';
 import { useRouter } from 'next/router';
 
 import { useSession } from '../providers/SessionProvider';
+import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -12,34 +13,7 @@ const inter = Inter({ subsets: ['latin'] });
 const getUserName = (identity: Identity) => identity.traits.email || identity.traits.username;
 
 export default function Home() {
-  const { session, error, logout } = useSession();
-  const router = useRouter();
-
-  if (error) {
-    switch (error.response?.status) {
-      case 403:
-      // This is a legacy error code thrown. See code 422 for
-      // more details.
-      case 422:
-        // This status code is returned when we are trying to
-        // validate a session which has not yet completed
-        // its second factor
-        return router.push('/login?aal=aal2');
-      case 401:
-        // the user is not logged in
-        return router.push('/login');
-      // do nothing,
-      //return;
-    }
-
-    // Something else happened!
-    //return Promise.reject(error);
-  }
-
-  if (!session) {
-    // Still loading
-    return null;
-  }
+  const { session, logout } = useSession();
 
   return (
     <>
@@ -50,14 +24,24 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        {session && <>Welcome {getUserName(session?.identity)}!</>}
+        {session ? (
+          <>Welcome {getUserName(session?.identity)}!</>
+        ) : (
+          <Link href="/login" passHref>
+            <span className="font-bold">Login</span>
+          </Link>
+        )}
         <div className={styles.center}>
           <div className={styles.thirteen}>
             <div className="text-2xl">HUB</div>
           </div>
         </div>
         <p className={styles.description}>
-          <button onClick={logout}>Log out</button>
+          {session && (
+            <>
+              <button onClick={logout}>Log out</button>
+            </>
+          )}
         </p>
       </main>
     </>

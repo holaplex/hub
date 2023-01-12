@@ -79,6 +79,7 @@ export function useLogin(): LoginContext {
           })
           // We logged in successfully! Let's bring the user home.
           .then(() => {
+            console.log('flow after login', flow);
             if (flow?.return_to) {
               window.location.href = flow?.return_to;
               return;
@@ -88,6 +89,7 @@ export function useLogin(): LoginContext {
           .then(() => {})
           .catch(handleFlowError(router, 'login', setFlow))
           .catch((err: AxiosError) => {
+            console.log('AxiosError', err);
             // If the previous handler did not catch the error it's most likely a form validation error
             if (err.response?.status === 400) {
               // Yup, it is!
