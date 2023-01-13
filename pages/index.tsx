@@ -1,11 +1,20 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import { Inter } from '@next/font/google';
 import styles from '../styles/Home.module.css';
+import { Identity } from '@ory/client';
+import { useRouter } from 'next/router';
+
+import { useSession } from '../providers/SessionProvider';
+import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] });
 
+// Returns either the email or the username depending on the user's Identity Schema
+const getUserName = (identity: Identity) => identity.traits.email || identity.traits.username;
+
 export default function Home() {
+  const { session, logout } = useSession();
+
   return (
     <>
       <Head>
@@ -15,11 +24,25 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
+        {session ? (
+          <>Welcome {getUserName(session?.identity)}!</>
+        ) : (
+          <Link href="/login" passHref>
+            <span className="font-bold">Login</span>
+          </Link>
+        )}
         <div className={styles.center}>
           <div className={styles.thirteen}>
             <div className="text-2xl">HUB</div>
           </div>
         </div>
+        <p className={styles.description}>
+          {session && (
+            <>
+              <button onClick={logout}>Log out</button>
+            </>
+          )}
+        </p>
       </main>
     </>
   );

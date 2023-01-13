@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.3",
+    "@holaplex/ui-library-react": "^0.1.0",
     "@next/font": "13.1.1",
+    "@ory/client": "^1.1.4",
+    "@ory/integrations": "^1.1.0",
     "@types/node": "18.11.18",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.10",
@@ -20,7 +23,9 @@
     "next": "13.1.1",
     "next-i18next": "^13.0.3",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.41.5",
+    "react-toastify": "^9.1.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
