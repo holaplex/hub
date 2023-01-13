@@ -85,17 +85,13 @@ export function useRecovery(): RecoveryContext {
             updateRecoveryFlowBody: values,
           })
           .then(({ data }) => {
-            console.log('input values', values);
-
             // Form submission was successful, show the message to the user!
             setFlow(data);
           })
           .catch(handleFlowError(router, 'recovery', setFlow))
           .catch((err: AxiosError) => {
-            console.log('error', err);
             switch (err.response?.status) {
               case 400:
-                console.log('validation error flow', err.response?.data);
                 // Status code 400 implies the form validation had an error
                 //setFlow(err.response?.data);
                 const newFlow: RecoveryFlow = err.response?.data;

@@ -11,7 +11,6 @@ const Recovery: NextPage = () => {
   if (!flow?.state) {
     return null;
   }
-  console.log('flow', flow);
   return (
     <>
       <Head>

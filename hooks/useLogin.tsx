@@ -1,11 +1,11 @@
 import { LoginFlow, UpdateLoginFlowBody, UpdateLoginFlowWithPasswordMethod } from '@ory/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { LogoutLink } from '../modules/ory';
 import { handleFlowError, handleGetFlowError } from '../modules/ory/errors';
 import ory from '../modules/ory/sdk';
 import { AxiosError } from 'axios';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
+import { useLogout } from './useLogout';
 
 interface LoginContext {
   flow: LoginFlow | undefined;
@@ -45,10 +45,9 @@ export function useLogin(): LoginContext {
 
   // This might be confusing, but we want to show the user an option
   // to sign out if they are performing two-factor authentication!
-  const onLogout = LogoutLink([aal, refresh]);
+  const { logout } = useLogout([aal, refresh]);
 
   useEffect(() => {
-    console.log('useEffect', flow);
     // If the router is not ready yet, or we already have a flow, do nothing.
     if (!router.isReady || flow) {
       return;
@@ -59,7 +58,6 @@ export function useLogin(): LoginContext {
       ory
         .getLoginFlow({ id: String(flowId) })
         .then(({ data }) => {
-          console.log('Flow already in url:', data);
           setFlow(data);
         })
         .catch(handleGetFlowError(router, 'login', setFlow));
@@ -74,7 +72,6 @@ export function useLogin(): LoginContext {
         returnTo: returnTo ? String(returnTo) : undefined,
       })
       .then(({ data }) => {
-        console.log('New initialized flow', data);
         setFlow(data);
       })
       .catch(handleFlowError(router, 'login', setFlow));
@@ -94,8 +91,6 @@ export function useLogin(): LoginContext {
           })
           // We logged in successfully! Let's bring the user home.
           .then(() => {
-            console.log('input values', values);
-            console.log('flow after login', flow);
             if (flow?.return_to) {
               window.location.href = flow?.return_to;
               return;
@@ -105,12 +100,9 @@ export function useLogin(): LoginContext {
           .then(() => {})
           .catch(handleFlowError(router, 'login', setFlow))
           .catch((err: AxiosError) => {
-            console.log('input values', values);
-            console.log('Login submit error', err);
             // If the previous handler did not catch the error it's most likely a form validation error
             if (err.response?.status === 400) {
               // Yup, it is!
-              console.log('Validation error flow', err.response?.data);
               const newFlow: LoginFlow = err.response?.data;
 
               const emailErr = newFlow
@@ -142,7 +134,7 @@ export function useLogin(): LoginContext {
 
   return {
     flow,
-    logout: onLogout,
+    logout,
     submit: onSubmit,
     aal,
     refresh,

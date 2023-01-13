@@ -85,23 +85,17 @@ export function useRegister(): RegisterContext {
             updateRegistrationFlowBody: values,
           })
           .then(({ data }) => {
-            console.log('input values', values);
             // If we ended up here, it means we are successfully signed up!
             //
             // You can do cool stuff here, like having access to the identity which just signed up:
-            console.log('This is the user session: ', data, data.identity);
 
             // For now however we just want to redirect home!
             return router.push(flow?.return_to || '/').then(() => {});
           })
           .catch(handleFlowError(router, 'registration', setFlow))
           .catch((err: AxiosError) => {
-            console.log('input values', values);
-            console.log('Register submit error', err);
-
             // If the previous handler did not catch the error it's most likely a form validation error
             if (err.response?.status === 400) {
-              console.log('Validation error flow', err.response?.data);
               // Yup, it is!
               //setFlow(err.response?.data);
               const newFlow: RegistrationFlow = err.response?.data;

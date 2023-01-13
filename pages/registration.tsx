@@ -6,7 +6,6 @@ import { useRegister } from '../hooks/useRegister';
 // Renders the registration page
 const Registration: NextPage = () => {
   const { flow, submit, handleSubmit, register, formState } = useRegister();
-  console.log('Flow', flow);
 
   return (
     <>
