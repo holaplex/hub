@@ -1,16 +1,28 @@
-import { RecoveryFlow, UpdateRecoveryFlowBody } from '@ory/client';
+import { RecoveryFlow, RecoveryFlowState, UpdateRecoveryFlowBody } from '@ory/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { handleFlowError } from '../modules/ory/errors';
 import ory from '../modules/ory/sdk';
 import { AxiosError } from 'axios';
 
-interface RegisterContext {
+interface RecoveryContext {
   flow: RecoveryFlow | undefined;
+  recoveryState: RecoveryFlowState | undefined;
+  csrfToken: string | undefined;
   submit: (values: UpdateRecoveryFlowBody) => Promise<void | undefined>;
+  messages: {
+    sentEmail: string | undefined;
+    error: {
+      email: string | undefined;
+    };
+  };
 }
 
-export function useRecovery(): RegisterContext {
+function getCsrfToken(flow: RecoveryFlow): string {
+  return flow.ui.nodes.filter((node) => node.attributes.name === 'csrf_token')[0].attributes.value;
+}
+
+export function useRecovery(): RecoveryContext {
   const [flow, setFlow] = useState<RecoveryFlow>();
 
   // Get ?flow=... from the URL
@@ -65,13 +77,17 @@ export function useRecovery(): RegisterContext {
             updateRecoveryFlowBody: values,
           })
           .then(({ data }) => {
+            console.log('input values', values);
+
             // Form submission was successful, show the message to the user!
             setFlow(data);
           })
           .catch(handleFlowError(router, 'recovery', setFlow))
           .catch((err: AxiosError) => {
+            console.log('error', err);
             switch (err.response?.status) {
               case 400:
+                console.log('validation error flow', err.response?.data);
                 // Status code 400 implies the form validation had an error
                 setFlow(err.response?.data);
                 return;
@@ -81,8 +97,26 @@ export function useRecovery(): RegisterContext {
           })
       );
 
+  const sentEmail =
+    flow && flow.state === RecoveryFlowState.SentEmail
+      ? flow.ui.messages && flow.ui.messages[0]?.text
+      : undefined;
+
+  const emailErr =
+    flow && flow.state === RecoveryFlowState.ChooseMethod
+      ? flow.ui.nodes.filter((node) => node.attributes.name === 'email')[0]?.messages[0]?.text
+      : undefined;
+
   return {
     flow,
+    recoveryState: flow?.state,
+    csrfToken: flow && getCsrfToken(flow),
     submit: onSubmit,
+    messages: {
+      sentEmail,
+      error: {
+        email: emailErr,
+      },
+    },
   };
 }

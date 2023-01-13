@@ -7,7 +7,19 @@ import { AxiosError } from 'axios';
 
 interface RegisterContext {
   flow: RegistrationFlow | undefined;
+  csrfToken: string | undefined;
   submit: (values: UpdateRegistrationFlowBody) => Promise<void | undefined>;
+  messages: {
+    mainUI: string | undefined;
+    error: {
+      email: string | undefined;
+      password: string | undefined;
+    };
+  };
+}
+
+function getCsrfToken(flow: RegistrationFlow): string {
+  return flow.ui.nodes.filter((node) => node.attributes.name === 'csrf_token')[0].attributes.value;
 }
 
 export function useRegister(): RegisterContext {
@@ -62,6 +74,7 @@ export function useRegister(): RegisterContext {
             updateRegistrationFlowBody: values,
           })
           .then(({ data }) => {
+            console.log('input values', values);
             // If we ended up here, it means we are successfully signed up!
             //
             // You can do cool stuff here, like having access to the identity which just signed up:
@@ -72,8 +85,13 @@ export function useRegister(): RegisterContext {
           })
           .catch(handleFlowError(router, 'registration', setFlow))
           .catch((err: AxiosError) => {
+            console.log('input values', values);
+            console.log('Register submit error', err);
+
             // If the previous handler did not catch the error it's most likely a form validation error
             if (err.response?.status === 400) {
+              console.log('Validation error flow', err.response?.data);
+
               // Yup, it is!
               setFlow(err.response?.data);
               return;
@@ -83,8 +101,26 @@ export function useRegister(): RegisterContext {
           })
       );
 
+  const mainUI = flow ? flow.ui.messages && flow.ui.messages[0]?.text : undefined;
+
+  const emailErr = flow
+    ? flow.ui.nodes.filter((node) => node.attributes.name === 'traits.email')[0]?.messages[0]?.text
+    : undefined;
+
+  const passwordErr = flow
+    ? flow.ui.nodes.filter((node) => node.attributes.name === 'password')[0]?.messages[0]?.text
+    : undefined;
+
   return {
     flow,
+    csrfToken: flow && getCsrfToken(flow),
     submit: onSubmit,
+    messages: {
+      mainUI,
+      error: {
+        email: emailErr,
+        password: passwordErr,
+      },
+    },
   };
 }
