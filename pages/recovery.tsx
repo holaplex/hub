@@ -1,18 +1,14 @@
 import { Button } from '@holaplex/ui-library-react';
-import { RecoveryFlowState, UpdateRecoveryFlowWithLinkMethod } from '@ory/client';
+import { RecoveryFlowState } from '@ory/client';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useForm } from 'react-hook-form';
 import { useRecovery } from '../hooks/useRecovery';
 
 const Recovery: NextPage = () => {
-  const { flow, csrfToken, submit, recoveryState, messages } = useRecovery();
-  console.log('messages', messages);
-  const { register, handleSubmit } = useForm<UpdateRecoveryFlowWithLinkMethod>({
-    defaultValues: { csrf_token: csrfToken, email: '', method: 'link' },
-  });
-  if (!recoveryState) {
+  const { flow, submit, register, handleSubmit, formState } = useRecovery();
+
+  if (!flow?.state) {
     return null;
   }
   console.log('flow', flow);
@@ -26,23 +22,20 @@ const Recovery: NextPage = () => {
         <div className="flex flex-col items-center">
           <span className="font-bold text-2xl p-4">Recover your account</span>
           {/* <Flow onSubmit={submit} flow={flow} /> */}
-          {recoveryState === RecoveryFlowState.ChooseMethod && (
+          {flow?.state === RecoveryFlowState.ChooseMethod && (
             <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-2">
-              <input
-                type="text"
-                {...register('csrf_token', { required: true })}
-                value={csrfToken}
-              />
               Email:
               <input {...register('email', { required: true })} type="text" />
-              <span className="text-red-600 text-sm">{messages.error.email}</span>
+              <span className="text-red-600 text-sm">{formState.errors.email?.message}</span>
               <Button border="rounded" htmlType="submit">
                 Submit
               </Button>
             </form>
           )}
-          {recoveryState === RecoveryFlowState.SentEmail && (
-            <span className="text-lg text-green-600">{messages.sentEmail}</span>
+          {flow?.state === RecoveryFlowState.SentEmail && (
+            <span className="text-lg text-green-600">
+              {flow.ui.messages && flow.ui.messages[0]?.text}
+            </span>
           )}
         </div>
         <div>

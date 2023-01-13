@@ -1,25 +1,22 @@
-import { RecoveryFlow, RecoveryFlowState, UpdateRecoveryFlowBody } from '@ory/client';
+import {
+  RecoveryFlow,
+  RecoveryFlowState,
+  UpdateRecoveryFlowBody,
+  UpdateRecoveryFlowWithLinkMethod,
+} from '@ory/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { handleFlowError } from '../modules/ory/errors';
 import ory from '../modules/ory/sdk';
 import { AxiosError } from 'axios';
+import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 
 interface RecoveryContext {
   flow: RecoveryFlow | undefined;
-  recoveryState: RecoveryFlowState | undefined;
-  csrfToken: string | undefined;
-  submit: (values: UpdateRecoveryFlowBody) => Promise<void | undefined>;
-  messages: {
-    sentEmail: string | undefined;
-    error: {
-      email: string | undefined;
-    };
-  };
-}
-
-function getCsrfToken(flow: RecoveryFlow): string {
-  return flow.ui.nodes.filter((node) => node.attributes.name === 'csrf_token')[0].attributes.value;
+  submit: (values: UpdateRecoveryFlowBody) => void;
+  register: UseFormRegister<UpdateRecoveryFlowWithLinkMethod>;
+  handleSubmit: UseFormHandleSubmit<UpdateRecoveryFlowWithLinkMethod>;
+  formState: FormState<UpdateRecoveryFlowWithLinkMethod>;
 }
 
 export function useRecovery(): RecoveryContext {
@@ -28,6 +25,16 @@ export function useRecovery(): RecoveryContext {
   // Get ?flow=... from the URL
   const router = useRouter();
   const { flow: flowId, return_to: returnTo } = router.query;
+
+  const csrfToken =
+    flow &&
+    flow.ui.nodes.filter((node) => node.attributes.name === 'csrf_token')[0].attributes.value;
+
+  const { register, handleSubmit, formState, setError } = useForm<UpdateRecoveryFlowWithLinkMethod>(
+    {
+      defaultValues: { csrf_token: csrfToken, email: '', method: 'link' },
+    }
+  );
 
   useEffect(() => {
     // If the router is not ready yet, or we already have a flow, do nothing.
@@ -65,7 +72,8 @@ export function useRecovery(): RecoveryContext {
       });
   }, [flowId, router, router.isReady, returnTo, flow]);
 
-  const onSubmit = (values: UpdateRecoveryFlowBody) =>
+  const onSubmit = (values: UpdateRecoveryFlowBody) => {
+    values.csrf_token = csrfToken;
     router
       // On submission, add the flow ID to the URL but do not navigate. This prevents the user loosing
       // his data when she/he reloads the page.
@@ -89,34 +97,31 @@ export function useRecovery(): RecoveryContext {
               case 400:
                 console.log('validation error flow', err.response?.data);
                 // Status code 400 implies the form validation had an error
-                setFlow(err.response?.data);
+                //setFlow(err.response?.data);
+                const newFlow: RecoveryFlow = err.response?.data;
+                const emailErr =
+                  newFlow && newFlow.state === RecoveryFlowState.ChooseMethod
+                    ? newFlow.ui.nodes.filter((node) => node.attributes.name === 'email')[0]
+                        ?.messages[0]?.text
+                    : undefined;
+                if (emailErr) {
+                  setError('email', { type: 'custom', message: emailErr });
+                } else {
+                  setFlow(newFlow);
+                }
                 return;
             }
 
             throw err;
           })
       );
-
-  const sentEmail =
-    flow && flow.state === RecoveryFlowState.SentEmail
-      ? flow.ui.messages && flow.ui.messages[0]?.text
-      : undefined;
-
-  const emailErr =
-    flow && flow.state === RecoveryFlowState.ChooseMethod
-      ? flow.ui.nodes.filter((node) => node.attributes.name === 'email')[0]?.messages[0]?.text
-      : undefined;
+  };
 
   return {
     flow,
-    recoveryState: flow?.state,
-    csrfToken: flow && getCsrfToken(flow),
     submit: onSubmit,
-    messages: {
-      sentEmail,
-      error: {
-        email: emailErr,
-      },
-    },
+    register,
+    handleSubmit,
+    formState,
   };
 }

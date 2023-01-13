@@ -1,25 +1,21 @@
-import { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/client';
+import {
+  RegistrationFlow,
+  UpdateRegistrationFlowBody,
+  UpdateRegistrationFlowWithPasswordMethod,
+} from '@ory/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { handleFlowError } from '../modules/ory/errors';
 import ory from '../modules/ory/sdk';
 import { AxiosError } from 'axios';
+import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 
 interface RegisterContext {
   flow: RegistrationFlow | undefined;
-  csrfToken: string | undefined;
-  submit: (values: UpdateRegistrationFlowBody) => Promise<void | undefined>;
-  messages: {
-    mainUI: string | undefined;
-    error: {
-      email: string | undefined;
-      password: string | undefined;
-    };
-  };
-}
-
-function getCsrfToken(flow: RegistrationFlow): string {
-  return flow.ui.nodes.filter((node) => node.attributes.name === 'csrf_token')[0].attributes.value;
+  submit: (values: UpdateRegistrationFlowWithPasswordMethod) => void;
+  register: UseFormRegister<UpdateRegistrationFlowWithPasswordMethod>;
+  handleSubmit: UseFormHandleSubmit<UpdateRegistrationFlowWithPasswordMethod>;
+  formState: FormState<UpdateRegistrationFlowWithPasswordMethod>;
 }
 
 export function useRegister(): RegisterContext {
@@ -31,6 +27,20 @@ export function useRegister(): RegisterContext {
 
   // Get ?flow=... from the URL
   const { flow: flowId, return_to: returnTo } = router.query;
+
+  const csrfToken =
+    flow &&
+    flow.ui.nodes.filter((node) => node.attributes.name === 'csrf_token')[0].attributes.value;
+
+  const { register, handleSubmit, formState, setError } =
+    useForm<UpdateRegistrationFlowWithPasswordMethod>({
+      defaultValues: {
+        csrf_token: csrfToken,
+        traits: { email: '' },
+        password: '',
+        method: 'password',
+      },
+    });
 
   // In this effect we either initiate a new registration flow, or we fetch an existing registration flow.
   useEffect(() => {
@@ -62,7 +72,8 @@ export function useRegister(): RegisterContext {
       .catch(handleFlowError(router, 'registration', setFlow));
   }, [flowId, router, router.isReady, returnTo, flow]);
 
-  const onSubmit = (values: UpdateRegistrationFlowBody) =>
+  const onSubmit = (values: UpdateRegistrationFlowBody) => {
+    values.csrf_token = csrfToken;
     router
       // On submission, add the flow ID to the URL but do not navigate. This prevents the user loosing
       // his data when she/he reloads the page.
@@ -91,36 +102,41 @@ export function useRegister(): RegisterContext {
             // If the previous handler did not catch the error it's most likely a form validation error
             if (err.response?.status === 400) {
               console.log('Validation error flow', err.response?.data);
-
               // Yup, it is!
-              setFlow(err.response?.data);
+              //setFlow(err.response?.data);
+              const newFlow: RegistrationFlow = err.response?.data;
+
+              const emailErr = newFlow
+                ? newFlow.ui.nodes.filter((node) => node.attributes.name === 'traits.email')[0]
+                    ?.messages[0]?.text
+                : undefined;
+
+              const passwordErr = newFlow
+                ? newFlow.ui.nodes.filter((node) => node.attributes.name === 'password')[0]
+                    ?.messages[0]?.text
+                : undefined;
+
+              if (emailErr) {
+                setError('traits.email', { type: 'custom', message: emailErr });
+              } else if (passwordErr) {
+                setError('password', { type: 'custom', message: passwordErr });
+              } else {
+                setFlow(newFlow);
+              }
               return;
             }
 
             return Promise.reject(err);
           })
       );
-
+  };
   const mainUI = flow ? flow.ui.messages && flow.ui.messages[0]?.text : undefined;
-
-  const emailErr = flow
-    ? flow.ui.nodes.filter((node) => node.attributes.name === 'traits.email')[0]?.messages[0]?.text
-    : undefined;
-
-  const passwordErr = flow
-    ? flow.ui.nodes.filter((node) => node.attributes.name === 'password')[0]?.messages[0]?.text
-    : undefined;
 
   return {
     flow,
-    csrfToken: flow && getCsrfToken(flow),
     submit: onSubmit,
-    messages: {
-      mainUI,
-      error: {
-        email: emailErr,
-        password: passwordErr,
-      },
-    },
+    register,
+    handleSubmit,
+    formState,
   };
 }

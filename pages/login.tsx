@@ -1,16 +1,11 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useLogin } from '../hooks/useLogin';
-import { useForm } from 'react-hook-form';
-import { UpdateLoginFlowWithPasswordMethod } from '@ory/client';
 import { Button } from '@holaplex/ui-library-react';
 
 const Login: NextPage = () => {
-  const { flow, csrfToken, submit, logout, aal, refresh, messages } = useLogin();
-  const { register, handleSubmit } = useForm<UpdateLoginFlowWithPasswordMethod>({
-    defaultValues: { csrf_token: csrfToken, identifier: '', password: '', method: 'password' },
-  });
-  console.log('csrf token', csrfToken);
+  const { flow, submit, logout, aal, refresh, register, handleSubmit, formState } = useLogin();
+
   return (
     <>
       <Head>
@@ -31,14 +26,15 @@ const Login: NextPage = () => {
           </div>
           {/* <Flow onSubmit={submit} flow={flow} /> */}
           <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-2">
-            <span className="text-red-600 text-sm">{messages.mainUI}</span>
-            <input type="text" {...register('csrf_token', { required: true })} value={csrfToken} />
+            <span className="text-red-600 text-sm">
+              {flow?.ui.messages && flow.ui.messages[0]?.text}
+            </span>
             Id:
             <input {...register('identifier', { required: true })} type="text" />
-            <span className="text-red-600 text-sm">{messages.error.email}</span>
+            <span className="text-red-600 text-sm">{formState.errors.identifier?.message}</span>
             Password:
             <input {...register('password', { required: true })} type="password" />
-            <span className="text-red-600 text-sm">{messages.error.password}</span>
+            <span className="text-red-600 text-sm">{formState.errors.password?.message}</span>
             <Button border="rounded" htmlType="submit">
               Login
             </Button>

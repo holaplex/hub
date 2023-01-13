@@ -1,29 +1,21 @@
-import { LoginFlow, UpdateLoginFlowBody } from '@ory/client';
+import { LoginFlow, UpdateLoginFlowBody, UpdateLoginFlowWithPasswordMethod } from '@ory/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { LogoutLink } from '../modules/ory';
 import { handleFlowError, handleGetFlowError } from '../modules/ory/errors';
 import ory from '../modules/ory/sdk';
 import { AxiosError } from 'axios';
+import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 
 interface LoginContext {
   flow: LoginFlow | undefined;
-  csrfToken: string | undefined;
   logout: () => void;
   submit: (values: UpdateLoginFlowBody) => Promise<void | undefined>;
   aal: string | string[] | undefined;
   refresh: string | string[] | undefined;
-  messages: {
-    mainUI: string | undefined;
-    error: {
-      email: string | undefined;
-      password: string | undefined;
-    };
-  };
-}
-
-function getCsrfToken(flow: LoginFlow): string {
-  return flow.ui.nodes.filter((node) => node.attributes.name === 'csrf_token')[0].attributes.value;
+  register: UseFormRegister<UpdateLoginFlowWithPasswordMethod>;
+  handleSubmit: UseFormHandleSubmit<UpdateLoginFlowWithPasswordMethod>;
+  formState: FormState<UpdateLoginFlowWithPasswordMethod>;
 }
 
 export function useLogin(): LoginContext {
@@ -41,6 +33,15 @@ export function useLogin(): LoginContext {
     // to perform two-factor authentication/verification.
     aal,
   } = router.query;
+
+  const csrfToken =
+    flow &&
+    flow.ui.nodes.filter((node) => node.attributes.name === 'csrf_token')[0].attributes.value;
+
+  const { register, handleSubmit, formState, setError } =
+    useForm<UpdateLoginFlowWithPasswordMethod>({
+      defaultValues: { csrf_token: csrfToken, identifier: '', password: '', method: 'password' },
+    });
 
   // This might be confusing, but we want to show the user an option
   // to sign out if they are performing two-factor authentication!
@@ -80,7 +81,7 @@ export function useLogin(): LoginContext {
   }, [flowId, router, router.isReady, aal, refresh, returnTo, flow]);
 
   const onSubmit = async (values: UpdateLoginFlowBody) => {
-    console.log('Called onSubmit', values);
+    values.csrf_token = csrfToken;
     router
       // On submission, add the flow ID to the URL but do not navigate. This prevents the user loosing
       // his data when she/he reloads the page.
@@ -110,7 +111,25 @@ export function useLogin(): LoginContext {
             if (err.response?.status === 400) {
               // Yup, it is!
               console.log('Validation error flow', err.response?.data);
-              setFlow(err.response?.data);
+              const newFlow: LoginFlow = err.response?.data;
+
+              const emailErr = newFlow
+                ? newFlow.ui.nodes.filter((node) => node.attributes.name === 'identifier')[0]
+                    ?.messages[0]?.text
+                : undefined;
+
+              const passwordErr = newFlow
+                ? newFlow.ui.nodes.filter((node) => node.attributes.name === 'password')[0]
+                    ?.messages[0]?.text
+                : undefined;
+
+              if (emailErr) {
+                setError('identifier', { type: 'custom', message: emailErr });
+              } else if (passwordErr) {
+                setError('password', { type: 'custom', message: passwordErr });
+              } else {
+                setFlow(newFlow);
+              }
               return;
             }
 
@@ -121,27 +140,14 @@ export function useLogin(): LoginContext {
 
   const mainUI = flow ? flow.ui.messages && flow.ui.messages[0]?.text : undefined;
 
-  const emailErr = flow
-    ? flow.ui.nodes.filter((node) => node.attributes.name === 'identifier')[0]?.messages[0]?.text
-    : undefined;
-
-  const passwordErr = flow
-    ? flow.ui.nodes.filter((node) => node.attributes.name === 'password')[0]?.messages[0]?.text
-    : undefined;
-
   return {
     flow,
-    csrfToken: flow && getCsrfToken(flow),
     logout: onLogout,
     submit: onSubmit,
     aal,
     refresh,
-    messages: {
-      mainUI,
-      error: {
-        email: emailErr,
-        password: passwordErr,
-      },
-    },
+    register,
+    handleSubmit,
+    formState,
   };
 }
