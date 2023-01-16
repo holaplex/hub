@@ -1,4 +1,10 @@
-import { LoginFlow, UpdateLoginFlowBody, UpdateLoginFlowWithPasswordMethod } from '@ory/client';
+import {
+  LoginFlow,
+  UiNodeAttributes,
+  UiNodeInputAttributes,
+  UpdateLoginFlowBody,
+  UpdateLoginFlowWithPasswordMethod,
+} from '@ory/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { handleFlowError, handleGetFlowError } from '../modules/ory/errors';
@@ -36,7 +42,15 @@ export function useLogin(): LoginContext {
 
   const csrfToken =
     flow &&
-    flow.ui.nodes.filter((node) => node.attributes.name === 'csrf_token')[0].attributes.value;
+    (
+      flow.ui.nodes.filter(
+        (node) =>
+          typeof node.attributes === 'object' &&
+          'name' in node.attributes &&
+          'value' in node.attributes &&
+          node.attributes.name === 'csrf_token'
+      )[0].attributes as any
+    ).value;
 
   const { register, handleSubmit, formState, setError } =
     useForm<UpdateLoginFlowWithPasswordMethod>({
@@ -106,13 +120,15 @@ export function useLogin(): LoginContext {
               const newFlow: LoginFlow = err.response?.data;
 
               const emailErr = newFlow
-                ? newFlow.ui.nodes.filter((node) => node.attributes.name === 'identifier')[0]
-                    ?.messages[0]?.text
+                ? newFlow.ui.nodes.filter(
+                    (node) => 'name' in node.attributes && node.attributes.name === 'identifier'
+                  )[0]?.messages[0]?.text
                 : undefined;
 
               const passwordErr = newFlow
-                ? newFlow.ui.nodes.filter((node) => node.attributes.name === 'password')[0]
-                    ?.messages[0]?.text
+                ? newFlow.ui.nodes.filter(
+                    (node) => 'name' in node.attributes && node.attributes.name === 'password'
+                  )[0]?.messages[0]?.text
                 : undefined;
 
               if (emailErr) {

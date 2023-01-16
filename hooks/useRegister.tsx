@@ -30,7 +30,15 @@ export function useRegister(): RegisterContext {
 
   const csrfToken =
     flow &&
-    flow.ui.nodes.filter((node) => node.attributes.name === 'csrf_token')[0].attributes.value;
+    (
+      flow.ui.nodes.filter(
+        (node) =>
+          typeof node.attributes === 'object' &&
+          'name' in node.attributes &&
+          'value' in node.attributes &&
+          node.attributes.name === 'csrf_token'
+      )[0].attributes as any
+    ).value;
 
   const { register, handleSubmit, formState, setError } =
     useForm<UpdateRegistrationFlowWithPasswordMethod>({
@@ -101,16 +109,19 @@ export function useRegister(): RegisterContext {
               const newFlow: RegistrationFlow = err.response?.data;
 
               const emailErr = newFlow
-                ? newFlow.ui.nodes.filter((node) => node.attributes.name === 'traits.email')[0]
-                    ?.messages[0]?.text
+                ? newFlow.ui.nodes.filter(
+                    (node) => 'name' in node.attributes && node.attributes.name === 'traits.email'
+                  )[0]?.messages[0]?.text
                 : undefined;
 
               const passwordErr = newFlow
-                ? newFlow.ui.nodes.filter((node) => node.attributes.name === 'password')[0]
-                    ?.messages[0]?.text
+                ? newFlow.ui.nodes.filter(
+                    (node) => 'name' in node.attributes && node.attributes.name === 'password'
+                  )[0]?.messages[0]?.text
                 : undefined;
 
               if (emailErr) {
+                // @ts-ignore
                 setError('traits.email', { type: 'custom', message: emailErr });
               } else if (passwordErr) {
                 setError('password', { type: 'custom', message: passwordErr });

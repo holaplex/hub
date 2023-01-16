@@ -28,7 +28,15 @@ export function useRecovery(): RecoveryContext {
 
   const csrfToken =
     flow &&
-    flow.ui.nodes.filter((node) => node.attributes.name === 'csrf_token')[0].attributes.value;
+    (
+      flow.ui.nodes.filter(
+        (node) =>
+          typeof node.attributes === 'object' &&
+          'name' in node.attributes &&
+          'value' in node.attributes &&
+          node.attributes.name === 'csrf_token'
+      )[0].attributes as any
+    ).value;
 
   const { register, handleSubmit, formState, setError } = useForm<UpdateRecoveryFlowWithLinkMethod>(
     {
@@ -97,8 +105,9 @@ export function useRecovery(): RecoveryContext {
                 const newFlow: RecoveryFlow = err.response?.data;
                 const emailErr =
                   newFlow && newFlow.state === RecoveryFlowState.ChooseMethod
-                    ? newFlow.ui.nodes.filter((node) => node.attributes.name === 'email')[0]
-                        ?.messages[0]?.text
+                    ? newFlow.ui.nodes.filter(
+                        (node) => 'name' in node.attributes && node.attributes.name === 'email'
+                      )[0]?.messages[0]?.text
                     : undefined;
                 if (emailErr) {
                   setError('email', { type: 'custom', message: emailErr });
