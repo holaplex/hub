@@ -6,7 +6,7 @@ interface IProps {
 }
 
 const InputLabel = ({ text, className }: IProps) => {
-  return <label className={clsx(className, 'block text-sm')}>{text}</label>;
+  return <label className={clsx(className, 'block text-sm text-primary')}>{text}</label>;
 };
 
 export default InputLabel;

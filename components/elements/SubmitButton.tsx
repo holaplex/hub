@@ -10,7 +10,7 @@ export const SubmitButton = ({ label, className }: IProps) => {
     <Button
       border="rounded"
       htmlType="submit"
-      className={clsx(className, 'w-full bg-black text-white p-2')}
+      className={clsx(className, 'w-full bg-primary text-white p-2')}
     >
       {label}
     </Button>

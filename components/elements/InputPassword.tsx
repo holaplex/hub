@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { FieldValues, UseFormRegister } from 'react-hook-form';
 import InputError from '../atoms/InputError';
+import InputLabel from '../atoms/InputLabel';
 
 interface IProps {
   register: UseFormRegister<FieldValues>;
@@ -12,7 +13,7 @@ interface IProps {
 const InputPassword = ({ register, fieldName, errorMessage, className }: IProps) => {
   return (
     <div className={className}>
-      <label className={clsx(className, 'block text-sm')}>Password</label>
+      <InputLabel text="Password" />
       <input
         {...register(fieldName, { required: true })}
         type="password"
