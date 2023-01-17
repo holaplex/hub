@@ -1,7 +1,9 @@
 import clsx from 'clsx';
+import { useState } from 'react';
 import { FieldValues, UseFormRegister } from 'react-hook-form';
 import InputError from '../atoms/InputError';
 import InputLabel from '../atoms/InputLabel';
+import ShowPassword from '../svgs/ShowPassword';
 
 interface IProps {
   register: UseFormRegister<FieldValues>;
@@ -11,15 +13,25 @@ interface IProps {
 }
 
 const InputPassword = ({ register, fieldName, errorMessage, className }: IProps) => {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div className={className}>
       <InputLabel text="Password" />
-      <input
-        {...register(fieldName, { required: true })}
-        type="password"
-        placeholder="Enter your password"
-        className="w-full rounded-md border border-gray-300 p-2"
-      />
+      <div className="relative">
+        <input
+          {...register(fieldName, { required: true })}
+          type={showPassword ? 'text' : 'password'}
+          placeholder="Enter your password"
+          className="w-full rounded-md border border-gray-300 p-2 pr-10"
+        />
+        <div
+          className="p-2 bg-gray-50 rounded-md absolute right-1 top-[50%] translate-y-[-50%]"
+          onClick={() => setShowPassword(!showPassword)}
+        >
+          <ShowPassword show={showPassword} />
+        </div>
+      </div>
       <InputError errorMessage={errorMessage} />
     </div>
   );
