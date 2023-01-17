@@ -22,8 +22,8 @@ const Registration: NextPage = () => {
               {flow?.ui.messages && flow.ui.messages[0]?.text}
             </span>
             Id:
-            <input {...register('traits.email', { required: true })} type="text" />
-            <span className="text-red-600 text-sm">{formState.errors.traits?.email?.message}</span>
+            <input {...register('email', { required: true })} type="text" />
+            <span className="text-red-600 text-sm">{formState.errors.email?.message}</span>
             Password:
             <input {...register('password', { required: true })} type="password" />
             <span className="text-red-600 text-sm">{formState.errors.password?.message}</span>

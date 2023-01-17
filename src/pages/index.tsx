@@ -2,9 +2,8 @@ import Head from 'next/head';
 import { Inter } from '@next/font/google';
 import styles from '../styles/Home.module.css';
 import { Identity } from '@ory/client';
-import { useRouter } from 'next/router';
 
-import { useSession } from '../providers/SessionProvider';
+import { useSession } from '../hooks/useSession';
 import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] });

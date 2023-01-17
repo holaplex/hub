@@ -3,11 +3,11 @@ import {
   RecoveryFlowState,
   UpdateRecoveryFlowBody,
   UpdateRecoveryFlowWithLinkMethod,
+  UiNodeInputAttributes
 } from '@ory/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { handleFlowError } from '../modules/ory/errors';
-import ory from '../modules/ory/sdk';
+import { ory, handleFlowError } from '../modules/ory';
 import { AxiosError } from 'axios';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 
@@ -26,13 +26,9 @@ export function useRecovery(): RecoveryContext {
   const router = useRouter();
   const { flow: flowId, return_to: returnTo } = router.query;
 
-  const csrfToken =
-    flow &&
-    flow.ui.nodes.filter((node) => node.attributes.name === 'csrf_token')[0].attributes.value;
-
   const { register, handleSubmit, formState, setError } = useForm<UpdateRecoveryFlowWithLinkMethod>(
     {
-      defaultValues: { csrf_token: csrfToken, email: '', method: 'link' },
+      defaultValues: { email: '', method: 'link' },
     }
   );
 
@@ -73,7 +69,12 @@ export function useRecovery(): RecoveryContext {
   }, [flowId, router, router.isReady, returnTo, flow]);
 
   const onSubmit = (values: UpdateRecoveryFlowBody) => {
-    values.csrf_token = csrfToken;
+    const csrfToken = (
+      flow?.ui.nodes.filter(
+        (node) => (node.attributes as UiNodeInputAttributes).name === 'csrf_token'
+      )[0].attributes as UiNodeInputAttributes
+    ).value;
+
     router
       // On submission, add the flow ID to the URL but do not navigate. This prevents the user loosing
       // his data when she/he reloads the page.
@@ -82,7 +83,7 @@ export function useRecovery(): RecoveryContext {
         ory
           .updateRecoveryFlow({
             flow: String(flow?.id),
-            updateRecoveryFlowBody: values,
+            updateRecoveryFlowBody: {...values, csrf_token: csrfToken },
           })
           .then(({ data }) => {
             // Form submission was successful, show the message to the user!
@@ -97,7 +98,7 @@ export function useRecovery(): RecoveryContext {
                 const newFlow: RecoveryFlow = err.response?.data;
                 const emailErr =
                   newFlow && newFlow.state === RecoveryFlowState.ChooseMethod
-                    ? newFlow.ui.nodes.filter((node) => node.attributes.name === 'email')[0]
+                    ? newFlow.ui.nodes.filter((node) => (node.attributes as UiNodeInputAttributes).name === 'email')[0]
                         ?.messages[0]?.text
                     : undefined;
                 if (emailErr) {

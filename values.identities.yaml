@@ -1,0 +1,5 @@
+image:
+  pullPolicy: Always
+environment:
+  kratosAdminEndpoint: "http://kratos-admin"
+  port: "80"

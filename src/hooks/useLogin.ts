@@ -1,12 +1,16 @@
-import { LoginFlow, UpdateLoginFlowBody, UpdateLoginFlowWithPasswordMethod } from '@ory/client';
+import {
+  LoginFlow,
+  UpdateLoginFlowBody,
+  UpdateLoginFlowWithPasswordMethod,
+  UiNodeInputAttributes,
+} from '@ory/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { handleFlowError, handleGetFlowError } from '../modules/ory/errors';
-import ory from '../modules/ory/sdk';
+import { ory, handleFlowError, handleGetFlowError } from '../modules/ory';
 import { AxiosError } from 'axios';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 import { useLogout } from './useLogout';
-
+console.log('sync')
 interface LoginContext {
   flow: LoginFlow | undefined;
   logout: () => void;
@@ -34,13 +38,9 @@ export function useLogin(): LoginContext {
     aal,
   } = router.query;
 
-  const csrfToken =
-    flow &&
-    flow.ui.nodes.filter((node) => node.attributes.name === 'csrf_token')[0].attributes.value;
-
   const { register, handleSubmit, formState, setError } =
     useForm<UpdateLoginFlowWithPasswordMethod>({
-      defaultValues: { csrf_token: csrfToken, identifier: '', password: '', method: 'password' },
+      defaultValues: { identifier: '', password: '', method: 'password' },
     });
 
   // This might be confusing, but we want to show the user an option
@@ -78,7 +78,12 @@ export function useLogin(): LoginContext {
   }, [flowId, router, router.isReady, aal, refresh, returnTo, flow]);
 
   const onSubmit = async (values: UpdateLoginFlowBody) => {
-    values.csrf_token = csrfToken;
+    const csrfToken = (
+      flow?.ui.nodes.filter(
+        (node) => (node.attributes as UiNodeInputAttributes).name === 'csrf_token'
+      )[0].attributes as UiNodeInputAttributes
+    ).value;
+
     router
       // On submission, add the flow ID to the URL but do not navigate. This prevents the user loosing
       // his data when she/he reloads the page.
@@ -87,7 +92,7 @@ export function useLogin(): LoginContext {
         ory
           .updateLoginFlow({
             flow: String(flow?.id),
-            updateLoginFlowBody: values,
+            updateLoginFlowBody: { ...values, csrf_token: csrfToken },
           })
           // We logged in successfully! Let's bring the user home.
           .then(() => {
@@ -106,13 +111,15 @@ export function useLogin(): LoginContext {
               const newFlow: LoginFlow = err.response?.data;
 
               const emailErr = newFlow
-                ? newFlow.ui.nodes.filter((node) => node.attributes.name === 'identifier')[0]
-                    ?.messages[0]?.text
+                ? newFlow.ui.nodes.filter(
+                    (node) => (node.attributes as UiNodeInputAttributes).name === 'identifier'
+                  )[0]?.messages[0]?.text
                 : undefined;
 
               const passwordErr = newFlow
-                ? newFlow.ui.nodes.filter((node) => node.attributes.name === 'password')[0]
-                    ?.messages[0]?.text
+                ? newFlow.ui.nodes.filter(
+                    (node) => (node.attributes as UiNodeInputAttributes).name === 'password'
+                  )[0]?.messages[0]?.text
                 : undefined;
 
               if (emailErr) {

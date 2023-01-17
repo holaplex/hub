@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { useState, useEffect, DependencyList } from 'react';
 
-import ory from '../modules/ory/sdk';
+import { ory } from '../modules/ory';
 
 interface LogoutContext {
   logout: () => void;

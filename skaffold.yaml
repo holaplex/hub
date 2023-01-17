@@ -1,0 +1,45 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: hub
+manifests:
+  rawYaml:
+    - ./k8s/*
+build:
+  artifacts:
+  - image: holaplex/hub
+    docker:
+      target: development
+      dockerfile: Dockerfile
+    sync:
+      manual:
+      - src: 'src/**/**/**/**/**/*.tsx'
+        dest: .
+      - src: 'src/**/**/**/**/**/*.css'
+        dest: .
+      - src: 'src/**/**/**/**/**/*.ts'
+        dest: .
+portForward:
+- resourceType: service
+  resourceName: hub
+  namespace: default
+  port: 80
+  localPort: 3000
+deploy:
+  helm:
+    releases:
+      - name: kratos-db
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: postgresql
+        valuesFiles:
+        - values.kratos.postgresql.yaml
+      - name: kratos
+        repo: https://k8s.ory.sh/helm/charts
+        remoteChart: kratos
+        valuesFiles:
+          - values.kratos.yaml
+      - name: hub-identities
+        remoteChart: hub-identities
+        repo: https://charts.holaplex.com
+        valuesFiles:
+          - values.identities.yaml
