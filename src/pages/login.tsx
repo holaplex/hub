@@ -10,7 +10,7 @@ import InputText from '../components/elements/InputText';
 import Head from 'next/head';
 
 const Login: NextPage = () => {
-  const { flow, submit, logout, aal, refresh, register, handleSubmit, formState } = useLogin();
+  const { flow, submit, register, handleSubmit, formState } = useLogin();
 
   return (
     <>
