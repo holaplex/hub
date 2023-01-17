@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { Inter } from '@next/font/google';
 import { Identity } from '@ory/client';
-import { useSession } from '../providers/SessionProvider';
+import { useSession } from '../hooks/useSession';
 import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] });

@@ -3,7 +3,7 @@ import clsx from 'clsx';
 interface IProps {
   className?: string;
 }
-export const OrDivider = ({ className }: IProps) => {
+const OrDivider = ({ className }: IProps) => {
   return (
     <div className={clsx(className, 'flex justify-center items-center')}>
       <hr className="w-1/2 mr-8 text-gray-100" />
@@ -12,3 +12,5 @@ export const OrDivider = ({ className }: IProps) => {
     </div>
   );
 };
+
+export default OrDivider;

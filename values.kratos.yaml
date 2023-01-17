@@ -1,0 +1,78 @@
+kratos:
+  automigration:
+    enabled: true
+  development: true
+  secret:
+    enabled: true
+  ingress:
+    admin:
+      enabled: false
+    public:
+      enabled: false
+  config:
+    dsn: postgres://kratos:kratos@kratos-db-postgresql:5432/kratos
+    secrets:
+      default:
+        - dolore occaecat nostrud Ut
+        - sit et commodoaute ut voluptate consectetur Duis
+    identity:
+      default_schema_id: default
+      schemas:
+        - id: default
+          url: file:///etc/config/identity.default.schema.json
+    courier:
+      smtp:
+        connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
+    selfservice:
+      default_browser_return_url: http://127.0.0.1:3000/
+  identitySchemas:
+    "identity.default.schema.json": |-
+      {
+        "$id": "https://schemas.ory.sh/presets/kratos/quickstart/email-password/identity.schema.json",
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "Person",
+        "type": "object",
+        "properties": {
+          "traits": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "format": "email",
+                "title": "E-Mail",
+                "minLength": 3,
+                "ory.sh/kratos": {
+                  "credentials": {
+                    "password": {
+                      "identifier": true
+                    }
+                  },
+                  "verification": {
+                    "via": "email"
+                  },
+                  "recovery": {
+                    "via": "email"
+                  }
+                }
+              },
+              "name": {
+                "type": "object",
+                "properties": {
+                  "first": {
+                    "title": "First Name",
+                    "type": "string"
+                  },
+                  "last": {
+                    "title": "Last Name",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "required": [
+              "email"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }

@@ -1,7 +1,7 @@
-import type { NextPage } from 'next';
+import { NextPage } from 'next';
 import Head from 'next/head';
 import InputError from '../components/atoms/InputError';
-import { OrDivider } from '../components/atoms/OrDivider';
+import OrDivider from '../components/atoms/OrDivider';
 import InputBoxHeader from '../components/elements/InputBoxHeader';
 import InputPassword from '../components/elements/InputPassword';
 import InputText from '../components/elements/InputText';
@@ -33,8 +33,8 @@ const Registration: NextPage = () => {
               label="Email address"
               placeholder="e.g. name@example.com"
               register={register}
-              fieldName="traits.email"
-              errorMessage={formState.errors.traits?.email?.message}
+              fieldName="email"
+              errorMessage={formState.errors.email?.message}
               className=""
             />
             <InputPassword

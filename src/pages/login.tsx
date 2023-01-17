@@ -1,13 +1,13 @@
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import { useLogin } from '../hooks/useLogin';
-import { OrDivider } from '../components/atoms/OrDivider';
-import InputText from '../components/elements/InputText';
+import InputBoxHeader from '../components/elements/InputBoxHeader';
 import InputError from '../components/atoms/InputError';
 import InputPassword from '../components/elements/InputPassword';
 import SubmitButton from '../components/elements/SubmitButton';
 import ToolTip from '../components/elements/ToolTip';
-import InputBoxHeader from '../components/elements/InputBoxHeader';
+import OrDivider from '../components/atoms/OrDivider';
+import { useLogin } from '../hooks/useLogin';
+import { NextPage } from 'next';
+import InputText from '../components/elements/InputText';
+import Head from 'next/head';
 
 const Login: NextPage = () => {
   const { flow, submit, logout, aal, refresh, register, handleSubmit, formState } = useLogin();
