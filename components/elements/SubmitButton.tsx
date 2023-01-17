@@ -5,7 +5,7 @@ interface IProps {
   label: string;
   className?: string;
 }
-export const SubmitButton = ({ label, className }: IProps) => {
+const SubmitButton = ({ label, className }: IProps) => {
   return (
     <Button
       border="rounded"
@@ -16,3 +16,5 @@ export const SubmitButton = ({ label, className }: IProps) => {
     </Button>
   );
 };
+
+export default SubmitButton;

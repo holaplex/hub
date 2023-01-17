@@ -9,11 +9,12 @@ import ShowPassword from '../svgs/ShowPassword';
 interface IProps {
   register: UseFormRegister<FieldValues>;
   fieldName: string;
+  placeholder?: string;
   errorMessage?: string;
   className?: string;
 }
 
-const InputPassword = ({ register, fieldName, errorMessage, className }: IProps) => {
+const InputPassword = ({ register, fieldName, placeholder, errorMessage, className }: IProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -28,7 +29,7 @@ const InputPassword = ({ register, fieldName, errorMessage, className }: IProps)
         <input
           {...register(fieldName, { required: true })}
           type={showPassword ? 'text' : 'password'}
-          placeholder="Enter your password"
+          placeholder={placeholder}
           className="w-full rounded-md border border-gray-300 p-2 pr-10"
         />
         <div

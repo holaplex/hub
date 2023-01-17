@@ -10,7 +10,7 @@ interface IProps {
   actionUrl?: string;
   className?: string;
 }
-export const ToolTip = ({ text, actionText, actionUrl, className }: IProps) => {
+const ToolTip = ({ text, actionText, actionUrl, className }: IProps) => {
   return (
     <div
       className={clsx(className, 'bg-gray-50 px-4 py-4 rounded-md flex items-center text-gray-500')}
@@ -30,3 +30,5 @@ export const ToolTip = ({ text, actionText, actionUrl, className }: IProps) => {
     </div>
   );
 };
+
+export default ToolTip;
