@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import Link from 'next/link';
 import { useState } from 'react';
 import { FieldValues, UseFormRegister } from 'react-hook-form';
 import InputError from '../atoms/InputError';
@@ -17,7 +18,12 @@ const InputPassword = ({ register, fieldName, errorMessage, className }: IProps)
 
   return (
     <div className={className}>
-      <InputLabel text="Password" />
+      <div className="flex justify-between items-center">
+        <InputLabel text="Password" />
+        <Link href={'/recovery'}>
+          <span className="text-sm text-primary font-semibold">Forgot password?</span>
+        </Link>
+      </div>
       <div className="relative">
         <input
           {...register(fieldName, { required: true })}
