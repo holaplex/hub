@@ -1,8 +1,8 @@
 import { Session } from '@ory/client';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
-import ory from '../modules/ory/sdk';
+import { ory } from '../modules/ory';
 import { useLogout } from '../hooks/useLogout';
 
 export type SessionContextType = {
@@ -11,7 +11,7 @@ export type SessionContextType = {
   logout: () => void | null;
 };
 
-const SessionContext = createContext<SessionContextType>({} as SessionContextType);
+export const SessionContext = createContext<SessionContextType>({} as SessionContextType);
 
 export function SessionProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -41,10 +41,3 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function useSession() {
-  const context = useContext(SessionContext);
-  if (context === undefined) {
-    throw new Error('useSession must be used within a SessionProvider');
-  }
-  return context;
-}

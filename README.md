@@ -1,15 +1,17 @@
-# hub-ui
+# Holaplex Hub
 
 Holaplex Hub console
 
 ## Getting Started
 
-First, run the development server:
+The hub development environment runs within a local Kubernetes cluster using [skaffold](https://skaffold.dev/). Skaffold will setup the complete Holaplex API and setup hot reloading for the Hub UI.
+
+### Dependencies
+- [Docker for Desktop](https://docs.docker.com/desktop/)
+- [Skaffold](https://skaffold.dev/)
 
 ```bash
-npm run dev
-# or
-yarn dev
+skaffold dev --port-forward
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

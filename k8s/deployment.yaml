@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hub
+spec:
+  selector:
+    matchLabels:
+      app: hub
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hub
+    spec:
+      containers:
+      - name: hub
+        image: holaplex/hub
+        ports:
+        - containerPort: 3000
