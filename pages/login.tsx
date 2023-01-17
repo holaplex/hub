@@ -9,6 +9,7 @@ import { SubmitButton } from '../components/elements/SubmitButton';
 import Link from 'next/link';
 import Bulb from '../components/svgs/Bulb';
 import ArrowRight from '../components/svgs/ArrowRight';
+import { ToolTip } from '../components/elements/ToolTip';
 
 const Login: NextPage = () => {
   const { flow, submit, logout, aal, refresh, register, handleSubmit, formState } = useLogin();
@@ -40,25 +41,17 @@ const Login: NextPage = () => {
               register={register}
               fieldName="password"
               errorMessage={formState.errors.password?.message}
-              className="mt-4"
+              className="mt-5"
             />
             <SubmitButton label="Sign in" className="mt-5" />
           </form>
           <OrDivider className="my-4" />
-          <div className="bg-gray-50 px-4 py-4 mt-4 rounded-md flex items-center text-gray-500">
-            <Bulb className="mr-1" />
-            <span className="text-sm">
-              Dont have an account?
-              <Link
-                href="/registration"
-                passHref
-                className="ml-1 font-medium text-primary cursor-pointer"
-              >
-                Create account
-              </Link>
-            </span>
-            <ArrowRight className="ml-1" />
-          </div>
+          <ToolTip
+            text="Dont have an account?"
+            actionText="Create account"
+            actionUrl="/registration"
+            className="mt-4"
+          />
         </div>
       </div>
     </>

@@ -6,6 +6,7 @@ import { OrDivider } from '../components/atoms/OrDivider';
 import InputPassword from '../components/elements/InputPassword';
 import InputText from '../components/elements/InputText';
 import { SubmitButton } from '../components/elements/SubmitButton';
+import { ToolTip } from '../components/elements/ToolTip';
 import ArrowRight from '../components/svgs/ArrowRight';
 import Bulb from '../components/svgs/Bulb';
 import { useRegister } from '../hooks/useRegister';
@@ -39,21 +40,17 @@ const Registration: NextPage = () => {
               register={register}
               fieldName="password"
               errorMessage={formState.errors.password?.message}
-              className="mt-4"
+              className="mt-5"
             />
             <SubmitButton label="Continue" className="mt-5" />
           </form>
           <OrDivider className="my-4" />
-          <div className="bg-gray-50 px-4 py-4 mt-4 rounded-md flex items-center text-gray-500">
-            <Bulb className="mr-1" />
-            <span className="text-sm">
-              Already have an account?
-              <Link href="/login" passHref className="ml-1 font-medium text-primary cursor-pointer">
-                Sign in
-              </Link>
-            </span>
-            <ArrowRight className="ml-1" />
-          </div>
+          <ToolTip
+            text="Already have an account?"
+            actionText="Sign in"
+            actionUrl="/login"
+            className="mt-4"
+          />
         </div>
       </div>
     </>
