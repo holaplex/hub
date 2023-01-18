@@ -43,3 +43,13 @@ deploy:
         repo: https://charts.holaplex.com
         valuesFiles:
           - values.identities.yaml
+      - name: hub-orgs-db
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: postgresql
+        valuesFiles:
+          - values.orgs.postgresql.yaml
+      - name: hub-orgs
+        remoteChart: hub-orgs
+        repo: https://charts.holaplex.com
+        valuesFiles:
+          - values.orgs.yaml
