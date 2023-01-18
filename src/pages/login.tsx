@@ -1,7 +1,7 @@
 import InputBoxHeader from '../components/elements/InputBoxHeader';
 import InputError from '../components/atoms/InputError';
 import InputPassword from '../components/elements/InputPassword';
-import SubmitButton from '../components/elements/SubmitButton';
+import SubmitButton from '../components/atoms/SubmitButton';
 import ToolTip from '../components/elements/ToolTip';
 import OrDivider from '../components/atoms/OrDivider';
 import { useLogin } from '../hooks/useLogin';

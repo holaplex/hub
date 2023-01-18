@@ -5,7 +5,7 @@ import OrDivider from '../components/atoms/OrDivider';
 import InputBoxHeader from '../components/elements/InputBoxHeader';
 import InputPassword from '../components/elements/InputPassword';
 import InputText from '../components/elements/InputText';
-import SubmitButton from '../components/elements/SubmitButton';
+import SubmitButton from '../components/atoms/SubmitButton';
 import ToolTip from '../components/elements/ToolTip';
 import { useRegister } from '../hooks/useRegister';
 

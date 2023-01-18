@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useLogin } from '../../hooks/useLogin';
 import InputText from '../../components/elements/InputText';
-import SubmitButton from '../../components/elements/SubmitButton';
+import SubmitButton from '../../components/atoms/SubmitButton';
 import InputBoxHeader from '../../components/elements/InputBoxHeader';
 import Link from 'next/link';
 import DragDropImage from '../../components/elements/DragDropImage';

@@ -1,46 +1,43 @@
-import { Button } from '@holaplex/ui-library-react';
-import { RecoveryFlowState } from '@ory/client';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
+import InputBoxHeader from '../components/elements/InputBoxHeader';
+import InputText from '../components/elements/InputText';
+import SubmitButton from '../components/atoms/SubmitButton';
 import { useRecovery } from '../hooks/useRecovery';
+import PageLink from '../components/atoms/PageLink';
 
 const Recovery: NextPage = () => {
   const { flow, submit, register, handleSubmit, formState } = useRecovery();
 
-  if (!flow?.state) {
-    return null;
-  }
+  // if (!flow?.state) {
+  //   return null;
+  // }
   return (
     <>
       <Head>
         <title>Recover your hub account </title>
         <meta name="description" content="Hub: Recover Account" />
       </Head>
-      <div className="flex flex-col items-center mt-10 gap-4">
-        <div className="flex flex-col items-center">
-          <span className="font-bold text-2xl p-4">Recover your account</span>
-          {/* <Flow onSubmit={submit} flow={flow} /> */}
-          {flow?.state === RecoveryFlowState.ChooseMethod && (
-            <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-2">
-              Email:
-              <input {...register('email', { required: true })} type="text" />
-              <span className="text-red-600 text-sm">{formState.errors.email?.message}</span>
-              <Button border="rounded" htmlType="submit">
-                Submit
-              </Button>
-            </form>
-          )}
-          {flow?.state === RecoveryFlowState.SentEmail && (
-            <span className="text-lg text-green-600">
-              {flow.ui.messages && flow.ui.messages[0]?.text}
-            </span>
-          )}
-        </div>
-        <div>
-          <Link href="/" passHref>
-            <span>Go back</span>
-          </Link>
+      <div className="flex flex-col h-screen items-center mt-10">
+        <div className="text-2xl font-bold text-primary">Holaplex</div>
+        <div className="w-[400px] h-[320px] rounded-md bg-white border border-gray-100 mt-14 p-8">
+          <InputBoxHeader
+            heading="Forgot password"
+            subHeading="Enter your email address to receive a recovery link."
+            className="mb-5"
+          />
+          <form onSubmit={handleSubmit(submit)} className="flex flex-col">
+            <InputText
+              label="Email address"
+              placeholder="e.g. name@example.com"
+              register={register}
+              fieldName="email"
+              errorMessage={formState.errors.email?.message}
+              className=""
+            />
+            <SubmitButton label="Send recovery link" className="mt-5" />
+            <PageLink label="Return to sign in" url="/login" className="mt-5 flex justify-center" />
+          </form>
         </div>
       </div>
     </>
