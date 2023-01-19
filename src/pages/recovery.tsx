@@ -3,8 +3,8 @@ import InputBoxHeader from '../components/elements/InputBoxHeader';
 import InputText from '../components/elements/InputText';
 import SubmitButton from '../components/atoms/SubmitButton';
 import { useRecovery } from '../hooks/useRecovery';
-import PageLink from '../components/atoms/PageLink';
-import HubEntryLayout from '../components/layouts/HubEntryLayout';
+import PageLink from '../components/PageLink';
+import HubEntryLayout from '../layouts/HubEntryLayout';
 
 const Recovery: NextPage = () => {
   const { flow, submit, register, handleSubmit, formState } = useRecovery();

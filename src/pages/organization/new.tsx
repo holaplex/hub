@@ -4,8 +4,8 @@ import InputText from '../../components/elements/InputText';
 import SubmitButton from '../../components/atoms/SubmitButton';
 import InputBoxHeader from '../../components/elements/InputBoxHeader';
 import Link from 'next/link';
-import DragDropImage from '../../components/elements/DragDropImage';
-import HubEntryLayout from '../../components/layouts/HubEntryLayout';
+import DragDropImage from '../../components/DragDropImage';
+import HubEntryLayout from '../../layouts/HubEntryLayout';
 
 const CreateOrganization: NextPage = () => {
   const { flow, submit, register, handleSubmit, formState } = useLogin();

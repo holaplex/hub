@@ -1,13 +1,13 @@
 import { NextPage } from 'next';
 import InputError from '../components/atoms/InputError';
-import OrDivider from '../components/atoms/OrDivider';
+import OrDivider from '../components/OrDivider';
 import InputBoxHeader from '../components/elements/InputBoxHeader';
 import InputPassword from '../components/elements/InputPassword';
 import InputText from '../components/elements/InputText';
 import SubmitButton from '../components/atoms/SubmitButton';
-import ToolTip from '../components/elements/ToolTip';
+import ToolTip from '../components/ToolTip';
 import { useRegister } from '../hooks/useRegister';
-import HubEntryLayout from '../components/layouts/HubEntryLayout';
+import HubEntryLayout from '../layouts/HubEntryLayout';
 
 // Renders the registration page
 const Registration: NextPage = () => {

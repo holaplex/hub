@@ -8,7 +8,7 @@ interface IProps {
 }
 const PageLink = ({ label, url, className }: IProps) => {
   return (
-    <Link href={url} className={clsx(className, 'text-primary font-semibold text-xs')}>
+    <Link href={url} className={clsx('text-primary font-semibold text-xs', className)}>
       {label}
     </Link>
   );

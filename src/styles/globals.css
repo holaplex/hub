@@ -96,3 +96,9 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+/* UI Library specific */
+
+.form-error {
+  @apply whitespace-nowrap text-left text-sm text-negative;
+}

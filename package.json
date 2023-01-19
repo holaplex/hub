@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.3",
-    "@holaplex/ui-library-react": "^0.1.0",
+    "@holaplex/ui-library-react": "^0.5.0",
     "@next/font": "13.1.1",
     "@ory/client": "^1.1.4",
     "@ory/integrations": "^1.1.0",
@@ -30,6 +30,7 @@
     "react-toastify": "^9.1.1"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.3",
     "autoprefixer": "^10.4.13",
     "eslint-config-prettier": "^8.6.0",
     "postcss": "^8.4.20",

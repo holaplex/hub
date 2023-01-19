@@ -1,8 +1,7 @@
-import { Button } from '@holaplex/ui-library-react';
 import clsx from 'clsx';
 import Link from 'next/link';
-import ArrowRight from '../svgs/ArrowRight';
-import Bulb from '../svgs/Bulb';
+import ArrowRight from './svgs/ArrowRight';
+import Bulb from './svgs/Bulb';
 
 interface IProps {
   text: string;
@@ -13,7 +12,7 @@ interface IProps {
 const ToolTip = ({ text, actionText, actionUrl, className }: IProps) => {
   return (
     <div
-      className={clsx(className, 'bg-gray-50 px-4 py-4 rounded-md flex items-center text-gray-500')}
+      className={clsx('bg-gray-50 px-4 py-4 rounded-md flex items-center text-gray-500', className)}
     >
       <Bulb className="mr-1" />
       <span className="text-sm">{text}</span>

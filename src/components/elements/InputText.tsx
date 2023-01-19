@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { FieldValues, UseFormRegister } from 'react-hook-form';
 import InputError from '../atoms/InputError';
 import InputLabel from '../atoms/InputLabel';
