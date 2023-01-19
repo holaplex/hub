@@ -1,6 +1,6 @@
 # Holaplex Hub
 
-Holaplex Hub console
+Holaplex Hub is an enterprise grade cross-chain NFT campaign management solution.
 
 ## Getting Started
 
@@ -10,6 +10,8 @@ The Hub development environment runs within a local Kubernetes cluster using [sk
 
 - [Docker for Desktop](https://docs.docker.com/desktop/)
 - [Skaffold](https://skaffold.dev/)
+
+### Instructions
 
 There are some secrets required for the API. Reach out to a fellow engineer to to get the secrets files. They should be placed in the root of the project and follow the pattern of secret.{service}.yaml.
 
@@ -33,3 +35,11 @@ Skaffold will expose the UI and API on the following ports:
 | ------- | ---------------------------------------------- |
 | Hub UI  | [http://localhost:3000](http://localhost:3000) |
 | Hub API | http://localhost:3001                          |
+
+### GraphQL Codegen
+
+Run graphql codegen whenever a new query or version of the schema is available.
+
+```
+npm run codegen
+```

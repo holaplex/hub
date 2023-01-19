@@ -19,6 +19,8 @@ build:
         dest: .
       - src: 'src/**/**/**/**/**/*.ts'
         dest: .
+      - src: 'src/queries/*.graphql'
+        dest: .
 portForward:
 - resourceType: service
   resourceName: hub
