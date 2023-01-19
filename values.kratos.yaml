@@ -24,7 +24,7 @@ kratos:
       smtp:
         connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
     selfservice:
-      default_browser_return_url: http://127.0.0.1:3000/
+      default_browser_return_url: http://localhost:3000/
   identitySchemas:
     "identity.default.schema.json": |-
       {

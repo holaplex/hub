@@ -25,6 +25,11 @@ portForward:
   namespace: default
   port: 80
   localPort: 3000
+- resourceType: service
+  resourceName: federated-router
+  namespace: default
+  port: 80
+  localPort: 3001
 deploy:
   helm:
     releases:
@@ -53,3 +58,8 @@ deploy:
         repo: https://charts.holaplex.com
         valuesFiles:
           - values.orgs.yaml
+      - name: federated-router
+        remoteChart: oci://ghcr.io/apollographql/helm-charts/router
+        valuesFiles:
+          - values.router.yaml
+          - secrets.router.yaml
