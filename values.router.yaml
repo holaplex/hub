@@ -1,2 +1,7 @@
 managedFederation:
   graphRef: hub-dev@current
+
+router:
+  configuration:
+    supergraph:
+      introspection: true
