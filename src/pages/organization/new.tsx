@@ -6,23 +6,14 @@ import { Button, Form } from '@holaplex/ui-library-react';
 import { ReactElement } from 'react';
 import Splash from '../../layouts/Splash';
 
-export async function getServerSideProps() {
-  return {
-    props: {
-      title: 'Hub: Create organization',
-      description: '',
-    },
-  };
-}
-
 export default function CreateOrganization() {
   const handleDrop = (file: File) => {
     console.log(file);
   };
   return (
     <Card>
-      <Typography.Header size={Size.ExtraLarge}>Create an organization</Typography.Header>
-      <Typography.Header size={Size.Small}>Enter your organization information.</Typography.Header>
+      <Typography.Header size={Size.H2}>Create an organization</Typography.Header>
+      <Typography.Header size={Size.H3}>Enter your organization information.</Typography.Header>
 
       <Form className="flex flex-col mt-5">
         <Form.Label name="Organization name" className="text-xs" />
@@ -58,14 +49,11 @@ interface SplashProps {
   children: ReactElement;
 }
 
-CreateOrganization.getLayout = function SplashLayout({
-  title,
-  description,
+interface CreateOrganizationLayoutProps {
+  children: ReactElement;
+}
+CreateOrganization.getLayout = function CreateOrganizationLayout({
   children,
-}: SplashProps): JSX.Element {
-  return (
-    <Splash title={title} description={description}>
-      {children}
-    </Splash>
-  );
+}: CreateOrganizationLayoutProps): JSX.Element {
+  return <Splash>{children}</Splash>;
 };

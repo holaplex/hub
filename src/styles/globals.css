@@ -97,6 +97,18 @@ a {
   text-decoration: none;
 }
 
+h1 {
+  @apply text-2xl font-semibold text-primary;
+}
+
+h2 {
+  @apply text-xl font-semibold text-primary;
+}
+
+h3 {
+  @apply text-sm text-gray-600;
+}
+
 /* UI Library specific */
 
 .form-error {

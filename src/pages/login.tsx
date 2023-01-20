@@ -8,21 +8,13 @@ import Card from '../components/Card';
 import Divider from '../components/Divider';
 import Link from '../components/Link';
 
-export async function getServerSideProps() {
-  return {
-    props: {
-      title: 'Hub Login',
-      description: '',
-    },
-  };
-}
 export default function Login() {
   const { flow, submit, register, handleSubmit, formState } = useLogin();
 
   return (
     <Card>
-      <Typography.Header size={Size.ExtraLarge}>Sign in</Typography.Header>
-      <Typography.Header size={Size.Small}>Use your email or socials to sign in.</Typography.Header>
+      <Typography.Header size={Size.H2}>Sign in</Typography.Header>
+      <Typography.Header size={Size.H3}>Use your email or socials to sign in.</Typography.Header>
       <Form onSubmit={handleSubmit(submit)} className="flex flex-col mt-3">
         <Form.Error message={flow?.ui.messages && flow.ui.messages[0]?.text} />
 
@@ -77,20 +69,10 @@ export default function Login() {
   );
 }
 
-interface SplashProps {
-  title: string;
-  description: string;
+interface LoginLayoutProps {
   children: ReactElement;
 }
 
-Login.getLayout = function SplashLayout({
-  title,
-  description,
-  children,
-}: SplashProps): JSX.Element {
-  return (
-    <Splash title={title} description={description}>
-      {children}
-    </Splash>
-  );
+Login.getLayout = function LoginLayout({ children }: LoginLayoutProps): JSX.Element {
+  return <Splash>{children}</Splash>;
 };

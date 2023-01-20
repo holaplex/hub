@@ -6,22 +6,13 @@ import Card from '../../components/Card';
 import Typography, { Size } from '../../components/Typography';
 import { Button, Form } from '@holaplex/ui-library-react';
 
-export async function getServerSideProps() {
-  return {
-    props: {
-      title: 'Hub Recovery',
-      description: '',
-    },
-  };
-}
-
 export default function Recovery() {
   const { flow, submit, register, handleSubmit, formState } = useRecovery();
 
   return (
     <Card>
-      <Typography.Header size={Size.ExtraLarge}>Forgot password</Typography.Header>
-      <Typography.Header size={Size.Small}>
+      <Typography.Header size={Size.H2}>Forgot password</Typography.Header>
+      <Typography.Header size={Size.H3}>
         Enter your email address to receive a recovery link.
       </Typography.Header>
 
@@ -49,20 +40,9 @@ export default function Recovery() {
   );
 }
 
-interface SplashProps {
-  title: string;
-  description: string;
+interface RecoveryLayoutProps {
   children: ReactElement;
 }
-
-Recovery.getLayout = function SplashLayout({
-  title,
-  description,
-  children,
-}: SplashProps): JSX.Element {
-  return (
-    <Splash title={title} description={description}>
-      {children}
-    </Splash>
-  );
+Recovery.getLayout = function RecoveryLayout({ children }: RecoveryLayoutProps): JSX.Element {
+  return <Splash>{children}</Splash>;
 };

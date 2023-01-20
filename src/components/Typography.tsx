@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { createElement } from 'react';
 
 export enum FontWeight {
   Semibold = 'font-semibold',
@@ -10,12 +11,9 @@ export enum TextColor {
 }
 
 export enum Size {
-  ExtraSmall = 'text-xs',
-  Small = 'text-sm',
-  Medium = 'text-md',
-  Large = 'text-lg',
-  ExtraLarge = 'text-xl',
-  DoubleXL = 'text-2xl',
+  H1 = 'h1',
+  H2 = 'h2',
+  H3 = 'h3',
 }
 
 interface TypographyProps {
@@ -40,7 +38,8 @@ interface HeaderProps extends TypographyProps {
 }
 
 function Header({ size, weight, color, children, className }: HeaderProps): JSX.Element {
-  return <span className={clsx(size, weight, color, className)}>{children}</span>;
+  // return <span className={clsx(size, weight, color, className)}>{children}</span>;
+  return createElement(size, { className: clsx(weight, color, className) }, children);
 }
 
 Typography.Header = Header;

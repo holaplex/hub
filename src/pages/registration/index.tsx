@@ -8,21 +8,13 @@ import Card from '../../components/Card';
 import Divider from '../../components/Divider';
 import Link from '../../components/Link';
 
-export async function getServerSideProps() {
-  return {
-    props: {
-      title: 'Hub Signup',
-      description: '',
-    },
-  };
-}
 export default function Registration() {
   const { flow, submit, handleSubmit, register, formState } = useRegister();
 
   return (
     <Card>
-      <Typography.Header size={Size.ExtraLarge}>Create an account</Typography.Header>
-      <Typography.Header size={Size.Small}>Sign up using your email address.</Typography.Header>
+      <Typography.Header size={Size.H2}>Create an account</Typography.Header>
+      <Typography.Header size={Size.H3}>Sign up using your email address.</Typography.Header>
       <Form onSubmit={handleSubmit(submit)} className="flex flex-col mt-3">
         <Form.Error message={flow?.ui.messages && flow.ui.messages[0]?.text} />
 
@@ -77,20 +69,12 @@ export default function Registration() {
   );
 }
 
-interface SplashProps {
-  title: string;
-  description: string;
+interface RegistrationLayoutProps {
   children: ReactElement;
 }
 
-Registration.getLayout = function SplashLayout({
-  title,
-  description,
+Registration.getLayout = function RegistrationLayout({
   children,
-}: SplashProps): JSX.Element {
-  return (
-    <Splash title={title} description={description}>
-      {children}
-    </Splash>
-  );
+}: RegistrationLayoutProps): JSX.Element {
+  return <Splash>{children}</Splash>;
 };

@@ -1,26 +1,17 @@
 import { Button, Form } from '@holaplex/ui-library-react';
+import { ReactElement } from 'react';
 import Card from '../../components/Card';
 import { Icon } from '../../components/Icon';
-import Link from '../../components/Link';
 import Typography, { Size } from '../../components/Typography';
-import Splash, { SplashProps } from '../../layouts/Splash';
-
-export async function getServerSideProps() {
-  return {
-    props: {
-      title: 'Hub Recovery',
-      description: '',
-    },
-  };
-}
+import Splash from '../../layouts/Splash';
 
 export default function EmailConfirmed() {
   return (
     <Card>
       <div className="flex flex-col w-full items-center">
         <Icon.CheckInCircle className="mb-6" />
-        <Typography.Header size={Size.ExtraLarge}>Email confirmed</Typography.Header>
-        <Typography.Header size={Size.Small} className="mt-2 text-center">
+        <Typography.Header size={Size.H2}>Email confirmed</Typography.Header>
+        <Typography.Header size={Size.H3} className="mt-2 text-center">
           You’ve successfully confirmed your email address and able to create your first
           organization.
         </Typography.Header>
@@ -38,14 +29,12 @@ export default function EmailConfirmed() {
   );
 }
 
-EmailConfirmed.getLayout = function SplashLayout({
-  title,
-  description,
+interface EmailConfirmedLayoutProps {
+  children: ReactElement;
+}
+
+EmailConfirmed.getLayout = function EmailConfirmedLayout({
   children,
-}: SplashProps): JSX.Element {
-  return (
-    <Splash title={title} description={description}>
-      {children}
-    </Splash>
-  );
+}: EmailConfirmedLayoutProps): JSX.Element {
+  return <Splash>{children}</Splash>;
 };

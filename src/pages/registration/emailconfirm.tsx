@@ -1,25 +1,17 @@
 import { Button, Form } from '@holaplex/ui-library-react';
+import { ReactElement } from 'react';
 import Card from '../../components/Card';
 import { Icon } from '../../components/Icon';
 import Typography, { Size } from '../../components/Typography';
-import Splash, { SplashProps } from '../../layouts/Splash';
-
-export async function getServerSideProps() {
-  return {
-    props: {
-      title: 'Hub Recovery',
-      description: '',
-    },
-  };
-}
+import Splash from '../../layouts/Splash';
 
 export default function EmailConfirm() {
   return (
     <Card>
       <div className="flex flex-col w-full items-center">
         <Icon.EmailInCircle className="mb-6" />
-        <Typography.Header size={Size.ExtraLarge}>Confirm your email</Typography.Header>
-        <Typography.Header size={Size.Small} className="mt-2 text-center">
+        <Typography.Header size={Size.H2}>Confirm your email</Typography.Header>
+        <Typography.Header size={Size.H3} className="mt-2 text-center">
           We’ve sent email to name@example.com to confirm your email address. Please follow the link
           provided to complete your registration.
         </Typography.Header>
@@ -37,14 +29,12 @@ export default function EmailConfirm() {
   );
 }
 
-EmailConfirm.getLayout = function SplashLayout({
-  title,
-  description,
+interface EmailConfirmLayoutProps {
+  children: ReactElement;
+}
+
+EmailConfirm.getLayout = function EmailConfirmLayout({
   children,
-}: SplashProps): JSX.Element {
-  return (
-    <Splash title={title} description={description}>
-      {children}
-    </Splash>
-  );
+}: EmailConfirmLayoutProps): JSX.Element {
+  return <Splash>{children}</Splash>;
 };
