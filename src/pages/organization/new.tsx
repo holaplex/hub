@@ -1,51 +1,71 @@
-import type { NextPage } from 'next';
-import { useLogin } from '../../hooks/useLogin';
-import InputText from '../../components/elements/InputText';
-import SubmitButton from '../../components/atoms/SubmitButton';
-import InputBoxHeader from '../../components/elements/InputBoxHeader';
 import Link from 'next/link';
 import DragDropImage from '../../components/DragDropImage';
-import HubEntryLayout from '../../layouts/HubEntryLayout';
+import Card from '../../components/Card';
+import Typography, { Size } from '../../components/Typography';
+import { Button, Form } from '@holaplex/ui-library-react';
+import { ReactElement } from 'react';
+import Splash from '../../layouts/Splash';
 
-const CreateOrganization: NextPage = () => {
-  const { flow, submit, register, handleSubmit, formState } = useLogin();
+export async function getServerSideProps() {
+  return {
+    props: {
+      title: 'Hub: Create organization',
+      description: '',
+    },
+  };
+}
+
+export default function CreateOrganization() {
   const handleDrop = (file: File) => {
     console.log(file);
   };
   return (
-    <HubEntryLayout title="Hub: Create organization" description="">
-      <>
-        <InputBoxHeader
-          heading="Create an organization"
-          subHeading="Enter your organization information."
-          className="mb-5"
-        />
-        <form onSubmit={handleSubmit(submit)} className="flex flex-col">
-          {/* <InputError errorMessage={flow?.ui.messages && flow.ui.messages[0]?.text} /> */}
-          <InputText
-            label="Organization name"
-            placeholder="e.g Apple"
-            register={register}
-            fieldName="identifier"
-            errorMessage={formState.errors.identifier?.message}
-            className=""
-          />
-          <DragDropImage onDrop={handleDrop} className="mt-5" />
-          <SubmitButton label="Complete" className="mt-5" />
-        </form>
-        <span className="flex-wrap text-gray-500 text-xs mt-2">
-          By pressing &quot;Create an aсcount&quot;, I agree to Holaplex{' '}
-          <Link href="" className="text-primary">
-            Terms of Use
-          </Link>{' '}
-          and{' '}
-          <Link href="" className="text-primary">
-            Privacy Policy.
-          </Link>
-        </span>
-      </>
-    </HubEntryLayout>
+    <Card>
+      <Typography.Header size={Size.ExtraLarge}>Create an organization</Typography.Header>
+      <Typography.Header size={Size.Small}>Enter your organization information.</Typography.Header>
+
+      <Form className="flex flex-col mt-5">
+        <Form.Label name="Organization name" className="text-xs" />
+        <Form.Input placeholder="e.g. Apple" />
+        <Form.Error message="" />
+
+        <Button
+          border="rounded"
+          htmlType="submit"
+          className="w-full bg-primary text-white p-2 mt-5"
+        >
+          Create
+        </Button>
+        <DragDropImage onDrop={handleDrop} className="mt-5" />
+      </Form>
+      <span className="flex-wrap text-gray-500 text-xs mt-2">
+        By pressing &quot;Create an aсcount&quot;, I agree to Holaplex{' '}
+        <Link href="" className="text-primary">
+          Terms of Use
+        </Link>{' '}
+        and{' '}
+        <Link href="" className="text-primary">
+          Privacy Policy.
+        </Link>
+      </span>
+    </Card>
+  );
+}
+
+interface SplashProps {
+  title: string;
+  description: string;
+  children: ReactElement;
+}
+
+CreateOrganization.getLayout = function SplashLayout({
+  title,
+  description,
+  children,
+}: SplashProps): JSX.Element {
+  return (
+    <Splash title={title} description={description}>
+      {children}
+    </Splash>
   );
 };
-
-export default CreateOrganization;

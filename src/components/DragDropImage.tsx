@@ -1,7 +1,7 @@
+import { Form } from '@holaplex/ui-library-react';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import InputLabel from './atoms/InputLabel';
 
 interface IProps {
   onDrop: (file: File) => void;
@@ -27,7 +27,7 @@ const DragDropImage = ({ onDrop, className }: IProps) => {
   });
   return (
     <div className={clsx('flex flex-col gap-2', className)}>
-      <InputLabel text="Photo" />
+      <Form.Label name="Photo" className="text-xs" />
       <div className="relative rounded-lg overflow-hidden" {...getRootProps()}>
         <input {...getInputProps()} />
         <div
