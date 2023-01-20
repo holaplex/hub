@@ -9,6 +9,171 @@ export function Icon() {
   return <div></div>;
 }
 
+function CheckInCircle({ width = 96, height = 96, color = 'none', className = '' }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 96 96"
+      fill={color}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect width="96" height="96" rx="48" fill="#479E5A" />
+      <path
+        d="M56 42.5L45 53.5L40 48.5"
+        stroke="white"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.CheckInCircle = CheckInCircle;
+
+function EmailInCircle({ width = 96, height = 96, color = 'none', className = '' }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 96 96"
+      fill={color}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect width="96" height="96" rx="48" fill="black" />
+      <path
+        d="M46.25 45.2501L49.75 45.2499"
+        stroke="white"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M49.216 39.4121L56.216 44.7726C56.7102 45.151 57 45.738 57 46.3605L56.9999 54C56.9999 55.6569 55.6568 57 53.9999 57H42C40.3431 57 39 55.6569 39 54V46.3605C39 45.738 39.2898 45.151 39.784 44.7726L46.784 39.4121C47.5015 38.8626 48.4985 38.8626 49.216 39.4121Z"
+        stroke="white"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M56.8899 45.7111L49.2156 51.5878C48.4981 52.1373 47.5012 52.1373 46.7837 51.5878L39.1094 45.7111"
+        stroke="white"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.EmailInCircle = EmailInCircle;
+
+function ArrowRight({
+  width = 16,
+  height = 16,
+  color = 'currentColor',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={color}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12.6663 8.00008H3.33301"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M9.33301 11.3333L12.6663 8"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M9.33301 4.66675L12.6663 8.00008"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.ArrowRight = ArrowRight;
+
+function LightBulb({ width = 16, height = 16, color = 'currentColor', className = '' }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={color}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12.2427 3.09069L11.8185 3.51495"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M13.9995 7.33333H13.3995"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M2.60013 7.33333H2.00013"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M4.18121 3.51495L3.75695 3.09068"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M8.00033 1.93338V1.33338"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M7.99959 4.33328C6.56676 4.32784 5.29201 5.24205 4.83763 6.60094C4.38325 7.95983 4.85171 9.45693 5.99963 10.3144"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M8 4.33328C9.43282 4.32783 10.7076 5.24201 11.1619 6.60088C11.6163 7.95975 11.1479 9.45683 10 10.3144"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M6 10.3145V11.3334C6 11.7016 6.29848 12 6.66667 12H9.33333C9.70152 12 10 11.7016 10 11.3334V10.3145"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M6.33301 14.0001H9.66634"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.LightBulb = LightBulb;
+
 function ShowPasswordIcon({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
   return (
     <svg

@@ -45,6 +45,23 @@ function GeneralHeader({ heading, subHeading, className }: GeneralHeaderProps) {
 }
 HubEntryLayout.GeneralHeader = GeneralHeader;
 
+interface IconHeaderProps {
+  icon: JSX.Element;
+  heading: string;
+  subHeading?: string;
+  className?: string;
+}
+function IconHeader({ icon, heading, subHeading, className }: IconHeaderProps) {
+  return (
+    <div className={clsx('flex flex-col gap-2 items-center', className)}>
+      {icon}
+      <div className="font-semibold text-xl text-primary">{heading}</div>
+      <div className="text-sm text-gray-600">{subHeading}</div>
+    </div>
+  );
+}
+HubEntryLayout.IconHeader = IconHeader;
+
 interface FormContainerProps {
   children: ReactElement;
   className?: string;
