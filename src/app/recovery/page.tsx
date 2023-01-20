@@ -1,6 +1,6 @@
+"use client";
 import { useRecovery } from '../../hooks/useRecovery';
 import Link from '../../components/Link';
-import Splash from '../../layouts/Splash';
 import { ReactElement } from 'react';
 import Card from '../../components/Card';
 import Typography, { Size } from '../../components/Typography';
@@ -39,10 +39,3 @@ export default function Recovery() {
     </Card>
   );
 }
-
-interface RecoveryLayoutProps {
-  children: ReactElement;
-}
-Recovery.getLayout = function RecoveryLayout({ children }: RecoveryLayoutProps): JSX.Element {
-  return <Splash>{children}</Splash>;
-};

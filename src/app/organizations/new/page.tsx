@@ -1,10 +1,9 @@
+"use client";
 import Link from 'next/link';
-import DragDropImage from '../../components/DragDropImage';
-import Card from '../../components/Card';
-import Typography, { Size } from '../../components/Typography';
+import DragDropImage from './../../../components/DragDropImage';
+import Card from './../../../components/Card';
+import Typography, { Size } from './../../../components/Typography';
 import { Button, Form } from '@holaplex/ui-library-react';
-import { ReactElement } from 'react';
-import Splash from '../../layouts/Splash';
 
 export default function CreateOrganization() {
   const handleDrop = (file: File) => {
@@ -42,18 +41,3 @@ export default function CreateOrganization() {
     </Card>
   );
 }
-
-interface SplashProps {
-  title: string;
-  description: string;
-  children: ReactElement;
-}
-
-interface CreateOrganizationLayoutProps {
-  children: ReactElement;
-}
-CreateOrganization.getLayout = function CreateOrganizationLayout({
-  children,
-}: CreateOrganizationLayoutProps): JSX.Element {
-  return <Splash>{children}</Splash>;
-};

@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useState, useEffect, DependencyList } from 'react';
 
 import { ory } from '../modules/ory';
@@ -9,7 +9,7 @@ interface LogoutContext {
 }
 
 // Returns a function which will log the user out
-export function useLogout(deps?: DependencyList): LogoutContext {
+export function useLogout(): LogoutContext {
   const [logoutToken, setLogoutToken] = useState<string>('');
   const router = useRouter();
 
@@ -29,15 +29,12 @@ export function useLogout(deps?: DependencyList): LogoutContext {
         // Something else happened!
         return Promise.reject(err);
       });
-  }, deps);
+  });
 
   return {
     logout: () => {
       if (logoutToken) {
-        ory
-          .updateLogoutFlow({ token: logoutToken })
-          .then(() => router.push('/login'))
-          .then(() => router.reload());
+        ory.updateLogoutFlow({ token: logoutToken }).then(() => router.push('/login'));
       }
     },
   };

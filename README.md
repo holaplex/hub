@@ -43,3 +43,10 @@ Run graphql codegen whenever a new query or version of the schema is available.
 ```
 npm run codegen
 ```
+
+## Environment
+
+| Name                         | Description                       |
+| ---------------------------- | --------------------------------- |
+| NEXT_PUBLIC_GRAPHQL_ENDPOINT | Holaplex Hub graphql API endpoint |
+| KRATOS_ENDPOINT              | Ory Kratos public API endpoint    |

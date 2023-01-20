@@ -1,12 +1,16 @@
-import { ReactElement } from 'react';
+import { ReactNode } from 'react';
+import Image from 'next/image';
+import Link from '../components/Link';
 
 export interface SplashProps {
-  children: ReactElement;
+  children: ReactNode;
 }
 export default function Splash({ children }: SplashProps) {
   return (
-    <div className="flex flex-col h-screen items-center pt-10">
-      <div className="text-2xl font-bold text-primary mb-14">Holaplex</div>
+    <div className="flex flex-col items-center mt-10">
+      <Link href="/">
+        <Image src="/holaplex.svg" alt="Holaplex log" width={212} height={20} className="mb-16" />
+      </Link>
       {children}
     </div>
   );
