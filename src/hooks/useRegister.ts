@@ -1,8 +1,4 @@
-import {
-  RegistrationFlow,
-  UpdateRegistrationFlowBody,
-  UiNodeInputAttributes,
-} from '@ory/client';
+import { RegistrationFlow, UpdateRegistrationFlowBody, UiNodeInputAttributes } from '@ory/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { handleFlowError } from '../modules/ory/errors';

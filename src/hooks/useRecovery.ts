@@ -3,7 +3,7 @@ import {
   RecoveryFlowState,
   UpdateRecoveryFlowBody,
   UpdateRecoveryFlowWithLinkMethod,
-  UiNodeInputAttributes
+  UiNodeInputAttributes,
 } from '@ory/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -63,7 +63,6 @@ export function useRecovery(): RecoveryContext {
           setFlow(err.response?.data);
           return;
         }
-
         return Promise.reject(err);
       });
   }, [flowId, router, router.isReady, returnTo, flow]);
@@ -83,7 +82,7 @@ export function useRecovery(): RecoveryContext {
         ory
           .updateRecoveryFlow({
             flow: String(flow?.id),
-            updateRecoveryFlowBody: {...values, csrf_token: csrfToken },
+            updateRecoveryFlowBody: { ...values, csrf_token: csrfToken },
           })
           .then(({ data }) => {
             // Form submission was successful, show the message to the user!
@@ -98,8 +97,9 @@ export function useRecovery(): RecoveryContext {
                 const newFlow: RecoveryFlow = err.response?.data;
                 const emailErr =
                   newFlow && newFlow.state === RecoveryFlowState.ChooseMethod
-                    ? newFlow.ui.nodes.filter((node) => (node.attributes as UiNodeInputAttributes).name === 'email')[0]
-                        ?.messages[0]?.text
+                    ? newFlow.ui.nodes.filter(
+                        (node) => (node.attributes as UiNodeInputAttributes).name === 'email'
+                      )[0]?.messages[0]?.text
                     : undefined;
                 if (emailErr) {
                   setError('email', { type: 'custom', message: emailErr });

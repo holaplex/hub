@@ -1,30 +1,30 @@
-import { useLogin } from '../hooks/useLogin';
+import { useRegister } from '../../hooks/useRegister';
 import { Button, Form } from '@holaplex/ui-library-react';
-import { Icon } from '../components/Icon';
-import Splash from '../layouts/Splash';
-import Typography, { Size } from '../components/Typography';
+import { Icon } from '../../components/Icon';
+import Splash from '../../layouts/Splash';
+import Typography, { Size } from '../../components/Typography';
 import { ReactElement } from 'react';
-import Card from '../components/Card';
-import Divider from '../components/Divider';
-import Link from '../components/Link';
+import Card from '../../components/Card';
+import Divider from '../../components/Divider';
+import Link from '../../components/Link';
 
-export default function Login() {
-  const { flow, submit, register, handleSubmit, formState } = useLogin();
+export default function Registration() {
+  const { flow, submit, handleSubmit, register, formState } = useRegister();
 
   return (
     <Card>
-      <Typography.Header size={Size.H2}>Sign in</Typography.Header>
-      <Typography.Header size={Size.H3}>Use your email or socials to sign in.</Typography.Header>
+      <Typography.Header size={Size.H2}>Create an account</Typography.Header>
+      <Typography.Header size={Size.H3}>Sign up using your email address.</Typography.Header>
       <Form onSubmit={handleSubmit(submit)} className="flex flex-col mt-3">
         <Form.Error message={flow?.ui.messages && flow.ui.messages[0]?.text} />
 
         <Form.Label name="Email address" className="text-xs mt-2" />
         <Form.Input
-          {...register('identifier', { required: true })}
+          {...register('email', { required: true })}
           placeholder="e.g. name@example.com"
           className=""
         />
-        <Form.Error message={formState.errors.identifier?.message} />
+        <Form.Error message={formState.errors.email?.message} />
 
         <Form.Label
           name="Password"
@@ -33,7 +33,7 @@ export default function Login() {
         />
         <Form.Password
           {...register('password', { required: true })}
-          placeholder="Enter your password"
+          placeholder="Create your password"
           showPasswordIcon={<Icon.ShowPassword />}
           hidePasswordIcon={<Icon.HidePassword />}
         />
@@ -44,22 +44,22 @@ export default function Login() {
           htmlType="submit"
           className="w-full bg-primary text-white p-2 mt-5"
         >
-          Sign in
+          Register
         </Button>
       </Form>
 
       <Divider.Or className="my-4" />
 
-      <Link href="/registration" className="mt-4">
+      <Link href="/login" className="mt-4">
         <Button
           icon={<Icon.LightBulb className="mr-1" />}
           border="rounded"
           className="w-full bg-gray-50 py-4"
         >
           <div className="flex items-center text-gray-500 text-sm">
-            Dont have an account?
+            Already have an account?
             <span className="flex items-center ml-1 font-medium text-sm text-primary cursor-pointer">
-              Create account
+              Sign in
               <Icon.ArrowRight className="ml-1" />
             </span>
           </div>
@@ -69,10 +69,12 @@ export default function Login() {
   );
 }
 
-interface LoginLayoutProps {
+interface RegistrationLayoutProps {
   children: ReactElement;
 }
 
-Login.getLayout = function LoginLayout({ children }: LoginLayoutProps): JSX.Element {
+Registration.getLayout = function RegistrationLayout({
+  children,
+}: RegistrationLayoutProps): JSX.Element {
   return <Splash>{children}</Splash>;
 };
