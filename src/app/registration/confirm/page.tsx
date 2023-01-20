@@ -1,9 +1,8 @@
+"use client";
 import { Button, Form } from '@holaplex/ui-library-react';
-import { ReactElement } from 'react';
-import Card from '../../components/Card';
-import { Icon } from '../../components/Icon';
-import Typography, { Size } from '../../components/Typography';
-import Splash from '../../layouts/Splash';
+import Card from '../../../components/Card';
+import { Icon } from '../../../components/Icon';
+import Typography, { Size } from '../../../components/Typography';
 
 export default function EmailConfirm() {
   return (
@@ -28,13 +27,3 @@ export default function EmailConfirm() {
     </Card>
   );
 }
-
-interface EmailConfirmLayoutProps {
-  children: ReactElement;
-}
-
-EmailConfirm.getLayout = function EmailConfirmLayout({
-  children,
-}: EmailConfirmLayoutProps): JSX.Element {
-  return <Splash>{children}</Splash>;
-};

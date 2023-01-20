@@ -1,12 +1,11 @@
-import { useLogin } from '../hooks/useLogin';
+'use client';
+import { useLogin } from './../../hooks/useLogin';
 import { Button, Form } from '@holaplex/ui-library-react';
-import { Icon } from '../components/Icon';
-import Splash from '../layouts/Splash';
-import Typography, { Size } from '../components/Typography';
-import { ReactElement } from 'react';
-import Card from '../components/Card';
-import Divider from '../components/Divider';
-import Link from '../components/Link';
+import { Icon } from './../../components/Icon';
+import Typography, { Size } from './../../components/Typography';
+import Card from './../../components/Card';
+import Divider from './../../components/Divider';
+import Link from './../../components/Link';
 
 export default function Login() {
   const { flow, submit, register, handleSubmit, formState } = useLogin();
@@ -18,25 +17,27 @@ export default function Login() {
       <Form onSubmit={handleSubmit(submit)} className="flex flex-col mt-3">
         <Form.Error message={flow?.ui.messages && flow.ui.messages[0]?.text} />
 
-        <Form.Label name="Email address" className="text-xs mt-2" />
-        <Form.Input
-          {...register('identifier', { required: true })}
-          placeholder="e.g. name@example.com"
-          className=""
-        />
+        <Form.Label name="Email address" className="text-xs mt-2">
+          <Form.Input
+            {...register('identifier', { required: true })}
+            placeholder="e.g. name@example.com"
+            className=""
+          />
+        </Form.Label>
         <Form.Error message={formState.errors.identifier?.message} />
 
         <Form.Label
           name="Password"
           className="text-xs mt-5"
           asideComponent={<Link href="/recovery">Forgot password?</Link>}
-        />
-        <Form.Password
-          {...register('password', { required: true })}
-          placeholder="Enter your password"
-          showPasswordIcon={<Icon.ShowPassword />}
-          hidePasswordIcon={<Icon.HidePassword />}
-        />
+        >
+          <Form.Password
+            {...register('password', { required: true })}
+            placeholder="Enter your password"
+            showPasswordIcon={<Icon.ShowPassword />}
+            hidePasswordIcon={<Icon.HidePassword />}
+          />
+        </Form.Label>
         <Form.Error message={formState.errors.password?.message} />
 
         <Button
@@ -68,11 +69,3 @@ export default function Login() {
     </Card>
   );
 }
-
-interface LoginLayoutProps {
-  children: ReactElement;
-}
-
-Login.getLayout = function LoginLayout({ children }: LoginLayoutProps): JSX.Element {
-  return <Splash>{children}</Splash>;
-};

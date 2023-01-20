@@ -1,9 +1,8 @@
+"use client";
 import { useRegister } from '../../hooks/useRegister';
 import { Button, Form } from '@holaplex/ui-library-react';
 import { Icon } from '../../components/Icon';
-import Splash from '../../layouts/Splash';
 import Typography, { Size } from '../../components/Typography';
-import { ReactElement } from 'react';
 import Card from '../../components/Card';
 import Divider from '../../components/Divider';
 import Link from '../../components/Link';
@@ -68,13 +67,3 @@ export default function Registration() {
     </Card>
   );
 }
-
-interface RegistrationLayoutProps {
-  children: ReactElement;
-}
-
-Registration.getLayout = function RegistrationLayout({
-  children,
-}: RegistrationLayoutProps): JSX.Element {
-  return <Splash>{children}</Splash>;
-};

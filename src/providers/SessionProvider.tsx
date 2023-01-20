@@ -1,7 +1,7 @@
 import { Session } from '@ory/client';
 import { createContext, useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { ory } from '../modules/ory';
 import { useLogout } from '../hooks/useLogout';
 
@@ -23,12 +23,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     ory
       .toSession()
       .then(({ data }) => {
-        // User has a session!
         setSession(data);
-        // Create a logout url
-        // ory.createBrowserLogoutFlow().then(({ data }) => {
-        //   setLogoutUrl(data.logout_url);
-        // });
       })
       .catch((err: AxiosError) => {
         setError(err);

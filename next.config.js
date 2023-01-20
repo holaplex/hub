@@ -5,6 +5,9 @@ const nextConfig = {
     defaultLocale: 'en-US',
     locales: ['en-US'],
   },
+  experimental: {
+    appDir: true,
+  },
   reactStrictMode: true,
 };
 

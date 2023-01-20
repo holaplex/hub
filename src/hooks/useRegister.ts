@@ -1,5 +1,5 @@
 import { RegistrationFlow, UpdateRegistrationFlowBody, UiNodeInputAttributes } from '@ory/client';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { handleFlowError } from '../modules/ory/errors';
 import { ory } from '../modules/ory';
@@ -20,20 +20,20 @@ interface RegisterContext {
 
 export function useRegister(): RegisterContext {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const flowId = searchParams.get('flow');
+  const returnTo = searchParams.get('return_to');
 
   // The "flow" represents a registration process and contains
   // information about the form we need to render (e.g. username + password)
   const [flow, setFlow] = useState<RegistrationFlow>();
-
-  // Get ?flow=... from the URL
-  const { flow: flowId, return_to: returnTo } = router.query;
 
   const { register, handleSubmit, formState, setError } = useForm<RegistrationForm>();
 
   // In this effect we either initiate a new registration flow, or we fetch an existing registration flow.
   useEffect(() => {
     // If the router is not ready yet, or we already have a flow, do nothing.
-    if (!router.isReady || flow) {
+    if (flow) {
       return;
     }
 
@@ -58,7 +58,7 @@ export function useRegister(): RegisterContext {
         setFlow(data);
       })
       .catch(handleFlowError(router, 'registration', setFlow));
-  }, [flowId, router, router.isReady, returnTo, flow]);
+  }, [flowId, router, returnTo, flow]);
 
   const onSubmit = (values: RegistrationForm) => {
     const csrfToken = (
@@ -69,59 +69,60 @@ export function useRegister(): RegisterContext {
     router
       // On submission, add the flow ID to the URL but do not navigate. This prevents the user loosing
       // his data when she/he reloads the page.
-      .push(`/registration?flow=${flow?.id}`, undefined, { shallow: true })
-      .then(() =>
-        ory
-          .updateRegistrationFlow({
-            flow: String(flow?.id),
-            updateRegistrationFlowBody: {
-              method: 'password',
-              password: values.password,
-              traits: { email: values.email },
-              csrf_token: csrfToken,
-            } as UpdateRegistrationFlowBody,
-          })
-          .then(({ data }) => {
-            // If we ended up here, it means we are successfully signed up!
-            //
-            // You can do cool stuff here, like having access to the identity which just signed up:
+      .push(`/registration?flow=${flow?.id}`);
 
-            // For now however we just want to redirect home!
-            return router.push(flow?.return_to || '/').then(() => {});
-          })
-          .catch(handleFlowError(router, 'registration', setFlow))
-          .catch((err: AxiosError) => {
-            // If the previous handler did not catch the error it's most likely a form validation error
-            if (err.response?.status === 400) {
-              // Yup, it is!
-              //setFlow(err.response?.data);
-              const newFlow: RegistrationFlow = err.response?.data;
+    ory
+      .updateRegistrationFlow({
+        flow: String(flow?.id),
+        updateRegistrationFlowBody: {
+          method: 'password',
+          password: values.password,
+          traits: { email: values.email },
+          csrf_token: csrfToken,
+        } as UpdateRegistrationFlowBody,
+      })
+      .then(() => {
+        // If we ended up here, it means we are successfully signed up!
+        //
+        // You can do cool stuff here, like having access to the identity which just signed up:
 
-              const emailErr = newFlow
-                ? newFlow.ui.nodes.filter(
-                    (node) => (node.attributes as UiNodeInputAttributes).name === 'traits.email'
-                  )[0]?.messages[0]?.text
-                : undefined;
+        // For now however we just want to redirect home!
+        router.push(flow?.return_to || '/');
 
-              const passwordErr = newFlow
-                ? newFlow.ui.nodes.filter(
-                    (node) => (node.attributes as UiNodeInputAttributes).name === 'password'
-                  )[0]?.messages[0]?.text
-                : undefined;
+        return null;
+      })
+      .catch(handleFlowError(router, 'registration', setFlow))
+      .catch((err: AxiosError) => {
+        // If the previous handler did not catch the error it's most likely a form validation error
+        if (err.response?.status === 400) {
+          // Yup, it is!
+          //setFlow(err.response?.data);
+          const newFlow: RegistrationFlow = err.response?.data;
 
-              if (emailErr) {
-                setError('email', { type: 'custom', message: emailErr });
-              } else if (passwordErr) {
-                setError('password', { type: 'custom', message: passwordErr });
-              } else {
-                setFlow(newFlow);
-              }
-              return;
-            }
+          const emailErr = newFlow
+            ? newFlow.ui.nodes.filter(
+                (node) => (node.attributes as UiNodeInputAttributes).name === 'traits.email'
+              )[0]?.messages[0]?.text
+            : undefined;
 
-            return Promise.reject(err);
-          })
-      );
+          const passwordErr = newFlow
+            ? newFlow.ui.nodes.filter(
+                (node) => (node.attributes as UiNodeInputAttributes).name === 'password'
+              )[0]?.messages[0]?.text
+            : undefined;
+
+          if (emailErr) {
+            setError('email', { type: 'custom', message: emailErr });
+          } else if (passwordErr) {
+            setError('password', { type: 'custom', message: passwordErr });
+          } else {
+            setFlow(newFlow);
+          }
+          return;
+        }
+
+        return Promise.reject(err);
+      });
   };
 
   return {
