@@ -1,0 +1,12 @@
+overwrite: true
+documents:
+  - '**/*.graphql'
+schema:
+  - http://localhost:3001
+generates:
+  ./@types/graphql.d.ts:
+    plugins:
+      - typescript-graphql-files-modules
+  ./src/graphql.types.ts:
+    plugins:
+      - typescript

@@ -19,12 +19,19 @@ build:
         dest: .
       - src: 'src/**/**/**/**/**/*.ts'
         dest: .
+      - src: 'src/queries/*.graphql'
+        dest: .
 portForward:
 - resourceType: service
   resourceName: hub
   namespace: default
   port: 80
   localPort: 3000
+- resourceType: service
+  resourceName: federated-router
+  namespace: default
+  port: 80
+  localPort: 3001
 deploy:
   helm:
     releases:
@@ -43,3 +50,18 @@ deploy:
         repo: https://charts.holaplex.com
         valuesFiles:
           - values.identities.yaml
+      - name: hub-orgs-db
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: postgresql
+        valuesFiles:
+          - values.orgs.postgresql.yaml
+      - name: hub-orgs
+        remoteChart: hub-orgs
+        repo: https://charts.holaplex.com
+        valuesFiles:
+          - values.orgs.yaml
+      - name: federated-router
+        remoteChart: oci://ghcr.io/apollographql/helm-charts/router
+        valuesFiles:
+          - values.router.yaml
+          - secrets.router.yaml

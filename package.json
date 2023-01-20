@@ -7,10 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
+    "codegen": "graphql-codegen --config codegen.yaml"
   },
   "dependencies": {
-    "@apollo/client": "^3.7.3",
+    "@apollo/client": "^3.7.4",
     "@holaplex/ui-library-react": "^0.5.0",
     "@next/font": "13.1.1",
     "@ory/client": "^1.1.4",
@@ -21,6 +22,7 @@
     "clsx": "^1.2.1",
     "eslint": "8.31.0",
     "eslint-config-next": "13.1.1",
+    "graphql": "^16.6.0",
     "next": "13.1.1",
     "next-i18next": "^13.0.3",
     "react": "18.2.0",
@@ -31,6 +33,11 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
+    "@graphql-codegen/cli": "^2.16.4",
+    "@graphql-codegen/introspection": "^2.2.3",
+    "@graphql-codegen/typescript": "^2.8.7",
+    "@graphql-codegen/typescript-document-nodes": "^2.3.12",
+    "@graphql-codegen/typescript-graphql-files-modules": "^2.2.1",
     "autoprefixer": "^10.4.13",
     "eslint-config-prettier": "^8.6.0",
     "postcss": "^8.4.20",
