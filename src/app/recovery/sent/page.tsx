@@ -1,13 +1,13 @@
 'use client';
-import { Button, Form } from '@holaplex/ui-library-react';
+import { Button } from '@holaplex/ui-library-react';
 import Card from './../../../components/Card';
 import { Icon } from './../../../components/Icon';
 import Link from './../../../components/Link';
 import Typography, { Size } from './../../../components/Typography';
-import { useRecovery } from './../../../hooks/useRecovery';
+import { useRecoveryFlow } from '../../../hooks/userRecoveryFlow';
 
 export default function EmailSent() {
-  const { flow, submit, register, handleSubmit, formState } = useRecovery();
+  const { flow, loading } = useRecoveryFlow();
 
   return (
     <Card className="w-[400px]">
@@ -19,15 +19,19 @@ export default function EmailSent() {
           provided to complete your password recovery.
         </Typography.Header>
       </div>
-      <Form onSubmit={handleSubmit(submit)} className="flex flex-col mt-5">
-        <Button
-          border="rounded"
-          htmlType="submit"
-          className="w-full bg-gray-100 text-primary p-2 mt-5"
-        >
-          Resend recovery link
-        </Button>
-      </Form>
+      {loading ? (
+        <div className="mt-3 w-full h-[44px] rounded-md bg-gray-100 animate-pulse" />
+      ) : (
+        <a href="">
+          <Button
+            border="rounded"
+            htmlType="submit"
+            className="w-full bg-gray-100 text-primary p-2 mt-5"
+          >
+            Resend recovery link
+          </Button>
+        </a>
+      )}
       <Link href="/login" className="mt-5 flex justify-center">
         Return to sign in
       </Link>
