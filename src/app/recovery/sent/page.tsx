@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { Button, Form } from '@holaplex/ui-library-react';
 import Card from './../../../components/Card';
 import { Icon } from './../../../components/Icon';
@@ -10,7 +10,7 @@ export default function EmailSent() {
   const { flow, submit, register, handleSubmit, formState } = useRecovery();
 
   return (
-    <Card>
+    <Card className="w-[400px]">
       <div className="flex flex-col w-full items-center">
         <Icon.EmailInCircle className="mb-6" />
         <Typography.Header size={Size.H2}>Check your email</Typography.Header>

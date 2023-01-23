@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { Button, Form } from '@holaplex/ui-library-react';
 import Card from '../../../components/Card';
 import { Icon } from '../../../components/Icon';
@@ -6,7 +6,7 @@ import Typography, { Size } from '../../../components/Typography';
 
 export default function EmailConfirm() {
   return (
-    <Card>
+    <Card className="w-[400px]">
       <div className="flex flex-col w-full items-center">
         <Icon.EmailInCircle className="mb-6" />
         <Typography.Header size={Size.H2}>Confirm your email</Typography.Header>

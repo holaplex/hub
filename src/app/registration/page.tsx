@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useRegister } from '../../hooks/useRegister';
 import { Button, Form } from '@holaplex/ui-library-react';
 import { Icon } from '../../components/Icon';
@@ -11,7 +11,7 @@ export default function Registration() {
   const { flow, submit, handleSubmit, register, formState } = useRegister();
 
   return (
-    <Card>
+    <Card className="w-[400px]">
       <Typography.Header size={Size.H2}>Create an account</Typography.Header>
       <Typography.Header size={Size.H3}>Sign up using your email address.</Typography.Header>
       <Form onSubmit={handleSubmit(submit)} className="flex flex-col mt-3">
