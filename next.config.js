@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
+
+const withGraphql = require('next-plugin-graphql');
+
 const nextConfig = {
   output: 'standalone',
   i18n: {
@@ -11,4 +14,4 @@ const nextConfig = {
   reactStrictMode: true,
 };
 
-module.exports = nextConfig;
+module.exports = withGraphql(nextConfig);
