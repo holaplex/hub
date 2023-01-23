@@ -11,7 +11,7 @@ export default function Login() {
   const { flow, submit, register, handleSubmit, formState } = useLogin();
 
   return (
-    <Card>
+    <Card className="w-[400px]">
       <Typography.Header size={Size.H2}>Sign in</Typography.Header>
       <Typography.Header size={Size.H3}>Use your email or socials to sign in.</Typography.Header>
       <Form onSubmit={handleSubmit(submit)} className="flex flex-col mt-3">

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useRecovery } from '../../hooks/useRecovery';
 import Link from '../../components/Link';
 import { ReactElement } from 'react';
@@ -10,7 +10,7 @@ export default function Recovery() {
   const { flow, submit, register, handleSubmit, formState } = useRecovery();
 
   return (
-    <Card>
+    <Card className="w-[400px]">
       <Typography.Header size={Size.H2}>Forgot password</Typography.Header>
       <Typography.Header size={Size.H3}>
         Enter your email address to receive a recovery link.

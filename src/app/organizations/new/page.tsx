@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import Link from 'next/link';
 import DragDropImage from './../../../components/DragDropImage';
 import Card from './../../../components/Card';
@@ -10,7 +10,7 @@ export default function CreateOrganization() {
     console.log(file);
   };
   return (
-    <Card>
+    <Card className="w-[400px]">
       <Typography.Header size={Size.H2}>Create an organization</Typography.Header>
       <Typography.Header size={Size.H3}>Enter your organization information.</Typography.Header>
 
