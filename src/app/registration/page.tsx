@@ -6,46 +6,79 @@ import Typography, { Size } from '../../components/Typography';
 import Card from '../../components/Card';
 import Divider from '../../components/Divider';
 import Link from '../../components/Link';
+import { useRegistrationFlow } from './../../hooks/useRegistrationFlow';
 
 export default function Registration() {
-  const { flow, submit, handleSubmit, register, formState } = useRegister();
+  const { loading, flow } = useRegistrationFlow();
+  const { submit, handleSubmit, register, formState } = useRegister(flow);
 
   return (
     <Card className="w-[400px]">
       <Typography.Header size={Size.H2}>Create an account</Typography.Header>
       <Typography.Header size={Size.H3}>Sign up using your email address.</Typography.Header>
-      <Form onSubmit={handleSubmit(submit)} className="flex flex-col mt-3">
-        <Form.Error message={flow?.ui.messages && flow.ui.messages[0]?.text} />
-
-        <Form.Label name="Email address" className="text-xs mt-2" />
-        <Form.Input
-          {...register('email', { required: true })}
-          placeholder="e.g. name@example.com"
-          className=""
-        />
-        <Form.Error message={formState.errors.email?.message} />
-
-        <Form.Label
-          name="Password"
-          className="text-xs mt-5"
-          asideComponent={<Link href="/recovery">Forgot password?</Link>}
-        />
-        <Form.Password
-          {...register('password', { required: true })}
-          placeholder="Create your password"
-          showPasswordIcon={<Icon.ShowPassword />}
-          hidePasswordIcon={<Icon.HidePassword />}
-        />
-        <Form.Error message={formState.errors.password?.message} />
-
-        <Button
-          border="rounded"
-          htmlType="submit"
-          className="w-full bg-primary text-white p-2 mt-5"
-        >
-          Register
-        </Button>
-      </Form>
+      {loading ? (
+        <div className="flex flex-col gap-4 mt-3">
+          <div>
+            <div className="mb-1 w-16 h-4 rounded-md bg-gray-100 animate-pulse" />
+            <div className="mb-1 w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+          </div>
+          <div>
+            <div className="mb-1 w-16 h-4 rounded-md bg-gray-100 animate-pulse" />
+            <div className="mb-1 w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+          </div>
+          <div>
+            <div className="mb-1 w-20 h-4 rounded-md bg-gray-100 animate-pulse" />
+            <div className="mb-1 w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+          </div>
+          <div>
+            <div className="flex justify-between mb-1">
+              <div className="w-14 h-4 rounded-md bg-gray-100 animate-pulse" />
+            </div>
+            <div className="mb-1 w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+          </div>
+          <div className="mt-3 w-full h-[44px] rounded-md bg-gray-100 animate-pulse" />
+        </div>
+      ) : (
+        <Form onSubmit={handleSubmit(submit)} className="flex flex-col gap-6 mt-3">
+          <Form.Label name="First name" className="text-xs">
+            <Form.Input
+              {...register('name.first', { required: true })}
+              autoFocus
+              placeholder="e.g. John"
+              className=""
+            />
+            <Form.Error message={formState.errors.name?.first?.message} />
+          </Form.Label>
+          <Form.Label name="Last name" className="text-xs">
+            <Form.Input
+              {...register('name.last', { required: true })}
+              placeholder="e.g. Doe"
+              className=""
+            />
+            <Form.Error message={formState.errors.name?.last?.message} />
+          </Form.Label>
+          <Form.Label name="Email address" className="text-xs">
+            <Form.Input
+              {...register('email', { required: true })}
+              placeholder="e.g. name@example.com"
+              className=""
+            />
+            <Form.Error message={formState.errors.email?.message} />
+          </Form.Label>
+          <Form.Label name="Password" className="text-xs">
+            <Form.Password
+              {...register('password', { required: true })}
+              placeholder="Create your password"
+              showPasswordIcon={<Icon.ShowPassword />}
+              hidePasswordIcon={<Icon.HidePassword />}
+            />
+            <Form.Error message={formState.errors.password?.message} />
+          </Form.Label>
+          <Button border="rounded" htmlType="submit" className="w-full bg-primary text-white p-2">
+            Register
+          </Button>
+        </Form>
+      )}
 
       <Divider.Or className="my-4" />
 

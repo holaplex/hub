@@ -1,3 +1,6 @@
+import 'react-toastify/dist/ReactToastify.css';
+import './globals.css';
+
 import App from './app';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

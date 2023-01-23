@@ -1,121 +1,56 @@
-import {
-  RecoveryFlow,
-  RecoveryFlowState,
-  UpdateRecoveryFlowBody,
-  UpdateRecoveryFlowWithLinkMethod,
-  UiNodeInputAttributes,
-} from '@ory/client';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { ory, handleFlowError } from '../modules/ory';
-import { AxiosError } from 'axios';
+import { RecoveryFlow, UiNodeInputAttributes } from '@ory/client';
+import { useRouter } from 'next/navigation';
+import { ory, extractFlowNode } from '../modules/ory';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 
-interface RecoveryContext {
-  flow: RecoveryFlow | undefined;
-  submit: (values: UpdateRecoveryFlowBody) => void;
-  register: UseFormRegister<UpdateRecoveryFlowWithLinkMethod>;
-  handleSubmit: UseFormHandleSubmit<UpdateRecoveryFlowWithLinkMethod>;
-  formState: FormState<UpdateRecoveryFlowWithLinkMethod>;
+interface RecoveryForm {
+  email: string;
 }
 
-export function useRecovery(): RecoveryContext {
-  const [flow, setFlow] = useState<RecoveryFlow>();
+interface RecoveryContext {
+  submit: (values: RecoveryForm) => Promise<void>;
+  register: UseFormRegister<RecoveryForm>;
+  handleSubmit: UseFormHandleSubmit<RecoveryForm>;
+  formState: FormState<RecoveryForm>;
+}
 
-  // Get ?flow=... from the URL
+export function useRecovery(flow: RecoveryFlow | undefined): RecoveryContext {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const flowId = searchParams.get('flow');
-  const returnTo = searchParams.get('return_to');
 
-  const { register, handleSubmit, formState, setError } = useForm<UpdateRecoveryFlowWithLinkMethod>(
-    {
-      defaultValues: { email: '', method: 'link' },
-    }
-  );
+  const { register, handleSubmit, formState, setError } = useForm<RecoveryForm>();
 
-  useEffect(() => {
-    // If the router is not ready yet, or we already have a flow, do nothing.
-    if (flow) {
+  const onSubmit = async (values: RecoveryForm): Promise<void> => {
+    if (!flow) {
       return;
     }
+    try {
+      const csrfToken = (
+        extractFlowNode('csrf_token')(flow.ui.nodes).attributes as UiNodeInputAttributes
+      ).value;
 
-    // If ?flow=.. was in the URL, we fetch it
-    if (flowId) {
-      ory
-        .getRecoveryFlow({ id: String(flowId) })
-        .then(({ data }) => {
-          setFlow(data);
-        })
-        .catch(handleFlowError(router, 'recovery', setFlow));
-      return;
+      await ory.updateRecoveryFlow({
+        flow: flow.id,
+        updateRecoveryFlowBody: { ...values, csrf_token: csrfToken, method: 'link' },
+      });
+
+      router.push('/login');
+    } catch (err: any) {
+      const {
+        response: {
+          data: {
+            ui: { nodes },
+          },
+        },
+      } = err;
+      const emailErr = extractFlowNode('email')(nodes).messages[0]?.text;
+
+      if (emailErr) {
+        setError('email', { message: emailErr });
+      }
     }
-
-    // Otherwise we initialize it
-    ory
-      .createBrowserRecoveryFlow()
-      .then(({ data }) => {
-        setFlow(data);
-      })
-      .catch(handleFlowError(router, 'recovery', setFlow))
-      .catch((err: AxiosError) => {
-        // If the previous handler did not catch the error it's most likely a form validation error
-        if (err.response?.status === 400) {
-          // Yup, it is!
-          setFlow(err.response?.data);
-          return;
-        }
-        return Promise.reject(err);
-      });
-  }, [flowId, router, returnTo, flow]);
-
-  const onSubmit = (values: UpdateRecoveryFlowBody) => {
-    const csrfToken = (
-      flow?.ui.nodes.filter(
-        (node) => (node.attributes as UiNodeInputAttributes).name === 'csrf_token'
-      )[0].attributes as UiNodeInputAttributes
-    ).value;
-
-    router
-      // On submission, add the flow ID to the URL but do not navigate. This prevents the user loosing
-      // his data when she/he reloads the page.
-      .replace(`/recovery?flow=${flow?.id}`);
-    ory
-      .updateRecoveryFlow({
-        flow: String(flow?.id),
-        updateRecoveryFlowBody: { ...values, csrf_token: csrfToken },
-      })
-      .then(({ data }) => {
-        // Form submission was successful, show the message to the user!
-        setFlow(data);
-      })
-      .catch(handleFlowError(router, 'recovery', setFlow))
-      .catch((err: AxiosError) => {
-        switch (err.response?.status) {
-          case 400:
-            // Status code 400 implies the form validation had an error
-            //setFlow(err.response?.data);
-            const newFlow: RecoveryFlow = err.response?.data;
-            const emailErr =
-              newFlow && newFlow.state === RecoveryFlowState.ChooseMethod
-                ? newFlow.ui.nodes.filter(
-                    (node) => (node.attributes as UiNodeInputAttributes).name === 'email'
-                  )[0]?.messages[0]?.text
-                : undefined;
-            if (emailErr) {
-              setError('email', { type: 'custom', message: emailErr });
-            } else {
-              setFlow(newFlow);
-            }
-            return;
-        }
-
-        throw err;
-      });
   };
 
   return {
-    flow,
     submit: onSubmit,
     register,
     handleSubmit,
