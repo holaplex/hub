@@ -37,14 +37,48 @@ h3 {
   @apply whitespace-nowrap text-left text-sm text-negative;
 }
 
-.form-input-container, .form-input {
+.form-input-container,
+.form-input {
   @apply w-full;
+}
+
+.form-input-container {
+  @apply flex flex-row items-center;
 }
 
 .form-input {
   @apply rounded-md;
 }
 
-[type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='date']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus {
+[type='text']:focus,
+[type='email']:focus,
+[type='url']:focus,
+[type='password']:focus,
+[type='number']:focus,
+[type='date']:focus,
+[type='datetime-local']:focus,
+[type='month']:focus,
+[type='search']:focus,
+[type='tel']:focus,
+[type='time']:focus,
+[type='week']:focus,
+[multiple]:focus,
+textarea:focus,
+select:focus {
   @apply border-gray-100 outline-none;
+}
+
+.form-label {
+  @apply flex flex-col w-full;
+}
+
+.form-show-password-container {
+  @apply p-2 bg-gray-50 rounded-md;
+}
+*:focus {
+  outline: none;
+  outline-width: 0;
+}
+input:focus {
+  outline: none;
 }
