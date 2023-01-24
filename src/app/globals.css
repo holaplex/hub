@@ -34,7 +34,7 @@ h3 {
 /* UI Library specific */
 
 .form-error {
-  @apply whitespace-nowrap text-left text-sm text-negative;
+  @apply text-left text-sm text-negative;
 }
 
 .form-input-container,
