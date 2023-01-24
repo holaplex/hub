@@ -1,16 +1,17 @@
 'use client';
-import { ReactNode } from 'react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import Sidebar from '../components/Sidebar';
-import { Icon } from '../components/Icon';
+import { Icon } from '../../../components/Icon';
+import Sidebar from '../../../layouts/Sidebar';
 
-export interface OrgSidebarProps {
-  children: ReactNode;
-}
-export default function OrgSidebar({ children }: OrgSidebarProps) {
+export default function OrganizationLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}): JSX.Element {
   const pathname = usePathname();
   const slug = pathname ? pathname.split('/')[2] : null;
+  console.log('pathname', pathname);
 
   return (
     <Sidebar.Page>
@@ -25,19 +26,19 @@ export default function OrgSidebar({ children }: OrgSidebarProps) {
           </div>
         </Sidebar.Header>
         <Sidebar.Menu>
-          <Sidebar.Menu.Item
+          <Sidebar.Menu.Link
             name="Projects"
             icon={<Icon.Projects />}
             href={`/organizations/${slug}/projects`}
             active={pathname === `/organizations/${slug}/projects`}
           />
-          <Sidebar.Menu.Item
+          <Sidebar.Menu.Link
             name="Members"
             icon={<Icon.Members />}
             href={`/organizations/${slug}/members`}
             active={pathname === `/organizations/${slug}/members`}
           />
-          <Sidebar.Menu.Item
+          <Sidebar.Menu.Link
             name="Settings"
             icon={<Icon.Settings />}
             href={`/organizations/${slug}/settings`}

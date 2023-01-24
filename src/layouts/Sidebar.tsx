@@ -69,7 +69,7 @@ interface SidebarMenuItemProps {
   className?: string;
 }
 
-function SidebarMenuItem({ icon, name, href, active, className }: SidebarMenuItemProps) {
+function SidebarMenuLink({ icon, name, href, active, className }: SidebarMenuItemProps) {
   return (
     <Link
       href={href}
@@ -83,7 +83,7 @@ function SidebarMenuItem({ icon, name, href, active, className }: SidebarMenuIte
     </Link>
   );
 }
-SidebarMenu.Item = SidebarMenuItem;
+SidebarMenu.Link = SidebarMenuLink;
 
 interface SidebarFooterProps {
   children: ReactNode;

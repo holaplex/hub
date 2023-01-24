@@ -7,9 +7,9 @@ migration:
 secrets:
   enabled: true
   entries:
-    oryAuthToken: ""
-    databaseUrl: "postgres://orgs:orgs@hub-orgs-db-postgresql:5432/orgs"
+    oryAuthToken: 'kube'
+    databaseUrl: 'postgres://orgs:orgs@hub-orgs-db-postgresql:5432/orgs'
 
 environment:
-  port: "80"
-  oryBaseUrl: "http://hydra-admin"
+  port: '80'
+  oryBaseUrl: 'http://hydra-admin'
