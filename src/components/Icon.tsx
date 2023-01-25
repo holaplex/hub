@@ -13,6 +13,62 @@ function LargeIcon() {
 }
 Icon.Large = LargeIcon;
 
+function CheckBox({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={color}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="0.5" y="0.5" width="15" height="15" rx="3.5" fill="#F5F5F5" />
+      <rect x="0.5" y="0.5" width="15" height="15" rx="3.5" stroke="#C5C5C5" />
+    </svg>
+  );
+}
+Icon.CheckBox = CheckBox;
+
+function CheckBoxChecked({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={color}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect width="16" height="16" rx="4" fill="black" />
+      <path
+        d="M12 5.25L6.5 10.75L4 8.25"
+        stroke="white"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+CheckBox.Checked = CheckBoxChecked;
+
+function CheckBoxFilled({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={color}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect width="16" height="16" rx="4" fill="black" />
+      <path d="M4.25 8H11.75" stroke="white" stroke-linecap="round" />
+    </svg>
+  );
+}
+CheckBox.Filled = CheckBoxFilled;
+
 function CreateProjectLarge({
   width = 96,
   height = 96,
