@@ -1,14 +1,24 @@
 'use client';
-import { Button } from '@holaplex/ui-library-react';
+import { Button, Form, Modal } from '@holaplex/ui-library-react';
+import { createColumnHelper } from '@tanstack/react-table';
 import { useState } from 'react';
-import CreateProject from '../../../../components/CreateProject';
+import Card from '../../../../components/Card';
 import { Icon } from '../../../../components/Icon';
-import ProjectsTable from '../../../../components/ProjectsTable';
+import Table from '../../../../components/Table';
+import Typography, { Size } from '../../../../components/Typography';
+
+type Project = {
+  projectName: string;
+  totalBalance: string;
+  createdDate: string;
+};
 
 export default function ProjectsPage() {
   const [showCreateProject, setShowCreateProject] = useState<boolean>(false);
   // TODO: Replace this with actual projects data.
-  const hasProjects = false;
+  const hasProjects = true;
+  const columnHelper = createColumnHelper<Project>();
+
   return (
     <>
       <div className="h-full flex flex-col p-4">
@@ -37,17 +47,108 @@ export default function ProjectsPage() {
             >
               Create project
             </Button>
-            <ProjectsTable className="mt-4" />
+            <Table
+              className="mt-4"
+              columns={[
+                columnHelper.accessor('projectName', {
+                  header: () => (
+                    <div className="flex gap-2">
+                      <Icon.CheckBox />
+                      <span className="text-xs text-gray-600 font-medium">Project Name</span>
+                    </div>
+                  ),
+                  cell: (info) => (
+                    <div className="flex gap-2">
+                      <Icon.CheckBox />
+                      <span className="text-xs text-primary font-medium">{info.getValue()}</span>
+                    </div>
+                  ),
+                }),
+                columnHelper.accessor('totalBalance', {
+                  header: () => (
+                    <span className="flex text-xs text-gray-600 font-medium">Total balance</span>
+                  ),
+                  cell: (info) => (
+                    <div className="flex gap-1">
+                      <span className="text-xs text-primary font-medium">{info.getValue()}</span>
+                      <span className="text-xs text-gray-600 font-medium">USD</span>
+                    </div>
+                  ),
+                }),
+                columnHelper.accessor('createdDate', {
+                  header: () => (
+                    <span className="flex text-xs text-gray-600 font-medium self-start">
+                      Created date
+                    </span>
+                  ),
+                  cell: (info) => (
+                    <div className="flex flex-col">
+                      <span className="text-xs text-primary font-medium">{info.getValue()}</span>
+                    </div>
+                  ),
+                }),
+              ]}
+              data={[
+                {
+                  projectName: 'Space Fox',
+                  totalBalance: '843.27',
+                  createdDate: '20.11.22, 9:54am',
+                },
+                {
+                  projectName: 'Green Fox',
+                  totalBalance: '5000.27',
+                  createdDate: '20.11.19, 9:54am',
+                },
+                {
+                  projectName: 'Blue Fox',
+                  totalBalance: '0.00',
+                  createdDate: '20.11.22, 9:54am',
+                },
+              ]}
+            />
           </div>
         )}
       </div>
-
-      <CreateProject
+      {/* TODO: Fix Modal to show as overlay instead of in footer. */}
+      <Modal
         open={showCreateProject}
         setOpen={(open: boolean) => {
           setShowCreateProject(open);
         }}
-      />
+      >
+        <Card className="w-[400px]">
+          <Typography.Header size={Size.H2} className="self-start">
+            Create new project
+          </Typography.Header>
+          <Typography.Header size={Size.H3} className="self-start">
+            Enter project name and upload a logo.
+          </Typography.Header>
+
+          <Form className="flex flex-col mt-5">
+            <Form.Label name="Project name" className="text-xs text-primary">
+              <Form.Input placeholder="e.g. Apple events" />
+            </Form.Label>
+
+            <Form.Error message="" />
+
+            <Button
+              border="rounded"
+              htmlType="submit"
+              className="w-full bg-primary text-white p-3 mt-5 text-xs font-semibold "
+            >
+              Create
+            </Button>
+            <Button
+              border="rounded"
+              className="w-full bg-white text-black p-3 mt-5 text-xs font-semibold"
+              onClick={() => setShowCreateProject(false)}
+            >
+              Cancel
+            </Button>
+            {/* <DragDropImage onDrop={handleDrop} className="mt-5" /> */}
+          </Form>
+        </Card>
+      </Modal>
     </>
   );
 }
