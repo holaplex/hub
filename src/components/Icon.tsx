@@ -8,6 +8,96 @@ export interface IconProps {
 export function Icon() {
   return <div></div>;
 }
+function LargeIcon() {
+  return <div></div>;
+}
+Icon.Large = LargeIcon;
+
+function CreateProjectLarge({
+  width = 96,
+  height = 96,
+  color = 'none',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 96 96"
+      fill={color}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M25.25 34.5545H46.2807C47.3565 34.5545 48.364 34.0215 48.9685 33.131L53.5347 26.4198C54.1392 25.5325 55.1435 24.9995 56.2192 24.9995H70.75C74.3412 24.9995 77.25 27.9083 77.25 31.4995V67.4995C77.25 71.0908 74.3412 73.9995 70.75 73.9995H25.25C21.6588 73.9995 18.75 71.0908 18.75 67.4995V41.0545C18.75 37.4665 21.6588 34.5545 25.25 34.5545Z"
+        fill="#555555"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M70.75 31.5546H49.7193C48.6435 31.5546 47.636 31.0216 47.0315 30.1311L42.4652 23.4199C41.8607 22.5326 40.8565 21.9996 39.7808 21.9996H25.25C21.6587 21.9996 18.75 24.9084 18.75 28.4996V67.4996C18.75 71.0909 21.6587 73.9996 25.25 73.9996H70.75C74.3413 73.9996 77.25 71.0909 77.25 67.4996V38.0546C77.25 34.4666 74.3413 31.5546 70.75 31.5546Z"
+        fill="#C5C5C5"
+        stroke="#555555"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M47.9688 43.5156V61.3906"
+        stroke="#555555"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M39.0312 52.4531H56.9062"
+        stroke="#555555"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <rect x="0.5" y="0.5" width="95" height="95" rx="7.5" stroke="#E6E6E6" />
+    </svg>
+  );
+}
+LargeIcon.CreateProject = CreateProjectLarge;
+
+function CreateProject({ width = 20, height = 20, color = 'none', className = '' }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 20 20"
+      fill={color}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M15.8333 5.78325H10.4408C10.165 5.78325 9.90667 5.64659 9.75167 5.41825L8.58083 3.69742C8.42583 3.46992 8.16833 3.33325 7.8925 3.33325H4.16667C3.24583 3.33325 2.5 4.07909 2.5 4.99992V14.9999C2.5 15.9208 3.24583 16.6666 4.16667 16.6666H15.8333C16.7542 16.6666 17.5 15.9208 17.5 14.9999V7.44992C17.5 6.52992 16.7542 5.78325 15.8333 5.78325Z"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M9.99186 8.8501V13.4334"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M7.7002 11.1418H12.2835"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.CreateProject = CreateProject;
 
 function ChevronLeft({ width = 4, height = 8, color = 'none', className = '' }: IconProps) {
   return (
