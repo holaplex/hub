@@ -35,7 +35,7 @@ export default function Login() {
         <Form onSubmit={handleSubmit(submit)} className="flex flex-col gap-6 mt-3">
           <Form.Label name="Email address" className="text-xs">
             <Form.Input
-              {...register('email', { required: true })}
+              {...register('identifier', { required: true })}
               autoFocus
               placeholder="e.g. name@example.com"
               className=""
