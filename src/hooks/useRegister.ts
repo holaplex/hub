@@ -1,6 +1,7 @@
 import { RegistrationFlow, UiNodeInputAttributes } from '@ory/client';
 import { useRouter } from 'next/navigation';
 import { ory, extractFlowNode } from '../modules/ory';
+import { toast } from 'react-toastify';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 
 interface RegistrationForm {
@@ -41,7 +42,8 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
         },
       });
 
-      router.push('/organizations');
+      router.push('/login');
+      toast.success("Welcome to the Hub. Please sign to continue.")
     } catch (err: any) {
       const {
         response: {

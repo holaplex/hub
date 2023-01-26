@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect, DependencyList } from 'react';
+import { useState, useEffect } from 'react';
 
 import { ory } from '../modules/ory';
 

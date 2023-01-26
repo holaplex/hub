@@ -1,0 +1,19 @@
+query GetUserAffiliations($user: UUID!) {
+  user(id: $user) {
+    affiliations {
+      __typename
+      ... on Owner {
+        organization {
+          id
+          name
+        }
+      }
+      ... on Member {
+        organization {
+          id
+          name
+        }
+      }
+    }
+  }
+}

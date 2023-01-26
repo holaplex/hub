@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 
 interface LoginForm {
-  email: string;
+  identifier: string;
   password: string;
 }
 
@@ -35,7 +35,6 @@ export function useLogin(flow: LoginFlow | undefined): LoginContext {
         flow: flow.id,
         updateLoginFlowBody: {
           csrf_token: csrfToken,
-          identifier: 'email',
           method: 'password',
           ...values,
         },
