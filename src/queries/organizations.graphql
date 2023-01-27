@@ -1,5 +1,19 @@
-query GetAllOrganizations {
-  organizations {
-    name
+query GetUserAffiliations($user: UUID!) {
+  user(id: $user) {
+    affiliations {
+      __typename
+      ... on Member {
+        organization {
+          id
+          name
+        }
+      }
+      ... on Owner {
+        organization {
+          id
+          name
+        }
+      }
+    }
   }
 }

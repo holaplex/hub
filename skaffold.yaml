@@ -35,6 +35,11 @@ portForward:
 deploy:
   helm:
     releases:
+      - name: redpanda
+        repo: https://charts.redpanda.com/
+        remoteChart: redpanda
+        valuesFiles:
+          - values.redpanda.yaml
       - name: kratos-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql

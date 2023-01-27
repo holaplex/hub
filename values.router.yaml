@@ -4,6 +4,6 @@ managedFederation:
 router:
   configuration:
     cors:
-    allow_any_origin: true
+      allow_any_origin: true
     supergraph:
       introspection: true
