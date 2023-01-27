@@ -1,5 +1,5 @@
 'use client';
-import { Button, Form, Modal } from '@holaplex/ui-library-react';
+import { Avatar, Button, Form, Modal, AvatarSize } from '@holaplex/ui-library-react';
 import { createColumnHelper } from '@tanstack/react-table';
 import { useState } from 'react';
 import Card from '../../../../components/Card';
@@ -27,12 +27,12 @@ export default function MembersPage() {
 
         <div className="mt-4 flex flex-col">
           <Button
-            icon={<Icon.CreateProject color="#ffffff" className="mr-2" />}
+            icon={<Icon.InviteMember color="#ffffff" className="mr-2" />}
             border="rounded"
             className="bg-primary p-3 text-white min-w-min self-end"
             onClick={() => setShowInviteMember(true)}
           >
-            Create project
+            Invite member
           </Button>
           <Table
             className="mt-4"
@@ -41,13 +41,12 @@ export default function MembersPage() {
                 id: 'fullName',
                 header: () => (
                   <div className="flex gap-2">
-                    <Icon.CheckBox />
                     <span className="text-xs text-gray-600 font-medium">Member name</span>
                   </div>
                 ),
                 cell: (info) => (
-                  <div className="flex gap-2">
-                    <Icon.CheckBox />
+                  <div className="flex gap-2 items-center">
+                    <Icon.EmptyAvatar />
                     <div className="flex flex-col">
                       <span className="text-xs text-primary font-medium">{info.getValue()}</span>
                       <span className="text-xs text-gray-500">abc@gmail.com</span>
@@ -73,11 +72,13 @@ export default function MembersPage() {
                   <span className="flex text-xs text-gray-600 font-medium">Invite status</span>
                 ),
                 cell: (info) => (
-                  <div className="flex gap-1">
-                    <span className="text-xs text-primary font-medium">{info.getValue()}</span>
-                    <span className="text-xs text-gray-600 font-medium">USD</span>
-                  </div>
+                  <span className="text-xs text-primary font-medium">{info.getValue()}</span>
                 ),
+              }),
+              columnHelper.display({
+                id: 'moreOptions',
+                header: () => <Icon.TableAction />,
+                cell: () => <Icon.More />,
               }),
             ]}
             data={[
@@ -93,10 +94,12 @@ export default function MembersPage() {
                 lastName: 'Cred',
                 email: 'abc@gmail.com',
                 invitedDate: '05/27/2023',
-                inviteStatus: InviteStatus.Accepted,
+                inviteStatus: InviteStatus.Sent,
               },
 
               {
+                firstName: 'Su',
+                lastName: 'Yon',
                 email: 'abc@gmail.com',
                 invitedDate: '05/27/2023',
                 inviteStatus: InviteStatus.Accepted,
@@ -123,7 +126,7 @@ export default function MembersPage() {
           <Form className="flex flex-col mt-5">
             <Form.Label name="Member email address" className="text-xs text-primary">
               <Form.Input placeholder="name@example.com" />
-              <span className="text-xs text-gray-500 font-medium">
+              <span className="text-xs text-gray-500 font-medium self-start">
                 Invite link will be active 6 hours after sending.
               </span>
             </Form.Label>

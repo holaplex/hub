@@ -87,6 +87,11 @@ export default function ProjectsPage() {
                     </div>
                   ),
                 }),
+                columnHelper.display({
+                  id: 'moreOptions',
+                  header: () => <Icon.TableAction />,
+                  cell: () => <Icon.More />,
+                }),
               ]}
               data={[
                 {

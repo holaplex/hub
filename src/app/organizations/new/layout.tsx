@@ -1,4 +1,4 @@
-import Splash from '../../layouts/Splash';
+import Splash from '../../../layouts/Splash';
 
 interface CreateOrganizationLayoutProps {
   children: React.ReactNode;

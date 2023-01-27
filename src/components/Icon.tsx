@@ -13,6 +13,130 @@ function LargeIcon() {
 }
 Icon.Large = LargeIcon;
 
+function More({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={color}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M7.99848 11.6682C7.81507 11.6682 7.66501 11.8183 7.66701 12.0017C7.66701 12.1851 7.81707 12.3352 8.00048 12.3352C8.18389 12.3352 8.33396 12.1851 8.33396 12.0017C8.33396 11.8183 8.18389 11.6682 7.99848 11.6682"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M7.99848 7.6665C7.81507 7.6665 7.66501 7.81657 7.66701 7.99998C7.66701 8.18339 7.81707 8.33345 8.00048 8.33345C8.18389 8.33345 8.33396 8.18339 8.33396 7.99998C8.33396 7.81657 8.18389 7.6665 7.99848 7.6665"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M7.99848 3.66479C7.81507 3.66479 7.66501 3.81486 7.66701 3.99827C7.66701 4.18168 7.81707 4.33174 8.00048 4.33174C8.18389 4.33174 8.33396 4.18168 8.33396 3.99827C8.33396 3.81486 8.18389 3.66479 7.99848 3.66479"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.More = More;
+
+function TableAction({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={color}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M12.5491 7.71669L8.54173 13.5054C8.17439 14.0354 7.34306 13.776 7.34306 13.1307V9.31536H3.99306C3.46239 9.31536 3.14973 8.71936 3.45239 8.28269L7.45973 2.49402C7.82706 1.96402 8.65839 2.22336 8.65839 2.86869V6.68402H12.0084C12.5384 6.68402 12.8511 7.28002 12.5491 7.71669Z"
+        fill="#C5C5C5"
+      />
+    </svg>
+  );
+}
+Icon.TableAction = TableAction;
+
+function EmptyAvatar({ width = 32, height = 32, color = 'none', className = '' }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 32 32"
+      fill={color}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect width="32" height="32" rx="16" fill="#F5F5F5" />
+      <g opacity="0.2">
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M20.2431 11.7573L11.7578 20.2427L20.2431 11.7573Z"
+          stroke="#7B7B7B"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M16 10V10C12.686 10 10 12.686 10 16V16C10 19.314 12.686 22 16 22V22C19.314 22 22 19.314 22 16V16C22 12.686 19.314 10 16 10Z"
+          stroke="#7B7B7B"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </g>
+    </svg>
+  );
+}
+Icon.EmptyAvatar = EmptyAvatar;
+
+function InviteMember({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={color}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M11.9997 13.3333V12.8333C11.9997 11.2685 10.7311 10 9.16634 10H4.16634C2.60153 10 1.33301 11.2685 1.33301 12.8333V13.3333"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <circle
+        cx="6.66667"
+        cy="4.66667"
+        r="2.66667"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path d="M12.6663 6V8.66667" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+      <path
+        d="M13.9997 7.33333H11.333"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.InviteMember = InviteMember;
+
 function CheckBox({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
   return (
     <svg
