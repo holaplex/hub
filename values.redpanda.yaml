@@ -1,0 +1,6 @@
+statefulset:
+  replicas: 1
+post_install_job:
+  enabled: false
+post_upgrade_job:
+  enabled: false
