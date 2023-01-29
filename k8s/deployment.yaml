@@ -19,6 +19,6 @@ spec:
         - containerPort: 3000
         env:
           - name: NEXT_PUBLIC_GRAPHQL_ENDPOINT
-            value: http://api.127.0.0.1.nip.io/graphql
+            value: http://api.127.0.0.1.nip.io:9080/graphql
           - name: KRATOS_ENDPOINT
             value: http://kratos-public
