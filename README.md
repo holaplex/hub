@@ -21,20 +21,45 @@ skaffold.yaml
 secrets.router.yaml
 ```
 
+### Hub Gateway setup
+
+Skaffold expects to find the [hub-gateway](https://github.com/holaplex/hub-gateway) repository in `../hub-gateway`, so make sure to clone the repository one folder up (Or modify Line10 of [skaffold.yaml](skaffold.yaml) with the correct hub-gateway folder path)
+
+```yaml
+kustomize:
+  paths:
+    - ../hub-gateway
+```
+
+Expected folder structure:
+
+```
+❯ tree . -L 1
+├── hub-gateway
+└── hub
+```
+
+### Deploy
+
 ```bash
 skaffold dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://hub.127.0.0.1.nip.io:9080](http://hub.127.0.0.1.nip.io:9080) with your browser to see the result.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-Skaffold will expose the UI and API on the following ports:
+Skaffold will expose the UI and API on the following endpoints:
 
-| Service | Endpoint                                       |
-| ------- | ---------------------------------------------- |
-| Hub UI  | [http://localhost:3000](http://localhost:3000) |
-| Hub API | http://localhost:3001                          |
+| Service | Endpoint                                                                             |
+| ------- | ------------------------------------------------------------------------------------ |
+| Hub UI  | [http://hub.127.0.0.1.nip.io:9080](http://hub.127.0.0.1.nip.io:9080)                 |
+| Hub API | [http://api.127.0.0.1.nip.io:9080/graphql](http://api.127.0.0.1.nip.io:9080/graphql) |
+
+To use the Hub API endpoint, you need to provide either of:
+
+- `hub_session` header with kratos session token value
+- `hub_session` cookie (obtained after authenticating from browser)
 
 ### GraphQL Codegen
 
