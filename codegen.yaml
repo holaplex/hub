@@ -2,7 +2,7 @@ overwrite: true
 documents:
   - '**/*.graphql'
 schema:
-  - http://api.127.0.0.1:9080/graphql
+  - http://api.127.0.0.1.nip.io:9080/graphql
 generates:
   ./@types/graphql.d.ts:
     plugins:
