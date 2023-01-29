@@ -47,10 +47,11 @@ admin:
     viewer: VduoK1H4ujZB4nus9QEfOjgUjTGkmB 
 
 plugins:
-  - graphql
-  - kratos 
+  - kratos
   - opa-mod
+  - graphql
   - mocking                       
+  - redirect
   - serverless-pre-function 
   - serverless-post-function 
   - proxy-rewrite                  
