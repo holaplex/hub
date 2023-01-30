@@ -1,6 +1,7 @@
 'use client';
-import { Button, Form, Modal } from '@holaplex/ui-library-react';
+import { Button, Form, Modal, PopoverBox } from '@holaplex/ui-library-react';
 import { createColumnHelper } from '@tanstack/react-table';
+import clsx from 'clsx';
 import { useState } from 'react';
 import Card from '../../../../components/Card';
 import { Icon } from '../../../../components/Icon';
@@ -29,9 +30,8 @@ export default function ProjectsPage() {
             <span className="mt-6 text-xl font-semibold">No projects created yet</span>
             <span className="mt-2 text-gray-500 text-sm">Click button below to get started.</span>
             <Button
-              icon={<Icon.CreateProject color="#ffffff" className="mr-2" />}
-              border="rounded"
-              className="bg-primary p-3 mt-8 text-white"
+              icon={<Icon.CreateProject fill="#ffffff" />}
+              className="mt-8"
               onClick={() => setShowCreateProject(true)}
             >
               Create new project
@@ -40,9 +40,8 @@ export default function ProjectsPage() {
         ) : (
           <div className="mt-4 flex flex-col">
             <Button
-              icon={<Icon.CreateProject color="#ffffff" className="mr-2" />}
-              border="rounded"
-              className="bg-primary p-3 text-white min-w-min self-end"
+              icon={<Icon.CreateProject stroke="#ffffff" />}
+              className="self-end"
               onClick={() => setShowCreateProject(true)}
             >
               Create project
@@ -90,7 +89,27 @@ export default function ProjectsPage() {
                 columnHelper.display({
                   id: 'moreOptions',
                   header: () => <Icon.TableAction />,
-                  cell: () => <Icon.More />,
+                  cell: () => (
+                    <PopoverBox
+                      triggerButton={
+                        <div className={clsx('px-2 py-1 hover:rounded-md hover:bg-gray-50')}>
+                          <Icon.More />
+                        </div>
+                      }
+                      elements={[
+                        <div key="transfer_tokens" className="flex gap-2 items-center">
+                          <Icon.TransferTokens /> <span>Transfer tokens</span>
+                        </div>,
+                        <div key="edit_project" className="flex gap-2 items-center">
+                          <Icon.Edit /> <span>Edit project</span>
+                        </div>,
+                        <div key="delete_project" className="flex gap-2 items-center">
+                          <Icon.Delete fill="#E52E2E" />
+                          <span className="text-negative">Delete project</span>
+                        </div>,
+                      ]}
+                    />
+                  ),
                 }),
               ]}
               data={[
@@ -136,16 +155,12 @@ export default function ProjectsPage() {
 
             <Form.Error message="" />
 
-            <Button
-              border="rounded"
-              htmlType="submit"
-              className="w-full bg-primary text-white p-3 mt-5 text-xs font-semibold "
-            >
+            <Button htmlType="submit" className="w-full mt-5">
               Create
             </Button>
             <Button
-              border="rounded"
-              className="w-full bg-white text-black p-3 mt-5 text-xs font-semibold"
+              className="w-full mt-5"
+              variant="tertiary"
               onClick={() => setShowCreateProject(false)}
             >
               Cancel

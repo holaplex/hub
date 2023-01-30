@@ -54,9 +54,8 @@ export default function Login() {
             />
           </Form.Label>
           <Button
-            border="rounded"
             htmlType="submit"
-            className="w-full bg-primary text-white p-2 mt-3"
+            className="w-full mt-3"
             loading={formState.isSubmitting}
             disabled={formState.isSubmitting}
           >
@@ -68,14 +67,10 @@ export default function Login() {
       <Divider.Or className="my-4" />
 
       <Link href="/registration" className="mt-4">
-        <Button
-          icon={<Icon.LightBulb className="mr-1" />}
-          border="rounded"
-          className="w-full bg-gray-50 py-4"
-        >
-          <div className="flex items-center text-gray-500 text-sm">
-            Dont have an account?
-            <span className="flex items-center ml-1 font-medium text-sm text-primary cursor-pointer">
+        <Button icon={<Icon.LightBulb className="mr-1" />} className="w-full" variant="secondary">
+          <div className="flex items-center">
+            <span className="text-gray-500 font-medium">Dont have an account?</span>
+            <span className="flex items-center ml-1 font-semibold">
               Create account
               <Icon.ArrowRight className="ml-1" />
             </span>

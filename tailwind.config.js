@@ -11,7 +11,7 @@ module.exports = {
       colors: {
         primary: '#000000',
         positive: '#479E5A',
-        negative: '#E62E2E',
+        negative: '#E52E2E',
         warning: '#F0B41A',
         gray: {
           50: '#f5f5f5',

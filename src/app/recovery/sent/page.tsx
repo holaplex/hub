@@ -23,11 +23,7 @@ export default function EmailSent() {
         <div className="mt-3 w-full h-[44px] rounded-md bg-gray-100 animate-pulse" />
       ) : (
         <a href="">
-          <Button
-            border="rounded"
-            htmlType="submit"
-            className="w-full bg-gray-100 text-primary p-2 mt-5"
-          >
+          <Button htmlType="submit" variant="secondary" className="w-full mt-5">
             Resend recovery link
           </Button>
         </a>

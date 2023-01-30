@@ -2,7 +2,8 @@ export interface IconProps {
   className?: string;
   width?: number;
   height?: number;
-  color?: string;
+  fill?: string;
+  stroke?: string;
 }
 
 export function Icon() {
@@ -13,13 +14,193 @@ function LargeIcon() {
 }
 Icon.Large = LargeIcon;
 
-function More({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
+function Edit({
+  width = 16,
+  height = 16,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={color}
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M3.52834 10.413L10.4123 3.52898C10.6723 3.26898 11.0943 3.26898 11.3543 3.52898L12.4717 4.64632C12.7317 4.90632 12.7317 5.32832 12.4717 5.58832L5.58701 12.4717C5.46234 12.597 5.29301 12.667 5.11634 12.667H3.33301V10.8837C3.33301 10.707 3.40301 10.5377 3.52834 10.413Z"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M9.16699 4.77344L11.227 6.83344"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Edit = Edit;
+
+function TransferTokens({
+  width = 16,
+  height = 16,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M4.33203 1.66406L5.33245 2.66448L4.33203 3.6649"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M5.33179 2.66455H3.9979C2.89287 2.66455 1.99707 3.56035 1.99707 4.66538"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M11.6684 14.336L10.668 13.3356L11.6684 12.3352"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M10.668 13.3356H12.0019C13.1069 13.3356 14.0027 12.4397 14.0027 11.3347"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M6.33226 13.3357C4.30637 13.3357 2.66406 11.6934 2.66406 9.66746C2.66406 7.64157 4.30637 5.99927 6.33226 5.99927C8.35814 5.99927 10.0005 7.64157 10.0005 9.66746C10.0005 10.6403 9.61398 11.5733 8.92606 12.2613C8.23814 12.9492 7.30512 13.3357 6.33226 13.3357"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M5.79154 8.98632L6.33243 8.44409V10.6103"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M5.79297 10.6118H6.87196"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M7.07324 3.77361C8.50576 2.34109 10.8283 2.34109 12.2609 3.77361C13.6934 5.20613 13.6934 7.5287 12.2608 8.96122"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.TransferTokens = TransferTokens;
+
+function Delete({
+  width = 16,
+  height = 16,
+  fill = 'black',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M5.87402 2.74787C5.87402 2.60963 5.98609 2.49756 6.12434 2.49756H9.8759C10.0141 2.49756 10.1262 2.60963 10.1262 2.74787V3.7485H5.87402V2.74787ZM6.12434 1.49756C5.43381 1.49756 4.87402 2.05734 4.87402 2.74787V3.74851H2.66406C2.38792 3.74851 2.16406 3.97237 2.16406 4.24851C2.16406 4.52465 2.38792 4.74851 2.66406 4.74851H3.03503L3.64325 12.6554C3.72343 13.6977 4.59259 14.5026 5.63798 14.5026H10.3619C11.4073 14.5026 12.2764 13.6977 12.3566 12.6554L12.9648 4.74851H13.3352C13.6113 4.74851 13.8352 4.52465 13.8352 4.24851C13.8352 3.97237 13.6113 3.74851 13.3352 3.74851H11.1262V2.74787C11.1262 2.05734 10.5664 1.49756 9.8759 1.49756H6.12434ZM10.3619 13.5026C10.8847 13.5026 11.3194 13.1 11.3595 12.5787L11.9619 4.74854H4.03799L4.64031 12.5787C4.68041 13.1 5.11512 13.5026 5.63798 13.5026H10.3619ZM6.62735 7.7721C6.81146 7.56629 7.12756 7.54871 7.33337 7.73282L7.96114 8.29441L8.52274 7.66663C8.70685 7.46083 9.02295 7.44324 9.22875 7.62735C9.43456 7.81146 9.45215 8.12756 9.26804 8.33337L8.70643 8.96115L9.3342 9.52274C9.54001 9.70685 9.55759 10.0229 9.37348 10.2288C9.18937 10.4346 8.87327 10.4521 8.66747 10.268L8.0397 9.70644L7.47812 10.3342C7.294 10.54 6.97791 10.5576 6.7721 10.3735C6.56629 10.1894 6.54871 9.87327 6.73282 9.66747L7.2944 9.03971L6.66663 8.47812C6.46083 8.294 6.44324 7.97791 6.62735 7.7721Z"
+        fill={fill}
+      />
+    </svg>
+  );
+}
+Icon.Delete = Delete;
+
+function Email({
+  width = 16,
+  height = 16,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M9.9248 13.4234H11.7341L14.2154 10.9421C14.4656 10.6919 14.4656 10.2874 14.2154 10.0378L13.311 9.13348C13.0608 8.88324 12.6563 8.88324 12.4067 9.13348L9.92544 11.6148V13.4234H9.9248Z"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M13.1169 7.04135V3.84839"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M7.35996 10.8814H3.52252C2.81596 10.8814 2.24316 10.3086 2.24316 9.60145V3.83057"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M11.8307 2.54346H3.52859C2.81819 2.54346 2.24219 3.11946 2.24219 3.8305V3.8305C2.24219 4.25738 2.45339 4.6561 2.80667 4.89546L6.23387 7.2193C7.10747 7.8113 8.25307 7.8113 9.12667 7.2193L12.5526 4.8961C12.9059 4.65674 13.1171 4.25738 13.1171 3.83114V3.8305C13.1164 3.11946 12.5411 2.54346 11.8307 2.54346Z"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Email = Email;
+
+function More({ width = 16, height = 16, fill = 'none', className = '' }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -46,13 +227,13 @@ function More({ width = 16, height = 16, color = 'none', className = '' }: IconP
 }
 Icon.More = More;
 
-function TableAction({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
+function TableAction({ width = 16, height = 16, fill = 'none', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -67,13 +248,13 @@ function TableAction({ width = 16, height = 16, color = 'none', className = '' }
 }
 Icon.TableAction = TableAction;
 
-function EmptyAvatar({ width = 32, height = 32, color = 'none', className = '' }: IconProps) {
+function EmptyAvatar({ width = 32, height = 32, fill = 'none', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 32 32"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -101,19 +282,25 @@ function EmptyAvatar({ width = 32, height = 32, color = 'none', className = '' }
 }
 Icon.EmptyAvatar = EmptyAvatar;
 
-function InviteMember({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
+function InviteMember({
+  width = 16,
+  height = 16,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
         d="M11.9997 13.3333V12.8333C11.9997 11.2685 10.7311 10 9.16634 10H4.16634C2.60153 10 1.33301 11.2685 1.33301 12.8333V13.3333"
-        stroke="black"
+        stroke={stroke}
         stroke-linecap="round"
         stroke-linejoin="round"
       />
@@ -121,14 +308,14 @@ function InviteMember({ width = 16, height = 16, color = 'none', className = '' 
         cx="6.66667"
         cy="4.66667"
         r="2.66667"
-        stroke="black"
+        stroke={stroke}
         stroke-linecap="round"
         stroke-linejoin="round"
       />
-      <path d="M12.6663 6V8.66667" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M12.6663 6V8.66667" stroke={stroke} stroke-linecap="round" stroke-linejoin="round" />
       <path
         d="M13.9997 7.33333H11.333"
-        stroke="black"
+        stroke={stroke}
         stroke-linecap="round"
         stroke-linejoin="round"
       />
@@ -137,13 +324,13 @@ function InviteMember({ width = 16, height = 16, color = 'none', className = '' 
 }
 Icon.InviteMember = InviteMember;
 
-function CheckBox({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
+function CheckBox({ width = 16, height = 16, fill = 'none', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -154,13 +341,13 @@ function CheckBox({ width = 16, height = 16, color = 'none', className = '' }: I
 }
 Icon.CheckBox = CheckBox;
 
-function CheckBoxChecked({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
+function CheckBoxChecked({ width = 16, height = 16, fill = 'none', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -176,13 +363,13 @@ function CheckBoxChecked({ width = 16, height = 16, color = 'none', className = 
 }
 CheckBox.Checked = CheckBoxChecked;
 
-function CheckBoxFilled({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
+function CheckBoxFilled({ width = 16, height = 16, fill = 'none', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -193,18 +380,13 @@ function CheckBoxFilled({ width = 16, height = 16, color = 'none', className = '
 }
 CheckBox.Filled = CheckBoxFilled;
 
-function CreateProjectLarge({
-  width = 96,
-  height = 96,
-  color = 'none',
-  className = '',
-}: IconProps) {
+function CreateProjectLarge({ width = 96, height = 96, fill = 'none', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 96 96"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -244,13 +426,19 @@ function CreateProjectLarge({
 }
 LargeIcon.CreateProject = CreateProjectLarge;
 
-function CreateProject({ width = 20, height = 20, color = 'none', className = '' }: IconProps) {
+function CreateProject({
+  width = 20,
+  height = 20,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 20 20"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -258,19 +446,19 @@ function CreateProject({ width = 20, height = 20, color = 'none', className = ''
         fill-rule="evenodd"
         clip-rule="evenodd"
         d="M15.8333 5.78325H10.4408C10.165 5.78325 9.90667 5.64659 9.75167 5.41825L8.58083 3.69742C8.42583 3.46992 8.16833 3.33325 7.8925 3.33325H4.16667C3.24583 3.33325 2.5 4.07909 2.5 4.99992V14.9999C2.5 15.9208 3.24583 16.6666 4.16667 16.6666H15.8333C16.7542 16.6666 17.5 15.9208 17.5 14.9999V7.44992C17.5 6.52992 16.7542 5.78325 15.8333 5.78325Z"
-        stroke="black"
+        stroke={stroke}
         stroke-linecap="round"
         stroke-linejoin="round"
       />
       <path
         d="M9.99186 8.8501V13.4334"
-        stroke="black"
+        stroke={stroke}
         stroke-linecap="round"
         stroke-linejoin="round"
       />
       <path
         d="M7.7002 11.1418H12.2835"
-        stroke="black"
+        stroke={stroke}
         stroke-linecap="round"
         stroke-linejoin="round"
       />
@@ -279,13 +467,13 @@ function CreateProject({ width = 20, height = 20, color = 'none', className = ''
 }
 Icon.CreateProject = CreateProject;
 
-function ChevronLeft({ width = 4, height = 8, color = 'none', className = '' }: IconProps) {
+function ChevronLeft({ width = 4, height = 8, fill = 'none', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 4 8"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -300,13 +488,13 @@ function ChevronLeft({ width = 4, height = 8, color = 'none', className = '' }: 
 }
 Icon.ChevronLeft = ChevronLeft;
 
-function Settings({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
+function Settings({ width = 16, height = 16, fill = 'none', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -329,13 +517,13 @@ function Settings({ width = 16, height = 16, color = 'none', className = '' }: I
 }
 Icon.Settings = Settings;
 
-function Members({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
+function Members({ width = 16, height = 16, fill = 'none', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -370,13 +558,13 @@ function Members({ width = 16, height = 16, color = 'none', className = '' }: Ic
 }
 Icon.Members = Members;
 
-function Projects({ width = 14, height = 12, color = 'none', className = '' }: IconProps) {
+function Projects({ width = 14, height = 12, fill = 'none', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 14 12"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -391,13 +579,13 @@ function Projects({ width = 14, height = 12, color = 'none', className = '' }: I
 }
 Icon.Projects = Projects;
 
-function CheckInCircle({ width = 96, height = 96, color = 'none', className = '' }: IconProps) {
+function CheckInCircle({ width = 96, height = 96, fill = 'none', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 96 96"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -413,13 +601,13 @@ function CheckInCircle({ width = 96, height = 96, color = 'none', className = ''
 }
 Icon.CheckInCircle = CheckInCircle;
 
-function EmailInCircle({ width = 96, height = 96, color = 'none', className = '' }: IconProps) {
+function EmailInCircle({ width = 96, height = 96, fill = 'none', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 96 96"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -449,18 +637,13 @@ function EmailInCircle({ width = 96, height = 96, color = 'none', className = ''
 }
 Icon.EmailInCircle = EmailInCircle;
 
-function ArrowRight({
-  width = 16,
-  height = 16,
-  color = 'currentColor',
-  className = '',
-}: IconProps) {
+function ArrowRight({ width = 16, height = 16, fill = 'none', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -487,13 +670,13 @@ function ArrowRight({
 }
 Icon.ArrowRight = ArrowRight;
 
-function LightBulb({ width = 16, height = 16, color = 'currentColor', className = '' }: IconProps) {
+function LightBulb({ width = 16, height = 16, fill = 'none', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -556,13 +739,13 @@ function LightBulb({ width = 16, height = 16, color = 'currentColor', className 
 }
 Icon.LightBulb = LightBulb;
 
-function ShowPasswordIcon({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
+function ShowPasswordIcon({ width = 16, height = 16, fill = 'none', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -596,13 +779,13 @@ function ShowPasswordIcon({ width = 16, height = 16, color = 'none', className =
 
 Icon.ShowPassword = ShowPasswordIcon;
 
-function HidePasswordIcon({ width = 16, height = 16, color = 'none', className = '' }: IconProps) {
+function HidePasswordIcon({ width = 16, height = 16, fill = 'none', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={color}
+      fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >

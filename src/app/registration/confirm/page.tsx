@@ -16,11 +16,7 @@ export default function EmailConfirm() {
         </Typography.Header>
       </div>
       <Form className="flex flex-col mt-5">
-        <Button
-          border="rounded"
-          htmlType="submit"
-          className="w-full bg-gray-100 text-primary p-2 mt-5"
-        >
+        <Button htmlType="submit" variant="secondary" className="w-full mt-5">
           Resend confirmation email
         </Button>
       </Form>

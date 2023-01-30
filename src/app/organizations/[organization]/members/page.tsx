@@ -1,6 +1,7 @@
 'use client';
-import { Avatar, Button, Form, Modal, AvatarSize } from '@holaplex/ui-library-react';
+import { Avatar, Button, Form, Modal, AvatarSize, PopoverBox } from '@holaplex/ui-library-react';
 import { createColumnHelper } from '@tanstack/react-table';
+import clsx from 'clsx';
 import { useState } from 'react';
 import Card from '../../../../components/Card';
 import { Icon } from '../../../../components/Icon';
@@ -27,9 +28,8 @@ export default function MembersPage() {
 
         <div className="mt-4 flex flex-col">
           <Button
-            icon={<Icon.InviteMember color="#ffffff" className="mr-2" />}
-            border="rounded"
-            className="bg-primary p-3 text-white min-w-min self-end"
+            icon={<Icon.InviteMember stroke="#ffffff" />}
+            className="self-end"
             onClick={() => setShowInviteMember(true)}
           >
             Invite member
@@ -78,7 +78,24 @@ export default function MembersPage() {
               columnHelper.display({
                 id: 'moreOptions',
                 header: () => <Icon.TableAction />,
-                cell: () => <Icon.More />,
+                cell: () => (
+                  <PopoverBox
+                    triggerButton={
+                      <div className={clsx('px-2 py-1 hover:rounded-md hover:bg-gray-50')}>
+                        <Icon.More />
+                      </div>
+                    }
+                    elements={[
+                      <div key="change_email" className="flex gap-2 items-center">
+                        <Icon.Email /> <span>Change email</span>
+                      </div>,
+                      <div key="delete_member" className="flex gap-2 items-center">
+                        <Icon.Delete fill="#E52E2E" />
+                        <span className="text-negative">Delete member</span>
+                      </div>,
+                    ]}
+                  />
+                ),
               }),
             ]}
             data={[
@@ -133,16 +150,12 @@ export default function MembersPage() {
 
             <Form.Error message="" />
 
-            <Button
-              border="rounded"
-              htmlType="submit"
-              className="w-full bg-primary text-white p-3 mt-5 text-xs font-semibold "
-            >
+            <Button htmlType="submit" className="w-full mt-5">
               Send invite
             </Button>
             <Button
-              border="rounded"
-              className="w-full bg-white text-black p-3 mt-5 text-xs font-semibold"
+              variant="tertiary"
+              className="w-full mt-5 "
               onClick={() => setShowInviteMember(false)}
             >
               Cancel

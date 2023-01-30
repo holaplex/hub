@@ -82,3 +82,31 @@ select:focus {
 input:focus {
   outline: none;
 }
+
+.button-small {
+  @apply py-1 px-2 text-xs;
+}
+
+.button-medium {
+  @apply py-3 px-4 text-xs font-semibold;
+}
+
+.button-large {
+  @apply py-3 px-4 text-base font-semibold;
+}
+
+.button-variant-primary {
+  @apply text-white bg-primary;
+}
+
+.button-variant-secondary {
+  @apply text-primary bg-gray-50;
+}
+
+.button-variant-tertiary {
+  @apply text-primary bg-white;
+}
+
+.popover {
+  @apply flex flex-col gap-5 border rounded-md border-gray-100 p-4 text-sm bg-white text-primary;
+}

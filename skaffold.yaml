@@ -7,31 +7,31 @@ manifests:
     - ./k8s/*
 build:
   artifacts:
-  - image: holaplex/hub
-    docker:
-      target: development
-      dockerfile: Dockerfile
-    sync:
-      manual:
-      - src: 'src/**/**/**/**/**/*.tsx'
-        dest: .
-      - src: 'src/**/**/**/**/**/*.css'
-        dest: .
-      - src: 'src/**/**/**/**/**/*.ts'
-        dest: .
-      - src: 'src/queries/*.graphql'
-        dest: .
+    - image: holaplex/hub
+      docker:
+        target: development
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/**/**/**/**/*.tsx'
+            dest: .
+          - src: 'src/**/**/**/**/**/*.css'
+            dest: .
+          - src: 'src/**/**/**/**/**/*.ts'
+            dest: .
+          - src: 'src/queries/*.graphql'
+            dest: .
 portForward:
-- resourceType: service
-  resourceName: hub
-  namespace: default
-  port: 80
-  localPort: 3000
-- resourceType: service
-  resourceName: federated-router
-  namespace: default
-  port: 80
-  localPort: 3001
+  - resourceType: service
+    resourceName: hub
+    namespace: default
+    port: 80
+    localPort: 3000
+  - resourceType: service
+    resourceName: federated-router
+    namespace: default
+    port: 80
+    localPort: 3001
 deploy:
   helm:
     releases:
@@ -44,7 +44,7 @@ deploy:
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
         valuesFiles:
-        - values.kratos.postgresql.yaml
+          - values.kratos.postgresql.yaml
       - name: kratos
         repo: https://k8s.ory.sh/helm/charts
         remoteChart: kratos
