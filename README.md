@@ -21,24 +21,6 @@ skaffold.yaml
 secrets.router.yaml
 ```
 
-### Hub Gateway setup
-
-Skaffold expects to find the [hub-gateway](https://github.com/holaplex/hub-gateway) repository in `../hub-gateway`, so make sure to clone the repository one folder up (Or modify Line10 of [skaffold.yaml](skaffold.yaml) with the correct hub-gateway folder path)
-
-```yaml
-kustomize:
-  paths:
-    - ../hub-gateway
-```
-
-Expected folder structure:
-
-```
-❯ tree . -L 1
-├── hub-gateway
-└── hub
-```
-
 ### Deploy
 
 ```bash
