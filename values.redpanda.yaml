@@ -4,3 +4,4 @@ post_install_job:
   enabled: false
 post_upgrade_job:
   enabled: false
+fullnameOverride: "hub-eventbus-cluster"

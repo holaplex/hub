@@ -22,15 +22,43 @@ kratos:
           url: file:///etc/config/identity.default.schema.json
     courier:
       smtp:
-        connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
+        connection_uri: smtps://test:test@mailhog:1025/?skip_ssl_verify=true
+    session:
+      cookie: 
+        domain: hub.127.0.0.1.nip.io
+        name: hub_session
     selfservice:
       methods:
         password:
           enabled: true
-      default_browser_return_url: http://localhost:3000/
+      default_browser_return_url: http://hub.127.0.0.1.nip.io:9080
       flows:
-        registration:
-          ui_url: http://localhost:3000/login
+        error:
+          ui_url: https://hub.127.0.0.1.nip.io:9080/account/error
+
+        settings:
+          required_aal: highest_available
+          ui_url: https://hub.127.0.0.1.nip.io:9080/account/settings
+          privileged_session_max_age: 15m
+
+        recovery:
+          enabled: true
+          ui_url: https://hub.127.0.0.1.nip.io:9080/recovery
+
+        verification:
+          enabled: true
+          ui_url: https://hub.127.0.0.1.nip.io:9080/verification
+          after:
+            default_browser_return_url: https://hub.127.0.0.1.nip.io:9080
+
+        logout:
+          after:
+            default_browser_return_url: https://hub.127.0.0.1.nip.io:9080/login
+
+        login:
+          ui_url: https://hub.127.0.0.1.nip.io:9080/login
+          lifespan: 10m
+
   identitySchemas:
     "identity.default.schema.json": |-
       {
