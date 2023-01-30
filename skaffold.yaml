@@ -5,9 +5,6 @@ metadata:
 manifests:
   rawYaml:
     - ./k8s/*
-  kustomize:
-    paths:
-      - ../hub-gateway
 build:
   artifacts:
   - image: holaplex/hub
@@ -40,12 +37,6 @@ deploy:
         remoteChart: redpanda
         valuesFiles:
           - values.redpanda.yaml
-      # - name: apisix
-      #   repo: https://apache.github.io/apisix-helm-chart
-      #   namespace: ingress-apisix
-      #   remoteChart: apisix
-      #   valuesFiles:
-      #     - values.apisix.yaml
       - name: mailhog
         repo: https://codecentric.github.io/helm-charts
         remoteChart: mailhog
@@ -86,5 +77,7 @@ deploy:
         namespace: ingress-apisix
         remoteChart: hub-gateway
         repo: https://charts.holaplex.com
+        #chartPath: ./../helm-charts/charts/hub-gateway
         valuesFiles:
           - values.gateway.yaml
+          - secrets.gateway.yaml
