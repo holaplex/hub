@@ -17,8 +17,15 @@ type Member = {
   inviteStatus?: InviteStatus;
 };
 
+enum ShowModal {
+  NONE,
+  INVITE_MEMBER,
+  CHANGE_EMAIL,
+  DELETE_MEMBER,
+}
+
 export default function MembersPage() {
-  const [showInviteMember, setShowInviteMember] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<ShowModal>(ShowModal.NONE);
   const columnHelper = createColumnHelper<Member>();
 
   return (
@@ -30,7 +37,7 @@ export default function MembersPage() {
           <Button
             icon={<Icon.InviteMember stroke="#ffffff" />}
             className="self-end"
-            onClick={() => setShowInviteMember(true)}
+            onClick={() => setShowModal(ShowModal.INVITE_MEMBER)}
           >
             Invite member
           </Button>
@@ -45,7 +52,6 @@ export default function MembersPage() {
                   </div>
                 ),
                 cell: (info) => {
-                  console.log('Cell Info', info);
                   return (
                     <div className="flex gap-2 items-center">
                       <Icon.EmptyAvatar />
@@ -89,10 +95,18 @@ export default function MembersPage() {
                       </div>
                     }
                     elements={[
-                      <div key="change_email" className="flex gap-2 items-center">
+                      <div
+                        key="change_email"
+                        className="flex gap-2 items-center"
+                        onClick={() => setShowModal(ShowModal.CHANGE_EMAIL)}
+                      >
                         <Icon.Email /> <span>Change email</span>
                       </div>,
-                      <div key="delete_member" className="flex gap-2 items-center">
+                      <div
+                        key="delete_member"
+                        className="flex gap-2 items-center"
+                        onClick={() => setShowModal(ShowModal.DELETE_MEMBER)}
+                      >
                         <Icon.Delete fill="#E52E2E" />
                         <span className="text-negative">Delete member</span>
                       </div>,
@@ -130,16 +144,14 @@ export default function MembersPage() {
       </div>
       {/* TODO: Fix Modal to show as overlay instead of in footer. */}
       <Modal
-        open={showInviteMember}
+        open={showModal === ShowModal.INVITE_MEMBER}
         setOpen={(open: boolean) => {
-          setShowInviteMember(open);
+          open ? setShowModal(ShowModal.INVITE_MEMBER) : setShowModal(ShowModal.NONE);
         }}
       >
         <Card className="w-[400px]">
-          <Typography.Header size={Size.H2} className="self-start">
-            Invite new member to
-          </Typography.Header>
-          <Typography.Header size={Size.H3} className="self-start">
+          <Typography.Header size={Size.H2}>Invite new member to</Typography.Header>
+          <Typography.Header size={Size.H3}>
             Enter member email address to invite.
           </Typography.Header>
 
@@ -159,7 +171,73 @@ export default function MembersPage() {
             <Button
               variant="tertiary"
               className="w-full mt-5 "
-              onClick={() => setShowInviteMember(false)}
+              onClick={() => setShowModal(ShowModal.NONE)}
+            >
+              Cancel
+            </Button>
+          </Form>
+        </Card>
+      </Modal>
+      <Modal
+        open={showModal === ShowModal.CHANGE_EMAIL}
+        setOpen={(open: boolean) => {
+          open ? setShowModal(ShowModal.CHANGE_EMAIL) : setShowModal(ShowModal.NONE);
+        }}
+      >
+        <Card className="w-[400px]">
+          <Typography.Header size={Size.H2}>Change email address</Typography.Header>
+          <Typography.Header size={Size.H3}>
+            You are about to change [Name] email address. This member should accept invite within 6
+            hours.
+          </Typography.Header>
+
+          <Form className="flex flex-col mt-5">
+            <Form.Label name="Member new email address" className="text-xs text-primary">
+              <Form.Input placeholder="name@example.com" />
+              <span className="text-xs text-gray-500 font-medium self-start">
+                Invite link will be active 6 hours after sending.
+              </span>
+            </Form.Label>
+
+            <Form.Error message="" />
+
+            <Button htmlType="submit" className="w-full mt-5">
+              Send invite
+            </Button>
+            <Button
+              variant="tertiary"
+              className="w-full mt-5 "
+              onClick={() => setShowModal(ShowModal.NONE)}
+            >
+              Cancel
+            </Button>
+          </Form>
+        </Card>
+      </Modal>
+      <Modal
+        open={showModal === ShowModal.DELETE_MEMBER}
+        setOpen={(open: boolean) => {
+          open ? setShowModal(ShowModal.DELETE_MEMBER) : setShowModal(ShowModal.NONE);
+        }}
+      >
+        <Card className="w-[400px]">
+          <Typography.Header size={Size.H2}>Do you really want to delete [name]?</Typography.Header>
+          <Typography.Header size={Size.H3}>This action cannot be reversed.</Typography.Header>
+
+          <Form className="flex flex-col mt-5">
+            <div className="flex items-start gap-2 rounded-md bg-gray-50 p-3">
+              <Icon.Info />
+              <span className="text-xs text-gray-500 font-medium">
+                The member will be deprived of access to the project
+              </span>
+            </div>
+            <Button htmlType="submit" className="w-full mt-5" variant="failure">
+              Delete member
+            </Button>
+            <Button
+              variant="tertiary"
+              className="w-full mt-5 "
+              onClick={() => setShowModal(ShowModal.NONE)}
             >
               Cancel
             </Button>

@@ -107,6 +107,10 @@ input:focus {
   @apply text-primary bg-white;
 }
 
+.button-variant-failure {
+  @apply text-white bg-negative;
+}
+
 .popover {
   @apply flex flex-col gap-5 border rounded-md border-gray-100 p-4 text-sm bg-white text-primary;
 }

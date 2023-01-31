@@ -14,8 +14,18 @@ type Project = {
   createdDate: string;
 };
 
+enum ShowModal {
+  NONE,
+  CREATE_PROJECT,
+  TRANSFER_TOKENS,
+  EDIT_PROJECT,
+  DELETE_PROJECT_TRANSFER_FUNDS,
+  DELETE_PROJECT,
+}
+
 export default function ProjectsPage() {
-  const [showCreateProject, setShowCreateProject] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<ShowModal>(ShowModal.NONE);
+
   // TODO: Replace this with actual projects data.
   const hasProjects = true;
   const columnHelper = createColumnHelper<Project>();
@@ -32,7 +42,7 @@ export default function ProjectsPage() {
             <Button
               icon={<Icon.CreateProject fill="#ffffff" />}
               className="mt-8"
-              onClick={() => setShowCreateProject(true)}
+              onClick={() => setShowModal(ShowModal.CREATE_PROJECT)}
             >
               Create new project
             </Button>
@@ -42,7 +52,7 @@ export default function ProjectsPage() {
             <Button
               icon={<Icon.CreateProject stroke="#ffffff" />}
               className="self-end"
-              onClick={() => setShowCreateProject(true)}
+              onClick={() => setShowModal(ShowModal.CREATE_PROJECT)}
             >
               Create project
             </Button>
@@ -99,13 +109,26 @@ export default function ProjectsPage() {
                         </div>
                       }
                       elements={[
-                        <div key="transfer_tokens" className="flex gap-2 items-center">
+                        <div
+                          key="transfer_tokens"
+                          className="flex gap-2 items-center"
+                          onClick={() => setShowModal(ShowModal.TRANSFER_TOKENS)}
+                        >
                           <Icon.TransferTokens /> <span>Transfer tokens</span>
                         </div>,
-                        <div key="edit_project" className="flex gap-2 items-center">
+                        <div
+                          key="edit_project"
+                          className="flex gap-2 items-center"
+                          onClick={() => setShowModal(ShowModal.EDIT_PROJECT)}
+                        >
                           <Icon.Edit /> <span>Edit project</span>
                         </div>,
-                        <div key="delete_project" className="flex gap-2 items-center">
+                        // TODO: Check the project treasury, if it has funds ask to transfer funds.
+                        <div
+                          key="delete_project"
+                          className="flex gap-2 items-center"
+                          onClick={() => setShowModal(ShowModal.DELETE_PROJECT)}
+                        >
                           <Icon.Delete fill="#E52E2E" />
                           <span className="text-negative">Delete project</span>
                         </div>,
@@ -137,9 +160,9 @@ export default function ProjectsPage() {
       </div>
       {/* TODO: Fix Modal to show as overlay instead of in footer. */}
       <Modal
-        open={showCreateProject}
+        open={showModal === ShowModal.CREATE_PROJECT}
         setOpen={(open: boolean) => {
-          setShowCreateProject(open);
+          open ? setShowModal(ShowModal.CREATE_PROJECT) : setShowModal(ShowModal.NONE);
         }}
       >
         <Card className="w-[400px]">
@@ -163,11 +186,160 @@ export default function ProjectsPage() {
             <Button
               className="w-full mt-5"
               variant="tertiary"
-              onClick={() => setShowCreateProject(false)}
+              onClick={() => setShowModal(ShowModal.NONE)}
             >
               Cancel
             </Button>
             {/* <DragDropImage onDrop={handleDrop} className="mt-5" /> */}
+          </Form>
+        </Card>
+      </Modal>
+      <Modal
+        open={showModal === ShowModal.EDIT_PROJECT}
+        setOpen={(open: boolean) => {
+          open ? setShowModal(ShowModal.EDIT_PROJECT) : setShowModal(ShowModal.NONE);
+        }}
+      >
+        <Card className="w-[400px]">
+          <Typography.Header size={Size.H2} className="self-start">
+            Edit project
+          </Typography.Header>
+          <Typography.Header size={Size.H3} className="self-start">
+            Enter project name and logo.
+          </Typography.Header>
+
+          <Form className="flex flex-col mt-5">
+            <Form.Label name="Project name" className="text-xs text-primary">
+              <Form.Input placeholder="e.g. Apple events" />
+            </Form.Label>
+
+            <Form.Error message="" />
+
+            <Button htmlType="submit" className="w-full mt-5">
+              Save changes
+            </Button>
+            <Button
+              className="w-full mt-5"
+              variant="tertiary"
+              onClick={() => setShowModal(ShowModal.NONE)}
+            >
+              Cancel
+            </Button>
+            {/* <DragDropImage onDrop={handleDrop} className="mt-5" /> */}
+          </Form>
+        </Card>
+      </Modal>
+      <Modal
+        open={showModal === ShowModal.TRANSFER_TOKENS}
+        setOpen={(open: boolean) => {
+          open ? setShowModal(ShowModal.TRANSFER_TOKENS) : setShowModal(ShowModal.NONE);
+        }}
+      >
+        <Card className="w-[400px]">
+          <Typography.Header size={Size.H2} className="self-start">
+            Transfer tokens
+          </Typography.Header>
+
+          <Form className="flex flex-col mt-5">
+            <Form.Label
+              name="Amount"
+              className="text-xs text-primary"
+              asideComponent={
+                <div
+                  className="text-primary font-semibold text-xs cursor-pointer"
+                  onClick={() => {
+                    console.log('Max clicked');
+                  }}
+                >
+                  MAX
+                </div>
+              }
+            >
+              <Form.Input />
+            </Form.Label>
+            <div className="flex items-center gap-1 text-xs font-medium">
+              <span className="text-gray-500">Balance:</span>
+              <span className="text-primary">0.456 SOL</span>
+            </div>
+            <Form.Error message="" />
+            <Form.Label name="To wallet address" className="text-xs text-primary mt-5">
+              <Form.Input />
+            </Form.Label>
+            <Form.Error message="" />
+
+            <Button htmlType="submit" className="w-full mt-5">
+              Transfer
+            </Button>
+            <Button
+              className="w-full mt-5"
+              variant="tertiary"
+              onClick={() => setShowModal(ShowModal.NONE)}
+            >
+              Cancel
+            </Button>
+          </Form>
+        </Card>
+      </Modal>
+      <Modal
+        open={showModal === ShowModal.DELETE_PROJECT_TRANSFER_FUNDS}
+        setOpen={(open: boolean) => {
+          open
+            ? setShowModal(ShowModal.DELETE_PROJECT_TRANSFER_FUNDS)
+            : setShowModal(ShowModal.NONE);
+        }}
+      >
+        <Card className="w-[400px]">
+          <Typography.Header size={Size.H2} className="self-start">
+            Delete project
+          </Typography.Header>
+          <Typography.Header size={Size.H3} className="self-start">
+            You are deleting a project which has funds in a treasury wallet. First need to transfer
+            funds to delete this project.
+          </Typography.Header>
+
+          <Form className="flex flex-col mt-5">
+            <Button htmlType="submit" className="w-full mt-5">
+              Transfer funds
+            </Button>
+            <Button
+              variant="tertiary"
+              className="w-full mt-5 "
+              onClick={() => setShowModal(ShowModal.NONE)}
+            >
+              Cancel
+            </Button>
+          </Form>
+        </Card>
+      </Modal>
+      <Modal
+        open={showModal === ShowModal.DELETE_PROJECT}
+        setOpen={(open: boolean) => {
+          open ? setShowModal(ShowModal.DELETE_PROJECT) : setShowModal(ShowModal.NONE);
+        }}
+      >
+        <Card className="w-[400px]">
+          <Typography.Header size={Size.H2}>Delete project</Typography.Header>
+          <Typography.Header size={Size.H3}>
+            Are you sure you want to delete [Name] project and all its contents?
+          </Typography.Header>
+
+          <Form className="flex flex-col mt-5">
+            <div className="flex items-start gap-2 rounded-md bg-gray-50 p-3">
+              <Icon.CheckBox />
+              <span className="text-xs text-gray-500 font-medium">
+                I want to delete the project permanently
+              </span>
+            </div>
+            <Button htmlType="submit" className="w-full mt-5" variant="failure">
+              Delete
+            </Button>
+            <Button
+              variant="tertiary"
+              className="w-full mt-5 "
+              onClick={() => setShowModal(ShowModal.NONE)}
+            >
+              Cancel
+            </Button>
           </Form>
         </Card>
       </Modal>
