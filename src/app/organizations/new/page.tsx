@@ -19,11 +19,7 @@ export default function CreateOrganization() {
         <Form.Input placeholder="e.g. Apple" />
         <Form.Error message="" />
 
-        <Button
-          border="rounded"
-          htmlType="submit"
-          className="w-full bg-primary text-white p-2 mt-5"
-        >
+        <Button htmlType="submit" className="w-full mt-5">
           Create
         </Button>
         <DragDropImage onDrop={handleDrop} className="mt-5" />

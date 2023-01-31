@@ -74,7 +74,7 @@ export default function Registration() {
             />
             <Form.Error message={formState.errors.password?.message} />
           </Form.Label>
-          <Button border="rounded" htmlType="submit" className="w-full bg-primary text-white p-2">
+          <Button htmlType="submit" className="w-full">
             Register
           </Button>
         </Form>
@@ -83,14 +83,10 @@ export default function Registration() {
       <Divider.Or className="my-4" />
 
       <Link href="/login" className="mt-4">
-        <Button
-          icon={<Icon.LightBulb className="mr-1" />}
-          border="rounded"
-          className="w-full bg-gray-50 py-4"
-        >
-          <div className="flex items-center text-gray-500 text-sm">
-            Already have an account?
-            <span className="flex items-center ml-1 font-medium text-sm text-primary cursor-pointer">
+        <Button icon={<Icon.LightBulb className="mr-1" />} className="w-full" variant="secondary">
+          <div className="flex items-center">
+            <span className="text-gray-500 font-medium">Already have an account?</span>
+            <span className="flex items-center ml-1 font-semibold">
               Sign in
               <Icon.ArrowRight className="ml-1" />
             </span>

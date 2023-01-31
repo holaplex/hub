@@ -36,9 +36,8 @@ export default function Recovery() {
           </Form.Label>
 
           <Button
-            border="rounded"
             htmlType="submit"
-            className="w-full bg-primary text-white p-2"
+            className="w-full"
             loading={formState.isSubmitting}
             disabled={formState.isSubmitting}
           >

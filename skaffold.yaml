@@ -7,27 +7,27 @@ manifests:
     - ./k8s/*
 build:
   artifacts:
-  - image: holaplex/hub
-    docker:
-      target: development
-      dockerfile: Dockerfile
-    sync:
-      manual:
-      - src: 'src/**/**/**/**/**/*.tsx'
-        dest: .
-      - src: 'src/**/**/**/**/**/*.css'
-        dest: .
-      - src: 'src/**/**/**/**/**/*.ts'
-        dest: .
-      - src: 'src/queries/*.graphql'
-        dest: .
+    - image: holaplex/hub
+      docker:
+        target: development
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/**/**/**/**/*.tsx'
+            dest: .
+          - src: 'src/**/**/**/**/**/*.css'
+            dest: .
+          - src: 'src/**/**/**/**/**/*.ts'
+            dest: .
+          - src: 'src/queries/*.graphql'
+            dest: .
 
 portForward:
- - resourceType: service
-   resourceName: apisix-gateway
-   namespace: ingress-apisix
-   port: 80
-   localPort: 9080
+  - resourceType: service
+    resourceName: apisix-gateway
+    namespace: ingress-apisix
+    port: 80
+    localPort: 9080
 
 deploy:
   helm:
@@ -46,7 +46,7 @@ deploy:
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
         valuesFiles:
-        - values.kratos.postgresql.yaml
+          - values.kratos.postgresql.yaml
       - name: kratos
         repo: https://k8s.ory.sh/helm/charts
         remoteChart: kratos

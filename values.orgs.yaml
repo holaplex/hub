@@ -7,7 +7,7 @@ migration:
 secrets:
   enabled: true
   entries:
-    oryAuthToken: ""
+    oryAuthToken: "kube"
     databaseUrl: "postgres://orgs:orgs@hub-orgs-db-postgresql:5432/orgs"
 
 environment:
