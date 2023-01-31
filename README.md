@@ -19,22 +19,27 @@ There are some secrets required for the API. Reach out to a fellow engineer to t
 /src
 skaffold.yaml
 secrets.router.yaml
+secrets.gateway.yaml
 ```
+
+### Deploy
 
 ```bash
 skaffold dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://hub.127.0.0.1.nip.io:9080](http://hub.127.0.0.1.nip.io:9080) with your browser to see the result.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-Skaffold will expose the UI and API on the following ports:
+Skaffold will expose the UI and API on the following endpoints:
 
-| Service | Endpoint                                       |
-| ------- | ---------------------------------------------- |
-| Hub UI  | [http://localhost:3000](http://localhost:3000) |
-| Hub API | http://localhost:3001                          |
+| Service | Endpoint                                                                             |
+| ------- | ------------------------------------------------------------------------------------ |
+| Hub UI  | [http://hub.127.0.0.1.nip.io:9080](http://hub.127.0.0.1.nip.io:9080)                 |
+| Hub API | [http://api.127.0.0.1.nip.io:9080/graphql](http://api.127.0.0.1.nip.io:9080/graphql) |
+
+To use the Hub API endpoint, you need to provide either a header or cookie named `hub_session` with Kratos session token (provided after authenticating)
 
 ### GraphQL Codegen
 

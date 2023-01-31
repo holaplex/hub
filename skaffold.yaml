@@ -21,17 +21,14 @@ build:
             dest: .
           - src: 'src/queries/*.graphql'
             dest: .
+
 portForward:
   - resourceType: service
-    resourceName: hub
-    namespace: default
+    resourceName: apisix-gateway
+    namespace: ingress-apisix
     port: 80
-    localPort: 3000
-  - resourceType: service
-    resourceName: federated-router
-    namespace: default
-    port: 80
-    localPort: 3001
+    localPort: 9080
+
 deploy:
   helm:
     releases:
@@ -40,6 +37,11 @@ deploy:
         remoteChart: redpanda
         valuesFiles:
           - values.redpanda.yaml
+      - name: mailhog
+        repo: https://codecentric.github.io/helm-charts
+        remoteChart: mailhog
+        valuesFiles:
+          - values.mailhog.yaml
       - name: kratos-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
@@ -70,3 +72,12 @@ deploy:
         valuesFiles:
           - values.router.yaml
           - secrets.router.yaml
+      - name: hub-gateway
+        createNamespace: true
+        namespace: ingress-apisix
+        remoteChart: hub-gateway
+        repo: https://charts.holaplex.com
+        #chartPath: ./../helm-charts/charts/hub-gateway
+        valuesFiles:
+          - values.gateway.yaml
+          - secrets.gateway.yaml
