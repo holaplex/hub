@@ -1,4 +1,6 @@
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import clsx from 'clsx';
+import { InviteStatus } from '../graphql.types';
 
 interface TableProps<T> {
   columns: ColumnDef<T, string>[];
@@ -57,3 +59,35 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
     </div>
   );
 }
+
+interface InviteStatusPilllProps {
+  status: InviteStatus;
+  className?: string;
+}
+
+function InviteStatusPill({ status, className }: InviteStatusPilllProps) {
+  let label = '';
+  switch (status) {
+    case InviteStatus.Accepted:
+      label = 'Active';
+      break;
+    case InviteStatus.Sent:
+      label = 'Pending';
+      break;
+    case InviteStatus.Revoked:
+      label = 'Inactive';
+      break;
+  }
+  return (
+    <div
+      className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
+        'bg-green-200 text-gray-600': status === InviteStatus.Accepted,
+        'bg-brown-200 text-brown-600': status === InviteStatus.Sent,
+        'bg-gray-100 text-gray-500': status === InviteStatus.Revoked,
+      })}
+    >
+      {label}
+    </div>
+  );
+}
+Table.InviteStatusPill = InviteStatusPill;

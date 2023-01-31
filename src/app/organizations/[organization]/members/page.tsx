@@ -71,9 +71,7 @@ export default function MembersPage() {
                 header: () => (
                   <span className="flex text-xs text-gray-600 font-medium">Invite status</span>
                 ),
-                cell: (info) => (
-                  <span className="text-xs text-primary font-medium">{info.getValue()}</span>
-                ),
+                cell: (info) => <Table.InviteStatusPill status={info.getValue()} />,
               }),
               columnHelper.display({
                 id: 'moreOptions',
@@ -119,7 +117,7 @@ export default function MembersPage() {
                 lastName: 'Yon',
                 email: 'abc@gmail.com',
                 invitedDate: '05/27/2023',
-                inviteStatus: InviteStatus.Accepted,
+                inviteStatus: InviteStatus.Revoked,
               },
             ]}
           />
