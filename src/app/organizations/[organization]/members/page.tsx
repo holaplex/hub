@@ -44,15 +44,18 @@ export default function MembersPage() {
                     <span className="text-xs text-gray-600 font-medium">Member name</span>
                   </div>
                 ),
-                cell: (info) => (
-                  <div className="flex gap-2 items-center">
-                    <Icon.EmptyAvatar />
-                    <div className="flex flex-col">
-                      <span className="text-xs text-primary font-medium">{info.getValue()}</span>
-                      <span className="text-xs text-gray-500">abc@gmail.com</span>
+                cell: (info) => {
+                  console.log('Cell Info', info);
+                  return (
+                    <div className="flex gap-2 items-center">
+                      <Icon.EmptyAvatar />
+                      <div className="flex flex-col">
+                        <span className="text-xs text-primary font-medium">{info.getValue()}</span>
+                        <span className="text-xs text-gray-500">{info.row.original.email}</span>
+                      </div>
                     </div>
-                  </div>
-                ),
+                  );
+                },
               }),
               columnHelper.accessor('invitedDate', {
                 header: () => (
@@ -71,7 +74,7 @@ export default function MembersPage() {
                 header: () => (
                   <span className="flex text-xs text-gray-600 font-medium">Invite status</span>
                 ),
-                cell: (info) => <Table.InviteStatusPill status={info.getValue()} />,
+                cell: (info) => <Table.InviteStatusPill status={info.getValue() as InviteStatus} />,
               }),
               columnHelper.display({
                 id: 'moreOptions',
@@ -79,7 +82,9 @@ export default function MembersPage() {
                 cell: () => (
                   <PopoverBox
                     triggerButton={
-                      <div className={clsx('px-2 py-1 hover:rounded-md hover:bg-gray-50')}>
+                      <div
+                        className={clsx('px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min')}
+                      >
                         <Icon.More />
                       </div>
                     }
@@ -107,7 +112,7 @@ export default function MembersPage() {
               {
                 firstName: 'Ed',
                 lastName: 'Cred',
-                email: 'abc@gmail.com',
+                email: 'xyz@gmail.com',
                 invitedDate: '05/27/2023',
                 inviteStatus: InviteStatus.Sent,
               },
@@ -115,7 +120,7 @@ export default function MembersPage() {
               {
                 firstName: 'Su',
                 lastName: 'Yon',
-                email: 'abc@gmail.com',
+                email: 'hello@gmail.com',
                 invitedDate: '05/27/2023',
                 inviteStatus: InviteStatus.Revoked,
               },

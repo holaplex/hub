@@ -1,6 +1,15 @@
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable,
+} from '@tanstack/react-table';
 import clsx from 'clsx';
+import { useState } from 'react';
 import { InviteStatus } from '../graphql.types';
+import { Icon } from './Icon';
 
 interface TableProps<T> {
   columns: ColumnDef<T, string>[];
@@ -10,10 +19,18 @@ interface TableProps<T> {
 
 //TODO: Replace with real dynamic data.
 export default function Table<T>({ columns, data, className }: TableProps<T>) {
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const table = useReactTable({
     data,
     columns,
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    debugTable: true,
   });
   return (
     <div className={className}>
@@ -23,9 +40,23 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
             <tr key={headerGroup.id} className="bg-gray-50">
               {headerGroup.headers.map((header) => (
                 <th key={header.id} className="p-3 border-r border-gray-100">
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())}
+                  {header.isPlaceholder ? null : (
+                    <div
+                      {...{
+                        className: header.column.getCanSort()
+                          ? 'cursor-pointer select-none flex items-center justify-between'
+                          : '',
+                        onClick: header.column.getToggleSortingHandler(),
+                      }}
+                    >
+                      {flexRender(header.column.columnDef.header, header.getContext())}
+                      {{
+                        asc: <Icon.TableSortAsc />,
+                        desc: <Icon.TableSortDesc />,
+                      }[header.column.getIsSorted() as string] ??
+                        (header.column.getCanSort() ? <Icon.TableSort /> : null)}
+                    </div>
+                  )}
                 </th>
               ))}
             </tr>
