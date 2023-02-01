@@ -39,3 +39,6 @@ secrets.*
 
 # vscode
 .vscode/
+
+# secrets
+secrets.gateway.yaml

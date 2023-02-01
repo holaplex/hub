@@ -114,3 +114,7 @@ input:focus {
 .popover {
   @apply flex flex-col gap-5 border rounded-md border-gray-100 p-4 text-sm bg-white text-primary;
 }
+
+.table-header-text {
+  @apply text-xs text-gray-600 font-medium;
+}

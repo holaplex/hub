@@ -40,7 +40,7 @@ export default function ProjectsPage() {
             <span className="mt-6 text-xl font-semibold">No projects created yet</span>
             <span className="mt-2 text-gray-500 text-sm">Click button below to get started.</span>
             <Button
-              icon={<Icon.CreateProject fill="#ffffff" />}
+              icon={<Icon.CreateProject stroke="#ffffff" />}
               className="mt-8"
               onClick={() => setShowModal(ShowModal.CREATE_PROJECT)}
             >
