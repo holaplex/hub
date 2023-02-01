@@ -14,6 +14,275 @@ function LargeIcon() {
 }
 Icon.Large = LargeIcon;
 
+function Pause({
+  width = 16,
+  height = 16,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M9.33333 10V6" stroke={stroke} stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M6.66634 10V6" stroke={stroke} stroke-linecap="round" stroke-linejoin="round" />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M14 8V8C14 11.314 11.314 14 8 14V14C4.686 14 2 11.314 2 8V8C2 4.686 4.686 2 8 2V2C11.314 2 14 4.686 14 8Z"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Pause = Pause;
+
+function Add({
+  width = 16,
+  height = 16,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M11.3337 7.99992H4.66699"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M7.99967 11.3332V4.6665"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Add = Add;
+
+function ManageNfts({
+  width = 16,
+  height = 16,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M7.62933 14.6667H3.40733C2.63 14.6667 2 14.0367 2 13.2594V6.22203C2 5.4447 2.63 4.8147 3.40733 4.8147H7.62933C8.40667 4.8147 9.03667 5.4447 9.03667 6.22203V13.2594C9.03733 14.0367 8.40667 14.6667 7.62933 14.6667Z"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M6.50098 4.81468L7.15364 2.37668C7.35498 1.62601 8.12698 1.18001 8.87764 1.38135L12.9556 2.47401C13.7063 2.67535 14.1523 3.44668 13.951 4.19801L12.1296 10.9953C11.9283 11.746 11.157 12.192 10.4063 11.9907L9.03631 11.624"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.ManageNfts = ManageNfts;
+
+function Customers({
+  width = 16,
+  height = 16,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M9.17818 7.32141C9.82906 7.97228 9.82906 9.02755 9.17818 9.67843C8.52731 10.3293 7.47204 10.3293 6.82116 9.67843C6.17029 9.02755 6.17029 7.97228 6.82116 7.32141C7.47204 6.67053 8.52731 6.67053 9.17818 7.32141"
+        stroke="black"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M12.8354 3.32141C13.4863 3.97228 13.4863 5.02755 12.8354 5.67843C12.1845 6.3293 11.1293 6.3293 10.4784 5.67843C9.82752 5.02755 9.82752 3.97228 10.4784 3.32141C11.1293 2.67053 12.1845 2.67053 12.8354 3.32141"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M12 8.16675C13.022 8.16675 14 8.52208 14.6667 9.05541"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M5.52096 3.32141C6.17183 3.97228 6.17183 5.02755 5.52096 5.67843C4.87008 6.3293 3.81481 6.3293 3.16394 5.67843C2.51306 5.02755 2.51306 3.97228 3.16394 3.32141C3.81481 2.67053 4.87008 2.67053 5.52096 3.32141"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M1.33301 9.05541C1.99967 8.52208 2.97767 8.16675 3.99967 8.16675"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M11.0608 13.1667C10.2841 12.5661 9.16812 12.1667 8.00012 12.1667C6.83212 12.1667 5.71612 12.5661 4.93945 13.1667"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Customers = Customers;
+
+function Treasury({
+  width = 16,
+  height = 16,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M11.355 8.3113C11.367 8.3233 11.367 8.34263 11.355 8.35463C11.343 8.36663 11.3237 8.36663 11.3117 8.35463C11.2997 8.34263 11.2997 8.3233 11.3117 8.3113C11.3237 8.2993 11.3437 8.29997 11.355 8.3113"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M9.77434 4.98541C9.91501 4.68475 9.99967 4.35341 9.99967 4.00008C9.99967 2.71141 8.95501 1.66675 7.66634 1.66675C6.37767 1.66675 5.33301 2.71141 5.33301 4.00008C5.33301 4.41541 5.45034 4.80008 5.64101 5.13741"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M1.52533 7C1.21267 7.182 1 7.51733 1 7.90533C1 8.486 1.47067 8.95667 2.05133 8.95667H2.66667"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M12.3337 4.33325V6.03592C12.8123 6.46792 13.1923 7.00659 13.4177 7.62325H14.0003C14.3683 7.62325 14.667 7.92192 14.667 8.28992V10.3333C14.667 10.7013 14.3683 10.9999 14.0003 10.9999H13.1263C12.7763 11.6053 12.271 12.1093 11.667 12.4606V13.6666C11.667 14.0346 11.3683 14.3333 11.0003 14.3333H9.66699C9.29899 14.3333 9.00033 14.0346 9.00033 13.6666V12.9999H6.66699V13.5786C6.66699 13.9466 6.36833 14.2453 6.00033 14.2453H4.66699C4.29899 14.2453 4.00033 13.9466 4.00033 13.5786V11.9753C3.18366 11.2426 2.66699 10.1833 2.66699 8.99992C2.66699 6.79059 4.45766 4.99992 6.66699 4.99992H9.68433C9.97033 4.99992 10.2477 4.90592 10.4757 4.73392C10.8083 4.48325 11.219 4.33325 11.667 4.33325H12.3337V4.33325Z"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Treasury = Treasury;
+
+function CreateNft({
+  width = 96,
+  height = 96,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 96 96"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M41.4678 34.0582L44.2905 23.5139C45.1613 20.2672 48.5002 18.3383 51.7468 19.2091L69.3841 23.9348C72.6308 24.8056 74.5597 28.1416 73.6889 31.3911L65.8117 60.7895C64.9409 64.0361 61.6049 65.9651 58.3583 65.0943L52.4331 63.5085"
+        fill="#555555"
+      />
+      <path
+        d="M57.0049 36.2273L53.7366 48.4245"
+        stroke="#7B7B7B"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M49.2721 40.6918L61.4694 43.96"
+        stroke="#7B7B7B"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M46.3468 76.6679H28.0867C24.7247 76.6679 22 73.9431 22 70.5812V40.1448C22 36.7828 24.7247 34.0581 28.0867 34.0581H46.3468C49.7088 34.0581 52.4335 36.7828 52.4335 40.1448V70.5812C52.4364 73.9431 49.7088 76.6679 46.3468 76.6679Z"
+        fill="#C5C5C5"
+        stroke="#555555"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M37.627 49.5184V62.146"
+        stroke="#555555"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M31.3132 55.8322H43.9407"
+        stroke="#555555"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <rect x="0.5" y="0.5" width="95" height="95" rx="7.5" stroke="#E6E6E6" />
+    </svg>
+  );
+}
+LargeIcon.CreateNft = CreateNft;
+
 function Info({
   width = 16,
   height = 16,

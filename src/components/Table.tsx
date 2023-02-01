@@ -8,6 +8,7 @@ import {
 } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { useState } from 'react';
+import { DropStatus } from '../app/projects/[project]/drops/page';
 import { InviteStatus } from '../graphql.types';
 import { Icon } from './Icon';
 
@@ -91,12 +92,12 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
   );
 }
 
-interface InviteStatusPilllProps {
+interface InviteStatusPillProps {
   status: InviteStatus;
   className?: string;
 }
 
-function InviteStatusPill({ status, className }: InviteStatusPilllProps) {
+function InviteStatusPill({ status, className }: InviteStatusPillProps) {
   let label = '';
   switch (status) {
     case InviteStatus.Accepted:
@@ -122,3 +123,35 @@ function InviteStatusPill({ status, className }: InviteStatusPilllProps) {
   );
 }
 Table.InviteStatusPill = InviteStatusPill;
+
+interface DropStatusPillProps {
+  status: DropStatus;
+  className?: string;
+}
+
+function DropStatusPill({ status, className }: DropStatusPillProps) {
+  let label = '';
+  switch (status) {
+    case DropStatus.SCHEDULED:
+      label = 'Scheduled';
+      break;
+    case DropStatus.MINTING:
+      label = 'Minting';
+      break;
+    case DropStatus.MINTED:
+      label = 'Minted';
+      break;
+  }
+  return (
+    <div
+      className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
+        'bg-brown-200 text-brown-600': status === DropStatus.SCHEDULED,
+        'bg-green-200 text-green-600': status === DropStatus.MINTING,
+        'bg-gray-100 text-gray-500': status === DropStatus.MINTED,
+      })}
+    >
+      {label}
+    </div>
+  );
+}
+Table.DropStatusPill = DropStatusPill;
