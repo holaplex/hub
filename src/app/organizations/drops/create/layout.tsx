@@ -2,11 +2,12 @@
 import { usePathname } from 'next/navigation';
 import { Icon } from '../../../../components/Icon';
 import Navbar from '../../../../layouts/Navbar';
+import useFormStore from '../../../../store/useFormStore';
 
 export default function CreateDropLayout({ children }: { children: React.ReactNode }): JSX.Element {
   const pathname = usePathname();
   const slug = pathname ? pathname.split('/')[2] : null;
-  console.log('pathname', pathname);
+  const { stepOne, stepTwo, stepThree } = useFormStore();
 
   return (
     <Navbar.Page>
@@ -18,29 +19,49 @@ export default function CreateDropLayout({ children }: { children: React.ReactNo
           </div>
         </Navbar.Header>
         <Navbar.Menu>
-          <Navbar.Menu.Item
+          <Navbar.Menu.Step
             name="Drop details"
-            icon={<Navbar.Menu.Item.StepCount active={true} count="1" />}
-            href={`/organizations/${slug}/projects`}
-            active={pathname === `/organizations/${slug}/projects`}
+            icon={
+              <Navbar.Menu.Step.StepCount
+                active={pathname === `/organizations/drops/create/details`}
+                count="1"
+                filled={!!stepOne}
+              />
+            }
+            active={pathname === `/organizations/drops/create/details`}
           />
-          <Navbar.Menu.Item
+          <Navbar.Menu.Step
             name="Payment and royalties"
-            icon={<Navbar.Menu.Item.StepCount active={false} count="2" />}
-            href={`/organizations/${slug}/members`}
-            active={pathname === `/organizations/${slug}/members`}
+            icon={
+              <Navbar.Menu.Step.StepCount
+                active={pathname === `/organizations/drops/create/royalties`}
+                count="2"
+                filled={!!stepTwo}
+              />
+            }
+            active={pathname === `/organizations/drops/create/royalties`}
           />
-          <Navbar.Menu.Item
+          <Navbar.Menu.Step
             name="Mint date"
-            icon={<Navbar.Menu.Item.StepCount active={false} count="3" />}
-            href={`/organizations/${slug}/settings`}
-            active={pathname === `/organizations/${slug}/settings`}
+            icon={
+              <Navbar.Menu.Step.StepCount
+                active={pathname === `/organizations/drops/create/timing`}
+                count="3"
+                filled={!!stepThree}
+              />
+            }
+            active={pathname === `/organizations/drops/create/timing`}
           />
-          <Navbar.Menu.Item
+          <Navbar.Menu.Step
             name="Final preview"
-            icon={<Navbar.Menu.Item.StepCount active={false} count="4" />}
-            href={`/organizations/${slug}/settings`}
-            active={pathname === `/organizations/${slug}/settings`}
+            icon={
+              <Navbar.Menu.Step.StepCount
+                active={pathname === `/organizations/drops/create/preview`}
+                count="4"
+                filled={false}
+              />
+            }
+            active={pathname === `/organizations/drops/create/preview`}
           />
         </Navbar.Menu>
       </Navbar.Panel>

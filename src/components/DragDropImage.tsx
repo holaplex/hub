@@ -1,4 +1,3 @@
-import { Form } from '@holaplex/ui-library-react';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
