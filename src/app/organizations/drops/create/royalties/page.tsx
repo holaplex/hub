@@ -44,10 +44,13 @@ export default function CreateDropStep2() {
           </div>
 
           <Form.Label name="Treasury" className="text-xs mt-5" asideComponent={<Icon.Help />}>
-            <Form.Input
+            <Form.Select
               {...register('treasuryWallet', { required: true })}
-              type="range"
               placeholder="Select treasury"
+              options={[
+                { option: 'Treasury Wallet 1', value: 'tw1' },
+                { option: 'Treasury Wallet 2', value: 'tw2' },
+              ]}
             />
             <Form.Error message="" />
           </Form.Label>
@@ -64,21 +67,31 @@ export default function CreateDropStep2() {
 
           <span className="text-sm text-primary font-medium">Royalties</span>
 
-          {/* TODO: Add checkbox to ui-library */}
-          <div className="flex gap-2 mt-4">
-            <input {...register('royaltyInTreasuryWallet')} type="checkbox" />
-            <span className="text-xs font-medium text-primary">
-              I want to receive all royalties to the selected treasury wallet
-            </span>
-          </div>
+          <Form.Checkbox
+            {...register('royaltyInTreasuryWallet')}
+            id="royaltyInTreasuryWallet"
+            label={
+              <span className="text-xs font-medium text-primary">
+                I want to receive all royalties to the selected treasury wallet
+              </span>
+            }
+          />
 
           <div className="flex gap-4">
-            <Form.Label name="Wallet" className="text-xs mt-5" asideComponent={<Icon.Help />}>
+            <Form.Label
+              name="Wallet"
+              className="text-xs mt-5 basis-3/4"
+              asideComponent={<Icon.Help />}
+            >
               <Form.Input placeholder="Paste royalty wallet address" />
               <Form.Error message="" />
             </Form.Label>
 
-            <Form.Label name="Royalties" className="text-xs mt-5" asideComponent={<Icon.Help />}>
+            <Form.Label
+              name="Royalties"
+              className="text-xs mt-5 basis-1/4"
+              asideComponent={<Icon.Help />}
+            >
               <Form.Input placeholder="e.g. 10%" />
               <Form.Error message="" />
             </Form.Label>
@@ -95,10 +108,7 @@ export default function CreateDropStep2() {
           </span>
 
           <Form.Label name="Seller fee" className="text-xs mt-3" asideComponent={<Icon.Help />}>
-            <Form.Input
-              {...register('secondarySaleSellerFeePercent', { required: true })}
-              placeholder="e.g. 2.5%"
-            />
+            <Form.Input {...register('secondarySaleSellerFeePercent')} placeholder="e.g. 2.5%" />
             <Form.Error message="" />
           </Form.Label>
 

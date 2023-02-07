@@ -9,7 +9,7 @@ import useFormStore from '../../../../../store/useFormStore';
 
 export default function CreateDropPreview() {
   const router = useRouter();
-  const { stepOne, stepTwo, stepThree, setData } = useFormStore();
+  const { stepOne, stepTwo, stepThree } = useFormStore();
 
   const back = () => {
     router.push('/organizations/drops/create/timing');

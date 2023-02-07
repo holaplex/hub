@@ -50,13 +50,14 @@ export default function CreateDropStep1() {
           </div>
 
           <Form.Label name="Blockchain" className="text-xs mt-5" asideComponent={<Icon.Help />}>
-            {/* TODO: ADD/Rectify select field in ui-library */}
-            <Form.Input
+            <Form.Select
               {...register('blockchain', { required: true })}
-              type="range"
               placeholder="Select blockchain"
+              options={[
+                { option: 'Solana', value: 'solana' },
+                { option: 'Polygon', value: 'polygon' },
+              ]}
             />
-            <Form.Error message="" />
           </Form.Label>
           <Form.Label name="Description" className="text-xs mt-5" asideComponent={<Icon.Help />}>
             <Form.Input

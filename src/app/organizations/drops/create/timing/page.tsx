@@ -92,19 +92,28 @@ export default function CreateDropStep3() {
             </div>
           </div>
 
-          {/* TODO: Add checkbox to ui-library */}
-          <div className="flex gap-2 mt-7">
-            <input type="checkbox" {...register('mintImmediately')} />
-            <span className="text-xs font-medium text-primary">
-              I want to start minting immediately
-            </span>
-          </div>
-          <div className="flex gap-2 mt-3">
-            <input type="checkbox" {...register('noEndOfSales')} />
-            <span className="text-xs font-medium text-primary">
-              I don't need to end collection sales
-            </span>
-          </div>
+          <Form.Checkbox
+            {...register('mintImmediately')}
+            id="mintImmediately"
+            className="mt-7"
+            label={
+              <span className="text-xs font-medium text-primary">
+                I want to start minting immediately
+              </span>
+            }
+          />
+
+          <Form.Checkbox
+            {...register('noEndOfSales')}
+            id="noEndOfSales"
+            className="mt-3"
+            label={
+              <span className="text-xs font-medium text-primary">
+                I don't need to end collection sales
+              </span>
+            }
+          />
+
           <hr className="w-full bg-gray-500 my-5" color="#e6e6e6" />
           <div className="flex items-center justify-between">
             <Button className="self-start" variant="tertiary" onClick={back}>
