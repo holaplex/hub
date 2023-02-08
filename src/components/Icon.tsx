@@ -14,6 +14,280 @@ function LargeIcon() {
 }
 Icon.Large = LargeIcon;
 
+function Check({
+  width = 16,
+  height = 16,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M13.3337 4.33325L6.00033 11.6666L2.66699 8.33325"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Check = Check;
+
+function Calendar({
+  width = 20,
+  height = 20,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 20 20"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M13.3337 1.66675V5.00008"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M6.66667 1.66675V5.00008"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path d="M2.5 7.49992H17.5" stroke={stroke} stroke-linecap="round" stroke-linejoin="round" />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M15.8333 3.33325H4.16667C3.24583 3.33325 2.5 4.07909 2.5 4.99992V15.8333C2.5 16.7541 3.24583 17.4999 4.16667 17.4999H15.8333C16.7542 17.4999 17.5 16.7541 17.5 15.8333V4.99992C17.5 4.07909 16.7542 3.33325 15.8333 3.33325Z"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M5.84455 10.6075C5.72955 10.6075 5.63621 10.7008 5.63705 10.8158C5.63705 10.9308 5.73038 11.0242 5.84538 11.0242C5.96038 11.0242 6.05371 10.9308 6.05371 10.8158C6.05371 10.7008 5.96038 10.6075 5.84455 10.6075"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M10.0106 10.6075C9.89556 10.6075 9.80223 10.7008 9.80306 10.8158C9.80306 10.9308 9.8964 11.0242 10.0114 11.0242C10.1264 11.0242 10.2197 10.9308 10.2197 10.8158C10.2197 10.7008 10.1264 10.6075 10.0106 10.6075"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M14.1776 10.6075C14.0626 10.6075 13.9692 10.7008 13.9701 10.8158C13.9701 10.9308 14.0634 11.0242 14.1784 11.0242C14.2934 11.0242 14.3867 10.9308 14.3867 10.8158C14.3867 10.7008 14.2934 10.6075 14.1776 10.6075"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M5.84455 13.9408C5.72955 13.9408 5.63621 14.0341 5.63705 14.1491C5.63705 14.2641 5.73038 14.3574 5.84538 14.3574C5.96038 14.3574 6.05371 14.2641 6.05371 14.1491C6.05371 14.0341 5.96038 13.9408 5.84455 13.9408"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M10.0106 13.9408C9.89556 13.9408 9.80223 14.0341 9.80306 14.1491C9.80306 14.2641 9.8964 14.3574 10.0114 14.3574C10.1264 14.3574 10.2197 14.2641 10.2197 14.1491C10.2197 14.0341 10.1264 13.9408 10.0106 13.9408"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Calendar = Calendar;
+
+function Balance({
+  width = 20,
+  height = 20,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 20 20"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M2.50098 7.5C2.50098 8.42083 4.36598 9.16667 6.66764 9.16667"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M6.66681 12.4999C4.36598 12.4999 2.50098 11.7541 2.50098 10.8333"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M10.8323 4.16675H10.8331V6.66675"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M9.16797 13.3333C9.16797 14.2541 11.033 14.9999 13.3346 14.9999C15.6363 14.9999 17.5013 14.2541 17.5013 13.3333"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M9.16797 10C9.16797 10.9208 11.033 11.6667 13.3346 11.6667C15.6363 11.6667 17.5013 10.9208 17.5013 10"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M13.333 8.33325C11.033 8.33325 9.1663 9.07909 9.16797 9.99992"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M9.16797 10V16.6667C9.16797 17.5875 11.033 18.3333 13.3346 18.3333"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M13.333 8.33325C15.633 8.33325 17.4997 9.07909 17.498 9.99992"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M17.4997 10V16.6667C17.4997 17.5875 15.6347 18.3333 13.333 18.3333"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M6.66667 15.8334C4.36583 15.8334 2.5 15.0876 2.5 14.1667"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M6.66667 5.83333C8.96785 5.83333 10.8333 5.08714 10.8333 4.16667C10.8333 3.24619 8.96785 2.5 6.66667 2.5C4.36548 2.5 2.5 3.24619 2.5 4.16667C2.5 5.08714 4.36548 5.83333 6.66667 5.83333Z"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M2.49967 4.16675V14.1667"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Balance = Balance;
+
+function Help({
+  width = 16,
+  height = 16,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="7.99957"
+        cy="8.00006"
+        r="6.0025"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M6.45605 6.45654C6.61407 5.77551 7.23436 5.30331 7.93289 5.3323C8.71467 5.289 9.38486 5.88472 9.43351 6.66619C9.43351 7.66921 7.99958 8.00007 7.99958 8.66702"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M8.08383 10.501C8.08383 10.547 8.04651 10.5843 8.00046 10.5843C7.95442 10.5843 7.9171 10.547 7.9171 10.501C7.9171 10.4549 7.95442 10.4176 8.00046 10.4176"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M7.9998 10.4178C8.04584 10.4178 8.08316 10.4551 8.08316 10.5011"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Help = Help;
+
+function Close({
+  width = 16,
+  height = 16,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M5.33301 5.33325L10.6663 10.6666"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M10.6663 5.33325L5.33301 10.6666"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Close = Close;
+
 function Pause({
   width = 16,
   height = 16,

@@ -69,7 +69,7 @@ select:focus {
 }
 
 .form-label {
-  @apply flex flex-col w-full;
+  @apply flex flex-col w-full gap-1;
 }
 
 .form-show-password-container {

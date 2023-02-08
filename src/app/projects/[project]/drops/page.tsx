@@ -10,6 +10,7 @@ import {
 } from '@holaplex/ui-library-react';
 import { createColumnHelper } from '@tanstack/react-table';
 import clsx from 'clsx';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Card from '../../../../components/Card';
 import { Icon } from '../../../../components/Icon';
@@ -40,11 +41,17 @@ enum ShowModal {
 }
 
 export default function DropsPage() {
+  const router = useRouter();
+  const pathname = usePathname();
   const [showModal, setShowModal] = useState<ShowModal>(ShowModal.NONE);
 
   // TODO: Replace this with actual data.
   const hasDrops = true;
   const columnHelper = createColumnHelper<Drop>();
+
+  const createDrop = () => {
+    router.push(pathname + '/create/details');
+  };
 
   return (
     <>
@@ -67,7 +74,7 @@ export default function DropsPage() {
           </div>
         ) : (
           <div className="mt-4 flex flex-col">
-            <Button icon={<Icon.Add stroke="#ffffff" />} className="self-end" onClick={() => {}}>
+            <Button icon={<Icon.Add stroke="#ffffff" />} className="self-end" onClick={createDrop}>
               Create drop
             </Button>
             <Table
