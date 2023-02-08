@@ -22,7 +22,9 @@ export type StepTwoData = {
 
 export type StepThreeData = {
   startDate?: Date;
+  startTime?: Date;
   endDate?: Date;
+  endTime?: Date;
   mintImmediately?: boolean;
   noEndOfSales?: boolean;
 };

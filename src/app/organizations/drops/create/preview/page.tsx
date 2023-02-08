@@ -59,13 +59,17 @@ export default function CreateDropPreview() {
             {!stepThree.mintImmediately && (
               <div className="w-full flex flex-col gap-2 border-2 border-gray-100 rounded-md py-2 px-3 mt-4">
                 <span className="text-gray-600 text-xs font-medium">Start date and time</span>
-                <span className="text-primary text-xs font-medium">04/20/2023, 11:30 AM</span>
+                <span className="text-primary text-xs font-medium">
+                  {stepThree?.startDate}, {stepThree?.startTime}
+                </span>
               </div>
             )}
             {!stepThree.noEndOfSales && (
               <div className="w-full flex flex-col gap-2 border-2 border-gray-100 rounded-md py-2 px-3 mt-4">
                 <span className="text-gray-600 text-xs font-medium">End date and time</span>
-                <span className="text-primary text-xs font-medium">08/20/2023, 11:30 AM</span>
+                <span className="text-primary text-xs font-medium">
+                  {stepThree?.endDate}, {stepThree?.endTime}
+                </span>
               </div>
             )}
           </div>
