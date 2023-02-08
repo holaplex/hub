@@ -1,6 +1,6 @@
 'use client';
 import { Button, Form } from '@holaplex/ui-library-react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import Card from '../../../../../../components/Card';
 import { Icon } from '../../../../../../components/Icon';
@@ -9,15 +9,17 @@ import useCreateDropStore, { StepThreeData } from '../../../../../../store/useCr
 
 export default function CreateDropStep3() {
   const router = useRouter();
+  const pathname = usePathname();
+  const slug = pathname ? pathname.split('/')[2] : null;
   const { stepThree, setData } = useCreateDropStore();
   const { handleSubmit, register } = useForm<StepThreeData>({ defaultValues: stepThree || {} });
   const submit = (data: StepThreeData) => {
     setData({ step: 3, data });
-    router.push('/organizations/drops/create/preview');
+    router.push(`/projects/${slug}/drops/create/preview`);
   };
 
   const back = () => {
-    router.push('/organizations/drops/create/royalties');
+    router.push(`/projects/${slug}/drops/create/royalties`);
   };
 
   return (

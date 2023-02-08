@@ -1,6 +1,6 @@
 'use client';
 import { Button } from '@holaplex/ui-library-react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import Card from '../../../../../../components/Card';
 import { Icon } from '../../../../../../components/Icon';
@@ -9,15 +9,17 @@ import useCreateDropStore from '../../../../../../store/useCreateDropStore';
 
 export default function CreateDropPreview() {
   const router = useRouter();
+  const pathname = usePathname();
+  const slug = pathname ? pathname.split('/')[2] : null;
   const { stepOne, stepTwo, stepThree } = useCreateDropStore();
 
   const back = () => {
-    router.push('/organizations/drops/create/timing');
+    router.push(`/projects/${slug}/drops/create/timing`);
   };
 
   if (!stepOne || !stepTwo || !stepThree) {
     toast('Incomplete drops data. Check again.');
-    router.push('/organizations/drops/create/details');
+    router.push(`/projects/${slug}/drops/create/details`);
     return;
   }
 
