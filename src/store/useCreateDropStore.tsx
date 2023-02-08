@@ -41,7 +41,7 @@ type setDataType =
   | { step: 2; data: StepTwoData }
   | { step: 3; data: StepThreeData };
 
-const useFormStore = create<{
+const useCreateDropStore = create<{
   stepOne: StepOneData | null;
   stepTwo: StepTwoData | null;
   stepThree: StepThreeData | null;
@@ -57,4 +57,4 @@ const useFormStore = create<{
     })),
 }));
 
-export default useFormStore;
+export default useCreateDropStore;

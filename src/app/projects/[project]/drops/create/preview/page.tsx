@@ -2,14 +2,14 @@
 import { Button } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import Card from '../../../../../components/Card';
-import { Icon } from '../../../../../components/Icon';
-import Typography, { Size } from '../../../../../components/Typography';
-import useFormStore from '../../../../../store/useFormStore';
+import Card from '../../../../../../components/Card';
+import { Icon } from '../../../../../../components/Icon';
+import Typography, { Size } from '../../../../../../components/Typography';
+import useCreateDropStore from '../../../../../../store/useCreateDropStore';
 
 export default function CreateDropPreview() {
   const router = useRouter();
-  const { stepOne, stepTwo, stepThree } = useFormStore();
+  const { stepOne, stepTwo, stepThree } = useCreateDropStore();
 
   const back = () => {
     router.push('/organizations/drops/create/timing');

@@ -2,15 +2,14 @@
 import { Button, Form } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import Card from '../../../../../components/Card';
-import { Icon } from '../../../../../components/Icon';
-import Typography, { Size } from '../../../../../components/Typography';
-import useFormStore, { StepTwoData } from '../../../../../store/useFormStore';
+import Card from '../../../../../../components/Card';
+import { Icon } from '../../../../../../components/Icon';
+import Typography, { Size } from '../../../../../../components/Typography';
+import useCreateDropStore, { StepTwoData } from '../../../../../../store/useCreateDropStore';
 
 export default function CreateDropStep2() {
   const router = useRouter();
-  const { stepTwo, setData } = useFormStore();
-  console.log('step 2 data', stepTwo);
+  const { stepTwo, setData } = useCreateDropStore();
   const { handleSubmit, register } = useForm<StepTwoData>({ defaultValues: stepTwo || {} });
 
   const submit = (data: StepTwoData) => {

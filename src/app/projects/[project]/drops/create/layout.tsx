@@ -1,13 +1,13 @@
 'use client';
 import { usePathname } from 'next/navigation';
-import { Icon } from '../../../../components/Icon';
-import Navbar from '../../../../layouts/Navbar';
-import useFormStore from '../../../../store/useFormStore';
+import { Icon } from '../../../../../components/Icon';
+import Navbar from '../../../../../layouts/Navbar';
+import useCreateDropStore from '../../../../../store/useCreateDropStore';
 
 export default function CreateDropLayout({ children }: { children: React.ReactNode }): JSX.Element {
   const pathname = usePathname();
   const slug = pathname ? pathname.split('/')[2] : null;
-  const { stepOne, stepTwo, stepThree } = useFormStore();
+  const { stepOne, stepTwo, stepThree } = useCreateDropStore();
 
   return (
     <Navbar.Page>
