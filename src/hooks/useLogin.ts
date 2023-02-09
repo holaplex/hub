@@ -9,6 +9,10 @@ interface LoginForm {
   password: string;
 }
 
+interface LoginResponse {
+  redirect_path: string;
+}
+
 interface LoginContext {
   submit: (values: LoginForm) => Promise<void>;
   register: UseFormRegister<LoginForm>;
@@ -39,11 +43,28 @@ export function useLogin(flow: LoginFlow | undefined): LoginContext {
           ...values,
         },
       });
-
-      router.push('/organizations');
     } catch (err: any) {
       const message = err.response.data.ui.messages[0].text;
       toast.error(message);
+
+      return;
+    }
+
+    try {
+      const response = await fetch('/browser/login', {
+        method: 'POST',
+        credentials: 'same-origin',
+      });
+
+      const json: LoginResponse = await response.json();
+
+      router.push(json.redirect_path);
+    } catch {
+      toast.error(
+        'Unable to forward you to an organization. Please select or create an organization.'
+      );
+
+      router.push('/organizations');
     }
   };
 

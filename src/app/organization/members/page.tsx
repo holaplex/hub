@@ -3,11 +3,11 @@ import { Avatar, Button, Form, Modal, AvatarSize, PopoverBox } from '@holaplex/u
 import { createColumnHelper } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { useState } from 'react';
-import Card from '../../../../components/Card';
-import { Icon } from '../../../../components/Icon';
-import Table from '../../../../components/Table';
-import Typography, { Size } from '../../../../components/Typography';
-import { InviteStatus } from '../../../../graphql.types';
+import Card from '../../../components/Card';
+import { Icon } from '../../../components/Icon';
+import Table from '../../../components/Table';
+import Typography, { Size } from '../../../components/Typography';
+import { InviteStatus } from '../../../graphql.types';
 
 type Member = {
   firstName?: string;

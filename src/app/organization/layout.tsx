@@ -1,8 +1,8 @@
 'use client';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Icon } from '../../../components/Icon';
-import Sidebar from '../../../layouts/Sidebar';
+import { Icon } from '../../components/Icon';
+import Sidebar from '../../layouts/Sidebar';
 
 export default function OrganizationLayout({
   children,

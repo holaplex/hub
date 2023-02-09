@@ -9,6 +9,14 @@ const nextConfig = {
     appDir: true,
   },
   reactStrictMode: true,
+  async rewrites() {
+    return [
+      {
+        source: '/organization',
+        destination: '/organization/members',
+      },
+    ]
+  },
 };
 
 module.exports = nextConfig;

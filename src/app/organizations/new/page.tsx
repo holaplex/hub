@@ -1,8 +1,8 @@
 'use client';
 import Link from 'next/link';
-import DragDropImage from './../../../components/DragDropImage';
-import Card from './../../../components/Card';
-import Typography, { Size } from './../../../components/Typography';
+import DragDropImage from '../../../components/DragDropImage';
+import Card from '../../../components/Card';
+import Typography, { Size } from '../../../components/Typography';
 import { Button, Form } from '@holaplex/ui-library-react';
 
 export default function CreateOrganization() {

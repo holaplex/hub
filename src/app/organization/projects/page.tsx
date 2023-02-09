@@ -3,10 +3,10 @@ import { Button, Form, Modal, PopoverBox } from '@holaplex/ui-library-react';
 import { createColumnHelper } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { useState } from 'react';
-import Card from '../../../../components/Card';
-import { Icon } from '../../../../components/Icon';
-import Table from '../../../../components/Table';
-import Typography, { Size } from '../../../../components/Typography';
+import Card from '../../../components/Card';
+import { Icon } from '../../../components/Icon';
+import Table from '../../../components/Table';
+import Typography, { Size } from '../../../components/Typography';
 
 type Project = {
   projectName: string;

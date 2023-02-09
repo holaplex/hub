@@ -1,8 +1,9 @@
 image:
   pullPolicy: Always
 
-migration:
-  pullPolicy: Always
+migrate:
+  image:
+    pullPolicy: Always
 
 environment:
   port: '80'

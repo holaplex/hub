@@ -15,7 +15,6 @@ COPY postcss.config.js .
 COPY tailwind.config.js .
 COPY next.config.js .
 COPY package.json package-lock.json* ./
-COPY @types @types
 COPY public public
 COPY src src
 

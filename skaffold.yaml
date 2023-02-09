@@ -19,8 +19,6 @@ build:
             dest: .
           - src: 'src/**/**/**/**/**/*.ts'
             dest: .
-          - src: 'src/queries/*.graphql'
-            dest: .
 
 portForward:
   - resourceType: service
@@ -88,7 +86,6 @@ deploy:
         namespace: ingress-apisix
         remoteChart: hub-gateway
         repo: https://charts.holaplex.com
-        #chartPath: ./../helm-charts/charts/hub-gateway
         valuesFiles:
           - values.gateway.yaml
           - secrets.gateway.yaml
