@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.4",
-    "@holaplex/ui-library-react": "^0.6.1",
+    "@holaplex/ui-library-react": "^0.7.0",
     "@next/font": "13.1.1",
     "@ory/client": "^1.1.4",
     "@ory/integrations": "^1.1.0",
@@ -30,7 +30,8 @@
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.41.5",
-    "react-toastify": "^9.1.1"
+    "react-toastify": "^9.1.1",
+    "zustand": "^4.3.2"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.16.4",

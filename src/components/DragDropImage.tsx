@@ -1,4 +1,3 @@
-import { Form } from '@holaplex/ui-library-react';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
@@ -26,28 +25,25 @@ const DragDropImage = ({ onDrop, className }: IProps) => {
     },
   });
   return (
-    <div className={clsx('flex flex-col gap-2', className)}>
-      <Form.Label name="Photo" className="text-xs" />
-      <div className="relative rounded-lg overflow-hidden" {...getRootProps()}>
-        <input {...getInputProps()} />
-        <div
-          className={clsx(
-            'flex items-center justify-center',
-            'border border-dashed border-gray-100 cursor-pointer rounded-md',
-            { 'bg-gray-100': isDragActive, 'p-6 text-center text-gray-500': !file }
-          )}
-        >
-          {file ? (
-            <div className="bg-white rounded-lg p-3">
-              <img src={URL.createObjectURL(file)} alt={file.name} className="w-full h-48" />
-            </div>
-          ) : (
-            <>
-              Drag & drop photo here <br />
-              Required jpeg, png or svg. Max 2mb.
-            </>
-          )}
-        </div>
+    <div className={clsx('relative rounded-lg overflow-hidden', className)} {...getRootProps()}>
+      <input {...getInputProps()} />
+      <div
+        className={clsx(
+          'flex items-center justify-center',
+          'border border-dashed border-gray-100 cursor-pointer rounded-md',
+          { 'bg-gray-100': isDragActive, 'p-6 text-center text-gray-500': !file }
+        )}
+      >
+        {file ? (
+          <div className="bg-white rounded-lg p-3">
+            <img src={URL.createObjectURL(file)} alt={file.name} className="w-full h-48" />
+          </div>
+        ) : (
+          <>
+            Drag & drop photo here <br />
+            Required jpeg, png or svg. Max 2mb.
+          </>
+        )}
       </div>
     </div>
   );

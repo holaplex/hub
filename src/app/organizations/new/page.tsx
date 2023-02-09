@@ -18,7 +18,6 @@ export default function CreateOrganization() {
         <Form.Label name="Organization name" className="text-xs" />
         <Form.Input placeholder="e.g. Apple" />
         <Form.Error message="" />
-
         <Button htmlType="submit" className="w-full mt-5">
           Create
         </Button>

@@ -4,14 +4,13 @@ import { usePathname } from 'next/navigation';
 import { Icon } from '../../../components/Icon';
 import Sidebar from '../../../layouts/Sidebar';
 
-export default function OrganizationLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element {
+export default function ProjectLayout({ children }: { children: React.ReactNode }): JSX.Element {
   const pathname = usePathname();
   const slug = pathname ? pathname.split('/')[2] : null;
-  console.log('pathname', pathname);
+
+  if (pathname?.includes('drops/create')) {
+    return <>{children}</>;
+  }
 
   return (
     <Sidebar.Page>
