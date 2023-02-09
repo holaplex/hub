@@ -9,6 +9,7 @@ import {
 import clsx from 'clsx';
 import { useState } from 'react';
 import { DropStatus } from '../app/projects/[project]/drops/page';
+import { PurchaseStatus } from '../app/projects/[project]/drops/[drop]/purchases/page';
 import { InviteStatus } from '../graphql.types';
 import { Icon } from './Icon';
 
@@ -155,3 +156,25 @@ function DropStatusPill({ status, className }: DropStatusPillProps) {
   );
 }
 Table.DropStatusPill = DropStatusPill;
+
+interface PurchaseStatusPillProps {
+  status: PurchaseStatus;
+  className?: string;
+}
+
+function PurchaseStatusPill({ status, className }: PurchaseStatusPillProps) {
+  let label = status.toString();
+
+  return (
+    <div
+      className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
+        'bg-cyan-200 text-cyan-600': status === PurchaseStatus.PENDING,
+        'bg-green-200 text-green-600': status === PurchaseStatus.SUCCESS,
+        'bg-red-100 text-red-900': status === PurchaseStatus.FAILED,
+      })}
+    >
+      {label}
+    </div>
+  );
+}
+Table.PurchaseStatusPill = PurchaseStatusPill;
