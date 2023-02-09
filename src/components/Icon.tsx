@@ -14,6 +14,119 @@ function LargeIcon() {
 }
 Icon.Large = LargeIcon;
 
+function CryptoIcon() {
+  return <div></div>;
+}
+Icon.Crypto = CryptoIcon;
+
+function Sol({
+  width = 16,
+  height = 16,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="8" cy="8" r="8" fill="black" />
+      <path
+        d="M4.95947 9.89515C5.0149 9.83971 5.09113 9.80737 5.17198 9.80737H12.5036C12.6376 9.80737 12.7046 9.96907 12.6099 10.0638L11.1616 11.5121C11.1061 11.5675 11.0299 11.5999 10.9491 11.5999H3.61741C3.48343 11.5999 3.41644 11.4382 3.51115 11.3435L4.95947 9.89515Z"
+        fill="url(#paint0_linear_889_107778)"
+      />
+      <path
+        d="M4.95947 4.48768C5.01721 4.43224 5.09344 4.3999 5.17198 4.3999H12.5036C12.6376 4.3999 12.7046 4.5616 12.6099 4.6563L11.1616 6.10462C11.1061 6.16006 11.0299 6.1924 10.9491 6.1924H3.61741C3.48343 6.1924 3.41644 6.0307 3.51115 5.93599L4.95947 4.48768Z"
+        fill="url(#paint1_linear_889_107778)"
+      />
+      <path
+        d="M11.1616 7.1742C11.1061 7.11876 11.0299 7.08643 10.9491 7.08643H3.61741C3.48343 7.08643 3.41644 7.24812 3.51115 7.34283L4.95947 8.79114C5.0149 8.84658 5.09113 8.87892 5.17198 8.87892H12.5036C12.6376 8.87892 12.7046 8.71723 12.6099 8.62252L11.1616 7.1742Z"
+        fill="url(#paint2_linear_889_107778)"
+      />
+      <defs>
+        <linearGradient
+          id="paint0_linear_889_107778"
+          x1="-13.104"
+          y1="3.0397"
+          x2="-13.2991"
+          y2="12.8556"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#00FFA3" />
+          <stop offset="1" stop-color="#DC1FFF" />
+        </linearGradient>
+        <linearGradient
+          id="paint1_linear_889_107778"
+          x1="-15.3227"
+          y1="1.8814"
+          x2="-15.5178"
+          y2="11.6973"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#00FFA3" />
+          <stop offset="1" stop-color="#DC1FFF" />
+        </linearGradient>
+        <linearGradient
+          id="paint2_linear_889_107778"
+          x1="-14.2204"
+          y1="2.45697"
+          x2="-14.4155"
+          y2="12.2729"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#00FFA3" />
+          <stop offset="1" stop-color="#DC1FFF" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
+CryptoIcon.Sol = Sol;
+
+function ExternalLink({
+  width = 16,
+  height = 16,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 16 16"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M10.667 2H14.0003V5.33333"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M9.33301 6.66667L13.9997 2"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M12.6667 9.33325V12.6666C12.6667 13.4033 12.07 13.9999 11.3333 13.9999H3.33333C2.59667 13.9999 2 13.4033 2 12.6666V4.66659C2 3.92992 2.59667 3.33325 3.33333 3.33325H6.66667"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.ExternalLink = ExternalLink;
+
 function Pause({
   width = 16,
   height = 16,

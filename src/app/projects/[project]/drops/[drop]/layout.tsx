@@ -11,16 +11,15 @@ type Drop = {
 export default function DropViewLayout({ children }: { children: React.ReactNode }): JSX.Element {
   const router = useRouter();
   const pathname = usePathname();
-  const slug = pathname ? pathname.split('/')[4] : null;
-  console.log(slug);
-  console.log(pathname);
+  const projectSlug = pathname ? pathname.split('/')[2] : null;
+  const dropSlug = pathname ? pathname.split('/')[4] : null;
 
   return (
     <div className="flex flex-col px-4 py-2">
       <div className="flex items-center justify-between">
         <div className="text-2xl font-medium items-center">
           <span className="text-gray-500">Manage drops / </span>
-          <span className="text-primary">{slug}</span>
+          <span className="text-primary">{dropSlug}</span>
         </div>
         <div className="flex items-center gap-2">
           <Button icon={<Icon.Edit />} variant="secondary">
@@ -36,9 +35,18 @@ export default function DropViewLayout({ children }: { children: React.ReactNode
         <div className="basis-1/3 aspect-square">
           <Icon.EmptyAvatar className="w-full h-full" />
         </div>
-        <div className="basis-2/3 flex flex-col rounded-md border border-gray-100 bg-gray-50">
-          <div className="w-full h-[35px]"></div>
-          <div className="flex p-4 bg-white">
+        <div className="basis-2/3 flex flex-col gap-2">
+          <div className="w-full text-xs font-medium">
+            <div className="flex items-center justify-between">
+              <div className="flex gap-2">
+                <span className="text-primary">Scheduled - 0%</span>
+                <span className="text-gray-500">0/10,000</span>
+              </div>
+              <span className="text-gray-500">10 days to start</span>
+            </div>
+            <div className="w-full rounded-full h-[12px] bg-gray-100 mt-1"></div>
+          </div>
+          <div className="flex p-4 bg-white rounded-md">
             <div className="basis-1/2 h-full flex flex-col border-r border-r-gray-100 pr-4">
               <span className="text-gray-500 text-xs font-medium mb-2">Name</span>
               <span className="text-primary text-3xl font-medium">Bored Usyk club</span>
@@ -93,19 +101,22 @@ export default function DropViewLayout({ children }: { children: React.ReactNode
           </div>
         </div>
       </div>
-      <Tabs.Page>
+      <Tabs.Page className="mt-8">
         <Tabs.Panel>
           <Tabs.Tab
             name="Analytics"
-            active={pathname === `/projects/${slug}/drops/create/details`}
+            href={`/projects/${projectSlug}/drops/${dropSlug}/analytics`}
+            active={pathname === `/projects/${projectSlug}/drops/${dropSlug}/analytics`}
           />
           <Tabs.Tab
             name="Purchase history"
-            active={pathname === `/projects/${slug}/drops/create/royalties`}
+            href={`/projects/${projectSlug}/drops/${dropSlug}/purchases`}
+            active={pathname === `/projects/${projectSlug}/drops/${dropSlug}/purchases`}
           />
           <Tabs.Tab
             name="Current holders"
-            active={pathname === `/projects/${slug}/drops/create/timing`}
+            href={`/projects/${projectSlug}/drops/${dropSlug}/holders`}
+            active={pathname === `/projects/${projectSlug}/drops/${dropSlug}/holders`}
           />
         </Tabs.Panel>
         <Tabs.Content>{children}</Tabs.Content>

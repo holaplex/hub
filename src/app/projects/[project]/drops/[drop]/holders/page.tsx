@@ -7,24 +7,16 @@ import { useRouter } from 'next/navigation';
 import { Icon } from '../../../../../../components/Icon';
 import Table from '../../../../../../components/Table';
 
-export enum PurchaseStatus {
-  PENDING = 'Pending',
-  SUCCESS = 'Success',
-  FAILED = 'Failed',
-}
-
-type Purchase = {
+type Holder = {
   customerId: string;
   wallet: string;
-  txnId: string;
   spent: number;
-  date: string;
-  status: PurchaseStatus;
+  ownedEditions: number;
 };
 
-export default function PurchasesPage() {
+export default function HoldersPage() {
   const router = useRouter();
-  const columnHelper = createColumnHelper<Purchase>();
+  const columnHelper = createColumnHelper<Holder>();
 
   return (
     <div className="flex flex-col">
@@ -56,16 +48,6 @@ export default function PurchasesPage() {
               );
             },
           }),
-          columnHelper.accessor('txnId', {
-            header: () => (
-              <div className="flex gap-2">
-                <span className="text-xs text-gray-600 font-medium">TxID</span>
-              </div>
-            ),
-            cell: (info) => {
-              return <span className="text-xs text-primary font-medium">{info.getValue()}</span>;
-            },
-          }),
           columnHelper.accessor((row) => row.spent.toString(), {
             id: 'spent',
             header: () => (
@@ -82,27 +64,21 @@ export default function PurchasesPage() {
               );
             },
           }),
-          columnHelper.accessor('date', {
+          columnHelper.accessor((row) => row.ownedEditions.toString(), {
+            id: 'ownedEditions',
             header: () => (
               <div className="flex gap-2">
-                <span className="text-xs text-gray-600 font-medium">Spent</span>
+                <span className="text-xs text-gray-600 font-medium">Owned Editions</span>
               </div>
             ),
             cell: (info) => {
               return (
                 <div className="flex gap-2 text-xs font-medium">
                   <span className="text-primary">{info.getValue()}</span>
-                  <span className="text-gray-600">9:56 AM</span>
+                  <span className="text-gray-600"> / 0.4%</span>
                 </div>
               );
             },
-          }),
-          columnHelper.accessor((row) => row.status.toString(), {
-            id: 'inviteStatus',
-            header: () => (
-              <span className="flex text-xs text-gray-600 font-medium">Invite status</span>
-            ),
-            cell: (info) => <Table.PurchaseStatusPill status={info.getValue() as PurchaseStatus} />,
           }),
           columnHelper.display({
             id: 'moreOptions',
@@ -131,35 +107,33 @@ export default function PurchasesPage() {
         data={[
           {
             customerId: '0xA91...a2E9',
-            txnId: '0x2a74b0e...t47k',
             wallet: '0xA91...a2E9',
             spent: 99999,
-            date: '05/27/2023',
-            status: PurchaseStatus.PENDING,
+            ownedEditions: 24,
           },
           {
             customerId: '0xA91...a2E9',
-            txnId: '0x2a74b0e...t47k',
             wallet: '0xA91...a2E9',
             spent: 99999,
-            date: '05/27/2023',
-            status: PurchaseStatus.SUCCESS,
+            ownedEditions: 987,
           },
           {
             customerId: '0xA91...a2E9',
-            txnId: '0x2a74b0e...t47k',
             wallet: '0xA91...a2E9',
             spent: 99999,
-            date: '05/27/2023',
-            status: PurchaseStatus.SUCCESS,
+            ownedEditions: 24,
           },
           {
             customerId: '0xA91...a2E9',
-            txnId: '0x2a74b0e...t47k',
             wallet: '0xA91...a2E9',
             spent: 99999,
-            date: '05/27/2023',
-            status: PurchaseStatus.FAILED,
+            ownedEditions: 413,
+          },
+          {
+            customerId: '0xA91...a2E9',
+            wallet: '0xA91...a2E9',
+            spent: 99999,
+            ownedEditions: 24,
           },
         ]}
       />
