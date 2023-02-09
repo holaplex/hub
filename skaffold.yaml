@@ -62,16 +62,27 @@ deploy:
         remoteChart: postgresql
         valuesFiles:
           - values.orgs.postgresql.yaml
+      - name: svix
+        remoteChart: svix
+        repo: https://charts.holaplex.com
+        valuesFiles:
+          - values.svix.yaml
+      - name: svix-db
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: postgresql
+        valuesFiles:
+          - values.svix.postgresql.yaml
+      - name: svix-redis
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: redis
+        setValues:
+          architecture: standalone
       - name: hub-orgs
         remoteChart: hub-orgs
         repo: https://charts.holaplex.com
         valuesFiles:
           - values.orgs.yaml
-      - name: federated-router
-        remoteChart: oci://ghcr.io/apollographql/helm-charts/router
-        valuesFiles:
-          - values.router.yaml
-          - secrets.router.yaml
+          - secrets.orgs.yaml
       - name: hub-gateway
         createNamespace: true
         namespace: ingress-apisix
