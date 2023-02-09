@@ -82,7 +82,6 @@ deploy:
         repo: https://charts.holaplex.com
         valuesFiles:
           - values.orgs.yaml
-
       - name: hub-gateway
         createNamespace: true
         namespace: ingress-apisix
