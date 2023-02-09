@@ -4,17 +4,8 @@ image:
 migration:
   pullPolicy: Always
 
-secrets:
-  enabled: true
-  entries:
-    oryAuthToken: 'kube'
-    databaseUrl: 'postgres://orgs:orgs@hub-orgs-db-postgresql:5432/orgs'
-    svixAuthToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NzU4NjY2NDksImV4cCI6MTk5MTIyNjY0OSwibmJmIjoxNjc1ODY2NjQ5LCJpc3MiOiJzdml4LXNlcnZlciIsInN1YiI6Im9yZ18yM3JiOFlkR3FNVDBxSXpwZ0d3ZFhmSGlyTXUifQ.UfAL2Aa9thyDK5IYEMsNtUdyUa7zCbtjJ5Wy-r1f5kc"
-
 environment:
   port: '80'
   oryBaseUrl: http://hydra-admin
   kafkaBrokers: 'redpanda-0.redpanda.default.svc.cluster.local.:9093'
   svixBaseUrl: "http://svix.default.svc:80"
-
-
