@@ -14,3 +14,14 @@ export enum WebhookStatus {
   ACTIVE = 'Active',
   DISABLED = 'Disabled',
 }
+
+export enum TransactionStatus {
+  IN_PROCESS = 'In process',
+  SUCCESS = 'Success',
+  FAILED = 'Failed',
+}
+
+export enum TransactionType {
+  RECEIVED = 'Received',
+  SENT = 'Sent',
+}

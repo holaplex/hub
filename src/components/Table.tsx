@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { DropStatus, PurchaseStatus, WebhookStatus } from './../types';
+import { DropStatus, PurchaseStatus, WebhookStatus, TransactionStatus } from './../types';
 import { InviteStatus } from '../graphql.types';
 import { Icon } from './Icon';
 
@@ -198,3 +198,25 @@ function WebhookStatusPill({ status, className }: WebhookStatusProps) {
   );
 }
 Table.WebhookStatusPill = WebhookStatusPill;
+
+interface TransactionStatusPillProps {
+  status: TransactionStatus;
+  className?: string;
+}
+
+function TransactionStatusPill({ status, className }: TransactionStatusPillProps) {
+  let label = status.toString();
+
+  return (
+    <div
+      className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
+        'bg-cyan-200 text-cyan-600': status === TransactionStatus.IN_PROCESS,
+        'bg-green-200 text-green-600': status === TransactionStatus.SUCCESS,
+        'bg-red-100 text-red-900': status === TransactionStatus.FAILED,
+      })}
+    >
+      {label}
+    </div>
+  );
+}
+Table.TransactionStatusPill = TransactionStatusPill;

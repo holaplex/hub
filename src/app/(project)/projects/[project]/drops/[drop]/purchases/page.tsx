@@ -80,14 +80,14 @@ export default function PurchasesPage() {
           columnHelper.accessor('date', {
             header: () => (
               <div className="flex gap-2">
-                <span className="text-xs text-gray-600 font-medium">Spent</span>
+                <span className="text-xs text-gray-600 font-medium">Date</span>
               </div>
             ),
             cell: (info) => {
               return (
-                <div className="flex gap-2 text-xs font-medium">
-                  <span className="text-primary">{info.getValue()}</span>
-                  <span className="text-gray-600">9:56 AM</span>
+                <div className="flex flex-col gap-1 text-xs">
+                  <span className="text-primary font-medium">{info.getValue()}</span>
+                  <span className="text-gray-500">9:56 AM</span>
                 </div>
               );
             },
