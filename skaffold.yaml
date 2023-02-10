@@ -34,21 +34,51 @@ portForward:
 deploy:
   helm:
     releases:
+      - name: hub-gateway
+        createNamespace: true
+        namespace: ingress-apisix
+        remoteChart: hub-gateway
+        repo: https://charts.holaplex.com
+        valuesFiles:
+          - values.gateway.yaml
+          - secrets.gateway.yaml
       - name: redpanda
         repo: https://charts.redpanda.com/
         remoteChart: redpanda
         valuesFiles:
           - values.redpanda.yaml
-      - name: mailhog
-        repo: https://codecentric.github.io/helm-charts
-        remoteChart: mailhog
-        valuesFiles:
-          - values.mailhog.yaml
+      - name: svix-redis
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: redis
+        setValues:
+          architecture: standalone
+          auth:
+            enabled: false
       - name: kratos-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
         valuesFiles:
           - values.kratos.postgresql.yaml
+      - name: svix-db
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: postgresql
+        valuesFiles:
+          - values.svix.postgresql.yaml
+      - name: hub-orgs-db
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: postgresql
+        valuesFiles:
+          - values.orgs.postgresql.yaml
+      - name: hub-treasuries-db
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: postgresql
+        valuesFiles:
+          - values.treasuries.postgresql.yaml
+      - name: mailhog
+        repo: https://codecentric.github.io/helm-charts
+        remoteChart: mailhog
+        valuesFiles:
+          - values.mailhog.yaml
       - name: kratos
         repo: https://k8s.ory.sh/helm/charts
         remoteChart: kratos
@@ -58,27 +88,12 @@ deploy:
         remoteChart: hub-identities
         repo: https://charts.holaplex.com
         valuesFiles:
-          - values.identities.yaml
-      - name: hub-orgs-db
-        repo: https://charts.bitnami.com/bitnami
-        remoteChart: postgresql
-        valuesFiles:
-          - values.orgs.postgresql.yaml
+          - values.identities.yaml 
       - name: svix
         remoteChart: svix
         repo: https://charts.holaplex.com
         valuesFiles:
           - values.svix.yaml
-      - name: svix-db
-        repo: https://charts.bitnami.com/bitnami
-        remoteChart: postgresql
-        valuesFiles:
-          - values.svix.postgresql.yaml
-      - name: svix-redis
-        repo: https://charts.bitnami.com/bitnami
-        remoteChart: redis
-        setValues:
-          architecture: standalone
       - name: hub-orgs
         remoteChart: hub-orgs
         repo: https://charts.holaplex.com
@@ -90,11 +105,9 @@ deploy:
         valuesFiles:
           - values.router.yaml
           - secrets.router.yaml
-      - name: hub-gateway
-        createNamespace: true
-        namespace: ingress-apisix
-        remoteChart: hub-gateway
+      - name: hub-treasuries
+        remoteChart: hub-treasuries
         repo: https://charts.holaplex.com
         valuesFiles:
-          - values.gateway.yaml
-          - secrets.gateway.yaml
+          - values.treasuries.yaml
+          - secrets.treasuries.yaml 

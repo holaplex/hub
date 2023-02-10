@@ -11,6 +11,6 @@ secrets:
 
 environment:
   logLevel: "info"
-  queueType: "memory"
+  queueType: "redis"
   waitForServices: true
   redisDsn: "redis://svix-redis-master:6379"

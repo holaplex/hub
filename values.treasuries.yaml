@@ -1,12 +1,11 @@
-image:
-  pullPolicy: Always
-
 migrate:
   image:
     pullPolicy: Always
 
+image:
+  pullPolicy: Always
+  tag: "latest"
+
 environment:
-  port: '80'
-  oryBaseUrl: http://hydra-admin
   kafkaBrokers: "hub-eventbus-cluster-0.hub-eventbus-cluster.default.svc.cluster.local:9093"
-  svixBaseUrl: "http://svix.default.svc:80"
+  kafkaSsl: false

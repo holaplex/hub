@@ -1,0 +1,4 @@
+auth:
+  username: treasuries
+  password: treasuries
+  database: treasuries
