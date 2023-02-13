@@ -39,6 +39,12 @@ export default function OrganizationLayout({
             active={pathname === `/organizations/${slug}/members`}
           />
           <Sidebar.Menu.Link
+            name="Webhooks"
+            icon={<Icon.Webhook />}
+            href={`/organizations/${slug}/webhooks`}
+            active={pathname === `/organizations/${slug}/webhooks`}
+          />
+          <Sidebar.Menu.Link
             name="Settings"
             icon={<Icon.Settings />}
             href={`/organizations/${slug}/settings`}
