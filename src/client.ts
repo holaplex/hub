@@ -1,8 +1,12 @@
-"use client";
-import { ApolloClient, InMemoryCache } from '@apollo/client';
-import config from './app.config.client';
+import {
+  ApolloClient,
+  InMemoryCache,
+  NormalizedCacheObject,
+} from '@apollo/client';
 
-export const client = new ApolloClient({
-  uri: config.graphql,
-  cache: new InMemoryCache(),
-});
+export function apollo(uri: string): ApolloClient<NormalizedCacheObject> {
+  return new ApolloClient({
+    uri,
+    cache: new InMemoryCache(),
+  });
+};

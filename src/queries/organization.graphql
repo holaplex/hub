@@ -1,0 +1,17 @@
+query GetOrganizationProjects($organization: UUID!) {
+  organization(id: $organization) {
+    id
+    projects {
+      id
+      name
+      createdAt
+    }
+  }
+}
+
+query GetOrganizationBasicInfo($organization: UUID!) {
+  organization(id: $organization) {
+    id
+    name
+  }
+}

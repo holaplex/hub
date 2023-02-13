@@ -1,8 +1,27 @@
 
-declare module '*/organizations.graphql' {
+declare module '*/organization.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
-  export const GetAllOrganizations: DocumentNode;
+  export const GetOrganizationProjects: DocumentNode;
+export const GetOrganizationBasicInfo: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/project.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const GetProject: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/user.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const GetUserAffiliations: DocumentNode;
 
   export default defaultDocument;
 }

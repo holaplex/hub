@@ -2,14 +2,26 @@
 
 import { SessionProvider } from '../providers/SessionProvider';
 import { ApolloProvider } from '@apollo/client';
-import { client } from './../client';
-import { ToastContainer } from "react-toastify"
+import { OryProvider } from '../providers/OryProvider';
+import { apollo } from '../client';
+import { ToastContainer } from 'react-toastify';
+import { Session } from '@ory/client';
+import { config } from '../app.config';
 
-export default function App({ children }: { children: React.ReactNode }) {
+interface AppLayoutProps {
+  children: React.ReactNode;
+  session?: Session;
+}
+
+export default function App({ children, session }: AppLayoutProps) {
   return (
-    <ApolloProvider client={client}>
-      <SessionProvider>{children}</SessionProvider>
-      <ToastContainer />
-    </ApolloProvider>
+    <SessionProvider session={session}>
+      <OryProvider>
+        <ApolloProvider client={apollo(config.client('graphql'))}>
+          {children}
+          <ToastContainer />
+        </ApolloProvider>
+      </OryProvider>
+    </SessionProvider>
   );
 }

@@ -1,12 +1,17 @@
 import { LoginFlow, UiNodeInputAttributes } from '@ory/client';
 import { useRouter } from 'next/navigation';
-import { ory, extractFlowNode } from '../modules/ory';
+import { extractFlowNode } from '../modules/ory';
+import { useOry } from './useOry';
 import { toast } from 'react-toastify';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 
 interface LoginForm {
   identifier: string;
   password: string;
+}
+
+interface LoginResponse {
+  redirect_path: string;
 }
 
 interface LoginContext {
@@ -18,6 +23,7 @@ interface LoginContext {
 
 export function useLogin(flow: LoginFlow | undefined): LoginContext {
   const router = useRouter();
+  const { ory } = useOry();
 
   const { register, handleSubmit, formState, setError } = useForm<LoginForm>();
 
@@ -39,11 +45,28 @@ export function useLogin(flow: LoginFlow | undefined): LoginContext {
           ...values,
         },
       });
-
-      router.push('/organizations');
     } catch (err: any) {
       const message = err.response.data.ui.messages[0].text;
       toast.error(message);
+
+      return;
+    }
+
+    try {
+      const response = await fetch('/browser/login', {
+        method: 'POST',
+        credentials: 'same-origin',
+      });
+
+      const json: LoginResponse = await response.json();
+
+      router.push(json.redirect_path);
+    } catch(e: any) {
+      toast.error(
+        'Unable to forward you to an organization. Please select or create an organization.'
+      );
+
+      router.push('/organizations');
     }
   };
 

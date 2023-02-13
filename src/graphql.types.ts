@@ -40,6 +40,19 @@ export type CreateProjectInput = {
   organization: Scalars['UUID'];
 };
 
+export type CreateWebhookInput = {
+  endpoint: Scalars['String'];
+  filterTypes: Array<FilterType>;
+  organization: Scalars['UUID'];
+  projects: Array<Scalars['UUID']>;
+};
+
+export type CreateWebhookPayload = {
+  __typename?: 'CreateWebhookPayload';
+  secret: Scalars['String'];
+  webhook: Webhook;
+};
+
 export type Credential = {
   __typename?: 'Credential';
   clientId: Scalars['String'];
@@ -54,6 +67,33 @@ export type DeleteCredentialPayload = {
   __typename?: 'DeleteCredentialPayload';
   credential: Scalars['UUID'];
 };
+
+export type DeleteWebhookPayload = {
+  __typename?: 'DeleteWebhookPayload';
+  appId: Scalars['String'];
+  endpoint: Scalars['String'];
+  organizationId: Scalars['UUID'];
+};
+
+export type EventType = {
+  __typename?: 'EventType';
+  archived?: Maybe<Scalars['Boolean']>;
+  createdAt: Scalars['String'];
+  description: Scalars['String'];
+  name: Scalars['String'];
+  schemas: Scalars['JSON'];
+  updatedAt: Scalars['String'];
+};
+
+export enum FilterType {
+  CredentialCreated = 'CREDENTIAL_CREATED',
+  CredentialDeleted = 'CREDENTIAL_DELETED',
+  InvitationAccepted = 'INVITATION_ACCEPTED',
+  InvitationRevoked = 'INVITATION_REVOKED',
+  InvitationSent = 'INVITATION_SENT',
+  ProjectCreated = 'PROJECT_CREATED',
+  ProjectDeactivated = 'PROJECT_DEACTIVATED'
+}
 
 export type Invite = {
   __typename?: 'Invite';
@@ -81,6 +121,7 @@ export type Member = {
   __typename?: 'Member';
   createdAt: Scalars['NaiveDateTime'];
   id: Scalars['UUID'];
+  organization?: Maybe<Organization>;
   organizationId: Scalars['UUID'];
   revokedAt?: Maybe<Scalars['NaiveDateTime']>;
   userId: Scalars['UUID'];
@@ -122,7 +163,21 @@ export type Mutation = {
    * # Errors
    * This function fails if ...
    */
+  createWebhook: CreateWebhookPayload;
+  /**
+   * Res
+   *
+   * # Errors
+   * This function fails if ...
+   */
   deleteCredential: DeleteCredentialPayload;
+  /**
+   * Res
+   *
+   * # Errors
+   * This function fails if ...
+   */
+  deleteWebhook: DeleteWebhookPayload;
   /**
    * Res
    *
@@ -153,8 +208,18 @@ export type MutationCreateProjectArgs = {
 };
 
 
+export type MutationCreateWebhookArgs = {
+  input: CreateWebhookInput;
+};
+
+
 export type MutationDeleteCredentialArgs = {
   id: Scalars['UUID'];
+};
+
+
+export type MutationDeleteWebhookArgs = {
+  input: CreateWebhookInput;
 };
 
 
@@ -168,15 +233,24 @@ export type Organization = {
   credentials?: Maybe<Array<Credential>>;
   deactivatedAt?: Maybe<Scalars['NaiveDateTime']>;
   id: Scalars['UUID'];
+  invites: Array<Invite>;
   members?: Maybe<Array<Member>>;
   name: Scalars['String'];
   owner?: Maybe<Owner>;
+  projects: Array<Project>;
+  svixAppId: Scalars['String'];
+};
+
+
+export type OrganizationInvitesArgs = {
+  status?: InputMaybe<InviteStatus>;
 };
 
 export type Owner = {
   __typename?: 'Owner';
   createdAt: Scalars['NaiveDateTime'];
   id: Scalars['UUID'];
+  organization?: Maybe<Organization>;
   organizationId: Scalars['UUID'];
   userId: Scalars['UUID'];
 };
@@ -199,7 +273,7 @@ export type Query = {
    * # Errors
    * This function fails if ...
    */
-  invites: Array<Invite>;
+  eventTypes: Array<EventType>;
   /**
    * Res
    *
@@ -213,30 +287,9 @@ export type Query = {
    * # Errors
    * This function fails if ...
    */
-  organizations: Array<Organization>;
-  /**
-   * Res
-   *
-   * # Errors
-   * This function fails if ...
-   */
   project?: Maybe<Project>;
-  /**
-   * Res
-   *
-   * # Errors
-   * This function fails if ...
-   */
-  projects: Array<Project>;
   user: User;
   users: Array<User>;
-};
-
-
-export type QueryInvitesArgs = {
-  limit?: Scalars['Int'];
-  offset?: Scalars['Int'];
-  status?: InputMaybe<InviteStatus>;
 };
 
 
@@ -247,12 +300,6 @@ export type QueryOrganizationArgs = {
 
 export type QueryProjectArgs = {
   id: Scalars['UUID'];
-};
-
-
-export type QueryProjectsArgs = {
-  limit?: Scalars['Int'];
-  offset?: Scalars['Int'];
 };
 
 
@@ -277,8 +324,13 @@ export type User = {
   updatedAt: Scalars['String'];
 };
 
-
-export type UserAffiliationsArgs = {
-  limit?: Scalars['Int'];
-  offset?: Scalars['Int'];
+export type Webhook = {
+  __typename?: 'Webhook';
+  createdAt: Scalars['NaiveDateTime'];
+  createdBy: Scalars['UUID'];
+  endpointId: Scalars['String'];
+  id: Scalars['UUID'];
+  organizationId: Scalars['UUID'];
+  projects?: Maybe<Array<Project>>;
+  updatedAt?: Maybe<Scalars['NaiveDateTime']>;
 };

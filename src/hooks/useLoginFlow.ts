@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ory } from '../modules/ory';
+import { useOry } from './useOry';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { defaultTo } from 'ramda';
 import { LoginFlow } from '@ory/client';
@@ -16,6 +16,7 @@ export function useLoginFlow(): LoginFlowContext {
   const [flow, setFlow] = useState<LoginFlow>();
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
+  const { ory } = useOry();
 
   const searchParams = useSearchParams();
 

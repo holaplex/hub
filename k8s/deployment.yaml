@@ -20,5 +20,7 @@ spec:
         env:
           - name: NEXT_PUBLIC_GRAPHQL_ENDPOINT
             value: http://api.127.0.0.1.nip.io:9080/graphql
+          - name:  GRAPHQL_ENDPOINT
+            value: http://federated-router
           - name: KRATOS_ENDPOINT
             value: http://kratos-public
