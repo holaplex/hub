@@ -5,6 +5,7 @@ module.exports = {
     './src/components/**/*.tsx',
     './src/app/**/*.tsx',
     './src/layouts/**/*.tsx',
+    "./node_modules/@holaplex/ui-library-react/dist/index.{js,mjs}"
   ],
   theme: {
     extend: {

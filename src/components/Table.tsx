@@ -8,8 +8,7 @@ import {
 } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { DropStatus } from '../app/projects/[project]/drops/page';
-import { PurchaseStatus } from '../app/projects/[project]/drops/[drop]/purchases/page';
+import { DropStatus, PurchaseStatus } from './../types';
 import { InviteStatus } from '../graphql.types';
 import { Icon } from './Icon';
 

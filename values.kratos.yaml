@@ -24,6 +24,7 @@ kratos:
       smtp:
         connection_uri: smtps://test:test@mailhog:1025/?skip_ssl_verify=true
     session:
+      lifespan: 720h
       cookie: 
         domain: hub.127.0.0.1.nip.io
         name: hub_session

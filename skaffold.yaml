@@ -19,6 +19,8 @@ build:
             dest: .
           - src: 'src/**/**/**/**/**/*.ts'
             dest: .
+          - src: 'src/queries/*.graphql'
+            dest: .
 
 portForward:
   - resourceType: service
@@ -81,11 +83,17 @@ deploy:
         valuesFiles:
           - values.orgs.yaml
           - secrets.orgs.yaml
+      - name: federated-router
+        remoteChart: oci://ghcr.io/apollographql/helm-charts/router
+        valuesFiles:
+          - values.router.yaml
+          - secrets.router.yaml
       - name: hub-gateway
         createNamespace: true
         namespace: ingress-apisix
-        remoteChart: hub-gateway
-        repo: https://charts.holaplex.com
+        # remoteChart: hub-gateway
+        # repo: https://charts.holaplex.com
+        chartPath: ../helm-charts/charts/hub-gateway
         valuesFiles:
           - values.gateway.yaml
           - secrets.gateway.yaml

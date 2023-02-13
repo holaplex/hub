@@ -38,7 +38,7 @@ Skaffold will expose the UI and API on the following endpoints:
 | Service | Endpoint                                                                             |
 | ------- | ------------------------------------------------------------------------------------ |
 | Hub UI  | [http://hub.127.0.0.1.nip.io:9080](http://hub.127.0.0.1.nip.io:9080)                 |
-| Hub API | [http://api.127.0.0.1.nip.io:9080](http://api.127.0.0.1.nip.io:9080) |
+| Hub API | [http://api.127.0.0.1.nip.io:9080/graphql](http://api.127.0.0.1.nip.io:9080/graphql) |
 
 To use the Hub API endpoint, you need to provide either a header or cookie named `hub_session` with Kratos session token (provided after authenticating)
 

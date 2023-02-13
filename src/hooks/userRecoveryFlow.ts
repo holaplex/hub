@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ory } from '../modules/ory';
+import { useOry } from './useOry';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { defaultTo } from 'ramda';
 import { RecoveryFlow } from '@ory/client';
@@ -16,6 +16,7 @@ export function useRecoveryFlow(): RecoveryFlowContext {
   const [flow, setFlow] = useState<RecoveryFlow>();
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
+  const { ory } = useOry();
 
   const searchParams = useSearchParams();
 
@@ -39,7 +40,7 @@ export function useRecoveryFlow(): RecoveryFlowContext {
         setLoading(false);
       }
     })();
-  }, [router, returnTo]);
+  }, [router, returnTo, ory]);
 
   return {
     flow,

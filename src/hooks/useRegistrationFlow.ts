@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { ory } from '../modules/ory';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { defaultTo } from 'ramda';
+import { useOry } from './useOry';
 import { RegistrationFlow } from '@ory/client';
 import { toast } from 'react-toastify';
 
@@ -16,6 +16,7 @@ export function useRegistrationFlow(): RegistrationFlowContext {
   const [flow, setFlow] = useState<RegistrationFlow>();
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
+  const { ory } = useOry();
 
   const searchParams = useSearchParams();
 
@@ -39,7 +40,7 @@ export function useRegistrationFlow(): RegistrationFlowContext {
         setLoading(false);
       }
     })();
-  }, [router, returnTo]);
+  }, [router, returnTo, ory]);
 
   return {
     flow,

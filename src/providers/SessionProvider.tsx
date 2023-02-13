@@ -1,37 +1,27 @@
 import { Session } from '@ory/client';
-import { createContext, useEffect, useState } from 'react';
-import { AxiosError } from 'axios';
-import { ory } from '../modules/ory';
+import { createContext, useState, Dispatch, SetStateAction } from 'react';
 import { useLogout } from '../hooks/useLogout';
 
 export type SessionContextType = {
-  session: Session | null;
-  error: AxiosError | null;
+  session?: Session;
   logout: () => void | null;
+  setSession: Dispatch<SetStateAction<Session | undefined>>;
 };
 
 export const SessionContext = createContext<SessionContextType>({} as SessionContextType);
 
-export function SessionProvider({ children }: { children: React.ReactNode }) {
-  const { logout } = useLogout();
-  const [session, setSession] = useState<Session | null>(null);
-  const [error, setError] = useState<AxiosError | null>(null);
+interface SessionProviderProps {
+  children: React.ReactNode;
+  session?: Session;
+}
 
-  useEffect(() => {
-    ory
-      .toSession()
-      .then(({ data }) => {
-        setSession(data);
-      })
-      .catch((err: AxiosError) => {
-        setError(err);
-      });
-  }, []);
+export function SessionProvider({ children, session }: SessionProviderProps) {
+  const { logout } = useLogout();
+  const [s, setSession] = useState<Session | undefined>(session);
 
   return (
-    <SessionContext.Provider value={{ session, error, logout }}>
+    <SessionContext.Provider value={{ session: s, setSession, logout }}>
       <>{children}</>
     </SessionContext.Provider>
   );
 }
-
