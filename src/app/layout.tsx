@@ -1,5 +1,4 @@
 import 'react-toastify/dist/ReactToastify.css';
-import '@holaplex/ui-library-react/dist/index.css';
 import './globals.css';
 
 import App from './App'

@@ -124,6 +124,7 @@ export type Member = {
   organization?: Maybe<Organization>;
   organizationId: Scalars['UUID'];
   revokedAt?: Maybe<Scalars['NaiveDateTime']>;
+  user?: Maybe<User>;
   userId: Scalars['UUID'];
 };
 
@@ -252,6 +253,7 @@ export type Owner = {
   id: Scalars['UUID'];
   organization?: Maybe<Organization>;
   organizationId: Scalars['UUID'];
+  user?: Maybe<User>;
   userId: Scalars['UUID'];
 };
 
