@@ -4,6 +4,7 @@ import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
 import { toast } from 'react-toastify';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
+import { useSession } from './useSession';
 
 interface LoginForm {
   identifier: string;
@@ -23,6 +24,7 @@ interface LoginContext {
 
 export function useLogin(flow: LoginFlow | undefined): LoginContext {
   const router = useRouter();
+  const { setSession } = useSession();
   const { ory } = useOry();
 
   const { register, handleSubmit, formState, setError } = useForm<LoginForm>();
@@ -37,7 +39,7 @@ export function useLogin(flow: LoginFlow | undefined): LoginContext {
         extractFlowNode('csrf_token')(flow.ui.nodes).attributes as UiNodeInputAttributes
       ).value;
 
-      await ory.updateLoginFlow({
+      const response = await ory.updateLoginFlow({
         flow: flow.id,
         updateLoginFlowBody: {
           csrf_token: csrfToken,
@@ -45,6 +47,8 @@ export function useLogin(flow: LoginFlow | undefined): LoginContext {
           ...values,
         },
       });
+
+      setSession(response.data.session);
     } catch (err: any) {
       const message = err.response.data.ui.messages[0].text;
       toast.error(message);

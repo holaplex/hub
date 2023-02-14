@@ -1,14 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { useSelectedLayoutSegments } from 'next/navigation';
 import { Icon } from '../components/Icon';
 import Sidebar from './Sidebar';
-import { cloneElement, Children } from 'react';
 import { OrganizationProvider } from '../providers/OrganizationProvider';
 import { Organization as OrganizationType } from '../graphql.types';
-import { Avatar, AvatarSize } from '@holaplex/ui-library-react';
-import { clone } from 'ramda';
 
 export default function Organization({
   children,
@@ -17,7 +14,7 @@ export default function Organization({
   children: JSX.Element | JSX.Element[];
   organization?: OrganizationType;
 }): JSX.Element {
-  const pathname = usePathname();
+  const segments = useSelectedLayoutSegments();
 
   return (
     <OrganizationProvider organization={organization}>
@@ -40,19 +37,19 @@ export default function Organization({
               name="Projects"
               icon={<Icon.Projects />}
               href="/projects"
-              active={pathname === `/projects`}
+              active={segments[0] === 'projects'}
             />
             <Sidebar.Menu.Link
               name="Members"
               icon={<Icon.Members />}
               href="/members"
-              active={pathname === `/members`}
+              active={segments[0] === 'members'}
             />
             <Sidebar.Menu.Link
               name="Settings"
               icon={<Icon.Settings />}
               href="/settings"
-              active={pathname === `/settings`}
+              active={segments[0] === 'settings'}
             />
           </Sidebar.Menu>
           <Sidebar.Footer>
