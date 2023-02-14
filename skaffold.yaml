@@ -21,6 +21,8 @@ build:
             dest: .
           - src: 'src/queries/*.graphql'
             dest: .
+          - src: 'src/mutations/*.graphql'
+            dest: .
 
 portForward:
   - resourceType: service
