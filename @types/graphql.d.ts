@@ -23,7 +23,8 @@ export const GetOrganizationMembers: DocumentNode;
 declare module '*/project.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
-  export const GetProject: DocumentNode;
+  export const CreateProject: DocumentNode;
+export const GetProject: DocumentNode;
 export const GetProjectDrops: DocumentNode;
 
   export default defaultDocument;

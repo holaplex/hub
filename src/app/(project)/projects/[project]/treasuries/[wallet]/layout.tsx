@@ -1,25 +1,29 @@
 'use client';
 import { Button } from '@holaplex/ui-library-react';
-import { usePathname, useRouter } from 'next/navigation';
-import { Icon } from '../../../../../components/Icon';
-import Tabs from '../../../../../layouts/Tabs';
+import { useSelectedLayoutSegments } from 'next/navigation';
+import Tabs from './../../../../../../layouts/Tabs';
+import { Icon } from './../../../../../../components/Icon';
 
-type Drop = {
+export type Wallet = {
   name: string;
+  projectId: string;
 };
 
-export default function WalletLayout({ children }: { children: React.ReactNode }): JSX.Element {
-  const router = useRouter();
-  const pathname = usePathname();
-  const projectSlug = pathname ? pathname.split('/')[2] : null;
-  const walletSlug = pathname ? pathname.split('/')[4] : null;
+export default function TreasuryWallet({
+  children,
+  wallet,
+}: {
+  children: React.ReactNode;
+  wallet: Wallet;
+}): JSX.Element {
+  const segments = useSelectedLayoutSegments();
 
   return (
     <div className="flex flex-col px-4 py-2">
       <div className="flex items-center justify-between">
         <div className="text-2xl font-medium items-center">
           <span className="text-gray-500">Treasury / </span>
-          <span className="text-primary">{walletSlug}</span>
+          <span className="text-primary">{wallet.name}</span>
         </div>
         <div className="flex items-center gap-2">
           <Button icon={<Icon.Edit />} variant="secondary">
@@ -64,13 +68,13 @@ export default function WalletLayout({ children }: { children: React.ReactNode }
         <Tabs.Panel>
           <Tabs.Tab
             name="Transactions"
-            href={`/projects/${projectSlug}/treasury/${walletSlug}/transactions`}
-            active={pathname === `/projects/${projectSlug}/treasury/${walletSlug}/transactions`}
+            href={`/projects/${wallet.projectId}/treasury/${wallet.name}/transactions`}
+            active={segments[0] === 'transactions'}
           />
           <Tabs.Tab
             name="Associated drops"
-            href={`/projects/${projectSlug}/treasury/${walletSlug}/drops`}
-            active={pathname === `/projects/${projectSlug}/treasury/${walletSlug}/drops`}
+            href={`/projects/${wallet.projectId}/treasury/${wallet.name}/drops`}
+            active={segments[0] === 'drops'}
           />
         </Tabs.Panel>
         <Tabs.Content>{children}</Tabs.Content>
