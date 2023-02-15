@@ -88,7 +88,7 @@ deploy:
         remoteChart: hub-identities
         repo: https://charts.holaplex.com
         valuesFiles:
-          - values.identities.yaml 
+          - values.identities.yaml
       - name: svix
         remoteChart: svix
         repo: https://charts.holaplex.com
@@ -105,9 +105,9 @@ deploy:
         valuesFiles:
           - values.router.yaml
           - secrets.router.yaml
-      - name: hub-treasuries
-        remoteChart: hub-treasuries
-        repo: https://charts.holaplex.com
-        valuesFiles:
-          - values.treasuries.yaml
-          - secrets.treasuries.yaml 
+      # - name: hub-treasuries
+      #   remoteChart: hub-treasuries
+      #   repo: https://charts.holaplex.com
+      #   valuesFiles:
+      #     - values.treasuries.yaml
+      #     - secrets.treasuries.yaml
