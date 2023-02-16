@@ -45,6 +45,11 @@ export type CreateOrganizationInput = {
   name: Scalars['String'];
 };
 
+export type CreateOrganizationPayload = {
+  __typename?: 'CreateOrganizationPayload';
+  organization: Organization;
+};
+
 export type CreateProjectInput = {
   name: Scalars['String'];
   organization: Scalars['UUID'];
@@ -163,7 +168,7 @@ export type Mutation = {
    * # Errors
    * This function fails if ...
    */
-  createOrganization: Organization;
+  createOrganization: CreateOrganizationPayload;
   /**
    * Res
    *

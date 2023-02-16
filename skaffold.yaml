@@ -94,6 +94,7 @@ deploy:
         repo: https://charts.holaplex.com
         valuesFiles:
           - values.svix.yaml
+          - secrets.svix.yaml
       - name: hub-orgs
         remoteChart: hub-orgs
         repo: https://charts.holaplex.com
@@ -105,9 +106,9 @@ deploy:
         valuesFiles:
           - values.router.yaml
           - secrets.router.yaml
-      # - name: hub-treasuries
-      #   remoteChart: hub-treasuries
-      #   repo: https://charts.holaplex.com
-      #   valuesFiles:
-      #     - values.treasuries.yaml
-      #     - secrets.treasuries.yaml
+      - name: hub-treasuries
+        remoteChart: hub-treasuries
+        repo: https://charts.holaplex.com
+        valuesFiles:
+          - values.treasuries.yaml
+          - secrets.treasuries.yaml

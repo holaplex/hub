@@ -1,6 +1,8 @@
 mutation CreateOrganization($input: CreateOrganizationInput!) {
   createOrganization(input: $input) {
-    id
-    name
+    organization {
+      id
+      name
+    }
   }
 }

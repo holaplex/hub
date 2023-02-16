@@ -5,11 +5,16 @@ import Typography, { Size } from './../../../components/Typography';
 import { Button, Form } from '@holaplex/ui-library-react';
 import { FetchResult, useMutation } from '@apollo/client';
 import { CreateOrganization } from './../../../mutations/organization.graphql';
-import { CreateOrganizationInput, Organization } from '../../../graphql.types';
+import {
+  CreateOrganizationInput,
+  CreateOrganizationPayload,
+  Organization,
+} from '../../../graphql.types';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
 interface CreateOrganizationData {
-  organization: Organization;
+  createOrganization: CreateOrganizationPayload;
 }
 
 interface CreateOrganizationVariables {
@@ -21,28 +26,26 @@ export default function CreateOrganizationPage() {
     CreateOrganizationData,
     CreateOrganizationVariables
   >(CreateOrganization);
+  const router = useRouter();
 
   const { handleSubmit, register } = useForm<CreateOrganizationInput>();
 
-  const submit = async (data: CreateOrganizationInput) => {
-    if (!data.name) {
-      return;
-    }
-
+  const submit = async ({ name }: CreateOrganizationInput) => {
     createOrganization({
       variables: {
-        input: { name: data.name },
+        input: { name },
       },
-    }).then(
-      (data: FetchResult<CreateOrganizationData, Record<string, any>, Record<string, any>>) => {
-        console.log('Result data', data.data?.organization);
-      }
-    );
-  };
+      onCompleted: async ({ createOrganization: { organization } }) => {
+        const response = await fetch(`/browser/organizations/${organization.id}/select`, {
+          method: 'POST',
+        });
 
-  // const handleDrop = (file: File) => {
-  //   console.log(file);
-  // };
+        const json: { redirect_path: string } = await response.json();
+
+        router.push(json.redirect_path);
+      },
+    });
+  };
 
   return (
     <Card className="w-[400px]">
@@ -59,6 +62,7 @@ export default function CreateOrganizationPage() {
           border="rounded"
           htmlType="submit"
           disabled={loading}
+          loading={loading}
           className="w-full bg-primary text-white p-2 mt-5"
         >
           Create
