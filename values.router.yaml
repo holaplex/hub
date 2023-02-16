@@ -7,3 +7,8 @@ router:
       allow_any_origin: true
     supergraph:
       introspection: true
+    headers:
+      all:
+        request:
+          - propagate:
+              matching: .*

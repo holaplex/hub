@@ -27,13 +27,19 @@ query GetOrganizationMembers($organization: UUID!) {
         email
       }
     }
-    members {
+    invites {
       id
       createdAt
-      user {
-        firstName
-        lastName
-        email
+      status
+      updatedAt
+      member {
+        id
+        createdAt
+        user {
+          firstName
+          lastName
+          email
+        }
       }
     }
   }

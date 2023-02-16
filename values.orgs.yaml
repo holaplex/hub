@@ -1,5 +1,6 @@
 image:
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
+  tag: e2d3197
 
 migrate:
   image:
@@ -9,4 +10,4 @@ environment:
   port: '80'
   oryBaseUrl: http://hydra-admin
   kafkaBrokers: "hub-eventbus-cluster-0.hub-eventbus-cluster.default.svc.cluster.local:9093"
-  svixBaseUrl: "http://svix.default.svc:80"
+  svixBaseUrl: http://svix

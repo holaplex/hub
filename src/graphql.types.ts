@@ -15,6 +15,16 @@ export type Scalars = {
   UUID: any;
 };
 
+export type AcceptInviteInput = {
+  invite: Scalars['UUID'];
+};
+
+export type AcceptInvitePayload = {
+  __typename?: 'AcceptInvitePayload';
+  invite: Invite;
+  member: Member;
+};
+
 export type Affiliation = Member | Owner;
 
 export type CreateCredentialInput = {
@@ -33,6 +43,11 @@ export type CreateCredentialPayload = {
 
 export type CreateOrganizationInput = {
   name: Scalars['String'];
+};
+
+export type CreateOrganizationPayload = {
+  __typename?: 'CreateOrganizationPayload';
+  organization: Organization;
 };
 
 export type CreateProjectInput = {
@@ -101,6 +116,7 @@ export type Invite = {
   createdBy: Scalars['UUID'];
   email: Scalars['String'];
   id: Scalars['UUID'];
+  member?: Maybe<Member>;
   organizationId: Scalars['UUID'];
   status: InviteStatus;
   updatedAt?: Maybe<Scalars['NaiveDateTime']>;
@@ -121,6 +137,8 @@ export type Member = {
   __typename?: 'Member';
   createdAt: Scalars['NaiveDateTime'];
   id: Scalars['UUID'];
+  invite?: Maybe<Invite>;
+  inviteId: Scalars['UUID'];
   organization?: Maybe<Organization>;
   organizationId: Scalars['UUID'];
   revokedAt?: Maybe<Scalars['NaiveDateTime']>;
@@ -136,7 +154,7 @@ export type Mutation = {
    * # Errors
    * This function fails if ...
    */
-  acceptInvite: Invite;
+  acceptInvite: AcceptInvitePayload;
   /**
    * Res
    *
@@ -150,7 +168,7 @@ export type Mutation = {
    * # Errors
    * This function fails if ...
    */
-  createOrganization: Organization;
+  createOrganization: CreateOrganizationPayload;
   /**
    * Res
    *
@@ -190,7 +208,7 @@ export type Mutation = {
 
 
 export type MutationAcceptInviteArgs = {
-  input: Scalars['JSON'];
+  input: AcceptInviteInput;
 };
 
 

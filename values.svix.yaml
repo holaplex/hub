@@ -3,12 +3,6 @@ image:
   pullPolicy: IfNotPresent
   tag: "latest"
 
-secrets:
-  enabled: true
-  entries:
-    jwtSecret: "supersecret"
-    dsn: "postgresql://svix:svix@svix-db-postgresql:5432/svix"
-
 environment:
   logLevel: "info"
   queueType: "redis"
