@@ -1,10 +1,10 @@
 'use client';
 import Image from 'next/image';
 import { useSelectedLayoutSegments } from 'next/navigation';
-import { Icon } from '../../../../components/Icon';
-import Sidebar from '../../../../layouts/Sidebar';
+import { Icon } from '../components/Icon';
+import Sidebar from './Sidebar';
 import Link from 'next/link';
-import { Project as ProjectType } from '../../../../graphql.types';
+import { Project as ProjectType } from '../graphql.types';
 
 export default function Project({
   children,

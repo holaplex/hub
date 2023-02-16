@@ -3,9 +3,15 @@ import { Button, PopoverBox } from '@holaplex/ui-library-react';
 import { createColumnHelper } from '@tanstack/react-table';
 import clsx from 'clsx';
 import Link from 'next/link';
+<<<<<<< HEAD:src/app/(project)/projects/[project]/treasuries/(treasuries)/page.tsx
 import { useRouter } from 'next/router';
 import { Icon } from '../../../../../../components/Icon';
 import Table from '../../../../../../components/Table';
+=======
+import { useRouter } from 'next/navigation';
+import { Icon } from '../../../../../components/Icon';
+import Table from '../../../../../components/Table';
+>>>>>>> c656d56 (some more routes fixed):src/app/projects/[project]/treasuries/(treasuries)/page.tsx
 
 type Treasury = {
   name: string;

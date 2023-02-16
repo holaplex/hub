@@ -4,8 +4,8 @@ import { createColumnHelper } from '@tanstack/react-table';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Icon } from '../../../../../../../components/Icon';
-import Table from '../../../../../../../components/Table';
+import { Icon } from '../../../../../../components/Icon';
+import Table from '../../../../../../components/Table';
 
 type Holder = {
   customerId: string;

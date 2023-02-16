@@ -1,8 +1,8 @@
-import { apollo } from '../../../../client';
-import Project from './Project';
-import { config } from '../../../../app.config';
-import { GetProject } from './../../../../queries/project.graphql';
-import { Project as ProjectType } from '../../../../graphql.types';
+import { apollo } from '../../../client';
+import Project from '../../../layouts/Project';
+import { config } from '../../../app.config';
+import { GetProject } from './../../../queries/project.graphql';
+import { Project as ProjectType } from '../../../graphql.types';
 
 const client = apollo(config.server('graphql'));
 
