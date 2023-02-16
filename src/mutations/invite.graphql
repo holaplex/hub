@@ -1,0 +1,8 @@
+mutation InviteMember($input: InviteMemberInput!) {
+  inviteMember(input: $input) {
+    id
+    email
+    status
+    createdAt
+  }
+}
