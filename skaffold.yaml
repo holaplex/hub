@@ -88,12 +88,13 @@ deploy:
         remoteChart: hub-identities
         repo: https://charts.holaplex.com
         valuesFiles:
-          - values.identities.yaml 
+          - values.identities.yaml
       - name: svix
         remoteChart: svix
         repo: https://charts.holaplex.com
         valuesFiles:
           - values.svix.yaml
+          - secrets.svix.yaml
       - name: hub-orgs
         remoteChart: hub-orgs
         repo: https://charts.holaplex.com
@@ -110,4 +111,4 @@ deploy:
         repo: https://charts.holaplex.com
         valuesFiles:
           - values.treasuries.yaml
-          - secrets.treasuries.yaml 
+          - secrets.treasuries.yaml
