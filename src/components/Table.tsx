@@ -8,10 +8,9 @@ import {
 } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { DropStatus, PurchaseStatus } from './../types';
+import { DropStatus, PurchaseStatus, WebhookStatus } from './../types';
 import { InviteStatus } from '../graphql.types';
 import { Icon } from './Icon';
-import { WebhookStatus } from '../app/(organization)/webhooks/page';
 
 interface TableProps<T> {
   columns: ColumnDef<T, string>[];

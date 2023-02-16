@@ -1,13 +1,11 @@
 'use client';
-import { Button, Form, Modal, PopoverBox } from '@holaplex/ui-library-react';
+import { Button, PopoverBox } from '@holaplex/ui-library-react';
 import { createColumnHelper } from '@tanstack/react-table';
 import clsx from 'clsx';
-import { usePathname, useRouter } from 'next/navigation';
-import { useState } from 'react';
-import Card from '../../../components/Card';
+import { useRouter } from 'next/navigation';
 import { Icon } from '../../../components/Icon';
 import Table from '../../../components/Table';
-import Typography, { Size } from '../../../components/Typography';
+import { WebhookStatus } from '../../../types';
 
 export enum WebhookEvent {
   PROJECT_CREATED = 'Project created',
@@ -16,11 +14,6 @@ export enum WebhookEvent {
   INVITATION_ACCEPTED = 'Invitation accepted',
   INVITATION_REVOKED = 'Invitation revoked',
   CREDENTIAL_CREATED = 'Credential created',
-}
-
-export enum WebhookStatus {
-  ACTIVE = 'Active',
-  DISABLED = 'Disabled',
 }
 
 type Webhook = {
@@ -33,15 +26,7 @@ type Webhook = {
   status: WebhookStatus;
 };
 
-enum ShowModal {
-  NONE,
-  ENABLE,
-  EDIT,
-  DELETE,
-}
-
 export default function WebhooksPage() {
-  const [showModal, setShowModal] = useState<ShowModal>(ShowModal.NONE);
   const router = useRouter();
   const hasWebhooks = true;
   const columnHelper = createColumnHelper<Webhook>();
@@ -149,24 +134,16 @@ export default function WebhooksPage() {
                         </div>
                       }
                       elements={[
-                        <div
-                          key="enable"
-                          className="flex gap-2 items-center"
-                          onClick={() => setShowModal(ShowModal.ENABLE)}
-                        >
+                        <div key="enable" className="flex gap-2 items-center">
                           <Icon.Check /> <span>Enable</span>
                         </div>,
-                        <div
-                          key="edit"
-                          className="flex gap-2 items-center"
-                          onClick={() => setShowModal(ShowModal.EDIT)}
-                        >
+                        <div key="edit" className="flex gap-2 items-center">
                           <Icon.Edit /> <span>Edit</span>
                         </div>,
                         <div
                           key="delete"
                           className="flex gap-2 items-center"
-                          onClick={() => setShowModal(ShowModal.DELETE)}
+                          onClick={() => router.push('/webhooks/delete')}
                         >
                           <Icon.Delete fill="#E52E2E" />
                           <span className="text-negative">Delete</span>
@@ -191,33 +168,6 @@ export default function WebhooksPage() {
           </div>
         )}
       </div>
-
-      <Modal
-        open={showModal === ShowModal.DELETE}
-        setOpen={(open: boolean) => {
-          open ? setShowModal(ShowModal.DELETE) : setShowModal(ShowModal.NONE);
-        }}
-      >
-        <Card className="w-[400px]">
-          <Typography.Header size={Size.H2}>Delete webhook?</Typography.Header>
-          <Typography.Header size={Size.H3}>
-            Are you sure you want to delete [Name] webhook and all its contents?
-          </Typography.Header>
-
-          <Form className="flex flex-col mt-5">
-            <Button htmlType="submit" className="w-full mt-5" variant="failure">
-              Delete
-            </Button>
-            <Button
-              variant="tertiary"
-              className="w-full mt-5 "
-              onClick={() => setShowModal(ShowModal.NONE)}
-            >
-              Cancel
-            </Button>
-          </Form>
-        </Card>
-      </Modal>
     </>
   );
 }
