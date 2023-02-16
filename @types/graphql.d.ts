@@ -1,4 +1,13 @@
 
+declare module '*/invite.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const InviteMember: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/organization.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
