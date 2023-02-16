@@ -4,10 +4,10 @@ import { createColumnHelper } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import Card from '../../../../components/Card';
-import { Icon } from '../../../../components/Icon';
-import Table from '../../../../components/Table';
-import Typography, { Size } from '../../../../components/Typography';
+import Card from '../../../components/Card';
+import { Icon } from '../../../components/Icon';
+import Table from '../../../components/Table';
+import Typography, { Size } from '../../../components/Typography';
 
 export enum WebhookEvent {
   PROJECT_CREATED = 'Project created',
@@ -43,8 +43,6 @@ enum ShowModal {
 export default function WebhooksPage() {
   const [showModal, setShowModal] = useState<ShowModal>(ShowModal.NONE);
   const router = useRouter();
-  const pathname = usePathname();
-  const slug = pathname ? pathname.split('/')[2] : null;
   const hasWebhooks = true;
   const columnHelper = createColumnHelper<Webhook>();
 
@@ -60,7 +58,7 @@ export default function WebhooksPage() {
             <Button
               icon={<Icon.AddWebhook stroke="#ffffff" />}
               className="mt-8"
-              onClick={() => router.push(`/organizations/${slug}/webhooks/new`)}
+              onClick={() => router.push(`/webhooks/new`)}
             >
               Add Webhook
             </Button>
@@ -70,7 +68,7 @@ export default function WebhooksPage() {
             <Button
               icon={<Icon.AddWebhook stroke="#ffffff" />}
               className="self-end"
-              onClick={() => router.push(`/organizations/${slug}/webhooks/new`)}
+              onClick={() => router.push(`/webhooks/new`)}
             >
               Add Webhook
             </Button>

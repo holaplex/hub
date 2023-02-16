@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { DropStatus, PurchaseStatus } from './../types';
 import { InviteStatus } from '../graphql.types';
 import { Icon } from './Icon';
-import { WebhookStatus } from '../app/organizations/[organization]/webhooks/page';
+import { WebhookStatus } from '../app/(organization)/webhooks/page';
 
 interface TableProps<T> {
   columns: ColumnDef<T, string>[];

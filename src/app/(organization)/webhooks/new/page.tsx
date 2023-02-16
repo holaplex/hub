@@ -1,8 +1,8 @@
 'use client';
 import { Button, Form } from '@holaplex/ui-library-react';
-import Card from '../../../../../components/Card';
-import { Icon } from '../../../../../components/Icon';
-import Typography, { Size } from '../../../../../components/Typography';
+import Card from '../../../../components/Card';
+import { Icon } from '../../../../components/Icon';
+import Typography, { Size } from '../../../../components/Typography';
 
 export default function NewWebhook() {
   return (
