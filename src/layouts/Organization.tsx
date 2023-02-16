@@ -46,6 +46,12 @@ export default function Organization({
               active={segments[0] === 'members'}
             />
             <Sidebar.Menu.Link
+              name="Webhooks"
+              icon={<Icon.Webhook />}
+              href="/webhooks"
+              active={segments[0] === 'webhooks'}
+            />
+            <Sidebar.Menu.Link
               name="Settings"
               icon={<Icon.Settings />}
               href="/settings"
@@ -58,9 +64,7 @@ export default function Organization({
             </div>
           </Sidebar.Footer>
         </Sidebar.Panel>
-        <Sidebar.Content>
-          {children}
-        </Sidebar.Content>
+        <Sidebar.Content>{children}</Sidebar.Content>
       </Sidebar.Page>
     </OrganizationProvider>
   );

@@ -9,3 +9,8 @@ export enum DropStatus {
   MINTING,
   MINTED,
 }
+
+export enum WebhookStatus {
+  ACTIVE = 'Active',
+  DISABLED = 'Disabled',
+}
