@@ -1,6 +1,7 @@
 import { RecoveryFlow, UiNodeInputAttributes } from '@ory/client';
 import { useRouter } from 'next/navigation';
-import { ory, extractFlowNode } from '../modules/ory';
+import { extractFlowNode } from '../modules/ory';
+import { useOry } from './useOry';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 
 interface RecoveryForm {
@@ -16,6 +17,7 @@ interface RecoveryContext {
 
 export function useRecovery(flow: RecoveryFlow | undefined): RecoveryContext {
   const router = useRouter();
+  const { ory } = useOry();
 
   const { register, handleSubmit, formState, setError } = useForm<RecoveryForm>();
 

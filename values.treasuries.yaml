@@ -1,0 +1,11 @@
+migrate:
+  image:
+    pullPolicy: Always
+
+image:
+  pullPolicy: Always
+  tag: "latest"
+
+environment:
+  kafkaBrokers: "hub-eventbus-cluster-0.hub-eventbus-cluster.default.svc.cluster.local:9093"
+  kafkaSsl: false

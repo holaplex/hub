@@ -19,8 +19,8 @@ There are some secrets required for the API. Reach out to a fellow engineer to t
 /src
 skaffold.yaml
 secrets.router.yaml
-secrets.gateway.yaml
 secrets.orgs.yaml
+secrets.treasuries.yaml
 ```
 
 ### Deploy

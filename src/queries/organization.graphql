@@ -1,0 +1,40 @@
+query GetOrganizationProjects($organization: UUID!) {
+  organization(id: $organization) {
+    id
+    projects {
+      id
+      name
+      createdAt
+    }
+  }
+}
+
+query GetOrganizationBasicInfo($organization: UUID!) {
+  organization(id: $organization) {
+    id
+    name
+  }
+}
+
+query GetOrganizationMembers($organization: UUID!) {
+  organization(id: $organization) {
+    owner {
+      id
+      createdAt
+      user {
+        firstName
+        lastName
+        email
+      }
+    }
+    members {
+      id
+      createdAt
+      user {
+        firstName
+        lastName
+        email
+      }
+    }
+  }
+}

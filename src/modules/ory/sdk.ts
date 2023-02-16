@@ -1,4 +1,11 @@
-import { Configuration, FrontendApi } from "@ory/client"
-import { edgeConfig } from "@ory/integrations/next"
+import { Configuration, ConfigurationParameters, FrontendApi } from '@ory/client';
+import { config } from '../../app.config';
 
-export const ory = new FrontendApi(new Configuration(edgeConfig));
+export function ory(config: ConfigurationParameters) {
+  return new FrontendApi(new Configuration(config));
+}
+
+export const serverConfig: ConfigurationParameters = {
+  basePath: config.server('kratos'),
+  baseOptions: { withCredentials: true },
+};

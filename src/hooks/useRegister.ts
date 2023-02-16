@@ -1,6 +1,7 @@
 import { RegistrationFlow, UiNodeInputAttributes } from '@ory/client';
 import { useRouter } from 'next/navigation';
-import { ory, extractFlowNode } from '../modules/ory';
+import { extractFlowNode } from '../modules/ory';
+import { useOry } from './useOry';
 import { toast } from 'react-toastify';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 
@@ -19,6 +20,7 @@ interface RegisterContext {
 
 export function useRegister(flow: RegistrationFlow | undefined): RegisterContext {
   const router = useRouter();
+  const { ory } = useOry();
 
   const { register, handleSubmit, formState, setError } = useForm<RegistrationForm>();
 

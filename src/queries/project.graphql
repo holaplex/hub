@@ -1,0 +1,13 @@
+query GetProject($project: UUID!) {
+  project(id: $project) {
+    id
+    name
+  }
+}
+
+query GetProjectDrops($project: UUID!) {
+    project(id: $project) {
+    id
+    name
+  }
+}
