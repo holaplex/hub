@@ -55,6 +55,11 @@ export type CreateProjectInput = {
   organization: Scalars['UUID'];
 };
 
+export type CreateProjectPayload = {
+  __typename?: 'CreateProjectPayload';
+  project: Project;
+};
+
 export type CreateWebhookInput = {
   endpoint: Scalars['String'];
   filterTypes: Array<FilterType>;
@@ -175,7 +180,7 @@ export type Mutation = {
    * # Errors
    * This function fails if ...
    */
-  createProject: Project;
+  createProject: CreateProjectPayload;
   /**
    * Res
    *

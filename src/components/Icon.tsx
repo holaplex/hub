@@ -1712,3 +1712,136 @@ function HidePasswordIcon({ width = 16, height = 16, fill = 'none', className = 
 }
 
 Icon.HidePassword = HidePasswordIcon;
+
+function ReceiveTokens({
+  width = 20,
+  height = 20,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 20 20"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M17.5 7.91659V5.41659C17.5 4.26599 16.5673 3.33325 15.4167 3.33325H4.58333C3.43274 3.33325 2.5 4.26599 2.5 5.41659V8.33325"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M17.4997 12.0833V14.5833C17.4997 15.7338 16.5669 16.6666 15.4163 16.6666H10.833"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M16.2503 7.91675H17.5003C17.9606 7.91675 18.3337 8.28984 18.3337 8.75008V11.2501C18.3337 11.7103 17.9606 12.0834 17.5003 12.0834H16.2503C15.0997 12.0834 14.167 11.1507 14.167 10.0001V10.0001C14.167 8.84949 15.0997 7.91675 16.2503 7.91675V7.91675Z"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path d="M7 12L8.5 14L7 16" stroke={stroke} stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M2.5 14H8" stroke={stroke} stroke-linecap="round" />
+    </svg>
+  );
+}
+Icon.ReceiveTokens = ReceiveTokens;
+
+function AddWallet({
+  width = 20,
+  height = 20,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 20 20"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M17.5 7.91659V5.41659C17.5 4.26599 16.5673 3.33325 15.4167 3.33325H4.58333C3.43274 3.33325 2.5 4.26599 2.5 5.41659V8.33325"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M17.4997 12.0833V14.5833C17.4997 15.7338 16.5669 16.6666 15.4163 16.6666H9.83301"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M16.2503 7.91675H17.5003C17.9606 7.91675 18.3337 8.28984 18.3337 8.75008V11.2501C18.3337 11.7103 17.9606 12.0834 17.5003 12.0834H16.2503C15.0997 12.0834 14.167 11.1507 14.167 10.0001V10.0001C14.167 8.84949 15.0997 7.91675 16.2503 7.91675V7.91675Z"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path d="M5 11.5V16.5" stroke={stroke} stroke-linecap="round" />
+      <path d="M2.5 14H7.5" stroke={stroke} stroke-linecap="round" />
+    </svg>
+  );
+}
+Icon.AddWallet = AddWallet;
+
+function LargeTreasuryIcon({ width = 96, height = 96, fill = 'none', className = '' }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 96 96"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M69.124 30.1254V38.4259C71.4575 40.5319 73.31 43.1579 74.4085 46.1641H77.249C79.043 46.1641 80.499 47.6201 80.499 49.4141V59.3754C80.499 61.1694 79.043 62.6254 77.249 62.6254H72.9883C71.282 65.5764 68.8185 68.0334 65.874 69.7461V75.6254C65.874 77.4194 64.418 78.8754 62.624 78.8754H56.124C54.33 78.8754 52.874 77.4194 52.874 75.6254V72.3754H41.499V75.1964C41.499 76.9904 40.043 78.4464 38.249 78.4464H31.749C29.955 78.4464 28.499 76.9904 28.499 75.1964V67.3801C24.5178 63.8084 21.999 58.6441 21.999 52.8754C21.999 42.1049 30.7285 33.3754 41.499 33.3754H56.2085C57.6028 33.3754 58.9548 32.9171 60.0663 32.0786C61.688 30.8566 63.69 30.1254 65.874 30.1254H69.124V30.1254Z"
+        fill="#C5C5C5"
+        stroke="#555555"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M64.3556 49.5178C64.4141 49.5763 64.4141 49.6705 64.3556 49.729C64.2971 49.7875 64.2029 49.7875 64.1444 49.729C64.0859 49.6705 64.0859 49.5763 64.1444 49.5178C64.2029 49.4593 64.3004 49.4625 64.3556 49.5178"
+        stroke="#555555"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M56.6525 33.3033C57.3382 31.8375 57.751 30.2223 57.751 28.4998C57.751 22.2175 52.6582 17.1248 46.376 17.1248C40.0937 17.1248 35.001 22.2175 35.001 28.4998C35.001 30.5245 35.573 32.3998 36.5025 34.0443"
+        stroke="#555555"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M16.436 43.125C14.9118 44.0123 13.875 45.647 13.875 47.5385C13.875 50.3693 16.1695 52.6637 19.0003 52.6637H22"
+        stroke="#555555"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <rect x="0.5" y="0.5" width="95" height="95" rx="7.5" stroke="#E6E6E6" />
+    </svg>
+  );
+}
+LargeIcon.Treasury = LargeTreasuryIcon;

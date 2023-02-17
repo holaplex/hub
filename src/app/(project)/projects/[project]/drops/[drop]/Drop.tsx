@@ -35,7 +35,9 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
           <Button icon={<Icon.Pause />} variant="secondary">
             Pause
           </Button>
-          <Button variant="secondary">Shut down Minting</Button>
+          <Button icon={<Icon.Close />} variant="secondary">
+            Shut down Minting
+          </Button>
         </div>
       </div>
       <div className="mt-5 flex gap-4">
