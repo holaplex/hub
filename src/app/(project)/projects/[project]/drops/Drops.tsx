@@ -72,7 +72,10 @@ export default function Drops({ project }: DropsPageProps) {
           </div>
         ) : (
           <div className="mt-4 flex flex-col">
-            <Link href={`/projects/${dropsQuery.data?.project.id}/drops/create/details`} className="self-end">
+            <Link
+              href={`/projects/${dropsQuery.data?.project.id}/drops/create/details`}
+              className="self-end"
+            >
               <Button icon={<Icon.Add stroke="#ffffff" />} variant="primary">
                 Create drop
               </Button>
@@ -87,7 +90,9 @@ export default function Drops({ project }: DropsPageProps) {
                     <div className="flex gap-2 items-center">
                       <Avatar size={AvatarSize.Standard} placeholder={<Icon.EmptyAvatar />} />
                       <Link
-                        href={`/projects/${dropsQuery.data?.project.id}/drops/${info.getValue().id}/holders`}
+                        href={`/projects/${dropsQuery.data?.project.id}/drops/${
+                          info.getValue().id
+                        }/holders`}
                         className="flex flex-col gap-1"
                       >
                         <span className="text-xs text-primary font-medium">

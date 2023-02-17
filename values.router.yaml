@@ -3,8 +3,8 @@ managedFederation:
 
 router:
   configuration:
-    cors:
-      allow_any_origin: true
+    include_subgraph_errors:
+      all: true
     supergraph:
       introspection: true
     headers:
