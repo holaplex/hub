@@ -6,12 +6,12 @@ import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import { GetProjectDrops } from './../../../../../queries/project.graphql';
 import { useState } from 'react';
-import Card from '../../../../components/Card';
-import { Icon } from '../../../../components/Icon';
-import Table from '../../../../components/Table';
-import Typography, { Size } from '../../../../components/Typography';
-import { DropStatus } from '../../../../types';
-import { Project } from '../../../../graphql.types';
+import Card from '../../../../../components/Card';
+import { Icon } from '../../../../../components/Icon';
+import Table from '../../../../../components/Table';
+import Typography, { Size } from '../../../../../components/Typography';
+import { DropStatus } from '../../../../../types';
+import { Project } from '../../../../../graphql.types';
 
 type Drop = {
   id: string;

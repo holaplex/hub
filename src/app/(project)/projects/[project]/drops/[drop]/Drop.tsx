@@ -1,8 +1,8 @@
 'use client';
 
 import { Button } from '@holaplex/ui-library-react';
-import { Icon } from '../../../../../components/Icon';
-import Tabs from '../../../../../layouts/Tabs';
+import { Icon } from '../../../../../../components/Icon';
+import Tabs from '../../../../../../layouts/Tabs';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 

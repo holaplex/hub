@@ -1,6 +1,6 @@
 import { apollo } from '../../../../../../../client';
 import { config } from '../../../../../../../app.config';
-import { GetProject } from './../../../../queries/project.graphql';
+import { GetProject } from './../../../../../../../queries/project.graphql';
 import TreasuryWallet, { Wallet } from '../../../../../../../layouts/TreasuryWallet';
 
 const client = apollo(config.server('graphql'));

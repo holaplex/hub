@@ -3,12 +3,14 @@ import { Button, Form, Modal } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import Card from '../../../../../../../components/Card';
 import Typography, { Size } from '../../../../../../../components/Typography';
+import { useProject } from '../../../../../../../hooks/useProject';
 
 export default function MemberDeletePage() {
   const router = useRouter();
+  const { project } = useProject();
 
   const onClose = () => {
-    router.back();
+    router.push(`/projects/${project?.id}/treasuries`);
   };
 
   return (
@@ -19,15 +21,6 @@ export default function MemberDeletePage() {
         </Typography.Header>
 
         <Form className="flex flex-col mt-5">
-          <Form.Label name="Wallet name" className="text-xs mt-5 text-primary">
-            <Form.Select
-              placeholder="Select wallet"
-              options={[
-                { option: 'Main wallet', value: 'main_wallet' },
-                { option: 'Test wallet', value: 'text_wallet' },
-              ]}
-            />
-          </Form.Label>
           <Form.Label name="Blockchain" className="text-xs mt-5 text-primary">
             <Form.Select
               placeholder="Select blockchain"

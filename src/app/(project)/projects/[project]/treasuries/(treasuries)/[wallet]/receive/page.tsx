@@ -1,5 +1,5 @@
 'use client';
-import { Button, Form, Modal } from '@holaplex/ui-library-react';
+import { Button, Modal } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import Card from '../../../../../../../../components/Card';
 import { Icon } from '../../../../../../../../components/Icon';
@@ -19,18 +19,7 @@ export default function MemberDeletePage() {
           Receive tokens
         </Typography.Header>
 
-        <Form className="flex flex-col mt-5">
-          <Form.Label name="Wallet" className="text-xs mt-5 text-primary">
-            <Form.Select
-              placeholder="Select wallet"
-              options={[
-                { option: 'Main wallet', value: 'main_wallet' },
-                { option: 'Test wallet', value: 'text_wallet' },
-              ]}
-            />
-          </Form.Label>
-
-          <Form.Error message="" />
+        <div className="flex flex-col mt-5">
           <div className="flex bg-gray-50 rounded-md p-3 mt-5">
             <Icon.EmptyAvatar className="w-32 aspect-square" />
             <div className="w-full flex flex-col justify-between items-start">
@@ -47,7 +36,7 @@ export default function MemberDeletePage() {
           <Button className="w-full mt-5" variant="tertiary" onClick={onClose}>
             Close
           </Button>
-        </Form>
+        </div>
       </Card>
     </Modal>
   );

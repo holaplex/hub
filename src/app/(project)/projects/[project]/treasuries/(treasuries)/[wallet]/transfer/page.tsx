@@ -19,9 +19,6 @@ export default function MemberDeletePage() {
         </Typography.Header>
 
         <Form className="flex flex-col mt-5">
-          <Form.Label name="Wallet name" className="text-xs text-primary">
-            <Form.Input />
-          </Form.Label>
           <Form.Label
             name="Amount"
             className="text-xs text-primary mt-5"

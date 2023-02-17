@@ -18,6 +18,10 @@ const nextConfig = {
         source: '/organization',
         destination: '/organization/members',
       },
+      {
+        source: '/projects/:project',
+        destination: '/projects/:project/drops',
+      },
     ]
   },
 };
