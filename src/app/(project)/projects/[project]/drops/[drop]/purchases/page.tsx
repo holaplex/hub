@@ -93,10 +93,8 @@ export default function PurchasesPage() {
             },
           }),
           columnHelper.accessor((row) => row.status.toString(), {
-            id: 'inviteStatus',
-            header: () => (
-              <span className="flex text-xs text-gray-600 font-medium">Invite status</span>
-            ),
+            id: 'status',
+            header: () => <span className="flex text-xs text-gray-600 font-medium">Status</span>,
             cell: (info) => <Table.PurchaseStatusPill status={info.getValue() as PurchaseStatus} />,
           }),
           columnHelper.display({

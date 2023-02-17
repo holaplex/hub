@@ -29,6 +29,7 @@ query GetOrganizationMembers($organization: UUID!) {
     }
     invites {
       id
+      email
       createdAt
       status
       updatedAt
