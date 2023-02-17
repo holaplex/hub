@@ -152,9 +152,9 @@ export default function Drops({ project }: DropsPageProps) {
                   ),
                 }),
                 columnHelper.accessor((row) => row.status?.toString(), {
-                  id: 'inviteStatus',
+                  id: 'status',
                   header: () => (
-                    <span className="flex text-xs text-gray-600 font-medium">Invite status</span>
+                    <span className="flex text-xs text-gray-600 font-medium">Status</span>
                   ),
                   cell: (info) => <Table.DropStatusPill status={info.row.original.status} />,
                 }),

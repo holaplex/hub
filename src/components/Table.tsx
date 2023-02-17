@@ -94,28 +94,34 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
 
 interface InviteStatusPillProps {
   status: InviteStatus;
+  isOwner?: boolean;
   className?: string;
 }
 
-function InviteStatusPill({ status, className }: InviteStatusPillProps) {
+function InviteStatusPill({ status, isOwner, className }: InviteStatusPillProps) {
   let label = '';
-  switch (status) {
-    case InviteStatus.Accepted:
-      label = 'Active';
-      break;
-    case InviteStatus.Sent:
-      label = 'Pending';
-      break;
-    case InviteStatus.Revoked:
-      label = 'Inactive';
-      break;
+  if (isOwner) {
+    label = 'Owner';
+  } else {
+    switch (status) {
+      case InviteStatus.Accepted:
+        label = 'Active';
+        break;
+      case InviteStatus.Sent:
+        label = 'Pending';
+        break;
+      case InviteStatus.Revoked:
+        label = 'Expired';
+        break;
+    }
   }
   return (
     <div
       className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
-        'bg-green-200 text-gray-600': status === InviteStatus.Accepted,
-        'bg-brown-200 text-brown-600': status === InviteStatus.Sent,
-        'bg-gray-100 text-gray-500': status === InviteStatus.Revoked,
+        'bg-purple-200 text-purple-600': isOwner,
+        'bg-green-200 text-green-600': status === InviteStatus.Accepted,
+        'bg-cyan-200 text-cyan-600': status === InviteStatus.Sent,
+        'bg-red-100 text-red-900': status === InviteStatus.Revoked,
       })}
     >
       {label}

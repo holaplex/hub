@@ -1,15 +1,12 @@
 'use client';
-import { Button, Form, Modal, PopoverBox } from '@holaplex/ui-library-react';
+import { Button, PopoverBox } from '@holaplex/ui-library-react';
 import { createColumnHelper } from '@tanstack/react-table';
-import clsx from 'clsx';
-import React, { useState } from 'react';
-import Card from '../../../components/Card';
+import React from 'react';
 import { Icon } from '../../../components/Icon';
 import Table from '../../../components/Table';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import { GetOrganizationProjects } from './../../../queries/organization.graphql';
-import Typography, { Size } from '../../../components/Typography';
 import { Organization, Project } from '../../../graphql.types';
 import { useOrganization } from '../../../hooks/useOrganization';
 
