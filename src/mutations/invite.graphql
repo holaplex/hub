@@ -6,3 +6,17 @@ mutation InviteMember($input: InviteMemberInput!) {
     createdAt
   }
 }
+
+mutation AcceptInvite($input: AcceptInviteInput!) {
+  acceptInvite(input: $input) {
+    invite {
+      id
+      member {
+        id
+        organization {
+          id
+        }
+      }
+    }
+  }
+}

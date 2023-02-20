@@ -13,11 +13,11 @@ build:
         dockerfile: Dockerfile
       sync:
         manual:
-          - src: 'src/**/**/**/**/**/**/**/*.tsx'
+          - src: 'src/**/*.tsx'
             dest: .
-          - src: 'src/**/**/**/**/**/**/**/*.css'
+          - src: 'src/**/*.css'
             dest: .
-          - src: 'src/**/**/**/**/**/**/**/*.ts'
+          - src: 'src/**/*.ts'
             dest: .
           - src: 'src/queries/*.graphql'
             dest: .
@@ -30,6 +30,11 @@ portForward:
     namespace: ingress-apisix
     port: 80
     localPort: 9080
+  - resourceType: service
+    resourceName: federated-router
+    namespace: default
+    port: 80
+    localPort: 3005
 
 deploy:
   helm:

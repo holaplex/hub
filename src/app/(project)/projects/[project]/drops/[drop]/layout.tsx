@@ -8,7 +8,7 @@ interface DropLayoutProps {
 export default function DropLayout({
   children,
   params: { drop, project },
-}: DropLayoutProps): JSX.Element {
+}: DropLayoutProps): React.ReactNode {
   return (
     <Drop project={project} drop={drop}>
       {children}

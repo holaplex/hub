@@ -11,7 +11,7 @@ export default function Organization({
   children,
   organization,
 }: {
-  children: JSX.Element | JSX.Element[];
+  children: React.ReactNode | React.ReactNode[];
   organization?: OrganizationType;
 }): JSX.Element {
   const segments = useSelectedLayoutSegments();

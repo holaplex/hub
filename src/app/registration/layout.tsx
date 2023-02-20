@@ -1,7 +1,5 @@
-import Splash from "./../../layouts/Splash"
+import Splash from './../../layouts/Splash';
 
 export default function RegisterLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <Splash>{children}</Splash>
-  );
+  return <Splash>{children}</Splash>;
 }

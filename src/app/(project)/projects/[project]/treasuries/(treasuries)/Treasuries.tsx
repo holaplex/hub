@@ -17,7 +17,7 @@ type Treasury = {
 };
 
 interface TreasuryLayoutProps {
-  children: JSX.Element;
+  children: React.ReactNode;
   wallet: string;
   project: string;
 }
@@ -50,7 +50,9 @@ export default function TreasuryLayout({ children, wallet, project }: TreasuryLa
               className="mt-4"
               columns={[
                 columnHelper.accessor('id', {
-                  header: () => <span className="text-xs text-gray-600 font-medium">Blockchain</span>,
+                  header: () => (
+                    <span className="text-xs text-gray-600 font-medium">Blockchain</span>
+                  ),
                   cell: (info) => (
                     <Link
                       href={`/projects/${project}/treasuries/${info.getValue()}`}

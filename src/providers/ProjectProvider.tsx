@@ -5,9 +5,7 @@ interface ProjectContextType {
   project?: Project;
 }
 
-export const ProjectContext = createContext<ProjectContextType>(
-  {} as ProjectContextType
-);
+export const ProjectContext = createContext<ProjectContextType>({} as ProjectContextType);
 
 export function ProjectProvider({
   children,

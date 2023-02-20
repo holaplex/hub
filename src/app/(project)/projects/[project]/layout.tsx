@@ -7,7 +7,7 @@ import { GetProject } from './../../../../queries/project.graphql';
 const client = apollo(config.server('graphql'));
 
 interface ProjectLayoutProps {
-  children: JSX.Element;
+  children: React.ReactNode;
   params: { project: string };
 }
 interface GetProjectData {
@@ -21,7 +21,7 @@ interface GetProjectVars {
 export default async function ProjectLayout({
   children,
   params: { project },
-}: ProjectLayoutProps): Promise<JSX.Element> {
+}: ProjectLayoutProps): Promise<React.ReactNode> {
   const projectQuery = await client.query<GetProjectData, GetProjectVars>({
     query: GetProject,
     variables: { project },

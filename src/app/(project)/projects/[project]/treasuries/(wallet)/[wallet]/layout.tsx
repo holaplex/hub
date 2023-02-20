@@ -6,7 +6,7 @@ import TreasuryWallet, { Wallet } from '../../../../../../../layouts/TreasuryWal
 const client = apollo(config.server('graphql'));
 
 interface WalletLayoutProps {
-  children: JSX.Element;
+  children: React.ReactNode;
   params: { wallet: string };
 }
 interface GetWalletData {
@@ -20,7 +20,7 @@ interface GetWalletVars {
 export default async function WalletLayout({
   children,
   params: { wallet },
-}: WalletLayoutProps): Promise<JSX.Element> {
+}: WalletLayoutProps): Promise<React.ReactNode> {
   const walletQuery = await client.query<GetWalletData, GetWalletVars>({
     query: GetProject,
     variables: { wallet },

@@ -24,3 +24,5 @@ spec:
             value: http://apisix-gateway-internal.ingress-apisix.svc.cluster.local/graphql
           - name: KRATOS_ENDPOINT
             value: http://kratos-public
+          - name: NEXT_PUBLIC_APP_FQDN
+            value: http://hub.127.0.0.1.nip.io:9080

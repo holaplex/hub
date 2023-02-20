@@ -6,6 +6,6 @@ interface CreateOrganizationLayoutProps {
 
 export default function OrganizationLayout({
   children,
-}: CreateOrganizationLayoutProps): JSX.Element {
+}: CreateOrganizationLayoutProps): React.ReactNode {
   return <Splash>{children}</Splash>;
 }

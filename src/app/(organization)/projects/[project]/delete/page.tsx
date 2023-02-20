@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { Button, Form, Modal } from '@holaplex/ui-library-react';
 import Card from '../../../../../components/Card';
 import Typography, { Size } from '../../../../../components/Typography';
@@ -7,10 +7,7 @@ import { Icon } from '../../../../../components/Icon';
 export default function DeleteProject() {
   return (
     <>
-      <Modal
-        open={true}
-        setOpen={(open: boolean) => {}}
-      >
+      <Modal open={true} setOpen={(open: boolean) => {}}>
         <Card className="w-[400px]">
           <Typography.Header size={Size.H2} className="self-start">
             Delete project
@@ -24,21 +21,13 @@ export default function DeleteProject() {
             <Button htmlType="submit" className="w-full mt-5">
               Transfer funds
             </Button>
-            <Button
-              variant="tertiary"
-              className="w-full mt-5 "
-              onClick={() => {}}
-            >
+            <Button variant="tertiary" className="w-full mt-5 " onClick={() => {}}>
               Cancel
             </Button>
           </Form>
         </Card>
       </Modal>
-      <Modal
-        open={false}
-        setOpen={(open: boolean) => {
-        }}
-      >
+      <Modal open={false} setOpen={(open: boolean) => {}}>
         <Card className="w-[400px]">
           <Typography.Header size={Size.H2}>Delete project</Typography.Header>
           <Typography.Header size={Size.H3}>
@@ -55,11 +44,7 @@ export default function DeleteProject() {
             <Button htmlType="submit" className="w-full mt-5" variant="failure">
               Delete
             </Button>
-            <Button
-              variant="tertiary"
-              className="w-full mt-5 "
-              onClick={() => {}}
-            >
+            <Button variant="tertiary" className="w-full mt-5 " onClick={() => {}}>
               Cancel
             </Button>
           </Form>

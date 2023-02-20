@@ -89,7 +89,7 @@ export default function CreateDropStep3() {
             className="mt-3"
             label={
               <span className="text-xs font-medium text-primary">
-                I don't need to end collection sales
+                I do not need to end collection sales
               </span>
             }
           />

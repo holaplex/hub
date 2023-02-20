@@ -14,13 +14,13 @@ interface GetOrganizationBasicInfoData {
   organization: OrganizationType;
 }
 
-const client = apollo(config.server('graphql'))
+const client = apollo(config.server('graphql'));
 
 export default async function OrganizationLayout({
   children,
 }: {
-  children: JSX.Element | JSX.Element[];
-}): Promise<JSX.Element | void> {
+  children: React.ReactNode;
+}): Promise<React.ReactNode> {
   const cookieStore = cookies();
 
   if (cookieStore.has('_hub_org')) {

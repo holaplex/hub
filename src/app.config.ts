@@ -5,6 +5,7 @@ interface ServerConfig {
 
 interface ClientConfig {
   graphql: string;
+  fqdn: string;
 }
 
 interface AppConfig {
@@ -23,6 +24,7 @@ class Config {
       },
       client: {
         graphql: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string,
+        fqdn: process.env.NEXT_PUBLIC_APP_FQDN as string,
       },
     };
   }

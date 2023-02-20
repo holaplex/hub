@@ -8,15 +8,11 @@ export default function Navbar() {
 }
 
 interface NavbarPageProps {
-  children: JSX.Element[];
+  children: React.ReactNode[];
 }
 
 function NavbarPage({ children }: NavbarPageProps) {
-  return (
-    <section className="flex flex-col gap-8 items-center">
-      {Children.map(children, (child) => cloneElement(child))}
-    </section>
-  );
+  return <section className="flex flex-col gap-8 items-center">{children}</section>;
 }
 Navbar.Page = NavbarPage;
 

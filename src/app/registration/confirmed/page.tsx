@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { Button, Form } from '@holaplex/ui-library-react';
 import Card from './../../../components/Card';
 import { Icon } from './../../../components/Icon';

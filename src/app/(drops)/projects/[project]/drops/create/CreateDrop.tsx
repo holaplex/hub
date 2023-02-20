@@ -19,7 +19,10 @@ export default function CreateDrop({ children, project }: CreateDropProps): JSX.
     <Navbar.Page>
       <Navbar.Panel>
         <Navbar.Header>
-          <Link href={`/projects/${project}/drops`} className="flex items-center gap-4 px-5 cursor-pointer">
+          <Link
+            href={`/projects/${project}/drops`}
+            className="flex items-center gap-4 px-5 cursor-pointer"
+          >
             <Icon.Close />
             <span className="flex items-center gap-2 text-sm text-primary font-medium">Close</span>
           </Link>
