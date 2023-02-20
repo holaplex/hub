@@ -13,7 +13,7 @@ export enum Size {
 interface LinkProps {
   href: string;
   size?: string;
-  children: string | JSX.Element | JSX.Element[];
+  children: string | React.ReactNode | React.ReactNode[];
   className?: string;
 }
 

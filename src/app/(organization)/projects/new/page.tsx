@@ -61,7 +61,11 @@ export default function NewProjectPage() {
 
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(onSubmit)}>
           <Form.Label name="Project name" className="text-xs text-primary">
-            <Form.Input autoFocus placeholder="e.g. Apple events" {...register('name', { required: true })} />
+            <Form.Input
+              autoFocus
+              placeholder="e.g. Apple events"
+              {...register('name', { required: true })}
+            />
             <Form.Error message={formState.errors.name?.message} />
           </Form.Label>
 

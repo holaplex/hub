@@ -1,5 +1,5 @@
 import { RegistrationFlow, UiNodeInputAttributes } from '@ory/client';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
 import { toast } from 'react-toastify';
@@ -20,6 +20,7 @@ interface RegisterContext {
 
 export function useRegister(flow: RegistrationFlow | undefined): RegisterContext {
   const router = useRouter();
+  const search = useSearchParams();
   const { ory } = useOry();
 
   const { register, handleSubmit, formState, setError } = useForm<RegistrationForm>();
@@ -44,8 +45,8 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
         },
       });
 
-      router.push('/login');
-      toast.success("Welcome to the Hub. Please sign to continue.")
+      router.push(`/login${search.has('return_to') && `?return_to=${search.get('return_to')}`}`);
+      toast.success('Welcome to the Hub. Please sign to continue.');
     } catch (err: any) {
       const {
         response: {

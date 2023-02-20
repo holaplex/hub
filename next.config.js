@@ -22,7 +22,7 @@ const nextConfig = {
         source: '/projects/:project',
         destination: '/projects/:project/drops',
       },
-    ]
+    ];
   },
 };
 

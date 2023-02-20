@@ -1,3 +1,5 @@
+import { InviteStatus } from './graphql.types';
+
 export enum PurchaseStatus {
   PENDING = 'Pending',
   SUCCESS = 'Success',
@@ -24,4 +26,20 @@ export enum TransactionStatus {
 export enum TransactionType {
   RECEIVED = 'Received',
   SENT = 'Sent',
+}
+
+export enum MemberStatus {
+  Accepted = 'ACCEPTED',
+  Revoked = 'REVOKED',
+  Sent = 'SENT',
+  Owner = 'OWNER',
+}
+
+export enum WebhookEvent {
+  PROJECT_CREATED = 'Project created',
+  PROJECT_DEACTIVATED = 'Project deactivated',
+  INVITATION_SENT = 'Invitation sent',
+  INVITATION_ACCEPTED = 'Invitation accepted',
+  INVITATION_REVOKED = 'Invitation revoked',
+  CREDENTIAL_CREATED = 'Credential created',
 }

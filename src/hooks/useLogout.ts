@@ -18,7 +18,7 @@ export function useLogout(): LogoutContext {
 
   useEffect(() => {
     if (!session) {
-      return
+      return;
     }
 
     ory

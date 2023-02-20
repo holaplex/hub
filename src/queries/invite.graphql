@@ -1,0 +1,10 @@
+query GetInvite($invite: UUID!) {
+  invite(id: $invite) {
+    id
+    email
+    organization {
+      id
+      name
+    }
+  }
+}

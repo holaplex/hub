@@ -12,9 +12,7 @@ export default function Home() {
         <Image src="/holaplex.svg" width={212} height={20} alt="Holaplex logo" className="m-auto" />
         <aside className="flex justify-center align-middle gap-2 mt-6">
           <Link href="/login">
-            <Button className="w-36">
-              Sign in
-            </Button>
+            <Button className="w-36">Sign in</Button>
           </Link>
           <Link href="/registration">
             <Button variant="secondary" className="w-36">

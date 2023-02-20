@@ -1,7 +1,7 @@
 import 'react-toastify/dist/ReactToastify.css';
 import './globals.css';
 
-import App from './App'
+import App from './App';
 import { cookies } from 'next/headers';
 import { ory, serverConfig } from '../modules/ory';
 import { Session } from '@ory/client';
@@ -18,8 +18,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     });
 
     session = data;
-  } catch (e: any) {
-  }
+  } catch (e: any) {}
 
   return (
     <html lang="en">

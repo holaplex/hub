@@ -1,14 +1,11 @@
-"use client";
+'use client';
 import { Button, Form, Modal } from '@holaplex/ui-library-react';
 import Card from '../../../../../components/Card';
 import Typography, { Size } from '../../../../../components/Typography';
 
 export default function EditProject() {
   return (
-    <Modal
-      open={true}
-      setOpen={() => {}}
-    >
+    <Modal open={true} setOpen={() => {}}>
       <Card className="w-[400px]">
         <Typography.Header size={Size.H2} className="self-start">
           Edit project
@@ -25,13 +22,9 @@ export default function EditProject() {
           <Form.Error message="" />
 
           <Button htmlType="submit" className="w-full mt-5">
-            Save changes 
+            Save changes
           </Button>
-          <Button
-            className="w-full mt-5"
-            variant="tertiary"
-            onClick={() => {}}
-          >
+          <Button className="w-full mt-5" variant="tertiary" onClick={() => {}}>
             Cancel
           </Button>
           {/* <DragDropImage onDrop={handleDrop} className="mt-5" /> */}

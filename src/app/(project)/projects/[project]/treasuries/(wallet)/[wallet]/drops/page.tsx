@@ -4,9 +4,9 @@ import { createColumnHelper } from '@tanstack/react-table';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Icon } from '../../../../../../components/Icon';
-import Table from '../../../../../../components/Table';
-import { DropStatus } from '../../../../../../app/projects/[project]/drops/page';
+import { Icon } from './../../../../../../../../components/Icon';
+import Table from './../../../../../../../../components/Table';
+import { DropStatus } from './../../../../../../../../types';
 
 type Drop = {
   dropName: string;

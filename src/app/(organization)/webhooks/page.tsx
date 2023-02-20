@@ -5,16 +5,7 @@ import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { Icon } from '../../../components/Icon';
 import Table from '../../../components/Table';
-import { WebhookStatus } from '../../../types';
-
-export enum WebhookEvent {
-  PROJECT_CREATED = 'Project created',
-  PROJECT_DEACTIVATED = 'Project deactivated',
-  INVITATION_SENT = 'Invitation sent',
-  INVITATION_ACCEPTED = 'Invitation accepted',
-  INVITATION_REVOKED = 'Invitation revoked',
-  CREDENTIAL_CREATED = 'Credential created',
-}
+import { WebhookStatus, WebhookEvent } from '../../../types';
 
 type Webhook = {
   name: string;

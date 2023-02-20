@@ -22,7 +22,6 @@ export type AcceptInviteInput = {
 export type AcceptInvitePayload = {
   __typename?: 'AcceptInvitePayload';
   invite: Invite;
-  member: Member;
 };
 
 export type Affiliation = Member | Owner;
@@ -112,7 +111,7 @@ export enum FilterType {
   InvitationRevoked = 'INVITATION_REVOKED',
   InvitationSent = 'INVITATION_SENT',
   ProjectCreated = 'PROJECT_CREATED',
-  ProjectDeactivated = 'PROJECT_DEACTIVATED'
+  ProjectDeactivated = 'PROJECT_DEACTIVATED',
 }
 
 export type Invite = {
@@ -122,6 +121,7 @@ export type Invite = {
   email: Scalars['String'];
   id: Scalars['UUID'];
   member?: Maybe<Member>;
+  organization?: Maybe<Organization>;
   organizationId: Scalars['UUID'];
   status: InviteStatus;
   updatedAt?: Maybe<Scalars['NaiveDateTime']>;
@@ -135,7 +135,7 @@ export type InviteMemberInput = {
 export enum InviteStatus {
   Accepted = 'ACCEPTED',
   Revoked = 'REVOKED',
-  Sent = 'SENT'
+  Sent = 'SENT',
 }
 
 export type Member = {
@@ -211,41 +211,33 @@ export type Mutation = {
   inviteMember: Invite;
 };
 
-
 export type MutationAcceptInviteArgs = {
   input: AcceptInviteInput;
 };
-
 
 export type MutationCreateCredentialArgs = {
   input: CreateCredentialInput;
 };
 
-
 export type MutationCreateOrganizationArgs = {
   input: CreateOrganizationInput;
 };
-
 
 export type MutationCreateProjectArgs = {
   input: CreateProjectInput;
 };
 
-
 export type MutationCreateWebhookArgs = {
   input: CreateWebhookInput;
 };
-
 
 export type MutationDeleteCredentialArgs = {
   id: Scalars['UUID'];
 };
 
-
 export type MutationDeleteWebhookArgs = {
   input: CreateWebhookInput;
 };
-
 
 export type MutationInviteMemberArgs = {
   input: InviteMemberInput;
@@ -264,7 +256,6 @@ export type Organization = {
   projects: Array<Project>;
   svixAppId: Scalars['String'];
 };
-
 
 export type OrganizationInvitesArgs = {
   status?: InputMaybe<InviteStatus>;
@@ -305,6 +296,13 @@ export type Query = {
    * # Errors
    * This function fails if ...
    */
+  invite?: Maybe<Invite>;
+  /**
+   * Res
+   *
+   * # Errors
+   * This function fails if ...
+   */
   organization?: Maybe<Organization>;
   /**
    * Res
@@ -317,21 +315,21 @@ export type Query = {
   users: Array<User>;
 };
 
+export type QueryInviteArgs = {
+  id: Scalars['UUID'];
+};
 
 export type QueryOrganizationArgs = {
   id: Scalars['UUID'];
 };
 
-
 export type QueryProjectArgs = {
   id: Scalars['UUID'];
 };
 
-
 export type QueryUserArgs = {
   id: Scalars['UUID'];
 };
-
 
 export type QueryUsersArgs = {
   page?: Scalars['Int'];

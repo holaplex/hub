@@ -8,12 +8,17 @@ import {
 } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { DropStatus, PurchaseStatus, WebhookStatus, TransactionStatus } from './../types';
-import { InviteStatus } from '../graphql.types';
+import {
+  DropStatus,
+  PurchaseStatus,
+  WebhookStatus,
+  TransactionStatus,
+  MemberStatus,
+} from './../types';
 import { Icon } from './Icon';
 
 interface TableProps<T> {
-  columns: ColumnDef<T, string>[];
+  columns: ColumnDef<T, any>[];
   data: T[];
   className?: string;
 }
@@ -93,42 +98,40 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
 }
 
 interface InviteStatusPillProps {
-  status: InviteStatus;
-  isOwner?: boolean;
+  status: MemberStatus;
   className?: string;
 }
 
-function InviteStatusPill({ status, isOwner, className }: InviteStatusPillProps) {
-  let label = '';
-  if (isOwner) {
-    label = 'Owner';
-  } else {
-    switch (status) {
-      case InviteStatus.Accepted:
-        label = 'Active';
-        break;
-      case InviteStatus.Sent:
-        label = 'Pending';
-        break;
-      case InviteStatus.Revoked:
-        label = 'Expired';
-        break;
-    }
+function MemberPill({ status, className }: InviteStatusPillProps) {
+  let label: string;
+  switch (status) {
+    case MemberStatus.Owner:
+      label = 'Owner';
+      break;
+    case MemberStatus.Accepted:
+      label = 'Active';
+      break;
+    case MemberStatus.Sent:
+      label = 'Pending';
+      break;
+    case MemberStatus.Revoked:
+      label = 'Expired';
+      break;
   }
   return (
     <div
       className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
-        'bg-purple-200 text-purple-600': isOwner,
-        'bg-green-200 text-green-600': status === InviteStatus.Accepted,
-        'bg-cyan-200 text-cyan-600': status === InviteStatus.Sent,
-        'bg-red-100 text-red-900': status === InviteStatus.Revoked,
+        'bg-purple-200 text-purple-600': status == MemberStatus.Owner,
+        'bg-green-200 text-green-600': status === MemberStatus.Accepted,
+        'bg-cyan-200 text-cyan-600': status === MemberStatus.Sent,
+        'bg-red-100 text-red-900': status === MemberStatus.Revoked,
       })}
     >
       {label}
     </div>
   );
 }
-Table.InviteStatusPill = InviteStatusPill;
+Table.MemberPill = MemberPill;
 
 interface DropStatusPillProps {
   status: DropStatus;

@@ -8,6 +8,6 @@ interface CreateDropLayoutProps {
 export default function CreateDropLayout({
   children,
   params: { project },
-}: CreateDropLayoutProps): JSX.Element {
+}: CreateDropLayoutProps): React.ReactNode {
   return <CreateDrop project={project}>{children}</CreateDrop>;
 }

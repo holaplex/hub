@@ -19,7 +19,7 @@ export enum Size {
 interface TypographyProps {
   weight?: FontWeight;
   color?: TextColor;
-  children: string | JSX.Element | JSX.Element[];
+  children: string | JSX.Element | number | (JSX.Element | string | number)[];
   className?: string;
 }
 
@@ -38,7 +38,6 @@ interface HeaderProps extends TypographyProps {
 }
 
 function Header({ size, weight, color, children, className }: HeaderProps): JSX.Element {
-  // return <span className={clsx(size, weight, color, className)}>{children}</span>;
   return createElement(size, { className: clsx(weight, color, className) }, children);
 }
 

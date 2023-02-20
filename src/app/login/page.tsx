@@ -7,9 +7,11 @@ import Card from './../../components/Card';
 import Divider from './../../components/Divider';
 import Link from './../../components/Link';
 import { useLoginFlow } from '../../hooks/useLoginFlow';
+import { useSearchParams } from 'next/navigation';
 
 export default function Login() {
   const { loading, flow } = useLoginFlow();
+  const search = useSearchParams();
   const { submit, register, handleSubmit, formState } = useLogin(flow);
 
   return (
@@ -66,7 +68,10 @@ export default function Login() {
 
       <Divider.Or className="my-4" />
 
-      <Link href="/registration" className="mt-4">
+      <Link
+        href={`/registration${search.has('return_to') && `?return_to=${search.get('return_to')}`}`}
+        className="mt-4"
+      >
         <Button icon={<Icon.LightBulb className="mr-1" />} className="w-full" variant="secondary">
           <div className="flex items-center">
             <span className="text-gray-500 font-medium">Dont have an account?</span>

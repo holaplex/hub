@@ -1,5 +1,5 @@
 import { LoginFlow, UiNodeInputAttributes } from '@ory/client';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
 import { toast } from 'react-toastify';
@@ -25,6 +25,7 @@ interface LoginContext {
 export function useLogin(flow: LoginFlow | undefined): LoginContext {
   const router = useRouter();
   const { setSession } = useSession();
+  const search = useSearchParams();
   const { ory } = useOry();
 
   const { register, handleSubmit, formState, setError } = useForm<LoginForm>();
@@ -56,6 +57,11 @@ export function useLogin(flow: LoginFlow | undefined): LoginContext {
       return;
     }
 
+    if (search.has('return_to')) {
+      router.push(search.get('return_to') as string);
+      return;
+    }
+
     try {
       const response = await fetch('/browser/login', {
         method: 'POST',
@@ -65,7 +71,7 @@ export function useLogin(flow: LoginFlow | undefined): LoginContext {
       const json: LoginResponse = await response.json();
 
       router.push(json.redirect_path);
-    } catch(e: any) {
+    } catch (e: any) {
       toast.error(
         'Unable to forward you to an organization. Please select or create an organization.'
       );

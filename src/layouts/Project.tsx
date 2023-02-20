@@ -11,7 +11,7 @@ export default function Project({
   children,
   project,
 }: {
-  children: JSX.Element;
+  children: React.ReactNode;
   project: ProjectType;
 }): JSX.Element {
   const segments = useSelectedLayoutSegments();
