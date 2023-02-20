@@ -6,7 +6,6 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci
 
-
 FROM node:16-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
@@ -44,8 +43,8 @@ RUN adduser -S nextjs -u 1001
 COPY --from=builder /app/public ./public
 
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=production --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=production --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
