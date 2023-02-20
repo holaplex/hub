@@ -1,0 +1,4 @@
+auth:
+  username: hydra
+  password: hydra
+  database: hydra

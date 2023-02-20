@@ -1,0 +1,12 @@
+hydra:
+  config:
+    dsn: postgres://hydra:hydra@hydra-db-postgresql:5432/hydra
+    serve:
+      public:
+        port: 4444
+      admin:
+        port: 4445
+  automigration:
+    enabled: true
+    type: initContainer
+  dev: true

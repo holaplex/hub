@@ -64,6 +64,11 @@ deploy:
         remoteChart: postgresql
         valuesFiles:
           - values.kratos.postgresql.yaml
+      - name: hydra-db
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: postgresql
+        valuesFiles:
+          - values.hydra.postgresql.yaml
       - name: svix-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
@@ -89,6 +94,11 @@ deploy:
         remoteChart: kratos
         valuesFiles:
           - values.kratos.yaml
+      - name: hydra
+        repo: https://k8s.ory.sh/helm/charts
+        remoteChart: hydra
+        valuesFiles:
+          - values.hydra.yaml
       - name: hub-identities
         remoteChart: hub-identities
         repo: https://charts.holaplex.com
