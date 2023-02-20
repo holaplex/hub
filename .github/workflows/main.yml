@@ -34,7 +34,6 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          target: production
           push: true
           tags: ${{ vars.DOCKERHUB_ORG }}/hub-ui:${{ github.sha }},${{ vars.DOCKERHUB_ORG }}/hub-ui:latest
           cache-from: type=gha
