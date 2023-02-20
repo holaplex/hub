@@ -1,7 +1,9 @@
+fullnameOverride: "hub-eventbus-cluster"
 statefulset:
   replicas: 1
 post_install_job:
   enabled: false
 post_upgrade_job:
   enabled: false
-fullnameOverride: "hub-eventbus-cluster"
+console:
+  enabled: false
