@@ -2,7 +2,7 @@ name: Release Image
 on:
   push:
     branches:
-      - mpw/ci-setup
+      - main
 jobs:
   release:
     runs-on: self-hosted
