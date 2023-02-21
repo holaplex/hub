@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.4",
-    "@holaplex/ui-library-react": "^0.7.0",
+    "@holaplex/ui-library-react": "^0.8.0",
     "@next/font": "13.1.1",
     "@ory/client": "^1.1.4",
     "@ory/integrations": "^1.1.0",
