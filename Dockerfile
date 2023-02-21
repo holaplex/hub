@@ -47,7 +47,7 @@ WORKDIR /app
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nextjs -u 1001
 
-COPY --from=builder /app/public ./public
+COPY --from=production /app/public ./public
 
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=production --chown=nextjs:nodejs /app/.next/standalone ./
