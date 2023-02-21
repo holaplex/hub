@@ -19,6 +19,111 @@ function CryptoIcon() {
 }
 Icon.Crypto = CryptoIcon;
 
+function AddCredential({
+  width = 20,
+  height = 20,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 20 20"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M7.06357 13.0297V11.9692H8.38957L9.51532 10.8434L11.0693 11.5034C11.6326 11.7427 12.2843 11.6159 12.7163 11.1832L14.9236 8.97595C15.3563 8.5432 15.4823 7.89145 15.2438 7.32895L14.1173 4.67695C13.9658 4.3192 13.6808 4.03495 13.3231 3.8827L10.6711 2.7562C10.1078 2.51695 9.45682 2.6437 9.02407 3.07645L6.81682 5.2837C6.38482 5.7157 6.25807 6.36745 6.49732 6.9307L7.14007 8.44495L2.62207 12.9629V15.3494H5.00857L6.00307 14.3549V13.0289H7.06357V13.0297Z"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M10.7821 6.67049C10.6028 6.67124 10.4573 6.81674 10.4581 6.99599C10.4581 7.17524 10.6043 7.32074 10.7836 7.31999C10.9628 7.31999 11.1083 7.17449 11.1083 6.99524C11.1083 6.81599 10.9628 6.67049 10.7836 6.67049"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path d="M15.5 13.5V17.5" stroke={stroke} stroke-linecap="round" />
+      <path d="M13.5 15.5H17.5" stroke={stroke} stroke-linecap="round" />
+    </svg>
+  );
+}
+Icon.AddCredential = AddCredential;
+
+function CrdentialsLarge({ width = 96, height = 96, fill = 'none', className = '' }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 96 96"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M39.6088 65.4623V60.8668H45.3548L50.2331 55.9885L56.9671 58.8485C59.4078 59.8853 62.2321 59.336 64.1041 57.4608L73.6688 47.896C75.5441 46.0208 76.0901 43.1965 75.0566 40.759L70.1751 29.267C69.5186 27.7168 68.2836 26.485 66.7333 25.8253L55.2413 20.9438C52.8006 19.907 49.9796 20.4563 48.1043 22.3315L38.5396 31.8963C36.6676 33.7683 36.1183 36.5925 37.1551 39.0333L39.9403 45.595L20.3623 65.173V75.5145H30.7038L35.0133 71.205V65.459H39.6088V65.4623Z"
+        fill="#C5C5C5"
+        stroke="#555555"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M55.7217 37.9055C54.9449 37.9087 54.3144 38.5392 54.3177 39.316C54.3177 40.0927 54.9514 40.7232 55.7282 40.72C56.5049 40.72 57.1354 40.0895 57.1354 39.3127C57.1354 38.536 56.5049 37.9055 55.7282 37.9055"
+        stroke="#555555"
+        stroke-width="5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <rect x="0.5" y="0.5" width="95" height="95" rx="7.5" stroke="#E6E6E6" />
+    </svg>
+  );
+}
+LargeIcon.Crdentials = CrdentialsLarge;
+
+function Credentials({
+  width = 20,
+  height = 20,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 20 20"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M7.84809 14.4774V13.2991H9.32142L10.5723 12.0483L12.2989 12.7816C12.9248 13.0474 13.6489 12.9066 14.1289 12.4258L16.5814 9.97328C17.0623 9.49244 17.2023 8.76828 16.9373 8.14328L15.6856 5.19661C15.5173 4.79911 15.2006 4.48328 14.8031 4.31411L11.8564 3.06244C11.2306 2.79661 10.5073 2.93744 10.0264 3.41828L7.57392 5.87078C7.09392 6.35078 6.95309 7.07494 7.21892 7.70078L7.93309 9.38328L2.91309 14.4033V17.0549H5.56475L6.66975 15.9499V14.4766H7.84809V14.4774Z"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M11.9799 7.41179C11.7807 7.41262 11.619 7.57429 11.6199 7.77346C11.6199 7.97262 11.7824 8.13429 11.9815 8.13346C12.1807 8.13346 12.3424 7.97179 12.3424 7.77262C12.3424 7.57346 12.1807 7.41179 11.9815 7.41179"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Credentials = Credentials;
+
 function Copy({
   width = 16,
   height = 16,

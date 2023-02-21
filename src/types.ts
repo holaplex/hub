@@ -43,3 +43,8 @@ export enum WebhookEvent {
   INVITATION_REVOKED = 'Invitation revoked',
   CREDENTIAL_CREATED = 'Credential created',
 }
+
+export enum CredentialStatus {
+  ACTIVE = 'Active',
+  DISABLED = 'Disabled',
+}
