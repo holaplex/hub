@@ -45,7 +45,9 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
         },
       });
 
-      router.push(`/login${search.has('return_to') && `?return_to=${search.get('return_to')}`}`);
+      router.push(
+        `/login${search.has('return_to') ? `?return_to=${search.get('return_to')}` : ''}`
+      );
       toast.success('Welcome to the Hub. Please sign to continue.');
     } catch (err: any) {
       const {
