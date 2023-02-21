@@ -3,7 +3,6 @@ const withGraphql = require('next-plugin-graphql');
 
 const nextConfig = {
   output: 'standalone',
-  swcMinify: true,
   i18n: {
     defaultLocale: 'en-US',
     locales: ['en-US'],
