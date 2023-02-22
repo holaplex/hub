@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hub
+  name: hub-ui
 spec:
   selector:
     matchLabels:
-      app: hub
+      app: hub-ui
   replicas: 1
   template:
     metadata:
       labels:
-        app: hub
+        app: hub-ui
     spec:
       containers:
       - name: hub
