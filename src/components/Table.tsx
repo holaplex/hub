@@ -14,6 +14,7 @@ import {
   WebhookStatus,
   TransactionStatus,
   MemberStatus,
+  CredentialStatus,
 } from './../types';
 import { Icon } from './Icon';
 
@@ -229,3 +230,24 @@ function TransactionStatusPill({ status, className }: TransactionStatusPillProps
   );
 }
 Table.TransactionStatusPill = TransactionStatusPill;
+
+interface CredentialStatusProps {
+  status: CredentialStatus;
+  className?: string;
+}
+
+function CredentialStatusPill({ status, className }: CredentialStatusProps) {
+  let label = status.toString();
+
+  return (
+    <div
+      className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
+        'bg-gray-100 text-gray-700': status === CredentialStatus.DISABLED,
+        'bg-green-200 text-green-600': status === CredentialStatus.ACTIVE,
+      })}
+    >
+      {label}
+    </div>
+  );
+}
+Table.CredentialStatusPill = CredentialStatusPill;

@@ -136,7 +136,9 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
         cell: (info) => {
           return (
             <div className="flex flex-col">
-              <span className="text-xs text-primary font-medium">{info.getValue().email}</span>
+              <span className="text-xs text-primary font-medium">
+                {info.getValue().fullName ? info.getValue().fullName : info.getValue().email}
+              </span>
               {info.getValue().fullName && (
                 <span className="text-xs text-gray-500">{info.getValue().fullName}</span>
               )}
