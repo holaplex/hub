@@ -12,18 +12,6 @@ const nextConfig = {
     enableUndici: true,
   },
   reactStrictMode: true,
-  async rewrites() {
-    return [
-      {
-        source: '/organization',
-        destination: '/organization/members',
-      },
-      {
-        source: '/projects/:project',
-        destination: '/projects/:project/drops',
-      },
-    ];
-  },
 };
 
 module.exports = withGraphql(nextConfig);
