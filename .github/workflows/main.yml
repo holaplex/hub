@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - main
-      - mpw/remote-trigger
+
 jobs:
   release:
     runs-on: self-hosted
