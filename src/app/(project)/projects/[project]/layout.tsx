@@ -24,11 +24,9 @@ export default async function ProjectLayout({
   children,
   params: { project },
 }: ProjectLayoutProps): Promise<React.ReactNode> {
-  const { session } = useSession();
-
   const projectQuery = await client.query<GetProjectData, GetProjectVars>({
     query: GetProject,
-    variables: { project: project },
+    variables: { project },
   });
 
   return <Project project={projectQuery.data.project}>{children}</Project>;

@@ -90,7 +90,16 @@ export default function Project({
             {showProjects && (
               <div className="w-full border-t border-gray-100 py-2 mt-4">
                 {projectsQuery.loading ? (
-                  <div> Loading...</div>
+                  <div className="flex flex-col gap-4">
+                    <div className="flex gap-2 items-center">
+                      <div className="w-8 h-8 bg-gray-50 rounded-md animate-pulse" />
+                      <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <div className="w-8 h-8 bg-gray-50 rounded-md animate-pulse" />
+                      <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
+                    </div>
+                  </div>
                 ) : (
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-4 max-h-60 overflow-y-auto">
@@ -162,7 +171,16 @@ export default function Project({
             {expandFooter && (
               <div className="w-full border-t border-gray-100 py-2">
                 {userAffiliationsQuery.loading ? (
-                  <div> Loading...</div>
+                  <div className="flex flex-col gap-4">
+                    <div className="flex gap-2 items-center">
+                      <div className="w-8 h-8 bg-gray-50 rounded-md animate-pulse" />
+                      <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <div className="w-8 h-8 bg-gray-50 rounded-md animate-pulse" />
+                      <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
+                    </div>
+                  </div>
                 ) : (
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col border-b border-gray-100 py-2">
