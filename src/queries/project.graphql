@@ -2,11 +2,15 @@ query GetProject($project: UUID!) {
   project(id: $project) {
     id
     name
+    organization {
+      id
+      name
+    }
   }
 }
 
 query GetProjectDrops($project: UUID!) {
-    project(id: $project) {
+  project(id: $project) {
     id
     name
   }

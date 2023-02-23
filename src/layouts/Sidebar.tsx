@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Children, cloneElement, ReactNode } from 'react';
 
@@ -91,7 +92,14 @@ interface SidebarFooterProps {
 }
 
 function SidebarFooter({ children, className }: SidebarFooterProps) {
-  return <div className={clsx('w-full p-2 flex-shrink-0', className)}>{children}</div>;
+  return (
+    <div className={clsx('flex flex-col w-full p-2 flex-shrink-0 gap-2', className)}>
+      <div className="flex justify-center">
+        <Image src="/holaplex-small.svg" alt="Holaplex" width="64" height="6" />
+      </div>
+      {children}
+    </div>
+  );
 }
 Sidebar.Footer = SidebarFooter;
 
