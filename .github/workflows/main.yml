@@ -49,7 +49,7 @@ jobs:
         uses: benc-uk/workflow-dispatch@v1
         with:
           ref: main
-          commit_hash: ${{ github.sha }}
+          token: ${{ secrets.ACTIONS_TOKEN }}
           workflow: release.yml
           repo: holaplex/hub-kubes
-          inputs: '{ "service": "frontend", "environment": "stage", "commit_hash": "$commit_hash"}'
+          inputs: '{ "service": "frontend", "environment": "stage", "commit_hash": "${{ github.sha }}"}'
