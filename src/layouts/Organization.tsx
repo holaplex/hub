@@ -64,11 +64,7 @@ export default function Organization({
               active={segments[0] === 'settings'}
             />
           </Sidebar.Menu>
-          <Sidebar.Footer>
-            <div className="flex justify-center">
-              <Image src="/holaplex-small.svg" alt="Holaplex" width="64" height="6" />
-            </div>
-          </Sidebar.Footer>
+          <Sidebar.Footer />
         </Sidebar.Panel>
         <Sidebar.Content>{children}</Sidebar.Content>
       </Sidebar.Page>
