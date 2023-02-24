@@ -4,7 +4,7 @@ import { Icon } from '../components/Icon';
 import Sidebar from './Sidebar';
 import { Organization, Project as ProjectType, User } from '../graphql.types';
 import { ProjectProvider } from '../providers/ProjectProvider';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useLazyQuery, useQuery } from '@apollo/client';
 import { GetOrganizationProjects } from './../queries/organization.graphql';
 import { GetUserAffiliations, GetUser } from './../queries/user.graphql';
@@ -12,6 +12,7 @@ import Link from '../components/Link';
 import { Button } from '@holaplex/ui-library-react';
 import { useSession } from '../hooks/useSession';
 import clsx from 'clsx';
+import { useOrganization } from '../hooks/useOrganization';
 
 interface GetProjectsData {
   organization: Organization;
@@ -43,6 +44,7 @@ export default function Project({
 }): JSX.Element {
   const segments = useSelectedLayoutSegments();
   const { session, logout } = useSession();
+  const { onSwitch } = useOrganization();
   const [showProjects, setShowProjects] = useState<Boolean>(false);
   const [expandFooter, setExpandFooter] = useState<Boolean>(false);
 
@@ -208,13 +210,16 @@ export default function Project({
                     <div className="flex flex-col gap-4 max-h-60 overflow-y-auto">
                       {userAffiliationsQuery.data?.user.affiliations.map((affiliation) => {
                         return (
-                          <Link
-                            href={`/browser/organizations/${affiliation.organization?.id}/select`}
+                          <div
                             key={affiliation.id}
-                            className={clsx('flex items-center justify-between p-2', {
-                              'border rounded-md border-gray-100 ':
-                                affiliation.organization?.id === project.organization?.id,
-                            })}
+                            className={clsx(
+                              'flex items-center justify-between p-2 cursor-pointer',
+                              {
+                                'border rounded-md border-gray-100 ':
+                                  affiliation.organization?.id === project.organization?.id,
+                              }
+                            )}
+                            onClick={() => onSwitch(affiliation.organization?.id)}
                           >
                             <div className="flex gap-2 items-center">
                               <div className="w-8 h-8 bg-gray-300 rounded-md" />
@@ -223,7 +228,7 @@ export default function Project({
                               </span>
                             </div>
                             <Icon.Settings />
-                          </Link>
+                          </div>
                         );
                       })}
                     </div>
