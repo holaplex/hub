@@ -105,10 +105,13 @@ export default function Project({
                 ) : (
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-4 max-h-60 overflow-y-auto">
-                      {projectsQuery.data?.organization.projects
-                        .filter((pro) => pro.id !== project.id)
-                        .map((pro) => {
-                          return (
+                      <>
+                        {projectsQuery.data?.organization.projects.reduce((memo, pro) => {
+                          if (pro.id === project.id) {
+                            return memo;
+                          }
+                          return [
+                            ...memo,
                             <Link
                               key={pro.id}
                               href={`/projects/${pro.id}/drops`}
@@ -116,9 +119,10 @@ export default function Project({
                             >
                               <div className="w-8 h-8 bg-gray-300 rounded-md" />
                               <span className="text-gray-600 font-medium text-sm">{pro.name}</span>
-                            </Link>
-                          );
-                        })}
+                            </Link>,
+                          ];
+                        }, [])}
+                      </>
                     </div>
                     <Link href="/projects/new">
                       <Button icon={<Icon.Add stroke="#ffffff" />} className="w-full">
