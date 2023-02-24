@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+
 jobs:
   release:
     runs-on: self-hosted
@@ -43,3 +44,12 @@ jobs:
           tags: ${{ vars.DOCKERHUB_ORG }}/hub-ui:${{ github.sha }},${{ vars.DOCKERHUB_ORG }}/hub-ui:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - 
+        name: Invoke workflow in hub-kubes repo
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          ref: main
+          token: ${{ secrets.ACTIONS_TOKEN }}
+          workflow: release.yml
+          repo: holaplex/hub-kubes
+          inputs: '{ "service": "frontend", "environment": "stage", "commit_hash": "${{ github.sha }}"}'
