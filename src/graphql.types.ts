@@ -24,20 +24,26 @@ export type AcceptInvitePayload = {
   invite: Invite;
 };
 
+export type AccessToken = {
+  __typename?: 'AccessToken';
+  accessToken: Scalars['String'];
+  expiresAt: Scalars['NaiveDateTime'];
+  tokenType: Scalars['String'];
+};
+
 export type Affiliation = Member | Owner;
 
 export type CreateCredentialInput = {
   name: Scalars['String'];
   organization: Scalars['UUID'];
   projects: Array<Scalars['UUID']>;
+  scopes: Array<Scalars['String']>;
 };
 
 export type CreateCredentialPayload = {
   __typename?: 'CreateCredentialPayload';
-  clientSecret: Scalars['String'];
+  accessToken: AccessToken;
   credential: Credential;
-  registrationAccessToken?: Maybe<Scalars['String']>;
-  registrationClientUri?: Maybe<Scalars['String']>;
 };
 
 export type CreateOrganizationInput = {
@@ -74,17 +80,13 @@ export type CreateWebhookPayload = {
 
 export type Credential = {
   __typename?: 'Credential';
+  audiences: Array<Scalars['String']>;
   clientId: Scalars['String'];
   createdAt: Scalars['NaiveDateTime'];
-  createdBy: Scalars['UUID'];
-  id: Scalars['UUID'];
+  createdById: Scalars['UUID'];
   name: Scalars['String'];
   organizationId: Scalars['UUID'];
-};
-
-export type DeleteCredentialPayload = {
-  __typename?: 'DeleteCredentialPayload';
-  credential: Scalars['UUID'];
+  scopes: Array<Scalars['String']>;
 };
 
 export type DeleteWebhookPayload = {
@@ -111,7 +113,7 @@ export enum FilterType {
   InvitationRevoked = 'INVITATION_REVOKED',
   InvitationSent = 'INVITATION_SENT',
   ProjectCreated = 'PROJECT_CREATED',
-  ProjectDeactivated = 'PROJECT_DEACTIVATED',
+  ProjectDeactivated = 'PROJECT_DEACTIVATED'
 }
 
 export type Invite = {
@@ -135,7 +137,7 @@ export type InviteMemberInput = {
 export enum InviteStatus {
   Accepted = 'ACCEPTED',
   Revoked = 'REVOKED',
-  Sent = 'SENT',
+  Sent = 'SENT'
 }
 
 export type Member = {
@@ -194,13 +196,6 @@ export type Mutation = {
    * # Errors
    * This function fails if ...
    */
-  deleteCredential: DeleteCredentialPayload;
-  /**
-   * Res
-   *
-   * # Errors
-   * This function fails if ...
-   */
   deleteWebhook: DeleteWebhookPayload;
   /**
    * Res
@@ -211,33 +206,36 @@ export type Mutation = {
   inviteMember: Invite;
 };
 
+
 export type MutationAcceptInviteArgs = {
   input: AcceptInviteInput;
 };
+
 
 export type MutationCreateCredentialArgs = {
   input: CreateCredentialInput;
 };
 
+
 export type MutationCreateOrganizationArgs = {
   input: CreateOrganizationInput;
 };
+
 
 export type MutationCreateProjectArgs = {
   input: CreateProjectInput;
 };
 
+
 export type MutationCreateWebhookArgs = {
   input: CreateWebhookInput;
 };
 
-export type MutationDeleteCredentialArgs = {
-  id: Scalars['UUID'];
-};
 
 export type MutationDeleteWebhookArgs = {
   input: CreateWebhookInput;
 };
+
 
 export type MutationInviteMemberArgs = {
   input: InviteMemberInput;
@@ -246,7 +244,8 @@ export type MutationInviteMemberArgs = {
 export type Organization = {
   __typename?: 'Organization';
   createdAt: Scalars['NaiveDateTime'];
-  credentials?: Maybe<Array<Credential>>;
+  credential: Credential;
+  credentials: Array<Credential>;
   deactivatedAt?: Maybe<Scalars['NaiveDateTime']>;
   id: Scalars['UUID'];
   invites: Array<Invite>;
@@ -256,6 +255,18 @@ export type Organization = {
   projects: Array<Project>;
   svixAppId: Scalars['String'];
 };
+
+
+export type OrganizationCredentialArgs = {
+  clientId: Scalars['String'];
+};
+
+
+export type OrganizationCredentialsArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+};
+
 
 export type OrganizationInvitesArgs = {
   status?: InputMaybe<InviteStatus>;
@@ -315,21 +326,26 @@ export type Query = {
   users: Array<User>;
 };
 
+
 export type QueryInviteArgs = {
   id: Scalars['UUID'];
 };
+
 
 export type QueryOrganizationArgs = {
   id: Scalars['UUID'];
 };
 
+
 export type QueryProjectArgs = {
   id: Scalars['UUID'];
 };
 
+
 export type QueryUserArgs = {
   id: Scalars['UUID'];
 };
+
 
 export type QueryUsersArgs = {
   page?: Scalars['Int'];

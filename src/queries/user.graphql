@@ -17,3 +17,11 @@ query GetUserAffiliations($user: UUID!) {
     }
   }
 }
+
+query GetUser($user: UUID!) {
+  user(id: $user) {
+    id
+    firstName
+    lastName
+  }
+}

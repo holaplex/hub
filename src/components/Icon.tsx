@@ -19,6 +19,141 @@ function CryptoIcon() {
 }
 Icon.Crypto = CryptoIcon;
 
+function Logout({
+  width = 20,
+  height = 20,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 20 20"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M4.94678 13.8926L2.0005 10.9463L4.94678 8.00002"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M10.2503 10.8752L2.0007 10.8752"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M7.50049 13.6668L7.50049 15.8335C7.50049 16.7543 8.24632 17.5001 9.16716 17.5001L14.1672 17.5001C15.088 17.5001 15.8338 16.7543 15.8338 15.8335L15.8338 5.83345C15.8338 4.91262 15.088 4.16679 14.1672 4.16679C14.1672 4.16679 10.6277 4.16679 9.00049 4.16679C8.00049 4.16679 7.50049 4.8156 7.50049 5.50012C7.50049 6.70012 7.50049 7.66679 7.50049 8.00012"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Logout = Logout;
+
+function HelpHeadphones({
+  width = 20,
+  height = 20,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 20 20"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M17.5031 10C17.5031 14.1439 14.1439 17.5031 10 17.5031"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M2.49707 9.99995C2.49707 5.85609 5.85633 2.49683 10.0002 2.49683"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M2.49707 10C2.49719 10.8789 2.6535 11.7508 2.95873 12.5749C3.09832 12.9577 3.49188 13.1857 3.89337 13.1164L4.71554 12.9714C5.38004 12.8542 5.83176 12.231 5.73634 11.563L5.48888 9.83086C5.44097 9.49553 5.25908 9.19399 4.98482 8.9952C4.71055 8.79641 4.36737 8.71739 4.03379 8.77621L2.56602 9.03501"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M17.5031 9.99995C17.5031 5.85609 14.1439 2.49683 10 2.49683"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M17.503 10C17.5028 10.8789 17.3465 11.7508 17.0413 12.5749C16.9017 12.9577 16.5081 13.1857 16.1067 13.1164L15.2845 12.9714C14.62 12.8542 14.1683 12.231 14.2637 11.563L14.5111 9.83086C14.5591 9.49553 14.7409 9.19399 15.0152 8.9952C15.2895 8.79641 15.6327 8.71739 15.9662 8.77621L17.434 9.03501"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M11.2445 10.4094C11.242 10.4094 11.2397 10.4109 11.2387 10.4132C11.2378 10.4156 11.2383 10.4182 11.2401 10.42C11.2418 10.4218 11.2445 10.4223 11.2469 10.4214C11.2492 10.4204 11.2507 10.4181 11.2507 10.4156C11.2508 10.4139 11.2502 10.4123 11.249 10.4111C11.2478 10.4099 11.2462 10.4093 11.2445 10.4094"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M8.75571 10.4118C8.75318 10.4118 8.75091 10.4134 8.74995 10.4157C8.74898 10.418 8.74952 10.4207 8.7513 10.4225C8.75308 10.4243 8.75576 10.4248 8.75809 10.4238C8.76042 10.4229 8.76193 10.4206 8.76193 10.4181C8.76204 10.4164 8.76142 10.4147 8.76023 10.4135C8.75904 10.4123 8.75738 10.4117 8.75571 10.4118"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.HelpHeadphones = HelpHeadphones;
+
+function Expand({
+  width = 20,
+  height = 20,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 20 20"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12.5 8.33374L10 5.83374L7.5 8.33374"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M7.5 11.6663L10 14.1663L12.5 11.6663"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Expand = Expand;
+
 function AddCredential({
   width = 20,
   height = 20,

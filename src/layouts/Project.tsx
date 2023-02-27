@@ -1,11 +1,21 @@
 'use client';
-import Image from 'next/image';
 import { useSelectedLayoutSegments } from 'next/navigation';
 import { Icon } from '../components/Icon';
 import Sidebar from './Sidebar';
-import Link from 'next/link';
-import { Project as ProjectType } from '../graphql.types';
+import { Organization, Project as ProjectType, User } from '../graphql.types';
 import { ProjectProvider } from '../providers/ProjectProvider';
+import { useState } from 'react';
+import { useLazyQuery } from '@apollo/client';
+import { GetOrganizationProjects } from './../queries/organization.graphql';
+import Link from '../components/Link';
+import { Button } from '@holaplex/ui-library-react';
+
+interface GetProjectsData {
+  organization: Organization;
+}
+interface GetProjectsVars {
+  organization: string;
+}
 
 export default function Project({
   children,
@@ -15,14 +25,29 @@ export default function Project({
   project: ProjectType;
 }): JSX.Element {
   const segments = useSelectedLayoutSegments();
+  const [showProjects, setShowProjects] = useState<Boolean>(false);
+
+  const [loadProjects, projectsQuery] = useLazyQuery<GetProjectsData, GetProjectsVars>(
+    GetOrganizationProjects,
+    {
+      variables: { organization: project.organization?.id },
+    }
+  );
 
   return (
     <ProjectProvider project={project}>
       <Sidebar.Page>
         <Sidebar.Panel>
           <Sidebar.Header>
-            <Link href="/projects" className="flex items-center gap-4">
-              <Icon.ChevronLeft />
+            <div
+              className="flex items-center gap-2 justify-between cursor-pointer"
+              onClick={() => {
+                if (!projectsQuery.called) {
+                  loadProjects();
+                }
+                setShowProjects(!showProjects);
+              }}
+            >
               <h1 className="flex items-center gap-2 text-sm text-primary font-medium">
                 <div className="w-8 h-8 bg-gray-300 rounded-md" />
                 <span className="flex flex-col capitalize">
@@ -30,7 +55,52 @@ export default function Project({
                   <span className="text-gray-400 text-xs">Project</span>
                 </span>
               </h1>
-            </Link>
+              <Icon.Expand />
+            </div>
+            {showProjects && (
+              <div className="w-full border-t border-gray-100 py-2 mt-4">
+                {projectsQuery.loading ? (
+                  <div className="flex flex-col gap-4">
+                    <div className="flex gap-2 items-center">
+                      <div className="w-8 h-8 bg-gray-50 rounded-md animate-pulse" />
+                      <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <div className="w-8 h-8 bg-gray-50 rounded-md animate-pulse" />
+                      <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 max-h-60 overflow-y-auto">
+                      <>
+                        {projectsQuery.data?.organization.projects.reduce((memo, pro) => {
+                          if (pro.id === project.id) {
+                            return memo;
+                          }
+                          return [
+                            ...memo,
+                            <Link
+                              key={pro.id}
+                              href={`/projects/${pro.id}/drops`}
+                              className="flex gap-2 items-center"
+                            >
+                              <div className="w-8 h-8 bg-gray-300 rounded-md" />
+                              <span className="text-gray-600 font-medium text-sm">{pro.name}</span>
+                            </Link>,
+                          ];
+                        }, [])}
+                      </>
+                    </div>
+                    <Link href="/projects/new">
+                      <Button icon={<Icon.Add stroke="#ffffff" />} className="w-full">
+                        Add Project
+                      </Button>
+                    </Link>
+                  </div>
+                )}
+              </div>
+            )}
           </Sidebar.Header>
           <Sidebar.Menu>
             <Sidebar.Menu.Link
@@ -52,11 +122,7 @@ export default function Project({
               active={segments[0] === 'treasuries'}
             />
           </Sidebar.Menu>
-          <Sidebar.Footer>
-            <div className="flex justify-center">
-              <Image src="/holaplex-small.svg" alt="Holaplex" width="64" height="6" />
-            </div>
-          </Sidebar.Footer>
+          <Sidebar.Footer organization={project.organization} />
         </Sidebar.Panel>
         <Sidebar.Content>{children}</Sidebar.Content>
       </Sidebar.Page>
