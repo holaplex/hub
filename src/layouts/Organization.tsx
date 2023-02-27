@@ -1,6 +1,4 @@
 'use client';
-
-import Image from 'next/image';
 import { useSelectedLayoutSegments } from 'next/navigation';
 import { Icon } from '../components/Icon';
 import Sidebar from './Sidebar';
@@ -64,7 +62,7 @@ export default function Organization({
               active={segments[0] === 'settings'}
             />
           </Sidebar.Menu>
-          <Sidebar.Footer />
+          <Sidebar.Footer organization={organization} />
         </Sidebar.Panel>
         <Sidebar.Content>{children}</Sidebar.Content>
       </Sidebar.Page>
