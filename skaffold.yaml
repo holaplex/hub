@@ -69,6 +69,11 @@ deploy:
         remoteChart: postgresql
         valuesFiles:
           - values.hydra.postgresql.yaml
+      - name: keto-db
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: postgresql
+        valuesFiles:
+          - values.keto.postgresql.yaml
       - name: svix-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
@@ -94,6 +99,11 @@ deploy:
         remoteChart: kratos
         valuesFiles:
           - values.kratos.yaml
+      - name: keto
+        remoteChart: hub-permissions
+        repo: https://charts.holaplex.com
+        valuesFiles:
+          - values.keto.yaml
       - name: hydra
         repo: https://k8s.ory.sh/helm/charts
         remoteChart: hydra
@@ -112,8 +122,9 @@ deploy:
           - values.svix.yaml
           - secrets.svix.yaml
       - name: hub-orgs
-        remoteChart: hub-orgs
-        repo: https://charts.holaplex.com
+        #remoteChart: hub-orgs
+        #repo: https://charts.holaplex.com
+        chartPath: ../helm-charts/charts/hub-orgs
         valuesFiles:
           - values.orgs.yaml
           - secrets.orgs.yaml
@@ -122,6 +133,7 @@ deploy:
         repo: https://charts.holaplex.com
         valuesFiles:
           - values.credentials.yaml
+          - secrets.credentials.yaml
       - name: federated-router
         remoteChart: oci://ghcr.io/apollographql/helm-charts/router
         valuesFiles:
