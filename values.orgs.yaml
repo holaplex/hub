@@ -8,7 +8,9 @@ migrate:
 environment:
   port: '80'
   oryBaseUrl: http://hydra-admin
-  kafkaBrokers: 'hub-eventbus-cluster-0.hub-eventbus-cluster.default.svc.cluster.local:9093'
-  svixBaseUrl: http://svix
   kafkaUsername: admin
   kafkaSsl: false
+  kafkaBrokers: 'hub-eventbus-cluster-0.hub-eventbus-cluster.default.svc.cluster.local:9093'
+  svixBaseUrl: http://svix
+  ketoReadurl: http://keto-read
+  ketoWriteUrl: http://keto-write 
