@@ -192,7 +192,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                 />
 
                 <div
-                  className="flex gap-4 w-full px-4 py-3 items-center text-gray-600"
+                  className="flex gap-4 w-full px-4 py-3 items-center text-gray-600 cursor-pointer"
                   onClick={() => logout()}
                 >
                   <Icon.Logout />

@@ -1,10 +1,8 @@
-'use client';
 import { apollo } from '../../../../client';
 import Project from '../../../../layouts/Project';
 import { config } from '../../../../app.config';
-import { Project as ProjectType, User } from './../../../../graphql.types';
+import { Project as ProjectType } from './../../../../graphql.types';
 import { GetProject } from './../../../../queries/project.graphql';
-import { useSession } from '../../../../hooks/useSession';
 
 const client = apollo(config.server('graphql'));
 
