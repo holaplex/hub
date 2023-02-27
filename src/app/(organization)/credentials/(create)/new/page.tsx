@@ -226,7 +226,7 @@ export default function GenerateToken() {
           router.push('/credentials');
         }}
       >
-        <Card className="w-[400px] p-8">
+        <Card className="w-[400px] p-8 text-left">
           <Typography.Header size={Size.H2} className="self-start">
             Token
           </Typography.Header>
@@ -245,13 +245,14 @@ export default function GenerateToken() {
             </button>
           </div>
           <aside className="text-sm text-gray-500 mt-1">
-            {`Expires at ${formatDateString(
-              data?.createCredential.accessToken.expiresAt || '',
-              DateFormat.TIME_1
-            )}, ${formatDateString(
-              data?.createCredential.accessToken.expiresAt || '',
-              DateFormat.DATE_1
-            )}`}
+            {data?.createCredential.accessToken.expiresAt &&
+              `Expires at ${formatDateString(
+                data?.createCredential.accessToken.expiresAt,
+                DateFormat.TIME_1
+              )}, ${formatDateString(
+                data?.createCredential.accessToken.expiresAt,
+                DateFormat.DATE_1
+              )}`}
           </aside>
           <Button
             className="mt-2"
