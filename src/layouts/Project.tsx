@@ -2,7 +2,7 @@
 import { useSelectedLayoutSegments } from 'next/navigation';
 import { Icon } from '../components/Icon';
 import Sidebar from './Sidebar';
-import { Organization, Project as ProjectType, User } from '../graphql.types';
+import { Organization, Project as ProjectType } from '../graphql.types';
 import { ProjectProvider } from '../providers/ProjectProvider';
 import { useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
@@ -74,7 +74,9 @@ export default function Project({
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-4 max-h-60 overflow-y-auto">
                       <>
-                        {projectsQuery.data?.organization.projects.reduce((memo, pro) => {
+                        {projectsQuery.data?.organization.projects.reduce<
+                          (Element | JSX.Element)[]
+                        >((memo: (Element | JSX.Element)[], pro: ProjectType) => {
                           if (pro.id === project.id) {
                             return memo;
                           }
@@ -122,7 +124,7 @@ export default function Project({
               active={segments[0] === 'treasuries'}
             />
           </Sidebar.Menu>
-          <Sidebar.Footer organization={project.organization} />
+          <Sidebar.Footer organization={project.organization!} />
         </Sidebar.Panel>
         <Sidebar.Content>{children}</Sidebar.Content>
       </Sidebar.Page>
