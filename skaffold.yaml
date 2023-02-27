@@ -122,9 +122,8 @@ deploy:
           - values.svix.yaml
           - secrets.svix.yaml
       - name: hub-orgs
-        #remoteChart: hub-orgs
-        #repo: https://charts.holaplex.com
-        chartPath: ../helm-charts/charts/hub-orgs
+        remoteChart: hub-orgs
+        repo: https://charts.holaplex.com
         valuesFiles:
           - values.orgs.yaml
           - secrets.orgs.yaml
