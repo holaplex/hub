@@ -9,6 +9,7 @@ import { useQuery } from '@apollo/client';
 import { GetOrganizationProjects } from './../../../queries/organization.graphql';
 import { Organization, Project } from '../../../graphql.types';
 import { useOrganization } from '../../../hooks/useOrganization';
+import { DateFormat, formatDateString } from '../../../modules/time';
 
 interface GetProjectsData {
   organization: Organization;
@@ -160,13 +161,18 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                           Created date
                         </span>
                       ),
-                      cell: (info) => (
-                        <div className="flex flex-col">
-                          <span className="text-xs text-primary font-medium">
-                            {info.getValue()}
-                          </span>
-                        </div>
-                      ),
+                      cell: (info) => {
+                        return (
+                          <div className="flex flex-col">
+                            <span className="text-xs text-primary font-medium">
+                              {formatDateString(info.getValue(), DateFormat.DATE_1)}
+                            </span>
+                            <span className="text-xs text-gray-500">
+                              {formatDateString(info.getValue(), DateFormat.TIME_1)}
+                            </span>
+                          </div>
+                        );
+                      },
                     }),
                     columnHelper.display({
                       id: 'options',
