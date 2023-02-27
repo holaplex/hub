@@ -80,6 +80,10 @@ select:focus {
   @apply p-2 bg-gray-50 rounded-md;
 }
 
+.form-checkbox {
+  @apply text-primary rounded;
+}
+
 .form-checkbox-label {
   @apply text-xs font-medium text-primary;
 }
@@ -130,4 +134,39 @@ input:focus {
 
 .modal-close {
   @apply top-8 right-8 rounded-full bg-gray-50 p-2 hover:bg-gray-100 hover:text-gray-400;
+}
+
+.form-select-options {
+  @apply bg-white p-1 text-base rounded-md shadow-lg max-h-40 z-10 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm flex flex-col gap-1;
+}
+
+.form-select-button {
+  @apply form-input text-left min-h-[42px];
+}
+
+.form-select {
+  @apply text-left;
+}
+.form-select-option {
+  @apply p-2 text-black rounded;
+}
+
+.form-select-button-dropdown {
+  @apply mr-2;
+}
+
+.form-select-option-selected {
+  @apply bg-gray-50 rounded-sm;
+}
+
+.form-select-option-active {
+  @apply bg-gray-50 rounded-sm;
+}
+
+.form-select-button-placeholder {
+  @apply text-gray-500;
+}
+
+input[type='radio'] {
+  @apply text-black;
 }

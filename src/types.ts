@@ -1,4 +1,4 @@
-import { InviteStatus } from './graphql.types';
+import { InviteStatus, Organization } from './graphql.types';
 
 export enum PurchaseStatus {
   PENDING = 'Pending',

@@ -9,3 +9,10 @@ console:
   enabled: false
 tls:
   enabled: false
+auth:
+  sasl:
+    enabled: true
+    users:
+      - name: admin
+        password: change-me
+        mechanism: SCRAM-SHA-512

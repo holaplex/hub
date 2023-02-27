@@ -1,7 +1,7 @@
 'use client';
 import { Button, Form } from '@holaplex/ui-library-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import Card from '../../../../../../../components/Card';
 import { Icon } from '../../../../../../../components/Icon';
 import Typography, { Size } from '../../../../../../../components/Typography';
@@ -12,7 +12,9 @@ export default function CreateDropStep2() {
   const pathname = usePathname();
   const slug = pathname ? pathname.split('/')[2] : null;
   const { stepTwo, setData } = useCreateDropStore();
-  const { handleSubmit, register } = useForm<StepTwoData>({ defaultValues: stepTwo || {} });
+  const { handleSubmit, register, control } = useForm<StepTwoData>({
+    defaultValues: stepTwo || {},
+  });
 
   const submit = (data: StepTwoData) => {
     setData({ step: 2, data });
@@ -45,14 +47,20 @@ export default function CreateDropStep2() {
           </div>
 
           <Form.Label name="Treasury" className="text-xs mt-5" asideComponent={<Icon.Help />}>
-            <Form.Select
-              {...register('treasuryWallet', { required: true })}
-              placeholder="Select treasury"
-              options={[
-                { option: 'Treasury Wallet 1', value: 'tw1' },
-                { option: 'Treasury Wallet 2', value: 'tw2' },
-              ]}
-            />
+            <Form.Select value={{ option: 'Treasury Wallet 1', value: 'tw1' }} onChange={() => {}}>
+              <Form.Select.Button>Treasury Wallet 1</Form.Select.Button>
+              <Form.Select.Options>
+                {[
+                  { option: 'Treasury Wallet 1', value: 'tw1' },
+                  { option: 'Treasury Wallet 2', value: 'tw2' },
+                ].map((i) => (
+                  <Form.Select.Option value={i} key={i.value}>
+                    <>{i.option}</>
+                  </Form.Select.Option>
+                ))}
+              </Form.Select.Options>
+            </Form.Select>
+
             <Form.Error message="" />
           </Form.Label>
 

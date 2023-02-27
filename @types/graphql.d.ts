@@ -1,4 +1,13 @@
 
+declare module '*/credential.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const CreateCredential: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/invite.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -28,6 +37,15 @@ declare module '*/project.graphql' {
   export const CreateProject: DocumentNode;
 export const GetProject: DocumentNode;
 export const GetProjectDrops: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/credentials.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const GetOrganizationCredentials: DocumentNode;
 
   export default defaultDocument;
 }

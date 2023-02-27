@@ -5,45 +5,38 @@ import React from 'react';
 import { Icon } from '../../../../components/Icon';
 import Table from '../../../../components/Table';
 import Link from 'next/link';
-import { Project } from '../../../../graphql.types';
+import { useQuery } from '@apollo/client';
+import { Organization, Project, Credential } from '../../../../graphql.types';
 import { useOrganization } from '../../../../hooks/useOrganization';
 import { DateFormat, formatDateString } from '../../../../modules/time';
-import { CredentialStatus } from '../../../../types';
+import { Pill } from '../../../../components/Pill';
+import { GetOrganizationCredentials } from './../../../../queries/credentials.graphql';
 
-export type TempCrendential = {
-  id: string;
-  name: string;
-  projects: Project[];
-  createdDate: string;
-  createdBy: string;
-  email: string;
-  status: CredentialStatus;
-};
+interface GetOrganizationCredentialsData {
+  organization: Organization;
+}
+
+interface GetOrganizationCredentialsVars {
+  organization: string;
+}
 
 export default function ProjectsPage({ children }: { children: React.ReactNode }) {
   const { organization } = useOrganization();
 
-  const credentials: TempCrendential[] = [
-    {
-      id: 'c1',
-      name: 'Usyk Api',
-      projects: [{ id: '123', name: 'Team Motley', createdAt: '', organizationId: 'org123' }],
-      createdBy: 'Lee Leng',
-      email: 'agent@gmail.com',
-      createdDate: '01-01-2023 00:03:44',
-      status: CredentialStatus.ACTIVE,
-    },
-  ];
-  const noCredentials = credentials.length === 0;
-  const columnHelper = createColumnHelper<TempCrendential>();
+  const credentialsQuery = useQuery<GetOrganizationCredentialsData, GetOrganizationCredentialsVars>(
+    GetOrganizationCredentials,
+    { variables: { organization: organization?.id } }
+  );
+
+  const columnHelper = createColumnHelper<Credential>();
   const loadingColumnHelper = createColumnHelper<any>();
 
-  const loading = false;
+  const noCredentials = credentialsQuery.data?.organization.credentials.length === 0;
 
   return (
     <>
       <div className="h-full flex flex-col p-4">
-        {loading ? (
+        {credentialsQuery.loading ? (
           <>
             <div className="w-36 h-8 rounded-md bg-gray-100 animate-pulse" />
             <div className="w-32 h-8 rounded-md bg-gray-100 animate-pulse mt-4 self-end" />
@@ -56,7 +49,7 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                   cell: () => <div className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />,
                 }),
                 loadingColumnHelper.display({
-                  id: 'projects',
+                  id: 'audiences',
                   header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
                   cell: () => (
                     <div className="flex gap-1 items-center">
@@ -66,7 +59,7 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                   ),
                 }),
                 loadingColumnHelper.display({
-                  id: 'createdDate',
+                  id: 'createdAt',
                   header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
                   cell: () => (
                     <div className="flex flex-col gap-1">
@@ -80,18 +73,13 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                   header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
                   cell: () => (
                     <div className="flex flex-col gap-1">
-                      <span className="rounded-full h-3 w-20 bg-gray-50 animate-pulse" />
-                      <span className="rounded-full h-3 w-24 bg-gray-50 animate-pulse" />
+                      <span className="rounded-full h-3 w-10 bg-gray-50 animate-pulse" />
+                      <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
                     </div>
                   ),
                 }),
                 loadingColumnHelper.display({
-                  id: 'status',
-                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
-                  cell: () => <div className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />,
-                }),
-                loadingColumnHelper.display({
-                  id: 'options',
+                  id: 'id',
                   header: () => <div className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />,
                   cell: () => <div className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />,
                 }),
@@ -132,36 +120,28 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                         </div>
                       ),
                       cell: (info) => (
-                        <Link href={''} className="flex gap-2">
-                          <span className="text-xs text-primary font-medium">
-                            {info.getValue()}
-                          </span>
-                        </Link>
+                        <span className="text-xs text-primary font-medium">{info.getValue()}</span>
                       ),
                     }),
 
-                    columnHelper.display({
-                      id: 'projects',
+                    columnHelper.accessor('projects', {
                       header: () => (
                         <span className="flex text-xs text-gray-600 font-medium">Projects</span>
                       ),
                       cell: (info) => (
                         <div className="flex gap-1">
-                          {info.row.original.projects.map((project) => {
-                            return (
-                              <div
-                                key={project.id}
-                                className="rounded-full py-1 px-3 text-xs font-medium bg-gray-50 text-primary"
-                              >
-                                {project.name}
-                              </div>
-                            );
-                          })}
+                          <Pill.List>
+                            {info.getValue().map((project: Project) => (
+                              <Link href={`/projects/${project.id}/drops`} key={project.id}>
+                                <Pill>{project.name}</Pill>
+                              </Link>
+                            ))}
+                          </Pill.List>
                         </div>
                       ),
                     }),
 
-                    columnHelper.accessor('createdDate', {
+                    columnHelper.accessor('createdAt', {
                       header: () => (
                         <span className="flex text-xs text-gray-600 font-medium self-start">
                           Created date
@@ -179,43 +159,23 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                       ),
                     }),
 
-                    columnHelper.accessor(({ createdBy, email }) => ({ createdBy, email }), {
-                      id: 'createdBy',
+                    columnHelper.accessor('createdBy', {
                       header: () => (
-                        <div className="flex gap-2">
-                          <span className="text-xs text-gray-600 font-medium">Created by</span>
-                        </div>
-                      ),
-                      cell: (info) => {
-                        return (
-                          <div className="flex flex-col">
-                            <span className="text-xs text-primary font-medium">
-                              {info.getValue().createdBy
-                                ? info.getValue().createdBy
-                                : info.getValue().email}
-                            </span>
-                            {info.getValue().fullName && (
-                              <span className="text-xs text-gray-500">
-                                {info.getValue().fullName}
-                              </span>
-                            )}
-                          </div>
-                        );
-                      },
-                    }),
-
-                    columnHelper.accessor((row) => row.status.toString(), {
-                      id: 'status',
-                      header: () => (
-                        <span className="flex text-xs text-gray-600 font-medium">Status</span>
+                        <span className="flex text-xs text-gray-600 font-medium self-start">
+                          Created by
+                        </span>
                       ),
                       cell: (info) => (
-                        <Table.CredentialStatusPill status={info.getValue() as CredentialStatus} />
+                        <div className="flex flex-col">
+                          <span className="text-xs text-primary font-medium">
+                            {`${info.getValue().firstName} ${info.getValue().lastName}`}
+                          </span>
+                          <span className="text-xs text-gray-500">{info.getValue().email}</span>
+                        </div>
                       ),
                     }),
 
-                    columnHelper.display({
-                      id: 'options',
+                    columnHelper.accessor('clientId', {
                       header: () => <Icon.TableAction />,
                       cell: (info) => (
                         <PopoverBox
@@ -228,14 +188,14 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                             <Link
                               key="edit"
                               className="flex gap-2 items-center"
-                              href={`/credentials/${info.row.original.id}/edit`}
+                              href={`/credentials/${info.getValue()}/edit`}
                             >
                               <Icon.Edit /> <span>Edit</span>
                             </Link>,
                             <Link
                               key="delete"
                               className="flex gap-2 items-center"
-                              href={`/credentials/${info.row.original.id}/delete`}
+                              href={`/credentials/${info.getValue()}/delete`}
                             >
                               <Icon.Delete fill="#E52E2E" />
                               <span className="text-negative">Delete</span>
@@ -245,7 +205,7 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                       ),
                     }),
                   ]}
-                  data={credentials}
+                  data={credentialsQuery.data?.organization.credentials || []}
                 />
               </div>
             )}
