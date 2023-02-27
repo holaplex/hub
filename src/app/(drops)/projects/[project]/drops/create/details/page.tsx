@@ -1,7 +1,7 @@
 'use client';
 import { Button, Form } from '@holaplex/ui-library-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import Card from '../../../../../../../components/Card';
 import DragDropImage from '../../../../../../../components/DragDropImage';
 import { Icon } from '../../../../../../../components/Icon';
@@ -52,13 +52,27 @@ export default function CreateDropStep1() {
           </div>
 
           <Form.Label name="Blockchain" className="text-xs mt-5" asideComponent={<Icon.Help />}>
-            <Form.Select
-              {...register('blockchain', { required: true })}
-              placeholder="Select blockchain"
-              options={[
-                { option: 'Solana', value: 'solana' },
-                { option: 'Polygon', value: 'polygon' },
-              ]}
+            <Controller
+              name="blockchain"
+              render={({ field: { value, onChange } }) => {
+                return (
+                  <Form.Select value={value} onChange={onChange}>
+                    <Form.Select.Button placeholder="Select blockchain">
+                      {value.value}
+                    </Form.Select.Button>
+                    <Form.Select.Options>
+                      {[
+                        { option: 'Solana', value: 'solana' },
+                        { option: 'Polygon', value: 'polygon' },
+                      ].map((i) => (
+                        <Form.Select.Option value={i} key={i.value}>
+                          <>{i.option}</>
+                        </Form.Select.Option>
+                      ))}
+                    </Form.Select.Options>
+                  </Form.Select>
+                );
+              }}
             />
           </Form.Label>
           <Form.Label name="Description" className="text-xs mt-5" asideComponent={<Icon.Help />}>

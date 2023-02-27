@@ -22,13 +22,19 @@ export default function MemberDeletePage() {
 
         <Form className="flex flex-col mt-5">
           <Form.Label name="Blockchain" className="text-xs mt-5 text-primary">
-            <Form.Select
-              placeholder="Select blockchain"
-              options={[
-                { option: 'Solana', value: 'solana' },
-                { option: 'Polygon', value: 'polygon' },
-              ]}
-            />
+            <Form.Select value={{ option: 'Solana', value: 'solana' }} onChange={() => {}}>
+              <Form.Select.Button placeholder="Select blockchain">Solana</Form.Select.Button>
+              <Form.Select.Options>
+                {[
+                  { option: 'Solana', value: 'solana' },
+                  { option: 'Polygon', value: 'polygon' },
+                ].map((i) => (
+                  <Form.Select.Option value={i} key={i.value}>
+                    <>{i.option}</>
+                  </Form.Select.Option>
+                ))}
+              </Form.Select.Options>
+            </Form.Select>
           </Form.Label>
           <Button className="w-full mt-4" onClick={() => {}}>
             Add wallet

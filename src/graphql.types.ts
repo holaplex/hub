@@ -83,9 +83,11 @@ export type Credential = {
   audiences: Array<Scalars['String']>;
   clientId: Scalars['String'];
   createdAt: Scalars['NaiveDateTime'];
+  createdBy?: Maybe<User>;
   createdById: Scalars['UUID'];
   name: Scalars['String'];
   organizationId: Scalars['UUID'];
+  projects: Array<Project>;
   scopes: Array<Scalars['String']>;
 };
 
@@ -322,8 +324,7 @@ export type Query = {
    * This function fails if ...
    */
   project?: Maybe<Project>;
-  user: User;
-  users: Array<User>;
+  user?: Maybe<User>;
 };
 
 
@@ -344,12 +345,6 @@ export type QueryProjectArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['UUID'];
-};
-
-
-export type QueryUsersArgs = {
-  page?: Scalars['Int'];
-  perPage?: Scalars['Int'];
 };
 
 export type User = {

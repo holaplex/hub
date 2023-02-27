@@ -50,7 +50,7 @@ export default function Organization({
               active={segments[0] === 'webhooks'}
             />
             <Sidebar.Menu.Link
-              name="Credentials"
+              name="API Credentials"
               icon={<Icon.Credentials />}
               href="/credentials"
               active={segments[0] === 'credentials'}

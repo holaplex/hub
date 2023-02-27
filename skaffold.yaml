@@ -104,6 +104,7 @@ deploy:
         repo: https://charts.holaplex.com
         valuesFiles:
           - values.identities.yaml
+          - secrets.identities.yaml
       - name: svix
         remoteChart: svix
         repo: https://charts.holaplex.com
@@ -117,6 +118,11 @@ deploy:
         valuesFiles:
           - values.orgs.yaml
           - secrets.orgs.yaml
+      - name: hub-credentials
+        remoteChart: hub-credentials
+        repo: https://charts.holaplex.com
+        valuesFiles:
+          - values.credentials.yaml
       - name: federated-router
         remoteChart: oci://ghcr.io/apollographql/helm-charts/router
         valuesFiles:
