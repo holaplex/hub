@@ -114,7 +114,6 @@ deploy:
       - name: hub-orgs
         remoteChart: hub-orgs
         repo: https://charts.holaplex.com
-        version: 0.3.1
         valuesFiles:
           - values.orgs.yaml
           - secrets.orgs.yaml
