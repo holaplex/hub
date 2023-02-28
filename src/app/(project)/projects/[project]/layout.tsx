@@ -1,10 +1,10 @@
 import { apollo } from '../../../../client';
 import Project from '../../../../layouts/Project';
-import { config } from '../../../../app.config';
+import { appConfig } from '../../../../app.config';
 import { Project as ProjectType } from './../../../../graphql.types';
 import { GetProject } from './../../../../queries/project.graphql';
 
-const client = apollo(config.server('graphql'));
+const client = apollo(appConfig.server('graphql'));
 
 interface ProjectLayoutProps {
   children: React.ReactNode;

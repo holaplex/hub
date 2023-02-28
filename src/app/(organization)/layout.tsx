@@ -3,7 +3,7 @@ import Organization from '../../layouts/Organization';
 import { redirect } from 'next/navigation';
 import { GetOrganizationBasicInfo } from './../../queries/organization.graphql';
 import { apollo } from '../../client';
-import { config } from '../../app.config';
+import { appConfig } from '../../app.config';
 import { Organization as OrganizationType } from '../../graphql.types';
 
 interface OrganizationVars {
@@ -14,7 +14,7 @@ interface GetOrganizationBasicInfoData {
   organization: OrganizationType;
 }
 
-const client = apollo(config.server('graphql'));
+const client = apollo(appConfig.server('graphql'));
 
 export default async function OrganizationLayout({
   children,

@@ -12,7 +12,7 @@ import { MemberStatus } from './../../../types';
 import { useOrganization } from '../../../hooks/useOrganization';
 import { GetOrganizationMembers } from './../../../queries/organization.graphql';
 import { DateFormat, formatDateString } from '../../../modules/time';
-import { config } from './../../../app.config';
+import { appConfig } from './../../../app.config';
 import useClipboard from './../../../hooks/useClipboard';
 
 type Associate = {
@@ -33,7 +33,7 @@ interface GetOrganizationMembersVars {
 }
 
 function ActionCell({ id, status }: { id: string; status: MemberStatus }): JSX.Element {
-  const { copied, copyText } = useClipboard(`${config.client('fqdn')}/invites/${id}`);
+  const { copied, copyText } = useClipboard(`${appConfig.client('fqdn')}/invites/${id}`);
 
   if (status === MemberStatus.Owner) {
     return <div />;
