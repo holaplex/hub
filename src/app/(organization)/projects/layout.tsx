@@ -178,40 +178,43 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                     columnHelper.display({
                       id: 'options',
                       header: () => <Icon.TableAction />,
-                      cell: (info) => (
-                        <PopoverBox
-                          triggerButton={
-                            <div className="px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min">
-                              <Icon.More />
-                            </div>
-                          }
-                          elements={[
-                            <Link
-                              key="transfer_tokens"
-                              className="flex gap-2 items-center"
-                              href={`/projects/${info.getValue()}/transfer`}
-                            >
-                              <Icon.TransferTokens /> <span>Transfer tokens</span>
-                            </Link>,
-                            <Link
-                              key="edit_project"
-                              className="flex gap-2 items-center"
-                              href={`/projects/${info.getValue()}/edit`}
-                            >
-                              <Icon.Edit /> <span>Edit project</span>
-                            </Link>,
-                            // TODO: Check the project treasury, if it has funds ask to transfer funds.
-                            <Link
-                              key="delete_project"
-                              className="flex gap-2 items-center"
-                              href={`/projects/${info.getValue()}/delete`}
-                            >
-                              <Icon.Delete fill="#E52E2E" />
-                              <span className="text-negative">Delete project</span>
-                            </Link>,
-                          ]}
-                        />
-                      ),
+                      cell: (info) => {
+                        const projectId = info.row.original.id;
+                        return (
+                          <PopoverBox
+                            triggerButton={
+                              <div className="px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min">
+                                <Icon.More />
+                              </div>
+                            }
+                            elements={[
+                              <Link
+                                key="transfer_tokens"
+                                className="flex gap-2 items-center"
+                                href={`/projects/${projectId}/transfer`}
+                              >
+                                <Icon.TransferTokens /> <span>Transfer tokens</span>
+                              </Link>,
+                              <Link
+                                key="edit_project"
+                                className="flex gap-2 items-center"
+                                href={`/projects/${projectId}/edit`}
+                              >
+                                <Icon.Edit /> <span>Edit project</span>
+                              </Link>,
+                              // TODO: Check the project treasury, if it has funds ask to transfer funds.
+                              <Link
+                                key="delete_project"
+                                className="flex gap-2 items-center"
+                                href={`/projects/${projectId}/delete`}
+                              >
+                                <Icon.Delete fill="#E52E2E" />
+                                <span className="text-negative">Delete project</span>
+                              </Link>,
+                            ]}
+                          />
+                        );
+                      },
                     }),
                   ]}
                   data={projects}
