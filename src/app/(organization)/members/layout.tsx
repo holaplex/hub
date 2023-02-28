@@ -139,8 +139,8 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
               <span className="text-xs text-primary font-medium">
                 {info.getValue().fullName ? info.getValue().fullName : info.getValue().email}
               </span>
-              {info.getValue().fullName && (
-                <span className="text-xs text-gray-500">{info.getValue().fullName}</span>
+              {info.getValue().email && (
+                <span className="text-xs text-gray-500">{info.getValue().email}</span>
               )}
             </div>
           );
