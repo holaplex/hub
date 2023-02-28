@@ -1,0 +1,8 @@
+query GetProjectCustomers($project: UUID!) {
+  project(id: $project) {
+    customers {
+      id
+      createdAt
+    }
+  }
+}

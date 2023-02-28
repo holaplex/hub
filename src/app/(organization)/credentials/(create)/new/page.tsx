@@ -234,7 +234,7 @@ export default function GenerateToken() {
             Make sure to copy the token now as you will not be able to see it again
           </Typography.Paragraph>
           <div className="flex gap-2">
-            <div className="shrink border bg-gray-50 px-4 py-3 border-gray-100 rounded-md truncate">
+            <div className="shrink border px-4 py-3 bg-white border-gray-100 rounded-md truncate">
               {data?.createCredential.accessToken.accessToken}
             </div>
             <button

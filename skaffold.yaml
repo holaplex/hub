@@ -64,6 +64,11 @@ deploy:
         remoteChart: postgresql
         valuesFiles:
           - values.kratos.postgresql.yaml
+      - name: hub-customers-db
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: postgresql
+        valuesFiles:
+          - values.customers.postgresql.yaml
       - name: hydra-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
@@ -127,6 +132,12 @@ deploy:
         valuesFiles:
           - values.orgs.yaml
           - secrets.orgs.yaml
+      - name: hub-customers
+        remoteChart: hub-customers
+        repo: https://charts.holaplex.com
+        valuesFiles:
+          - values.customers.yaml
+          - secrets.customers.yaml
       - name: hub-credentials
         remoteChart: hub-credentials
         repo: https://charts.holaplex.com

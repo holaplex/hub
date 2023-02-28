@@ -64,7 +64,9 @@ interface SidebarMenuProps {
 
 function SidebarMenu({ children, className }: SidebarMenuProps) {
   return (
-    <div className={clsx('w-full py-3 px-2 flex-1 overflow-y-auto', className)}>{children}</div>
+    <div className={clsx('w-full py-3 flex flex-col gap-2 px-2 flex-1 overflow-y-auto', className)}>
+      {children}
+    </div>
   );
 }
 Sidebar.Menu = SidebarMenu;
@@ -81,10 +83,14 @@ function SidebarMenuLink({ icon, name, href, active, className }: SidebarMenuIte
   return (
     <Link
       href={href}
-      className={clsx('flex gap-4 w-full px-4 py-3 items-center', className, {
-        'text-primary bg-gray-50 rounded-md': active,
-        'text-gray-600': !active,
-      })}
+      className={clsx(
+        'flex gap-4 w-full px-4 py-3 items-center rounded-md border border-white',
+        className,
+        {
+          'text-primary bg-gray-50 border-white': active,
+          'text-gray-600 hover:border-gray-50': !active,
+        }
+      )}
     >
       {icon}
       <span className="text-sm">{name}</span>
