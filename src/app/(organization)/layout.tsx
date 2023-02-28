@@ -32,7 +32,7 @@ export default async function OrganizationLayout({
     });
 
     return (
-      <Organization organization={organizationQuery.data?.organization}>{children}</Organization>
+      <Organization hydrate={organizationQuery.data?.organization}>{children}</Organization>
     );
   }
 
