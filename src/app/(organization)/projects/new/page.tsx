@@ -9,6 +9,7 @@ import { CreateProject } from './../../../../mutations/project.graphql';
 import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
 import { useOrganization } from '../../../../hooks/useOrganization';
+import DragDropImage from '../../../../components/DragDropImage';
 
 interface CreateProjectData {
   createProject: CreateProjectPayload;
@@ -44,6 +45,25 @@ export default function NewProjectPage() {
     });
   };
 
+  const handleDrop = async (file: File) => {
+    const body = new FormData();
+    body.append(file.name, file, file.name);
+
+    try {
+      const response = await fetch('/api/uploads', {
+        method: 'POST',
+        body,
+      });
+      const json = await response.json();
+      if (json) {
+        console.log('Upload file url', json);
+      }
+    } catch (e: any) {
+      console.error('Could not upload file', e);
+      throw new Error(e);
+    }
+  };
+
   return (
     <Modal
       open={true}
@@ -68,7 +88,9 @@ export default function NewProjectPage() {
             />
             <Form.Error message={formState.errors.name?.message} />
           </Form.Label>
-
+          <Form.Label name="Project logo" className="text-xs text-primary">
+            <DragDropImage onDrop={handleDrop} className="mt-5" />
+          </Form.Label>
           <Button htmlType="submit" className="w-full mt-5" loading={loading} disabled={loading}>
             Create
           </Button>
@@ -82,7 +104,6 @@ export default function NewProjectPage() {
           >
             Cancel
           </Button>
-          {/* <DragDropImage onDrop={handleDrop} className="mt-5" /> */}
         </Form>
       </Card>
     </Modal>

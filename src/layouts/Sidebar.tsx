@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Children, cloneElement, ReactNode, useState } from 'react';
 import { Icon } from '../components/Icon';
 import { Organization, User } from '../graphql.types';
+import { useLogout } from '../hooks/useLogout';
 import { useOrganization } from '../hooks/useOrganization';
 import { useSession } from '../hooks/useSession';
 import { GetUserAffiliations, GetUser } from './../queries/user.graphql';
@@ -131,7 +132,8 @@ interface GetUserVars {
 }
 
 function SidebarFooter({ organization, children, className }: SidebarFooterProps) {
-  const { session, logout } = useSession();
+  const { session } = useSession();
+  const { logout } = useLogout();
   const { onSwitch } = useOrganization();
 
   const [expandFooter, setExpandFooter] = useState<Boolean>(false);
