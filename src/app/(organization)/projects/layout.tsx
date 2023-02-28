@@ -124,6 +124,7 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                 <Table
                   className="mt-4"
                   columns={[
+                    // @ts-ignore
                     columnHelper.accessor('name', {
                       header: () => (
                         <div className="flex gap-2">

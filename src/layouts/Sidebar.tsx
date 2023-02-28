@@ -127,6 +127,7 @@ interface GetUserVars {
 function SidebarFooter({ organization, children, className }: SidebarFooterProps) {
   const { session, logout } = useSession();
   const { onSwitch } = useOrganization();
+
   const [expandFooter, setExpandFooter] = useState<Boolean>(false);
   const [loadUserAffiliations, userAffiliationsQuery] = useLazyQuery<
     GetUserAffiliationsData,
@@ -150,13 +151,18 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
           if (!userAffiliationsQuery.called) {
             loadUserAffiliations();
           }
+
           setExpandFooter(!expandFooter);
         }}
       >
         <h1 className="flex items-center gap-2 text-sm text-primary font-medium">
           <div className="w-8 h-8 bg-gray-300 rounded-md" />
           <span className="flex flex-col capitalize">
-            {userQuery.data && `${userQuery.data?.user.firstName} ${userQuery.data?.user.lastName}`}
+            {userQuery.loading ? (
+              <div className="h-4 w-20 bg-gray-50 rounded-full animate-pulse" />
+            ) : (
+              `${userQuery.data?.user.firstName} ${userQuery.data?.user.lastName}`
+            )}
             <span className="text-gray-400 text-xs">{organization?.name}</span>
           </span>
         </h1>
@@ -203,11 +209,15 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                 {userAffiliationsQuery.data?.user.affiliations.map((affiliation) => {
                   return (
                     <div
-                      key={affiliation.id}
-                      className={clsx('flex items-center justify-between p-2 cursor-pointer', {
-                        'border rounded-md border-gray-100 ':
-                          affiliation.organization?.id === organization?.id,
-                      })}
+                      key={affiliation.organization?.id}
+                      className={clsx(
+                        'flex items-center rounded-md justify-between p-2 border transition',
+                        {
+                          'border-gray-100': affiliation.organization?.id === organization?.id,
+                          'border-white cursor-pointer hover:border-gray-100 hover:bg-gray-50':
+                            affiliation.organization?.id !== organization?.id,
+                        }
+                      )}
                       onClick={() => onSwitch(affiliation.organization?.id)}
                     >
                       <div className="flex gap-2 items-center">
