@@ -31,9 +31,7 @@ export default async function OrganizationLayout({
       variables: { organization },
     });
 
-    return (
-      <Organization hydrate={organizationQuery.data?.organization}>{children}</Organization>
-    );
+    return <Organization hydrate={organizationQuery.data?.organization}>{children}</Organization>;
   }
 
   redirect('/organizations');

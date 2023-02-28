@@ -6,6 +6,15 @@ hydra:
         port: 4444
       admin:
         port: 4445
+  ttl:
+    login_consent_request: 1h
+    access_token: 8760h
+    refresh_token: 720h
+    id_token: 1h
+    auth_code: 10m
+
+  oauth2:
+    expose_internal_errors: true
   automigration:
     enabled: true
     type: initContainer
