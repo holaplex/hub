@@ -25,7 +25,7 @@ const DragDropImage = ({ onDrop, className }: IProps) => {
     },
   });
   return (
-    <div className={clsx('relative rounded-lg overflow-hidden', className)} {...getRootProps()}>
+    <div className={clsx('relative rounded-lg overflow-hidden', className)}>
       <input {...getInputProps()} />
       <div
         className={clsx(

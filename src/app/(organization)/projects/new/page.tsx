@@ -88,8 +88,8 @@ export default function NewProjectPage() {
             />
             <Form.Error message={formState.errors.name?.message} />
           </Form.Label>
-          <Form.Label name="Project logo" className="text-xs text-primary">
-            <DragDropImage onDrop={handleDrop} className="mt-5" />
+          <Form.Label name="Project logo" className="text-xs text-primary mt-5">
+            <DragDropImage onDrop={handleDrop} />
           </Form.Label>
           <Button htmlType="submit" className="w-full mt-5" loading={loading} disabled={loading}>
             Create
