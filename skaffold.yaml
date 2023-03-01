@@ -52,13 +52,6 @@ deploy:
         remoteChart: redpanda
         valuesFiles:
           - values.redpanda.yaml
-      - name: svix-redis
-        repo: https://charts.bitnami.com/bitnami
-        remoteChart: redis
-        setValues:
-          architecture: standalone
-          auth:
-            enabled: false
       - name: kratos-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql

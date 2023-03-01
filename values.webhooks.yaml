@@ -23,4 +23,10 @@ svix:
     logLevel: "info"
     queueType: "redis"
     waitForServices: true
-    redisDsn: "redis://svix-redis-master:6379"
+    redisDsn: "redis://hub-webhooks-redis-master:6379"
+
+  redis:
+    enabled: true
+    architecture: standalone
+    auth:
+      enabled: false
