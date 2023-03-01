@@ -21,6 +21,11 @@ skaffold.yaml
 secrets.router.yaml
 secrets.orgs.yaml
 secrets.treasuries.yaml
+secrets.credentials.yaml
+secrets.customers.yaml
+secrets.identities.yaml
+secrets.nfts.yaml
+secrets.webhooks.yaml
 ```
 
 ### Deploy
