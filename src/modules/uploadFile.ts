@@ -1,4 +1,4 @@
-import { NFTStorage, File } from 'nft.storage';
+import { NFTStorage, File, Token } from 'nft.storage';
 
 const client = new NFTStorage({
   token:

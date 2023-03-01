@@ -1,10 +1,10 @@
-import { config } from '../../../../../app.config';
+import { appConfig } from '../../../../../app.config';
 import { Project as ProjectType } from './../../../../../graphql.types';
 import { GetProject } from './../../../../queries/project.graphql';
 import { apollo } from '../../../../../client';
 import EditProject from './EditProject';
 
-const client = apollo(config.server('graphql'));
+const client = apollo(appConfig.server('graphql'));
 
 interface EditProjectLayoutProps {
   children: React.ReactNode;
