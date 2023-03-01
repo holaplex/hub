@@ -26,7 +26,6 @@ secrets.customers.yaml
 secrets.identities.yaml
 secrets.nfts.yaml
 secrets.webhooks.yaml
-
 ```
 
 ### Deploy
