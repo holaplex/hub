@@ -7,9 +7,8 @@ migrate:
 
 environment:
   port: '80'
-  oryBaseUrl: http://hydra-admin
   kafkaUsername: admin
   kafkaSsl: false
   kafkaBrokers: 'hub-eventbus-cluster-0.hub-eventbus-cluster.default.svc.cluster.local:9093'
-  ketoReadurl: http://keto-read
-  ketoWriteUrl: http://keto-write 
+  keyPairPath: "/app/keypair.json"
+  solanaEndpoint: "https://api.devnet.solana.com"

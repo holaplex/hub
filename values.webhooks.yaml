@@ -1,0 +1,26 @@
+image:
+  pullPolicy: Always
+
+migrate:
+  image:
+    pullPolicy: Always
+
+environment:
+  port: '80'
+  kafkaUsername: admin
+  kafkaSsl: false
+  kafkaBrokers: 'hub-eventbus-cluster-0.hub-eventbus-cluster.default.svc.cluster.local:9093'
+  svixBaseUrl: http://hub-webhooks-svix
+
+svix:
+  enabled: true
+  image:
+    repository: mpwsh/svix-server
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  environment:
+    logLevel: "info"
+    queueType: "redis"
+    waitForServices: true
+    redisDsn: "redis://svix-redis-master:6379"
