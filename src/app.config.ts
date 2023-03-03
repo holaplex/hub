@@ -1,6 +1,7 @@
 interface ServerConfig {
   kratos: string;
   graphql: string;
+  nftStorage: string;
 }
 
 interface ClientConfig {
@@ -21,6 +22,7 @@ class Config {
       server: {
         graphql: process.env.GRAPHQL_ENDPOINT as string,
         kratos: process.env.KRATOS_ENDPOINT as string,
+        nftStorage: process.env.NFT_STORAGE_TOKEN as string,
       },
       client: {
         graphql: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string,
