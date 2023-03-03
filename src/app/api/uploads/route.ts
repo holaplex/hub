@@ -3,8 +3,7 @@ import formidable, { Fields, Files } from 'formidable';
 import { NextResponse } from 'next/server';
 import { ok } from 'assert';
 import { is, map, pipe, take, values, when } from 'ramda';
-import { NFTStorage } from 'nft.storage';
-import { appConfig } from '../../../app.config';
+import { nftStorage } from '../../../modules/upload';
 
 export interface FormData {
   fields: Fields;
@@ -12,10 +11,7 @@ export interface FormData {
 }
 
 async function uploadFile(file: File): Promise<string> {
-  const client = new NFTStorage({
-    token: appConfig.server('nftStorage'),
-  });
-  const metadata = await client.store({
+  const metadata = await nftStorage.store({
     name: file.name,
     description: file.name,
     image: file,
