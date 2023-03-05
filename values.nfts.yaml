@@ -10,5 +10,5 @@ environment:
   kafkaUsername: admin
   kafkaSsl: false
   kafkaBrokers: 'hub-eventbus-cluster-0.hub-eventbus-cluster.default.svc.cluster.local:9093'
-  keyPairPath: "/app/keypair.json"
+  solanaKeyPairPath: "/app/keypair.json"
   solanaEndpoint: "https://api.devnet.solana.com"

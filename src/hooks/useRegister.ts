@@ -2,8 +2,13 @@ import { RegistrationFlow, UiNodeInputAttributes } from '@ory/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
+import { useSession } from './useSession';
 import { toast } from 'react-toastify';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
+
+interface LoginResponse {
+  redirect_path: string;
+}
 
 interface RegistrationForm {
   email: string;
@@ -21,6 +26,7 @@ interface RegisterContext {
 export function useRegister(flow: RegistrationFlow | undefined): RegisterContext {
   const router = useRouter();
   const search = useSearchParams();
+  const { setSession } = useSession();
   const { ory } = useOry();
 
   const { register, handleSubmit, formState, setError } = useForm<RegistrationForm>();
@@ -35,7 +41,7 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
         extractFlowNode('csrf_token')(flow.ui.nodes).attributes as UiNodeInputAttributes
       ).value;
 
-      await ory.updateRegistrationFlow({
+      const response = await ory.updateRegistrationFlow({
         flow: flow.id,
         updateRegistrationFlowBody: {
           method: 'password',
@@ -45,10 +51,7 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
         },
       });
 
-      router.push(
-        `/login${search.has('return_to') ? `?return_to=${search.get('return_to')}` : ''}`
-      );
-      toast.success('Welcome to the Hub. Please sign to continue.');
+      setSession(response.data.session);
     } catch (err: any) {
       const {
         response: {
@@ -67,6 +70,30 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
       if (emailErr) {
         setError('email', { message: emailErr });
       }
+    }
+
+    if (search.has('return_to')) {
+      router.push(search.get('return_to') as string);
+      return;
+    }
+
+    try {
+      const response = await fetch('/browser/login', {
+        method: 'POST',
+        credentials: 'same-origin',
+      });
+
+      debugger;
+
+      const json: LoginResponse = await response.json();
+
+      router.push(json.redirect_path);
+    } catch (e: any) {
+      toast.error(
+        'Unable to forward you to an organization. Please select or create an organization.'
+      );
+
+      router.push('/organizations');
     }
   };
 

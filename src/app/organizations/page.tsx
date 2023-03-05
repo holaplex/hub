@@ -1,12 +1,11 @@
 'use client';
 import Card from '../../components/Card';
 import Typography, { Size } from '../../components/Typography';
-import { Form } from '@holaplex/ui-library-react';
 import { useQuery } from '@apollo/client';
 import { GetUserAffiliations } from './../../queries/user.graphql';
 import { Organization, User } from './../../graphql.types';
 import { useSession } from './../../hooks/useSession';
-import { ChangeEvent } from 'react';
+import { Icon } from '../../components/Icon';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
@@ -75,6 +74,23 @@ export default function OrganizationsPage() {
           })
         )}
       </div>
+      <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
+      <Link
+        href={`/registration${
+          search.has('return_to') ? `?return_to=${search.get('return_to')}` : ''
+        }`}
+        className="mt-4"
+      >
+        <Button icon={<Icon.pl className="mr-1" />} className="w-full" variant="secondary">
+          <div className="flex items-center">
+            <span className="text-gray-500 font-medium">Dont have an account?</span>
+            <span className="flex items-center ml-1 font-semibold">
+              Create account
+              <Icon.ArrowRight className="ml-1" />
+            </span>
+          </div>
+        </Button>
+      </Link>
     </Card>
   );
 }

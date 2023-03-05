@@ -36,6 +36,14 @@ kratos:
           enabled: true
       default_browser_return_url: http://hub.127.0.0.1.nip.io:9080
       flows:
+        registration:
+          after:
+            oidc:
+              hooks:
+              - hook: session
+            password:
+              hooks:
+              - hook: session
         error:
           ui_url: https://hub.127.0.0.1.nip.io:9080/account/error
 
