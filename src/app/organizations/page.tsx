@@ -1,4 +1,6 @@
 'use client';
+import Link from 'next/link';
+import { Button } from '@holaplex/ui-library-react';
 import Card from '../../components/Card';
 import Typography, { Size } from '../../components/Typography';
 import { useQuery } from '@apollo/client';
@@ -8,7 +10,7 @@ import { useSession } from './../../hooks/useSession';
 import { Icon } from '../../components/Icon';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 interface GetUserAffiliationsData {
   user: User;
@@ -75,17 +77,11 @@ export default function OrganizationsPage() {
         )}
       </div>
       <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
-      <Link
-        href={`/registration${
-          search.has('return_to') ? `?return_to=${search.get('return_to')}` : ''
-        }`}
-        className="mt-4"
-      >
-        <Button icon={<Icon.pl className="mr-1" />} className="w-full" variant="secondary">
+      <Link href="/organizations/new" className="mt-4">
+        <Button className="w-full" variant="secondary">
           <div className="flex items-center">
-            <span className="text-gray-500 font-medium">Dont have an account?</span>
             <span className="flex items-center ml-1 font-semibold">
-              Create account
+              Create an organization
               <Icon.ArrowRight className="ml-1" />
             </span>
           </div>

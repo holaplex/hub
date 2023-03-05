@@ -5,7 +5,7 @@ module.exports = {
     './src/components/**/*.tsx',
     './src/app/**/*.tsx',
     './src/layouts/**/*.tsx',
-    './node_modules/@holaplex/ui-library-react/dist/index.{js,mjs}',
+    './node_modules/@holaplex/ui-library-react/dist/index.js',
   ],
   theme: {
     extend: {
@@ -17,7 +17,7 @@ module.exports = {
         gray: {
           50: '#f5f5f5',
           100: '#e6e6e6',
-          200: '#с5с5с5',
+          200: '#c5c5c5',
           500: '#7b7b7b',
           600: '#555555',
           800: '#292929',
