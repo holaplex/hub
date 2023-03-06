@@ -1,10 +1,87 @@
 'use client';
-import { Button, Form } from '@holaplex/ui-library-react';
+import { useMutation, useQuery } from '@apollo/client';
+import { Button, Form, Modal } from '@holaplex/ui-library-react';
+import { useRouter } from 'next/navigation';
+import { isNil, not, pipe } from 'ramda';
+import { Controller, useForm } from 'react-hook-form';
 import Card from '../../../../components/Card';
 import { Icon } from '../../../../components/Icon';
+import { Pill } from '../../../../components/Pill';
 import Typography, { Size } from '../../../../components/Typography';
+import {
+  CreateWebhookInput,
+  CreateWebhookPayload,
+  FilterType,
+  Organization,
+  Project,
+} from '../../../../graphql.types';
+import useClipboard from '../../../../hooks/useClipboard';
+import { useOrganization } from '../../../../hooks/useOrganization';
+import { CreateWebhook } from './../../../../mutations/webhook.graphql';
+import { GetOrganizationProjects } from './../../../../queries/organization.graphql';
+
+interface GetOrganizationProjectsData {
+  organization: Pick<Organization, 'projects'>;
+}
+
+interface GetOrganizationProjectsVar {
+  organization: string;
+}
+interface CreateWebhookVars {
+  input: CreateWebhookInput;
+}
+
+interface CreateWebhookData {
+  createWebhookData: CreateWebhookPayload;
+}
+
+interface WebhookForm {
+  projects: Project[];
+  name: string;
+  targetUrl: string;
+  events: string[];
+}
 
 export default function NewWebhook() {
+  const { organization } = useOrganization();
+  const router = useRouter();
+
+  const { register, control, watch, handleSubmit } = useForm<WebhookForm>({
+    defaultValues: { projects: [] },
+  });
+  const selectedProjects = watch('projects');
+
+  const [createWebhook, createWebhookResult] = useMutation<CreateWebhookData, CreateWebhookVars>(
+    CreateWebhook
+  );
+
+  console.log('create webhook result', createWebhookResult);
+
+  const { copied, copyText } = useClipboard(
+    createWebhookResult.data?.createWebhookData.secret as string
+  );
+
+  const onSubmit = ({ projects, name, targetUrl, events }: WebhookForm) => {
+    createWebhook({
+      variables: {
+        input: {
+          description: name,
+          endpoint: targetUrl,
+          organization: organization?.id as string,
+          projects: projects.map((project) => project.id),
+          filterTypes: events.map((event) => event as FilterType),
+        },
+      },
+    });
+  };
+
+  const projectsQuery = useQuery<GetOrganizationProjectsData, GetOrganizationProjectsVar>(
+    GetOrganizationProjects,
+    {
+      variables: { organization: organization?.id },
+    }
+  );
+
   return (
     <div className="h-full flex flex-col p-4">
       <div className="text-2xl font-medium text-gray-500">
@@ -15,18 +92,57 @@ export default function NewWebhook() {
             <Typography.Header size={Size.H3}>
               Select the projects to which you want to add the webhook
             </Typography.Header>
-            <Form className="flex flex-col mt-5">
-              <Form.Label name="Project" className="text-xs mt-4" asideComponent={<Icon.Help />}>
-                <Form.Input autoFocus placeholder="e.g. Space fox" />
-                <Form.Error message="" />
+            <Form className="flex flex-col mt-5" onSubmit={handleSubmit(onSubmit)}>
+              <Form.Label
+                name="Select project"
+                className="text-xs mt-5"
+                asideComponent={<Icon.Help />}
+              >
+                <Controller
+                  name="projects"
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <Form.Select value={value} onChange={onChange} multiple>
+                      <Form.Select.Button>
+                        <Pill.List>
+                          {selectedProjects.map((project) => (
+                            <Pill
+                              key={project.id}
+                              onClear={(e) => {
+                                e.preventDefault();
+                                onChange(value.filter((p) => p.id !== project.id));
+                              }}
+                            >
+                              {project.name}
+                            </Pill>
+                          ))}
+                        </Pill.List>
+                      </Form.Select.Button>
+                      <Form.Select.Options>
+                        {(projectsQuery.data?.organization.projects || []).map((project) => {
+                          return (
+                            <Form.Select.Option key={project.id} value={project}>
+                              <>{project.name}</>
+                            </Form.Select.Option>
+                          );
+                        })}
+                      </Form.Select.Options>
+                    </Form.Select>
+                  )}
+                />
               </Form.Label>
               <div className="flex gap-4 mt-5">
                 <Form.Label name="Name" className="text-xs mt-5" asideComponent={<Icon.Help />}>
-                  <Form.Input autoFocus placeholder="e.g. Bored Ape Yatch Club" />
+                  <Form.Input
+                    {...register('name')}
+                    autoFocus
+                    placeholder="e.g. Bored Ape Yatch Club"
+                  />
                   <Form.Error message="" />
                 </Form.Label>
 
                 <Form.Label
+                  {...register('targetUrl')}
                   name="Target URL"
                   className="text-xs mt-5"
                   asideComponent={<Icon.Help />}
@@ -41,36 +157,56 @@ export default function NewWebhook() {
               <span className="text-sm text-primary font-medium">Events</span>
               <div className="grid grid-cols-2 mt-4 mx-2">
                 <Form.Checkbox
-                  id="project_created"
+                  {...register('events')}
+                  id="PROJECT_CREATED"
+                  value="PROJECT_CREATED"
                   label={<span className="text-xs font-medium text-primary">Project created</span>}
                 />
                 <Form.Checkbox
-                  id="project_deactivated"
+                  {...register('events')}
+                  id="PROJECT_WALLET_CREATED"
+                  value="PROJECT_WALLET_CREATED"
                   label={
-                    <span className="text-xs font-medium text-primary">Project deactivated</span>
+                    <span className="text-xs font-medium text-primary">Project wallet created</span>
                   }
                 />
                 <Form.Checkbox
-                  id="invitation_sent"
-                  label={<span className="text-xs font-medium text-primary">Invitation sent</span>}
+                  {...register('events')}
+                  id="CUSTOMER_CREATED"
+                  value="CUSTOMER_CREATED"
+                  label={<span className="text-xs font-medium text-primary">Customer created</span>}
                 />
                 <Form.Checkbox
-                  id="invitation_accepted"
+                  {...register('events')}
+                  id="CUSTOMER_TREASURY_CREATED"
+                  value="CUSTOMER_TREASURY_CREATED"
                   label={
-                    <span className="text-xs font-medium text-primary">Invitation accepted</span>
+                    <span className="text-xs font-medium text-primary">
+                      Customer treasury created
+                    </span>
                   }
                 />
                 <Form.Checkbox
-                  id="invitation_revoked"
+                  {...register('events')}
+                  id="CUSTOMER_WALLET_CREATED"
+                  value="CUSTOMER_WALLET_CREATED"
                   label={
-                    <span className="text-xs font-medium text-primary">Invitation revoked</span>
+                    <span className="text-xs font-medium text-primary">
+                      Customer wallet created
+                    </span>
                   }
                 />
                 <Form.Checkbox
-                  id="credential_created"
-                  label={
-                    <span className="text-xs font-medium text-primary">Credential created</span>
-                  }
+                  {...register('events')}
+                  id="DROP_CREATED"
+                  value="DROP_CREATED"
+                  label={<span className="text-xs font-medium text-primary">Drop created</span>}
+                />
+                <Form.Checkbox
+                  {...register('events')}
+                  id="DROP_MINTED"
+                  value="DROP_MINTED"
+                  label={<span className="text-xs font-medium text-primary">Drop minted</span>}
                 />
               </div>
 
@@ -99,6 +235,44 @@ export default function NewWebhook() {
           </Card>
         </div>
       </div>
+      <Modal
+        open={pipe(isNil, not)(createWebhookResult.data)}
+        setOpen={() => {
+          router.push('/credentials');
+        }}
+      >
+        <Card className="w-[400px] p-8 text-left">
+          <Typography.Header size={Size.H2} className="self-start">
+            Token
+          </Typography.Header>
+          <Typography.Paragraph className="py-4 text-gray-600">
+            Make sure to copy the token now as you will not be able to see it again
+          </Typography.Paragraph>
+          <div className="flex gap-2">
+            <div className="shrink border px-4 py-3 bg-white border-gray-100 rounded-md truncate">
+              {createWebhookResult.data?.createWebhookData.secret}
+            </div>
+            <button
+              onClick={copyText}
+              className="flex-none aspect-square rounded-md w-12 flex items-center justify-center bg-gray-50 border-gray-100 border"
+            >
+              {copied ? <Icon.Check /> : <Icon.Copy />}
+            </button>
+          </div>
+
+          <Button
+            className="mt-2"
+            variant="tertiary"
+            size="large"
+            block
+            onClick={() => {
+              router.push('/credentials');
+            }}
+          >
+            Return to API credentials
+          </Button>
+        </Card>
+      </Modal>
     </div>
   );
 }
