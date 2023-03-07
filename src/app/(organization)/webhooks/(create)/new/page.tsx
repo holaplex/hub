@@ -224,15 +224,15 @@ export default function NewWebhook() {
       <Modal
         open={pipe(isNil, not)(createWebhookResult.data)}
         setOpen={() => {
-          router.push('/credentials');
+          router.push('/webhooks');
         }}
       >
         <Card className="w-[400px] p-8 text-left">
           <Typography.Header size={Size.H2} className="self-start">
-            Token
+            Secret key
           </Typography.Header>
           <Typography.Paragraph className="py-4 text-gray-600">
-            Make sure to copy the token now as you will not be able to see it again
+            Its your secret access key, copy it. If necessary, you can always find it in the table.
           </Typography.Paragraph>
           <div className="flex gap-2">
             <div className="shrink border px-4 py-3 bg-white border-gray-100 rounded-md truncate">
@@ -252,10 +252,10 @@ export default function NewWebhook() {
             size="large"
             block
             onClick={() => {
-              router.push('/credentials');
+              router.push('/webhooks');
             }}
           >
-            Return to API credentials
+            Cancel
           </Button>
         </Card>
       </Modal>

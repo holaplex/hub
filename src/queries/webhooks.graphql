@@ -5,12 +5,22 @@ query GetOrganizationWebhooks($organization: UUID!) {
       description
       events
       createdAt
+      url
       createdBy {
         id
         email
         firstName
         lastName
       }
+    }
+  }
+}
+
+query GetOrganizationWebhook($organization: UUID!, $webhook: UUID!) {
+  organization(id: $organization) {
+    webhook(id: $webhook) {
+      id
+      description
     }
   }
 }

@@ -152,7 +152,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                           {info.row.original.events.map((event) => {
                             return (
                               <div
-                                key={event.toString()}
+                                key={event}
                                 className="rounded-full py-1 px-3 text-xs font-medium bg-cyan-200 text-cyan-600"
                               >
                                 {event}
@@ -220,13 +220,13 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                             // >
                             //   <Icon.Check /> <span>Enable</span>
                             // </Link>,
-                            <Link
-                              key="edit"
-                              className="flex gap-2 items-center"
-                              href={`/webhooks/${info.getValue()}/edit`}
-                            >
-                              <Icon.Edit /> <span>Edit</span>
-                            </Link>,
+                            // <Link
+                            //   key="edit"
+                            //   className="flex gap-2 items-center"
+                            //   href={`/webhooks/${info.getValue()}/edit`}
+                            // >
+                            //   <Icon.Edit /> <span>Edit</span>
+                            // </Link>,
                             <Link
                               key="delete"
                               className="flex gap-2 items-center"

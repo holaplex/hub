@@ -46,6 +46,7 @@ declare module '*/webhook.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const CreateWebhook: DocumentNode;
+export const DeleteWebhook: DocumentNode;
 
   export default defaultDocument;
 }
@@ -83,6 +84,7 @@ declare module '*/webhooks.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const GetOrganizationWebhooks: DocumentNode;
+export const GetOrganizationWebhook: DocumentNode;
 
   export default defaultDocument;
 }

@@ -197,17 +197,25 @@ export type DeleteWebhookPayload = {
 
 export type Drop = {
   __typename?: 'Drop';
-  collection?: Maybe<Collection>;
-  collectionId: Scalars['UUID'];
+  collection: Collection;
   createdAt: Scalars['NaiveDateTime'];
-  createdBy: Scalars['UUID'];
+  createdById: Scalars['UUID'];
   creationStatus: CreationStatus;
   endTime?: Maybe<Scalars['NaiveDateTime']>;
   id: Scalars['UUID'];
   price: Scalars['Int'];
   projectId: Scalars['UUID'];
   startTime?: Maybe<Scalars['NaiveDateTime']>;
+  status: DropStatus;
 };
+
+export enum DropStatus {
+  Creating = 'CREATING',
+  Expired = 'EXPIRED',
+  Minted = 'MINTED',
+  Minting = 'MINTING',
+  Scheduled = 'SCHEDULED'
+}
 
 export type EventType = {
   __typename?: 'EventType';

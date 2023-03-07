@@ -6,3 +6,9 @@ mutation CreateWebhook($input: CreateWebhookInput!) {
     secret
   }
 }
+
+mutation DeleteWebhook($input: DeleteWebhookInput!) {
+  deleteWebhook(input: $input) {
+    webhook
+  }
+}
