@@ -1,8 +1,8 @@
 'use client';
 import { Button, Form, Modal } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
-import Card from '../../../../components/Card';
-import Typography, { Size } from '../../../../components/Typography';
+import Card from '../../../../../../components/Card';
+import Typography, { Size } from '../../../../../../components/Typography';
 
 export default function MemberDeletePage() {
   const router = useRouter();

@@ -4,21 +4,21 @@ import { Button, Form, Modal } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import { isNil, not, pipe } from 'ramda';
 import { Controller, useForm } from 'react-hook-form';
-import Card from '../../../../components/Card';
-import { Icon } from '../../../../components/Icon';
-import { Pill } from '../../../../components/Pill';
-import Typography, { Size } from '../../../../components/Typography';
+import Card from '../../../../../components/Card';
+import { Icon } from '../../../../../components/Icon';
+import { Pill } from '../../../../../components/Pill';
+import Typography, { Size } from '../../../../../components/Typography';
 import {
   CreateWebhookInput,
   CreateWebhookPayload,
   FilterType,
   Organization,
   Project,
-} from '../../../../graphql.types';
-import useClipboard from '../../../../hooks/useClipboard';
-import { useOrganization } from '../../../../hooks/useOrganization';
-import { CreateWebhook } from './../../../../mutations/webhook.graphql';
-import { GetOrganizationProjects } from './../../../../queries/organization.graphql';
+} from '../../../../../graphql.types';
+import useClipboard from '../../../../../hooks/useClipboard';
+import { useOrganization } from '../../../../../hooks/useOrganization';
+import { CreateWebhook } from './../../../../../mutations/webhook.graphql';
+import { GetOrganizationProjects } from './../../../../../queries/organization.graphql';
 
 interface GetOrganizationProjectsData {
   organization: Pick<Organization, 'projects'>;

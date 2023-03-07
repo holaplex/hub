@@ -1,44 +1,45 @@
 'use client';
+import { useQuery } from '@apollo/client';
 import { Button, PopoverBox } from '@holaplex/ui-library-react';
 import { createColumnHelper } from '@tanstack/react-table';
-import React from 'react';
+import clsx from 'clsx';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Icon } from '../../../../components/Icon';
 import Table from '../../../../components/Table';
-import Link from 'next/link';
-import { useQuery } from '@apollo/client';
-import { Organization, Project, Credential } from '../../../../graphql.types';
+import { Organization, Webhook } from '../../../../graphql.types';
 import { useOrganization } from '../../../../hooks/useOrganization';
 import { DateFormat, formatDateString } from '../../../../modules/time';
-import { Pill } from '../../../../components/Pill';
-import { GetOrganizationCredentials } from './../../../../queries/credentials.graphql';
+import { WebhookStatus, WebhookEvent } from '../../../../types';
+import { GetOrganizationWebhooks } from './../../../../queries/webhooks.graphql';
 
-interface GetOrganizationCredentialsData {
+interface GetOrganizationWebhooksData {
   organization: Organization;
 }
 
-interface GetOrganizationCredentialsVars {
+interface GetOrganizationWebhooksVars {
   organization: string;
 }
 
-export default function ProjectsPage({ children }: { children: React.ReactNode }) {
+export default function WebhooksPage({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const { organization } = useOrganization();
 
-  const credentialsQuery = useQuery<GetOrganizationCredentialsData, GetOrganizationCredentialsVars>(
-    GetOrganizationCredentials,
+  const webhooksQuery = useQuery<GetOrganizationWebhooksData, GetOrganizationWebhooksVars>(
+    GetOrganizationWebhooks,
     { variables: { organization: organization?.id } }
   );
 
-  const columnHelper = createColumnHelper<Credential>();
+  const noWebhooks =
+    !webhooksQuery.data?.organization.webhooks ||
+    webhooksQuery.data?.organization.webhooks.length === 0;
+  const columnHelper = createColumnHelper<Webhook>();
   const loadingColumnHelper = createColumnHelper<any>();
-
-  const noCredentials =
-    !credentialsQuery.data?.organization.webhooks ||
-    credentialsQuery.data?.organization.credentials.length === 0;
 
   return (
     <>
       <div className="h-full flex flex-col p-4">
-        {credentialsQuery.loading ? (
+        {webhooksQuery.loading ? (
           <>
             <div className="w-36 h-8 rounded-md bg-gray-100 animate-pulse" />
             <div className="w-32 h-8 rounded-md bg-gray-100 animate-pulse mt-4 self-end" />
@@ -51,17 +52,22 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                   cell: () => <div className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />,
                 }),
                 loadingColumnHelper.display({
-                  id: 'audiences',
+                  id: 'url',
+                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                  cell: () => <div className="rounded-full h-3 w-40 bg-gray-50 animate-pulse" />,
+                }),
+                loadingColumnHelper.display({
+                  id: 'events',
                   header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
                   cell: () => (
                     <div className="flex gap-1 items-center">
-                      <span className="rounded-full h-3 w-20 bg-gray-50 animate-pulse" />
-                      <span className="rounded-full h-3 w-20 bg-gray-50 animate-pulse" />
+                      <span className="rounded-full h-4 w-20 bg-gray-50 animate-pulse" />
+                      <span className="rounded-full h-4 w-20 bg-gray-50 animate-pulse" />
                     </div>
                   ),
                 }),
                 loadingColumnHelper.display({
-                  id: 'createdAt',
+                  id: 'createdDate',
                   header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
                   cell: () => (
                     <div className="flex flex-col gap-1">
@@ -81,7 +87,12 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                   ),
                 }),
                 loadingColumnHelper.display({
-                  id: 'id',
+                  id: 'status',
+                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                  cell: () => <div className="rounded-full h-4 w-16 bg-gray-50 animate-pulse" />,
+                }),
+                loadingColumnHelper.display({
+                  id: 'options',
                   header: () => <div className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />,
                   cell: () => <div className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />,
                 }),
@@ -91,63 +102,69 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
           </>
         ) : (
           <>
-            <h1 className="text-2xl text-primary font-medium">Credentials</h1>
-            {noCredentials ? (
+            <div className="text-2xl text-primary font-medium">Webhooks</div>
+            {noWebhooks ? (
               <div className="h-full flex-1 flex flex-col items-center justify-center">
-                <Icon.Large.Crdentials />
-                <span className="mt-6 text-xl font-semibold">No credentials yet</span>
+                <Icon.Large.Webhook />
+                <span className="mt-6 text-xl font-semibold">No webhooks yet</span>
                 <span className="mt-2 text-gray-500 text-sm">
                   Click button below to get started.
                 </span>
-                <Link href="/credentials/new">
-                  <Button icon={<Icon.AddCredential stroke="#ffffff" />} className="mt-8">
-                    Generate token
-                  </Button>
-                </Link>
+                <Button
+                  icon={<Icon.AddWebhook stroke="#ffffff" />}
+                  className="mt-8"
+                  onClick={() => router.push(`/webhooks/new`)}
+                >
+                  Add Webhook
+                </Button>
               </div>
             ) : (
               <div className="mt-4 flex flex-col">
-                <Link href="/credentials/new" className="self-end">
-                  <Button icon={<Icon.AddCredential stroke="#ffffff" />} className="self-end">
-                    Generate token
-                  </Button>
-                </Link>
+                <Button
+                  icon={<Icon.AddWebhook stroke="#ffffff" />}
+                  className="self-end"
+                  onClick={() => router.push(`/webhooks/new`)}
+                >
+                  Add Webhook
+                </Button>
                 <Table
                   className="mt-4"
                   columns={[
-                    columnHelper.accessor('name', {
-                      header: () => (
-                        <div className="flex gap-2">
-                          <span className="text-xs text-gray-600 font-medium">Name</span>
-                        </div>
-                      ),
+                    columnHelper.accessor('description', {
+                      header: () => <span className="text-xs text-gray-600 font-medium">Name</span>,
                       cell: (info) => (
                         <span className="text-xs text-primary font-medium">{info.getValue()}</span>
                       ),
                     }),
-
-                    columnHelper.accessor('projects', {
+                    columnHelper.accessor('url', {
+                      header: () => <span className="text-xs text-gray-600 font-medium">URL</span>,
+                      cell: (info) => (
+                        <span className="text-xs text-primary">{info.getValue()}</span>
+                      ),
+                    }),
+                    columnHelper.display({
+                      id: 'events',
                       header: () => (
-                        <span className="flex text-xs text-gray-600 font-medium">Projects</span>
+                        <span className="flex text-xs text-gray-600 font-medium">Events</span>
                       ),
                       cell: (info) => (
                         <div className="flex gap-1">
-                          <Pill.List>
-                            {info.getValue().map((project: Project) => (
-                              <Link href={`/projects/${project.id}/drops`} key={project.id}>
-                                <Pill>{project.name}</Pill>
-                              </Link>
-                            ))}
-                          </Pill.List>
+                          {info.row.original.events.map((event) => {
+                            return (
+                              <div
+                                key={event.toString()}
+                                className="rounded-full py-1 px-3 text-xs font-medium bg-cyan-200 text-cyan-600"
+                              >
+                                {event}
+                              </div>
+                            );
+                          })}
                         </div>
                       ),
                     }),
-
                     columnHelper.accessor('createdAt', {
                       header: () => (
-                        <span className="flex text-xs text-gray-600 font-medium self-start">
-                          Created date
-                        </span>
+                        <span className="flex text-xs text-gray-600 font-medium">Created date</span>
                       ),
                       cell: (info) => (
                         <div className="flex flex-col">
@@ -160,12 +177,9 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                         </div>
                       ),
                     }),
-
                     columnHelper.accessor('createdBy', {
                       header: () => (
-                        <span className="flex text-xs text-gray-600 font-medium self-start">
-                          Created by
-                        </span>
+                        <span className="flex text-xs text-gray-600 font-medium">Created by</span>
                       ),
                       cell: (info) => (
                         <div className="flex flex-col">
@@ -176,28 +190,47 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                         </div>
                       ),
                     }),
-
-                    columnHelper.accessor('clientId', {
+                    // columnHelper.accessor((row) => row.status.toString(), {
+                    //   id: 'status',
+                    //   header: () => (
+                    //     <span className="flex text-xs text-gray-600 font-medium">Status</span>
+                    //   ),
+                    //   cell: (info) => (
+                    //     <Table.WebhookStatusPill status={info.getValue() as WebhookStatus} />
+                    //   ),
+                    // }),
+                    columnHelper.accessor('id', {
                       header: () => <Icon.TableAction />,
                       cell: (info) => (
                         <PopoverBox
                           triggerButton={
-                            <div className="px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min">
+                            <div
+                              className={clsx(
+                                'px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min'
+                              )}
+                            >
                               <Icon.More />
                             </div>
                           }
                           elements={[
+                            // <Link
+                            //   key="enable"
+                            //   className="flex gap-2 items-center"
+                            //   href={`/webhooks/${info.getValue()}/edit`}
+                            // >
+                            //   <Icon.Check /> <span>Enable</span>
+                            // </Link>,
                             <Link
                               key="edit"
                               className="flex gap-2 items-center"
-                              href={`/credentials/${info.getValue()}/edit`}
+                              href={`/webhooks/${info.getValue()}/edit`}
                             >
                               <Icon.Edit /> <span>Edit</span>
                             </Link>,
                             <Link
                               key="delete"
                               className="flex gap-2 items-center"
-                              href={`/credentials/${info.getValue()}/delete`}
+                              href={`/webhooks/${info.getValue()}/delete`}
                             >
                               <Icon.Delete fill="#E52E2E" />
                               <span className="text-negative">Delete</span>
@@ -207,14 +240,13 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                       ),
                     }),
                   ]}
-                  data={credentialsQuery.data?.organization.credentials || []}
+                  data={webhooksQuery.data?.organization.webhooks || []}
                 />
               </div>
             )}
           </>
         )}
       </div>
-
       {children}
     </>
   );

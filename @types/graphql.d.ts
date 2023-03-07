@@ -78,3 +78,12 @@ export const GetUser: DocumentNode;
   export default defaultDocument;
 }
     
+
+declare module '*/webhooks.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const GetOrganizationWebhooks: DocumentNode;
+
+  export default defaultDocument;
+}
+    
