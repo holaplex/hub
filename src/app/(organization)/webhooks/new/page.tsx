@@ -47,15 +47,13 @@ export default function NewWebhook() {
   const router = useRouter();
 
   const { register, control, watch, handleSubmit } = useForm<WebhookForm>({
-    defaultValues: { projects: [] },
+    defaultValues: { projects: [], events: [] },
   });
   const selectedProjects = watch('projects');
 
   const [createWebhook, createWebhookResult] = useMutation<CreateWebhookData, CreateWebhookVars>(
     CreateWebhook
   );
-
-  console.log('create webhook result', createWebhookResult);
 
   const { copied, copyText } = useClipboard(
     createWebhookResult.data?.createWebhookData.secret as string
@@ -212,23 +210,12 @@ export default function NewWebhook() {
 
               <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
 
-              <span className="text-sm text-primary font-medium mb-4">Secret key</span>
-
-              <div className="flex gap-2 items-center">
-                <Form.Input className="w-full" />
-                <span className="bg-gray-100 p-3 rounded-md cursor-pointer">
-                  <Icon.Copy />
-                </span>
-              </div>
-
-              <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
-
               <div className="flex items-center justify-between">
                 <Button className="self-start" variant="secondary">
                   Cancel
                 </Button>
                 <Button htmlType="submit" className="self-end" variant="secondary">
-                  Add
+                  Add webhook
                 </Button>
               </div>
             </Form>
