@@ -46,7 +46,13 @@ export default function NewWebhook() {
   const { organization } = useOrganization();
   const router = useRouter();
 
-  const { register, control, watch, handleSubmit } = useForm<WebhookForm>({
+  const {
+    register,
+    control,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<WebhookForm>({
     defaultValues: { projects: [], events: [] },
   });
   const selectedProjects = watch('projects');
@@ -99,6 +105,7 @@ export default function NewWebhook() {
                 <Controller
                   name="projects"
                   control={control}
+                  rules={{ required: true }}
                   render={({ field: { value, onChange } }) => (
                     <Form.Select value={value} onChange={onChange} multiple>
                       <Form.Select.Button>
@@ -128,6 +135,7 @@ export default function NewWebhook() {
                     </Form.Select>
                   )}
                 />
+                {errors.projects && <Form.Error message="Please select atleast one project" />}
               </Form.Label>
               <div className="flex gap-4 mt-5">
                 <Form.Label name="Name" className="text-xs mt-5" asideComponent={<Icon.Help />}>
@@ -136,7 +144,7 @@ export default function NewWebhook() {
                     autoFocus
                     placeholder="e.g. Bored Ape Yatch Club"
                   />
-                  <Form.Error message="" />
+                  {errors.description && <Form.Error message="Name is required" />}
                 </Form.Label>
 
                 <Form.Label
@@ -145,7 +153,7 @@ export default function NewWebhook() {
                   asideComponent={<Icon.Help />}
                 >
                   <Form.Input {...register('endpoint', { required: true })} />
-                  <Form.Error message="" />
+                  {errors.endpoint && <Form.Error message="Target URL is required" />}
                 </Form.Label>
               </div>
 
