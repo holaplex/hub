@@ -105,7 +105,7 @@ export default function NewWebhook() {
                 <Controller
                   name="projects"
                   control={control}
-                  rules={{ required: true }}
+                  rules={{ required: 'Please select atleast one project' }}
                   render={({ field: { value, onChange } }) => (
                     <Form.Select value={value} onChange={onChange} multiple>
                       <Form.Select.Button>
@@ -135,16 +135,16 @@ export default function NewWebhook() {
                     </Form.Select>
                   )}
                 />
-                {errors.projects && <Form.Error message="Please select atleast one project" />}
+                <Form.Error message={errors.projects?.message} />
               </Form.Label>
               <div className="flex gap-4 mt-5">
                 <Form.Label name="Name" className="text-xs mt-5" asideComponent={<Icon.Help />}>
                   <Form.Input
-                    {...register('description', { required: true })}
+                    {...register('description', { required: 'Name is required' })}
                     autoFocus
                     placeholder="e.g. Bored Ape Yatch Club"
                   />
-                  {errors.description && <Form.Error message="Name is required" />}
+                  <Form.Error message={errors.description?.message} />
                 </Form.Label>
 
                 <Form.Label
@@ -152,8 +152,8 @@ export default function NewWebhook() {
                   className="text-xs mt-5"
                   asideComponent={<Icon.Help />}
                 >
-                  <Form.Input {...register('endpoint', { required: true })} />
-                  {errors.endpoint && <Form.Error message="Target URL is required" />}
+                  <Form.Input {...register('endpoint', { required: 'Target URL is required' })} />
+                  <Form.Error message={errors.endpoint?.message} />
                 </Form.Label>
               </div>
 
