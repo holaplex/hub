@@ -199,7 +199,8 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                     //     <Table.WebhookStatusPill status={info.getValue() as WebhookStatus} />
                     //   ),
                     // }),
-                    columnHelper.accessor('id', {
+                    columnHelper.display({
+                      id: 'options',
                       header: () => <Icon.TableAction />,
                       cell: (info) => (
                         <PopoverBox
@@ -230,7 +231,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                             <Link
                               key="delete"
                               className="flex gap-2 items-center"
-                              href={`/webhooks/${info.getValue()}/delete`}
+                              href={`/webhooks/${info.row.original.id}/delete`}
                             >
                               <Icon.Delete fill="#E52E2E" />
                               <span className="text-negative">Delete</span>
