@@ -50,11 +50,20 @@ export type Collection = {
   address?: Maybe<Scalars['String']>;
   blockchain: Blockchain;
   creationStatus: CreationStatus;
+  creators?: Maybe<Array<CollectionCreator>>;
   id: Scalars['UUID'];
   metadataJson?: Maybe<MetadataJson>;
   mints?: Maybe<Array<CollectionMint>>;
   supply?: Maybe<Scalars['Int']>;
   totalMints: Scalars['Int'];
+};
+
+export type CollectionCreator = {
+  __typename?: 'CollectionCreator';
+  address: Scalars['String'];
+  collectionId: Scalars['UUID'];
+  share: Scalars['Int'];
+  verified: Scalars['Boolean'];
 };
 
 export type CollectionCreatorInput = {

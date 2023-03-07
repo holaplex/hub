@@ -101,11 +101,11 @@ input:focus {
 }
 
 .button-medium {
-  @apply py-3 px-4 text-xs font-semibold;
+  @apply py-2 px-4 text-xs font-semibold;
 }
 
 .button-large {
-  @apply py-3 px-4 text-base font-semibold;
+  @apply py-2 px-4 text-base font-semibold;
 }
 
 .button-variant-primary {
