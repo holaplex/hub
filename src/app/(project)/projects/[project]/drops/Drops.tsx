@@ -10,9 +10,8 @@ import Card from '../../../../../components/Card';
 import { Icon } from '../../../../../components/Icon';
 import Table from '../../../../../components/Table';
 import Typography, { Size } from '../../../../../components/Typography';
-import { DropStatus } from '../../../../../types';
 import { formatDateString, DateFormat } from '../../../../../modules/time';
-import { Project, Drop, Collection, Maybe } from '../../../../../graphql.types';
+import { Project, Drop, DropStatus } from '../../../../../graphql.types';
 
 enum ShowModal {
   NONE,
@@ -116,6 +115,15 @@ export default function Drops({ project }: DropsPageProps) {
                     <div className="flex gap-2 items-center">
                       <span className="rounded-full h-3 w-11 bg-gray-50 animate-pulse" />
                       <span className="rounded-full h-3 w-4 bg-gray-50 animate-pulse" />
+                    </div>
+                  ),
+                }),
+                loadingColumnHelper.display({
+                  id: 'status',
+                  header: () => <div className="rounded-full h-3 w-28 bg-gray-100 animate-pulse" />,
+                  cell: () => (
+                    <div className="flex gap-2 items-center">
+                      <span className="rounded-full h-6 w-20 bg-gray-50 animate-pulse" />
                     </div>
                   ),
                 }),
@@ -301,28 +309,57 @@ export default function Drops({ project }: DropsPageProps) {
                         header: () => (
                           <span className="table-header-text">Minted out & supply</span>
                         ),
-                        cell: (info) => (
-                          <div className="flex gap-1 items-center justify-between">
-                            <span className="text-xs text-primary font-medium">
-                              {info.getValue().totalMints} /{' '}
-                              {info.getValue().supply ? info.getValue().supply : 'Unlimited'}
-                            </span>
-                            <span></span>
-                          </div>
-                        ),
+                        cell: (info) => {
+                          const { supply, totalMints } = info.getValue();
+
+                          if (supply) {
+                            const percent = Math.ceil(totalMints / supply);
+
+                            return (
+                              <div className="flex gap-1 items-center justify-between">
+                                <span className="text-xs text-primary font-medium">
+                                  {totalMints} / {supply} Minted
+                                </span>
+                                <span
+                                  className="w-11 h-5 rounded-full flex items-center justify-center"
+                                  style={{ background: `conic-gradient(#000 ${percent}%, #E6E6E6 0)` }}
+                                >
+                                  <span
+                                    className={clsx(
+                                      'w-[38px] h-4 rounded-full flex items-center justify-center text-xs',
+                                      {
+                                        'bg-white text-black': percent < 100,
+                                        'bg-black text-white': percent === 100,
+                                      }
+                                    )}
+                                  >
+                                    {percent}%
+                                  </span>
+                                </span>
+                              </div>
+                            );
+                          }
+
+                          return (
+                            <div className="flex gap-1 items-center justify-between">
+                              <span className="text-xs text-primary font-medium">
+                                {totalMints} / Unlimited
+                              </span>
+                            </div>
+                          );
+                        },
                       }
                     ),
-                    columnHelper.display({
-                      id: 'status',
+                    columnHelper.accessor('status', {
                       header: () => (
-                        <span className="flex text-xs text-gray-600 font-medium">
-                          Status (TODO)
-                        </span>
+                        <span className="flex text-xs text-gray-600 font-medium">Status</span>
                       ),
-                      cell: (info) => <Table.DropStatusPill status={DropStatus.MINTING} />,
+                      cell: (info) => (
+                        <Table.DropStatusPill status={info.getValue() as DropStatus} />
+                      ),
                     }),
                     columnHelper.display({
-                      id: 'moreOptions',
+                      id: 'options',
                       header: () => <Icon.TableAction />,
                       cell: () => (
                         <PopoverBox

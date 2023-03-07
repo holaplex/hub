@@ -21,13 +21,16 @@ function TabsPage({ children, className }: TabsPageProps) {
 Tabs.Page = TabsPage;
 
 interface TabsPanel {
-  children: ReactNode;
+  children: JSX.Element[];
+  loading?: boolean;
 }
 
-function TabsPanel({ children }: TabsPanel) {
+function TabsPanel({ children, loading }: TabsPanel) {
   return (
     <>
-      <nav className={clsx('w-full flex flex-row gap-6')}>{children}</nav>
+      <nav className={clsx('w-full flex flex-row gap-6')}>
+        {Children.map(children, (child) => cloneElement(child, { loading }))}
+      </nav>
     </>
   );
 }
@@ -37,10 +40,15 @@ interface TabProps {
   name: string;
   active: boolean;
   href: string;
+  loading?: boolean;
   className?: string;
 }
 
-function Tab({ name, active, href, className }: TabProps) {
+function Tab({ name, active, href, className, loading }: TabProps) {
+  if (loading) {
+    return <div className="h-6 w-24 bg-gray-100 animate-pulse rounded-md" />;
+  }
+
   return (
     <Link
       href={href}

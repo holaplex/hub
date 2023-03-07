@@ -5,6 +5,7 @@ query GetProjectDrops($project: UUID!) {
     drops {
       id
       price
+      status
       createdAt
       startTime
       endTime
@@ -15,6 +16,36 @@ query GetProjectDrops($project: UUID!) {
           name
           image
           description
+          symbol
+        }
+      }
+    }
+  }
+}
+
+query GetDrop($project: UUID!, $drop: UUID!) {
+  project(id: $project) {
+    drop(id: $drop) {
+      id
+      price
+      status
+      createdAt
+      startTime
+      endTime
+      collection {
+        supply
+        totalMints
+        blockchain
+        creators {
+          address
+          verified
+          share
+        }
+        metadataJson {
+          name
+          image
+          description
+          symbol
         }
       }
     }

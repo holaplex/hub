@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Icon } from './../../../../../../../../components/Icon';
 import Table from './../../../../../../../../components/Table';
-import { DropStatus } from './../../../../../../../../types';
+import { DropStatus } from './../../../../../../../../graphql.types';
 
 type Drop = {
   dropName: string;
@@ -166,7 +166,7 @@ export default function DropsPage() {
             endMintDate: '06/27/2023',
             minted: 0,
             supply: 10000,
-            status: DropStatus.SCHEDULED,
+            status: DropStatus.Scheduled,
             dropImage: '',
           },
           {
@@ -178,7 +178,7 @@ export default function DropsPage() {
             endMintDate: '06/27/2023',
             minted: 393,
             supply: 1000,
-            status: DropStatus.MINTING,
+            status: DropStatus.Minting,
             dropImage: '',
           },
           {
@@ -190,7 +190,7 @@ export default function DropsPage() {
             endMintDate: '06/27/2023',
             minted: 10,
             supply: 1000,
-            status: DropStatus.MINTED,
+            status: DropStatus.Minted,
             dropImage: '',
           },
         ]}

@@ -9,13 +9,13 @@ import {
 import clsx from 'clsx';
 import { useState } from 'react';
 import {
-  DropStatus,
   PurchaseStatus,
   WebhookStatus,
   TransactionStatus,
   MemberStatus,
   CredentialStatus,
 } from './../types';
+import { DropStatus } from '../graphql.types';
 import { Icon } from './Icon';
 
 interface TableProps<T> {
@@ -142,22 +142,31 @@ interface DropStatusPillProps {
 function DropStatusPill({ status, className }: DropStatusPillProps) {
   let label = '';
   switch (status) {
-    case DropStatus.SCHEDULED:
+    case DropStatus.Creating:
+      label = 'Creating';
+      break;
+    case DropStatus.Scheduled:
       label = 'Scheduled';
       break;
-    case DropStatus.MINTING:
+    case DropStatus.Minting:
       label = 'Minting';
       break;
-    case DropStatus.MINTED:
+    case DropStatus.Minted:
       label = 'Minted';
       break;
+    case DropStatus.Expired:
+      label = 'Expired';
+      break;
   }
+
   return (
     <div
       className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
-        'bg-brown-200 text-brown-600': status === DropStatus.SCHEDULED,
-        'bg-green-200 text-green-600': status === DropStatus.MINTING,
-        'bg-gray-100 text-gray-500': status === DropStatus.MINTED,
+        'bg-purple-200 text-purple-600': status === DropStatus.Scheduled,
+        'bg-blue-200 text-blue-600': status === DropStatus.Minting,
+        'bg-green-200 text-green-600': status === DropStatus.Minted,
+        'bg-gray-100 text-gray-500': status === DropStatus.Creating,
+        'bg-red-100 text-red-900': status === DropStatus.Expired,
       })}
     >
       {label}

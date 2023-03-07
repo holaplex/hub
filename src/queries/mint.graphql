@@ -1,0 +1,14 @@
+query GetCollectionMints($project: UUID!, $drop: UUID!) {
+  project(id: $project) {
+    drop(id: $drop) {
+      id
+      collection {
+        id
+        mints {
+          owner
+          address
+        }
+      }
+    }
+  }
+}
