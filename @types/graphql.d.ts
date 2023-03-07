@@ -36,17 +36,6 @@ declare module '*/project.graphql' {
   const defaultDocument: DocumentNode;
   export const CreateProject: DocumentNode;
 export const GetProject: DocumentNode;
-export const GetProjectDrops: DocumentNode;
-
-  export default defaultDocument;
-}
-    
-
-declare module '*/webhook.graphql' {
-  import { DocumentNode } from 'graphql';
-  const defaultDocument: DocumentNode;
-  export const CreateWebhook: DocumentNode;
-export const DeleteWebhook: DocumentNode;
 
   export default defaultDocument;
 }
@@ -70,21 +59,30 @@ declare module '*/customer.graphql' {
 }
     
 
-declare module '*/user.graphql' {
+declare module '*/drop.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
-  export const GetUserAffiliations: DocumentNode;
-export const GetUser: DocumentNode;
+  export const GetProjectDrops: DocumentNode;
+export const GetDrop: DocumentNode;
 
   export default defaultDocument;
 }
     
 
-declare module '*/webhooks.graphql' {
+declare module '*/mint.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
-  export const GetOrganizationWebhooks: DocumentNode;
-export const GetOrganizationWebhook: DocumentNode;
+  export const GetCollectionMints: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/user.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const GetUserAffiliations: DocumentNode;
+export const GetUser: DocumentNode;
 
   export default defaultDocument;
 }

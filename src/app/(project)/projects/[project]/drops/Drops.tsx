@@ -1,29 +1,18 @@
 'use client';
-import { Avatar, AvatarSize, Button, Form, Modal, PopoverBox } from '@holaplex/ui-library-react';
+import { Button, Form, Modal, PopoverBox } from '@holaplex/ui-library-react';
 import { createColumnHelper } from '@tanstack/react-table';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
-import { GetProjectDrops } from './../../../../../queries/project.graphql';
+import { GetProjectDrops } from './../../../../../queries/drop.graphql';
 import { useState } from 'react';
 import Card from '../../../../../components/Card';
 import { Icon } from '../../../../../components/Icon';
 import Table from '../../../../../components/Table';
 import Typography, { Size } from '../../../../../components/Typography';
 import { DropStatus } from '../../../../../types';
-import { Project } from '../../../../../graphql.types';
-
-type Drop = {
-  id: string;
-  name: string;
-  price: string;
-  createDate: string;
-  startMintDate: string;
-  endMintDate: string;
-  minted: number;
-  supply: number;
-  status: DropStatus;
-};
+import { formatDateString, DateFormat } from '../../../../../modules/time';
+import { Project, Drop, Collection, Maybe } from '../../../../../graphql.types';
 
 enum ShowModal {
   NONE,
@@ -36,7 +25,7 @@ interface DropsPageProps {
 }
 
 interface GetDropsData {
-  project: Project;
+  project: Pick<Project, 'id' | 'drops'>;
 }
 
 interface GetDropsVars {
@@ -49,195 +38,328 @@ export default function Drops({ project }: DropsPageProps) {
     variables: { project },
   });
 
-  // TODO: Replace this with actual data.
-  const hasDrops = true;
+  const drops = dropsQuery.data?.project.drops || [];
+  const noDrops = drops.length === 0;
+  const loadingColumnHelper = createColumnHelper<any>();
   const columnHelper = createColumnHelper<Drop>();
 
   return (
     <>
       <div className="h-full flex flex-col p-4">
-        <div className="text-2xl text-primary font-medium">Manage drops</div>
-        {!hasDrops ? (
-          <div className="h-full flex-1 flex flex-col items-center justify-center">
-            <Icon.Large.CreateNft />
-            <span className="mt-6 text-xl font-semibold">No drops yet</span>
-            <span className="mt-2 text-gray-500 text-sm">
-              Click button below to mint your first drop
-            </span>
-            <Link href={`/projects/${dropsQuery.data?.project.id}/drops/create/details`}>
-              <Button icon={<Icon.Add stroke="#ffffff" />} className="mt-8">
-                Create drop
-              </Button>
-            </Link>
-          </div>
-        ) : (
-          <div className="mt-4 flex flex-col">
-            <Link
-              href={`/projects/${dropsQuery.data?.project.id}/drops/create/details`}
-              className="self-end"
-            >
-              <Button icon={<Icon.Add stroke="#ffffff" />} variant="primary">
-                Create drop
-              </Button>
-            </Link>
+        {dropsQuery.loading ? (
+          <>
+            <div className="w-36 h-8 rounded-md bg-gray-100 animate-pulse" />
+            <div className="w-32 h-8 rounded-md bg-gray-100 animate-pulse mt-4 self-end" />
             <Table
               className="mt-4"
               columns={[
-                columnHelper.accessor(({ name, id }) => ({ name, id }), {
+                loadingColumnHelper.display({
                   id: 'name',
-                  header: () => <span className="table-header-text">Drop name</span>,
-                  cell: (info) => (
-                    <div className="flex gap-2 items-center">
-                      <Avatar size={AvatarSize.Standard} placeholder={<Icon.EmptyAvatar />} />
-                      <Link
-                        href={`/projects/${dropsQuery.data?.project.id}/drops/${
-                          info.getValue().id
-                        }/holders`}
-                        className="flex flex-col gap-1"
-                      >
-                        <span className="text-xs text-primary font-medium">
-                          {info.getValue().name}
-                        </span>
-                        <span className="text-xs text-gray-500">{}</span>
-                      </Link>
-                    </div>
-                  ),
-                }),
-                columnHelper.accessor('price', {
-                  header: () => <span className="table-header-text">Price</span>,
-                  cell: (info) => (
-                    <div className="flex gap-1">
-                      <span className="text-xs text-primary font-medium">{info.getValue()}</span>
-                      <span className="text-xs text-gray-600 font-medium">SOL</span>
-                    </div>
-                  ),
-                }),
-                columnHelper.accessor('createDate', {
-                  header: () => <span className="table-header-text">Create date</span>,
-                  cell: (info) => (
-                    <div className="flex flex-col gap-1">
-                      <span className="text-xs text-primary font-medium">{info.getValue()}</span>
-                      <span className="text-xs text-gray-500">10:28 AM</span>
-                    </div>
-                  ),
-                }),
-                columnHelper.accessor('startMintDate', {
-                  header: () => <span className="table-header-text">Start mint date</span>,
-                  cell: (info) => (
-                    <div className="flex flex-col gap-1">
-                      <span className="text-xs text-primary font-medium">{info.getValue()}</span>
-                      <span className="text-xs text-gray-500">10:28 AM</span>
-                    </div>
-                  ),
-                }),
-                columnHelper.accessor('endMintDate', {
-                  header: () => <span className="table-header-text">End mint date</span>,
-                  cell: (info) => (
-                    <div className="flex flex-col gap-1">
-                      <span className="text-xs text-primary font-medium">{info.getValue()}</span>
-                      <span className="text-xs text-gray-500">10:28 AM</span>
-                    </div>
-                  ),
-                }),
-                columnHelper.display({
-                  id: 'minted',
-                  header: () => <span className="table-header-text">Minted out & supply</span>,
-                  cell: (info) => (
-                    <div className="flex gap-1 items-center justify-between">
-                      <span className="text-xs text-primary font-medium">
-                        {info.row.original.minted} / {info.row.original.supply}
-                      </span>
-                      <span></span>
-                    </div>
-                  ),
-                }),
-                columnHelper.accessor((row) => row.status?.toString(), {
-                  id: 'status',
                   header: () => (
-                    <span className="flex text-xs text-gray-600 font-medium">Status</span>
+                    <div className="flex gap-2 items-center">
+                      <span className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />
+                      <span className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />
+                    </div>
                   ),
-                  cell: (info) => <Table.DropStatusPill status={info.row.original.status} />,
-                }),
-                columnHelper.display({
-                  id: 'moreOptions',
-                  header: () => <Icon.TableAction />,
                   cell: () => (
-                    <PopoverBox
-                      triggerButton={
-                        <div
-                          className={clsx('px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min')}
-                        >
-                          <Icon.More />
-                        </div>
-                      }
-                      elements={[
-                        <div
-                          key="edit_drop"
-                          className="flex gap-2 items-center"
-                          onClick={() => setShowModal(ShowModal.EDIT_DROP)}
-                        >
-                          <Icon.Edit /> <span>Edit drop</span>
-                        </div>,
-                        <div
-                          key="pause_mint"
-                          className="flex gap-2 items-center"
-                          onClick={() => setShowModal(ShowModal.PAUSE_MINT)}
-                        >
-                          <Icon.Pause /> <span>Pause mint</span>
-                        </div>,
-                      ]}
-                    />
+                    <div className="flex gap-2 items-center">
+                      <span className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />
+                      <span className="rounded-md h-8 w-8 bg-gray-50 animate-pulse" />
+                      <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
+                    </div>
                   ),
                 }),
+                loadingColumnHelper.display({
+                  id: 'price',
+                  header: () => <div className="rounded-full h-3 w-28 bg-gray-100 animate-pulse" />,
+                  cell: () => (
+                    <div className="flex gap-2 items-center">
+                      <span className="rounded-full h-3 w-11 bg-gray-50 animate-pulse" />
+                      <span className="rounded-full h-3 w-4 bg-gray-50 animate-pulse" />
+                    </div>
+                  ),
+                }),
+                loadingColumnHelper.display({
+                  id: 'createdAt',
+                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                  cell: () => (
+                    <div className="flex flex-col gap-1">
+                      <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
+                      <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
+                    </div>
+                  ),
+                }),
+                loadingColumnHelper.display({
+                  id: 'startTime',
+                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                  cell: () => (
+                    <div className="flex flex-col gap-1">
+                      <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
+                      <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
+                    </div>
+                  ),
+                }),
+                loadingColumnHelper.display({
+                  id: 'endTime',
+                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                  cell: () => (
+                    <div className="flex flex-col gap-1">
+                      <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
+                      <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
+                    </div>
+                  ),
+                }),
+                loadingColumnHelper.display({
+                  id: 'supply',
+                  header: () => <div className="rounded-full h-3 w-28 bg-gray-100 animate-pulse" />,
+                  cell: () => (
+                    <div className="flex gap-2 items-center">
+                      <span className="rounded-full h-3 w-11 bg-gray-50 animate-pulse" />
+                      <span className="rounded-full h-3 w-4 bg-gray-50 animate-pulse" />
+                    </div>
+                  ),
+                }),
+                loadingColumnHelper.display({
+                  id: 'options',
+                  header: () => <div className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />,
+                  cell: () => <div className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />,
+                }),
               ]}
-              data={[
-                {
-                  id: '1',
-                  name: 'Bored Usyk club',
-                  price: '40.3012',
-                  createDate: '20/11/22',
-                  startMintDate: '20/11/22',
-                  endMintDate: '12/03/23',
-                  minted: 3,
-                  supply: 100,
-                  status: DropStatus.MINTING,
-                },
-                {
-                  id: '2',
-                  name: 'Usyk kozak club',
-                  price: '83.3012',
-                  createDate: '20/01/23',
-                  startMintDate: '15/02/23',
-                  endMintDate: '12/03/23',
-                  minted: 0,
-                  supply: 400,
-                  status: DropStatus.SCHEDULED,
-                },
-                {
-                  id: '3',
-                  name: 'Usyk winner club',
-                  price: '46.9873',
-                  createDate: '20/11/22',
-                  startMintDate: '20/11/22',
-                  endMintDate: '12/01/23',
-                  minted: 250,
-                  supply: 250,
-                  status: DropStatus.MINTED,
-                },
-                {
-                  id: '4',
-                  name: 'Bored Usyk club',
-                  price: '40.3012',
-                  createDate: '20/11/22',
-                  startMintDate: '20/11/22',
-                  endMintDate: '12/03/23',
-                  minted: 3,
-                  supply: 100,
-                  status: DropStatus.SCHEDULED,
-                },
-              ]}
+              data={new Array(4)}
             />
-          </div>
+          </>
+        ) : (
+          <>
+            <h1 className="text-2xl text-primary font-medium">Manage drops</h1>
+            {noDrops ? (
+              <div className="h-full flex-1 flex flex-col items-center justify-center">
+                <Icon.Large.CreateNft />
+                <span className="mt-6 text-xl font-semibold">No drops yet</span>
+                <span className="mt-2 text-gray-500 text-sm">
+                  Click button below to mint your first drop
+                </span>
+                <Link href={`/projects/${dropsQuery.data?.project.id}/drops/create/details`}>
+                  <Button icon={<Icon.Add stroke="#ffffff" />} className="mt-8">
+                    Create drop
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <div className="mt-4 flex flex-col">
+                <Link
+                  href={`/projects/${dropsQuery.data?.project.id}/drops/create/details`}
+                  className="self-end"
+                >
+                  <Button icon={<Icon.Add stroke="#ffffff" />} variant="primary">
+                    Create drop
+                  </Button>
+                </Link>
+                <Table
+                  className="mt-4"
+                  columns={[
+                    columnHelper.accessor(
+                      ({ collection, id }) => {
+                        if (!collection) {
+                          throw new Error('no collection');
+                        }
+
+                        const { metadataJson } = collection;
+
+                        return {
+                          name: metadataJson?.name,
+                          image: metadataJson?.image,
+                          symbol: metadataJson?.symbol,
+                          id,
+                        };
+                      },
+                      {
+                        id: 'name',
+                        header: () => <span className="table-header-text">Drop name</span>,
+                        cell: (info) => (
+                          <div className="flex gap-2 items-center">
+                            <img
+                              src={info.getValue().image}
+                              alt={`drop ${info.getValue().id} metadata json image`}
+                              className="w-8 aspect-square rounded-md"
+                            />
+                            <Link
+                              href={`/projects/${dropsQuery.data?.project.id}/drops/${
+                                info.getValue().id
+                              }/holders`}
+                              className="flex flex-col gap-1"
+                            >
+                              <span className="text-xs text-primary font-medium">
+                                {info.getValue().name}
+                              </span>
+                              <span className="text-xs text-gray-500">
+                                {info.getValue().symbol}
+                              </span>
+                            </Link>
+                          </div>
+                        ),
+                      }
+                    ),
+                    columnHelper.accessor(
+                      ({ price, collection }) => {
+                        if (!collection) {
+                          throw new Error('no collection');
+                        }
+
+                        return {
+                          blockchain: collection.blockchain,
+                          price,
+                        };
+                      },
+                      {
+                        id: 'price',
+                        header: () => <span className="table-header-text">Price</span>,
+                        cell: (info) => {
+                          const price = info.getValue().price;
+                          return (
+                            <div className="flex gap-1">
+                              <span className="text-xs text-primary font-medium">
+                                {price === 0 ? 'FREE' : price}
+                              </span>
+                              {price > 0 && (
+                                <span className="text-xs text-gray-600 font-medium">Lamports</span>
+                              )}
+                            </div>
+                          );
+                        },
+                      }
+                    ),
+                    columnHelper.accessor('createdAt', {
+                      header: () => <span className="table-header-text">Create date</span>,
+                      cell: (info) => (
+                        <div className="flex flex-col gap-1">
+                          <span className="text-xs text-primary font-medium">
+                            {formatDateString(info.getValue(), DateFormat.DATE_1)}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            {formatDateString(info.getValue(), DateFormat.TIME_1)}
+                          </span>
+                        </div>
+                      ),
+                    }),
+                    columnHelper.accessor(
+                      ({ startTime, createdAt }) => ({ startTime, createdAt }),
+                      {
+                        id: 'startTime',
+                        header: () => <span className="table-header-text">Mint start date</span>,
+                        cell: (info) => {
+                          let start = info.getValue().startTime;
+
+                          if (!start) {
+                            start = info.getValue().createdAt;
+                          }
+
+                          return (
+                            <div className="flex flex-col gap-1">
+                              <span className="text-xs text-primary font-medium">
+                                {formatDateString(start, DateFormat.DATE_1)}
+                              </span>
+                              <span className="text-xs text-gray-500">
+                                {formatDateString(start, DateFormat.TIME_1)}
+                              </span>
+                            </div>
+                          );
+                        },
+                      }
+                    ),
+                    columnHelper.accessor('endTime', {
+                      header: () => <span className="table-header-text">Mint end date</span>,
+                      cell: (info) => (
+                        <div className="flex flex-col gap-1">
+                          {info.getValue() ? (
+                            <>
+                              <span className="text-xs text-primary font-medium">
+                                {formatDateString(info.getValue(), DateFormat.DATE_1)}
+                              </span>
+                              <span className="text-xs text-gray-500">
+                                {formatDateString(info.getValue(), DateFormat.TIME_1)}
+                              </span>
+                            </>
+                          ) : (
+                            <span className="text-xs text-primary font-medium">None</span>
+                          )}
+                        </div>
+                      ),
+                    }),
+                    columnHelper.accessor(
+                      ({ collection }) => {
+                        if (!collection) {
+                          throw new Error('no collection');
+                        }
+
+                        return {
+                          supply: collection?.supply,
+                          totalMints: collection?.totalMints,
+                        };
+                      },
+                      {
+                        id: 'counts',
+                        header: () => (
+                          <span className="table-header-text">Minted out & supply</span>
+                        ),
+                        cell: (info) => (
+                          <div className="flex gap-1 items-center justify-between">
+                            <span className="text-xs text-primary font-medium">
+                              {info.getValue().totalMints} /{' '}
+                              {info.getValue().supply ? info.getValue().supply : 'Unlimited'}
+                            </span>
+                            <span></span>
+                          </div>
+                        ),
+                      }
+                    ),
+                    columnHelper.display({
+                      id: 'status',
+                      header: () => (
+                        <span className="flex text-xs text-gray-600 font-medium">
+                          Status (TODO)
+                        </span>
+                      ),
+                      cell: (info) => <Table.DropStatusPill status={DropStatus.MINTING} />,
+                    }),
+                    columnHelper.display({
+                      id: 'moreOptions',
+                      header: () => <Icon.TableAction />,
+                      cell: () => (
+                        <PopoverBox
+                          triggerButton={
+                            <div
+                              className={clsx(
+                                'px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min'
+                              )}
+                            >
+                              <Icon.More />
+                            </div>
+                          }
+                          elements={[
+                            <div
+                              key="edit_drop"
+                              className="flex gap-2 items-center"
+                              onClick={() => setShowModal(ShowModal.EDIT_DROP)}
+                            >
+                              <Icon.Edit /> <span>Edit drop</span>
+                            </div>,
+                            <div
+                              key="pause_mint"
+                              className="flex gap-2 items-center"
+                              onClick={() => setShowModal(ShowModal.PAUSE_MINT)}
+                            >
+                              <Icon.Pause /> <span>Pause mint</span>
+                            </div>,
+                          ]}
+                        />
+                      ),
+                    }),
+                  ]}
+                  data={drops}
+                />
+              </div>
+            )}
+          </>
         )}
       </div>
       {/* TODO: Fix Modal to show as overlay instead of in footer. */}

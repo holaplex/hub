@@ -1,0 +1,22 @@
+query GetProjectDrops($project: UUID!) {
+  project(id: $project) {
+    id
+    name
+    drops {
+      id
+      price
+      createdAt
+      startTime
+      endTime
+      collection {
+        supply
+        totalMints
+        metadataJson {
+          name
+          image
+          description
+        }
+      }
+    }
+  }
+}

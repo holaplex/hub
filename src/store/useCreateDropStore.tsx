@@ -1,5 +1,5 @@
 import { FileWithPath } from 'react-dropzone';
-import create from 'zustand';
+import { create } from 'zustand';
 
 export type FileWithPreview = FileWithPath & { preview: string };
 

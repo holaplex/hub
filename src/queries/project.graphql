@@ -8,10 +8,3 @@ query GetProject($project: UUID!) {
     }
   }
 }
-
-query GetProjectDrops($project: UUID!) {
-  project(id: $project) {
-    id
-    name
-  }
-}

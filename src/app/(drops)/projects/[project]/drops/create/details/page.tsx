@@ -63,7 +63,7 @@ export default function CreateDropStep1() {
                     <Form.Select.Options>
                       {[
                         { option: 'Solana', value: 'solana' },
-                        { option: 'Polygon', value: 'polygon' },
+                        { option: 'Polygon (Coming Soon)', value: 'polygon' },
                       ].map((i) => (
                         <Form.Select.Option value={i} key={i.value}>
                           <>{i.option}</>

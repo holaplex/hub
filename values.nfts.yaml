@@ -10,4 +10,8 @@ environment:
   kafkaUsername: admin
   kafkaSsl: false
   kafkaBrokers: 'hub-eventbus-cluster-0.hub-eventbus-cluster.default.svc.cluster.local:9093'
+<<<<<<< HEAD
   solanaKeyPairPath: '/app/keypair.json'
+=======
+  solanaKeyPairPath: "/app/keypair.json"
+>>>>>>> 422a050 (feat: view drops)

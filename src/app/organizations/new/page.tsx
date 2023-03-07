@@ -54,7 +54,7 @@ export default function CreateOrganizationPage() {
 
       <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
         <Form.Label name="Organization name" className="text-xs">
-          <Form.Input {...register('name', { required: true })} placeholder="e.g. Apple" />
+          <Form.Input autoFocus {...register('name', { required: true })} placeholder="e.g. Apple" />
           <Form.Error message={error?.message} />
         </Form.Label>
 
