@@ -56,7 +56,7 @@ export default function DeleteWebhook({ webhook }: DeleteWebhookProps) {
           webhook,
         },
       },
-      onCompleted: async () => {
+      onCompleted: () => {
         router.push('/webhooks');
       },
     });

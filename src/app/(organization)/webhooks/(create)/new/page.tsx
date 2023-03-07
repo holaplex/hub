@@ -152,7 +152,7 @@ export default function NewWebhook() {
               <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
 
               <span className="text-sm text-primary font-medium">Events</span>
-              <div className="grid grid-cols-2 mt-4 mx-2">
+              <div className="grid grid-cols-2 mt-4 mx-2 gap-5">
                 <Form.Checkbox
                   {...register('events')}
                   id="PROJECT_CREATED"
