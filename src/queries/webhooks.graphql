@@ -1,0 +1,26 @@
+query GetOrganizationWebhooks($organization: UUID!) {
+  organization(id: $organization) {
+    webhooks {
+      id
+      description
+      events
+      createdAt
+      url
+      createdBy {
+        id
+        email
+        firstName
+        lastName
+      }
+    }
+  }
+}
+
+query GetOrganizationWebhook($organization: UUID!, $webhook: UUID!) {
+  organization(id: $organization) {
+    webhook(id: $webhook) {
+      id
+      description
+    }
+  }
+}

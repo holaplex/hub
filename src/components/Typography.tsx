@@ -38,7 +38,7 @@ interface HeaderProps extends TypographyProps {
 }
 
 function Header({ size, weight, color, children, className }: HeaderProps): JSX.Element {
-  return createElement(size, { className: clsx(weight, color, className) }, children);
+  return createElement(size, { className: clsx('text-left', weight, color, className) }, children);
 }
 
 Typography.Header = Header;

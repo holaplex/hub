@@ -1,6 +1,10 @@
 managedFederation:
   graphRef: hub-dev@current
 
+extraEnvVars:
+  - name: APOLLO_ROUTER_LOG
+    value: debug
+
 router:
   configuration:
     include_subgraph_errors:

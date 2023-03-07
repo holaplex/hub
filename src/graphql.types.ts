@@ -10,6 +10,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  DateTime: any;
   JSON: any;
   NaiveDateTime: any;
   UUID: any;
@@ -33,6 +34,47 @@ export type AccessToken = {
 
 export type Affiliation = Member | Owner;
 
+export enum AssetType {
+  Sol = 'SOL',
+  SolTest = 'SOL_TEST'
+}
+
+export enum Blockchain {
+  Ethereum = 'ETHEREUM',
+  Polygon = 'POLYGON',
+  Solana = 'SOLANA'
+}
+
+export type Collection = {
+  __typename?: 'Collection';
+  address?: Maybe<Scalars['String']>;
+  blockchain: Blockchain;
+  creationStatus: CreationStatus;
+  id: Scalars['UUID'];
+  metadataJson?: Maybe<MetadataJson>;
+  mints?: Maybe<Array<CollectionMint>>;
+  supply?: Maybe<Scalars['Int']>;
+  totalMints: Scalars['Int'];
+};
+
+export type CollectionCreatorInput = {
+  address: Scalars['String'];
+  share: Scalars['Int'];
+  verified?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type CollectionMint = {
+  __typename?: 'CollectionMint';
+  address: Scalars['String'];
+  collection?: Maybe<Collection>;
+  collectionId: Scalars['UUID'];
+  createdAt: Scalars['NaiveDateTime'];
+  createdBy: Scalars['UUID'];
+  creationStatus: CreationStatus;
+  id: Scalars['UUID'];
+  owner: Scalars['String'];
+};
+
 export type CreateCredentialInput = {
   name: Scalars['String'];
   organization: Scalars['UUID'];
@@ -55,8 +97,26 @@ export type CreateCustomerPayload = {
   customer: Customer;
 };
 
+export type CreateDropInput = {
+  blockchain: Blockchain;
+  creators: Array<CollectionCreatorInput>;
+  endTime?: InputMaybe<Scalars['DateTime']>;
+  metadataJson: MetadataJsonInput;
+  price?: InputMaybe<Scalars['Int']>;
+  project: Scalars['UUID'];
+  sellerFeeBasisPoints?: InputMaybe<Scalars['Int']>;
+  startTime?: InputMaybe<Scalars['DateTime']>;
+  supply?: InputMaybe<Scalars['Int']>;
+};
+
+export type CreateDropPayload = {
+  __typename?: 'CreateDropPayload';
+  drop: Drop;
+};
+
 export type CreateOrganizationInput = {
   name: Scalars['String'];
+  profileImageUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateOrganizationPayload = {
@@ -67,6 +127,7 @@ export type CreateOrganizationPayload = {
 export type CreateProjectInput = {
   name: Scalars['String'];
   organization: Scalars['UUID'];
+  profileImageUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateProjectPayload = {
@@ -74,7 +135,18 @@ export type CreateProjectPayload = {
   project: Project;
 };
 
+export type CreateTreasuryWalletInput = {
+  assetType: AssetType;
+  treasuryId: Scalars['UUID'];
+};
+
+export type CreateTreasuryWalletPayload = {
+  __typename?: 'CreateTreasuryWalletPayload';
+  wallet: Wallet;
+};
+
 export type CreateWebhookInput = {
+  description: Scalars['String'];
   endpoint: Scalars['String'];
   filterTypes: Array<FilterType>;
   organization: Scalars['UUID'];
@@ -86,6 +158,11 @@ export type CreateWebhookPayload = {
   secret: Scalars['String'];
   webhook: Webhook;
 };
+
+export enum CreationStatus {
+  Created = 'CREATED',
+  Pending = 'PENDING'
+}
 
 export type Credential = {
   __typename?: 'Credential';
@@ -105,15 +182,40 @@ export type Customer = {
   createdAt: Scalars['NaiveDateTime'];
   id: Scalars['UUID'];
   projectId: Scalars['UUID'];
+  treasury?: Maybe<Treasury>;
   updatedAt?: Maybe<Scalars['NaiveDateTime']>;
+};
+
+export type DeleteWebhookInput = {
+  webhook: Scalars['UUID'];
 };
 
 export type DeleteWebhookPayload = {
   __typename?: 'DeleteWebhookPayload';
-  appId: Scalars['String'];
-  endpoint: Scalars['String'];
-  organizationId: Scalars['UUID'];
+  webhook: Scalars['UUID'];
 };
+
+export type Drop = {
+  __typename?: 'Drop';
+  collection: Collection;
+  createdAt: Scalars['NaiveDateTime'];
+  createdById: Scalars['UUID'];
+  creationStatus: CreationStatus;
+  endTime?: Maybe<Scalars['NaiveDateTime']>;
+  id: Scalars['UUID'];
+  price: Scalars['Int'];
+  projectId: Scalars['UUID'];
+  startTime?: Maybe<Scalars['NaiveDateTime']>;
+  status: DropStatus;
+};
+
+export enum DropStatus {
+  Creating = 'CREATING',
+  Expired = 'EXPIRED',
+  Minted = 'MINTED',
+  Minting = 'MINTING',
+  Scheduled = 'SCHEDULED'
+}
 
 export type EventType = {
   __typename?: 'EventType';
@@ -126,13 +228,13 @@ export type EventType = {
 };
 
 export enum FilterType {
-  CredentialCreated = 'CREDENTIAL_CREATED',
-  CredentialDeleted = 'CREDENTIAL_DELETED',
-  InvitationAccepted = 'INVITATION_ACCEPTED',
-  InvitationRevoked = 'INVITATION_REVOKED',
-  InvitationSent = 'INVITATION_SENT',
+  CustomerCreated = 'CUSTOMER_CREATED',
+  CustomerTreasuryCreated = 'CUSTOMER_TREASURY_CREATED',
+  CustomerWalletCreated = 'CUSTOMER_WALLET_CREATED',
+  DropCreated = 'DROP_CREATED',
+  DropMinted = 'DROP_MINTED',
   ProjectCreated = 'PROJECT_CREATED',
-  ProjectDeactivated = 'PROJECT_DEACTIVATED',
+  ProjectWalletCreated = 'PROJECT_WALLET_CREATED'
 }
 
 export type Invite = {
@@ -156,7 +258,7 @@ export type InviteMemberInput = {
 export enum InviteStatus {
   Accepted = 'ACCEPTED',
   Revoked = 'REVOKED',
-  Sent = 'SENT',
+  Sent = 'SENT'
 }
 
 export type Member = {
@@ -170,6 +272,81 @@ export type Member = {
   revokedAt?: Maybe<Scalars['NaiveDateTime']>;
   user?: Maybe<User>;
   userId: Scalars['UUID'];
+};
+
+export type MetadataJson = {
+  __typename?: 'MetadataJson';
+  animationUrl?: Maybe<Scalars['String']>;
+  attributes?: Maybe<Array<MetadataJsonAttribute>>;
+  collectionId: Scalars['UUID'];
+  description: Scalars['String'];
+  externalUrl?: Maybe<Scalars['String']>;
+  identifier: Scalars['String'];
+  image: Scalars['String'];
+  name: Scalars['String'];
+  symbol: Scalars['String'];
+  uri: Scalars['String'];
+};
+
+export type MetadataJsonAttribute = {
+  __typename?: 'MetadataJsonAttribute';
+  collectionId: Scalars['UUID'];
+  id: Scalars['UUID'];
+  traitType: Scalars['String'];
+  value: Scalars['String'];
+};
+
+export type MetadataJsonAttributeInput = {
+  traitType: Scalars['String'];
+  value: Scalars['String'];
+};
+
+export type MetadataJsonCollectionInput = {
+  family?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+export type MetadataJsonFileInput = {
+  fileType?: InputMaybe<Scalars['String']>;
+  uri?: InputMaybe<Scalars['String']>;
+};
+
+export type MetadataJsonInput = {
+  animationUrl?: InputMaybe<Scalars['String']>;
+  attributes: Array<MetadataJsonAttributeInput>;
+  collection?: InputMaybe<MetadataJsonCollectionInput>;
+  description: Scalars['String'];
+  externalUrl?: InputMaybe<Scalars['String']>;
+  image: Scalars['String'];
+  name: Scalars['String'];
+  properties?: InputMaybe<MetadataJsonPropertyInput>;
+  symbol: Scalars['String'];
+};
+
+export type MetadataJsonPropertyInput = {
+  category?: InputMaybe<Scalars['String']>;
+  files?: InputMaybe<Array<MetadataJsonFileInput>>;
+};
+
+export type MintDropInput = {
+  drop: Scalars['UUID'];
+  recipient: Scalars['String'];
+};
+
+export type MintEditionPayload = {
+  __typename?: 'MintEditionPayload';
+  collectionMint: Model;
+};
+
+export type Model = {
+  __typename?: 'Model';
+  address: Scalars['String'];
+  collectionId: Scalars['UUID'];
+  createdAt: Scalars['NaiveDateTime'];
+  createdBy: Scalars['UUID'];
+  creationStatus: CreationStatus;
+  id: Scalars['UUID'];
+  owner: Scalars['String'];
 };
 
 export type Mutation = {
@@ -201,6 +378,13 @@ export type Mutation = {
    * # Errors
    * This function fails if ...
    */
+  createDrop: CreateDropPayload;
+  /**
+   * Res
+   *
+   * # Errors
+   * This function fails if unable to save organization to the database
+   */
   createOrganization: CreateOrganizationPayload;
   /**
    * Res
@@ -209,6 +393,13 @@ export type Mutation = {
    * This function fails if ...
    */
   createProject: CreateProjectPayload;
+  /**
+   * Res
+   *
+   * # Errors
+   * This function fails if ...
+   */
+  createTreasuryWallet: CreateTreasuryWalletPayload;
   /**
    * Res
    *
@@ -230,38 +421,68 @@ export type Mutation = {
    * This function fails if ...
    */
   inviteMember: Invite;
+  /**
+   * Res
+   *
+   * # Errors
+   * This function fails if ...
+   */
+  mintEdition: MintEditionPayload;
 };
+
 
 export type MutationAcceptInviteArgs = {
   input: AcceptInviteInput;
 };
 
+
 export type MutationCreateCredentialArgs = {
   input: CreateCredentialInput;
 };
+
 
 export type MutationCreateCustomerArgs = {
   input: CreateCustomerInput;
 };
 
+
+export type MutationCreateDropArgs = {
+  input: CreateDropInput;
+};
+
+
 export type MutationCreateOrganizationArgs = {
   input: CreateOrganizationInput;
 };
+
 
 export type MutationCreateProjectArgs = {
   input: CreateProjectInput;
 };
 
+
+export type MutationCreateTreasuryWalletArgs = {
+  input: CreateTreasuryWalletInput;
+};
+
+
 export type MutationCreateWebhookArgs = {
   input: CreateWebhookInput;
 };
 
+
 export type MutationDeleteWebhookArgs = {
-  input: CreateWebhookInput;
+  input: DeleteWebhookInput;
 };
+
 
 export type MutationInviteMemberArgs = {
   input: InviteMemberInput;
+};
+
+
+export type MutationMintEditionArgs = {
+  input: MintDropInput;
 };
 
 export type Organization = {
@@ -275,21 +496,31 @@ export type Organization = {
   members?: Maybe<Array<Member>>;
   name: Scalars['String'];
   owner?: Maybe<Owner>;
+  profileImageUrl?: Maybe<Scalars['String']>;
   projects: Array<Project>;
-  svixAppId: Scalars['String'];
+  webhook?: Maybe<Webhook>;
+  webhooks?: Maybe<Array<Webhook>>;
 };
+
 
 export type OrganizationCredentialArgs = {
   clientId: Scalars['String'];
 };
+
 
 export type OrganizationCredentialsArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
 };
 
+
 export type OrganizationInvitesArgs = {
   status?: InputMaybe<InviteStatus>;
+};
+
+
+export type OrganizationWebhookArgs = {
+  id: Scalars['UUID'];
 };
 
 export type Owner = {
@@ -308,13 +539,23 @@ export type Project = {
   customer?: Maybe<Customer>;
   customers?: Maybe<Array<Customer>>;
   deactivatedAt?: Maybe<Scalars['NaiveDateTime']>;
+  drop?: Maybe<Drop>;
+  drops?: Maybe<Array<Drop>>;
   id: Scalars['UUID'];
   name: Scalars['String'];
   organization?: Maybe<Organization>;
   organizationId: Scalars['UUID'];
+  profileImageUrl?: Maybe<Scalars['String']>;
+  treasury?: Maybe<Treasury>;
 };
 
+
 export type ProjectCustomerArgs = {
+  id: Scalars['UUID'];
+};
+
+
+export type ProjectDropArgs = {
   id: Scalars['UUID'];
 };
 
@@ -351,20 +592,32 @@ export type Query = {
   user?: Maybe<User>;
 };
 
+
 export type QueryInviteArgs = {
   id: Scalars['UUID'];
 };
+
 
 export type QueryOrganizationArgs = {
   id: Scalars['UUID'];
 };
 
+
 export type QueryProjectArgs = {
   id: Scalars['UUID'];
 };
 
+
 export type QueryUserArgs = {
   id: Scalars['UUID'];
+};
+
+export type Treasury = {
+  __typename?: 'Treasury';
+  createdAt: Scalars['NaiveDateTime'];
+  id: Scalars['UUID'];
+  vaultId: Scalars['String'];
+  wallets?: Maybe<Array<Wallet>>;
 };
 
 export type User = {
@@ -378,13 +631,31 @@ export type User = {
   updatedAt: Scalars['String'];
 };
 
-export type Webhook = {
-  __typename?: 'Webhook';
+export type Wallet = {
+  __typename?: 'Wallet';
+  address: Scalars['String'];
+  assetId: AssetType;
   createdAt: Scalars['NaiveDateTime'];
   createdBy: Scalars['UUID'];
+  legacyAddress: Scalars['String'];
+  mints?: Maybe<Array<CollectionMint>>;
+  removedAt?: Maybe<Scalars['NaiveDateTime']>;
+  tag: Scalars['String'];
+  treasuryId: Scalars['UUID'];
+};
+
+export type Webhook = {
+  __typename?: 'Webhook';
+  channels: Array<Scalars['String']>;
+  createdAt: Scalars['NaiveDateTime'];
+  createdBy?: Maybe<User>;
+  createdById: Scalars['UUID'];
+  description: Scalars['String'];
   endpointId: Scalars['String'];
+  events: Array<Scalars['String']>;
   id: Scalars['UUID'];
   organizationId: Scalars['UUID'];
-  projects?: Maybe<Array<Project>>;
+  projects: Array<Project>;
   updatedAt?: Maybe<Scalars['NaiveDateTime']>;
+  url: Scalars['String'];
 };
