@@ -32,14 +32,14 @@ interface CreateWebhookVars {
 }
 
 interface CreateWebhookData {
-  createWebhookData: CreateWebhookPayload;
+  createWebhook: CreateWebhookPayload;
 }
 
 interface WebhookForm {
   projects: Project[];
-  name: string;
-  targetUrl: string;
-  events: string[];
+  description: string;
+  endpoint: string;
+  events: FilterType[];
 }
 
 export default function NewWebhook() {
@@ -56,18 +56,18 @@ export default function NewWebhook() {
   );
 
   const { copied, copyText } = useClipboard(
-    createWebhookResult.data?.createWebhookData.secret as string
+    createWebhookResult.data?.createWebhook.secret as string
   );
 
-  const onSubmit = ({ projects, name, targetUrl, events }: WebhookForm) => {
+  const onSubmit = ({ projects, description, endpoint, events }: WebhookForm) => {
     createWebhook({
       variables: {
         input: {
-          description: name,
-          endpoint: targetUrl,
+          description,
+          endpoint,
           organization: organization?.id as string,
           projects: projects.map((project) => project.id),
-          filterTypes: events.map((event) => event as FilterType),
+          filterTypes: events,
         },
       },
     });
@@ -132,7 +132,7 @@ export default function NewWebhook() {
               <div className="flex gap-4 mt-5">
                 <Form.Label name="Name" className="text-xs mt-5" asideComponent={<Icon.Help />}>
                   <Form.Input
-                    {...register('name')}
+                    {...register('description', { required: true })}
                     autoFocus
                     placeholder="e.g. Bored Ape Yatch Club"
                   />
@@ -140,12 +140,11 @@ export default function NewWebhook() {
                 </Form.Label>
 
                 <Form.Label
-                  {...register('targetUrl')}
                   name="Target URL"
                   className="text-xs mt-5"
                   asideComponent={<Icon.Help />}
                 >
-                  <Form.Input />
+                  <Form.Input {...register('endpoint', { required: true })} />
                   <Form.Error message="" />
                 </Form.Label>
               </div>
@@ -237,7 +236,7 @@ export default function NewWebhook() {
           </Typography.Paragraph>
           <div className="flex gap-2">
             <div className="shrink border px-4 py-3 bg-white border-gray-100 rounded-md truncate">
-              {createWebhookResult.data?.createWebhookData.secret}
+              {createWebhookResult.data?.createWebhook.secret}
             </div>
             <button
               onClick={copyText}

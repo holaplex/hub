@@ -2,7 +2,6 @@ mutation CreateWebhook($input: CreateWebhookInput!) {
   createWebhook(input: $input) {
     webhook {
       id
-      createdById
     }
     secret
   }
