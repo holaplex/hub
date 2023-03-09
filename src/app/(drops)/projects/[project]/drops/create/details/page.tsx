@@ -3,7 +3,6 @@ import { Button, Form } from '@holaplex/ui-library-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import Card from '../../../../../../../components/Card';
-import DragDropImage from '../../../../../../../components/DragDropImage';
 import { Icon } from '../../../../../../../components/Icon';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import useCreateDropStore, { StepOneData } from '../../../../../../../store/useCreateDropStore';
@@ -25,7 +24,7 @@ export default function CreateDropStep1() {
         <Typography.Header size={Size.H2}>Drop details</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
           <Form.Label name="Artwork" className="text-xs" asideComponent={<Icon.Help />}>
-            <DragDropImage onDrop={() => {}} />
+            {/* TODO: Add dragdrop */}
           </Form.Label>
 
           <div className="flex items-center gap-4">

@@ -7,9 +7,11 @@ import { CreateProjectInput, CreateProjectPayload } from '../../../../graphql.ty
 import { GetOrganizationProjects } from './../../../../queries/organization.graphql';
 import { CreateProject } from './../../../../mutations/project.graphql';
 import { useMutation } from '@apollo/client';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useOrganization } from '../../../../hooks/useOrganization';
-import DragDropImage from '../../../../components/DragDropImage';
+import clsx from 'clsx';
+import { useCallback } from 'react';
+import useUpload from '../../../../hooks/useUpload';
 
 interface CreateProjectData {
   createProject: CreateProjectPayload;
@@ -21,12 +23,20 @@ interface CreateProjectVars {
 
 interface CreateProjectForm {
   name: string;
+  files: File[];
 }
 
 export default function NewProjectPage() {
   const router = useRouter();
-  const { register, handleSubmit, formState } = useForm<CreateProjectForm>();
   const { organization } = useOrganization();
+  const { control, register, handleSubmit, formState, setValue } = useForm<CreateProjectForm>();
+  const onDrop = useCallback(
+    (files: File[]) => {
+      setValue('files', files, { shouldValidate: true });
+    },
+    [setValue]
+  );
+  const { getRootProps, getInputProps, isDragActive } = useUpload(onDrop);
   const [createProject, { loading }] = useMutation<CreateProjectData, CreateProjectVars>(
     CreateProject,
     {
@@ -36,16 +46,22 @@ export default function NewProjectPage() {
     }
   );
 
-  const onSubmit = ({ name }: CreateProjectForm) => {
+  const onSubmit = async ({ name, files }: CreateProjectForm) => {
+    let profileImageUrl;
+    if (files && files.length > 0) {
+      const uploadResult = await uploadFile(files[0]);
+      profileImageUrl = uploadResult;
+      console.log('Upload result', uploadResult);
+    }
     createProject({
-      variables: { input: { name, organization: organization?.id } },
+      variables: { input: { name, organization: organization?.id, profileImageUrl } },
       onCompleted: () => {
         router.push('/projects');
       },
     });
   };
 
-  const handleDrop = async (file: File) => {
+  const uploadFile = async (file: File) => {
     const body = new FormData();
     body.append(file.name, file, file.name);
 
@@ -55,9 +71,7 @@ export default function NewProjectPage() {
         body,
       });
       const json = await response.json();
-      if (json) {
-        console.log('Upload file url', json);
-      }
+      return json;
     } catch (e: any) {
       console.error('Could not upload file', e);
       throw new Error(e);
@@ -89,7 +103,42 @@ export default function NewProjectPage() {
             <Form.Error message={formState.errors.name?.message} />
           </Form.Label>
           <Form.Label name="Project logo" className="text-xs text-primary mt-5">
-            <DragDropImage onDrop={handleDrop} />
+            <Controller
+              name="files"
+              control={control}
+              render={({ field: { value, onChange } }) => (
+                <Form.DragDrop
+                  getInputProps={getInputProps}
+                  getRootProps={getRootProps}
+                  isDragActive={isDragActive}
+                  onChange={(e: any) => onChange(e.target.value)}
+                  multiple={false}
+                >
+                  <div
+                    className={clsx(
+                      'flex items-center justify-center border border-dashed border-gray-200 cursor-pointer rounded-md',
+                      {
+                        'bg-gray-100': isDragActive,
+                        'p-6 text-center text-gray-500': !value,
+                      }
+                    )}
+                  >
+                    {value ? (
+                      <div className="bg-white rounded-lg p-3 overflow-hidden">
+                        {value.map((file, index) => (
+                          <Form.DragDrop.Preview key={index} file={file} />
+                        ))}
+                      </div>
+                    ) : (
+                      <>
+                        Drag & drop photo here <br />
+                        Required jpeg, png or svg. Max 2mb.
+                      </>
+                    )}
+                  </div>
+                </Form.DragDrop>
+              )}
+            />
           </Form.Label>
           <Button htmlType="submit" className="w-full mt-5" loading={loading} disabled={loading}>
             Create
