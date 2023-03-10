@@ -1,4 +1,4 @@
-import { format, formatDistanceToNow, compareAsc } from 'date-fns';
+import { format, formatDistanceToNow, compareAsc, formatDistance, set } from 'date-fns';
 
 export enum DateFormat {
   DATE_1 = 'MM/dd/yyyy',
@@ -17,4 +17,12 @@ export function daysUntil(dateStr: string): string {
 
 export function inTheFuture(dateString: string): boolean {
   return compareAsc(new Date(), new Date(dateString)) === -1
+}
+
+export function combineDateTime(date: Date, time: Date): Date {
+  return set(date, {
+    hours: time.getHours(),
+    minutes: time.getMinutes(),
+    seconds: time.getSeconds(),
+  });
 }

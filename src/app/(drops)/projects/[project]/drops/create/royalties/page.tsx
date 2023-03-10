@@ -1,7 +1,7 @@
 'use client';
 import { Button, Form } from '@holaplex/ui-library-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Controller, useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import Card from '../../../../../../../components/Card';
 import { Icon } from '../../../../../../../components/Icon';
 import Typography, { Size } from '../../../../../../../components/Typography';
@@ -12,8 +12,14 @@ export default function CreateDropStep2() {
   const pathname = usePathname();
   const slug = pathname ? pathname.split('/')[2] : null;
   const { stepTwo, setData } = useCreateDropStore();
+
   const { handleSubmit, register, control } = useForm<StepTwoData>({
-    defaultValues: stepTwo || {},
+    defaultValues: stepTwo || { creators: [{ address: '', share: 100 }] },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'creators',
   });
 
   const submit = (data: StepTwoData) => {
@@ -46,36 +52,9 @@ export default function CreateDropStep2() {
             </Form.Label>
           </div>
 
-          <Form.Label name="Treasury" className="text-xs mt-5" asideComponent={<Icon.Help />}>
-            <Form.Select value={{ option: 'Treasury Wallet 1', value: 'tw1' }} onChange={() => {}}>
-              <Form.Select.Button>Treasury Wallet 1</Form.Select.Button>
-              <Form.Select.Options>
-                {[
-                  { option: 'Treasury Wallet 1', value: 'tw1' },
-                  { option: 'Treasury Wallet 2', value: 'tw2' },
-                ].map((i) => (
-                  <Form.Select.Option value={i} key={i.value}>
-                    <>{i.option}</>
-                  </Form.Select.Option>
-                ))}
-              </Form.Select.Options>
-            </Form.Select>
-
-            <Form.Error message="" />
-          </Form.Label>
-
-          <div className="flex gap-2 items-start bg-gray-50 rounded-md p-3 mt-2">
-            <Icon.Balance />
-            <span className="text-gray-500 text-xs font-medium">
-              Make sure you have enough tokens for a fee in your treasruty wallet. Estimated minting
-              price should be <span className="text-primary">[Price]</span>
-            </span>
-          </div>
-
           <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
 
           <span className="text-sm text-primary font-medium">Royalties</span>
-
           <Form.Checkbox
             {...register('royaltyInTreasuryWallet')}
             id="royaltyInTreasuryWallet"
@@ -85,28 +64,49 @@ export default function CreateDropStep2() {
               </span>
             }
           />
+          {fields.map((field, index) => (
+            <div className="flex gap-4" key={field.id}>
+              <Form.Label
+                name="Wallet"
+                className="text-xs mt-5 basis-3/4"
+                asideComponent={<Icon.Help />}
+              >
+                <Form.Input
+                  {...register(`creators.${index}.address`)}
+                  placeholder="Paste royalty wallet address"
+                />
+                <Form.Error message="" />
+              </Form.Label>
 
-          <div className="flex gap-4">
-            <Form.Label
-              name="Wallet"
-              className="text-xs mt-5 basis-3/4"
-              asideComponent={<Icon.Help />}
-            >
-              <Form.Input placeholder="Paste royalty wallet address" />
-              <Form.Error message="" />
-            </Form.Label>
+              <Form.Label
+                name="Royalties"
+                className="text-xs mt-5 basis-1/4"
+                asideComponent={<Icon.Help />}
+              >
+                <Form.Input
+                  {...register(`creators.${index}.share`)}
+                  placeholder="e.g. 10%"
+                  defaultValue={index === 0 ? 100 : Number()}
+                />
+                <Form.Error message="" />
+              </Form.Label>
 
-            <Form.Label
-              name="Royalties"
-              className="text-xs mt-5 basis-1/4"
-              asideComponent={<Icon.Help />}
-            >
-              <Form.Input placeholder="e.g. 10%" />
-              <Form.Error message="" />
-            </Form.Label>
-          </div>
+              {fields.length > 1 && (
+                <div
+                  className="rounded-md border border-gray-100 bg-gray-50 p-3 self-end cursor-pointer"
+                  onClick={() => remove(index)}
+                >
+                  <Icon.Close />
+                </div>
+              )}
+            </div>
+          ))}
 
-          <Button className="mt-4 self-start" variant="secondary">
+          <Button
+            className="mt-4 self-start"
+            variant="secondary"
+            onClick={() => append({ address: '', share: Number() })}
+          >
             Add wallet
           </Button>
 

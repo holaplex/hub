@@ -5,9 +5,24 @@ import { toast } from 'react-toastify';
 import Card from '../../../../../../../components/Card';
 import { Icon } from '../../../../../../../components/Icon';
 import Typography, { Size } from '../../../../../../../components/Typography';
+import { Blockchain, CreateDropInput, CreateDropPayload } from '../../../../../../../graphql.types';
 import useCreateDropStore from '../../../../../../../store/useCreateDropStore';
+import { useMutation } from '@apollo/client';
+import { CreateDrop } from './../../../../../../../mutations/drop.graphql';
+import { combineDateTime } from '../../../../../../../modules/time';
 
-export default function CreateDropPreview() {
+interface CreateDropPreviewProps {
+  params: { project: string };
+}
+interface CreateDropData {
+  createProject: CreateDropPayload;
+}
+
+interface CreateDropVars {
+  input: CreateDropInput;
+}
+
+export default function CreateDropPreview({ params: { project } }: CreateDropPreviewProps) {
   const router = useRouter();
   const pathname = usePathname();
   const slug = pathname ? pathname.split('/')[2] : null;
@@ -17,11 +32,44 @@ export default function CreateDropPreview() {
     router.push(`/projects/${slug}/drops/create/timing`);
   };
 
+  const [createDrop, { loading }] = useMutation<CreateDropData, CreateDropVars>(CreateDrop);
+
   if (!stepOne || !stepTwo || !stepThree) {
     toast('Incomplete drops data. Check again.');
     router.push(`/projects/${slug}/drops/create/details`);
     return;
   }
+
+  const onSubmit = async () => {
+    createDrop({
+      variables: {
+        input: {
+          project,
+          blockchain: stepOne.blockchain as Blockchain,
+          metadataJson: {
+            name: stepOne.name,
+            symbol: stepOne.symbol,
+            description: stepOne.description,
+            image: '', // TODO:
+            attributes: [],
+          },
+          creators: stepTwo.creators,
+          supply: stepTwo.maxSupply,
+          price: stepTwo.solPrice,
+          sellerFeeBasisPoints: stepTwo.secondarySaleSellerFeePercent,
+          startTime: !stepThree.mintImmediately
+            ? combineDateTime(new Date(stepThree.startDate!), new Date(stepThree.startTime!))
+            : undefined,
+          endTime: !stepThree.noEndOfSales
+            ? combineDateTime(new Date(stepThree.endDate!), new Date(stepThree.startTime!))
+            : undefined,
+        },
+      },
+      onCompleted: () => {
+        router.push(`/projects/${slug}/drops`);
+      },
+    });
+  };
 
   return (
     <>
@@ -82,7 +130,7 @@ export default function CreateDropPreview() {
             <Button className="self-start" variant="tertiary" onClick={back}>
               Back
             </Button>
-            <Button htmlType="submit" className="self-end">
+            <Button htmlType="submit" className="self-end" onClick={() => onSubmit()}>
               {stepThree.mintImmediately ? 'Start mint' : 'Schedule mint'}
             </Button>
           </div>

@@ -1,5 +1,6 @@
 import { FileWithPath } from 'react-dropzone';
 import { create } from 'zustand';
+import { CollectionCreatorInput } from '../graphql.types';
 
 export type FileWithPreview = FileWithPath & { preview: string };
 
@@ -14,9 +15,8 @@ export type StepOneData = {
 export type StepTwoData = {
   maxSupply: number;
   solPrice: number;
-  treasuryWallet: string;
   royaltyInTreasuryWallet: boolean;
-  royaltyWallets?: { wallet: string; royaltyPercent: number };
+  creators: CollectionCreatorInput[];
   secondarySaleSellerFeePercent: number;
 };
 

@@ -13,7 +13,9 @@ export default function CreateDropStep1() {
   const pathname = usePathname();
   const slug = pathname ? pathname.split('/')[2] : null;
   const { stepOne, setData } = useCreateDropStore();
-  const { handleSubmit, register } = useForm<StepOneData>({ defaultValues: stepOne || {} });
+  const { handleSubmit, register, control } = useForm<StepOneData>({
+    defaultValues: stepOne || {},
+  });
   const submit = (data: StepOneData) => {
     setData({ step: 1, data });
     router.push(`/projects/${slug}/drops/create/royalties`);
@@ -54,18 +56,26 @@ export default function CreateDropStep1() {
           <Form.Label name="Blockchain" className="text-xs mt-5" asideComponent={<Icon.Help />}>
             <Controller
               name="blockchain"
+              control={control}
               render={({ field: { value, onChange } }) => {
+                const options = [
+                  { option: 'Solana', value: 'SOLANA' },
+                  { option: 'Polygon (Coming Soon)', value: 'POLYGON' },
+                ];
+                const getOptionByValue = (value: string) => {
+                  const filtered = options.filter((option) => option.value === value)[0];
+                  if (filtered) {
+                    return filtered.option;
+                  }
+                };
                 return (
                   <Form.Select value={value} onChange={onChange}>
                     <Form.Select.Button placeholder="Select blockchain">
-                      {value.value}
+                      {getOptionByValue(value)}
                     </Form.Select.Button>
                     <Form.Select.Options>
-                      {[
-                        { option: 'Solana', value: 'solana' },
-                        { option: 'Polygon (Coming Soon)', value: 'polygon' },
-                      ].map((i) => (
-                        <Form.Select.Option value={i} key={i.value}>
+                      {options.map((i) => (
+                        <Form.Select.Option value={i.value} key={i.value}>
                           <>{i.option}</>
                         </Form.Select.Option>
                       ))}

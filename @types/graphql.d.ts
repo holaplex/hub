@@ -8,6 +8,17 @@ declare module '*/credential.graphql' {
 }
     
 
+declare module '*/drop.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const CreateDrop: DocumentNode;
+export const GetProjectDrops: DocumentNode;
+export const GetDrop: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/invite.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -64,16 +75,6 @@ declare module '*/customer.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const GetProjectCustomers: DocumentNode;
-
-  export default defaultDocument;
-}
-    
-
-declare module '*/drop.graphql' {
-  import { DocumentNode } from 'graphql';
-  const defaultDocument: DocumentNode;
-  export const GetProjectDrops: DocumentNode;
-export const GetDrop: DocumentNode;
 
   export default defaultDocument;
 }
