@@ -40,6 +40,28 @@ export default function CreateDropPreview({ params: { project } }: CreateDropPre
     return;
   }
 
+  let startDateTime: Date;
+  if (!stepThree.mintImmediately) {
+    const [startTimeHrs, startTimeMins] = stepThree.startTime!.toString().split(':');
+    startDateTime = combineDateTime(
+      new Date(stepThree.startDate!),
+      Number(startTimeHrs),
+      Number(startTimeMins)
+    );
+    console.log('start time', stepThree.startTime);
+    console.log('start date and time combined', startDateTime);
+  }
+
+  let endDateTime: Date;
+  if (!stepThree.noEndOfSales) {
+    const [endTimeHrs, endTimeMins] = stepThree.endTime!.toString().split(':');
+    endDateTime = combineDateTime(
+      new Date(stepThree.endDate!),
+      Number(endTimeHrs),
+      Number(endTimeMins)
+    );
+  }
+
   const onSubmit = async () => {
     createDrop({
       variables: {
@@ -50,19 +72,15 @@ export default function CreateDropPreview({ params: { project } }: CreateDropPre
             name: stepOne.name,
             symbol: stepOne.symbol,
             description: stepOne.description,
-            image: '', // TODO:
-            attributes: [],
+            image: 'https://abc.xyz', // TODO:
+            attributes: [{ traitType: 'abc', value: 'xyz' }],
           },
           creators: stepTwo.creators,
           supply: stepTwo.maxSupply,
           price: stepTwo.solPrice,
           sellerFeeBasisPoints: stepTwo.secondarySaleSellerFeePercent,
-          startTime: !stepThree.mintImmediately
-            ? combineDateTime(new Date(stepThree.startDate!), new Date(stepThree.startTime!))
-            : undefined,
-          endTime: !stepThree.noEndOfSales
-            ? combineDateTime(new Date(stepThree.endDate!), new Date(stepThree.startTime!))
-            : undefined,
+          startTime: startDateTime,
+          endTime: endDateTime,
         },
       },
       onCompleted: () => {
