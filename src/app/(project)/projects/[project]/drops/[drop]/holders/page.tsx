@@ -1,12 +1,5 @@
 import Holders from "./Holders";
 
-type Holder = {
-  customerId: string;
-  wallet: string;
-  spent: number;
-  ownedEditions: number;
-};
-
 interface HoldersPageProps {
   params: { project: string; drop: string };
 }

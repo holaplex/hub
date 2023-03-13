@@ -10,9 +10,32 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /**
+   * Implement the DateTime<Utc> scalar
+   *
+   * The input/output is a string in RFC3339 format.
+   */
   DateTime: any;
+  /** A scalar that can represent any JSON value. */
   JSON: any;
+  /**
+   * ISO 8601 combined date and time without timezone.
+   *
+   * # Examples
+   *
+   * * `2015-07-01T08:59:60.123`,
+   */
   NaiveDateTime: any;
+  /**
+   * A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
+   * Strings within GraphQL. UUIDs are used to assign unique identifiers to
+   * entities without requiring a central allocating authority.
+   *
+   * # References
+   *
+   * * [Wikipedia: Universally Unique Identifier](http://en.wikipedia.org/wiki/Universally_unique_identifier)
+   * * [RFC4122: A Universally Unique IDentifier (UUID) URN Namespace](http://tools.ietf.org/html/rfc4122)
+   */
   UUID: any;
 };
 
@@ -35,6 +58,10 @@ export type AccessToken = {
 export type Affiliation = Member | Owner;
 
 export enum AssetType {
+  Eth = 'ETH',
+  EthTest = 'ETH_TEST',
+  Matic = 'MATIC',
+  MaticTest = 'MATIC_TEST',
   Sol = 'SOL',
   SolTest = 'SOL_TEST'
 }
@@ -51,6 +78,7 @@ export type Collection = {
   blockchain: Blockchain;
   creationStatus: CreationStatus;
   creators?: Maybe<Array<CollectionCreator>>;
+  holders?: Maybe<Array<Holder>>;
   id: Scalars['UUID'];
   metadataJson?: Maybe<MetadataJson>;
   mints?: Maybe<Array<CollectionMint>>;
@@ -63,6 +91,7 @@ export type CollectionCreator = {
   address: Scalars['String'];
   collectionId: Scalars['UUID'];
   share: Scalars['Int'];
+  shortAddress: Scalars['String'];
   verified: Scalars['Boolean'];
 };
 
@@ -82,6 +111,8 @@ export type CollectionMint = {
   creationStatus: CreationStatus;
   id: Scalars['UUID'];
   owner: Scalars['String'];
+  ownerShortAddress: Scalars['String'];
+  shortAddress: Scalars['String'];
 };
 
 export type CreateCredentialInput = {
@@ -104,6 +135,16 @@ export type CreateCustomerInput = {
 export type CreateCustomerPayload = {
   __typename?: 'CreateCustomerPayload';
   customer: Customer;
+};
+
+export type CreateCustomerWalletInput = {
+  assetType: AssetType;
+  customer: Scalars['UUID'];
+};
+
+export type CreateCustomerWalletPayload = {
+  __typename?: 'CreateCustomerWalletPayload';
+  wallet: Wallet;
 };
 
 export type CreateDropInput = {
@@ -142,16 +183,6 @@ export type CreateProjectInput = {
 export type CreateProjectPayload = {
   __typename?: 'CreateProjectPayload';
   project: Project;
-};
-
-export type CreateTreasuryWalletInput = {
-  assetType: AssetType;
-  treasuryId: Scalars['UUID'];
-};
-
-export type CreateTreasuryWalletPayload = {
-  __typename?: 'CreateTreasuryWalletPayload';
-  wallet: Wallet;
 };
 
 export type CreateWebhookInput = {
@@ -245,6 +276,15 @@ export enum FilterType {
   ProjectCreated = 'PROJECT_CREATED',
   ProjectWalletCreated = 'PROJECT_WALLET_CREATED'
 }
+
+export type Holder = {
+  __typename?: 'Holder';
+  address: Scalars['String'];
+  collectionId: Scalars['UUID'];
+  mints: Array<Scalars['String']>;
+  owns: Scalars['Int'];
+  shortAddress: Scalars['String'];
+};
 
 export type Invite = {
   __typename?: 'Invite';
@@ -344,18 +384,7 @@ export type MintDropInput = {
 
 export type MintEditionPayload = {
   __typename?: 'MintEditionPayload';
-  collectionMint: Model;
-};
-
-export type Model = {
-  __typename?: 'Model';
-  address: Scalars['String'];
-  collectionId: Scalars['UUID'];
-  createdAt: Scalars['NaiveDateTime'];
-  createdBy: Scalars['UUID'];
-  creationStatus: CreationStatus;
-  id: Scalars['UUID'];
-  owner: Scalars['String'];
+  collectionMint: CollectionMint;
 };
 
 export type Mutation = {
@@ -387,6 +416,13 @@ export type Mutation = {
    * # Errors
    * This function fails if ...
    */
+  createCustomerWallet: CreateCustomerWalletPayload;
+  /**
+   * Res
+   *
+   * # Errors
+   * This function fails if ...
+   */
   createDrop: CreateDropPayload;
   /**
    * Res
@@ -402,13 +438,6 @@ export type Mutation = {
    * This function fails if ...
    */
   createProject: CreateProjectPayload;
-  /**
-   * Res
-   *
-   * # Errors
-   * This function fails if ...
-   */
-  createTreasuryWallet: CreateTreasuryWalletPayload;
   /**
    * Res
    *
@@ -455,6 +484,11 @@ export type MutationCreateCustomerArgs = {
 };
 
 
+export type MutationCreateCustomerWalletArgs = {
+  input: CreateCustomerWalletInput;
+};
+
+
 export type MutationCreateDropArgs = {
   input: CreateDropInput;
 };
@@ -467,11 +501,6 @@ export type MutationCreateOrganizationArgs = {
 
 export type MutationCreateProjectArgs = {
   input: CreateProjectInput;
-};
-
-
-export type MutationCreateTreasuryWalletArgs = {
-  input: CreateTreasuryWalletInput;
 };
 
 
@@ -626,7 +655,13 @@ export type Treasury = {
   createdAt: Scalars['NaiveDateTime'];
   id: Scalars['UUID'];
   vaultId: Scalars['String'];
+  wallet?: Maybe<Wallet>;
   wallets?: Maybe<Array<Wallet>>;
+};
+
+
+export type TreasuryWalletArgs = {
+  assetType: AssetType;
 };
 
 export type User = {
@@ -649,6 +684,7 @@ export type Wallet = {
   legacyAddress: Scalars['String'];
   mints?: Maybe<Array<CollectionMint>>;
   removedAt?: Maybe<Scalars['NaiveDateTime']>;
+  shortAddress: Scalars['String'];
   tag: Scalars['String'];
   treasuryId: Scalars['UUID'];
 };

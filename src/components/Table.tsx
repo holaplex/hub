@@ -15,7 +15,7 @@ import {
   MemberStatus,
   CredentialStatus,
 } from './../types';
-import { DropStatus } from '../graphql.types';
+import { CreationStatus, DropStatus } from '../graphql.types';
 import { Icon } from './Icon';
 
 interface TableProps<T> {
@@ -176,7 +176,7 @@ function DropStatusPill({ status, className }: DropStatusPillProps) {
 Table.DropStatusPill = DropStatusPill;
 
 interface PurchaseStatusPillProps {
-  status: PurchaseStatus;
+  status: CreationStatus;
   className?: string;
 }
 
@@ -186,9 +186,8 @@ function PurchaseStatusPill({ status, className }: PurchaseStatusPillProps) {
   return (
     <div
       className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
-        'bg-cyan-200 text-cyan-600': status === PurchaseStatus.PENDING,
-        'bg-green-200 text-green-600': status === PurchaseStatus.SUCCESS,
-        'bg-red-100 text-red-900': status === PurchaseStatus.FAILED,
+        'bg-cyan-200 text-cyan-600': status === CreationStatus.Pending,
+        'bg-green-200 text-green-600': status === CreationStatus.Created,
       })}
     >
       {label}

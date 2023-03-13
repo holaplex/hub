@@ -79,6 +79,15 @@ export const GetDrop: DocumentNode;
 }
     
 
+declare module '*/holder.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const GetCollectionHolders: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/mint.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

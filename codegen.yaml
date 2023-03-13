@@ -3,6 +3,7 @@ documents:
   - '**/*.graphql'
 schema:
   - http://localhost:3005
+  - local.graphql
 generates:
   ./@types/graphql.d.ts:
     plugins:
