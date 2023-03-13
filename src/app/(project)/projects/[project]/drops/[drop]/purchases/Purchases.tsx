@@ -4,47 +4,45 @@ import { createColumnHelper } from '@tanstack/react-table';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { Icon } from '../../../../../../../components/Icon';
-import Table from '../../../../../../../components/Table';
-import { Holder, Project } from '../../../../../../../graphql.types';
-import { GetCollectionHolders } from './../../../../../../../queries/holder.graphql';
 import { useQuery } from '@apollo/client';
+import Table from '../../../../../../../components/Table';
+import { formatDateString, DateFormat } from './../../../../../../../modules/time';
+import { CollectionMint, Project } from '../../../../../../../graphql.types';
+import { GetCollectionMints } from './../../../../../../../queries/mint.graphql';
 
-interface HoldersProps {
+interface PurchaseProps {
+  loading?: boolean;
   project: string;
   drop: string;
-  loading?: boolean;
 }
 
-interface GetCollectionHoldersData {
+interface GetMintsData {
   project: Pick<Project, 'drop'>;
 }
 
-interface GetCollectionHoldersVars {
+interface GetMintsVars {
   project: string;
   drop: string;
 }
 
-export default function Holders({ project, drop, loading }: HoldersProps) {
-  const columnHelper = createColumnHelper<Holder>();
+export default function Purchases({ loading, project, drop }: PurchaseProps) {
+  const columnHelper = createColumnHelper<CollectionMint>();
   const loadingColumnHelper = createColumnHelper<any>();
 
-  const holdersQuery = useQuery<GetCollectionHoldersData, GetCollectionHoldersVars>(
-    GetCollectionHolders,
-    {
-      variables: { project, drop },
-    }
-  );
+  const mintsQuery = useQuery<GetMintsData, GetMintsVars>(GetCollectionMints, {
+    variables: { project, drop },
+  });
 
-  const holders = holdersQuery.data?.project.drop?.collection.holders || [];
+  const mints = mintsQuery.data?.project.drop?.collection.mints || [];
 
   return (
     <div className="flex flex-col">
-      {holdersQuery.loading || loading ? (
+      {mintsQuery.loading || loading ? (
         <>
           <Table
             columns={[
               loadingColumnHelper.display({
-                id: 'address',
+                id: 'ownerShortAddress',
                 header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-row gap-2">
@@ -54,7 +52,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
                 ),
               }),
               loadingColumnHelper.display({
-                id: 'owns',
+                id: 'createdAt',
                 header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-row gap-2">
@@ -64,7 +62,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
                 ),
               }),
               loadingColumnHelper.display({
-                id: 'spent',
+                id: 'creationStatus',
                 header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-row gap-2">
@@ -85,60 +83,46 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
       ) : (
         <Table
           columns={[
-            columnHelper.accessor('shortAddress', {
+            columnHelper.accessor('ownerShortAddress', {
               header: () => (
                 <div className="flex gap-2">
                   <span className="text-xs text-gray-600 font-medium">Wallet</span>
                 </div>
               ),
               cell: (info) => {
-                const address = info.getValue();
                 return (
                   <div className="flex gap-2">
                     <Icon.Crypto.Sol />
-                  <span className="text-xs text-primary font-medium">{address}</span>
+                    <span className="text-xs text-primary font-medium">{info.getValue()}</span>
                   </div>
                 );
               },
             }),
-            columnHelper.accessor('owns', {
-              id: 'spent',
+            columnHelper.accessor('createdAt', {
               header: () => (
                 <div className="flex gap-2">
-                  <span className="text-xs text-gray-600 font-medium">Spent</span>
+                  <span className="text-xs text-gray-600 font-medium">Date</span>
                 </div>
               ),
               cell: (info) => {
-                const owns = info.getValue();
                 return (
-                  <div className="flex gap-1 items-center">
-                    {(owns * (holdersQuery.data?.project.drop?.price || 0)) as number}
-                    <span className="text-xs text-gray-600">SOL</span>
+                  <div className="flex flex-col gap-1 text-xs">
+                    <span className="text-primary font-medium">
+                      {formatDateString(info.getValue(), DateFormat.DATE_1)}
+                    </span>
+                    <span className="text-gray-500">{formatDateString(info.getValue(), DateFormat.TIME_1)}</span>
                   </div>
                 );
               },
             }),
-            columnHelper.accessor('owns', {
-              id: 'owns',
-              header: () => (
-                <div className="flex gap-2">
-                  <span className="text-xs text-gray-600 font-medium">Owned Editions</span>
-                </div>
+            columnHelper.accessor('creationStatus', {
+              header: () => <span className="flex text-xs text-gray-600 font-medium">Status</span>,
+              cell: (info) => (
+                <Table.PurchaseStatusPill status={info.getValue()} />
               ),
-              cell: (info) => {
-                const owns = info.getValue();
-                const share = Math.ceil(
-                  (owns / (holdersQuery.data?.project.drop?.collection.totalMints || 0)) * 100
-                );
-                return (
-                  <div className="flex gap-1 items-center">
-                    {owns} / <span className="text-xs text-gray-600">{share}%</span>
-                  </div>
-                );
-              },
             }),
             columnHelper.display({
-              id: 'options',
+              id: 'moreOptions',
               header: () => <Icon.TableAction />,
               cell: () => (
                 <PopoverBox
@@ -161,7 +145,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
               ),
             }),
           ]}
-          data={holders}
+          data={mints}
         />
       )}
     </div>

@@ -25,6 +25,13 @@ query GetProjectDrops($project: UUID!) {
 
 query GetDrop($project: UUID!, $drop: UUID!) {
   project(id: $project) {
+    treasury {
+      wallets {
+        address
+        assetId
+        shortAddress @client
+      }
+    }
     drop(id: $drop) {
       id
       price
@@ -40,6 +47,7 @@ query GetDrop($project: UUID!, $drop: UUID!) {
           address
           verified
           share
+          shortAddress @client
         }
         metadataJson {
           name

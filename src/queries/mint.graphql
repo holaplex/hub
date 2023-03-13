@@ -6,7 +6,11 @@ query GetCollectionMints($project: UUID!, $drop: UUID!) {
         id
         mints {
           owner
+          ownerShortAddress @client
           address
+          shortAddress @client
+          creationStatus
+          createdAt
         }
       }
     }

@@ -1,15 +1,22 @@
 'use client';
 
 import { Button } from '@holaplex/ui-library-react';
-import { Icon } from '../../../../../../components/Icon';
-import Tabs from '../../../../../../layouts/Tabs';
+import { Icon } from './../../../../../../components/Icon';
+import Tabs from './../../../../../../layouts/Tabs';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { GetDrop } from './../../../../../../queries/drop.graphql';
+import {
+  formatDateString,
+  DateFormat,
+  daysUntil,
+  inTheFuture,
+} from './../../../../../../modules/time';
 import { useQuery } from '@apollo/client';
-import { DropStatus, Project } from '../../../../../../graphql.types';
+import { AssetType, Blockchain, DropStatus, Project } from '../../../../../../graphql.types';
 import clsx from 'clsx';
 import { cloneElement } from 'react';
+import Table from '../../../../../../components/Table';
 
 type Drop = {
   name: string;
@@ -27,7 +34,7 @@ interface GetDropVars {
 }
 
 interface GetDropsData {
-  project: Pick<Project, 'drop'>;
+  project: Pick<Project, 'drop' | 'treasury'>;
 }
 
 export default function Drop({ children, project, drop }: DropProps): JSX.Element {
@@ -35,21 +42,39 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
 
   const dropQuery = useQuery<GetDropsData, GetDropVars>(GetDrop, { variables: { project, drop } });
   const percent = Math.ceil(
-    (dropQuery.data?.project?.drop?.collection?.totalMints as number) /
-      (dropQuery.data?.project?.drop?.collection?.supply as number)
+    ((dropQuery.data?.project?.drop?.collection?.totalMints as number) /
+      (dropQuery.data?.project?.drop?.collection?.supply as number)) *
+      100
   );
   const loading = dropQuery.loading;
+  const wallet = dropQuery.data?.project.treasury?.wallets?.find((wallet) => {
+    switch (dropQuery.data?.project?.drop?.collection.blockchain) {
+      case Blockchain.Solana:
+        return wallet.assetId === AssetType.SolTest || wallet.assetId === AssetType.Sol;
+      case Blockchain.Polygon:
+        return wallet.assetId === AssetType.MaticTest || wallet.assetId === AssetType.Matic;
+      case Blockchain.Ethereum:
+        return wallet.assetId === AssetType.EthTest || wallet.assetId === AssetType.Eth;
+    }
+  });
+  const startTime =
+    dropQuery.data?.project?.drop?.startTime || dropQuery.data?.project?.drop?.createdAt;
+  const endTime = dropQuery.data?.project?.drop?.endTime;
 
   return (
     <div className="flex flex-col px-4 py-2">
       {loading ? (
         <>
           <div className="flex items-center justify-between">
-            <div className="h-8 w-60 bg-gray-100 animate-pulse rounded-md" />
+            <div className="flex gap-2 items-center">
+            <div className="h-8 w-80 bg-gray-100 animate-pulse rounded-md" />
+            <div className="h-6 w-16 bg-gray-100 animate-pulse rounded-full" />
+            </div>
+
             <div className="flex items-center gap-2">
               <div className="h-10 w-24 bg-gray-100 animate-pulse rounded-md" />
-              <div className="h-10 w-24 bg-gray-100 animate-pulse rounded-md" />
-              <div className="h-10 w-24 bg-gray-100 animate-pulse rounded-md" />
+              <div className="h-10 w-28 bg-gray-100 animate-pulse rounded-md" />
+              <div className="h-10 w-32 bg-gray-100 animate-pulse rounded-md" />
             </div>
           </div>
           <div className="mt-5 flex gap-4">
@@ -108,6 +133,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
               <span className="text-primary">
                 {dropQuery.data?.project?.drop?.collection?.metadataJson?.name}
               </span>
+              <Table.DropStatusPill status={dropQuery.data?.project?.drop?.status as DropStatus} />
             </div>
             <div className="flex items-center gap-2">
               <Button icon={<Icon.Edit />} variant="secondary">
@@ -131,7 +157,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
             <div className="basis-2/3 flex flex-col gap-2">
               <div className="w-full text-xs font-medium">
                 <div className="flex items-center justify-between">
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 items-center">
                     <span className="text-primary">
                       {dropQuery.data?.project?.drop?.status} - {percent}%
                     </span>
@@ -140,7 +166,9 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                       {dropQuery.data?.project?.drop?.collection?.supply}
                     </span>
                   </div>
-                  <span className="text-gray-500">10 days to start</span>
+                  {inTheFuture(startTime) && (
+                    <span className="text-gray-500">{daysUntil(startTime)} to start</span>
+                  )}
                 </div>
                 <div className="w-full rounded-full h-[12px] bg-gray-100 mt-1 relative overflow-hidden">
                   <div
@@ -167,7 +195,9 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                   <div className="flex gap-2 mt-4">
                     <div className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50">
                       <span className="text-gray-500 text-xs font-medium">Treasury wallet</span>
-                      <span className="text-primary text-sm font-medium">0xA91...a2E9</span>
+                      <span className="text-primary text-sm font-medium">
+                        {wallet?.shortAddress}
+                      </span>
                     </div>
                     <div className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50">
                       <span className="text-gray-500 text-xs font-medium">Blockchain</span>
@@ -192,10 +222,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                           Royalty wallet address #{index + 1}
                         </span>
                         <span className="text-primary text-sm font-medium">
-                          {`${creator.address.slice(0, 6)}...${creator.address.slice(
-                            creator.address.length - 4,
-                            creator.address.length
-                          )}`}{' '}
+                          {creator.shortAddress}{' '}
                           <span className="text-gray-400">- {creator.share}%</span>
                         </span>
                       </div>
@@ -204,13 +231,19 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                       <div className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50">
                         <span className="text-gray-500 text-xs font-medium">Start date</span>
                         <span className="text-primary text-sm font-medium">
-                          03/11/2022, 11:30 AM
+                          {formatDateString(startTime, DateFormat.DATE_1)},{' '}
+                          {formatDateString(startTime, DateFormat.TIME_1)}
                         </span>
                       </div>
                       <div className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50">
                         <span className="text-gray-500 text-xs font-medium">End date</span>
                         <span className="text-primary text-sm font-medium">
-                          03/12/2022, 11:30 AM
+                          {endTime
+                            ? `${formatDateString(endTime, DateFormat.DATE_1)}, ${formatDateString(
+                                endTime,
+                                DateFormat.TIME_1
+                              )}`
+                            : 'None'}
                         </span>
                       </div>
                     </div>

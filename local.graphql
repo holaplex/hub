@@ -1,0 +1,16 @@
+extend type Wallet {
+  shortAddress: String!
+}
+
+extend type CollectionCreator {
+  shortAddress: String!
+}
+
+extend type Holder {
+  shortAddress: String!
+}
+
+extend type CollectionMint {
+  ownerShortAddress: String!
+  shortAddress: String!
+}

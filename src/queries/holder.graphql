@@ -1,0 +1,16 @@
+query GetCollectionHolders($project: UUID!, $drop: UUID!) {
+  project(id: $project) {
+    drop(id: $drop) {
+      id
+      price
+      collection {
+        totalMints
+        holders {
+          address
+          owns
+          shortAddress @client
+        }
+      }
+    }
+  }
+}

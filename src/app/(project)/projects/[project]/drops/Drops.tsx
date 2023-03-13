@@ -10,7 +10,7 @@ import Card from '../../../../../components/Card';
 import { Icon } from '../../../../../components/Icon';
 import Table from '../../../../../components/Table';
 import Typography, { Size } from '../../../../../components/Typography';
-import { formatDateString, DateFormat } from '../../../../../modules/time';
+import { formatDateString, DateFormat, daysUntil } from '../../../../../modules/time';
 import { Project, Drop, DropStatus } from '../../../../../graphql.types';
 
 enum ShowModal {
@@ -313,7 +313,8 @@ export default function Drops({ project }: DropsPageProps) {
                           const { supply, totalMints } = info.getValue();
 
                           if (supply) {
-                            const percent = Math.ceil(totalMints / supply);
+                            const percent = Math.ceil((totalMints / supply) * 100);
+
 
                             return (
                               <div className="flex gap-1 items-center justify-between">
