@@ -137,7 +137,6 @@ export default function DropsPage() {
             header: () => <Icon.TableAction />,
             cell: () => (
               <PopoverBox
-                popperPlacement="auto"
                 triggerButton={
                   <div className={clsx('px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min')}>
                     <Icon.More />
