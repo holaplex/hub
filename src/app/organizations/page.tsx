@@ -67,9 +67,17 @@ export default function OrganizationsPage() {
               <div
                 key={id}
                 onClick={() => onChange(id)}
-                className="flex gap-2 cursor-pointer border rounded-md p-2 border-gray-100 hover:bg-gray-50 transition capitalize"
+                className="flex gap-2 items-center cursor-pointer border rounded-md p-2 border-gray-100 hover:bg-gray-50 transition capitalize"
               >
-                <div className="w-8 h-8 bg-gray-300 rounded-md" />
+                {affiliation.organization?.profileImageUrl ? (
+                  <img
+                    className="w-8 h-8 rounded-md"
+                    src={affiliation.organization.profileImageUrl}
+                    alt="logo"
+                  />
+                ) : (
+                  <div className="w-8 h-8 bg-gray-300 rounded-md" />
+                )}
                 {affiliation.organization?.name}
               </div>
             );

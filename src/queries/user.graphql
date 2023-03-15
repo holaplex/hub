@@ -6,12 +6,14 @@ query GetUserAffiliations($user: UUID!) {
         organization {
           id
           name
+          profileImageUrl
         }
       }
       ... on Member {
         organization {
           id
           name
+          profileImageUrl
         }
       }
     }

@@ -135,7 +135,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
   const { session } = useSession();
   const { logout } = useLogout();
   const { onSwitch } = useOrganization();
-
+  console.log('session', session);
   const [expandFooter, setExpandFooter] = useState<Boolean>(false);
   const [loadUserAffiliations, userAffiliationsQuery] = useLazyQuery<
     GetUserAffiliationsData,
@@ -229,7 +229,15 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                       onClick={() => onSwitch(affiliation.organization?.id)}
                     >
                       <div className="flex gap-2 items-center">
-                        <div className="w-8 h-8 bg-gray-300 rounded-md" />
+                        {affiliation.organization?.profileImageUrl ? (
+                          <img
+                            className="w-8 h-8 rounded-md"
+                            src={affiliation.organization.profileImageUrl}
+                            alt="logo"
+                          />
+                        ) : (
+                          <div className="w-8 h-8 bg-gray-300 rounded-md" />
+                        )}
                         <span className="text-gray-600 font-medium text-sm">
                           {affiliation.organization?.name}
                         </span>
