@@ -13,6 +13,7 @@ query GetOrganizationBasicInfo($organization: UUID!) {
   organization(id: $organization) {
     id
     name
+    profileImageUrl
   }
 }
 
