@@ -11,8 +11,6 @@ import { useMutation } from '@apollo/client';
 import { Controller, useForm } from 'react-hook-form';
 import { useOrganization } from '../../../../hooks/useOrganization';
 import clsx from 'clsx';
-import { useCallback } from 'react';
-import useUpload from '../../../../hooks/useUpload';
 import Divider from '../../../../components/Divider';
 
 interface CreateProjectData {
@@ -106,7 +104,6 @@ export default function NewProjectPage() {
                   }}
                 >
                   {({ getRootProps, getInputProps, isDragActive, open }) => {
-                    console.log(value);
                     return (
                       <div
                         {...getRootProps()}

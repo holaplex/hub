@@ -101,7 +101,6 @@ export default function CreateOrganizationPage() {
                 }}
               >
                 {({ getRootProps, getInputProps, isDragActive, open }) => {
-                  console.log(value);
                   return (
                     <div
                       {...getRootProps()}
