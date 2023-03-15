@@ -1,24 +1,25 @@
 'use client';
 import { Button, Form } from '@holaplex/ui-library-react';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import Card from '../../../../../../../components/Card';
 import DragDropImage from '../../../../../../../components/DragDropImage';
 import { Icon } from '../../../../../../../components/Icon';
 import Typography, { Size } from '../../../../../../../components/Typography';
-import useCreateDropStore, { StepOneData } from '../../../../../../../store/useCreateDropStore';
+import { Blockchain } from '../../../../../../../graphql.types';
+import { useProject } from '../../../../../../../hooks/useProject';
+import useCreateDropStore, { StepOneData } from '../../../../../../../hooks/useCreateDropStore';
 
-export default function CreateDropStep1() {
+export default function NewDropDetailsPage() {
   const router = useRouter();
-  const pathname = usePathname();
-  const slug = pathname ? pathname.split('/')[2] : null;
+  const { project } = useProject();
   const { stepOne, setData } = useCreateDropStore();
   const { handleSubmit, register, control } = useForm<StepOneData>({
     defaultValues: stepOne || {},
   });
   const submit = (data: StepOneData) => {
     setData({ step: 1, data });
-    router.push(`/projects/${slug}/drops/create/royalties`);
+    router.push(`/projects/${project?.id}/drops/create/royalties`);
   };
 
   return (
@@ -59,24 +60,18 @@ export default function CreateDropStep1() {
               control={control}
               render={({ field: { value, onChange } }) => {
                 const options = [
-                  { option: 'Solana', value: 'SOLANA' },
-                  { option: 'Polygon (Coming Soon)', value: 'POLYGON' },
+                  { label: 'Solana', id: Blockchain.Solana },
+                  { label: 'Polygon (Coming Soon)', id: Blockchain.Polygon },
                 ];
-                const getOptionByValue = (value: string) => {
-                  const filtered = options.filter((option) => option.value === value)[0];
-                  if (filtered) {
-                    return filtered.option;
-                  }
-                };
                 return (
                   <Form.Select value={value} onChange={onChange}>
                     <Form.Select.Button placeholder="Select blockchain">
-                      {getOptionByValue(value)}
+                      {value?.label}
                     </Form.Select.Button>
                     <Form.Select.Options>
                       {options.map((i) => (
-                        <Form.Select.Option value={i.value} key={i.value}>
-                          <>{i.option}</>
+                        <Form.Select.Option value={i} key={i.id}>
+                          <>{i.label}</>
                         </Form.Select.Option>
                       ))}
                     </Form.Select.Options>

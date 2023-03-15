@@ -6,5 +6,11 @@ query GetProject($project: UUID!) {
       id
       name
     }
+    treasury {
+      wallets {
+        assetId
+        address
+      }
+    }
   }
 }
