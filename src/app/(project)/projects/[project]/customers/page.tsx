@@ -138,6 +138,7 @@ export default function CustomersPage() {
                     header: () => <Icon.TableAction />,
                     cell: (info) => (
                       <PopoverBox
+                        popperPlacement="auto"
                         triggerButton={
                           <div className="px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min">
                             <Icon.More />

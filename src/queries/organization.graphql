@@ -5,6 +5,7 @@ query GetOrganizationProjects($organization: UUID!) {
       id
       name
       createdAt
+      profileImageUrl
     }
   }
 }
@@ -13,6 +14,7 @@ query GetOrganizationBasicInfo($organization: UUID!) {
   organization(id: $organization) {
     id
     name
+    profileImageUrl
   }
 }
 

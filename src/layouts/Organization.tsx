@@ -4,6 +4,7 @@ import { Icon } from '../components/Icon';
 import Sidebar from './Sidebar';
 import { OrganizationProvider } from '../providers/OrganizationProvider';
 import { Organization as OrganizationType } from '../graphql.types';
+import Image from 'next/image';
 
 export default function Organization({
   children,
@@ -24,7 +25,15 @@ export default function Organization({
                 <div className="flex items-center gap-4">
                   <Icon.ChevronLeft />
                   <h1 className="flex items-center gap-2 text-sm text-primary font-medium">
-                    <div className="w-8 h-8 bg-gray-300 rounded-md" />
+                    {organization?.profileImageUrl ? (
+                      <img
+                        className="w-8 h-8 rounded-md"
+                        src={organization.profileImageUrl}
+                        alt="logo"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 bg-gray-300 rounded-md" />
+                    )}
                     <span className="flex flex-col capitalize">
                       {organization?.name}
                       <span className="text-gray-400 text-xs">Organization</span>
