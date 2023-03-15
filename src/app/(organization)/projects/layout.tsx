@@ -47,13 +47,11 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                   id: 'name',
                   header: () => (
                     <div className="flex gap-2 items-center">
-                      <span className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />
                       <span className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />
                     </div>
                   ),
                   cell: () => (
                     <div className="flex gap-2 items-center">
-                      <span className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />
                       <span className="rounded-md h-8 w-8 bg-gray-50 animate-pulse" />
                       <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
                     </div>
@@ -121,16 +119,24 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                           <span className="text-xs text-gray-600 font-medium">Project Name</span>
                         </div>
                       ),
-                      cell: (info) => (
-                        <Link
-                          href={`/projects/${info.row.original.id}/drops`}
-                          className="flex gap-2"
-                        >
-                          <span className="text-xs text-primary font-medium">
-                            {info.getValue()}
-                          </span>
-                        </Link>
-                      ),
+                      cell: (info) => {
+                        const profileImage = info.row.original.profileImageUrl;
+                        return (
+                          <Link
+                            href={`/projects/${info.row.original.id}/drops`}
+                            className="flex gap-2 items-center"
+                          >
+                            {profileImage ? (
+                              <img className="w-8 h-8 rounded-md" src={profileImage} alt="logo" />
+                            ) : (
+                              <div className="w-8 h-8 bg-gray-300 rounded-md" />
+                            )}
+                            <span className="text-xs text-primary font-medium">
+                              {info.getValue()}
+                            </span>
+                          </Link>
+                        );
+                      },
                     }),
                     columnHelper.display({
                       id: 'balance',
