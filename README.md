@@ -36,8 +36,6 @@ skaffold dev
 
 Open [http://hub.127.0.0.1.nip.io:9080](http://hub.127.0.0.1.nip.io:9080) with your browser to see the result.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
 Skaffold will expose the UI and API on the following endpoints:
 
 | Service | Endpoint                                                                             |

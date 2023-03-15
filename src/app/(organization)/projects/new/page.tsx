@@ -3,6 +3,7 @@ import { Button, Form, Modal } from '@holaplex/ui-library-react';
 import Card from '../../../../components/Card';
 import Typography, { Size } from '../../../../components/Typography';
 import { useRouter } from 'next/navigation';
+import Dropzone from 'react-dropzone';
 import { CreateProjectInput, CreateProjectPayload } from '../../../../graphql.types';
 import { GetOrganizationProjects } from './../../../../queries/organization.graphql';
 import { CreateProject } from './../../../../mutations/project.graphql';
@@ -12,6 +13,7 @@ import { useOrganization } from '../../../../hooks/useOrganization';
 import clsx from 'clsx';
 import { useCallback } from 'react';
 import useUpload from '../../../../hooks/useUpload';
+import Divider from '../../../../components/Divider';
 
 interface CreateProjectData {
   createProject: CreateProjectPayload;
@@ -23,20 +25,30 @@ interface CreateProjectVars {
 
 interface CreateProjectForm {
   name: string;
-  files: File[];
+  file: File;
+}
+
+async function uploadFile(file: File): Promise<{ url: string; name: string }> {
+  const body = new FormData();
+  body.append(file.name, file, file.name);
+
+  try {
+    const response = await fetch('/api/uploads', {
+      method: 'POST',
+      body,
+    });
+    const json = await response.json();
+    return json[0];
+  } catch (e: any) {
+    console.error('Could not upload file', e);
+    throw new Error(e);
+  }
 }
 
 export default function NewProjectPage() {
   const router = useRouter();
   const { organization } = useOrganization();
   const { control, register, handleSubmit, formState, setValue } = useForm<CreateProjectForm>();
-  const onDrop = useCallback(
-    (files: File[]) => {
-      setValue('files', files, { shouldValidate: true });
-    },
-    [setValue]
-  );
-  const { getRootProps, getInputProps, isDragActive } = useUpload(onDrop);
   const [createProject, { loading }] = useMutation<CreateProjectData, CreateProjectVars>(
     CreateProject,
     {
@@ -46,36 +58,15 @@ export default function NewProjectPage() {
     }
   );
 
-  const onSubmit = async ({ name, files }: CreateProjectForm) => {
-    let profileImageUrl;
-    if (files && files.length > 0) {
-      const uploadResult = await uploadFile(files[0]);
-      profileImageUrl = uploadResult;
-      console.log('Upload result', uploadResult);
-    }
+  const onSubmit = async ({ name, file }: CreateProjectForm) => {
+    const { url: profileImageUrl } = await uploadFile(file);
+
     createProject({
       variables: { input: { name, organization: organization?.id, profileImageUrl } },
       onCompleted: () => {
         router.push('/projects');
       },
     });
-  };
-
-  const uploadFile = async (file: File) => {
-    const body = new FormData();
-    body.append(file.name, file, file.name);
-
-    try {
-      const response = await fetch('/api/uploads', {
-        method: 'POST',
-        body,
-      });
-      const json = await response.json();
-      return json;
-    } catch (e: any) {
-      console.error('Could not upload file', e);
-      throw new Error(e);
-    }
   };
 
   return (
@@ -104,39 +95,50 @@ export default function NewProjectPage() {
           </Form.Label>
           <Form.Label name="Project logo" className="text-xs text-primary mt-5">
             <Controller
-              name="files"
+              name="file"
               control={control}
-              render={({ field: { value, onChange } }) => (
-                <Form.DragDrop
-                  getInputProps={getInputProps}
-                  getRootProps={getRootProps}
-                  isDragActive={isDragActive}
-                  onChange={(e: any) => onChange(e.target.value)}
+              render={({ field: { value, onChange, onBlur } }) => (
+                <Dropzone
+                  noClick
                   multiple={false}
+                  onDrop={([file], _reject, e) => {
+                    setValue('file', file as unknown as File, { shouldValidate: true });
+                  }}
                 >
-                  <div
-                    className={clsx(
-                      'flex items-center justify-center border border-dashed border-gray-200 cursor-pointer rounded-md',
-                      {
-                        'bg-gray-100': isDragActive,
-                        'p-6 text-center text-gray-500': !value,
-                      }
-                    )}
-                  >
-                    {value ? (
-                      <div className="bg-white rounded-lg p-3 overflow-hidden">
-                        {value.map((file, index) => (
-                          <Form.DragDrop.Preview key={index} file={file} />
-                        ))}
+                  {({ getRootProps, getInputProps, isDragActive, open }) => {
+                    console.log(value);
+                    return (
+                      <div
+                        {...getRootProps()}
+                        className={clsx(
+                          'flex items-center justify-center border border-dashed border-gray-200 cursor-pointer rounded-md',
+                          {
+                            'bg-gray-100': isDragActive,
+                            'p-6 text-center text-gray-500': !value,
+                          }
+                        )}
+                      >
+                        <input {...getInputProps({ onBlur, onChange })} />
+                        {value ? (
+                          <div className="bg-white rounded-lg p-3 overflow-hidden">
+                            <Form.DragDrop.Preview file={value} />
+                          </div>
+                        ) : (
+                          <div className="flex flex-col gap-2">
+                            <p>
+                              Drag & drop photo here <br />
+                              Required jpeg, png or svg. Max 2mb.
+                            </p>
+                            <Divider.Or />
+                            <Button onClick={open} variant="secondary" size="small">
+                              Upload Logo
+                            </Button>
+                          </div>
+                        )}
                       </div>
-                    ) : (
-                      <>
-                        Drag & drop photo here <br />
-                        Required jpeg, png or svg. Max 2mb.
-                      </>
-                    )}
-                  </div>
-                </Form.DragDrop>
+                    );
+                  }}
+                </Dropzone>
               )}
             />
           </Form.Label>

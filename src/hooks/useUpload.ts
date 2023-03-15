@@ -1,7 +1,9 @@
 import {
   DropzoneInputProps,
   DropzoneRootProps,
-  useDropzone
+  useDropzone,
+  FileRejection,
+  DropEvent
 } from 'react-dropzone';
 
 interface UploadContext {
@@ -10,9 +12,12 @@ interface UploadContext {
   isDragActive: boolean;
 }
 
-export default function useUpload(
-  onDrop: (files: File[]) => void
-): UploadContext {
+type OnDropFn = <T extends File>(
+  acceptedFiles: T[],
+  fileRejections: FileRejection[],
+  event: DropEvent
+) => void;
+export default function useUpload(onDrop: OnDropFn): UploadContext {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
       'image/png': ['.png'],
@@ -21,6 +26,7 @@ export default function useUpload(
     },
     maxSize: 2 * 1024 * 1024,
     onDrop
+
   });
 
   return {
