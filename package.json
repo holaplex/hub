@@ -22,7 +22,6 @@
     "formidable": "^3.2.5",
     "graphql": "^16.6.0",
     "next": "^13.2.4",
-    "next-i18next": "^13.2.2",
     "next-plugin-graphql": "^0.0.2",
     "nft.storage": "^7.0.0",
     "ramda": "^0.28.0",

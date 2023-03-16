@@ -1,5 +1,9 @@
 import Drops from './Drops';
 
+export const metadata = {
+  title: 'Holaplex Hub | Project | Drops',
+};
+
 interface DropsPageProps {
   params: { project: string };
 }

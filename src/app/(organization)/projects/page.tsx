@@ -1,3 +1,3 @@
-export default function ProjectPage(): React.ReactNode {
+export default function OrganizationProjectsPage() {
   return <div />;
 }
