@@ -67,8 +67,8 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
         <>
           <div className="flex items-center justify-between">
             <div className="flex gap-2 items-center">
-            <div className="h-8 w-80 bg-gray-100 animate-pulse rounded-md" />
-            <div className="h-6 w-16 bg-gray-100 animate-pulse rounded-full" />
+              <div className="h-8 w-80 bg-gray-100 animate-pulse rounded-md" />
+              <div className="h-6 w-16 bg-gray-100 animate-pulse rounded-full" />
             </div>
 
             <div className="flex items-center gap-2">

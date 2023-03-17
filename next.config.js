@@ -6,7 +6,7 @@ const nextConfig = {
   experimental: {
     appDir: true,
     enableUndici: true,
-    swcFileReading: false
+    swcFileReading: false,
   },
   reactStrictMode: true,
 };

@@ -13,7 +13,6 @@ import { useOrganization } from '../../../../hooks/useOrganization';
 import clsx from 'clsx';
 import Divider from '../../../../components/Divider';
 
-
 interface CreateProjectData {
   createProject: CreateProjectPayload;
 }

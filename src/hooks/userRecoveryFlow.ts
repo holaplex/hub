@@ -20,7 +20,7 @@ export function useRecoveryFlow(): RecoveryFlowContext {
 
   const searchParams = useSearchParams();
 
-  let returnTo = defaultUndefined(searchParams.get('return_to'));
+  let returnTo = defaultUndefined(searchParams?.get('return_to'));
 
   useEffect(() => {
     (async () => {

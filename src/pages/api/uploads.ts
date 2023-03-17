@@ -46,14 +46,14 @@ export default async function handler(
             async final(cb) {
               const buffer = Buffer.concat(chunks);
               blobs = [...blobs, [file.originalFilename as string, new Blob([buffer])]];
-              
+
               cb();
             },
           });
           return writable;
         },
       });
-      
+
       return new Promise((resolve, reject) => {
         form.parse(req, async (err, _a, _b) => {
           if (err) {
@@ -61,15 +61,15 @@ export default async function handler(
             reject();
             return;
           }
-  
-          const uploads = await Promise.all(blobs.map(uploadBlob));
-  
-         res.status(200);
-         res.json(uploads);
 
-         resolve(res);
+          const uploads = await Promise.all(blobs.map(uploadBlob));
+
+          res.status(200);
+          res.json(uploads);
+
+          resolve(res);
         });
-      })
+      });
 
     default:
       return res.status(404);

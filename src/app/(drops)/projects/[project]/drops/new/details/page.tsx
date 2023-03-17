@@ -147,11 +147,15 @@ export default function NewDropDetailsPage() {
             {fields.map((field, index) => (
               <div className="flex gap-4" key={field.id}>
                 <Form.Label name="Trait" className="text-xs basis-1/2">
-                  <Form.Input {...register(`attributes.${index}.traitType`, { required: true, minLength: 1 })} />
+                  <Form.Input
+                    {...register(`attributes.${index}.traitType`, { required: true, minLength: 1 })}
+                  />
                 </Form.Label>
 
                 <Form.Label name="Value" className="text-xs basis-1/2">
-                  <Form.Input {...register(`attributes.${index}.value`, { required: true, minLength: 1 })} />
+                  <Form.Input
+                    {...register(`attributes.${index}.value`, { required: true, minLength: 1 })}
+                  />
                 </Form.Label>
 
                 <div

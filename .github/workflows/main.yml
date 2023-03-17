@@ -36,10 +36,7 @@ jobs:
           context: .
           file: ./Dockerfile
           build-args: |
-            PUBLIC_GRAPHQL_ENDPOINT=https://hub.holaplex.dev/graphql
-            INTERNAL_GRAPHQL_ENDPOINT=http://apisix-gateway-internal.ingress-apisix.svc.cluster.local/graphql
             APP_FQDN=https://hub.holaplex.dev
-            KRATOS_ENDPOINT=http://kratos-public
           push: true
           tags: ${{ vars.DOCKERHUB_ORG }}/hub-ui:${{ github.sha }},${{ vars.DOCKERHUB_ORG }}/hub-ui:latest
           cache-from: type=gha

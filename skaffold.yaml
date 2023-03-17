@@ -2,15 +2,14 @@ apiVersion: skaffold/v4beta1
 kind: Config
 metadata:
   name: hub
-manifests:
-  rawYaml:
-    - ./k8s/*
 build:
   artifacts:
-    - image: holaplex/hub
+    - image: hub-ui
       docker:
         target: development
         dockerfile: Dockerfile
+        buildArgs:
+          APP_FQDN: http://hub.127.0.0.1.nip.io:9080
       sync:
         manual:
           - src: 'src/**/*.tsx'
@@ -52,6 +51,15 @@ deploy:
         remoteChart: redpanda
         valuesFiles:
           - values.redpanda.yaml
+      - name: hub-ui
+        repo: https://charts.holaplex.com
+        remoteChart: hub-ui
+        setValueTemplates:
+          fullnameOverride: hub-ui
+          image.repository: "{{ .IMAGE_REPO_hub_ui }}"
+          image.tag: "{{ .IMAGE_TAG_hub_ui }}"
+        valuesFiles:
+          - secrets.ui.yaml
       - name: kratos-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql

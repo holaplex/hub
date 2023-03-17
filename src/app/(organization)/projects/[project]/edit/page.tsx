@@ -1,6 +1,6 @@
 import { appConfig } from '../../../../../app.config';
 import { Project as ProjectType } from '../../../../../graphql.types';
-import { GetProject } from './../../../../queries/project.graphql';
+import { GetProject } from './../../../../../queries/project.graphql';
 import { apollo } from '../../../../../client';
 import EditProject from './EditProject';
 
@@ -25,5 +25,5 @@ export default async function EditProjectPage({
     variables: { project },
   });
 
-  return <EditProject project={projectQuery.data.project} />
+  return <EditProject project={projectQuery.data.project} />;
 }

@@ -1,12 +1,11 @@
 interface ServerConfig {
-  kratos: string;
   graphql: string;
+  kratos: string;
   nftStorageToken: string;
   ipfsGateway: string;
 }
 
 interface ClientConfig {
-  graphql: string;
   fqdn: string;
 }
 
@@ -27,7 +26,6 @@ class Config {
         ipfsGateway: process.env.IPFS_GATEWAY as string,
       },
       client: {
-        graphql: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string,
         fqdn: process.env.NEXT_PUBLIC_APP_FQDN as string,
       },
     };

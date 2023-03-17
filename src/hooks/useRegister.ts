@@ -72,7 +72,7 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
       }
     }
 
-    if (search.has('return_to')) {
+    if (search?.has('return_to')) {
       router.push(search.get('return_to') as string);
       return;
     }

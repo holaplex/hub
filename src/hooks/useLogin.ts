@@ -57,7 +57,7 @@ export function useLogin(flow: LoginFlow | undefined): LoginContext {
       return;
     }
 
-    if (search.has('return_to')) {
+    if (search?.has('return_to')) {
       router.push(search.get('return_to') as string);
       return;
     }

@@ -110,16 +110,16 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
                     <span className="text-primary font-medium">
                       {formatDateString(info.getValue(), DateFormat.DATE_1)}
                     </span>
-                    <span className="text-gray-500">{formatDateString(info.getValue(), DateFormat.TIME_1)}</span>
+                    <span className="text-gray-500">
+                      {formatDateString(info.getValue(), DateFormat.TIME_1)}
+                    </span>
                   </div>
                 );
               },
             }),
             columnHelper.accessor('creationStatus', {
               header: () => <span className="flex text-xs text-gray-600 font-medium">Status</span>,
-              cell: (info) => (
-                <Table.PurchaseStatusPill status={info.getValue()} />
-              ),
+              cell: (info) => <Table.PurchaseStatusPill status={info.getValue()} />,
             }),
             columnHelper.display({
               id: 'moreOptions',
