@@ -1,5 +1,6 @@
-import { format, formatDistanceToNow, compareAsc } from 'date-fns';
-
+import { format, formatDistanceToNow, compareAsc, set } from 'date-fns';
+import { pipe, isNil, not, when } from 'ramda';
+import { zonedTimeToUtc, utcToZonedTime } from 'date-fns-tz';
 export enum DateFormat {
   DATE_1 = 'MM/dd/yyyy',
   TIME_1 = 'h:mm a',
@@ -7,8 +8,7 @@ export enum DateFormat {
 
 export function formatDateString(dateStr: string, formatStr: string): string {
   const dateToFormat = new Date(dateStr);
-  const result = format(dateToFormat, formatStr);
-  return result;
+  return format(dateToFormat, formatStr);
 }
 
 export function daysUntil(dateStr: string): string {
@@ -16,5 +16,20 @@ export function daysUntil(dateStr: string): string {
 }
 
 export function inTheFuture(dateString: string): boolean {
-  return compareAsc(new Date(), new Date(dateString)) === -1
+  return compareAsc(new Date(), new Date(dateString)) === -1;
+}
+
+export function combineDateTime(date: Date, hours: number, minutes: number): Date {
+  return set(date, {
+    hours,
+    minutes,
+  });
+}
+
+export const maybeToUtc = when(pipe(isNil, not), (date) =>
+  zonedTimeToUtc(date, Intl.DateTimeFormat().resolvedOptions().timeZone)
+);
+
+export function convertLocalTime(date: string): Date {
+  return utcToZonedTime(date, Intl.DateTimeFormat().resolvedOptions().timeZone);
 }

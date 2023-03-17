@@ -124,10 +124,6 @@ input:focus {
   @apply text-white bg-negative;
 }
 
-.popover {
-  @apply flex flex-col gap-5 border rounded-md border-gray-100 p-4 text-sm bg-white text-primary;
-}
-
 .table-header-text {
   @apply text-xs text-gray-600 font-medium;
 }
@@ -169,4 +165,16 @@ input:focus {
 
 input[type='radio'] {
   @apply text-black;
+}
+
+.popover-panel {
+  @apply w-screen max-w-[200px] border rounded-md border-gray-100 p-4 bg-white;
+}
+
+.popover-elements {
+  @apply flex flex-col gap-5 text-sm text-primary;
+}
+
+.dragdrop-preview-image {
+  @apply w-40 h-40 object-cover;
 }

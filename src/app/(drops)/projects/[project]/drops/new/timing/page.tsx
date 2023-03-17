@@ -1,51 +1,42 @@
 'use client';
+
 import { Button, Form } from '@holaplex/ui-library-react';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import Card from '../../../../../../../components/Card';
 import { Icon } from '../../../../../../../components/Icon';
 import Typography, { Size } from '../../../../../../../components/Typography';
-import useCreateDropStore, { StepThreeData } from '../../../../../../../store/useCreateDropStore';
+import useCreateDropStore, { StepThreeData } from '../../../../../../../hooks/useCreateDropStore';
+import { useProject } from '../../../../../../../hooks/useProject';
 
-export default function CreateDropStep3() {
+export default function NewDropTimingPage() {
   const router = useRouter();
-  const pathname = usePathname();
-  const slug = pathname ? pathname.split('/')[2] : null;
+  const { project } = useProject();
   const { stepThree, setData } = useCreateDropStore();
   const { handleSubmit, register } = useForm<StepThreeData>({ defaultValues: stepThree || {} });
   const submit = (data: StepThreeData) => {
     setData({ step: 3, data });
-    router.push(`/projects/${slug}/drops/create/preview`);
+    router.push(`/projects/${project?.id}/drops/new/preview`);
   };
 
   const back = () => {
-    router.push(`/projects/${slug}/drops/create/royalties`);
+    router.push(`/projects/${project?.id}/drops/new/royalties`);
   };
 
   return (
     <>
       <Card className="w-[400px]">
         <Typography.Header size={Size.H2}>Mint date</Typography.Header>
-        <Typography.Header size={Size.H3}>
-          Scheduled in your current timezone [time]
-        </Typography.Header>
+        <Typography.Header size={Size.H3}>Scheduled in your current timezone</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
           {/* Start Date */}
           <div className="flex gap-4 items-end">
-            <Form.Label
-              name="Start date"
-              className="text-xs mt-5 basis-3/5"
-              asideComponent={<Icon.Help />}
-            >
+            <Form.Label name="Start date" className="text-xs mt-5 basis-3/5">
               <Form.Input {...register('startDate')} type="date" />
               <Form.Error message="" />
             </Form.Label>
 
-            <Form.Label
-              name="Start time"
-              className="text-xs mt-5 basis-2/5"
-              asideComponent={<Icon.Help />}
-            >
+            <Form.Label name="Start time" className="text-xs mt-5 basis-2/5">
               <Form.Input {...register('startTime')} type="time" />
               <Form.Error message="" />
             </Form.Label>
@@ -53,27 +44,19 @@ export default function CreateDropStep3() {
 
           {/* End Date */}
           <div className="flex gap-4 items-end">
-            <Form.Label
-              name="End date"
-              className="text-xs mt-5 basis-3/5"
-              asideComponent={<Icon.Help />}
-            >
+            <Form.Label name="End date" className="text-xs mt-5 basis-3/5">
               <Form.Input {...register('endDate')} type="date" />
               <Form.Error message="" />
             </Form.Label>
 
-            <Form.Label
-              name="End time"
-              className="text-xs mt-5 basis-2/5"
-              asideComponent={<Icon.Help />}
-            >
+            <Form.Label name="End time" className="text-xs mt-5 basis-2/5">
               <Form.Input {...register('endTime')} type="time" />
               <Form.Error message="" />
             </Form.Label>
           </div>
 
           <Form.Checkbox
-            {...register('mintImmediately')}
+            {...register('startNow')}
             id="mintImmediately"
             className="mt-7"
             label={
@@ -84,7 +67,7 @@ export default function CreateDropStep3() {
           />
 
           <Form.Checkbox
-            {...register('noEndOfSales')}
+            {...register('noEndTime')}
             id="noEndOfSales"
             className="mt-3"
             label={

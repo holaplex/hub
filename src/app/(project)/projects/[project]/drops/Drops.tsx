@@ -4,13 +4,14 @@ import { createColumnHelper } from '@tanstack/react-table';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
+import { format } from 'date-fns';
 import { GetProjectDrops } from './../../../../../queries/drop.graphql';
 import { useState } from 'react';
 import Card from '../../../../../components/Card';
 import { Icon } from '../../../../../components/Icon';
 import Table from '../../../../../components/Table';
 import Typography, { Size } from '../../../../../components/Typography';
-import { formatDateString, DateFormat, daysUntil } from '../../../../../modules/time';
+import { formatDateString, DateFormat, convertLocalTime } from '../../../../../modules/time';
 import { Project, Drop, DropStatus } from '../../../../../graphql.types';
 
 enum ShowModal {
@@ -146,7 +147,7 @@ export default function Drops({ project }: DropsPageProps) {
                 <span className="mt-2 text-gray-500 text-sm">
                   Click button below to mint your first drop
                 </span>
-                <Link href={`/projects/${dropsQuery.data?.project.id}/drops/create/details`}>
+                <Link href={`/projects/${dropsQuery.data?.project.id}/drops/new/details`}>
                   <Button icon={<Icon.Add stroke="#ffffff" />} className="mt-8">
                     Create drop
                   </Button>
@@ -155,7 +156,7 @@ export default function Drops({ project }: DropsPageProps) {
             ) : (
               <div className="mt-4 flex flex-col">
                 <Link
-                  href={`/projects/${dropsQuery.data?.project.id}/drops/create/details`}
+                  href={`/projects/${dropsQuery.data?.project.id}/drops/new/details`}
                   className="self-end"
                 >
                   <Button icon={<Icon.Add stroke="#ffffff" />} variant="primary">
@@ -241,10 +242,10 @@ export default function Drops({ project }: DropsPageProps) {
                       cell: (info) => (
                         <div className="flex flex-col gap-1">
                           <span className="text-xs text-primary font-medium">
-                            {formatDateString(info.getValue(), DateFormat.DATE_1)}
+                            {format(convertLocalTime(info.getValue()), DateFormat.DATE_1)}
                           </span>
                           <span className="text-xs text-gray-500">
-                            {formatDateString(info.getValue(), DateFormat.TIME_1)}
+                            {format(convertLocalTime(info.getValue()), DateFormat.TIME_1)}
                           </span>
                         </div>
                       ),
@@ -264,10 +265,10 @@ export default function Drops({ project }: DropsPageProps) {
                           return (
                             <div className="flex flex-col gap-1">
                               <span className="text-xs text-primary font-medium">
-                                {formatDateString(start, DateFormat.DATE_1)}
+                                {format(convertLocalTime(start), DateFormat.DATE_1)}
                               </span>
                               <span className="text-xs text-gray-500">
-                                {formatDateString(start, DateFormat.TIME_1)}
+                                {format(convertLocalTime(start), DateFormat.TIME_1)}
                               </span>
                             </div>
                           );
@@ -281,10 +282,10 @@ export default function Drops({ project }: DropsPageProps) {
                           {info.getValue() ? (
                             <>
                               <span className="text-xs text-primary font-medium">
-                                {formatDateString(info.getValue(), DateFormat.DATE_1)}
+                                {format(convertLocalTime(info.getValue()), DateFormat.DATE_1)}
                               </span>
                               <span className="text-xs text-gray-500">
-                                {formatDateString(info.getValue(), DateFormat.TIME_1)}
+                                {format(convertLocalTime(info.getValue()), DateFormat.TIME_1)}
                               </span>
                             </>
                           ) : (
@@ -315,7 +316,6 @@ export default function Drops({ project }: DropsPageProps) {
                           if (supply) {
                             const percent = Math.ceil((totalMints / supply) * 100);
 
-
                             return (
                               <div className="flex gap-1 items-center justify-between">
                                 <span className="text-xs text-primary font-medium">
@@ -323,7 +323,9 @@ export default function Drops({ project }: DropsPageProps) {
                                 </span>
                                 <span
                                   className="w-11 h-5 rounded-full flex items-center justify-center"
-                                  style={{ background: `conic-gradient(#000 ${percent}%, #E6E6E6 0)` }}
+                                  style={{
+                                    background: `conic-gradient(#000 ${percent}%, #E6E6E6 0)`,
+                                  }}
                                 >
                                   <span
                                     className={clsx(

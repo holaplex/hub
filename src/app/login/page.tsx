@@ -70,9 +70,8 @@ export default function Login() {
 
       <Link
         href={`/registration${
-          search.has('return_to') ? `?return_to=${search.get('return_to')}` : ''
+          search?.has('return_to') ? `?return_to=${search.get('return_to')}` : ''
         }`}
-        className="mt-4"
       >
         <Button icon={<Icon.LightBulb className="mr-1" />} className="w-full" variant="secondary">
           <div className="flex items-center">

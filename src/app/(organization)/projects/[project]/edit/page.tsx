@@ -1,35 +1,29 @@
-'use client';
-import { Button, Form, Modal } from '@holaplex/ui-library-react';
-import Card from '../../../../../components/Card';
-import Typography, { Size } from '../../../../../components/Typography';
+import { appConfig } from '../../../../../app.config';
+import { Project as ProjectType } from '../../../../../graphql.types';
+import { GetProject } from './../../../../../queries/project.graphql';
+import { apollo } from '../../../../../client';
+import EditProject from './EditProject';
 
-export default function EditProject() {
-  return (
-    <Modal open={true} setOpen={() => {}}>
-      <Card className="w-[400px]">
-        <Typography.Header size={Size.H2} className="self-start">
-          Edit project
-        </Typography.Header>
-        <Typography.Header size={Size.H3} className="self-start">
-          Enter project name and logo.
-        </Typography.Header>
+const client = apollo(appConfig.server('graphql'));
 
-        <Form className="flex flex-col mt-5">
-          <Form.Label name="Project name" className="text-xs text-primary">
-            <Form.Input placeholder="e.g. Apple events" />
-          </Form.Label>
+interface EditProjectLayoutProps {
+  params: { project: string };
+}
+interface GetProjectData {
+  project: ProjectType;
+}
 
-          <Form.Error message="" />
+interface GetProjectVars {
+  project: string;
+}
 
-          <Button htmlType="submit" className="w-full mt-5">
-            Save changes
-          </Button>
-          <Button className="w-full mt-5" variant="tertiary" onClick={() => {}}>
-            Cancel
-          </Button>
-          {/* <DragDropImage onDrop={handleDrop} className="mt-5" /> */}
-        </Form>
-      </Card>
-    </Modal>
-  );
+export default async function EditProjectPage({
+  params: { project },
+}: EditProjectLayoutProps): Promise<React.ReactNode> {
+  const projectQuery = await client.query<GetProjectData, GetProjectVars>({
+    query: GetProject,
+    variables: { project },
+  });
+
+  return <EditProject project={projectQuery.data.project} />;
 }

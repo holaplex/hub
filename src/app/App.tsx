@@ -6,7 +6,6 @@ import { OryProvider } from '../providers/OryProvider';
 import { apollo } from '../client';
 import { ToastContainer } from 'react-toastify';
 import { Session } from '@ory/client';
-import { appConfig } from '../app.config';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -17,7 +16,7 @@ export default function App({ children, session }: AppLayoutProps) {
   return (
     <SessionProvider session={session}>
       <OryProvider>
-        <ApolloProvider client={apollo(appConfig.client('graphql'))}>
+        <ApolloProvider client={apollo('/graphql')}>
           {children}
           <ToastContainer />
         </ApolloProvider>

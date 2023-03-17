@@ -12,7 +12,7 @@ interface NavbarPageProps {
 }
 
 function NavbarPage({ children }: NavbarPageProps) {
-  return <section className="flex flex-col gap-8 items-center">{children}</section>;
+  return <section className="flex flex-col gap-8 items-center mb-8">{children}</section>;
 }
 Navbar.Page = NavbarPage;
 

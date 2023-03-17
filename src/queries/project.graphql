@@ -2,9 +2,16 @@ query GetProject($project: UUID!) {
   project(id: $project) {
     id
     name
+    profileImageUrl
     organization {
       id
       name
+    }
+    treasury {
+      wallets {
+        assetId
+        address
+      }
     }
   }
 }

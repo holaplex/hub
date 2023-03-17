@@ -18,14 +18,7 @@ There are some secrets required for the API. Reach out to a fellow engineer to t
 ```
 /src
 skaffold.yaml
-secrets.router.yaml
-secrets.orgs.yaml
-secrets.treasuries.yaml
-secrets.credentials.yaml
-secrets.customers.yaml
-secrets.identities.yaml
-secrets.nfts.yaml
-secrets.webhooks.yaml
+secrets.*.yaml
 ```
 
 ### Deploy
@@ -35,8 +28,6 @@ skaffold dev
 ```
 
 Open [http://hub.127.0.0.1.nip.io:9080](http://hub.127.0.0.1.nip.io:9080) with your browser to see the result.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
 Skaffold will expose the UI and API on the following endpoints:
 

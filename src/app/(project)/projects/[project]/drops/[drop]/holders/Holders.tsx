@@ -96,7 +96,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
                 return (
                   <div className="flex gap-2">
                     <Icon.Crypto.Sol />
-                  <span className="text-xs text-primary font-medium">{address}</span>
+                    <span className="text-xs text-primary font-medium">{address}</span>
                   </div>
                 );
               },

@@ -1,0 +1,7 @@
+mutation CreateDrop($input: CreateDropInput!) {
+  createDrop(input: $input) {
+    drop {
+      id
+    }
+  }
+}

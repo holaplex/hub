@@ -39,11 +39,11 @@ function ActionCell({ id, status }: { id: string; status: MemberStatus }): JSX.E
     return <div />;
   }
 
-  let elements = [
-    <Link key="delete_member" className="flex gap-2 items-center" href={`/members/${id}/delete`}>
-      <Icon.Delete fill="#E52E2E" />
-      <span className="text-negative">Delete member</span>
-    </Link>,
+  let elements: JSX.Element[] = [
+    // <Link key="delete_member" className="flex gap-2 items-center" href={`/members/${id}/delete`}>
+    //   <Icon.Delete fill="#E52E2E" />
+    //   <span className="text-negative">Delete member</span>
+    // </Link>,
   ];
 
   if (status === MemberStatus.Sent) {
@@ -58,6 +58,7 @@ function ActionCell({ id, status }: { id: string; status: MemberStatus }): JSX.E
 
   return (
     <PopoverBox
+      popperPlacement="auto"
       triggerButton={
         <div className={clsx('px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min')}>
           <Icon.More />

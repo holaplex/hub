@@ -63,13 +63,13 @@ export enum AssetType {
   Matic = 'MATIC',
   MaticTest = 'MATIC_TEST',
   Sol = 'SOL',
-  SolTest = 'SOL_TEST'
+  SolTest = 'SOL_TEST',
 }
 
 export enum Blockchain {
   Ethereum = 'ETHEREUM',
   Polygon = 'POLYGON',
-  Solana = 'SOLANA'
+  Solana = 'SOLANA',
 }
 
 export type Collection = {
@@ -201,7 +201,7 @@ export type CreateWebhookPayload = {
 
 export enum CreationStatus {
   Created = 'CREATED',
-  Pending = 'PENDING'
+  Pending = 'PENDING',
 }
 
 export type Credential = {
@@ -254,7 +254,7 @@ export enum DropStatus {
   Expired = 'EXPIRED',
   Minted = 'MINTED',
   Minting = 'MINTING',
-  Scheduled = 'SCHEDULED'
+  Scheduled = 'SCHEDULED',
 }
 
 export type EventType = {
@@ -274,7 +274,7 @@ export enum FilterType {
   DropCreated = 'DROP_CREATED',
   DropMinted = 'DROP_MINTED',
   ProjectCreated = 'PROJECT_CREATED',
-  ProjectWalletCreated = 'PROJECT_WALLET_CREATED'
+  ProjectWalletCreated = 'PROJECT_WALLET_CREATED',
 }
 
 export type Holder = {
@@ -307,7 +307,7 @@ export type InviteMemberInput = {
 export enum InviteStatus {
   Accepted = 'ACCEPTED',
   Revoked = 'REVOKED',
-  Sent = 'SENT'
+  Sent = 'SENT',
 }
 
 export type Member = {
@@ -468,56 +468,45 @@ export type Mutation = {
   mintEdition: MintEditionPayload;
 };
 
-
 export type MutationAcceptInviteArgs = {
   input: AcceptInviteInput;
 };
-
 
 export type MutationCreateCredentialArgs = {
   input: CreateCredentialInput;
 };
 
-
 export type MutationCreateCustomerArgs = {
   input: CreateCustomerInput;
 };
-
 
 export type MutationCreateCustomerWalletArgs = {
   input: CreateCustomerWalletInput;
 };
 
-
 export type MutationCreateDropArgs = {
   input: CreateDropInput;
 };
-
 
 export type MutationCreateOrganizationArgs = {
   input: CreateOrganizationInput;
 };
 
-
 export type MutationCreateProjectArgs = {
   input: CreateProjectInput;
 };
-
 
 export type MutationCreateWebhookArgs = {
   input: CreateWebhookInput;
 };
 
-
 export type MutationDeleteWebhookArgs = {
   input: DeleteWebhookInput;
 };
 
-
 export type MutationInviteMemberArgs = {
   input: InviteMemberInput;
 };
-
 
 export type MutationMintEditionArgs = {
   input: MintDropInput;
@@ -540,22 +529,18 @@ export type Organization = {
   webhooks?: Maybe<Array<Webhook>>;
 };
 
-
 export type OrganizationCredentialArgs = {
   clientId: Scalars['String'];
 };
-
 
 export type OrganizationCredentialsArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
 };
 
-
 export type OrganizationInvitesArgs = {
   status?: InputMaybe<InviteStatus>;
 };
-
 
 export type OrganizationWebhookArgs = {
   id: Scalars['UUID'];
@@ -587,11 +572,9 @@ export type Project = {
   treasury?: Maybe<Treasury>;
 };
 
-
 export type ProjectCustomerArgs = {
   id: Scalars['UUID'];
 };
-
 
 export type ProjectDropArgs = {
   id: Scalars['UUID'];
@@ -630,21 +613,17 @@ export type Query = {
   user?: Maybe<User>;
 };
 
-
 export type QueryInviteArgs = {
   id: Scalars['UUID'];
 };
-
 
 export type QueryOrganizationArgs = {
   id: Scalars['UUID'];
 };
 
-
 export type QueryProjectArgs = {
   id: Scalars['UUID'];
 };
-
 
 export type QueryUserArgs = {
   id: Scalars['UUID'];
@@ -658,7 +637,6 @@ export type Treasury = {
   wallet?: Maybe<Wallet>;
   wallets?: Maybe<Array<Wallet>>;
 };
-
 
 export type TreasuryWalletArgs = {
   assetType: AssetType;

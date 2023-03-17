@@ -1,32 +1,34 @@
-import { FileWithPath } from 'react-dropzone';
 import { create } from 'zustand';
+import { CollectionCreatorInput, Blockchain } from '../graphql.types';
 
-export type FileWithPreview = FileWithPath & { preview: string };
+interface Attribute {
+  traitType: string;
+  value: string;
+}
 
 export type StepOneData = {
   name: string;
   symbol: string;
-  blockchain: string;
+  blockchain: { label: string; id: Blockchain };
   description: string;
-  artwork?: FileWithPreview[];
+  image: File;
+  attributes: Attribute[];
 };
 
 export type StepTwoData = {
-  maxSupply: number;
-  solPrice: number;
-  treasuryWallet: string;
-  royaltyInTreasuryWallet: boolean;
-  royaltyWallets?: { wallet: string; royaltyPercent: number };
-  secondarySaleSellerFeePercent: number;
+  supply: string;
+  treasuryAllRoyalties: boolean;
+  creators: CollectionCreatorInput[];
+  royalties?: string;
 };
 
 export type StepThreeData = {
   startDate?: Date;
-  startTime?: Date;
+  startTime?: string;
   endDate?: Date;
-  endTime?: Date;
-  mintImmediately?: boolean;
-  noEndOfSales?: boolean;
+  endTime?: string;
+  startNow?: boolean;
+  noEndTime?: boolean;
 };
 
 export type FormData = StepOneData & StepTwoData & StepThreeData;

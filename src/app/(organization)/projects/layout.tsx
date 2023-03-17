@@ -19,7 +19,7 @@ interface GetProjectsVars {
   organization: string;
 }
 
-export default function ProjectsPage({ children }: { children: React.ReactNode }) {
+export default function OrganizationProjectsLayout({ children }: { children: React.ReactNode }) {
   const { organization } = useOrganization();
 
   const projectsQuery = useQuery<GetProjectsData, GetProjectsVars>(GetOrganizationProjects, {
@@ -47,13 +47,11 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                   id: 'name',
                   header: () => (
                     <div className="flex gap-2 items-center">
-                      <span className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />
                       <span className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />
                     </div>
                   ),
                   cell: () => (
                     <div className="flex gap-2 items-center">
-                      <span className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />
                       <span className="rounded-md h-8 w-8 bg-gray-50 animate-pulse" />
                       <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
                     </div>
@@ -79,21 +77,11 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                     </div>
                   ),
                 }),
-                loadingColumnHelper.display({
-                  id: 'createdAt',
-                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
-                  cell: () => (
-                    <div className="flex flex-col gap-1">
-                      <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
-                      <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
-                    </div>
-                  ),
-                }),
-                loadingColumnHelper.display({
-                  id: 'options',
-                  header: () => <div className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />,
-                  cell: () => <div className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />,
-                }),
+                // loadingColumnHelper.display({
+                //   id: 'options',
+                //   header: () => <div className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />,
+                //   cell: () => <div className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />,
+                // }),
               ]}
               data={new Array(4)}
             />
@@ -131,16 +119,24 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                           <span className="text-xs text-gray-600 font-medium">Project Name</span>
                         </div>
                       ),
-                      cell: (info) => (
-                        <Link
-                          href={`/projects/${info.row.original.id}/drops`}
-                          className="flex gap-2"
-                        >
-                          <span className="text-xs text-primary font-medium">
-                            {info.getValue()}
-                          </span>
-                        </Link>
-                      ),
+                      cell: (info) => {
+                        const profileImage = info.row.original.profileImageUrl;
+                        return (
+                          <Link
+                            href={`/projects/${info.row.original.id}/drops`}
+                            className="flex gap-2 items-center"
+                          >
+                            {profileImage ? (
+                              <img className="w-8 h-8 rounded-md" src={profileImage} alt="logo" />
+                            ) : (
+                              <div className="w-8 h-8 bg-gray-300 rounded-md" />
+                            )}
+                            <span className="text-xs text-primary font-medium">
+                              {info.getValue()}
+                            </span>
+                          </Link>
+                        );
+                      },
                     }),
                     columnHelper.display({
                       id: 'balance',
@@ -178,40 +174,36 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                     columnHelper.display({
                       id: 'options',
                       header: () => <Icon.TableAction />,
-                      cell: (info) => (
-                        <PopoverBox
-                          triggerButton={
-                            <div className="px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min">
-                              <Icon.More />
-                            </div>
-                          }
-                          elements={[
-                            <Link
-                              key="transfer_tokens"
-                              className="flex gap-2 items-center"
-                              href={`/projects/${info.getValue()}/transfer`}
-                            >
-                              <Icon.TransferTokens /> <span>Transfer tokens</span>
-                            </Link>,
-                            <Link
-                              key="edit_project"
-                              className="flex gap-2 items-center"
-                              href={`/projects/${info.getValue()}/edit`}
-                            >
-                              <Icon.Edit /> <span>Edit project</span>
-                            </Link>,
-                            // TODO: Check the project treasury, if it has funds ask to transfer funds.
-                            <Link
-                              key="delete_project"
-                              className="flex gap-2 items-center"
-                              href={`/projects/${info.getValue()}/delete`}
-                            >
-                              <Icon.Delete fill="#E52E2E" />
-                              <span className="text-negative">Delete project</span>
-                            </Link>,
-                          ]}
-                        />
-                      ),
+                      cell: (info) => {
+                        const projectId = info.row.original.id;
+                        return (
+                          <PopoverBox
+                            triggerButton={
+                              <div className="px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min">
+                                <Icon.More />
+                              </div>
+                            }
+                            elements={[
+                              <Link
+                                key="edit_project"
+                                className="flex gap-2 items-center"
+                                href={`/projects/${projectId}/edit`}
+                              >
+                                <Icon.Edit /> <span>Edit project</span>
+                              </Link>,
+                              // TODO: Check the project treasury, if it has funds ask to transfer funds.
+                              <Link
+                                key="delete_project"
+                                className="flex gap-2 items-center"
+                                href={`/projects/${projectId}/delete`}
+                              >
+                                <Icon.Delete fill="#E52E2E" />
+                                <span className="text-negative">Delete project</span>
+                              </Link>,
+                            ]}
+                          />
+                        );
+                      },
                     }),
                   ]}
                   data={projects}

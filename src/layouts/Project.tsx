@@ -53,7 +53,15 @@ export default function Project({
                     }}
                   >
                     <h1 className="flex items-center gap-2 text-sm text-primary font-medium">
-                      <div className="w-8 h-8 bg-gray-300 rounded-md" />
+                      {project.profileImageUrl ? (
+                        <img
+                          className="w-8 h-8 rounded-md"
+                          src={project.profileImageUrl}
+                          alt="logo"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 bg-gray-300 rounded-md" />
+                      )}
                       <span className="flex flex-col capitalize">
                         {project.name}
                         <span className="text-gray-400 text-xs">Project</span>

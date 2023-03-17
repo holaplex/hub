@@ -6,6 +6,10 @@ import { cookies } from 'next/headers';
 import { ory, serverConfig } from '../modules/ory';
 import { Session } from '@ory/client';
 
+export const metadata = {
+  title: 'Holaplex Hub',
+};
+
 const client = ory(serverConfig);
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
