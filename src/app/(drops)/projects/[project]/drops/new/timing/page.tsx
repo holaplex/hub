@@ -27,26 +27,16 @@ export default function NewDropTimingPage() {
     <>
       <Card className="w-[400px]">
         <Typography.Header size={Size.H2}>Mint date</Typography.Header>
-        <Typography.Header size={Size.H3}>
-          Scheduled in your current timezone
-        </Typography.Header>
+        <Typography.Header size={Size.H3}>Scheduled in your current timezone</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
           {/* Start Date */}
           <div className="flex gap-4 items-end">
-            <Form.Label
-              name="Start date"
-              className="text-xs mt-5 basis-3/5"
-              asideComponent={<Icon.Help />}
-            >
+            <Form.Label name="Start date" className="text-xs mt-5 basis-3/5">
               <Form.Input {...register('startDate')} type="date" />
               <Form.Error message="" />
             </Form.Label>
 
-            <Form.Label
-              name="Start time"
-              className="text-xs mt-5 basis-2/5"
-              asideComponent={<Icon.Help />}
-            >
+            <Form.Label name="Start time" className="text-xs mt-5 basis-2/5">
               <Form.Input {...register('startTime')} type="time" />
               <Form.Error message="" />
             </Form.Label>
@@ -54,20 +44,12 @@ export default function NewDropTimingPage() {
 
           {/* End Date */}
           <div className="flex gap-4 items-end">
-            <Form.Label
-              name="End date"
-              className="text-xs mt-5 basis-3/5"
-              asideComponent={<Icon.Help />}
-            >
+            <Form.Label name="End date" className="text-xs mt-5 basis-3/5">
               <Form.Input {...register('endDate')} type="date" />
               <Form.Error message="" />
             </Form.Label>
 
-            <Form.Label
-              name="End time"
-              className="text-xs mt-5 basis-2/5"
-              asideComponent={<Icon.Help />}
-            >
+            <Form.Label name="End time" className="text-xs mt-5 basis-2/5">
               <Form.Input {...register('endTime')} type="time" />
               <Form.Error message="" />
             </Form.Label>

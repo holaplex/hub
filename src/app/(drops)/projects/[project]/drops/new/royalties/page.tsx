@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
 import Card from '../../../../../../../components/Card';
 import { Icon } from '../../../../../../../components/Icon';
+import { pipe, isNil, not } from 'ramda';
 import { Blockchain, AssetType, CollectionCreatorInput } from '../../../../../../../graphql.types';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { useProject } from '../../../../../../../hooks/useProject';
@@ -25,16 +26,41 @@ export default function NewDropRoyaltiesPage() {
     }
   });
 
-  const { handleSubmit, register, control, watch } = useForm<StepTwoData>({
+  const { handleSubmit, register, control, watch, formState } = useForm<StepTwoData>({
     defaultValues: stepTwo || {
       treasuryAllRoyalties: true,
       creators: [{ address: wallet?.address, share: 100, verified: true }],
     },
   });
 
+  const royalties = watch('royalties');
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'creators',
+    rules: {
+      required: true,
+      validate: (creators) => {
+        switch (stepOne?.blockchain.id) {
+          case Blockchain.Solana:
+            if (creators.length > 5) {
+              return 'Can only set up to 5 creators.';
+            }
+          case Blockchain.Polygon || Blockchain.Ethereum:
+            if (creators.length > 1) {
+              return 'Can only set 1 creator.';
+            }
+        }
+
+        const total = creators.reduce(
+          (acc: number, creator: CollectionCreatorInput) =>
+            acc + parseInt(creator.share as unknown as string),
+          0
+        );
+
+        return total === 100 || 'Creator shares must sum to 100.';
+      },
+    },
   });
 
   const treasuryAllRoyalties = watch('treasuryAllRoyalties');
@@ -68,23 +94,19 @@ export default function NewDropRoyaltiesPage() {
         <Typography.Header size={Size.H2}>Payment & royalties</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
           <div className="flex gap-4">
-            <Form.Label name="Max supply" className="text-xs mt-5" asideComponent={<Icon.Help />}>
-              <Form.Input
-                {...register('maxSupply', { required: true })}
-                autoFocus
-                placeholder="e.g. 10,000"
-              />
+            <Form.Label name="Max supply" className="text-xs mt-5">
+              <Form.Input {...register('supply')} autoFocus placeholder="e.g. 10,000" />
               <Form.Error message="" />
             </Form.Label>
 
-            <Form.Label name="Price in SOL" className="text-xs mt-5" asideComponent={<Icon.Help />}>
+            {/* <Form.Label name="Price in SOL" className="text-xs mt-5" >
               <Form.Input
-                {...register('solPrice', { required: true })}
+                {...register('price', { required: true })}
                 type="number"
                 placeholder="e.g. 100"
               />
               <Form.Error message="" />
-            </Form.Label>
+            </Form.Label> */}
           </div>
 
           <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
@@ -99,55 +121,47 @@ export default function NewDropRoyaltiesPage() {
               </span>
             }
           />
-          {!treasuryAllRoyalties && (
-            <>
-              {fields.map((field, index) => (
-                <div className="flex gap-4" key={field.id}>
-                  <Form.Label
-                    name="Wallet"
-                    className="text-xs mt-5 basis-3/4"
-                    asideComponent={<Icon.Help />}
-                  >
-                    <Form.Input
-                      {...register(`creators.${index}.address`)}
-                      placeholder="Paste royalty wallet address"
-                    />
-                    <Form.Error message="" />
-                  </Form.Label>
+          {fields.map((field, index) => (
+            <div className="flex gap-4" key={field.id}>
+              <Form.Label name="Wallet" className="text-xs mt-5 basis-3/4">
+                <Form.Input
+                  {...register(`creators.${index}.address`)}
+                  placeholder="Paste royalty wallet address"
+                  disabled={treasuryAllRoyalties}
+                />
+              </Form.Label>
 
-                  <Form.Label
-                    name="Royalties"
-                    className="text-xs mt-5 basis-1/4"
-                    asideComponent={<Icon.Help />}
-                  >
-                    <Form.Input
-                      {...register(`creators.${index}.share`)}
-                      type="number"
-                      placeholder="e.g. 10%"
-                    />
-                    <Form.Error message="" />
-                  </Form.Label>
+              <Form.Label name="Royalties" className="text-xs mt-5 basis-1/4">
+                <Form.Input
+                  {...register(`creators.${index}.share`)}
+                  type="number"
+                  placeholder="e.g. 10%"
+                  disabled={treasuryAllRoyalties}
+                />
+              </Form.Label>
 
-                  {fields.length > 1 && (
-                    <div
-                      className="rounded-md border border-gray-100 bg-gray-50 p-3 self-end cursor-pointer"
-                      onClick={() => remove(index)}
-                    >
-                      <Icon.Close />
-                    </div>
-                  )}
+              {fields.length > 1 && (
+                <div
+                  className="rounded-md border border-gray-100 bg-gray-50 p-3 self-end cursor-pointer"
+                  onClick={() => remove(index)}
+                >
+                  <Icon.Close />
                 </div>
-              ))}
+              )}
+            </div>
+          ))}
 
-              <Button
-                className="mt-4 self-start"
-                variant="secondary"
-                onClick={() => append({ address: '', share: Number() })}
-              >
-                Add wallet
-              </Button>
-            </>
+          {!treasuryAllRoyalties && (
+            <Button
+              className="mt-4 self-start"
+              variant="secondary"
+              onClick={() => append({ address: '', share: Number() })}
+            >
+              Add wallet
+            </Button>
           )}
+
+          <Form.Error message={formState.errors.creators?.root?.message} />
 
           <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
 
@@ -155,9 +169,23 @@ export default function NewDropRoyaltiesPage() {
             Secondary sale royalties <span className="text-gray-500">(optional)</span>
           </span>
 
-          <Form.Label name="Seller fee" className="text-xs mt-3" asideComponent={<Icon.Help />}>
-            <Form.Input {...register('secondarySaleSellerFeePercent')} placeholder="e.g. 2.5%" />
-            <Form.Error message="" />
+          <Form.Label name="Seller fee" className="text-xs mt-3">
+            <Form.Input
+              {...register('royalties', {
+                required: pipe(isNil, not)(royalties),
+                validate: (royalties) => {
+                  if (!royalties) {
+                    return true;
+                  }
+
+                  const amount = royalties.split('%')[0];
+
+                  return parseInt(amount) <= 100 || 'Seller fee must be equal to or under a 100%';
+                },
+              })}
+              placeholder="e.g. 2.5%"
+            />
+            <Form.Error message={formState.errors.royalties?.message} />
           </Form.Label>
 
           <hr className="w-full bg-gray-500 my-5" color="#e6e6e6" />

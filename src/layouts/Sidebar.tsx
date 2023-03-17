@@ -135,7 +135,6 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
   const { session } = useSession();
   const { logout } = useLogout();
   const { onSwitch } = useOrganization();
-  console.log('session', session);
   const [expandFooter, setExpandFooter] = useState<Boolean>(false);
   const [loadUserAffiliations, userAffiliationsQuery] = useLazyQuery<
     GetUserAffiliationsData,

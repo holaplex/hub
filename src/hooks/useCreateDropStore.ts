@@ -1,5 +1,10 @@
 import { create } from 'zustand';
-import { CollectionCreatorInput, Blockchain, MetadataJsonAttribute } from '../graphql.types';
+import { CollectionCreatorInput, Blockchain } from '../graphql.types';
+
+interface Attribute {
+  traitType: string;
+  value: string;
+}
 
 export type StepOneData = {
   name: string;
@@ -7,15 +12,14 @@ export type StepOneData = {
   blockchain: { label: string; id: Blockchain };
   description: string;
   image: File;
-  attributes: MetadataJsonAttribute[];
+  attributes: Attribute[];
 };
 
 export type StepTwoData = {
   supply: string;
-  price: string;
   treasuryAllRoyalties: boolean;
   creators: CollectionCreatorInput[];
-  secondarySaleSellerFeePercent: number;
+  royalties?: string;
 };
 
 export type StepThreeData = {

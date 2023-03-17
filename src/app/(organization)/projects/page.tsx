@@ -2,6 +2,6 @@ export const metadata = {
   title: 'Holaplex Hub | Projects',
 };
 
-export default function ProjectPage(): React.ReactNode {
+export default function OrganizationProjectsPage() {
   return <div />;
 }

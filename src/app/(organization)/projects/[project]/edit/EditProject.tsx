@@ -6,13 +6,7 @@ import Card from '../../../../../components/Card';
 import Typography, { Size } from '../../../../../components/Typography';
 import { CreateProjectInput, Project } from '../../../../../graphql.types';
 
-export default function EditProject({
-  children,
-  project,
-}: {
-  children: React.ReactNode;
-  project: Project;
-}) {
+export default function EditProject({ project }: { project: Project }) {
   const router = useRouter();
 
   const { handleSubmit, register } = useForm<CreateProjectInput>({

@@ -116,7 +116,7 @@ export default function NewProjectPage() {
                           }
                         )}
                       >
-                        <input {...getInputProps({ onBlur, onChange })} />
+                        <input {...getInputProps({ onBlur })} />
                         {value ? (
                           <div className="bg-white rounded-lg p-3 overflow-hidden">
                             <Form.DragDrop.Preview file={value} />
