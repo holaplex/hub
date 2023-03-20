@@ -58,16 +58,6 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                   ),
                 }),
                 loadingColumnHelper.display({
-                  id: 'balance',
-                  header: () => <div className="rounded-full h-3 w-28 bg-gray-100 animate-pulse" />,
-                  cell: () => (
-                    <div className="flex gap-2 items-center">
-                      <span className="rounded-full h-3 w-11 bg-gray-50 animate-pulse" />
-                      <span className="rounded-full h-3 w-4 bg-gray-50 animate-pulse" />
-                    </div>
-                  ),
-                }),
-                loadingColumnHelper.display({
                   id: 'createdAt',
                   header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
                   cell: () => (
@@ -77,11 +67,11 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                     </div>
                   ),
                 }),
-                // loadingColumnHelper.display({
-                //   id: 'options',
-                //   header: () => <div className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />,
-                //   cell: () => <div className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />,
-                // }),
+                loadingColumnHelper.display({
+                  id: 'options',
+                  header: () => <div className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />,
+                  cell: () => <div className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />,
+                }),
               ]}
               data={new Array(4)}
             />
@@ -137,20 +127,6 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                           </Link>
                         );
                       },
-                    }),
-                    columnHelper.display({
-                      id: 'balance',
-                      header: () => (
-                        <span className="flex text-xs text-gray-600 font-medium">
-                          Total balance
-                        </span>
-                      ),
-                      cell: () => (
-                        <div className="flex gap-1">
-                          <span className="text-xs text-primary font-medium">99.99</span>
-                          <span className="text-xs text-gray-600 font-medium">USD</span>
-                        </div>
-                      ),
                     }),
                     columnHelper.accessor('createdAt', {
                       header: () => (

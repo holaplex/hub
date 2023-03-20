@@ -37,7 +37,9 @@ function SidebarPanel({ children }: SidebarPanel) {
   return (
     <>
       <aside
-        className={clsx('h-screen w-[200px] lg:w-[260px] flex flex-col flex-shrink-0 bg-white')}
+        className={clsx(
+          'h-screen w-[200px] lg:w-[260px] fixed top-0 left-0 flex flex-col flex-shrink-0 bg-white'
+        )}
       >
         {children}
       </aside>
@@ -107,7 +109,11 @@ interface SidebarContentProps {
 }
 
 function SidebarContent({ children, className }: SidebarContentProps) {
-  return <article className={clsx('w-full', className)}>{children}</article>;
+  return (
+    <article className={clsx('w-full pl-[200px] lg:pl-[260px] mb-4', className)}>
+      {children}
+    </article>
+  );
 }
 Sidebar.Content = SidebarContent;
 

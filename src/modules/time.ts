@@ -1,6 +1,7 @@
 import { format, formatDistanceToNow, compareAsc, set } from 'date-fns';
 import { pipe, isNil, not, when } from 'ramda';
 import { zonedTimeToUtc, utcToZonedTime } from 'date-fns-tz';
+
 export enum DateFormat {
   DATE_1 = 'MM/dd/yyyy',
   TIME_1 = 'h:mm a',
@@ -30,6 +31,6 @@ export const maybeToUtc = when(pipe(isNil, not), (date) =>
   zonedTimeToUtc(date, Intl.DateTimeFormat().resolvedOptions().timeZone)
 );
 
-export function convertLocalTime(date: string): Date {
+export function convertLocalTime(date: string | Date): Date {
   return utcToZonedTime(date, Intl.DateTimeFormat().resolvedOptions().timeZone);
 }

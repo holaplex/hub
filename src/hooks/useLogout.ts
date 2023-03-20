@@ -1,9 +1,7 @@
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
-
+import { useCallback } from 'react';
 import { useOry } from './useOry';
-import { useSession } from './useSession';
 
 interface LogoutContext {
   logout: () => void;
@@ -11,21 +9,16 @@ interface LogoutContext {
 
 // Returns a function which will log the user out
 export function useLogout(): LogoutContext {
-  const { session } = useSession();
-  const [logoutToken, setLogoutToken] = useState<string>('');
   const router = useRouter();
   const { ory } = useOry();
 
-  useEffect(() => {
-    if (!session) {
-      return;
-    }
-
+  const logout = useCallback(() => {
     ory
       .createBrowserLogoutFlow()
       .then(({ data }) => {
-        setLogoutToken(data.logout_token);
+        return ory.updateLogoutFlow({ token: data.logout_token });
       })
+      .then(() => router.push('/login'))
       .catch((err: AxiosError) => {
         switch (err.response?.status) {
           case 401:
@@ -36,13 +29,9 @@ export function useLogout(): LogoutContext {
         // Something else happened!
         return Promise.reject(err);
       });
-  }, [session, ory]);
+  }, [ory, router]);
 
   return {
-    logout: () => {
-      if (logoutToken) {
-        ory.updateLogoutFlow({ token: logoutToken }).then(() => router.push('/login'));
-      }
-    },
+    logout,
   };
 }

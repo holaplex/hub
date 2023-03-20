@@ -41,7 +41,7 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
   });
   return (
     <div className={className}>
-      <table className="min-w-full border border-gray-100 rounded-md">
+      <table className="min-w-full border border-gray-100 border-b-0 rounded-md table-fixed border-collapse">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id} className="bg-gray-50">

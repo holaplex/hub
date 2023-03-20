@@ -912,20 +912,22 @@ function Customers({
     <svg
       width={width}
       height={height}
-      viewBox="0 0 16 16"
+      viewBox={`0 0 ${width} ${height}`}
       fill={fill}
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
         d="M9.17818 7.32141C9.82906 7.97228 9.82906 9.02755 9.17818 9.67843C8.52731 10.3293 7.47204 10.3293 6.82116 9.67843C6.17029 9.02755 6.17029 7.97228 6.82116 7.32141C7.47204 6.67053 8.52731 6.67053 9.17818 7.32141"
-        stroke="black"
+        stroke={stroke}
+        fill="#C5C5C5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M12.8354 3.32141C13.4863 3.97228 13.4863 5.02755 12.8354 5.67843C12.1845 6.3293 11.1293 6.3293 10.4784 5.67843C9.82752 5.02755 9.82752 3.97228 10.4784 3.32141C11.1293 2.67053 12.1845 2.67053 12.8354 3.32141"
         stroke={stroke}
+        fill="#C5C5C5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -938,6 +940,7 @@ function Customers({
       <path
         d="M5.52096 3.32141C6.17183 3.97228 6.17183 5.02755 5.52096 5.67843C4.87008 6.3293 3.81481 6.3293 3.16394 5.67843C2.51306 5.02755 2.51306 3.97228 3.16394 3.32141C3.81481 2.67053 4.87008 2.67053 5.52096 3.32141"
         stroke={stroke}
+        fill="#C5C5C5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -2167,3 +2170,40 @@ function LargeCreateCustomersIcon({
 }
 
 LargeIcon.CreateCustomers = LargeCreateCustomersIcon;
+
+function LargeClipboardIcon() {
+  return (
+    <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M60.334 26.417H66.5007C69.9064 26.417 72.6673 29.1779 72.6673 32.5837V69.5837C72.6673 72.9894 69.9064 75.7503 66.5007 75.7503H29.5007C26.0949 75.7503 23.334 72.9894 23.334 69.5837V32.5837C23.334 29.1779 26.0949 26.417 29.5007 26.417H35.6673"
+        fill="#C5C5C5"
+      />
+      <path
+        d="M60.334 26.417H66.5007C69.9064 26.417 72.6673 29.1779 72.6673 32.5837V69.5837C72.6673 72.9894 69.9064 75.7503 66.5007 75.7503H29.5007C26.0949 75.7503 23.334 72.9894 23.334 69.5837V32.5837C23.334 29.1779 26.0949 26.417 29.5007 26.417H35.6673"
+        stroke="#555555"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M40.834 47L55.1673 61.3333"
+        stroke="#555555"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M40.834 61.3333L55.1673 47"
+        stroke="#555555"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <rect x="35.6663" y="20.25" width="24.6667" height="12.3333" rx="4" fill="#555555" />
+      <rect x="0.5" y="0.5" width="95" height="95" rx="7.5" stroke="#E6E6E6" />
+    </svg>
+  );
+}
+LargeIcon.Clipboard = LargeClipboardIcon;

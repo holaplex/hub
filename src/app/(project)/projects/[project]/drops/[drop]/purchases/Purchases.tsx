@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Icon } from '../../../../../../../components/Icon';
 import { useQuery } from '@apollo/client';
 import Table from '../../../../../../../components/Table';
+import Typography, { Size } from '../../../../../../../components/Typography';
 import { formatDateString, DateFormat } from './../../../../../../../modules/time';
 import { CollectionMint, Project } from '../../../../../../../graphql.types';
 import { GetCollectionMints } from './../../../../../../../queries/mint.graphql';
@@ -34,6 +35,7 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
   });
 
   const mints = mintsQuery.data?.project.drop?.collection.mints || [];
+  const noMints = mints.length === 0;
 
   return (
     <div className="flex flex-col">
@@ -80,6 +82,14 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
             data={new Array(4)}
           />
         </>
+      ) : noMints ? (
+        <div className="flex flex-col gap-2 items-center">
+          <Icon.Large.Clipboard />
+          <Typography.Header size={Size.H2}>No purchase history yet</Typography.Header>
+          <Typography.Paragraph className="text-gray-500">
+            Purchase history will appear after the first mint
+          </Typography.Paragraph>
+        </div>
       ) : (
         <Table
           columns={[

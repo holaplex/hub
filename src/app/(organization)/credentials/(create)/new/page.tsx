@@ -53,9 +53,10 @@ export default function GenerateToken() {
       variables: { organization: organization?.id },
     }
   );
-  const [createCredential, { data }] = useMutation<CreateCredentialData, CreateCredentialVars>(
-    CreateCredential
-  );
+  const [createCredential, { data, loading }] = useMutation<
+    CreateCredentialData,
+    CreateCredentialVars
+  >(CreateCredential);
   const { register, control, watch, handleSubmit } = useForm<CredentialForm>({
     defaultValues: { projects: [], projectsPick: 'all', scopes: [] },
   });
@@ -134,11 +135,7 @@ export default function GenerateToken() {
                 </div>
               </div>
               {projectsPick === 'select' && (
-                <Form.Label
-                  name="Select project"
-                  className="text-xs mt-5"
-                  asideComponent={<Icon.Help />}
-                >
+                <Form.Label name="Pick projects" className="text-xs mt-5">
                   <Controller
                     name="projects"
                     control={control}
@@ -162,7 +159,7 @@ export default function GenerateToken() {
                         <Form.Select.Options>
                           {(projectsQuery.data?.organization.projects || []).map((project) => {
                             return (
-                              <Form.Select.Option key={project.id} value={project}>
+                              <Form.Select.Option key={project.id} value={project.id}>
                                 <>{project.name}</>
                               </Form.Select.Option>
                             );
@@ -208,11 +205,11 @@ export default function GenerateToken() {
 
               <div className="flex items-center justify-between">
                 <Link href="/credentials">
-                  <Button className="self-start" variant="secondary">
+                  <Button className="self-start" variant="secondary" disabled={loading}>
                     Cancel
                   </Button>
                 </Link>
-                <Button htmlType="submit" className="self-end">
+                <Button htmlType="submit" className="self-end" loading={loading} disabled={loading}>
                   Generate token
                 </Button>
               </div>

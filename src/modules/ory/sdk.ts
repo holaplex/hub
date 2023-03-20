@@ -6,6 +6,6 @@ export function ory(config: ConfigurationParameters) {
 }
 
 export const serverConfig: ConfigurationParameters = {
-  basePath: 'http://hub.127.0.0.1.nip.io:9080',
+  basePath: appConfig.server('kratos'),
   baseOptions: { withCredentials: true },
 };

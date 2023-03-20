@@ -8,6 +8,7 @@ import Table from '../../../../../../../components/Table';
 import { Holder, Project } from '../../../../../../../graphql.types';
 import { GetCollectionHolders } from './../../../../../../../queries/holder.graphql';
 import { useQuery } from '@apollo/client';
+import Typography, { Size } from '../../../../../../../components/Typography';
 
 interface HoldersProps {
   project: string;
@@ -36,6 +37,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
   );
 
   const holders = holdersQuery.data?.project.drop?.collection.holders || [];
+  const noHolders = holders.length === 0;
 
   return (
     <div className="flex flex-col">
@@ -82,6 +84,14 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
             data={new Array(4)}
           />
         </>
+      ) : noHolders ? (
+        <div className="flex flex-col gap-2 items-center">
+          <Icon.Large.CreateCustomers />
+          <Typography.Header size={Size.H2}>No holders yet</Typography.Header>
+          <Typography.Paragraph className="text-gray-500">
+            The current holder holders information will appear after the first mint
+          </Typography.Paragraph>
+        </div>
       ) : (
         <Table
           columns={[

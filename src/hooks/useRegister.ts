@@ -83,8 +83,6 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
         credentials: 'same-origin',
       });
 
-      debugger;
-
       const json: LoginResponse = await response.json();
 
       router.push(json.redirect_path);
