@@ -31,9 +31,7 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
   const columnHelper = createColumnHelper<Credential>();
   const loadingColumnHelper = createColumnHelper<any>();
 
-  const noCredentials =
-    !credentialsQuery.data?.organization.webhooks ||
-    credentialsQuery.data?.organization.credentials.length === 0;
+  const noCredentials = credentialsQuery.data?.organization.credentials.length === 0;
 
   return (
     <>
