@@ -159,7 +159,7 @@ export default function GenerateToken() {
                         <Form.Select.Options>
                           {(projectsQuery.data?.organization.projects || []).map((project) => {
                             return (
-                              <Form.Select.Option key={project.id} value={project.id}>
+                              <Form.Select.Option key={project.id} value={project}>
                                 <>{project.name}</>
                               </Form.Select.Option>
                             );
