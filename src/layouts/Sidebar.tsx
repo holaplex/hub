@@ -12,7 +12,7 @@ import { useSession } from '../hooks/useSession';
 import { GetUserAffiliations, GetUser } from './../queries/user.graphql';
 
 export default function Sidebar() {
-  return <div></div>;
+  return <div />;
 }
 
 interface SidebarPageProps {

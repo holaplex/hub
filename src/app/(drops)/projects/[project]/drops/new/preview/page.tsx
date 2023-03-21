@@ -12,6 +12,8 @@ import { CreateDrop } from './../../../../../../../mutations/drop.graphql';
 import { combineDateTime, maybeToUtc, DateFormat } from '../../../../../../../modules/time';
 import { useProject } from '../../../../../../../hooks/useProject';
 import { useState } from 'react';
+import { GetProjectDrops } from './../../../../../../../queries/drop.graphql';
+import { ifElse, isNil, always } from 'ramda';
 
 interface CreateDropData {
   createProject: CreateDropPayload;
@@ -50,7 +52,9 @@ export default function NewDropPreviewPage() {
     router.push(`/projects/${project?.id}/drops/new/timing`);
   };
 
-  const [createDrop] = useMutation<CreateDropData, CreateDropVars>(CreateDrop);
+  const [createDrop] = useMutation<CreateDropData, CreateDropVars>(CreateDrop, {
+    refetchQueries: [{ query: GetProjectDrops, variables: { project: project?.id } }],
+  });
 
   if (!stepOne || !stepTwo || !stepThree) {
     toast('Incomplete drops data. Check again.');
@@ -97,7 +101,11 @@ export default function NewDropPreviewPage() {
           creators: stepTwo.creators,
           supply: parseInt(stepTwo.supply),
           price: 0,
-          sellerFeeBasisPoints: parseInt((stepTwo.royalties || '').split('%')[0]) * 100,
+          sellerFeeBasisPoints: ifElse(
+            isNil,
+            always(null),
+            (royalties) => parseInt(royalties.split('%')[0]) * 100
+          )(stepTwo.royalties),
           startTime: maybeToUtc(startDateTime),
           endTime: maybeToUtc(endDateTime),
         },
