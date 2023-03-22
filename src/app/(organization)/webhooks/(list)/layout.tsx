@@ -217,17 +217,17 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                             // <Link
                             //   key="enable"
                             //   className="flex gap-2 items-center"
-                            //   href={`/webhooks/${info.getValue()}/edit`}
+                            //   href={`/webhooks/${info.row.original.id}/edit`}
                             // >
                             //   <Icon.Check /> <span>Enable</span>
                             // </Link>,
-                            // <Link
-                            //   key="edit"
-                            //   className="flex gap-2 items-center"
-                            //   href={`/webhooks/${info.getValue()}/edit`}
-                            // >
-                            //   <Icon.Edit /> <span>Edit</span>
-                            // </Link>,
+                            <Link
+                              key="edit"
+                              className="flex gap-2 items-center"
+                              href={`/webhooks/${info.row.original.id}/edit`}
+                            >
+                              <Icon.Edit /> <span>Edit</span>
+                            </Link>,
                             <Link
                               key="delete"
                               className="flex gap-2 items-center"

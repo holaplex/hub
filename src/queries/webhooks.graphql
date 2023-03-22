@@ -21,6 +21,12 @@ query GetOrganizationWebhook($organization: UUID!, $webhook: UUID!) {
     webhook(id: $webhook) {
       id
       description
+      url
+      projects {
+        id
+        name
+      }
+      events
     }
   }
 }

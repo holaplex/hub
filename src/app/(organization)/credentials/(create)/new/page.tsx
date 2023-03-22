@@ -89,13 +89,12 @@ export default function GenerateToken() {
   return (
     <div className="h-full flex flex-col p-4">
       <div className="text-2xl font-medium text-gray-500">
-        API Credentials / <span className="text-primary">Generate token</span>
+        Credentials / <span className="text-primary">Generate token</span>
         <div className="w-full flex flex-col items-center">
           <Card className="w-[492px] mt-7">
             <Typography.Header size={Size.H2}>Generate token</Typography.Header>
             <Typography.Header size={Size.H3}>
-              Fill required details to generate access token. Fill required details to generate
-              access token.
+              Fill required details to generate access token.
             </Typography.Header>
             <Form className="flex flex-col mt-5" onSubmit={handleSubmit(onSubmit)}>
               <Form.Label name="Name" className="text-xs mt-4" asideComponent={<Icon.Help />}>
@@ -260,7 +259,7 @@ export default function GenerateToken() {
               router.push('/credentials');
             }}
           >
-            Return to API credentials
+            Cancel
           </Button>
         </Card>
       </Modal>

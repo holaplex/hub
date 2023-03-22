@@ -3,22 +3,25 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Button, Form, Modal } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import { isNil, not, pipe } from 'ramda';
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import Card from '../../../../../components/Card';
-import { Icon } from '../../../../../components/Icon';
-import { Pill } from '../../../../../components/Pill';
-import Typography, { Size } from '../../../../../components/Typography';
+import Card from '../../../../../../components/Card';
+import { Icon } from '../../../../../../components/Icon';
+import { Pill } from '../../../../../../components/Pill';
+import Typography, { Size } from '../../../../../../components/Typography';
 import {
   CreateWebhookInput,
   CreateWebhookPayload,
   FilterType,
   Organization,
   Project,
-} from '../../../../../graphql.types';
-import useClipboard from '../../../../../hooks/useClipboard';
-import { useOrganization } from '../../../../../hooks/useOrganization';
-import { CreateWebhook } from './../../../../../mutations/webhook.graphql';
-import { GetOrganizationProjects } from './../../../../../queries/organization.graphql';
+} from '../../../../../../graphql.types';
+import useClipboard from '../../../../../../hooks/useClipboard';
+import { useOrganization } from '../../../../../../hooks/useOrganization';
+import { toFilterTypes } from '../../../../../../modules/filterType';
+import { CreateWebhook } from './../../../../../../mutations/webhook.graphql';
+import { GetOrganizationProjects } from './../../../../../../queries/organization.graphql';
+import { GetOrganizationWebhook } from './../../../../../../queries/webhooks.graphql';
 
 interface GetOrganizationProjectsData {
   organization: Pick<Organization, 'projects'>;
@@ -38,13 +41,32 @@ interface CreateWebhookData {
 interface WebhookForm {
   projects: Project[];
   description: string;
-  endpoint: string;
+  url: string;
   events: FilterType[];
 }
 
-export default function NewWebhook() {
+interface GetWebhookData {
+  organization: Organization;
+}
+
+interface GetWebhookVars {
+  webhook: string;
+  organization: string;
+}
+
+interface EditWebhookProps {
+  params: { webhook: string };
+}
+
+export default function EditWebhook({ params: { webhook } }: EditWebhookProps) {
   const { organization } = useOrganization();
   const router = useRouter();
+
+  const webhookQuery = useQuery<GetWebhookData, GetWebhookVars>(GetOrganizationWebhook, {
+    variables: { webhook, organization: organization?.id },
+  });
+
+  const webhookData = webhookQuery.data?.organization.webhook;
 
   const {
     register,
@@ -52,29 +74,30 @@ export default function NewWebhook() {
     watch,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<WebhookForm>({
     defaultValues: { projects: [], events: [] },
   });
+
   const selectedProjects = watch('projects');
 
   const [createWebhook, createWebhookResult] = useMutation<CreateWebhookData, CreateWebhookVars>(
     CreateWebhook
   );
 
-  const { copied, copyText } = useClipboard(
-    createWebhookResult.data?.createWebhook.secret as string
-  );
-
-  const onSubmit = ({ projects, description, endpoint, events }: WebhookForm) => {
+  const onSubmit = ({ projects, description, url, events }: WebhookForm) => {
     createWebhook({
       variables: {
         input: {
           description,
-          endpoint,
+          endpoint: url,
           organization: organization?.id as string,
           projects: projects.map((project) => project.id),
           filterTypes: events,
         },
+      },
+      onCompleted: () => {
+        router.push('/webhooks');
       },
     });
   };
@@ -86,10 +109,21 @@ export default function NewWebhook() {
     }
   );
 
+  useEffect(() => {
+    if (webhookData) {
+      reset({
+        description: webhookData.description,
+        url: webhookData.url,
+        events: toFilterTypes(webhookData.events),
+        projects: webhookData.projects,
+      });
+    }
+  }, [reset, webhookData]);
+
   return (
     <div className="h-full flex flex-col p-4">
       <div className="text-2xl font-medium text-gray-500">
-        Webhooks / <span className="text-primary">Add Webhook</span>
+        Webhooks / <span className="text-primary">Edit Webhook</span>
         <div className="w-full flex flex-col items-center">
           <Card className="w-[492px] mt-7">
             <Typography.Header size={Size.H2}>Webhook details</Typography.Header>
@@ -152,8 +186,8 @@ export default function NewWebhook() {
                   className="text-xs mt-5"
                   asideComponent={<Icon.Help />}
                 >
-                  <Form.Input {...register('endpoint', { required: 'Target URL is required' })} />
-                  <Form.Error message={errors.endpoint?.message} />
+                  <Form.Input {...register('url', { required: 'Target URL is required' })} />
+                  <Form.Error message={errors.url?.message} />
                 </Form.Label>
               </div>
 
@@ -222,51 +256,13 @@ export default function NewWebhook() {
                   Cancel
                 </Button>
                 <Button htmlType="submit" className="self-end">
-                  Add webhook
+                  Save chagnes
                 </Button>
               </div>
             </Form>
           </Card>
         </div>
       </div>
-      <Modal
-        open={pipe(isNil, not)(createWebhookResult.data)}
-        setOpen={() => {
-          router.push('/webhooks');
-        }}
-      >
-        <Card className="w-[400px] p-8 text-left">
-          <Typography.Header size={Size.H2} className="self-start">
-            Secret key
-          </Typography.Header>
-          <Typography.Paragraph className="py-4 text-gray-600">
-            Its your secret access key, copy it. If necessary, you can always find it in the table.
-          </Typography.Paragraph>
-          <div className="flex gap-2">
-            <div className="shrink border px-4 py-3 bg-white border-gray-100 rounded-md truncate">
-              {createWebhookResult.data?.createWebhook.secret}
-            </div>
-            <button
-              onClick={copyText}
-              className="flex-none aspect-square rounded-md w-12 flex items-center justify-center bg-gray-50 border-gray-100 border"
-            >
-              {copied ? <Icon.Check /> : <Icon.Copy />}
-            </button>
-          </div>
-
-          <Button
-            className="mt-2"
-            variant="tertiary"
-            size="large"
-            block
-            onClick={() => {
-              router.push('/webhooks');
-            }}
-          >
-            Cancel
-          </Button>
-        </Card>
-      </Modal>
     </div>
   );
 }
