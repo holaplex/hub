@@ -38,7 +38,7 @@ interface CreateWebhookData {
 interface WebhookForm {
   projects: Project[];
   description: string;
-  endpoint: string;
+  url: string;
   events: FilterType[];
 }
 
@@ -65,12 +65,12 @@ export default function NewWebhook() {
     createWebhookResult.data?.createWebhook.secret as string
   );
 
-  const onSubmit = ({ projects, description, endpoint, events }: WebhookForm) => {
+  const onSubmit = ({ projects, description, url, events }: WebhookForm) => {
     createWebhook({
       variables: {
         input: {
           description,
-          endpoint,
+          url,
           organization: organization?.id as string,
           projects: projects.map((project) => project.id),
           filterTypes: events,
@@ -152,8 +152,8 @@ export default function NewWebhook() {
                   className="text-xs mt-5"
                   asideComponent={<Icon.Help />}
                 >
-                  <Form.Input {...register('endpoint', { required: 'Target URL is required' })} />
-                  <Form.Error message={errors.endpoint?.message} />
+                  <Form.Input {...register('url', { required: 'Target URL is required' })} />
+                  <Form.Error message={errors.url?.message} />
                 </Form.Label>
               </div>
 

@@ -187,10 +187,10 @@ export type CreateProjectPayload = {
 
 export type CreateWebhookInput = {
   description: Scalars['String'];
-  endpoint: Scalars['String'];
   filterTypes: Array<FilterType>;
   organization: Scalars['UUID'];
   projects: Array<Scalars['UUID']>;
+  url: Scalars['String'];
 };
 
 export type CreateWebhookPayload = {
@@ -267,6 +267,20 @@ export type EditCredentialInput = {
 export type EditCredentialPayload = {
   __typename?: 'EditCredentialPayload';
   credential: Credential;
+};
+
+export type EditWebhookInput = {
+  description: Scalars['String'];
+  disabled?: InputMaybe<Scalars['Boolean']>;
+  filterTypes: Array<FilterType>;
+  projects: Array<Scalars['UUID']>;
+  url: Scalars['String'];
+  webhook: Scalars['UUID'];
+};
+
+export type EditWebhookPayload = {
+  __typename?: 'EditWebhookPayload';
+  webhook: Webhook;
 };
 
 export type EventType = {
@@ -477,6 +491,13 @@ export type Mutation = {
    * # Errors
    * This function fails if ...
    */
+  editWebhook: EditWebhookPayload;
+  /**
+   * Res
+   *
+   * # Errors
+   * This function fails if ...
+   */
   inviteMember: Invite;
   /**
    * Res
@@ -535,6 +556,11 @@ export type MutationDeleteWebhookArgs = {
 
 export type MutationEditCredentialArgs = {
   input: EditCredentialInput;
+};
+
+
+export type MutationEditWebhookArgs = {
+  input: EditWebhookInput;
 };
 
 

@@ -1,8 +1,7 @@
 'use client';
 import { useMutation, useQuery } from '@apollo/client';
-import { Button, Form, Modal } from '@holaplex/ui-library-react';
+import { Button, Form } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
-import { isNil, not, pipe } from 'ramda';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Card from '../../../../../../components/Card';
@@ -10,16 +9,15 @@ import { Icon } from '../../../../../../components/Icon';
 import { Pill } from '../../../../../../components/Pill';
 import Typography, { Size } from '../../../../../../components/Typography';
 import {
-  CreateWebhookInput,
-  CreateWebhookPayload,
+  EditWebhookInput,
+  EditWebhookPayload,
   FilterType,
   Organization,
   Project,
 } from '../../../../../../graphql.types';
-import useClipboard from '../../../../../../hooks/useClipboard';
 import { useOrganization } from '../../../../../../hooks/useOrganization';
 import { toFilterTypes } from '../../../../../../modules/filterType';
-import { CreateWebhook } from './../../../../../../mutations/webhook.graphql';
+import { EditWebhook } from './../../../../../../mutations/webhook.graphql';
 import { GetOrganizationProjects } from './../../../../../../queries/organization.graphql';
 import { GetOrganizationWebhook } from './../../../../../../queries/webhooks.graphql';
 
@@ -30,12 +28,12 @@ interface GetOrganizationProjectsData {
 interface GetOrganizationProjectsVar {
   organization: string;
 }
-interface CreateWebhookVars {
-  input: CreateWebhookInput;
+interface EditWebhookVars {
+  input: EditWebhookInput;
 }
 
-interface CreateWebhookData {
-  createWebhook: CreateWebhookPayload;
+interface EditWebhookData {
+  editWebhook: EditWebhookPayload;
 }
 
 interface WebhookForm {
@@ -58,7 +56,7 @@ interface EditWebhookProps {
   params: { webhook: string };
 }
 
-export default function EditWebhook({ params: { webhook } }: EditWebhookProps) {
+export default function EditWebhookPage({ params: { webhook } }: EditWebhookProps) {
   const { organization } = useOrganization();
   const router = useRouter();
 
@@ -81,17 +79,17 @@ export default function EditWebhook({ params: { webhook } }: EditWebhookProps) {
 
   const selectedProjects = watch('projects');
 
-  const [createWebhook, createWebhookResult] = useMutation<CreateWebhookData, CreateWebhookVars>(
-    CreateWebhook
+  const [editWebhook, createWebhookResult] = useMutation<EditWebhookData, EditWebhookVars>(
+    EditWebhook
   );
 
   const onSubmit = ({ projects, description, url, events }: WebhookForm) => {
-    createWebhook({
+    editWebhook({
       variables: {
         input: {
+          webhook,
           description,
-          endpoint: url,
-          organization: organization?.id as string,
+          url,
           projects: projects.map((project) => project.id),
           filterTypes: events,
         },

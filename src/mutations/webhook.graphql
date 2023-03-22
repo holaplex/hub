@@ -12,3 +12,11 @@ mutation DeleteWebhook($input: DeleteWebhookInput!) {
     webhook
   }
 }
+
+mutation EditWebhook($input: EditWebhookInput!) {
+  editWebhook(input: $input) {
+    webhook {
+      id
+    }
+  }
+}
