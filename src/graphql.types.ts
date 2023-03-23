@@ -118,8 +118,6 @@ export type CollectionMint = {
 export type CreateCredentialInput = {
   name: Scalars['String'];
   organization: Scalars['UUID'];
-  projects: Array<Scalars['UUID']>;
-  scopes: Array<Scalars['String']>;
 };
 
 export type CreateCredentialPayload = {
@@ -206,15 +204,12 @@ export enum CreationStatus {
 
 export type Credential = {
   __typename?: 'Credential';
-  audiences: Array<Scalars['String']>;
   clientId: Scalars['String'];
   createdAt: Scalars['NaiveDateTime'];
   createdBy?: Maybe<User>;
   createdById: Scalars['UUID'];
   name: Scalars['String'];
   organizationId: Scalars['UUID'];
-  projects: Array<Project>;
-  scopes: Array<Scalars['String']>;
 };
 
 export type Customer = {
@@ -224,6 +219,15 @@ export type Customer = {
   projectId: Scalars['UUID'];
   treasury?: Maybe<Treasury>;
   updatedAt?: Maybe<Scalars['NaiveDateTime']>;
+};
+
+export type DeleteCredentialInput = {
+  credential: Scalars['String'];
+};
+
+export type DeleteCredentialPayload = {
+  __typename?: 'DeleteCredentialPayload';
+  credential: Scalars['String'];
 };
 
 export type DeleteWebhookInput = {
@@ -260,8 +264,6 @@ export enum DropStatus {
 export type EditCredentialInput = {
   clientId: Scalars['String'];
   name: Scalars['String'];
-  projects: Array<Scalars['UUID']>;
-  scopes: Array<Scalars['String']>;
 };
 
 export type EditCredentialPayload = {
@@ -477,6 +479,13 @@ export type Mutation = {
    * # Errors
    * This function fails if ...
    */
+  deleteCredential: DeleteCredentialPayload;
+  /**
+   * Res
+   *
+   * # Errors
+   * This function fails if ...
+   */
   deleteWebhook: DeleteWebhookPayload;
   /**
    * Res
@@ -546,6 +555,11 @@ export type MutationCreateProjectArgs = {
 
 export type MutationCreateWebhookArgs = {
   input: CreateWebhookInput;
+};
+
+
+export type MutationDeleteCredentialArgs = {
+  input: DeleteCredentialInput;
 };
 
 
@@ -747,7 +761,7 @@ export type Webhook = {
   createdById: Scalars['UUID'];
   description: Scalars['String'];
   endpointId: Scalars['String'];
-  events: Array<Scalars['String']>;
+  events: Array<FilterType>;
   id: Scalars['UUID'];
   organizationId: Scalars['UUID'];
   projects: Array<Project>;
