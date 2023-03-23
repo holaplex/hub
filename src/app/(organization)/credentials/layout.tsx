@@ -2,15 +2,14 @@
 import { Button, PopoverBox } from '@holaplex/ui-library-react';
 import { createColumnHelper } from '@tanstack/react-table';
 import React from 'react';
-import { Icon } from '../../../../components/Icon';
-import Table from '../../../../components/Table';
+import { Icon } from '../../../components/Icon';
+import Table from '../../../components/Table';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
-import { Organization, Project, Credential } from '../../../../graphql.types';
-import { useOrganization } from '../../../../hooks/useOrganization';
-import { DateFormat, formatDateString } from '../../../../modules/time';
-import { Pill } from '../../../../components/Pill';
-import { GetOrganizationCredentials } from './../../../../queries/credentials.graphql';
+import { Organization, Credential } from '../../../graphql.types';
+import { useOrganization } from '../../../hooks/useOrganization';
+import { DateFormat, formatDateString } from '../../../modules/time';
+import { GetOrganizationCredentials } from './../../../queries/credentials.graphql';
 
 interface GetOrganizationCredentialsData {
   organization: Organization;
@@ -47,16 +46,6 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                   id: 'name',
                   header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
                   cell: () => <div className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />,
-                }),
-                loadingColumnHelper.display({
-                  id: 'audiences',
-                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
-                  cell: () => (
-                    <div className="flex gap-1 items-center">
-                      <span className="rounded-full h-3 w-20 bg-gray-50 animate-pulse" />
-                      <span className="rounded-full h-3 w-20 bg-gray-50 animate-pulse" />
-                    </div>
-                  ),
                 }),
                 loadingColumnHelper.display({
                   id: 'createdAt',
@@ -124,22 +113,6 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                       ),
                     }),
 
-                    columnHelper.accessor('projects', {
-                      header: () => (
-                        <span className="flex text-xs text-gray-600 font-medium">Projects</span>
-                      ),
-                      cell: (info) => (
-                        <div className="flex gap-1">
-                          <Pill.List>
-                            {info.getValue().map((project: Project) => (
-                              <Link href={`/projects/${project.id}/drops`} key={project.id}>
-                                <Pill>{project.name}</Pill>
-                              </Link>
-                            ))}
-                          </Pill.List>
-                        </div>
-                      ),
-                    }),
 
                     columnHelper.accessor('createdAt', {
                       header: () => (
@@ -186,13 +159,6 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                             </div>
                           }
                           elements={[
-                            <Link
-                              key="edit"
-                              className="flex gap-2 items-center"
-                              href={`/credentials/${info.getValue()}/edit`}
-                            >
-                              <Icon.Edit /> <span>Edit</span>
-                            </Link>,
                             <Link
                               key="delete"
                               className="flex gap-2 items-center"

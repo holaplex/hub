@@ -10,7 +10,10 @@ import {
   Organization,
 } from '../../../../../../graphql.types';
 import { useOrganization } from '../../../../../../hooks/useOrganization';
-import { GetOrganizationWebhook } from './../../../../../../queries/webhooks.graphql';
+import {
+  GetOrganizationWebhook,
+  GetOrganizationWebhooks,
+} from './../../../../../../queries/webhooks.graphql';
 import { DeleteWebhook as DeleteWebhookMutation } from './../../../../../../mutations/webhook.graphql';
 
 interface DeleteWebhookData {
@@ -46,7 +49,12 @@ export default function DeleteWebhook({ webhook }: DeleteWebhookProps) {
     variables: { webhook, organization: organization?.id },
   });
   const [deleteWebhook, { loading }] = useMutation<DeleteWebhookData, DeleteWebhookVars>(
-    DeleteWebhookMutation
+    DeleteWebhookMutation,
+    {
+      refetchQueries: [
+        { query: GetOrganizationWebhooks, variables: { organization: organization?.id } },
+      ],
+    }
   );
 
   const onDelete = () => {
