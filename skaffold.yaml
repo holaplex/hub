@@ -45,7 +45,12 @@ deploy:
         repo: https://charts.holaplex.com
         valuesFiles:
           - values.gateway.yaml
-          - secrets.gateway.yaml
+      - name: hub-permissions
+        remoteChart: hub-permissions
+        repo: https://charts.holaplex.com
+        valuesFiles:
+          - values.permissions.yaml
+          - secrets.permissions.yaml
       - name: redpanda
         repo: https://charts.redpanda.com/
         remoteChart: redpanda
@@ -114,12 +119,7 @@ deploy:
         repo: https://k8s.ory.sh/helm/charts
         remoteChart: kratos
         valuesFiles:
-          - values.kratos.yaml
-      - name: keto
-        remoteChart: hub-permissions
-        repo: https://charts.holaplex.com
-        valuesFiles:
-          - values.permissions.yaml
+          - values.kratos.yaml 
       - name: hydra
         repo: https://k8s.ory.sh/helm/charts
         remoteChart: hydra
