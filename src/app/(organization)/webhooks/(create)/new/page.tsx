@@ -218,10 +218,19 @@ export default function NewWebhook() {
               <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
 
               <div className="flex items-center justify-between">
-                <Button className="self-start" variant="secondary">
+                <Button
+                  className="self-start"
+                  variant="secondary"
+                  disabled={createWebhookResult.loading}
+                >
                   Cancel
                 </Button>
-                <Button htmlType="submit" className="self-end">
+                <Button
+                  htmlType="submit"
+                  className="self-end"
+                  loading={createWebhookResult.loading}
+                  disabled={createWebhookResult.loading}
+                >
                   Add webhook
                 </Button>
               </div>
