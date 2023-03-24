@@ -74,28 +74,43 @@ export default function DeleteWebhook({ webhook }: DeleteWebhookProps) {
     <Modal open={true} setOpen={onClose}>
       <Card className="w-[400px]">
         <Typography.Header size={Size.H2}>Delete webhook?</Typography.Header>
-        <Typography.Header size={Size.H3}>
-          Are you sure you want to delete{' '}
-          <span className="text-primary font-medium">
-            {webhookQuery.data?.organization.webhook?.description}
-          </span>{' '}
-          webhook and all its contents?
-        </Typography.Header>
+        {webhookQuery.loading ? (
+          <>
+            <div className="mt-2 flex flex-col gap-1">
+              <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
+              <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
+            </div>
+            <div className="mt-4 flex flex-col gap-2">
+              <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+              <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+            </div>
+          </>
+        ) : (
+          <>
+            <Typography.Header size={Size.H3} className="mt-2">
+              Are you sure you want to delete{' '}
+              <span className="text-primary font-medium">
+                {webhookQuery.data?.organization.webhook?.description}
+              </span>{' '}
+              webhook and all its contents?
+            </Typography.Header>
 
-        <div className="flex flex-col gap-2 mt-4">
-          <Button
-            htmlType="submit"
-            className="w-full"
-            variant="failure"
-            onClick={onDelete}
-            disabled={loading}
-          >
-            Delete
-          </Button>
-          <Button variant="tertiary" className="w-full" onClick={onClose}>
-            Cancel
-          </Button>
-        </div>
+            <div className="flex flex-col gap-2 mt-4">
+              <Button
+                htmlType="submit"
+                className="w-full"
+                variant="failure"
+                onClick={onDelete}
+                disabled={loading}
+              >
+                Delete
+              </Button>
+              <Button variant="tertiary" className="w-full" onClick={onClose} disabled={loading}>
+                Cancel
+              </Button>
+            </div>
+          </>
+        )}
       </Card>
     </Modal>
   );

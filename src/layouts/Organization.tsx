@@ -27,8 +27,8 @@ export default function Organization({
                   <h1 className="flex items-center gap-2 text-sm text-primary font-medium">
                     {organization?.profileImageUrl ? (
                       <img
-                        className="w-8 h-8 rounded-md"
                         src={organization.profileImageUrl}
+                        className="w-8 h-8 rounded-md"
                         alt="logo"
                       />
                     ) : (

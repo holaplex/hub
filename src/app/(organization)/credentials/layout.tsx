@@ -113,7 +113,6 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                       ),
                     }),
 
-
                     columnHelper.accessor('createdAt', {
                       header: () => (
                         <span className="flex text-xs text-gray-600 font-medium self-start">
@@ -148,7 +147,8 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                       ),
                     }),
 
-                    columnHelper.accessor('clientId', {
+                    columnHelper.display({
+                      id: 'clientId',
                       header: () => <Icon.TableAction />,
                       cell: (info) => (
                         <PopoverBox
@@ -162,7 +162,7 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                             <Link
                               key="delete"
                               className="flex gap-2 items-center"
-                              href={`/credentials/${info.getValue()}/delete`}
+                              href={`/credentials/${info.row.original.clientId}/delete`}
                             >
                               <Icon.Delete fill="#E52E2E" />
                               <span className="text-negative">Delete</span>

@@ -4,6 +4,7 @@ declare module '*/credential.graphql' {
   const defaultDocument: DocumentNode;
   export const CreateCredential: DocumentNode;
 export const EditCredential: DocumentNode;
+export const DeleteCredential: DocumentNode;
 
   export default defaultDocument;
 }
