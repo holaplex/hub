@@ -3,15 +3,15 @@ query GetProject($project: UUID!) {
     id
     name
     profileImageUrl
-    organization {
-      id
-      name
-    }
-    treasury {
-      wallets {
-        assetId
-        address
-      }
-    }
+    # organization {
+    #   id
+    #   name
+    # }
+    # treasury {
+    #   wallets {
+    #     assetId
+    #     address
+    #   }
+    # }
   }
 }

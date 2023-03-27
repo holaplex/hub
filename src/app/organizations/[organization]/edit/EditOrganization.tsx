@@ -1,48 +1,71 @@
 'use client';
-import Link from 'next/link';
-import Card from './../../../components/Card';
-import Typography, { Size } from './../../../components/Typography';
-import { Button, Form } from '@holaplex/ui-library-react';
-import { useMutation } from '@apollo/client';
-import { CreateOrganization } from './../../../mutations/organization.graphql';
-import { CreateOrganizationInput, CreateOrganizationPayload } from '../../../graphql.types';
-import { Controller, useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
-import Dropzone from 'react-dropzone';
+import { useMutation, useQuery } from '@apollo/client';
+import { Button, Form, Modal } from '@holaplex/ui-library-react';
 import clsx from 'clsx';
-import Divider from '../../../components/Divider';
-import { uploadFile } from '../../../modules/upload';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import Dropzone from 'react-dropzone';
+import { Controller, useForm } from 'react-hook-form';
+import Card from '../../../../components/Card';
+import Divider from '../../../../components/Divider';
+import Typography, { Size } from '../../../../components/Typography';
+import {
+  EditOrganizationInput,
+  EditOrganizationPayload,
+  Organization,
+} from '../../../../graphql.types';
+import { EditOrganization as EditOrganizationMutation } from './../../../../mutations/organization.graphql';
+import { GetOrganizationBasicInfo } from './../../../../queries/organization.graphql';
 
-interface CreateOrganizationData {
-  createOrganization: CreateOrganizationPayload;
+interface EditOrganizationData {
+  editOrganization: EditOrganizationPayload;
 }
 
-interface CreateOrganizationVariables {
-  input: CreateOrganizationInput;
+interface EditOrganizationVars {
+  input: EditOrganizationInput;
 }
 
-interface CreateOrganizationForm {
+interface GetOrgData {
+  organization: Organization;
+}
+
+interface GetOrgVars {
+  organization: string;
+}
+
+interface EditOrganizationForm {
   name: string;
   file: File;
 }
 
-export default function CreateOrganizationPage() {
+export default function EditOrganization({ organization }: { organization: string }) {
   const router = useRouter();
-  const { control, register, handleSubmit, formState, setValue } =
-    useForm<CreateOrganizationForm>();
 
-  const [createOrganization, { data, loading, error }] = useMutation<
-    CreateOrganizationData,
-    CreateOrganizationVariables
-  >(CreateOrganization);
+  const { control, register, handleSubmit, reset, setValue } = useForm<EditOrganizationForm>();
 
-  const onSubmit = async ({ name, file }: CreateOrganizationForm) => {
-    const { url: profileImageUrl } = await uploadFile(file);
-    createOrganization({
+  const orgQuery = useQuery<GetOrgData, GetOrgVars>(GetOrganizationBasicInfo, {
+    variables: { organization },
+  });
+
+  const orgData = orgQuery.data?.organization;
+
+  const [editOrganization, { data, loading, error }] = useMutation<
+    EditOrganizationData,
+    EditOrganizationVars
+  >(EditOrganizationMutation);
+
+  const submit = async ({ name, file }: EditOrganizationForm) => {
+    //const { url: profileImageUrl } = await uploadFile(file);
+    editOrganization({
       variables: {
-        input: { name, profileImageUrl },
+        input: {
+          id: organization,
+          name,
+          //profileImageUrl
+        },
       },
-      onCompleted: async ({ createOrganization: { organization } }) => {
+      onCompleted: async ({ editOrganization: { organization } }) => {
         const response = await fetch(`/browser/organizations/${organization.id}/select`, {
           method: 'POST',
         });
@@ -54,12 +77,21 @@ export default function CreateOrganizationPage() {
     });
   };
 
+  useEffect(() => {
+    if (orgData) {
+      reset({
+        name: orgData.name,
+        //file:
+      });
+    }
+  }, [reset, orgData]);
+
   return (
     <Card className="w-[400px]">
-      <Typography.Header size={Size.H2}>Create an organization</Typography.Header>
+      <Typography.Header size={Size.H2}>Edit organization</Typography.Header>
       <Typography.Header size={Size.H3}>Enter your organization information.</Typography.Header>
 
-      <Form className="flex flex-col mt-5" onSubmit={handleSubmit(onSubmit)}>
+      <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
         <Form.Label name="Organization name" className="text-xs">
           <Form.Input
             autoFocus
@@ -123,7 +155,7 @@ export default function CreateOrganizationPage() {
           loading={loading}
           className="w-full bg-primary text-white p-2 mt-5"
         >
-          Create
+          Save changes
         </Button>
       </Form>
       <span className="flex-wrap text-gray-500 text-xs mt-2">

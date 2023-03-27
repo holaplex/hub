@@ -4,7 +4,7 @@ import { Writable } from 'node:stream';
 
 import { IncomingForm, File } from 'formidable';
 import { Blob } from 'nft.storage';
-import { nftStorage } from '../../modules/upload';
+import { nftStorage } from '../../modules/nftStorage';
 import { appConfig } from '../../app.config';
 
 export const config = {

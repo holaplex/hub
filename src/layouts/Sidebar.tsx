@@ -236,9 +236,11 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                             affiliation.organization?.id !== organization?.id,
                         }
                       )}
-                      onClick={() => onSwitch(affiliation.organization?.id)}
                     >
-                      <div className="flex gap-2 items-center">
+                      <div
+                        className="flex gap-2 items-center"
+                        onClick={() => onSwitch(affiliation.organization?.id)}
+                      >
                         {affiliation.organization?.profileImageUrl ? (
                           <img
                             className="w-8 h-8 rounded-md"
@@ -252,7 +254,9 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                           {affiliation.organization?.name}
                         </span>
                       </div>
-                      <Icon.Settings />
+                      <Link href={`/organizations/${affiliation.organization?.id}/edit`}>
+                        <Icon.Settings />
+                      </Link>
                     </div>
                   );
                 })}

@@ -12,6 +12,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useOrganization } from '../../../../hooks/useOrganization';
 import clsx from 'clsx';
 import Divider from '../../../../components/Divider';
+import { uploadFile } from '../../../../modules/upload';
 
 interface CreateProjectData {
   createProject: CreateProjectPayload;
@@ -24,23 +25,6 @@ interface CreateProjectVars {
 interface CreateProjectForm {
   name: string;
   file: File;
-}
-
-async function uploadFile(file: File): Promise<{ url: string; name: string }> {
-  const body = new FormData();
-  body.append(file.name, file, file.name);
-
-  try {
-    const response = await fetch('/api/uploads', {
-      method: 'POST',
-      body,
-    });
-    const json = await response.json();
-    return json[0];
-  } catch (e: any) {
-    console.error('Could not upload file', e);
-    throw new Error(e);
-  }
 }
 
 export default function NewProjectPage() {
