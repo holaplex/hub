@@ -1,4 +1,4 @@
-import Treasuries from './Treasuries';
+import Treasury from './Treasury';
 
 interface TreasuryLayoutProps {
   children: React.ReactNode;
@@ -13,8 +13,8 @@ export default function TreasuryLayout({
   params: { wallet, project },
 }: TreasuryLayoutProps) {
   return (
-    <Treasuries wallet={wallet} project={project}>
+    <Treasury wallet={wallet} project={project}>
       {children}
-    </Treasuries>
+    </Treasury>
   );
 }

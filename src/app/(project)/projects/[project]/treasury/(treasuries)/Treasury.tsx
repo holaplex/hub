@@ -22,24 +22,24 @@ interface TreasuryLayoutProps {
   project: string;
 }
 
-export default function TreasuryLayout({ children, wallet, project }: TreasuryLayoutProps) {
+export default function Treasury({ children, wallet, project }: TreasuryLayoutProps) {
   const router = useRouter();
   // TODO: Replace this with actual treasury data.
-  const hasTreasury = true;
+  const noTreasury = true;
   const columnHelper = createColumnHelper<Treasury>();
 
   return (
     <>
       <div className="h-full flex flex-col p-4">
-        <div className="text-2xl text-primary font-medium">Treasuries</div>
-        {!hasTreasury ? (
+        <div className="text-2xl text-primary font-medium">Treasury</div>
+        {noTreasury ? (
           <div className="h-full flex-1 flex flex-col items-center justify-center">
             <Icon.Large.Treasury />
-            <span className="mt-6 text-xl font-semibold">No wallets created yet</span>
-            <span className="mt-2 text-gray-500 text-sm">Click button below to add wallet</span>
+            <span className="mt-6 text-xl font-semibold">Project treasury coming soon</span>
+            {/* <span className="mt-2 text-gray-500 text-sm">Click button below to add wallet</span>
             <Link href={`/projects/${project}/treasuries/new`} className="mt-8">
               <Button icon={<Icon.AddWallet stroke="#ffffff" />}>Add wallet</Button>
-            </Link>
+            </Link> */}
           </div>
         ) : (
           <div className="mt-4 flex flex-col">
@@ -141,24 +141,7 @@ export default function TreasuryLayout({ children, wallet, project }: TreasuryLa
                   ),
                 }),
               ]}
-              data={[
-                {
-                  name: 'Main wallet',
-                  id: '1234',
-                  blockchain: 'Solana',
-                  address: '0xA91...a2E9',
-                  createDate: '11/28/2022',
-                  totalBalance: 23.39,
-                },
-                {
-                  name: 'Test wallet',
-                  id: '5678',
-                  blockchain: 'Solana',
-                  address: '0xA91...a2E9',
-                  createDate: '11/28/2022',
-                  totalBalance: 23.39,
-                },
-              ]}
+              data={[]}
             />
           </div>
         )}

@@ -71,11 +71,11 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
               <div className="h-6 w-16 bg-gray-100 animate-pulse rounded-full" />
             </div>
 
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
               <div className="h-10 w-24 bg-gray-100 animate-pulse rounded-md" />
               <div className="h-10 w-28 bg-gray-100 animate-pulse rounded-md" />
               <div className="h-10 w-32 bg-gray-100 animate-pulse rounded-md" />
-            </div>
+            </div> */}
           </div>
           <div className="mt-5 flex gap-4">
             <div className="basis-1/3">
@@ -135,7 +135,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
               </span>
               <Table.DropStatusPill status={dropQuery.data?.project?.drop?.status as DropStatus} />
             </div>
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
               <Button icon={<Icon.Edit />} variant="secondary">
                 Edit
               </Button>
@@ -145,7 +145,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
               <Button icon={<Icon.Close />} variant="secondary">
                 Shut down Minting
               </Button>
-            </div>
+            </div> */}
           </div>
           <div className="mt-5 flex gap-4">
             <div className="basis-1/3">

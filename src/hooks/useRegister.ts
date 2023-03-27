@@ -70,6 +70,7 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
       if (emailErr) {
         setError('email', { message: emailErr });
       }
+      return;
     }
 
     if (search?.has('return_to')) {

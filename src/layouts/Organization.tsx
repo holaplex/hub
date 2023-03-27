@@ -66,12 +66,6 @@ export default function Organization({
                   href="/credentials"
                   active={segments[0] === 'credentials'}
                 />
-                <Sidebar.Menu.Link
-                  name="Settings"
-                  icon={<Icon.Settings />}
-                  href="/settings"
-                  active={segments[0] === 'settings'}
-                />
               </Sidebar.Menu>
               <Sidebar.Footer organization={organization} />
             </Sidebar.Panel>
