@@ -22,7 +22,10 @@ interface SidebarPageProps {
 
 function SidebarPage({ children, open }: SidebarPageProps) {
   return (
-    <section className="flex">
+    <section className="flex flex-grow">
+      <div className="bg-red-500 text-white py-4 flex justify-center fixed top-0 left-0 w-full z-50">
+        This is a developer preview. All data created will be deleted before the production release.
+      </div>
       {Children.map(children, (child) => cloneElement(child, { open }))}
     </section>
   );
@@ -38,7 +41,7 @@ function SidebarPanel({ children }: SidebarPanel) {
     <>
       <aside
         className={clsx(
-          'h-screen w-[200px] lg:w-[260px] fixed top-0 left-0 flex flex-col flex-shrink-0 bg-white'
+          'w-[200px] lg:w-[260px] fixed top-[56px] left-0 bottom-0 flex flex-col flex-shrink-0 bg-white'
         )}
       >
         {children}
@@ -110,7 +113,7 @@ interface SidebarContentProps {
 
 function SidebarContent({ children, className }: SidebarContentProps) {
   return (
-    <article className={clsx('w-full pl-[200px] lg:pl-[260px] mb-4 min-h-screen', className)}>
+    <article className={clsx('w-full pl-[200px] lg:pl-[260px] mb-4 pt-[56px] flex-grow', className)}>
       {children}
     </article>
   );
@@ -197,16 +200,16 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
           ) : (
             <div className="flex flex-col gap-4">
               <div className="flex flex-col border-b border-gray-100 py-2">
-                <Sidebar.Menu.Link
+                {/* <Sidebar.Menu.Link
                   name="Settings"
                   icon={<Icon.Settings />}
                   href=""
                   active={false}
-                />
+                /> */}
                 <Sidebar.Menu.Link
                   name="Help"
                   icon={<Icon.HelpHeadphones />}
-                  href=""
+                  href="https://docs.holaplex.dev"
                   active={false}
                 />
 

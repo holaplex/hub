@@ -120,7 +120,7 @@ export default function Project({
                 </Sidebar.Header>
                 <Sidebar.Menu>
                   <Sidebar.Menu.Link
-                    name="Manage drops"
+                    name="Drops"
                     icon={<Icon.ManageNfts />}
                     href={`/projects/${project.id}/drops`}
                     active={segments[0] === 'drops'}
@@ -132,10 +132,10 @@ export default function Project({
                     active={segments[0] === 'customers'}
                   />
                   <Sidebar.Menu.Link
-                    name="Treasuries"
+                    name="Treasury"
                     icon={<Icon.Treasury />}
-                    href={`/projects/${project.id}/treasuries`}
-                    active={segments[0] === 'treasuries'}
+                    href={`/projects/${project.id}/treasury`}
+                    active={segments[0] === 'treasury'}
                   />
                 </Sidebar.Menu>
                 <Sidebar.Footer organization={organization} />

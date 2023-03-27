@@ -88,7 +88,7 @@ export default function CustomersPage() {
               <span className="mt-2 text-gray-500 text-sm">
                 Click button below to understand how to integrate customers.
               </span>
-              <a href="#">
+              <a href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet">
                 <Button icon={<Icon.Help stroke="#ffffff" />} className="mt-8">
                   How to integrate
                 </Button>
@@ -96,7 +96,7 @@ export default function CustomersPage() {
             </div>
           ) : (
             <div className="mt-4 flex flex-col">
-              <a href="#" className="self-end">
+              <a href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet" className="self-end">
                 <Button icon={<Icon.Help stroke="#000" />} variant="secondary" className="self-end">
                   How to integrate
                 </Button>
