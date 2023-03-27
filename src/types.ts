@@ -40,3 +40,7 @@ export enum CredentialStatus {
   ACTIVE = 'Active',
   DISABLED = 'Disabled',
 }
+
+export enum ErrorCode {
+  Unauthorized = 'UNAUTHORIZED',
+}
