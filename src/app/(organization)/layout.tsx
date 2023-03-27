@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { GetOrganizationBasicInfo } from './../../queries/organization.graphql';
 import { apollo } from '../../client';
 import { appConfig } from '../../app.config';
+import { ApolloError } from '@apollo/client';
 import { Organization as OrganizationType } from '../../graphql.types';
 
 interface OrganizationVars {
@@ -27,13 +28,14 @@ export default async function OrganizationLayout({
 
   if (cookieStore.has('_hub_org')) {
     const organization = cookieStore.get('_hub_org')?.value as string;
-
+    
     const organizationQuery = await client.query<GetOrganizationBasicInfoData, OrganizationVars>({
-      query: GetOrganizationBasicInfo,
-      variables: { organization },
-    });
+        query: GetOrganizationBasicInfo,
+        variables: { organization },
+      });
 
-    return <Organization hydrate={organizationQuery.data?.organization}>{children}</Organization>;
+
+    return <Organization hydrate={organizationQuery?.data?.organization}>{children}</Organization>;
   }
 
   redirect('/organizations');
