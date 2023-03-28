@@ -74,7 +74,12 @@ export default function Registration() {
             />
             <Form.Error message={formState.errors.password?.message} />
           </Form.Label>
-          <Button htmlType="submit" className="w-full">
+          <Button
+            htmlType="submit"
+            className="w-full"
+            loading={formState.isSubmitting}
+            disabled={formState.isSubmitting}
+          >
             Register
           </Button>
         </Form>

@@ -102,6 +102,7 @@ export default function DeleteWebhook({ webhook }: DeleteWebhookProps) {
                 variant="failure"
                 onClick={onDelete}
                 disabled={loading}
+                loading={loading}
               >
                 Delete
               </Button>
