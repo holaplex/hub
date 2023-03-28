@@ -59,7 +59,7 @@ export default function EditOrganization({ organization }: { organization: strin
   >(EditOrganizationMutation);
 
   const submit = async ({ name, file }: EditOrganizationForm) => {
-    let profileImageUrl;
+    let profileImageUrl = orgData?.profileImageUrl;
     if (file) {
       const { url } = await uploadFile(file);
       profileImageUrl = url;
@@ -81,16 +81,7 @@ export default function EditOrganization({ organization }: { organization: strin
   };
 
   useEffect(() => {
-    const fetchFile = async (url: string) => {
-      const file = await downloadFromUrl(url);
-      reset({
-        file,
-      });
-    };
     if (orgData) {
-      if (orgData.profileImageUrl) {
-        fetchFile(orgData.profileImageUrl);
-      }
       reset({
         name: orgData.name,
       });
@@ -136,9 +127,11 @@ export default function EditOrganization({ organization }: { organization: strin
                       )}
                     >
                       <input {...getInputProps({ onBlur })} />
-                      {value ? (
+                      {value || orgData?.profileImageUrl ? (
                         <div className="bg-white rounded-lg p-3 overflow-hidden">
-                          <Form.DragDrop.Preview file={value} />
+                          <Form.DragDrop.Preview
+                            value={value ? value : orgData?.profileImageUrl!}
+                          />
                         </div>
                       ) : (
                         <div className="flex flex-col gap-2">

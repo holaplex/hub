@@ -106,7 +106,7 @@ export default function NewProjectPage() {
                         <input {...getInputProps({ onBlur })} />
                         {value ? (
                           <div className="bg-white rounded-lg p-3 overflow-hidden">
-                            <Form.DragDrop.Preview file={value} />
+                            <Form.DragDrop.Preview value={value} />
                           </div>
                         ) : (
                           <div className="flex flex-col gap-2">

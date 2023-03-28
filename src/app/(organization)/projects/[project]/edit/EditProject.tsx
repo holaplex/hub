@@ -11,7 +11,6 @@ import Card from '../../../../../components/Card';
 import Divider from '../../../../../components/Divider';
 import Typography, { Size } from '../../../../../components/Typography';
 import { EditProjectInput, EditProjectPayload, Project } from '../../../../../graphql.types';
-import { downloadFromUrl } from '../../../../../modules/downloadFile';
 import { uploadFile } from '../../../../../modules/upload';
 import { GetProject } from '../../../../../queries/project.graphql';
 import { EditProject as EditProjectMutation } from './../../../../../mutations/project.graphql';
@@ -59,7 +58,7 @@ export default function EditProject({ project }: { project: string }) {
   const loading = editProjectResult.loading;
 
   const submit = async ({ name, file }: EditProjectForm) => {
-    let profileImageUrl;
+    let profileImageUrl = projectData?.profileImageUrl;
     if (file) {
       const { url } = await uploadFile(file);
       profileImageUrl = url;
@@ -81,16 +80,7 @@ export default function EditProject({ project }: { project: string }) {
   };
 
   useEffect(() => {
-    const fetchFile = async (url: string) => {
-      const file = await downloadFromUrl(url);
-      reset({
-        file,
-      });
-    };
     if (projectData) {
-      if (projectData.profileImageUrl) {
-        fetchFile(projectData.profileImageUrl);
-      }
       reset({
         name: projectData.name,
       });
@@ -142,9 +132,11 @@ export default function EditProject({ project }: { project: string }) {
                         )}
                       >
                         <input {...getInputProps({ onBlur })} />
-                        {value ? (
+                        {value || projectData?.profileImageUrl ? (
                           <div className="bg-white rounded-lg p-3 overflow-hidden">
-                            <Form.DragDrop.Preview file={value} />
+                            <Form.DragDrop.Preview
+                              value={value ? value : projectData?.profileImageUrl!}
+                            />
                           </div>
                         ) : (
                           <div className="flex flex-col gap-2">
