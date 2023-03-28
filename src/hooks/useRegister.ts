@@ -1,4 +1,4 @@
-import { RegistrationFlow, UiNodeInputAttributes } from '@ory/client';
+import { RegistrationFlow, UiNodeInputAttributes, UiText } from '@ory/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
@@ -56,10 +56,15 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
       const {
         response: {
           data: {
-            ui: { nodes },
+            ui: { nodes, messages },
           },
         },
       } = err;
+
+      ((messages as UiText[]) || []).forEach((message) => {
+        toast(message.text, { type: message.type });
+      });
+
       const passwordErr = extractFlowNode('password')(nodes).messages[0]?.text;
       const emailErr = extractFlowNode('traits.email')(nodes).messages[0]?.text;
 

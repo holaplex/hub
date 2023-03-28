@@ -96,7 +96,10 @@ export default function CustomersPage() {
             </div>
           ) : (
             <div className="mt-4 flex flex-col">
-              <a href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet" className="self-end">
+              <a
+                href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet"
+                className="self-end"
+              >
                 <Button icon={<Icon.Help stroke="#000" />} variant="secondary" className="self-end">
                   How to integrate
                 </Button>

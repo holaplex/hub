@@ -113,7 +113,9 @@ interface SidebarContentProps {
 
 function SidebarContent({ children, className }: SidebarContentProps) {
   return (
-    <article className={clsx('w-full pl-[200px] lg:pl-[260px] mb-4 pt-[56px] flex-grow', className)}>
+    <article
+      className={clsx('w-full pl-[200px] lg:pl-[260px] mb-4 pt-[56px] flex-grow', className)}
+    >
       {children}
     </article>
   );
