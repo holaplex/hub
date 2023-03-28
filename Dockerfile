@@ -52,6 +52,8 @@ COPY --from=production --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
+RUN chmod +rw /app/.next
+
 EXPOSE 3000
 
 ENV PORT 3000
