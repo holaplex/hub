@@ -32,17 +32,18 @@ export default function MemberInvitePage() {
     router.push('/members');
   };
 
-  const onSubmit = async ({ email }: InviteMemberForm) => {
-    await inviteMember({
+  const onSubmit = ({ email }: InviteMemberForm) => {
+    inviteMember({
       variables: {
         input: {
           email,
           organization: organization?.id,
         },
       },
+      onCompleted: () => {
+        router.push('/members');
+      },
     });
-
-    router.push('/members');
   };
 
   return (

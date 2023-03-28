@@ -139,13 +139,18 @@ export default function NewProjectPage() {
               )}
             />
           </Form.Label>
-          <Button htmlType="submit" className="w-full mt-5" loading={loading} disabled={loading}>
+          <Button
+            htmlType="submit"
+            className="w-full mt-5"
+            loading={loading || formState.isSubmitting}
+            disabled={loading || formState.isSubmitting}
+          >
             Create
           </Button>
           <Button
             className="w-full mt-5"
             variant="tertiary"
-            disabled={loading}
+            disabled={loading || formState.isSubmitting}
             onClick={() => {
               router.push('/projects');
             }}

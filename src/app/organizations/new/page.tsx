@@ -139,8 +139,8 @@ export default function CreateOrganizationPage() {
         <Button
           border="rounded"
           htmlType="submit"
-          disabled={loading}
-          loading={loading}
+          disabled={loading || formState.isSubmitting}
+          loading={loading || formState.isSubmitting}
           className="w-full bg-primary text-white p-2 mt-5"
         >
           Create
