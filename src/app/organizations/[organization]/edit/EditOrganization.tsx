@@ -15,6 +15,8 @@ import {
   EditOrganizationPayload,
   Organization,
 } from '../../../../graphql.types';
+import { downloadFromUrl } from '../../../../modules/downloadFile';
+import { uploadFile } from '../../../../modules/upload';
 import { EditOrganization as EditOrganizationMutation } from './../../../../mutations/organization.graphql';
 import { GetOrganizationBasicInfo } from './../../../../queries/organization.graphql';
 
@@ -56,13 +58,18 @@ export default function EditOrganization({ organization }: { organization: strin
   >(EditOrganizationMutation);
 
   const submit = async ({ name, file }: EditOrganizationForm) => {
-    //const { url: profileImageUrl } = await uploadFile(file);
+    let profileImageUrl;
+    if (file) {
+      const { url } = await uploadFile(file);
+      profileImageUrl = url;
+    }
+
     editOrganization({
       variables: {
         input: {
           id: organization,
           name,
-          //profileImageUrl
+          profileImageUrl,
         },
       },
       onCompleted: async ({ editOrganization: { organization } }) => {
@@ -78,10 +85,18 @@ export default function EditOrganization({ organization }: { organization: strin
   };
 
   useEffect(() => {
+    const fetchFile = async (url: string) => {
+      const file = await downloadFromUrl(url);
+      reset({
+        file,
+      });
+    };
     if (orgData) {
+      if (orgData.profileImageUrl) {
+        fetchFile(orgData.profileImageUrl);
+      }
       reset({
         name: orgData.name,
-        //file:
       });
     }
   }, [reset, orgData]);

@@ -10,6 +10,8 @@ import Card from '../../../../../components/Card';
 import Divider from '../../../../../components/Divider';
 import Typography, { Size } from '../../../../../components/Typography';
 import { EditProjectInput, EditProjectPayload, Project } from '../../../../../graphql.types';
+import { downloadFromUrl } from '../../../../../modules/downloadFile';
+import { uploadFile } from '../../../../../modules/upload';
 import { GetProject } from '../../../../../queries/project.graphql';
 import { EditProject as EditProjectMutation } from './../../../../../mutations/project.graphql';
 
@@ -55,13 +57,19 @@ export default function EditProject({ project }: { project: string }) {
 
   const loading = editProjectResult.loading;
 
-  const submit = ({ name, file }: EditProjectForm) => {
+  const submit = async ({ name, file }: EditProjectForm) => {
+    let profileImageUrl;
+    if (file) {
+      const { url } = await uploadFile(file);
+      profileImageUrl = url;
+    }
+
     editProject({
       variables: {
         input: {
           id: project,
           name,
-          //profileImageUrl: '',
+          profileImageUrl,
         },
       },
       onCompleted: () => {
@@ -71,10 +79,18 @@ export default function EditProject({ project }: { project: string }) {
   };
 
   useEffect(() => {
+    const fetchFile = async (url: string) => {
+      const file = await downloadFromUrl(url);
+      reset({
+        file,
+      });
+    };
     if (projectData) {
+      if (projectData.profileImageUrl) {
+        fetchFile(projectData.profileImageUrl);
+      }
       reset({
         name: projectData.name,
-        //file: projectData.profileImageUrl
       });
     }
   }, [reset, projectData]);

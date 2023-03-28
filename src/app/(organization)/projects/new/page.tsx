@@ -41,7 +41,11 @@ export default function NewProjectPage() {
   );
 
   const onSubmit = async ({ name, file }: CreateProjectForm) => {
-    const { url: profileImageUrl } = await uploadFile(file);
+    let profileImageUrl;
+    if (file) {
+      const { url } = await uploadFile(file);
+      profileImageUrl = url;
+    }
 
     createProject({
       variables: { input: { name, organization: organization?.id, profileImageUrl } },
