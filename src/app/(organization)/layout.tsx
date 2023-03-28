@@ -28,12 +28,11 @@ export default async function OrganizationLayout({
 
   if (cookieStore.has('_hub_org')) {
     const organization = cookieStore.get('_hub_org')?.value as string;
-    
-    const organizationQuery = await client.query<GetOrganizationBasicInfoData, OrganizationVars>({
-        query: GetOrganizationBasicInfo,
-        variables: { organization },
-      });
 
+    const organizationQuery = await client.query<GetOrganizationBasicInfoData, OrganizationVars>({
+      query: GetOrganizationBasicInfo,
+      variables: { organization },
+    });
 
     return <Organization hydrate={organizationQuery?.data?.organization}>{children}</Organization>;
   }

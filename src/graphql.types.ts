@@ -76,13 +76,13 @@ export enum AssetType {
    * Devnet Solana
    * Note: Holaplex uses `SOL_TEST` for provisioning wallets on its staging environment but still submits transactions to mainnet.
    */
-  SolTest = 'SOL_TEST'
+  SolTest = 'SOL_TEST',
 }
 
 export enum Blockchain {
   Ethereum = 'ETHEREUM',
   Polygon = 'POLYGON',
-  Solana = 'SOLANA'
+  Solana = 'SOLANA',
 }
 
 /** An NFT collection that has either a fixed supply or unlimited mints. NFT collections are deployed to a desired blockchain. */
@@ -239,7 +239,7 @@ export type CreateWebhookPayload = {
 
 export enum CreationStatus {
   Created = 'CREATED',
-  Pending = 'PENDING'
+  Pending = 'PENDING',
 }
 
 export type Credential = {
@@ -315,7 +315,7 @@ export enum DropStatus {
   /** Actively minting. */
   Minting = 'MINTING',
   /** The drop is scheduled for minting. */
-  Scheduled = 'SCHEDULED'
+  Scheduled = 'SCHEDULED',
 }
 
 export type EditCredentialInput = {
@@ -381,7 +381,7 @@ export enum FilterType {
   DropCreated = 'DROP_CREATED',
   DropMinted = 'DROP_MINTED',
   ProjectCreated = 'PROJECT_CREATED',
-  ProjectWalletCreated = 'PROJECT_WALLET_CREATED'
+  ProjectWalletCreated = 'PROJECT_WALLET_CREATED',
 }
 
 /** The holder of a collection. */
@@ -419,7 +419,7 @@ export type InviteMemberInput = {
 export enum InviteStatus {
   Accepted = 'ACCEPTED',
   Revoked = 'REVOKED',
-  Sent = 'SENT'
+  Sent = 'SENT',
 }
 
 export type Member = {
@@ -628,81 +628,65 @@ export type Mutation = {
   mintEdition: MintEditionPayload;
 };
 
-
 export type MutationAcceptInviteArgs = {
   input: AcceptInviteInput;
 };
-
 
 export type MutationCreateCredentialArgs = {
   input: CreateCredentialInput;
 };
 
-
 export type MutationCreateCustomerArgs = {
   input: CreateCustomerInput;
 };
-
 
 export type MutationCreateCustomerWalletArgs = {
   input: CreateCustomerWalletInput;
 };
 
-
 export type MutationCreateDropArgs = {
   input: CreateDropInput;
 };
-
 
 export type MutationCreateOrganizationArgs = {
   input: CreateOrganizationInput;
 };
 
-
 export type MutationCreateProjectArgs = {
   input: CreateProjectInput;
 };
-
 
 export type MutationCreateWebhookArgs = {
   input: CreateWebhookInput;
 };
 
-
 export type MutationDeleteCredentialArgs = {
   input: DeleteCredentialInput;
 };
-
 
 export type MutationDeleteWebhookArgs = {
   input: DeleteWebhookInput;
 };
 
-
 export type MutationEditCredentialArgs = {
   input: EditCredentialInput;
 };
-
 
 export type MutationEditOrganizationArgs = {
   input: EditOrganizationInput;
 };
 
-
 export type MutationEditProjectArgs = {
   input: EditProjectInput;
 };
-
 
 export type MutationEditWebhookArgs = {
   input: EditWebhookInput;
 };
 
-
 export type MutationInviteMemberArgs = {
   input: InviteMemberInput;
 };
-
 
 export type MutationMintEditionArgs = {
   input: MintDropInput;
@@ -725,22 +709,18 @@ export type Organization = {
   webhooks?: Maybe<Array<Webhook>>;
 };
 
-
 export type OrganizationCredentialArgs = {
   clientId: Scalars['String'];
 };
-
 
 export type OrganizationCredentialsArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
 };
 
-
 export type OrganizationInvitesArgs = {
   status?: InputMaybe<InviteStatus>;
 };
-
 
 export type OrganizationWebhookArgs = {
   id: Scalars['UUID'];
@@ -775,11 +755,9 @@ export type Project = {
   treasury?: Maybe<Treasury>;
 };
 
-
 export type ProjectCustomerArgs = {
   id: Scalars['UUID'];
 };
-
 
 export type ProjectDropArgs = {
   id: Scalars['UUID'];
@@ -818,21 +796,17 @@ export type Query = {
   user?: Maybe<User>;
 };
 
-
 export type QueryInviteArgs = {
   id: Scalars['UUID'];
 };
-
 
 export type QueryOrganizationArgs = {
   id: Scalars['UUID'];
 };
 
-
 export type QueryProjectArgs = {
   id: Scalars['UUID'];
 };
-
 
 export type QueryUserArgs = {
   id: Scalars['UUID'];
@@ -856,7 +830,6 @@ export type Treasury = {
   /** The treasury's associated wallets. */
   wallets?: Maybe<Array<Wallet>>;
 };
-
 
 /** A collection of wallets assigned to different entities in the Holaplex ecosystem. */
 export type TreasuryWalletArgs = {
