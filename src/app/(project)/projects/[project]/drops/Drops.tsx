@@ -1,17 +1,14 @@
 'use client';
-import { Button, Form, Modal, PopoverBox } from '@holaplex/ui-library-react';
+import { Button, PopoverBox } from '@holaplex/ui-library-react';
 import { createColumnHelper } from '@tanstack/react-table';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import { format } from 'date-fns';
 import { GetProjectDrops } from './../../../../../queries/drop.graphql';
-import { useState } from 'react';
-import Card from '../../../../../components/Card';
 import { Icon } from '../../../../../components/Icon';
 import Table from '../../../../../components/Table';
-import Typography, { Size } from '../../../../../components/Typography';
-import { formatDateString, DateFormat, convertLocalTime } from '../../../../../modules/time';
+import { DateFormat, convertLocalTime } from '../../../../../modules/time';
 import { Project, Drop, DropStatus } from '../../../../../graphql.types';
 
 enum ShowModal {
@@ -33,7 +30,6 @@ interface GetDropsVars {
 }
 
 export default function Drops({ project }: DropsPageProps) {
-  const [showModal, setShowModal] = useState<ShowModal>(ShowModal.NONE);
   const dropsQuery = useQuery<GetDropsData, GetDropsVars>(GetProjectDrops, {
     variables: { project },
   });
@@ -364,35 +360,52 @@ export default function Drops({ project }: DropsPageProps) {
                     columnHelper.display({
                       id: 'options',
                       header: () => <Icon.TableAction />,
-                      cell: () => (
-                        <PopoverBox
-                          triggerButton={
-                            <div
-                              className={clsx(
-                                'px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min'
-                              )}
-                            >
-                              <Icon.More />
-                            </div>
-                          }
-                          elements={[
-                            <div
-                              key="edit_drop"
+                      cell: (info) => {
+                        const drop = info.row.original;
+
+                        const pauseResumeLink =
+                          drop.status === DropStatus.Paused ? (
+                            <Link
+                              key="resume_mint"
+                              href={`/projects/${project}/drops/${drop.id}/resume`}
                               className="flex gap-2 items-center"
-                              onClick={() => setShowModal(ShowModal.EDIT_DROP)}
                             >
-                              <Icon.Edit /> <span>Edit drop</span>
-                            </div>,
-                            <div
+                              <Icon.Pause /> <span>Resume mint</span>
+                            </Link>
+                          ) : (
+                            <Link
                               key="pause_mint"
+                              href={`/projects/${project}/drops/${info.row.original.id}/pause`}
                               className="flex gap-2 items-center"
-                              onClick={() => setShowModal(ShowModal.PAUSE_MINT)}
                             >
                               <Icon.Pause /> <span>Pause mint</span>
-                            </div>,
-                          ]}
-                        />
-                      ),
+                            </Link>
+                          );
+
+                        return (
+                          <PopoverBox
+                            triggerButton={
+                              <div
+                                className={clsx(
+                                  'px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min'
+                                )}
+                              >
+                                <Icon.More />
+                              </div>
+                            }
+                            elements={[
+                              // <div
+                              //   key="edit_drop"
+                              //   className="flex gap-2 items-center"
+                              //   onClick={() => setShowModal(ShowModal.EDIT_DROP)}
+                              // >
+                              //   <Icon.Edit /> <span>Edit drop</span>
+                              // </div>,
+                              pauseResumeLink,
+                            ]}
+                          />
+                        );
+                      },
                     }),
                   ]}
                   data={drops}
@@ -402,35 +415,6 @@ export default function Drops({ project }: DropsPageProps) {
           </>
         )}
       </div>
-      {/* TODO: Fix Modal to show as overlay instead of in footer. */}
-
-      <Modal
-        open={showModal === ShowModal.PAUSE_MINT}
-        setOpen={(open: boolean) => {
-          open ? setShowModal(ShowModal.PAUSE_MINT) : setShowModal(ShowModal.NONE);
-        }}
-      >
-        <Card className="w-[400px]">
-          <Typography.Header size={Size.H2} className="self-start">
-            Pause mint
-          </Typography.Header>
-          <Typography.Header size={Size.H3} className="self-start">
-            Are you sure you want to pause [Name] drop and stop sales?
-          </Typography.Header>
-          <Form className="flex flex-col mt-5">
-            <Button htmlType="submit" className="w-full mt-5">
-              Pause mint
-            </Button>
-            <Button
-              className="w-full mt-5"
-              variant="tertiary"
-              onClick={() => setShowModal(ShowModal.NONE)}
-            >
-              Cancel
-            </Button>
-          </Form>
-        </Card>
-      </Modal>
     </>
   );
 }

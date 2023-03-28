@@ -4,7 +4,7 @@ import { Button } from '@holaplex/ui-library-react';
 import { Icon } from './../../../../../../components/Icon';
 import Tabs from './../../../../../../layouts/Tabs';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { GetDrop } from './../../../../../../queries/drop.graphql';
 import {
   formatDateString,
@@ -38,6 +38,7 @@ interface GetDropsData {
 }
 
 export default function Drop({ children, project, drop }: DropProps): JSX.Element {
+  const router = useRouter();
   const pathname = usePathname();
 
   const dropQuery = useQuery<GetDropsData, GetDropVars>(GetDrop, { variables: { project, drop } });
@@ -135,17 +136,32 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
               </span>
               <Table.DropStatusPill status={dropQuery.data?.project?.drop?.status as DropStatus} />
             </div>
-            {/* <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <Button icon={<Icon.Edit />} variant="secondary">
-                Edit
+                Edit drop
               </Button>
-              <Button icon={<Icon.Pause />} variant="secondary">
-                Pause
-              </Button>
+              {dropQuery.data?.project.drop?.status === DropStatus.Paused ? (
+                <Button
+                  icon={<Icon.Resume />}
+                  variant="secondary"
+                  onClick={() => router.push(`/projects/${project}/drops/${drop}/resume`)}
+                >
+                  Resume mint
+                </Button>
+              ) : (
+                <Button
+                  icon={<Icon.Pause />}
+                  variant="secondary"
+                  onClick={() => router.push(`/projects/${project}/drops/${drop}/pause`)}
+                >
+                  Pause mint
+                </Button>
+              )}
+
               <Button icon={<Icon.Close />} variant="secondary">
-                Shut down Minting
+                Shut-down minting
               </Button>
-            </div> */}
+            </div>
           </div>
           <div className="mt-5 flex gap-4">
             <div className="basis-1/3">

@@ -5,3 +5,19 @@ mutation CreateDrop($input: CreateDropInput!) {
     }
   }
 }
+
+mutation PauseDrop($input: PauseDropInput!) {
+  pauseDrop(input: $input) {
+    drop {
+      id
+    }
+  }
+}
+
+mutation ResumeDrop($input: ResumeDropInput!) {
+  resumeDrop(input: $input) {
+    drop {
+      id
+    }
+  }
+}
