@@ -10,9 +10,16 @@ import { toast } from 'react-toastify';
 import Card from '../../../../../components/Card';
 import Divider from '../../../../../components/Divider';
 import Typography, { Size } from '../../../../../components/Typography';
-import { EditProjectInput, EditProjectPayload, Project } from '../../../../../graphql.types';
+import {
+  EditProjectInput,
+  EditProjectPayload,
+  Project,
+  InputMaybe,
+} from '../../../../../graphql.types';
+import { useOrganization } from '../../../../../hooks/useOrganization';
 import { uploadFile } from '../../../../../modules/upload';
 import { GetProject } from '../../../../../queries/project.graphql';
+import { GetOrganizationProjects } from '../../../../../queries/organization.graphql';
 import { EditProject as EditProjectMutation } from './../../../../../mutations/project.graphql';
 
 interface GetProjectData {
@@ -32,11 +39,12 @@ interface EditProjectData {
 }
 interface EditProjectForm {
   name: string;
-  file: File;
+  profileImage: string | File | undefined;
 }
 
 export default function EditProject({ project }: { project: string }) {
   const router = useRouter();
+  const { organization } = useOrganization();
 
   const { control, register, handleSubmit, formState, setValue, reset } =
     useForm<EditProjectForm>();
@@ -52,15 +60,21 @@ export default function EditProject({ project }: { project: string }) {
   };
 
   const [editProject, editProjectResult] = useMutation<EditProjectData, EditProjectVars>(
-    EditProjectMutation
+    EditProjectMutation,
+    {
+      refetchQueries: [
+        { query: GetOrganizationProjects, variables: { organization: organization?.id } },
+      ],
+    }
   );
 
-  const loading = editProjectResult.loading;
+  const loading = editProjectResult.loading || formState.isSubmitting;
 
-  const submit = async ({ name, file }: EditProjectForm) => {
-    let profileImageUrl = projectData?.profileImageUrl;
-    if (file) {
-      const { url } = await uploadFile(file);
+  const submit = async ({ name, profileImage }: EditProjectForm) => {
+    let profileImageUrl = profileImage;
+
+    if (profileImage instanceof File) {
+      const { url } = await uploadFile(profileImage);
       profileImageUrl = url;
     }
 
@@ -69,7 +83,7 @@ export default function EditProject({ project }: { project: string }) {
         input: {
           id: project,
           name,
-          profileImageUrl,
+          profileImageUrl: profileImageUrl as InputMaybe<string>,
         },
       },
       onCompleted: () => {
@@ -83,6 +97,7 @@ export default function EditProject({ project }: { project: string }) {
     if (projectData) {
       reset({
         name: projectData.name,
+        profileImage: projectData?.profileImageUrl as string | undefined,
       });
     }
   }, [reset, projectData]);
@@ -90,82 +105,105 @@ export default function EditProject({ project }: { project: string }) {
   return (
     <Modal open={true} setOpen={onClose}>
       <Card className="w-[400px]">
-        <Typography.Header size={Size.H2} className="self-start">
-          Edit project
-        </Typography.Header>
-        <Typography.Header size={Size.H3} className="self-start">
-          Enter project name and logo.
-        </Typography.Header>
+        {projectQuery.loading ? (
+          <>
+            <div className="bg-gray-100 animate-pulse h-6 w-24 rounded-md" />
+            <div className="bg-gray-100 animate-pulse h-4 w-40 rounded-md mt-2" />
+            <div className="bg-gray-100 animate-pulse h-4 w-20 rounded-md mt-5" />
+            <div className="bg-gray-100 animate-pulse h-10 w-full rounded-md mt-2" />
+            <div className="bg-gray-100 animate-pulse h-4 w-20 rounded-md mt-5" />
+            <div className="bg-gray-100 animate-pulse h-44 w-full rounded-md mt-2" />
+            <div className="bg-gray-100 animate-pulse h-10 w-full rounded-md mt-5" />
+            <div className="bg-gray-100 animate-pulse h-10 w-full rounded-md mt-5" />
+          </>
+        ) : (
+          <>
+            <Typography.Header size={Size.H2} className="self-start">
+              Edit project
+            </Typography.Header>
+            <Typography.Header size={Size.H3} className="self-start">
+              Enter project name and logo.
+            </Typography.Header>
 
-        <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-          <Form.Label name="Project name" className="text-xs text-primary">
-            <Form.Input
-              autoFocus
-              placeholder="e.g. Apple events"
-              {...register('name', { required: true })}
-            />
-            <Form.Error message={formState.errors.name?.message} />
-          </Form.Label>
+            <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
+              <Form.Label name="Project name" className="text-xs text-primary">
+                <Form.Input
+                  autoFocus
+                  placeholder="e.g. Apple events"
+                  {...register('name', { required: 'Please enter a name.' })}
+                />
+                <Form.Error message={formState.errors.name?.message} />
+              </Form.Label>
 
-          <Form.Label name="Project logo" className="text-xs text-primary mt-5">
-            <Controller
-              name="file"
-              control={control}
-              render={({ field: { value, onChange, onBlur } }) => (
-                <Dropzone
-                  noClick
-                  multiple={false}
-                  onDrop={([file], _reject, e) => {
-                    setValue('file', file as unknown as File, { shouldValidate: true });
-                  }}
-                >
-                  {({ getRootProps, getInputProps, isDragActive, open }) => {
-                    return (
-                      <div
-                        {...getRootProps()}
-                        className={clsx(
-                          'flex items-center justify-center border border-dashed border-gray-200 cursor-pointer rounded-md',
-                          {
-                            'bg-gray-100': isDragActive,
-                            'p-6 text-center text-gray-500': !value,
-                          }
-                        )}
-                      >
-                        <input {...getInputProps({ onBlur })} />
-                        {value || projectData?.profileImageUrl ? (
-                          <div className="bg-white rounded-lg p-3 overflow-hidden">
-                            <Form.DragDrop.Preview
-                              value={value ? value : projectData?.profileImageUrl!}
-                            />
+              <Form.Label name="Project logo" className="text-xs text-primary mt-5">
+                <Controller
+                  name="profileImage"
+                  control={control}
+                  render={({ field: { value, onChange, onBlur } }) => (
+                    <Dropzone
+                      noClick
+                      multiple={false}
+                      onDrop={([file], _reject, e) => {
+                        setValue('profileImage', file as unknown as File, { shouldValidate: true });
+                      }}
+                    >
+                      {({ getRootProps, getInputProps, isDragActive, open }) => {
+                        return (
+                          <div
+                            {...getRootProps()}
+                            className={clsx(
+                              'flex items-center justify-center border border-dashed border-gray-200 cursor-pointer rounded-md',
+                              {
+                                'bg-gray-100': isDragActive,
+                                'p-6 text-center text-gray-500': !value,
+                              }
+                            )}
+                          >
+                            <input {...getInputProps({ onBlur })} />
+                            {value ? (
+                              <div className="bg-white rounded-lg p-3 overflow-hidden">
+                                <Form.DragDrop.Preview value={value} />
+                              </div>
+                            ) : (
+                              <div className="flex flex-col gap-2">
+                                <p>
+                                  Drag & drop photo here <br />
+                                  Required jpeg, png or svg. Max 2mb.
+                                </p>
+                                <Divider.Or />
+                                <Button onClick={open} variant="secondary" size="small">
+                                  Upload Logo
+                                </Button>
+                              </div>
+                            )}
                           </div>
-                        ) : (
-                          <div className="flex flex-col gap-2">
-                            <p>
-                              Drag & drop photo here <br />
-                              Required jpeg, png or svg. Max 2mb.
-                            </p>
-                            <Divider.Or />
-                            <Button onClick={open} variant="secondary" size="small">
-                              Upload Logo
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  }}
-                </Dropzone>
-              )}
-            />
-          </Form.Label>
+                        );
+                      }}
+                    </Dropzone>
+                  )}
+                />
+              </Form.Label>
 
-          <Button htmlType="submit" className="w-full mt-5" disabled={loading} loading={loading}>
-            Save changes
-          </Button>
+              <Button
+                htmlType="submit"
+                className="w-full mt-5"
+                disabled={loading}
+                loading={loading}
+              >
+                Update project
+              </Button>
 
-          <Button className="w-full mt-5" variant="tertiary" onClick={onClose} disabled={loading}>
-            Cancel
-          </Button>
-        </Form>
+              <Button
+                className="w-full mt-5"
+                variant="tertiary"
+                onClick={onClose}
+                disabled={loading}
+              >
+                Cancel
+              </Button>
+            </Form>
+          </>
+        )}
       </Card>
     </Modal>
   );

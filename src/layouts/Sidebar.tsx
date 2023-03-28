@@ -23,7 +23,7 @@ interface SidebarPageProps {
 function SidebarPage({ children, open }: SidebarPageProps) {
   return (
     <section className="flex flex-grow">
-      <div className="bg-red-500 text-white py-4 flex justify-center fixed top-0 left-0 w-full z-50">
+      <div className="bg-red-500 text-white py-4 flex justify-center fixed top-0 left-0 w-full z-20">
         This is a developer preview. All data created will be deleted before the production release.
       </div>
       {Children.map(children, (child) => cloneElement(child, { open }))}
@@ -254,9 +254,6 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                           {affiliation.organization?.name}
                         </span>
                       </div>
-                      <Link href={`/organizations/${affiliation.organization?.id}/edit`}>
-                        <Icon.Settings />
-                      </Link>
                     </div>
                   );
                 })}

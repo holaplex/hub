@@ -4,8 +4,8 @@ interface EditProjectLayoutProps {
   params: { project: string };
 }
 
-export default async function EditProjectPage({
+export default function EditProjectPage({
   params: { project },
-}: EditProjectLayoutProps): Promise<React.ReactNode> {
+}: EditProjectLayoutProps): React.ReactNode {
   return <EditProject project={project} />;
 }

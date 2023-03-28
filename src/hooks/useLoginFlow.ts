@@ -32,7 +32,7 @@ export function useLoginFlow(): LoginFlowContext {
         const errorCode = err.response?.data.error?.id;
 
         if (errorCode === 'session_already_available') {
-          toast.error('You are already logged in');
+          toast.info('You are already logged in');
 
           router.push('/projects');
         }
