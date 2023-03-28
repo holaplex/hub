@@ -50,6 +50,8 @@ COPY --from=production /app/public ./public
 COPY --from=production --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=production --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+RUN chown -R nextjs:nodejs /app/.next
+
 USER nextjs
 
 RUN chmod +rw /app/.next
