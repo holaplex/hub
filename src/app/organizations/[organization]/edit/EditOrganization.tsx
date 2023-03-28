@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import Dropzone from 'react-dropzone';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import Card from '../../../../components/Card';
 import Divider from '../../../../components/Divider';
 import Typography, { Size } from '../../../../components/Typography';
@@ -73,13 +74,8 @@ export default function EditOrganization({ organization }: { organization: strin
         },
       },
       onCompleted: async ({ editOrganization: { organization } }) => {
-        const response = await fetch(`/browser/organizations/${organization.id}/select`, {
-          method: 'POST',
-        });
-
-        const json: { redirect_path: string } = await response.json();
-
-        router.push(json.redirect_path);
+        toast('Your organization was successfully updated.');
+        router.push('/projects');
       },
     });
   };

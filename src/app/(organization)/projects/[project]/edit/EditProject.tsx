@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import Dropzone from 'react-dropzone';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import Card from '../../../../../components/Card';
 import Divider from '../../../../../components/Divider';
 import Typography, { Size } from '../../../../../components/Typography';
@@ -73,6 +74,7 @@ export default function EditProject({ project }: { project: string }) {
         },
       },
       onCompleted: () => {
+        toast('Your project was successfully updated.');
         router.push('/projects');
       },
     });
