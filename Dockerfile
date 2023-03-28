@@ -50,9 +50,9 @@ COPY --from=production /app/public ./public
 COPY --from=production --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=production --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-USER nextjs
+RUN chown -R nextjs:nodejs /app/.next
 
-RUN chmod +rw /app/.next
+USER nextjs
 
 EXPOSE 3000
 
