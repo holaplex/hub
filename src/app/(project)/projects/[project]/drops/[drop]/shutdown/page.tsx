@@ -8,8 +8,6 @@ import { GetDropBasicDetail } from './../../../../../../../queries/drop.graphql'
 import { ShutdownDrop } from './../../../../../../../mutations/drop.graphql';
 import {
   Project,
-  PauseDropInput,
-  PauseDropPayload,
   ShutdownDropPayload,
   ShutdownDropInput,
 } from '../../../../../../../graphql.types';
