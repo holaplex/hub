@@ -28,6 +28,7 @@ query GetProjectDrops($project: UUID!) {
 query GetDrop($project: UUID!, $drop: UUID!) {
   project(id: $project) {
     id
+    name
     treasury {
       wallets {
         address
@@ -59,6 +60,24 @@ query GetDrop($project: UUID!, $drop: UUID!) {
           image
           description
           symbol
+          attributes {
+            id
+            traitType
+            value
+          }
+        }
+      }
+    }
+  }
+}
+
+query GetDropBasicDetail($project: UUID!, $drop: UUID!) {
+  project(id: $project) {
+    drop(id: $drop) {
+      id
+      collection {
+        metadataJson {
+          name
         }
       }
     }

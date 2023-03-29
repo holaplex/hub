@@ -2,19 +2,18 @@
 import { Button } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import Card from '../../../../../../../components/Card';
-import Typography, { Size } from '../../../../../../../components/Typography';
-import { CreateDropInput, CreateDropPayload } from '../../../../../../../graphql.types';
-import useCreateDropStore from '../../../../../../../hooks/useCreateDropStore';
+import Card from '../../../../../../../../../components/Card';
+import Typography, { Size } from '../../../../../../../../../components/Typography';
+import { CreateDropInput, CreateDropPayload } from '../../../../../../../../../graphql.types';
+import useCreateDropStore from '../../../../../../../../../hooks/useCreateDropStore';
 import { useMutation } from '@apollo/client';
 import { format } from 'date-fns';
-import { CreateDrop } from './../../../../../../../mutations/drop.graphql';
-import { combineDateTime, maybeToUtc, DateFormat } from '../../../../../../../modules/time';
-import { useProject } from '../../../../../../../hooks/useProject';
+import { CreateDrop } from './../../../../../../../../mutations/drop.graphql';
+import { combineDateTime, maybeToUtc, DateFormat } from '../../../../../../../../../modules/time';
+import { useProject } from '../../../../../../../../../hooks/useProject';
 import { useState } from 'react';
-import { GetProjectDrops } from './../../../../../../../queries/drop.graphql';
+import { GetProjectDrops } from './../../../../../../../../queries/drop.graphql';
 import { ifElse, isNil, always } from 'ramda';
-import { uploadFile } from '../../../../../../../modules/upload';
 
 interface CreateDropData {
   createProject: CreateDropPayload;
@@ -26,6 +25,23 @@ interface CreateDropVars {
 
 const LAMPORTS_PER_SOL = 1_000_000_000;
 
+async function uploadFile(file: File): Promise<{ url: string; name: string }> {
+  const body = new FormData();
+  body.append(file.name, file, file.name);
+
+  try {
+    const response = await fetch('/api/uploads', {
+      method: 'POST',
+      body,
+    });
+    const json = await response.json();
+    return json[0];
+  } catch (e: any) {
+    console.error('Could not upload file', e);
+    throw new Error(e);
+  }
+}
+
 export default function NewDropPreviewPage() {
   const router = useRouter();
   const { project } = useProject();
@@ -33,17 +49,16 @@ export default function NewDropPreviewPage() {
   const { stepOne, stepTwo, stepThree } = useCreateDropStore();
 
   const back = () => {
-    router.push(`/projects/${project?.id}/drops/new/timing`);
+    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/timing`);
   };
 
   const [createDrop] = useMutation<CreateDropData, CreateDropVars>(CreateDrop, {
-    awaitRefetchQueries: true,
     refetchQueries: [{ query: GetProjectDrops, variables: { project: project?.id } }],
   });
 
   if (!stepOne || !stepTwo || !stepThree) {
     toast('Incomplete drops data. Check again.');
-    router.push(`/projects/${project?.id}/drops/new/details`);
+    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/details`);
     return;
   }
 
@@ -86,7 +101,6 @@ export default function NewDropPreviewPage() {
             description: stepOne.description,
             image: imageUrl as string,
             attributes: stepOne.attributes,
-            externalUrl: stepOne.externalUrl,
           },
           creators: stepTwo.creators,
           supply: parseInt(stepTwo.supply),

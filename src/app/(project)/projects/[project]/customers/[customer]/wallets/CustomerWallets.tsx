@@ -32,7 +32,7 @@ export default function CustomerWallets({ children, project, customer }: Custome
     <div className="h-full flex flex-col">
       {walletsQuery.loading ? (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {Array.from(Array(6)).map((_, index) => (
+          {Array.from(Array(4)).map((_, index) => (
             <Wallet.Skeleton key={index} />
           ))}
         </div>

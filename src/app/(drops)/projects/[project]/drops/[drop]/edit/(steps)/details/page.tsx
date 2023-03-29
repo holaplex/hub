@@ -3,15 +3,17 @@ import { Button, Form } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import Dropzone from 'react-dropzone';
 import { Controller, useForm, useFieldArray } from 'react-hook-form';
-import Card from '../../../../../../../components/Card';
-import { Icon } from '../../../../../../../components/Icon';
-import Typography, { Size } from '../../../../../../../components/Typography';
-import { Blockchain } from '../../../../../../../graphql.types';
-import { useProject } from '../../../../../../../hooks/useProject';
-import Divider from '../../../../../../../components/Divider';
+import Card from '../../../../../../../../../components/Card';
+import { Icon } from '../../../../../../../../../components/Icon';
+import Typography, { Size } from '../../../../../../../../../components/Typography';
+import { Blockchain } from '../../../../../../../../../graphql.types';
+import { useProject } from '../../../../../../../../../hooks/useProject';
+import Divider from '../../../../../../../../../components/Divider';
 import clsx from 'clsx';
-import useCreateDropStore, { StepOneData } from '../../../../../../../hooks/useCreateDropStore';
-import { labelBlockchain } from '../../../../../../../modules/label';
+import useCreateDropStore, {
+  StepOneData,
+} from '../../../../../../../../../hooks/useCreateDropStore';
+import { labelBlockchain } from '../../../../../../../../../modules/label';
 
 export default function NewDropDetailsPage() {
   const router = useRouter();
@@ -22,7 +24,7 @@ export default function NewDropDetailsPage() {
   });
   const submit = (data: StepOneData) => {
     setData({ step: 1, data });
-    router.push(`/projects/${project?.id}/drops/new/royalties`);
+    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/royalties`);
   };
 
   const { fields, append, remove } = useFieldArray({
@@ -141,13 +143,6 @@ export default function NewDropDetailsPage() {
             <Form.Input
               {...register('description')}
               placeholder="Enter a description for the drop."
-            />
-            <Form.Error message="" />
-          </Form.Label>
-          <Form.Label name="External URL" className="text-xs mt-5">
-            <Form.Input
-              {...register('externalUrl')}
-              placeholder="(Optional) Set an external url on the drop."
             />
             <Form.Error message="" />
           </Form.Label>

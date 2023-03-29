@@ -1,12 +1,13 @@
 'use client';
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Button, Modal } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import Card from '../../../../../../../components/Card';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { GetDropBasicDetail } from './../../../../../../../queries/drop.graphql';
-import { PauseDrop } from './../../../../../../../mutations/drop.graphql';
-import { Project, PauseDropInput, PauseDropPayload } from '../../../../../../../graphql.types';
+import { Project } from '../../../../../../../graphql.types';
+import { Icon } from '../../../../../../../components/Icon';
+import Link from 'next/link';
 
 interface GetDropData {
   project: Project;
@@ -56,16 +57,18 @@ export default function EditDropPage({ params: { drop, project } }: EditDropProp
             </Typography.Header>
 
             <div className="flex flex-col gap-2 mt-4">
-              <Button
-                htmlType="submit"
-                className="w-full mt-5"
-                variant="failure"
-                onClick={onEdit}
-                disabled={loading}
-              >
-                Pause mint
+              <Link href={`/projects/${project}/drops/${drop}/edit/details`} className="w-full">
+                <Button onClick={onEdit} icon={<Icon.Settings stroke="white" />} className="w-full">
+                  Drop details
+                </Button>
+              </Link>
+              <Button className="w-full" onClick={onEdit} icon={<Icon.Royalties stroke="white" />}>
+                Payments & royalties
               </Button>
-              <Button variant="tertiary" className="w-full" onClick={onClose} disabled={loading}>
+              <Button className="w-full" onClick={onEdit} icon={<Icon.Calendar stroke="white" />}>
+                Mint date
+              </Button>
+              <Button variant="tertiary" className="w-full" onClick={onClose}>
                 Cancel
               </Button>
             </div>
