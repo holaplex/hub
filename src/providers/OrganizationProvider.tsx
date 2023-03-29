@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation';
-import { createContext, useState } from 'react';
+import { Dispatch, SetStateAction, createContext, useState } from 'react';
 import { Organization } from '../graphql.types';
 import { toast } from 'react-toastify';
 import { useLazyQuery } from '@apollo/client';
@@ -8,6 +8,7 @@ import { GetOrganizationBasicInfo } from './../queries/organization.graphql';
 interface OrganizationContextType {
   organization?: Organization;
   onSwitch: (organization: string) => Promise<void>;
+  setOrganization: Dispatch<SetStateAction<Organization | undefined>>;
 }
 
 export const OrganizationContext = createContext<OrganizationContextType>(
@@ -57,7 +58,7 @@ export function OrganizationProvider({
   };
 
   return (
-    <OrganizationContext.Provider value={{ organization, onSwitch }}>
+    <OrganizationContext.Provider value={{ organization, onSwitch, setOrganization }}>
       <>{children({ organization })}</>
     </OrganizationContext.Provider>
   );

@@ -62,6 +62,7 @@ export default function EditProject({ project }: { project: string }) {
   const [editProject, editProjectResult] = useMutation<EditProjectData, EditProjectVars>(
     EditProjectMutation,
     {
+      awaitRefetchQueries: true,
       refetchQueries: [
         { query: GetOrganizationProjects, variables: { organization: organization?.id } },
       ],
@@ -87,7 +88,7 @@ export default function EditProject({ project }: { project: string }) {
         },
       },
       onCompleted: () => {
-        toast('Your project was successfully updated.');
+        toast.success('Your project was successfully updated.');
         router.push('/projects');
       },
     });

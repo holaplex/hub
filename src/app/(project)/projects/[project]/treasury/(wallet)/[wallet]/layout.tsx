@@ -3,6 +3,9 @@ import { apollo } from '../../../../../../../client';
 import { appConfig } from '../../../../../../../app.config';
 import { GetProject } from './../../../../../../../queries/project.graphql';
 import TreasuryWallet, { Wallet } from '../../../../../../../layouts/TreasuryWallet';
+
+export const revalidate = 0;
+
 interface WalletLayoutProps {
   children: React.ReactNode;
   params: { wallet: string };
@@ -26,6 +29,7 @@ export default async function WalletLayout({
   );
 
   const walletQuery = await client.query<GetWalletData, GetWalletVars>({
+    fetchPolicy: 'network-only',
     query: GetProject,
     variables: { wallet },
   });

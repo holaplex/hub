@@ -37,6 +37,7 @@ export default function NewDropPreviewPage() {
   };
 
   const [createDrop] = useMutation<CreateDropData, CreateDropVars>(CreateDrop, {
+    awaitRefetchQueries: true,
     refetchQueries: [{ query: GetProjectDrops, variables: { project: project?.id } }],
   });
 

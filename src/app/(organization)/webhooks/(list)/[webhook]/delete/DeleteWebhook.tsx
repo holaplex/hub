@@ -51,6 +51,7 @@ export default function DeleteWebhook({ webhook }: DeleteWebhookProps) {
   const [deleteWebhook, { loading }] = useMutation<DeleteWebhookData, DeleteWebhookVars>(
     DeleteWebhookMutation,
     {
+      awaitRefetchQueries: true,
       refetchQueries: [
         { query: GetOrganizationWebhooks, variables: { organization: organization?.id } },
       ],

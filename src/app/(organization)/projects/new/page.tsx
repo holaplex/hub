@@ -34,6 +34,7 @@ export default function NewProjectPage() {
   const [createProject, { loading }] = useMutation<CreateProjectData, CreateProjectVars>(
     CreateProject,
     {
+      awaitRefetchQueries: true,
       refetchQueries: [
         { query: GetOrganizationProjects, variables: { organization: organization?.id } },
       ],
@@ -52,6 +53,7 @@ export default function NewProjectPage() {
       onCompleted: () => {
         router.push('/projects');
       },
+      awaitRefetchQueries: true,
     });
   };
 

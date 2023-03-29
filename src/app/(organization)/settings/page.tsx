@@ -34,7 +34,7 @@ interface EditOrganizationForm {
 
 export default function OrganizationSettingsPage() {
   const router = useRouter();
-  const { organization } = useOrganization();
+  const { organization, setOrganization } = useOrganization();
   const { control, register, handleSubmit, reset, setValue, formState } =
     useForm<EditOrganizationForm>({
       defaultValues: {
@@ -47,6 +47,7 @@ export default function OrganizationSettingsPage() {
     EditOrganizationData,
     EditOrganizationVars
   >(EditOrganizationMutation, {
+    awaitRefetchQueries: true,
     refetchQueries: [
       { query: GetOrganizationBasicInfo, variables: { organization: organization?.id } },
     ],
@@ -68,8 +69,9 @@ export default function OrganizationSettingsPage() {
           profileImageUrl: profileImageUrl as InputMaybe<string>,
         },
       },
-      onCompleted: async () => {
-        toast('Your organization was successfully updated.');
+      onCompleted: ({ editOrganization: { organization } }) => {
+        toast.success('Your organization was successfully updated.');
+        setOrganization(organization);
         router.push('/projects');
       },
     });

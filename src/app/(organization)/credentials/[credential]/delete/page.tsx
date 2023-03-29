@@ -52,6 +52,7 @@ export default function DeleteCredentialPage({ params: { credential } }: DeleteC
   const [deleteCredential, { loading }] = useMutation<DeleteCredentialData, DeleteCredentialVars>(
     DeleteCredential,
     {
+      awaitRefetchQueries: true,
       refetchQueries: [
         { query: GetOrganizationCredentials, variables: { organization: organization?.id } },
       ],
