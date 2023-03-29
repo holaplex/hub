@@ -16,6 +16,7 @@ declare module '*/drop.graphql' {
   export const CreateDrop: DocumentNode;
 export const PauseDrop: DocumentNode;
 export const ResumeDrop: DocumentNode;
+export const ShutdownDrop: DocumentNode;
 export const GetProjectDrops: DocumentNode;
 export const GetDrop: DocumentNode;
 export const GetDropBasicDetail: DocumentNode;

@@ -157,8 +157,11 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                   Pause mint
                 </Button>
               )}
-
-              <Button icon={<Icon.Close />} variant="secondary">
+              <Button
+                icon={<Icon.Close />}
+                variant="secondary"
+                onClick={() => router.push(`/projects/${project}/drops/${drop}/shutdown`)}
+              >
                 Shut-down minting
               </Button>
             </div>

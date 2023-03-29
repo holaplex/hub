@@ -75,7 +75,7 @@ export default function ResumeMintPage({ params: { drop, project } }: ResumeDrop
               <span className="text-primary font-medium">
                 {dropQuery.data?.project.drop?.collection.metadataJson?.name}
               </span>{' '}
-              drop and continue sales.
+              drop and continue sales?
             </Typography.Header>
 
             <div className="flex flex-col gap-2 mt-4">

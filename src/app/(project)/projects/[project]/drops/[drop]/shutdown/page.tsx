@@ -5,15 +5,21 @@ import { useRouter } from 'next/navigation';
 import Card from '../../../../../../../components/Card';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { GetDropBasicDetail } from './../../../../../../../queries/drop.graphql';
-import { PauseDrop } from './../../../../../../../mutations/drop.graphql';
-import { Project, PauseDropInput, PauseDropPayload } from '../../../../../../../graphql.types';
+import { ShutdownDrop } from './../../../../../../../mutations/drop.graphql';
+import {
+  Project,
+  PauseDropInput,
+  PauseDropPayload,
+  ShutdownDropPayload,
+  ShutdownDropInput,
+} from '../../../../../../../graphql.types';
 
-interface PauseDropData {
-  pauseDrop: PauseDropPayload;
+interface ShutdownDropData {
+  shutdownDrop: ShutdownDropPayload;
 }
 
-interface PauseDropVars {
-  input: PauseDropInput;
+interface ShutdownDropVars {
+  input: ShutdownDropInput;
 }
 interface GetDropData {
   project: Project;
@@ -23,11 +29,11 @@ interface GetDropVars {
   drop: string;
   project: string;
 }
-interface PauseDropProps {
+interface ShutdownDropProps {
   params: { drop: string; project: string };
 }
 
-export default function PauseMintPage({ params: { drop, project } }: PauseDropProps) {
+export default function ShutdownDropPage({ params: { drop, project } }: ShutdownDropProps) {
   const router = useRouter();
 
   const onClose = () => {
@@ -38,10 +44,10 @@ export default function PauseMintPage({ params: { drop, project } }: PauseDropPr
     variables: { drop, project },
   });
 
-  const [pauseDrop, { loading }] = useMutation<PauseDropData, PauseDropVars>(PauseDrop);
+  const [shutdownDrop, { loading }] = useMutation<ShutdownDropData, ShutdownDropVars>(ShutdownDrop);
 
-  const onPause = () => {
-    pauseDrop({
+  const onShutdown = () => {
+    shutdownDrop({
       variables: {
         input: {
           drop,
@@ -56,7 +62,7 @@ export default function PauseMintPage({ params: { drop, project } }: PauseDropPr
   return (
     <Modal open={true} setOpen={onClose}>
       <Card className="w-[400px]">
-        <Typography.Header size={Size.H2}>Pause mint</Typography.Header>
+        <Typography.Header size={Size.H2}>Shut-down minting?</Typography.Header>
         {dropQuery.loading ? (
           <>
             <div className="mt-2 flex flex-col gap-1">
@@ -71,11 +77,11 @@ export default function PauseMintPage({ params: { drop, project } }: PauseDropPr
         ) : (
           <>
             <Typography.Header size={Size.H3} className="mt-2">
-              Are you sure you want to pause{' '}
+              Are you sure you want to shut-down{' '}
               <span className="text-primary font-medium">
                 {dropQuery.data?.project.drop?.collection.metadataJson?.name}
               </span>{' '}
-              drop and stop sales?
+              minting?
             </Typography.Header>
 
             <div className="flex flex-col gap-2 mt-4">
@@ -83,10 +89,10 @@ export default function PauseMintPage({ params: { drop, project } }: PauseDropPr
                 htmlType="submit"
                 className="w-full mt-5"
                 variant="failure"
-                onClick={onPause}
+                onClick={onShutdown}
                 disabled={loading}
               >
-                Pause mint
+                Shut-down mint
               </Button>
               <Button variant="tertiary" className="w-full" onClick={onClose} disabled={loading}>
                 Cancel

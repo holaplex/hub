@@ -363,24 +363,38 @@ export default function Drops({ project }: DropsPageProps) {
                       cell: (info) => {
                         const drop = info.row.original;
 
-                        const pauseResumeLink =
-                          drop.status === DropStatus.Paused ? (
+                        const popupList: JSX.Element[] = [];
+                        drop.status === DropStatus.Paused
+                          ? popupList.push(
+                              <Link
+                                key="resume_mint"
+                                href={`/projects/${project}/drops/${drop.id}/resume`}
+                                className="flex gap-2 items-center"
+                              >
+                                <Icon.Pause /> <span>Resume mint</span>
+                              </Link>
+                            )
+                          : popupList.push(
+                              <Link
+                                key="pause_mint"
+                                href={`/projects/${project}/drops/${info.row.original.id}/pause`}
+                                className="flex gap-2 items-center"
+                              >
+                                <Icon.Pause /> <span>Pause mint</span>
+                              </Link>
+                            );
+
+                        if (drop.status === DropStatus.Minting) {
+                          popupList.push(
                             <Link
-                              key="resume_mint"
-                              href={`/projects/${project}/drops/${drop.id}/resume`}
+                              key="shutdown_mint"
+                              href={`/projects/${project}/drops/${info.row.original.id}/shutdown`}
                               className="flex gap-2 items-center"
                             >
-                              <Icon.Pause /> <span>Resume mint</span>
-                            </Link>
-                          ) : (
-                            <Link
-                              key="pause_mint"
-                              href={`/projects/${project}/drops/${info.row.original.id}/pause`}
-                              className="flex gap-2 items-center"
-                            >
-                              <Icon.Pause /> <span>Pause mint</span>
+                              <Icon.Close /> <span>Shut-down mint</span>
                             </Link>
                           );
+                        }
 
                         return (
                           <PopoverBox
@@ -393,16 +407,7 @@ export default function Drops({ project }: DropsPageProps) {
                                 <Icon.More />
                               </div>
                             }
-                            elements={[
-                              // <div
-                              //   key="edit_drop"
-                              //   className="flex gap-2 items-center"
-                              //   onClick={() => setShowModal(ShowModal.EDIT_DROP)}
-                              // >
-                              //   <Icon.Edit /> <span>Edit drop</span>
-                              // </div>,
-                              pauseResumeLink,
-                            ]}
+                            elements={popupList}
                           />
                         );
                       },

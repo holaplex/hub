@@ -21,3 +21,11 @@ mutation ResumeDrop($input: ResumeDropInput!) {
     }
   }
 }
+
+mutation ShutdownDrop($input: ShutdownDropInput!) {
+  shutdownDrop(input: $input) {
+    drop {
+      id
+    }
+  }
+}
