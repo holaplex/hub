@@ -168,7 +168,7 @@ function DropStatusPill({ status, className }: DropStatusPillProps) {
         'bg-blue-200 text-blue-600': status === DropStatus.Minting,
         'bg-green-200 text-green-600': status === DropStatus.Minted,
         'bg-gray-100 text-gray-500': status === DropStatus.Creating,
-        'bg-red-100 text-red-900': status === DropStatus.Expired || DropStatus.Shutdown,
+        'bg-red-100 text-red-900': status === DropStatus.Expired || status === DropStatus.Shutdown,
       })}
     >
       {label}
