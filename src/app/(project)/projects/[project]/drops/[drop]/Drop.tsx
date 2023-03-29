@@ -47,6 +47,9 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
       (dropQuery.data?.project?.drop?.collection?.supply as number)) *
       100
   );
+
+  const status = dropQuery.data?.project.drop?.status;
+
   const loading = dropQuery.loading;
   const wallet = dropQuery.data?.project.treasury?.wallets?.find((wallet) => {
     switch (dropQuery.data?.project?.drop?.collection.blockchain) {
@@ -193,6 +196,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                   <div
                     className={clsx('top-0 bottom-0 left-0 absolute rounded-r-full', {
                       'bg-blue-600': dropQuery.data?.project?.drop?.status === DropStatus.Minting,
+                      'bg-red-900': dropQuery.data?.project?.drop?.status === DropStatus.Shutdown,
                     })}
                     style={{ width: `${percent}%` }}
                   />
