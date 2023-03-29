@@ -129,7 +129,7 @@ input:focus {
 }
 
 .spinner-primary {
-  @apply border-bg-gray-50 border-r-transparent;
+  @apply border-gray-50 border-r-transparent;
 }
 
 .spinner-secondary,
