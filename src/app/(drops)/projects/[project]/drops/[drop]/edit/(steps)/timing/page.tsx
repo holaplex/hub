@@ -2,6 +2,7 @@
 
 import { Button, Form } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Card from '../../../../../../../../../components/Card';
 import Typography, { Size } from '../../../../../../../../../components/Typography';
@@ -14,7 +15,9 @@ export default function NewDropTimingPage() {
   const router = useRouter();
   const { project } = useProject();
   const { stepThree, setData } = useCreateDropStore();
-  const { handleSubmit, register } = useForm<StepThreeData>({ defaultValues: stepThree || {} });
+  const { handleSubmit, register, reset } = useForm<StepThreeData>({
+    defaultValues: stepThree || {},
+  });
   const submit = (data: StepThreeData) => {
     setData({ step: 3, data });
     router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/preview`);
@@ -23,6 +26,12 @@ export default function NewDropTimingPage() {
   const back = () => {
     router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/royalties`);
   };
+
+  useEffect(() => {
+    if (stepThree) {
+      reset(stepThree);
+    }
+  }, [reset, stepThree]);
 
   return (
     <>

@@ -15,6 +15,7 @@ import { useProject } from '../../../../../../../../../hooks/useProject';
 import useCreateDropStore, {
   StepTwoData,
 } from '../../../../../../../../../hooks/useCreateDropStore';
+import { useEffect } from 'react';
 
 export default function NewDropRoyaltiesPage() {
   const router = useRouter();
@@ -32,7 +33,7 @@ export default function NewDropRoyaltiesPage() {
     }
   });
 
-  const { handleSubmit, register, control, watch, formState } = useForm<StepTwoData>({
+  const { handleSubmit, register, control, watch, formState, reset } = useForm<StepTwoData>({
     defaultValues: stepTwo || {
       treasuryAllRoyalties: true,
       creators: [{ address: wallet?.address, share: 100, verified: true }],
@@ -93,6 +94,12 @@ export default function NewDropRoyaltiesPage() {
   const back = () => {
     router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/details`);
   };
+
+  useEffect(() => {
+    if (stepTwo) {
+      reset(stepTwo);
+    }
+  }, [reset, stepTwo]);
 
   return (
     <>

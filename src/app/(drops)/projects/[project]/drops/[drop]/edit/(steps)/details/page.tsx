@@ -14,14 +14,17 @@ import useCreateDropStore, {
   StepOneData,
 } from '../../../../../../../../../hooks/useCreateDropStore';
 import { labelBlockchain } from '../../../../../../../../../modules/label';
+import { useEffect } from 'react';
 
 export default function NewDropDetailsPage() {
   const router = useRouter();
   const { project } = useProject();
   const { stepOne, setData } = useCreateDropStore();
-  const { handleSubmit, register, control, setValue, formState } = useForm<StepOneData>({
+
+  const { handleSubmit, register, control, setValue, formState, reset } = useForm<StepOneData>({
     defaultValues: stepOne || {},
   });
+
   const submit = (data: StepOneData) => {
     setData({ step: 1, data });
     router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/royalties`);
@@ -33,6 +36,12 @@ export default function NewDropDetailsPage() {
   });
 
   const options = [{ label: labelBlockchain(Blockchain.Solana), id: Blockchain.Solana }];
+
+  useEffect(() => {
+    if (stepOne) {
+      reset(stepOne);
+    }
+  }, [reset, stepOne]);
 
   return (
     <>

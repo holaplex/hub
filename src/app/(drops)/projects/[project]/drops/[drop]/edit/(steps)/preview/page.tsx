@@ -8,11 +8,11 @@ import { CreateDropInput, CreateDropPayload } from '../../../../../../../../../g
 import useCreateDropStore from '../../../../../../../../../hooks/useCreateDropStore';
 import { useMutation } from '@apollo/client';
 import { format } from 'date-fns';
-import { CreateDrop } from './../../../../../../../../mutations/drop.graphql';
+import { CreateDrop } from './../../../../../../../../../mutations/drop.graphql';
 import { combineDateTime, maybeToUtc, DateFormat } from '../../../../../../../../../modules/time';
 import { useProject } from '../../../../../../../../../hooks/useProject';
 import { useState } from 'react';
-import { GetProjectDrops } from './../../../../../../../../queries/drop.graphql';
+import { GetProjectDrops } from './../../../../../../../../../queries/drop.graphql';
 import { ifElse, isNil, always } from 'ramda';
 
 interface CreateDropData {
