@@ -103,7 +103,7 @@ export default function NewDropPreviewPage() {
             attributes: stepOne.attributes,
           },
           creators: stepTwo.creators,
-          supply: parseInt(stepTwo.supply),
+          supply: parseInt(stepTwo.supply.replace(',', '')),
           price: 0,
           sellerFeeBasisPoints: ifElse(
             isNil,
