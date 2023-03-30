@@ -12,6 +12,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useOrganization } from '../../../../hooks/useOrganization';
 import clsx from 'clsx';
 import Divider from '../../../../components/Divider';
+import { uploadFile } from '../../../../modules/upload';
 
 interface CreateProjectData {
   createProject: CreateProjectPayload;
@@ -26,23 +27,6 @@ interface CreateProjectForm {
   file: File;
 }
 
-async function uploadFile(file: File): Promise<{ url: string; name: string }> {
-  const body = new FormData();
-  body.append(file.name, file, file.name);
-
-  try {
-    const response = await fetch('/api/uploads', {
-      method: 'POST',
-      body,
-    });
-    const json = await response.json();
-    return json[0];
-  } catch (e: any) {
-    console.error('Could not upload file', e);
-    throw new Error(e);
-  }
-}
-
 export default function NewProjectPage() {
   const router = useRouter();
   const { organization } = useOrganization();
@@ -50,6 +34,7 @@ export default function NewProjectPage() {
   const [createProject, { loading }] = useMutation<CreateProjectData, CreateProjectVars>(
     CreateProject,
     {
+      awaitRefetchQueries: true,
       refetchQueries: [
         { query: GetOrganizationProjects, variables: { organization: organization?.id } },
       ],
@@ -57,13 +42,18 @@ export default function NewProjectPage() {
   );
 
   const onSubmit = async ({ name, file }: CreateProjectForm) => {
-    const { url: profileImageUrl } = await uploadFile(file);
+    let profileImageUrl;
+    if (file) {
+      const { url } = await uploadFile(file);
+      profileImageUrl = url;
+    }
 
     createProject({
       variables: { input: { name, organization: organization?.id, profileImageUrl } },
       onCompleted: () => {
         router.push('/projects');
       },
+      awaitRefetchQueries: true,
     });
   };
 
@@ -118,7 +108,7 @@ export default function NewProjectPage() {
                         <input {...getInputProps({ onBlur })} />
                         {value ? (
                           <div className="bg-white rounded-lg p-3 overflow-hidden">
-                            <Form.DragDrop.Preview file={value} />
+                            <Form.DragDrop.Preview value={value} />
                           </div>
                         ) : (
                           <div className="flex flex-col gap-2">

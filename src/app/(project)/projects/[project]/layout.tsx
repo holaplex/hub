@@ -5,6 +5,8 @@ import { appConfig } from '../../../../app.config';
 import { Project as ProjectType } from './../../../../graphql.types';
 import { GetProject } from './../../../../queries/project.graphql';
 
+export const revalidate = 0;
+
 interface ProjectLayoutProps {
   children: React.ReactNode;
   params: { project: string };
@@ -28,6 +30,7 @@ export default async function ProjectLayout({
   );
 
   const projectQuery = await client.query<GetProjectData, GetProjectVars>({
+    fetchPolicy: 'network-only',
     query: GetProject,
     variables: { project },
   });

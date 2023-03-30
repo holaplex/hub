@@ -23,7 +23,7 @@ interface SidebarPageProps {
 function SidebarPage({ children, open }: SidebarPageProps) {
   return (
     <section className="flex flex-grow">
-      <div className="bg-red-500 text-white py-4 flex justify-center fixed top-0 left-0 w-full z-50">
+      <div className="bg-red-500 text-white py-4 flex justify-center fixed top-0 left-0 w-full z-20">
         This is a developer preview. All data created will be deleted before the production release.
       </div>
       {Children.map(children, (child) => cloneElement(child, { open }))}
@@ -236,9 +236,11 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                             affiliation.organization?.id !== organization?.id,
                         }
                       )}
-                      onClick={() => onSwitch(affiliation.organization?.id)}
                     >
-                      <div className="flex gap-2 items-center">
+                      <div
+                        className="flex gap-2 items-center"
+                        onClick={() => onSwitch(affiliation.organization?.id)}
+                      >
                         {affiliation.organization?.profileImageUrl ? (
                           <img
                             className="w-8 h-8 rounded-md"
@@ -252,7 +254,6 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                           {affiliation.organization?.name}
                         </span>
                       </div>
-                      <Icon.Settings />
                     </div>
                   );
                 })}

@@ -7,6 +7,8 @@ import { appConfig } from '../../app.config';
 import { ApolloError } from '@apollo/client';
 import { Organization as OrganizationType } from '../../graphql.types';
 
+export const revalidate = 0;
+
 interface OrganizationVars {
   organization: string;
 }
@@ -30,6 +32,7 @@ export default async function OrganizationLayout({
     const organization = cookieStore.get('_hub_org')?.value as string;
 
     const organizationQuery = await client.query<GetOrganizationBasicInfoData, OrganizationVars>({
+      fetchPolicy: 'network-only',
       query: GetOrganizationBasicInfo,
       variables: { organization },
     });

@@ -6,3 +6,13 @@ mutation CreateOrganization($input: CreateOrganizationInput!) {
     }
   }
 }
+
+mutation EditOrganization($input: EditOrganizationInput!) {
+  editOrganization(input: $input) {
+    organization {
+      id
+      name
+      profileImageUrl
+    }
+  }
+}

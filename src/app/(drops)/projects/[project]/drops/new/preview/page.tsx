@@ -14,6 +14,7 @@ import { useProject } from '../../../../../../../hooks/useProject';
 import { useState } from 'react';
 import { GetProjectDrops } from './../../../../../../../queries/drop.graphql';
 import { ifElse, isNil, always } from 'ramda';
+import { uploadFile } from '../../../../../../../modules/upload';
 
 interface CreateDropData {
   createProject: CreateDropPayload;
@@ -24,23 +25,6 @@ interface CreateDropVars {
 }
 
 const LAMPORTS_PER_SOL = 1_000_000_000;
-
-async function uploadFile(file: File): Promise<{ url: string; name: string }> {
-  const body = new FormData();
-  body.append(file.name, file, file.name);
-
-  try {
-    const response = await fetch('/api/uploads', {
-      method: 'POST',
-      body,
-    });
-    const json = await response.json();
-    return json[0];
-  } catch (e: any) {
-    console.error('Could not upload file', e);
-    throw new Error(e);
-  }
-}
 
 export default function NewDropPreviewPage() {
   const router = useRouter();
@@ -53,6 +37,7 @@ export default function NewDropPreviewPage() {
   };
 
   const [createDrop] = useMutation<CreateDropData, CreateDropVars>(CreateDrop, {
+    awaitRefetchQueries: true,
     refetchQueries: [{ query: GetProjectDrops, variables: { project: project?.id } }],
   });
 

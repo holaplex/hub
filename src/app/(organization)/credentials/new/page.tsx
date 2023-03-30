@@ -36,6 +36,7 @@ export default function GenerateToken() {
     CreateCredentialData,
     CreateCredentialVars
   >(CreateCredential, {
+    awaitRefetchQueries: true,
     refetchQueries: [
       { query: GetOrganizationCredentials, variables: { organization: organization?.id } },
     ],

@@ -6,3 +6,11 @@ mutation CreateProject($input: CreateProjectInput!) {
     }
   }
 }
+
+mutation EditProject($input: EditProjectInput!) {
+  editProject(input: $input) {
+    project {
+      id
+    }
+  }
+}
