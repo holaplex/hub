@@ -8,13 +8,7 @@ import {
 } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { useState } from 'react';
-import {
-  PurchaseStatus,
-  WebhookStatus,
-  TransactionStatus,
-  MemberStatus,
-  CredentialStatus,
-} from './../types';
+import { WebhookStatus, TransactionStatus, MemberStatus, CredentialStatus } from './../types';
 import { CreationStatus, DropStatus } from '../graphql.types';
 import { Icon } from './Icon';
 
@@ -24,7 +18,6 @@ interface TableProps<T> {
   className?: string;
 }
 
-//TODO: Replace with real dynamic data.
 export default function Table<T>({ columns, data, className }: TableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -34,6 +27,8 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
     state: {
       sorting,
     },
+    enableColumnResizing: true,
+    columnResizeMode: 'onChange',
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),

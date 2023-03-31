@@ -1,5 +1,6 @@
+import { PopoverBox } from '@holaplex/ui-library-react';
 import clsx from 'clsx';
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, RefObject, useLayoutEffect, useRef, useState } from 'react';
 import { Icon } from './Icon';
 
 interface PillProps {
@@ -32,3 +33,60 @@ function PillList({ children }: { children: JSX.Element[] }): JSX.Element {
 }
 
 Pill.List = PillList;
+
+function CompactPillList({ children: pills }: { children: JSX.Element[] }): JSX.Element {
+  const [maxPills, setMaxPills] = useState(pills.length);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const containerWidth = containerRef.current?.clientWidth || 0;
+    const pillElements = containerRef.current?.querySelectorAll(
+      '.pill'
+    ) as NodeListOf<HTMLDivElement>;
+
+    let totalPillWidth = 0;
+    let newMaxPills = pills.length;
+
+    pillElements.forEach((pillElement) => {
+      totalPillWidth += pillElement.clientWidth;
+      if (totalPillWidth > containerWidth) {
+        newMaxPills -= 1;
+      }
+    });
+
+    setMaxPills(newMaxPills);
+  }, [pills]);
+
+  const displayedPills = pills.slice(0, maxPills);
+  const hiddenPills = pills.slice(maxPills);
+
+  return (
+    <div className="flex gap-2 items-center" ref={containerRef as RefObject<HTMLDivElement>}>
+      <div className="flex flex-wrap gap-2">
+        {displayedPills.map((pill, index) => (
+          <div key={index} className="pill">
+            {pill}
+          </div>
+        ))}
+      </div>
+      {hiddenPills.length > 0 && (
+        <PopoverBox
+          triggerButton={
+            <div className="px-2 rounded-full bg-gray-50 text-primary text-xs cursor-pointer">
+              +{hiddenPills.length}
+            </div>
+          }
+          elements={[
+            <div key="key" className="flex flex-wrap gap-2 p-2">
+              {hiddenPills.map((tag, index) => (
+                <div key={index}>{tag}</div>
+              ))}
+            </div>,
+          ]}
+        ></PopoverBox>
+      )}
+    </div>
+  );
+}
+PillList.Compact = CompactPillList;

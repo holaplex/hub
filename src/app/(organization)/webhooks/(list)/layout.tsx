@@ -10,8 +10,8 @@ import Table from '../../../../components/Table';
 import { Organization, Webhook } from '../../../../graphql.types';
 import { useOrganization } from '../../../../hooks/useOrganization';
 import { DateFormat, formatDateString } from '../../../../modules/time';
-import { WebhookStatus, WebhookEvent } from '../../../../types';
 import { GetOrganizationWebhooks } from './../../../../queries/webhooks.graphql';
+import { Pill } from '../../../../components/Pill';
 
 interface GetOrganizationWebhooksData {
   organization: Organization;
@@ -147,20 +147,22 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                       header: () => (
                         <span className="flex text-xs text-gray-600 font-medium">Events</span>
                       ),
-                      cell: (info) => (
-                        <div className="flex gap-1">
-                          {info.row.original.events.map((event) => {
-                            return (
-                              <div
-                                key={event}
-                                className="rounded-full py-1 px-3 text-xs font-medium bg-cyan-200 text-cyan-600"
-                              >
-                                {event}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      ),
+                      cell: (info) => {
+                        return (
+                          <Pill.List.Compact>
+                            {info.row.original.events.map((event) => {
+                              return (
+                                <div
+                                  key={event}
+                                  className="rounded-full py-1 px-3 text-xs font-medium bg-cyan-200 text-cyan-600"
+                                >
+                                  {event}
+                                </div>
+                              );
+                            })}
+                          </Pill.List.Compact>
+                        );
+                      },
                     }),
                     columnHelper.accessor('createdAt', {
                       header: () => (
