@@ -1,5 +1,6 @@
 query GetCollectionMints($project: UUID!, $drop: UUID!) {
   project(id: $project) {
+    id
     drop(id: $drop) {
       id
       collection {

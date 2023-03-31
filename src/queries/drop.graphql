@@ -10,9 +10,11 @@ query GetProjectDrops($project: UUID!) {
       startTime
       endTime
       collection {
+        id
         supply
         totalMints
         metadataJson {
+          collectionId
           name
           image
           description
@@ -25,6 +27,7 @@ query GetProjectDrops($project: UUID!) {
 
 query GetDrop($project: UUID!, $drop: UUID!) {
   project(id: $project) {
+    id
     treasury {
       wallets {
         address
@@ -40,6 +43,7 @@ query GetDrop($project: UUID!, $drop: UUID!) {
       startTime
       endTime
       collection {
+        id
         supply
         totalMints
         blockchain
@@ -50,6 +54,7 @@ query GetDrop($project: UUID!, $drop: UUID!) {
           shortAddress @client
         }
         metadataJson {
+          collectionId
           name
           image
           description
