@@ -27,6 +27,7 @@ export function useRecoveryFlow(): RecoveryFlowContext {
       try {
         const { data } = await ory.createBrowserRecoveryFlow({ returnTo });
 
+        
         setFlow(data);
       } catch (err: any) {
         const errorCode = err.response?.data.error?.id;

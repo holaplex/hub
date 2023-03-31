@@ -1,4 +1,4 @@
-import { RecoveryFlow, UiNodeInputAttributes } from '@ory/client';
+import { RecoveryFlow, UiNodeInputAttributes, UpdateRecoveryFlowBody } from '@ory/client';
 import { useRouter } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
@@ -30,12 +30,14 @@ export function useRecovery(flow: RecoveryFlow | undefined): RecoveryContext {
         extractFlowNode('csrf_token')(flow.ui.nodes).attributes as UiNodeInputAttributes
       ).value;
 
-      await ory.updateRecoveryFlow({
+      const { data } = await ory.updateRecoveryFlow({
         flow: flow.id,
-        updateRecoveryFlowBody: { ...values, csrf_token: csrfToken, method: 'link' },
+        updateRecoveryFlowBody: { ...values, csrf_token: csrfToken, method: 'code' },
       });
+      
+      debugger;
 
-      router.push('/login');
+      router.push('/password/reset?flow=' + data.id + '&email=' + values.email + '&method=code');
     } catch (err: any) {
       const {
         response: {
