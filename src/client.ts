@@ -20,6 +20,9 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
     uri,
     cache: new InMemoryCache({
       typePolicies: {
+        MetadataJson: {
+          keyFields: ['collectionId'],
+        },
         Wallet: {
           fields: {
             shortAddress: asShortAddress,

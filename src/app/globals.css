@@ -124,6 +124,19 @@ input:focus {
   @apply text-white bg-negative;
 }
 
+.spinner {
+  @apply inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-r-transparent border-current align-[-0.125em];
+}
+
+.spinner-primary {
+  @apply border-gray-50 border-r-transparent;
+}
+
+.spinner-secondary,
+.spinner-tertiary {
+  @apply border-black border-r-transparent;
+}
+
 .table-header-text {
   @apply text-xs text-gray-600 font-medium;
 }

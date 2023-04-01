@@ -64,3 +64,19 @@ query GetDrop($project: UUID!, $drop: UUID!) {
     }
   }
 }
+
+query GetDropBasicDetail($project: UUID!, $drop: UUID!) {
+  project(id: $project) {
+    id
+    drop(id: $drop) {
+      id
+      collection {
+        id
+        metadataJson {
+          collectionId
+          name
+        }
+      }
+    }
+  }
+}
