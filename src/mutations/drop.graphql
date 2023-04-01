@@ -2,6 +2,23 @@ mutation CreateDrop($input: CreateDropInput!) {
   createDrop(input: $input) {
     drop {
       id
+      price
+      status
+      createdAt
+      startTime
+      endTime
+      collection {
+        id
+        supply
+        totalMints
+        metadataJson {
+          collectionId
+          name
+          image
+          description
+          symbol
+        }
+      }
     }
   }
 }
@@ -10,6 +27,8 @@ mutation PauseDrop($input: PauseDropInput!) {
   pauseDrop(input: $input) {
     drop {
       id
+      pausedAt
+      status
     }
   }
 }
@@ -18,6 +37,8 @@ mutation ResumeDrop($input: ResumeDropInput!) {
   resumeDrop(input: $input) {
     drop {
       id
+      pausedAt
+      status
     }
   }
 }
@@ -26,6 +47,8 @@ mutation ShutdownDrop($input: ShutdownDropInput!) {
   shutdownDrop(input: $input) {
     drop {
       id
+      shutdownAt
+      status
     }
   }
 }

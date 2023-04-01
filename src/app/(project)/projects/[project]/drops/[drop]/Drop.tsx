@@ -148,35 +148,37 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                             status={dropQuery.data?.project?.drop?.status as DropStatus}
                           />
                         </div>
-                        <div className="flex items-center gap-2">
-                          <Button icon={<Icon.Edit />} variant="secondary">
-                            Edit drop
-                          </Button>
-                          {dropQuery.data?.project.drop?.status === DropStatus.Paused ? (
-                            <Button
-                              icon={<Icon.Resume />}
-                              variant="secondary"
-                              onClick={() => resume(drop, project)}
-                            >
-                              Resume mint
+                        {dropQuery.data?.project.drop?.status !== DropStatus.Shutdown && (
+                          <div className="flex items-center gap-2">
+                            <Button icon={<Icon.Edit />} variant="secondary">
+                              Edit drop
                             </Button>
-                          ) : (
+                            {dropQuery.data?.project.drop?.status === DropStatus.Paused ? (
+                              <Button
+                                icon={<Icon.Resume />}
+                                variant="secondary"
+                                onClick={() => resume(drop, project)}
+                              >
+                                Resume mint
+                              </Button>
+                            ) : (
+                              <Button
+                                icon={<Icon.Pause />}
+                                variant="secondary"
+                                onClick={() => pause(drop, project)}
+                              >
+                                Pause mint
+                              </Button>
+                            )}
                             <Button
-                              icon={<Icon.Pause />}
+                              icon={<Icon.Close />}
                               variant="secondary"
-                              onClick={() => pause(drop, project)}
+                              onClick={() => shutdown(drop, project)}
                             >
-                              Pause mint
+                              Shut-down minting
                             </Button>
-                          )}
-                          <Button
-                            icon={<Icon.Close />}
-                            variant="secondary"
-                            onClick={() => shutdown(drop, project)}
-                          >
-                            Shut-down minting
-                          </Button>
-                        </div>
+                          </div>
+                        )}
                       </div>
                       <div className="mt-5 flex gap-4">
                         <div className="basis-1/3">
@@ -210,6 +212,8 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                     dropQuery.data?.project?.drop?.status === DropStatus.Minting,
                                   'bg-red-900':
                                     dropQuery.data?.project?.drop?.status === DropStatus.Shutdown,
+                                  'bg-gray-500':
+                                    dropQuery.data?.project?.drop?.status === DropStatus.Paused,
                                 })}
                                 style={{ width: `${percent}%` }}
                               />
@@ -271,7 +275,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                       </span>
                                       <span className="text-primary text-sm font-medium">
                                         {creator.shortAddress}{' '}
-                                        <span className="text-gray-400">- {creator.share}%</span>
+                                        <span className="text-gray-400">- {creator.share}%</span>a{' '}
                                       </span>
                                     </div>
                                   )

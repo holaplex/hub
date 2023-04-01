@@ -8,13 +8,7 @@ import {
 } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { useState } from 'react';
-import {
-  PurchaseStatus,
-  WebhookStatus,
-  TransactionStatus,
-  MemberStatus,
-  CredentialStatus,
-} from './../types';
+import { WebhookStatus, TransactionStatus, MemberStatus, CredentialStatus } from './../types';
 import { CreationStatus, DropStatus } from '../graphql.types';
 import { Icon } from './Icon';
 
@@ -151,6 +145,9 @@ function DropStatusPill({ status, className }: DropStatusPillProps) {
     case DropStatus.Minting:
       label = 'Minting';
       break;
+    case DropStatus.Paused:
+      label = 'Paused';
+      break;
     case DropStatus.Minted:
       label = 'Minted';
       break;
@@ -158,7 +155,7 @@ function DropStatusPill({ status, className }: DropStatusPillProps) {
       label = 'Expired';
       break;
     case DropStatus.Shutdown:
-      label = 'Shut-down';
+      label = 'Shutdown';
   }
 
   return (
@@ -167,7 +164,7 @@ function DropStatusPill({ status, className }: DropStatusPillProps) {
         'bg-purple-200 text-purple-600': status === DropStatus.Scheduled,
         'bg-blue-200 text-blue-600': status === DropStatus.Minting,
         'bg-green-200 text-green-600': status === DropStatus.Minted,
-        'bg-gray-100 text-gray-500': status === DropStatus.Creating,
+        'bg-gray-100 text-gray-500': status === DropStatus.Creating || DropStatus.Paused,
         'bg-red-100 text-red-900': status === DropStatus.Expired || status === DropStatus.Shutdown,
       })}
     >

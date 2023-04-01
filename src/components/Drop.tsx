@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { Button, Modal } from '@holaplex/ui-library-react';
 import { useState } from 'react';
 import {
@@ -38,7 +38,6 @@ interface PauseDropVars {
 
 interface PauseRenderProps {
   pause: (drop: string, project: string) => void;
-  children: any;
 }
 
 interface PauseProps {
@@ -64,6 +63,23 @@ function Pause({ children }: PauseProps): JSX.Element {
           drop: dropQueryResult.data?.project.drop?.id,
         },
       },
+      update(cache, { data }) {
+        const drop = data?.pauseDrop.drop;
+
+        if (drop) {
+          cache.modify({
+            id: cache.identify(drop),
+            fields: {
+              pausedAt() {
+                return drop.pausedAt;
+              },
+              status() {
+                return drop.status;
+              },
+            },
+          });
+        }
+      },
       onCompleted: () => {
         setOpen(false);
       },
@@ -74,7 +90,6 @@ function Pause({ children }: PauseProps): JSX.Element {
     <>
       {children({
         pause: openPause,
-        children,
       })}
       <Modal open={open} setOpen={setOpen}>
         <Card className="w-[400px]">
@@ -138,7 +153,6 @@ interface ResumeDropVars {
 
 interface ResumeRenderProps {
   resume: (drop: string, project: string) => void;
-  children: any;
 }
 
 interface ResumeProps {
@@ -164,6 +178,23 @@ function Resume({ children }: ResumeProps): JSX.Element {
           drop: dropQueryResult.data?.project.drop?.id,
         },
       },
+      update(cache, { data }) {
+        const drop = data?.resumeDrop.drop;
+
+        if (drop) {
+          cache.modify({
+            id: cache.identify(drop),
+            fields: {
+              pausedAt() {
+                return drop.pausedAt;
+              },
+              status() {
+                return drop.status;
+              },
+            },
+          });
+        }
+      },
       onCompleted: () => {
         setOpen(false);
       },
@@ -174,7 +205,6 @@ function Resume({ children }: ResumeProps): JSX.Element {
     <>
       {children({
         resume: openResume,
-        children,
       })}
       <Modal open={open} setOpen={setOpen}>
         <Card className="w-[400px]">
@@ -238,7 +268,6 @@ interface ShutdownDropVars {
 
 interface ShutdownRenderProps {
   shutdown: (drop: string, project: string) => void;
-  children: any;
 }
 
 interface ShutdownProps {
@@ -264,6 +293,23 @@ function Shutdown({ children }: ShutdownProps): JSX.Element {
           drop: dropQueryResult.data?.project.drop?.id,
         },
       },
+      update(cache, { data }) {
+        const drop = data?.shutdownDrop?.drop;
+
+        if (drop) {
+          cache.modify({
+            id: cache.identify(drop),
+            fields: {
+              shutdownAt() {
+                return drop.shutdownAt;
+              },
+              status() {
+                return drop.status;
+              },
+            },
+          });
+        }
+      },
       onCompleted: () => {
         setOpen(false);
       },
@@ -274,7 +320,6 @@ function Shutdown({ children }: ShutdownProps): JSX.Element {
     <>
       {children({
         shutdown: openShutdown,
-        children,
       })}
       <Modal open={open} setOpen={setOpen}>
         <Card className="w-[400px]">
