@@ -1,9 +1,11 @@
 image:
-  pullPolicy: Always
+    tag: 15579b0ac31d0e42dd8e9193933f640f037dadbf
+    pullPolicy: IfNotPresent
 
 migrate:
   image:
-    pullPolicy: Always
+    tag: 15579b0ac31d0e42dd8e9193933f640f037dadbf
+    pullPolicy: IfNotPresent
 
 environment:
   port: '80'

@@ -41,8 +41,7 @@ deploy:
       - name: hub-gateway
         createNamespace: true
         namespace: ingress-apisix
-        remoteChart: hub-gateway
-        repo: https://charts.holaplex.com
+        chartPath: ./../helm-charts/charts/hub-gateway
         valuesFiles:
           - values.gateway.yaml
       - name: hub-permissions

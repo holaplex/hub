@@ -16,6 +16,12 @@ export function useLogout(): LogoutContext {
     ory
       .createBrowserLogoutFlow()
       .then(({ data }) => {
+        return fetch('/browser/logout', {
+          method: 'POST',
+          credentials: 'same-origin',
+        }).then(() => ({ data }));
+      })
+      .then(({ data }) => {
         return ory.updateLogoutFlow({ token: data.logout_token });
       })
       .then(() => router.push('/login'))
