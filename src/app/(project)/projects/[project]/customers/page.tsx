@@ -30,6 +30,7 @@ export default function CustomersPage() {
   );
 
   const customers = projectsQuery.data?.project.customers || [];
+
   const noCustomers = customers.length === 0;
   const columnHelper = createColumnHelper<Customer>();
   const loadingColumnHelper = createColumnHelper<any>();
@@ -114,7 +115,12 @@ export default function CustomersPage() {
                       </div>
                     ),
                     cell: (info) => (
-                      <span className="text-xs text-primary font-medium">{info.getValue()}</span>
+                      <Link
+                        href={`/projects/${project?.id}/customers/${info.getValue()}/nfts`}
+                        className="text-xs text-primary font-medium"
+                      >
+                        {info.getValue()}
+                      </Link>
                     ),
                   }),
                   columnHelper.accessor('createdAt', {
@@ -136,7 +142,7 @@ export default function CustomersPage() {
                       );
                     },
                   }),
-                  columnHelper.accessor(({ id }) => id, {
+                  columnHelper.display({
                     id: 'options',
                     header: () => <Icon.TableAction />,
                     cell: (info) => (
