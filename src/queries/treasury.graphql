@@ -1,0 +1,13 @@
+query GetTreasuryWallets($project: UUID!) {
+  project(id: $project) {
+    id
+    treasury {
+      id
+      wallets {
+        address
+        treasuryId
+        assetId
+      }
+    }
+  }
+}

@@ -117,6 +117,7 @@ export type Collection = {
   metadataJson?: Maybe<MetadataJson>;
   /** The list of minted NFTs from the collection including the NFTs address and current owner's wallet address. */
   mints?: Maybe<Array<CollectionMint>>;
+  signature?: Maybe<Scalars['String']>;
   /** The total supply of the collection. Setting to `null` implies unlimited minting. */
   supply?: Maybe<Scalars['Int']>;
   /** The current number of NFTs minted from the collection. */
@@ -158,6 +159,7 @@ export type CollectionMint = {
   owner: Scalars['String'];
   ownerShortAddress: Scalars['String'];
   shortAddress: Scalars['String'];
+  signature?: Maybe<Scalars['String']>;
 };
 
 /** This struct represents the input for creating a new API credential, including the ID of the organization that the credential will be associated with and the friendly name assigned to the credential. */
@@ -263,8 +265,12 @@ export type CreateWebhookPayload = {
 };
 
 export enum CreationStatus {
+  Blocked = 'BLOCKED',
+  Canceled = 'CANCELED',
   Created = 'CREATED',
-  Pending = 'PENDING'
+  Failed = 'FAILED',
+  Pending = 'PENDING',
+  Rejected = 'REJECTED'
 }
 
 /** An `OAuth2` client application used for authentication with the Hub API. */
@@ -357,13 +363,17 @@ export enum DropStatus {
   Creating = 'CREATING',
   /** The drop has expired and its end time has passed. */
   Expired = 'EXPIRED',
+  /** The creation process for the drop has failed */
+  Failed = 'FAILED',
   /** The minting process for the collection is complete. */
   Minted = 'MINTED',
   /** Actively minting. */
   Minting = 'MINTING',
+  /** The drop is temporarily paused and cannot be minted at the moment. */
   Paused = 'PAUSED',
   /** The drop is scheduled for minting. */
   Scheduled = 'SCHEDULED',
+  /** The drop is permanently shut down and can no longer be minted. */
   Shutdown = 'SHUTDOWN'
 }
 
@@ -689,6 +699,12 @@ export type Mutation = {
    * If the mint cannot be saved to the database or fails to be emitted for submission to the desired blockchain, the mutation will result in an error.
    */
   mintEdition: MintEditionPayload;
+  /**
+   * This mutation allows updating a drop and it's associated collection by ID.
+   * It returns an error if it fails to reach the database, emit update events or assemble the on-chain transaction.
+   * Returns the `PatchDropPayload` object on success.
+   */
+  patchDrop: PatchDropPayload;
   /** This mutation allows for the temporary blocking of the minting of editions and can be resumed by calling the resumeDrop mutation. */
   pauseDrop: PauseDropPayload;
   /** This mutation resumes a paused drop, allowing minting of editions to be restored */
@@ -781,6 +797,11 @@ export type MutationInviteMemberArgs = {
 
 export type MutationMintEditionArgs = {
   input: MintDropInput;
+};
+
+
+export type MutationPatchDropArgs = {
+  input: PatchDropInput;
 };
 
 
@@ -921,6 +942,31 @@ export type Owner = {
   user?: Maybe<User>;
   /** The ID of the user who created the Holaplex organization and serves as its owner. */
   userId: Scalars['UUID'];
+};
+
+/** Input object for patching a drop and associated collection by ID */
+export type PatchDropInput = {
+  /** The creators of the drop */
+  creators?: InputMaybe<Array<CollectionCreatorInput>>;
+  /** The new end time for the drop in UTC */
+  endTime?: InputMaybe<Scalars['DateTime']>;
+  /** The unique identifier of the drop */
+  id: Scalars['UUID'];
+  /** The new metadata JSON for the drop */
+  metadataJson?: InputMaybe<MetadataJsonInput>;
+  /** The new price for the drop in the native token of the blockchain */
+  price?: InputMaybe<Scalars['Int']>;
+  /** The new seller fee basis points for the drop */
+  sellerFeeBasisPoints?: InputMaybe<Scalars['Int']>;
+  /** The new start time for the drop in UTC */
+  startTime?: InputMaybe<Scalars['DateTime']>;
+};
+
+/** Represents the result of a successful patch drop mutation. */
+export type PatchDropPayload = {
+  __typename?: 'PatchDropPayload';
+  /** The drop that has been patched. */
+  drop: Drop;
 };
 
 /** Represents input fields for pausing a drop. */

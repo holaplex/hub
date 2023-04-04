@@ -16,3 +16,19 @@ query GetCustomerBasicDetail($project: UUID!, $customer: UUID!) {
     }
   }
 }
+
+query GetWallets($project: UUID!, $customer: UUID!) {
+  project(id: $project) {
+    id
+    customer(id: $customer) {
+      treasury {
+        id
+        wallets {
+          address
+          treasuryId
+          assetId
+        }
+      }
+    }
+  }
+}

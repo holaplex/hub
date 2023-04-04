@@ -19,6 +19,70 @@ function CryptoIcon() {
 }
 Icon.Crypto = CryptoIcon;
 
+function EthLarge({
+  width = 28,
+  height = 42,
+  fill = '#AAAAAA',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 28 42"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M13.996 0.299988L0.200001 21.3839L13.996 28.8951V15.6083V0.299988Z" fill={fill} />
+      <path
+        d="M13.996 0.299988L13.6946 1.24336V28.6179L13.996 28.8951L27.7919 21.3839L13.996 0.299988Z"
+        fill={fill}
+      />
+      <path
+        d="M13.9958 31.301L13.826 31.4917V41.2431L13.9958 41.7L27.8 23.7937L13.9958 31.301Z"
+        fill={fill}
+      />
+      <path d="M13.9958 41.7V31.301L0.200001 23.7936L13.9958 41.7Z" fill={fill} />
+    </svg>
+  );
+}
+LargeIcon.Eth = EthLarge;
+
+function SolanaLarge({
+  width = 38,
+  height = 38,
+  fill = '#AAAAAA',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 38 38"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M6.57884 0.525871C6.81014 0.320065 7.11547 0.200012 7.43005 0.200012H36.7967C37.3334 0.200012 37.6017 0.800278 37.2224 1.15186L31.4212 6.52853C31.1991 6.73434 30.8938 6.85439 30.57 6.85439H1.20327C0.666637 6.85439 0.398321 6.25412 0.777664 5.90254L6.57884 0.525871Z"
+        fill={fill}
+      />
+      <path
+        d="M31.4212 10.9987C31.1991 10.7929 30.8938 10.6728 30.57 10.6728H1.20327C0.666637 10.6728 0.398321 11.2731 0.777664 11.6247L6.57884 17.0014C6.80089 17.2072 7.10622 17.3272 7.43005 17.3272H36.7967C37.3334 17.3272 37.6017 16.7269 37.2224 16.3754L31.4212 10.9987Z"
+        fill={fill}
+      />
+      <path
+        d="M6.57884 21.4715C6.80089 21.2657 7.10622 21.1456 7.43005 21.1456H36.7967C37.3334 21.1456 37.6017 21.7459 37.2224 22.0975L31.4212 27.4742C31.1991 27.68 30.8938 27.8 30.57 27.8H1.20327C0.666637 27.8 0.398321 27.1997 0.777664 26.8482L6.57884 21.4715Z"
+        fill={fill}
+      />
+    </svg>
+  );
+}
+LargeIcon.Solana = SolanaLarge;
+
 function Logout({
   width = 20,
   height = 20,
