@@ -12,6 +12,8 @@ import { useOrganization } from '../../../../hooks/useOrganization';
 import { DateFormat, formatDateString } from '../../../../modules/time';
 import { GetOrganizationWebhooks } from './../../../../queries/webhooks.graphql';
 import { Pill } from '../../../../components/Pill';
+import { useRef } from 'react';
+import useSize from '@react-hook/size';
 
 interface GetOrganizationWebhooksData {
   organization: Organization;
@@ -35,10 +37,12 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
     webhooksQuery.data?.organization.webhooks.length === 0;
   const columnHelper = createColumnHelper<Webhook>();
   const loadingColumnHelper = createColumnHelper<any>();
+  const tableRef = useRef<HTMLDivElement>(null);
+  const tableWidth = useSize(tableRef)[0];
 
   return (
     <>
-      <div className="h-full flex flex-col p-4">
+      <div className="h-full flex flex-col p-4" ref={tableRef}>
         {webhooksQuery.loading ? (
           <>
             <div className="w-36 h-8 rounded-md bg-gray-100 animate-pulse" />
@@ -149,7 +153,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                       ),
                       cell: (info) => {
                         return (
-                          <Pill.List.Compact>
+                          <Pill.List.Compact maxContainerWidth={tableWidth / 4}>
                             {info.row.original.events.map((event) => {
                               return (
                                 <div

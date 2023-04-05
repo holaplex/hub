@@ -1,7 +1,8 @@
 import { PopoverBox } from '@holaplex/ui-library-react';
 import clsx from 'clsx';
-import { MouseEventHandler, RefObject, useLayoutEffect, useRef, useState } from 'react';
+import { MouseEventHandler, RefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Icon } from './Icon';
+import useSize from '@react-hook/size';
 
 interface PillProps {
   children: string | JSX.Element;
@@ -34,13 +35,19 @@ function PillList({ children }: { children: JSX.Element[] }): JSX.Element {
 
 Pill.List = PillList;
 
-function CompactPillList({ children: pills }: { children: JSX.Element[] }): JSX.Element {
+function CompactPillList({
+  children: pills,
+  maxContainerWidth = Number.MAX_VALUE,
+}: {
+  children: JSX.Element[];
+  maxContainerWidth: number;
+}): JSX.Element {
   const [maxPills, setMaxPills] = useState(pills.length);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const containerWidth = maxContainerWidth;
 
   useLayoutEffect(() => {
-    const containerWidth = containerRef.current?.clientWidth || 0;
     const pillElements = containerRef.current?.querySelectorAll(
       '.pill'
     ) as NodeListOf<HTMLDivElement>;
@@ -56,14 +63,14 @@ function CompactPillList({ children: pills }: { children: JSX.Element[] }): JSX.
     });
 
     setMaxPills(newMaxPills);
-  }, [pills]);
+  }, [containerWidth, pills]);
 
   const displayedPills = pills.slice(0, maxPills);
   const hiddenPills = pills.slice(maxPills);
 
   return (
     <div className="flex gap-2 items-center" ref={containerRef as RefObject<HTMLDivElement>}>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex gap-2">
         {displayedPills.map((pill, index) => (
           <div key={index} className="pill">
             {pill}
