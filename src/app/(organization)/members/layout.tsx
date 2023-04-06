@@ -40,10 +40,20 @@ function ActionCell({ id, status }: { id: string; status: MemberStatus }): JSX.E
   }
 
   let elements: JSX.Element[] = [
-    // <Link key="delete_member" className="flex gap-2 items-center" href={`/members/${id}/delete`}>
-    //   <Icon.Delete fill="#E52E2E" />
-    //   <span className="text-negative">Delete member</span>
-    // </Link>,
+    status === MemberStatus.Inactive ? (
+      <Link
+        key="reactivate_member"
+        className="flex gap-2 items-center"
+        href={`/members/${id}/reactivate`}
+      >
+        <span>Reactivate member</span>
+      </Link>
+    ) : (
+      <Link key="delete_member" className="flex gap-2 items-center" href={`/members/${id}/delete`}>
+        <Icon.Delete fill="#E52E2E" />
+        <span className="text-negative">Delete member</span>
+      </Link>
+    ),
   ];
 
   if (status === MemberStatus.Sent) {
@@ -104,6 +114,9 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
 
       if (member) {
         associate.fullName = `${member?.user?.firstName} ${member?.user?.lastName}`;
+        if (member.deactivatedAt) {
+          associate.status = MemberStatus.Inactive;
+        }
       }
 
       return associate;
@@ -169,10 +182,12 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
       header: () => <span className="flex text-xs text-gray-600 font-medium">Status</span>,
       cell: (info) => <Table.MemberPill status={info.getValue()} />,
     }),
-    columnHelper.accessor(({ id, status }) => ({ id, status }), {
+    columnHelper.display({
       id: 'options',
       header: () => <Icon.TableAction />,
-      cell: (info) => <ActionCell id={info.getValue().id} status={info.getValue().status} />,
+      cell: (info) => {
+        return <ActionCell id={info.row.original.id} status={info.row.original.status} />;
+      },
     }),
   ];
 

@@ -85,13 +85,13 @@ export enum AssetType {
    * Devnet Solana
    * Note: Holaplex uses `SOL_TEST` for provisioning wallets on its staging environment but still submits transactions to mainnet.
    */
-  SolTest = 'SOL_TEST',
+  SolTest = 'SOL_TEST'
 }
 
 export enum Blockchain {
   Ethereum = 'ETHEREUM',
   Polygon = 'POLYGON',
-  Solana = 'SOLANA',
+  Solana = 'SOLANA'
 }
 
 /** An NFT collection that has either a fixed supply or unlimited mints. NFT collections are deployed to a desired blockchain. */
@@ -117,6 +117,7 @@ export type Collection = {
   metadataJson?: Maybe<MetadataJson>;
   /** The list of minted NFTs from the collection including the NFTs address and current owner's wallet address. */
   mints?: Maybe<Array<CollectionMint>>;
+  signature?: Maybe<Scalars['String']>;
   /** The total supply of the collection. Setting to `null` implies unlimited minting. */
   supply?: Maybe<Scalars['Int']>;
   /** The current number of NFTs minted from the collection. */
@@ -158,6 +159,7 @@ export type CollectionMint = {
   owner: Scalars['String'];
   ownerShortAddress: Scalars['String'];
   shortAddress: Scalars['String'];
+  signature?: Maybe<Scalars['String']>;
 };
 
 /** This struct represents the input for creating a new API credential, including the ID of the organization that the credential will be associated with and the friendly name assigned to the credential. */
@@ -263,8 +265,12 @@ export type CreateWebhookPayload = {
 };
 
 export enum CreationStatus {
+  Blocked = 'BLOCKED',
+  Canceled = 'CANCELED',
   Created = 'CREATED',
+  Failed = 'FAILED',
   Pending = 'PENDING',
+  Rejected = 'REJECTED'
 }
 
 /** An `OAuth2` client application used for authentication with the Hub API. */
@@ -297,6 +303,10 @@ export type Customer = {
   treasury?: Maybe<Treasury>;
   /** An optional datetime indicating the last time the customer record was updated. If the customer record has not been updated, this field will be `null`. */
   updatedAt?: Maybe<Scalars['NaiveDateTime']>;
+};
+
+export type DeactivateMemberInput = {
+  id: Scalars['UUID'];
 };
 
 /** The input for deleting a credential. */
@@ -357,14 +367,18 @@ export enum DropStatus {
   Creating = 'CREATING',
   /** The drop has expired and its end time has passed. */
   Expired = 'EXPIRED',
+  /** The creation process for the drop has failed */
+  Failed = 'FAILED',
   /** The minting process for the collection is complete. */
   Minted = 'MINTED',
   /** Actively minting. */
   Minting = 'MINTING',
+  /** The drop is temporarily paused and cannot be minted at the moment. */
   Paused = 'PAUSED',
   /** The drop is scheduled for minting. */
   Scheduled = 'SCHEDULED',
-  Shutdown = 'SHUTDOWN',
+  /** The drop is permanently shut down and can no longer be minted. */
+  Shutdown = 'SHUTDOWN'
 }
 
 /** The input for editing the name of an existing credential by providing the `client_id` of the credential and the new `name` to be assigned. */
@@ -450,7 +464,7 @@ export enum FilterType {
   /** Event triggered when a new project is created */
   ProjectCreated = 'PROJECT_CREATED',
   /** Event triggered when a new wallet is created for a project */
-  ProjectWalletCreated = 'PROJECT_WALLET_CREATED',
+  ProjectWalletCreated = 'PROJECT_WALLET_CREATED'
 }
 
 /** The holder of a collection. */
@@ -505,7 +519,7 @@ export enum InviteStatus {
   /** The member invitation has been revoked by an existing member of the organization and is no longer valid. */
   Revoked = 'REVOKED',
   /** The member invitation has been sent to the invited user. */
-  Sent = 'SENT',
+  Sent = 'SENT'
 }
 
 /** A member of a Holaplex organization, representing an individual who has been granted access to the organization. */
@@ -513,6 +527,8 @@ export type Member = {
   __typename?: 'Member';
   /** The datetime, in UTC, when the member joined the organization. */
   createdAt: Scalars['NaiveDateTime'];
+  /** The datetime, in UTC, when the member was deactivated from the organization. */
+  deactivatedAt?: Maybe<Scalars['NaiveDateTime']>;
   /** The unique identifier of the member. */
   id: Scalars['UUID'];
   /** The invitation to join the Holaplex organization that the member accepted in order to gain access to the organization. */
@@ -655,6 +671,13 @@ export type Mutation = {
    * This function fails if ...
    */
   createWebhook: CreateWebhookPayload;
+  /**
+   * Returns member object on success
+   *
+   * # Errors
+   * This code may result in an error if the update to the database fails or if it fails to produce an event.
+   */
+  deactivateMember: Member;
   /** Delete the OAuth2 API credential. */
   deleteCredential: DeleteCredentialPayload;
   /**
@@ -689,8 +712,21 @@ export type Mutation = {
    * If the mint cannot be saved to the database or fails to be emitted for submission to the desired blockchain, the mutation will result in an error.
    */
   mintEdition: MintEditionPayload;
+  /**
+   * This mutation allows updating a drop and it's associated collection by ID.
+   * It returns an error if it fails to reach the database, emit update events or assemble the on-chain transaction.
+   * Returns the `PatchDropPayload` object on success.
+   */
+  patchDrop: PatchDropPayload;
   /** This mutation allows for the temporary blocking of the minting of editions and can be resumed by calling the resumeDrop mutation. */
   pauseDrop: PauseDropPayload;
+  /**
+   * Returns member object on success
+   *
+   * # Errors
+   * This code may result in an error if the update to the database fails or if it fails to produce an event.
+   */
+  reactivateMember: Member;
   /** This mutation resumes a paused drop, allowing minting of editions to be restored */
   resumeDrop: ResumeDropPayload;
   /**
@@ -703,77 +739,111 @@ export type Mutation = {
   shutdownDrop: ShutdownDropPayload;
 };
 
+
 export type MutationAcceptInviteArgs = {
   input: AcceptInviteInput;
 };
+
 
 export type MutationCreateCredentialArgs = {
   input: CreateCredentialInput;
 };
 
+
 export type MutationCreateCustomerArgs = {
   input: CreateCustomerInput;
 };
+
 
 export type MutationCreateCustomerWalletArgs = {
   input: CreateCustomerWalletInput;
 };
 
+
 export type MutationCreateDropArgs = {
   input: CreateDropInput;
 };
+
 
 export type MutationCreateOrganizationArgs = {
   input: CreateOrganizationInput;
 };
 
+
 export type MutationCreateProjectArgs = {
   input: CreateProjectInput;
 };
+
 
 export type MutationCreateWebhookArgs = {
   input: CreateWebhookInput;
 };
 
+
+export type MutationDeactivateMemberArgs = {
+  input: DeactivateMemberInput;
+};
+
+
 export type MutationDeleteCredentialArgs = {
   input: DeleteCredentialInput;
 };
+
 
 export type MutationDeleteWebhookArgs = {
   input: DeleteWebhookInput;
 };
 
+
 export type MutationEditCredentialArgs = {
   input: EditCredentialInput;
 };
+
 
 export type MutationEditOrganizationArgs = {
   input: EditOrganizationInput;
 };
 
+
 export type MutationEditProjectArgs = {
   input: EditProjectInput;
 };
+
 
 export type MutationEditWebhookArgs = {
   input: EditWebhookInput;
 };
 
+
 export type MutationInviteMemberArgs = {
   input: InviteMemberInput;
 };
+
 
 export type MutationMintEditionArgs = {
   input: MintDropInput;
 };
 
+
+export type MutationPatchDropArgs = {
+  input: PatchDropInput;
+};
+
+
 export type MutationPauseDropArgs = {
   input: PauseDropInput;
 };
 
+
+export type MutationReactivateMemberArgs = {
+  input: ReactivateMemberInput;
+};
+
+
 export type MutationResumeDropArgs = {
   input: ResumeDropInput;
 };
+
 
 export type MutationShutdownDropArgs = {
   input: ShutdownDropInput;
@@ -862,10 +932,12 @@ export type Organization = {
   webhooks?: Maybe<Array<Webhook>>;
 };
 
+
 /** A Holaplex organization is the top-level account within the Holaplex ecosystem. Each organization has a single owner who can invite members to join. Organizations use projects to organize NFT campaigns or initiatives. */
 export type OrganizationCredentialArgs = {
   clientId: Scalars['String'];
 };
+
 
 /** A Holaplex organization is the top-level account within the Holaplex ecosystem. Each organization has a single owner who can invite members to join. Organizations use projects to organize NFT campaigns or initiatives. */
 export type OrganizationCredentialsArgs = {
@@ -873,10 +945,12 @@ export type OrganizationCredentialsArgs = {
   offset?: InputMaybe<Scalars['Int']>;
 };
 
+
 /** A Holaplex organization is the top-level account within the Holaplex ecosystem. Each organization has a single owner who can invite members to join. Organizations use projects to organize NFT campaigns or initiatives. */
 export type OrganizationInvitesArgs = {
   status?: InputMaybe<InviteStatus>;
 };
+
 
 /** A Holaplex organization is the top-level account within the Holaplex ecosystem. Each organization has a single owner who can invite members to join. Organizations use projects to organize NFT campaigns or initiatives. */
 export type OrganizationWebhookArgs = {
@@ -898,6 +972,31 @@ export type Owner = {
   user?: Maybe<User>;
   /** The ID of the user who created the Holaplex organization and serves as its owner. */
   userId: Scalars['UUID'];
+};
+
+/** Input object for patching a drop and associated collection by ID */
+export type PatchDropInput = {
+  /** The creators of the drop */
+  creators?: InputMaybe<Array<CollectionCreatorInput>>;
+  /** The new end time for the drop in UTC */
+  endTime?: InputMaybe<Scalars['DateTime']>;
+  /** The unique identifier of the drop */
+  id: Scalars['UUID'];
+  /** The new metadata JSON for the drop */
+  metadataJson?: InputMaybe<MetadataJsonInput>;
+  /** The new price for the drop in the native token of the blockchain */
+  price?: InputMaybe<Scalars['Int']>;
+  /** The new seller fee basis points for the drop */
+  sellerFeeBasisPoints?: InputMaybe<Scalars['Int']>;
+  /** The new start time for the drop in UTC */
+  startTime?: InputMaybe<Scalars['DateTime']>;
+};
+
+/** Represents the result of a successful patch drop mutation. */
+export type PatchDropPayload = {
+  __typename?: 'PatchDropPayload';
+  /** The drop that has been patched. */
+  drop: Drop;
 };
 
 /** Represents input fields for pausing a drop. */
@@ -940,10 +1039,12 @@ export type Project = {
   treasury?: Maybe<Treasury>;
 };
 
+
 /** A Holaplex project that belongs to an organization. Projects are used to group unique NFT campaigns or initiatives, and are used to assign objects that end customers will interact with, such as drops and wallets. */
 export type ProjectCustomerArgs = {
   id: Scalars['UUID'];
 };
+
 
 /** A Holaplex project that belongs to an organization. Projects are used to group unique NFT campaigns or initiatives, and are used to assign objects that end customers will interact with, such as drops and wallets. */
 export type ProjectDropArgs = {
@@ -974,19 +1075,27 @@ export type Query = {
   user?: Maybe<User>;
 };
 
+
 export type QueryInviteArgs = {
   id: Scalars['UUID'];
 };
+
 
 export type QueryOrganizationArgs = {
   id: Scalars['UUID'];
 };
 
+
 export type QueryProjectArgs = {
   id: Scalars['UUID'];
 };
 
+
 export type QueryUserArgs = {
+  id: Scalars['UUID'];
+};
+
+export type ReactivateMemberInput = {
   id: Scalars['UUID'];
 };
 
@@ -1032,6 +1141,7 @@ export type Treasury = {
   /** The treasury's associated wallets. */
   wallets?: Maybe<Array<Wallet>>;
 };
+
 
 /** A collection of wallets assigned to different entities in the Holaplex ecosystem. */
 export type TreasuryWalletArgs = {

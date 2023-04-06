@@ -106,6 +106,7 @@ export default function DeleteCredentialPage({ params: { credential } }: DeleteC
                 variant="failure"
                 onClick={onDelete}
                 disabled={loading}
+                loading={loading}
               >
                 Delete
               </Button>

@@ -112,6 +112,9 @@ function MemberPill({ status, className }: InviteStatusPillProps) {
     case MemberStatus.Revoked:
       label = 'Expired';
       break;
+    case MemberStatus.Inactive:
+      label = 'Inactive';
+      break;
   }
   return (
     <div
@@ -120,6 +123,7 @@ function MemberPill({ status, className }: InviteStatusPillProps) {
         'bg-green-200 text-green-600': status === MemberStatus.Accepted,
         'bg-cyan-200 text-cyan-600': status === MemberStatus.Sent,
         'bg-red-100 text-red-900': status === MemberStatus.Revoked,
+        'bg-gray-100 text-gray-600': status === MemberStatus.Inactive,
       })}
     >
       {label}

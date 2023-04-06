@@ -38,6 +38,7 @@ query GetOrganizationMembers($organization: UUID!) {
       member {
         id
         createdAt
+        deactivatedAt
         user {
           firstName
           lastName
