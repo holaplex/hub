@@ -117,6 +117,7 @@ export type Collection = {
   metadataJson?: Maybe<MetadataJson>;
   /** The list of minted NFTs from the collection including the NFTs address and current owner's wallet address. */
   mints?: Maybe<Array<CollectionMint>>;
+  signature?: Maybe<Scalars['String']>;
   /** The total supply of the collection. Setting to `null` implies unlimited minting. */
   supply?: Maybe<Scalars['Int']>;
   /** The current number of NFTs minted from the collection. */
@@ -158,6 +159,7 @@ export type CollectionMint = {
   owner: Scalars['String'];
   ownerShortAddress: Scalars['String'];
   shortAddress: Scalars['String'];
+  signature?: Maybe<Scalars['String']>;
 };
 
 /** This struct represents the input for creating a new API credential, including the ID of the organization that the credential will be associated with and the friendly name assigned to the credential. */
@@ -263,8 +265,12 @@ export type CreateWebhookPayload = {
 };
 
 export enum CreationStatus {
+  Blocked = 'BLOCKED',
+  Canceled = 'CANCELED',
   Created = 'CREATED',
+  Failed = 'FAILED',
   Pending = 'PENDING',
+  Rejected = 'REJECTED',
 }
 
 /** An `OAuth2` client application used for authentication with the Hub API. */
@@ -287,16 +293,33 @@ export type Credential = {
 /** A customer record represents a user in your service and is used to group custodial wallets within a specific project. This allows for easy management of wallets and associated assets for a particular customer within your service. */
 export type Customer = {
   __typename?: 'Customer';
+  /**
+   * Returns all the wallet addresses associated with the customer. The blockchain of the address is not included and they are in no particular order. In the future, the blockchain may be indicated with a pattern of {blockchain}:{address}.
+   * This field returns null when there is no treasury assigned to the customer yet.
+   */
+  addresses?: Maybe<Array<Scalars['String']>>;
   /** The datetime when the customer record was created. */
   createdAt: Scalars['NaiveDateTime'];
   /** The unique identifier for the customer record. */
   id: Scalars['UUID'];
+  /** The NFTs owned by any of the customers' wallets. */
+  mints?: Maybe<Array<CollectionMint>>;
   /** The ID of the project to which the customer record belongs. */
   projectId: Scalars['UUID'];
   /** The treasury assigned to the customer, which contains the customer's wallets. */
   treasury?: Maybe<Treasury>;
   /** An optional datetime indicating the last time the customer record was updated. If the customer record has not been updated, this field will be `null`. */
   updatedAt?: Maybe<Scalars['NaiveDateTime']>;
+  wallet?: Maybe<Array<Wallet>>;
+};
+
+/** A customer record represents a user in your service and is used to group custodial wallets within a specific project. This allows for easy management of wallets and associated assets for a particular customer within your service. */
+export type CustomerWalletArgs = {
+  assetId?: InputMaybe<AssetType>;
+};
+
+export type DeactivateMemberInput = {
+  id: Scalars['UUID'];
 };
 
 /** The input for deleting a credential. */
@@ -357,13 +380,17 @@ export enum DropStatus {
   Creating = 'CREATING',
   /** The drop has expired and its end time has passed. */
   Expired = 'EXPIRED',
+  /** The creation process for the drop has failed */
+  Failed = 'FAILED',
   /** The minting process for the collection is complete. */
   Minted = 'MINTED',
   /** Actively minting. */
   Minting = 'MINTING',
+  /** The drop is temporarily paused and cannot be minted at the moment. */
   Paused = 'PAUSED',
   /** The drop is scheduled for minting. */
   Scheduled = 'SCHEDULED',
+  /** The drop is permanently shut down and can no longer be minted. */
   Shutdown = 'SHUTDOWN',
 }
 
@@ -513,6 +540,8 @@ export type Member = {
   __typename?: 'Member';
   /** The datetime, in UTC, when the member joined the organization. */
   createdAt: Scalars['NaiveDateTime'];
+  /** The datetime, in UTC, when the member was deactivated from the organization. */
+  deactivatedAt?: Maybe<Scalars['NaiveDateTime']>;
   /** The unique identifier of the member. */
   id: Scalars['UUID'];
   /** The invitation to join the Holaplex organization that the member accepted in order to gain access to the organization. */
@@ -655,6 +684,13 @@ export type Mutation = {
    * This function fails if ...
    */
   createWebhook: CreateWebhookPayload;
+  /**
+   * Returns member object on success
+   *
+   * # Errors
+   * This code may result in an error if the update to the database fails or if it fails to produce an event.
+   */
+  deactivateMember: Member;
   /** Delete the OAuth2 API credential. */
   deleteCredential: DeleteCredentialPayload;
   /**
@@ -689,8 +725,21 @@ export type Mutation = {
    * If the mint cannot be saved to the database or fails to be emitted for submission to the desired blockchain, the mutation will result in an error.
    */
   mintEdition: MintEditionPayload;
+  /**
+   * This mutation allows updating a drop and it's associated collection by ID.
+   * It returns an error if it fails to reach the database, emit update events or assemble the on-chain transaction.
+   * Returns the `PatchDropPayload` object on success.
+   */
+  patchDrop: PatchDropPayload;
   /** This mutation allows for the temporary blocking of the minting of editions and can be resumed by calling the resumeDrop mutation. */
   pauseDrop: PauseDropPayload;
+  /**
+   * Returns member object on success
+   *
+   * # Errors
+   * This code may result in an error if the update to the database fails or if it fails to produce an event.
+   */
+  reactivateMember: Member;
   /** This mutation resumes a paused drop, allowing minting of editions to be restored */
   resumeDrop: ResumeDropPayload;
   /**
@@ -735,6 +784,10 @@ export type MutationCreateWebhookArgs = {
   input: CreateWebhookInput;
 };
 
+export type MutationDeactivateMemberArgs = {
+  input: DeactivateMemberInput;
+};
+
 export type MutationDeleteCredentialArgs = {
   input: DeleteCredentialInput;
 };
@@ -767,8 +820,16 @@ export type MutationMintEditionArgs = {
   input: MintDropInput;
 };
 
+export type MutationPatchDropArgs = {
+  input: PatchDropInput;
+};
+
 export type MutationPauseDropArgs = {
   input: PauseDropInput;
+};
+
+export type MutationReactivateMemberArgs = {
+  input: ReactivateMemberInput;
 };
 
 export type MutationResumeDropArgs = {
@@ -900,6 +961,31 @@ export type Owner = {
   userId: Scalars['UUID'];
 };
 
+/** Input object for patching a drop and associated collection by ID */
+export type PatchDropInput = {
+  /** The creators of the drop */
+  creators?: InputMaybe<Array<CollectionCreatorInput>>;
+  /** The new end time for the drop in UTC */
+  endTime?: InputMaybe<Scalars['DateTime']>;
+  /** The unique identifier of the drop */
+  id: Scalars['UUID'];
+  /** The new metadata JSON for the drop */
+  metadataJson?: InputMaybe<MetadataJsonInput>;
+  /** The new price for the drop in the native token of the blockchain */
+  price?: InputMaybe<Scalars['Int']>;
+  /** The new seller fee basis points for the drop */
+  sellerFeeBasisPoints?: InputMaybe<Scalars['Int']>;
+  /** The new start time for the drop in UTC */
+  startTime?: InputMaybe<Scalars['DateTime']>;
+};
+
+/** Represents the result of a successful patch drop mutation. */
+export type PatchDropPayload = {
+  __typename?: 'PatchDropPayload';
+  /** The drop that has been patched. */
+  drop: Drop;
+};
+
 /** Represents input fields for pausing a drop. */
 export type PauseDropInput = {
   drop: Scalars['UUID'];
@@ -987,6 +1073,10 @@ export type QueryProjectArgs = {
 };
 
 export type QueryUserArgs = {
+  id: Scalars['UUID'];
+};
+
+export type ReactivateMemberInput = {
   id: Scalars['UUID'];
 };
 

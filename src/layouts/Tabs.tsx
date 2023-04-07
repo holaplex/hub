@@ -70,6 +70,6 @@ interface TabsContentProps {
 }
 
 function TabsContent({ children, className }: TabsContentProps) {
-  return <article className={clsx('w-full', className)}>{children}</article>;
+  return <article className={clsx('w-full flex-grow', className)}>{children}</article>;
 }
 Tabs.Content = TabsContent;
