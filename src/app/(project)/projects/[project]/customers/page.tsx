@@ -7,7 +7,7 @@ import Table from './../../../../../components/Table';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import { GetProjectCustomers } from './../../../../../queries/customer.graphql';
-import { Customer, Project } from './../../../../../graphql.types';
+import { AssetType, Customer, Project } from './../../../../../graphql.types';
 import { useProject } from '../../../../../hooks/useProject';
 import { DateFormat, formatDateString } from './../../../../../modules/time';
 
@@ -50,7 +50,6 @@ export default function CustomersPage() {
                 id: 'id',
                 header: () => (
                   <div className="flex gap-2 items-center">
-                    <span className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />
                     <span className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />
                   </div>
                 ),
@@ -67,6 +66,17 @@ export default function CustomersPage() {
                   <div className="flex flex-col gap-1">
                     <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
                     <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
+                  </div>
+                ),
+              }),
+              loadingColumnHelper.display({
+                id: 'wallets',
+                header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                cell: () => (
+                  <div className="flex flex-row gap-1">
+                    <span className="rounded-full w-6 aspect-square bg-gray-50 animate-pulse" />
+                    <span className="rounded-full w-6 aspect-square bg-gray-50 animate-pulse" />
+                    <span className="rounded-full w-6 aspect-square bg-gray-50 animate-pulse" />
                   </div>
                 ),
               }),
@@ -142,6 +152,34 @@ export default function CustomersPage() {
                       );
                     },
                   }),
+                  columnHelper.accessor(
+                    ({ treasury }) => treasury?.wallets?.map((wallet) => wallet.assetId),
+                    {
+                      id: 'wallets',
+                      header: () => (
+                        <span className="flex text-xs text-gray-600 font-medium self-start">
+                          Wallets
+                        </span>
+                      ),
+                      cell: (info) => {
+                        return (
+                          <div className="flex flex-row gap-1">
+                            {info.getValue().map((assetId: AssetType) => {
+                              let icon: React.ReactNode;
+
+                              switch (assetId) {
+                                case AssetType.SolTest:
+                                case AssetType.Sol:
+                                  icon = <Icon.Crypto.Sol />;
+                              }
+
+                              return icon;
+                            })}
+                          </div>
+                        );
+                      },
+                    }
+                  ),
                   columnHelper.display({
                     id: 'options',
                     header: () => <Icon.TableAction />,

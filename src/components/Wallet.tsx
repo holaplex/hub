@@ -10,17 +10,18 @@ interface WalletProps {
 }
 
 export default function Wallet({ wallet, className }: WalletProps) {
-  console.log('wallet', wallet);
   const { copied, copyText } = useClipboard(wallet.address);
-  let currency;
+
+  let icon: React.ReactNode;
+
   switch (wallet.assetId) {
     case AssetType.Sol:
     case AssetType.SolTest:
-      currency = <Icon.Large.Solana />;
+      icon = <Icon.Large.Solana />;
       break;
     case AssetType.Eth:
     case AssetType.EthTest:
-      currency = <Icon.Large.Eth />;
+      icon = <Icon.Large.Eth />;
       break;
   }
   return (
@@ -30,7 +31,7 @@ export default function Wallet({ wallet, className }: WalletProps) {
         className
       )}
     >
-      <div className="rounded-full p-5 bg-gray-50 mt-2 flex items-center">{currency}</div>
+      <div className="rounded-full p-5 bg-gray-50 mt-2 flex items-center">{icon}</div>
       <div className="text-xs font-medium text-gray-400 mt-2">{wallet.assetId}</div>
       <div
         className="flex gap-2 text-xs font-medium items-center mt-2 cursor-pointer"
@@ -38,9 +39,6 @@ export default function Wallet({ wallet, className }: WalletProps) {
       >
         <div>{shorten(wallet.address)}</div>
         {copied ? <Icon.Check /> : <Icon.Copy />}
-      </div>
-      <div className="mt-4 w-full flex items-center justify-between text-xs font-medium">
-        {wallet.assetId} <div>0</div>
       </div>
     </div>
   );
