@@ -10,7 +10,6 @@ interface CustomerWalletsProps {
   children: React.ReactNode;
   project: string;
   customer: string;
-  loading?: boolean;
 }
 
 interface GetWalletsData {
@@ -22,12 +21,7 @@ interface GetWalletsVars {
   customer: string;
 }
 
-export default function CustomerWallets({
-  children,
-  project,
-  customer,
-  loading,
-}: CustomerWalletsProps) {
+export default function CustomerWallets({ children, project, customer }: CustomerWalletsProps) {
   const walletsQuery = useQuery<GetWalletsData, GetWalletsVars>(GetWallets, {
     variables: { project, customer },
   });
@@ -36,7 +30,7 @@ export default function CustomerWallets({
 
   return (
     <div className="h-full flex flex-col">
-      {walletsQuery.loading || loading ? (
+      {walletsQuery.loading ? (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {Array.from(Array(6)).map((_, index) => (
             <Wallet.Skeleton key={index} />

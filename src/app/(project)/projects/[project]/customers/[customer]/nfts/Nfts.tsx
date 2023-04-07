@@ -11,7 +11,6 @@ interface NftsProps {
   children: React.ReactNode;
   project: string;
   customer: string;
-  loading: boolean;
 }
 
 interface GetCustomerNftsData {
@@ -23,7 +22,7 @@ interface GetCustomerNftsVars {
   customer: string;
 }
 
-export default function Nfts({ children, project, customer, loading }: NftsProps) {
+export default function Nfts({ children, project, customer }: NftsProps) {
   const mintsQuery = useQuery<GetCustomerNftsData, GetCustomerNftsVars>(GetCustomerNfts, {
     variables: { project, customer },
   });
@@ -33,7 +32,7 @@ export default function Nfts({ children, project, customer, loading }: NftsProps
   return (
     <>
       <div className="h-full flex flex-col flex-1">
-        {mintsQuery.loading || loading ? (
+        {mintsQuery.loading ? (
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {Array.from(Array(6)).map((_, index) => (
               <Mint.Skeleton key={index} />
