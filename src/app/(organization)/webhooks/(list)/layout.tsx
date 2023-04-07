@@ -39,6 +39,8 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
   const loadingColumnHelper = createColumnHelper<any>();
   const tableRef = useRef<HTMLDivElement>(null);
   const tableWidth = useSize(tableRef)[0];
+  const eventCellRef = useRef<HTMLDivElement>(null);
+  const eventCellWidth = useSize(eventCellRef)[0];
 
   return (
     <>

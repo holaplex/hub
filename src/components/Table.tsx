@@ -35,7 +35,7 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
     debugTable: true,
   });
   return (
-    <div className={className}>
+    <div className={clsx('overflow-x-auto', className)}>
       <table className="min-w-full border border-gray-100 border-b-0 rounded-md table-fixed border-collapse">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
