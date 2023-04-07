@@ -43,8 +43,8 @@ export default function Customer({ children, project, customer }: CustomerProps)
             <div className="w-60 h-8 rounded-md bg-gray-100 animate-pulse" />
           </div>
           <div className="flex flex-col gap-1 items-end">
-            <div className="w-14 h-6 rounded-full bg-gray-100 animate-pulse" />
-            <div className="w-32 h-6 rounded-full bg-gray-100 animate-pulse" />
+            <div className="w-14 h-4 rounded-full bg-gray-100 animate-pulse" />
+            <div className="w-32 h-4 rounded-full bg-gray-100 animate-pulse" />
           </div>
         </div>
       ) : (
@@ -55,8 +55,8 @@ export default function Customer({ children, project, customer }: CustomerProps)
           </div>
           <ul className="flex-row gap-4">
             <li className="flex flex-col items-end gap-1">
-              <span className="text-gray-500 font-semibold">Registered</span>
-              <span>
+              <span className="text-gray-500 font-medium text-xs">Registered</span>
+              <span className="text-xs">
                 {format(
                   convertLocalTime(customerQuery?.data?.project?.customer?.createdAt),
                   DateFormat.DATE_2

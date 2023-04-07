@@ -34,7 +34,11 @@ export default function Nfts({ children, project, customer, loading }: NftsProps
     <>
       <div className="h-full flex flex-col flex-1">
         {mintsQuery.loading || loading ? (
-          <div />
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {Array.from(Array(6)).map((_, index) => (
+              <Mint.Skeleton key={index} />
+            ))}
+          </div>
         ) : (
           <>
             {noMints ? (
