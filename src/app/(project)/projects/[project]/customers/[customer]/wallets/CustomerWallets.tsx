@@ -10,7 +10,7 @@ interface CustomerWalletsProps {
   children: React.ReactNode;
   project: string;
   customer: string;
-  loading: boolean;
+  loading?: boolean;
 }
 
 interface GetWalletsData {
@@ -37,7 +37,11 @@ export default function CustomerWallets({
   return (
     <div className="h-full flex flex-col">
       {walletsQuery.loading || loading ? (
-        <div></div>
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {Array.from(Array(6)).map((_, index) => (
+            <Wallet.Skeleton key={index} />
+          ))}
+        </div>
       ) : (
         <>
           {noWallets ? (
@@ -57,7 +61,7 @@ export default function CustomerWallets({
           ) : (
             <div className="grid gap-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
               {wallets.map((wallet) => (
-                <Wallet key={wallet.address} wallet={wallet} />
+                <Wallet.Card key={wallet.address} wallet={wallet} />
               ))}
             </div>
           )}

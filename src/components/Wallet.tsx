@@ -2,14 +2,19 @@ import clsx from 'clsx';
 import { AssetType, Wallet as WalletType } from '../graphql.types';
 import useClipboard from '../hooks/useClipboard';
 import { shorten } from '../modules/wallet';
+import Card from './Card';
 import { Icon } from './Icon';
 
-interface WalletProps {
+export default function Wallet() {
+  return <div />;
+}
+
+interface WalletCardProps {
   wallet: WalletType;
   className?: string;
 }
 
-export default function Wallet({ wallet, className }: WalletProps) {
+function WalletCard({ wallet, className }: WalletCardProps) {
   const { copied, copyText } = useClipboard(wallet.address);
 
   let icon: React.ReactNode;
@@ -25,14 +30,9 @@ export default function Wallet({ wallet, className }: WalletProps) {
       break;
   }
   return (
-    <div
-      className={clsx(
-        'w-[260px] flex flex-col items-center rounded-md bg-white p-6 text-primary',
-        className
-      )}
-    >
+    <Card className={clsx('p-6 items-center', className)}>
       <div className="rounded-full p-5 bg-gray-50 mt-2 flex items-center">{icon}</div>
-      <div className="text-xs font-medium text-gray-400 mt-2">{wallet.assetId}</div>
+      <div className="text-xs font-medium text-gray-600 mt-2">{wallet.assetId}</div>
       <div
         className="flex gap-2 text-xs font-medium items-center mt-2 cursor-pointer"
         onClick={copyText}
@@ -40,6 +40,22 @@ export default function Wallet({ wallet, className }: WalletProps) {
         <div>{shorten(wallet.address)}</div>
         {copied ? <Icon.Check /> : <Icon.Copy />}
       </div>
-    </div>
+    </Card>
   );
 }
+
+Wallet.Card = WalletCard;
+
+function WalletSkeleton() {
+  return (
+    <Card className="p-6 items-center">
+      <div className="rounded-full w-20 aspect-square bg-gray-50 mt-2 animate-pulse" />
+      <span className="rounded-full h-4 w-14 bg-gray-100 animate-pulse mt-2" />
+      <div className="flex gap-2 mt-2">
+        <span className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />
+        <span className="rounded-md h-4 w-4 bg-gray-100 animate-pulse" />
+      </div>
+    </Card>
+  );
+}
+Wallet.Skeleton = WalletSkeleton;
