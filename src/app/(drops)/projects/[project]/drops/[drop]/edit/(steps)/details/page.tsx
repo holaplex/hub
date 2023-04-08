@@ -6,7 +6,7 @@ import { Controller, useForm, useFieldArray } from 'react-hook-form';
 import Card from '../../../../../../../../../components/Card';
 import { Icon } from '../../../../../../../../../components/Icon';
 import Typography, { Size } from '../../../../../../../../../components/Typography';
-import { Blockchain } from '../../../../../../../../../graphql.types';
+import { Blockchain, Drop } from '../../../../../../../../../graphql.types';
 import { useProject } from '../../../../../../../../../hooks/useProject';
 import Divider from '../../../../../../../../../components/Divider';
 import clsx from 'clsx';
@@ -16,7 +16,11 @@ import useCreateDropStore, {
 import { labelBlockchain } from '../../../../../../../../../modules/label';
 import { useEffect } from 'react';
 
-export default function NewDropDetailsPage() {
+interface EditDropDetailsPageProps {
+  drop: Drop;
+}
+
+export default function EditDropDetailsPage({ drop }: EditDropDetailsPageProps) {
   const router = useRouter();
   const { project } = useProject();
   const { stepOne, setData } = useCreateDropStore();
@@ -38,10 +42,24 @@ export default function NewDropDetailsPage() {
   const options = [{ label: labelBlockchain(Blockchain.Solana), id: Blockchain.Solana }];
 
   useEffect(() => {
-    if (stepOne) {
-      reset(stepOne);
-    }
-  }, [reset, stepOne]);
+    const step = {
+      step: 1,
+      data: {
+        name: drop?.collection.metadataJson?.name!,
+        description: drop?.collection.metadataJson?.description!,
+        blockchain: {
+          label: labelBlockchain(drop?.collection.blockchain!),
+          id: drop?.collection.blockchain!,
+        },
+        symbol: drop?.collection.metadataJson?.symbol!,
+        image: drop?.collection.metadataJson?.image!,
+        attributes: drop?.collection.metadataJson?.attributes!,
+      },
+    };
+
+      setData(step);
+      reset(step.data);
+  }, [drop]);
 
   return (
     <>
