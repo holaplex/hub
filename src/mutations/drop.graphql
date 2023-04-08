@@ -12,7 +12,7 @@ mutation CreateDrop($input: CreateDropInput!) {
         supply
         totalMints
         metadataJson {
-          collectionId
+          id
           name
           image
           description

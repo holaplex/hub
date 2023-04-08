@@ -14,7 +14,7 @@ query GetProjectDrops($project: UUID!) {
         supply
         totalMints
         metadataJson {
-          collectionId
+          id
           name
           image
           description
@@ -54,7 +54,7 @@ query GetDrop($project: UUID!, $drop: UUID!) {
           shortAddress @client
         }
         metadataJson {
-          collectionId
+          id
           name
           image
           description
@@ -73,7 +73,7 @@ query GetDropBasicDetail($project: UUID!, $drop: UUID!) {
       collection {
         id
         metadataJson {
-          collectionId
+          id
           name
         }
       }

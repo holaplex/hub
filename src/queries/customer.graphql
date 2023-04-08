@@ -52,7 +52,7 @@ query GetCustomerNfts($project: UUID!, $customer: UUID!) {
           id
           blockchain
           metadataJson {
-            collectionId
+            id
             name
             description
             image
