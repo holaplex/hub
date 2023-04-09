@@ -21,7 +21,7 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
     cache: new InMemoryCache({
       typePolicies: {
         MetadataJson: {
-          keyFields: ['collectionId'],
+          keyFields: ['id'],
         },
         Wallet: {
           fields: {
