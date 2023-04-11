@@ -35,17 +35,17 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
   });
   return (
     <div className={className}>
-      <table className="min-w-full border border-gray-100 border-b-0 rounded-md table-fixed border-collapse">
+      <table className="min-w-full rounded-md table-fixed border-collapse bg-subtlebg">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="bg-gray-50">
+            <tr key={headerGroup.id} className="">
               {headerGroup.headers.map((header) => (
-                <th key={header.id} className="p-3 border-r border-gray-100">
+                <th key={header.id} className="p-4 text-xs font-medium text-subtletext">
                   {header.isPlaceholder ? null : (
                     <div
                       {...{
                         className: header.column.getCanSort()
-                          ? 'cursor-pointer select-none flex items-center justify-between'
+                          ? 'cursor-pointer select-none flex items-center gap-2'
                           : '',
                         onClick: header.column.getToggleSortingHandler(),
                       }}
@@ -63,11 +63,11 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
             </tr>
           ))}
         </thead>
-        <tbody className="bg-white">
+        <tbody className="">
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="border border-gray-100 p-3">
+                <td key={cell.id} className="border-t border-divider p-4 text-xs font-medium">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}

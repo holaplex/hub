@@ -67,7 +67,7 @@ export default function Project({
                         <span className="text-gray-400 text-xs">Project</span>
                       </span>
                     </h1>
-                    <Icon.Expand />
+                    <Icon.Dropdown />
                   </div>
                   {showProjects && (
                     <div className="w-full border-t border-gray-100 py-2 mt-4">

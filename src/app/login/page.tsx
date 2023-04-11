@@ -2,7 +2,7 @@
 import { useLogin } from './../../hooks/useLogin';
 import { Button, Form } from '@holaplex/ui-library-react';
 import { Icon } from './../../components/Icon';
-import Typography, { Size } from './../../components/Typography';
+import Typography, { Size, TextColor } from './../../components/Typography';
 import Card from './../../components/Card';
 import Divider from './../../components/Divider';
 import Link from './../../components/Link';
@@ -17,7 +17,9 @@ export default function Login() {
   return (
     <Card className="w-[400px]">
       <Typography.Header size={Size.H2}>Sign in</Typography.Header>
-      <Typography.Header size={Size.H3}>Use your email or socials to sign in.</Typography.Header>
+      <Typography.Header size={Size.H3} color={TextColor.SubtleText}>
+        Use your email or socials to sign in.
+      </Typography.Header>
       {loading ? (
         <div className="flex flex-col gap-4 mt-3">
           <div>
@@ -75,7 +77,7 @@ export default function Login() {
       >
         <Button icon={<Icon.LightBulb className="mr-1" />} className="w-full" variant="secondary">
           <div className="flex items-center">
-            <span className="text-gray-500 font-medium">Dont have an account?</span>
+            <span className="text-subtletext font-medium">Dont have an account?</span>
             <span className="flex items-center ml-1 font-semibold">
               Create account
               <Icon.ArrowRight className="ml-1" />

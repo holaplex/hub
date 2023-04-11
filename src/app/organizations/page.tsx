@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Button } from '@holaplex/ui-library-react';
 import Card from '../../components/Card';
-import Typography, { Size } from '../../components/Typography';
+import Typography, { Size, TextColor } from '../../components/Typography';
 import { useQuery } from '@apollo/client';
 import { GetUserAffiliations } from './../../queries/user.graphql';
 import { Organization, User } from './../../graphql.types';
@@ -50,7 +50,7 @@ export default function OrganizationsPage() {
   return (
     <Card className="w-[400px] flex">
       <Typography.Header size={Size.H2}>Organizations</Typography.Header>
-      <Typography.Header size={Size.H3} className="mt-2">
+      <Typography.Header size={Size.H3} color={TextColor.SubtleText} className="mt-2">
         Please select the organization you want to enter.
       </Typography.Header>
       <div className="mt-4 flex flex-col gap-2 max-h-[300px] overflow-auto">

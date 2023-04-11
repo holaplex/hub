@@ -24,7 +24,7 @@ export default function Organization({
               <Sidebar.Header>
                 <div className="flex items-center gap-4">
                   <Icon.ChevronLeft />
-                  <h1 className="flex items-center gap-2 text-sm text-primary font-medium">
+                  <h1 className="flex items-center gap-2">
                     {organization?.profileImageUrl ? (
                       <img
                         src={organization.profileImageUrl}
@@ -34,10 +34,7 @@ export default function Organization({
                     ) : (
                       <div className="w-8 h-8 bg-gray-300 rounded-md" />
                     )}
-                    <span className="flex flex-col capitalize">
-                      {organization?.name}
-                      <span className="text-gray-400 text-xs">Organization</span>
-                    </span>
+                    <span className="capitalize text-sm font-medium">{organization?.name}</span>
                   </h1>
                 </div>
               </Sidebar.Header>

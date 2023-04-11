@@ -2,7 +2,7 @@
 import { useRegister } from '../../hooks/useRegister';
 import { Button, Form } from '@holaplex/ui-library-react';
 import { Icon } from '../../components/Icon';
-import Typography, { Size } from '../../components/Typography';
+import Typography, { Size, TextColor } from '../../components/Typography';
 import Card from '../../components/Card';
 import Divider from '../../components/Divider';
 import Link from '../../components/Link';
@@ -15,7 +15,9 @@ export default function Registration() {
   return (
     <Card className="w-[400px]">
       <Typography.Header size={Size.H2}>Create an account</Typography.Header>
-      <Typography.Header size={Size.H3}>Sign up using your email address.</Typography.Header>
+      <Typography.Header size={Size.H3} color={TextColor.SubtleText}>
+        Sign up using your email address.
+      </Typography.Header>
       {loading ? (
         <div className="flex flex-col gap-4 mt-3">
           <div>

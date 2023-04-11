@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import Card from './../../../components/Card';
-import Typography, { Size } from './../../../components/Typography';
+import Typography, { Size, TextColor } from './../../../components/Typography';
 import { Button, Form } from '@holaplex/ui-library-react';
 import { useMutation } from '@apollo/client';
 import { CreateOrganization } from './../../../mutations/organization.graphql';
@@ -62,7 +62,9 @@ export default function CreateOrganizationPage() {
   return (
     <Card className="w-[400px]">
       <Typography.Header size={Size.H2}>Create an organization</Typography.Header>
-      <Typography.Header size={Size.H3}>Enter your organization information.</Typography.Header>
+      <Typography.Header size={Size.H3} color={TextColor.SubtleText}>
+        Enter your organization information.
+      </Typography.Header>
 
       <Form className="flex flex-col mt-5" onSubmit={handleSubmit(onSubmit)}>
         <Form.Label name="Organization name" className="text-xs">

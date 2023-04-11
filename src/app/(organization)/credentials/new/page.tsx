@@ -3,7 +3,7 @@ import { Button, Form, Modal } from '@holaplex/ui-library-react';
 import { pipe, not, isNil } from 'ramda';
 import Card from '../../../../components/Card';
 import { Icon } from '../../../../components/Icon';
-import Typography, { Size } from '../../../../components/Typography';
+import Typography, { Size, TextColor } from '../../../../components/Typography';
 import { CreateCredential } from './../../../../mutations/credential.graphql';
 import { GetOrganizationCredentials } from './../../../../queries/credentials.graphql';
 import { useForm } from 'react-hook-form';
@@ -104,7 +104,7 @@ export default function GenerateToken() {
         ) : (
           <>
             <Typography.Header size={Size.H2}>Generate token</Typography.Header>
-            <Typography.Header size={Size.H3}>
+            <Typography.Header size={Size.H3} color={TextColor.SubtleText}>
               Fill required details to generate access token.
             </Typography.Header>
             <Form className="flex flex-col mt-5" onSubmit={handleSubmit(onSubmit)}>

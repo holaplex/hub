@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import Card from '../../../../../../../components/Card';
 import { Icon } from '../../../../../../../components/Icon';
-import Typography, { Size } from '../../../../../../../components/Typography';
+import Typography, { Size, TextColor } from '../../../../../../../components/Typography';
 import useCreateDropStore, { StepThreeData } from '../../../../../../../hooks/useCreateDropStore';
 import { useProject } from '../../../../../../../hooks/useProject';
 

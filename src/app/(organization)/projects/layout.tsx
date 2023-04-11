@@ -78,7 +78,7 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
           </>
         ) : (
           <>
-            <h1 className="text-2xl text-primary font-medium">Projects</h1>
+            <h1 className="text-2xl font-medium">Projects</h1>
             {noProjects ? (
               <div className="h-full flex-1 flex flex-col items-center justify-center">
                 <Icon.Large.CreateProject />
@@ -87,7 +87,10 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                   Click button below to get started.
                 </span>
                 <Link href="/projects/new">
-                  <Button icon={<Icon.CreateProject stroke="#ffffff" />} className="mt-8">
+                  <Button
+                    icon={<Icon.CreateProject className="stroke-secondary" />}
+                    className="mt-8"
+                  >
                     Create new project
                   </Button>
                 </Link>
@@ -95,7 +98,10 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
             ) : (
               <div className="mt-4 flex flex-col">
                 <Link href="/projects/new" className="self-end">
-                  <Button icon={<Icon.CreateProject stroke="#ffffff" />} className="self-end">
+                  <Button
+                    icon={<Icon.CreateProject className="stroke-secondary" />}
+                    className="self-end"
+                  >
                     Create project
                   </Button>
                 </Link>
@@ -104,11 +110,7 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                   columns={[
                     // @ts-ignore
                     columnHelper.accessor('name', {
-                      header: () => (
-                        <div className="flex gap-2">
-                          <span className="text-xs text-gray-600 font-medium">Project Name</span>
-                        </div>
-                      ),
+                      header: () => <span>Project Name</span>,
                       cell: (info) => {
                         const profileImage = info.row.original.profileImageUrl;
                         return (
@@ -121,26 +123,20 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                             ) : (
                               <div className="w-8 h-8 bg-gray-300 rounded-md" />
                             )}
-                            <span className="text-xs text-primary font-medium">
-                              {info.getValue()}
-                            </span>
+                            <span>{info.getValue()}</span>
                           </Link>
                         );
                       },
                     }),
                     columnHelper.accessor('createdAt', {
-                      header: () => (
-                        <span className="flex text-xs text-gray-600 font-medium self-start">
-                          Created date
-                        </span>
-                      ),
+                      header: () => <span>Created date</span>,
                       cell: (info) => {
                         return (
                           <div className="flex flex-col">
-                            <span className="text-xs text-primary font-medium">
+                            <span className="text-xs text-subtletext">
                               {formatDateString(info.getValue(), DateFormat.DATE_1)}
                             </span>
-                            <span className="text-xs text-gray-500">
+                            <span className="text-xs font-normal">
                               {formatDateString(info.getValue(), DateFormat.TIME_1)}
                             </span>
                           </div>
@@ -149,7 +145,7 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                     }),
                     columnHelper.display({
                       id: 'options',
-                      header: () => <Icon.TableAction />,
+                      header: () => <div />,
                       cell: (info) => {
                         const projectId = info.row.original.id;
                         return (

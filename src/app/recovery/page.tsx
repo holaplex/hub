@@ -3,7 +3,7 @@ import { useRecovery } from '../../hooks/useRecovery';
 import Link from '../../components/Link';
 import { ReactElement } from 'react';
 import Card from '../../components/Card';
-import Typography, { Size } from '../../components/Typography';
+import Typography, { Size, TextColor } from '../../components/Typography';
 import { useRecoveryFlow } from '../../hooks/userRecoveryFlow';
 import { Button, Form } from '@holaplex/ui-library-react';
 
@@ -14,7 +14,7 @@ export default function Recovery() {
   return (
     <Card className="w-[400px]">
       <Typography.Header size={Size.H2}>Forgot password</Typography.Header>
-      <Typography.Header size={Size.H3}>
+      <Typography.Header size={Size.H3} color={TextColor.SubtleText}>
         Enter your email address to receive a recovery link.
       </Typography.Header>
       {loading ? (

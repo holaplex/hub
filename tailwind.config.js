@@ -10,7 +10,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#000000',
+        primary: '#F3F36D',
+        secondary: '#1A1A1D',
+        maintext: '#FFFFFF',
+        subtletext: '#AAAAAA',
+        mainbg: '#1A1A1D',
+        subtlebg: '#212122',
+        activecell: '#2B2B2B',
+        divider: '#2B2B2B',
+        container: '#212122',
         positive: '#479E5A',
         negative: '#E52E2E',
         warning: '#F0B41A',
