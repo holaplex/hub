@@ -82,6 +82,7 @@ export default function NewDropPreviewPage() {
             description: stepOne.description,
             image,
             attributes: stepOne.attributes,
+            externalUrl: stepOne.externalUrl,
           },
           creators: stepTwo.creators,
           supply: parseInt(stepTwo.supply),
