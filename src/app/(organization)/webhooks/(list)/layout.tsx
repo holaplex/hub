@@ -41,60 +41,72 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
       <div className="h-full flex flex-col p-4">
         {webhooksQuery.loading ? (
           <>
-            <div className="w-36 h-8 rounded-md bg-gray-100 animate-pulse" />
-            <div className="w-32 h-8 rounded-md bg-gray-100 animate-pulse mt-4 self-end" />
+            <div className="w-36 h-8 rounded-md bg-loadingui animate-pulse" />
+            <div className="w-32 h-8 rounded-md bg-loadingui animate-pulse mt-4 self-end" />
             <Table
               className="mt-4"
               columns={[
                 loadingColumnHelper.display({
                   id: 'name',
-                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
-                  cell: () => <div className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />,
+                  header: () => (
+                    <div className="rounded-full h-4 w-28 bg-loadingui animate-pulse" />
+                  ),
+                  cell: () => <div className="rounded-full h-3 w-16 bg-loadingui animate-pulse" />,
                 }),
                 loadingColumnHelper.display({
                   id: 'url',
-                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
-                  cell: () => <div className="rounded-full h-3 w-40 bg-gray-50 animate-pulse" />,
+                  header: () => (
+                    <div className="rounded-full h-4 w-28 bg-loadingui animate-pulse" />
+                  ),
+                  cell: () => <div className="rounded-full h-3 w-40 bg-loadingui animate-pulse" />,
                 }),
                 loadingColumnHelper.display({
                   id: 'events',
-                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                  header: () => (
+                    <div className="rounded-full h-4 w-28 bg-loadingui animate-pulse" />
+                  ),
                   cell: () => (
                     <div className="flex gap-1 items-center">
-                      <span className="rounded-full h-4 w-20 bg-gray-50 animate-pulse" />
-                      <span className="rounded-full h-4 w-20 bg-gray-50 animate-pulse" />
+                      <span className="rounded-full h-4 w-20 bg-loadingui animate-pulse" />
+                      <span className="rounded-full h-4 w-20 bg-loadingui animate-pulse" />
                     </div>
                   ),
                 }),
                 loadingColumnHelper.display({
                   id: 'createdDate',
-                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                  header: () => (
+                    <div className="rounded-full h-4 w-28 bg-loadingui animate-pulse" />
+                  ),
                   cell: () => (
                     <div className="flex flex-col gap-1">
-                      <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
-                      <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
+                      <span className="rounded-full h-3 w-16 bg-loadingui animate-pulse" />
+                      <span className="rounded-full h-3 w-8 bg-loadingui animate-pulse" />
                     </div>
                   ),
                 }),
                 loadingColumnHelper.display({
                   id: 'createdBy',
-                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                  header: () => (
+                    <div className="rounded-full h-4 w-28 bg-loadingui animate-pulse" />
+                  ),
                   cell: () => (
                     <div className="flex flex-col gap-1">
-                      <span className="rounded-full h-3 w-10 bg-gray-50 animate-pulse" />
-                      <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
+                      <span className="rounded-full h-3 w-10 bg-loadingui animate-pulse" />
+                      <span className="rounded-full h-3 w-16 bg-loadingui animate-pulse" />
                     </div>
                   ),
                 }),
                 loadingColumnHelper.display({
                   id: 'status',
-                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
-                  cell: () => <div className="rounded-full h-4 w-16 bg-gray-50 animate-pulse" />,
+                  header: () => (
+                    <div className="rounded-full h-4 w-28 bg-loadingui animate-pulse" />
+                  ),
+                  cell: () => <div className="rounded-full h-4 w-16 bg-loadingui animate-pulse" />,
                 }),
                 loadingColumnHelper.display({
                   id: 'options',
-                  header: () => <div className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />,
-                  cell: () => <div className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />,
+                  header: () => <div className="rounded-full h-4 w-4 bg-loadingui animate-pulse" />,
+                  cell: () => <div className="rounded-full h-4 w-4 bg-loadingui animate-pulse" />,
                 }),
               ]}
               data={new Array(4)}
@@ -107,7 +119,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
               <div className="h-full flex-1 flex flex-col items-center justify-center">
                 <Icon.Large.Webhook />
                 <span className="mt-6 text-xl font-semibold">No webhooks yet</span>
-                <span className="mt-2 text-gray-500 text-sm">
+                <span className="mt-2 text-subtletext text-sm">
                   Click button below to get started.
                 </span>
                 <Button
@@ -131,22 +143,18 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                   className="mt-4"
                   columns={[
                     columnHelper.accessor('description', {
-                      header: () => <span className="text-xs text-gray-600 font-medium">Name</span>,
+                      header: () => <span>Name</span>,
                       cell: (info) => (
-                        <span className="text-xs text-primary font-medium">{info.getValue()}</span>
+                        <span className="text-xs font-medium">{info.getValue()}</span>
                       ),
                     }),
                     columnHelper.accessor('url', {
-                      header: () => <span className="text-xs text-gray-600 font-medium">URL</span>,
-                      cell: (info) => (
-                        <span className="text-xs text-primary">{info.getValue()}</span>
-                      ),
+                      header: () => <span>URL</span>,
+                      cell: (info) => <span className="text-xs">{info.getValue()}</span>,
                     }),
                     columnHelper.display({
                       id: 'events',
-                      header: () => (
-                        <span className="flex text-xs text-gray-600 font-medium">Events</span>
-                      ),
+                      header: () => <span>Events</span>,
                       cell: (info) => (
                         <div className="flex gap-1">
                           {info.row.original.events.map((event) => {
@@ -163,30 +171,26 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                       ),
                     }),
                     columnHelper.accessor('createdAt', {
-                      header: () => (
-                        <span className="flex text-xs text-gray-600 font-medium">Created date</span>
-                      ),
+                      header: () => <span>Created date</span>,
                       cell: (info) => (
                         <div className="flex flex-col">
-                          <span className="text-xs text-primary font-medium">
+                          <span className="text-xs text-subtletext font-medium">
                             {formatDateString(info.getValue(), DateFormat.DATE_1)}
                           </span>
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs">
                             {formatDateString(info.getValue(), DateFormat.TIME_1)}
                           </span>
                         </div>
                       ),
                     }),
                     columnHelper.accessor('createdBy', {
-                      header: () => (
-                        <span className="flex text-xs text-gray-600 font-medium">Created by</span>
-                      ),
+                      header: () => <span>Created by</span>,
                       cell: (info) => (
                         <div className="flex flex-col">
                           <span className="text-xs text-primary font-medium">
                             {`${info.getValue().firstName} ${info.getValue().lastName}`}
                           </span>
-                          <span className="text-xs text-gray-500">{info.getValue().email}</span>
+                          <span className="text-xs text-subtletext">{info.getValue().email}</span>
                         </div>
                       ),
                     }),
@@ -207,7 +211,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                           triggerButton={
                             <div
                               className={clsx(
-                                'px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min'
+                                'px-2 py-1 hover:rounded-md hover:bg-highlightcell max-w-min'
                               )}
                             >
                               <Icon.More />

@@ -125,7 +125,7 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
 
   return (
     <div className="h-full flex flex-col p-4">
-      <div className="text-2xl font-medium text-gray-500">
+      <div className="text-2xl font-medium text-subtletext">
         Webhooks / <span className="text-primary">Edit Webhook</span>
         <div className="w-full flex flex-col items-center">
           <Card className="w-[492px] mt-7">
@@ -136,33 +136,33 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
             {loading ? (
               <div className="flex flex-col gap-5 mt-5">
                 <div>
-                  <div className="mb-1 w-20 h-4 rounded-md bg-gray-100 animate-pulse" />
-                  <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+                  <div className="mb-1 w-20 h-4 rounded-md bg-loadingui animate-pulse" />
+                  <div className="w-full h-10 rounded-md bg-loadingui animate-pulse" />
                 </div>
                 <div className="flex gap-2">
                   <div className="w-full">
-                    <div className="mb-1 w-20 h-4 rounded-md bg-gray-100 animate-pulse" />
-                    <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+                    <div className="mb-1 w-20 h-4 rounded-md bg-loadingui animate-pulse" />
+                    <div className="w-full h-10 rounded-md bg-loadingui animate-pulse" />
                   </div>
                   <div className="w-full">
-                    <div className="mb-1 w-20 h-4 rounded-md bg-gray-100 animate-pulse" />
-                    <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+                    <div className="mb-1 w-20 h-4 rounded-md bg-loadingui animate-pulse" />
+                    <div className="w-full h-10 rounded-md bg-loadingui animate-pulse" />
                   </div>
                 </div>
                 <div>
-                  <div className="mb-1 mt-4 w-20 h-4 rounded-md bg-gray-100 animate-pulse" />
+                  <div className="mb-1 mt-4 w-20 h-4 rounded-md bg-loadingui animate-pulse" />
                   <div className="grid grid-cols-2 gap-5 my-2">
-                    <div className="w-full h-5 rounded-md bg-gray-100 animate-pulse" />
-                    <div className="w-full h-5 rounded-md bg-gray-100 animate-pulse" />
-                    <div className="w-full h-5 rounded-md bg-gray-100 animate-pulse" />
-                    <div className="w-full h-5 rounded-md bg-gray-100 animate-pulse" />
-                    <div className="w-full h-5 rounded-md bg-gray-100 animate-pulse" />
-                    <div className="w-full h-5 rounded-md bg-gray-100 animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-loadingui animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-loadingui animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-loadingui animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-loadingui animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-loadingui animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-loadingui animate-pulse" />
                   </div>
                 </div>
                 <div className="flex justify-between">
-                  <div className="w-24 h-10 rounded-md bg-gray-100 animate-pulse" />
-                  <div className="w-24 h-10 rounded-md bg-gray-100 animate-pulse" />
+                  <div className="w-24 h-10 rounded-md bg-loadingui animate-pulse" />
+                  <div className="w-24 h-10 rounded-md bg-loadingui animate-pulse" />
                 </div>
               </div>
             ) : (
@@ -227,7 +227,7 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                   </Form.Label>
                 </div>
 
-                <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
+                <hr className="w-full bg-divider my-4" color="#e6e6e6" />
 
                 <span className="text-sm text-primary font-medium">Events</span>
                 <div className="grid grid-cols-2 mt-4 mx-2 gap-5">
@@ -291,7 +291,7 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                   />
                 </div>
 
-                <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
+                <hr className="w-full bg-divider my-4" color="#e6e6e6" />
 
                 <div className="flex items-center justify-between">
                   <Button

@@ -23,17 +23,17 @@ export default function Login() {
       {loading ? (
         <div className="flex flex-col gap-4 mt-3">
           <div>
-            <div className="mb-1 w-20 h-4 rounded-md bg-gray-100 animate-pulse" />
-            <div className="mb-1 w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+            <div className="mb-1 w-20 h-4 rounded-md bg-loadingui animate-pulse" />
+            <div className="mb-1 w-full h-10 rounded-md bg-loadingui animate-pulse" />
           </div>
           <div>
             <div className="flex justify-between mb-1">
-              <div className="w-14 h-4 rounded-md bg-gray-100 animate-pulse" />
-              <div className="w-28 h-4 rounded-md bg-gray-100 animate-pulse" />
+              <div className="w-14 h-4 rounded-md bg-loadingui animate-pulse" />
+              <div className="w-28 h-4 rounded-md bg-loadingui animate-pulse" />
             </div>
-            <div className="mb-1 w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+            <div className="mb-1 w-full h-10 rounded-md bg-loadingui animate-pulse" />
           </div>
-          <div className="mt-3 w-full h-[44px] rounded-md bg-gray-100 animate-pulse" />
+          <div className="mt-3 w-full h-[44px] rounded-md bg-loadingui animate-pulse" />
         </div>
       ) : (
         <Form onSubmit={handleSubmit(submit)} className="flex flex-col gap-6 mt-3">
@@ -80,7 +80,7 @@ export default function Login() {
             <span className="text-subtletext font-medium">Dont have an account?</span>
             <span className="flex items-center ml-1 font-semibold">
               Create account
-              <Icon.ArrowRight className="ml-1" />
+              <Icon.ArrowRight className="ml-1 stroke-primary" />
             </span>
           </div>
         </Button>

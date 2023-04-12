@@ -108,14 +108,14 @@ export default function EditProject({ project }: { project: string }) {
       <Card className="w-[400px]">
         {projectQuery.loading ? (
           <>
-            <div className="bg-gray-100 animate-pulse h-6 w-24 rounded-md" />
-            <div className="bg-gray-100 animate-pulse h-4 w-40 rounded-md mt-2" />
-            <div className="bg-gray-100 animate-pulse h-4 w-20 rounded-md mt-5" />
-            <div className="bg-gray-100 animate-pulse h-10 w-full rounded-md mt-2" />
-            <div className="bg-gray-100 animate-pulse h-4 w-20 rounded-md mt-5" />
-            <div className="bg-gray-100 animate-pulse h-44 w-full rounded-md mt-2" />
-            <div className="bg-gray-100 animate-pulse h-10 w-full rounded-md mt-5" />
-            <div className="bg-gray-100 animate-pulse h-10 w-full rounded-md mt-5" />
+            <div className="bg-loadingui animate-pulse h-6 w-24 rounded-md" />
+            <div className="bg-loadingui animate-pulse h-4 w-40 rounded-md mt-2" />
+            <div className="bg-loadingui animate-pulse h-4 w-20 rounded-md mt-5" />
+            <div className="bg-loadingui animate-pulse h-10 w-full rounded-md mt-2" />
+            <div className="bg-loadingui animate-pulse h-4 w-20 rounded-md mt-5" />
+            <div className="bg-loadingui animate-pulse h-44 w-full rounded-md mt-2" />
+            <div className="bg-loadingui animate-pulse h-10 w-full rounded-md mt-5" />
+            <div className="bg-loadingui animate-pulse h-10 w-full rounded-md mt-5" />
           </>
         ) : (
           <>

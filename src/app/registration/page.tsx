@@ -21,24 +21,24 @@ export default function Registration() {
       {loading ? (
         <div className="flex flex-col gap-4 mt-3">
           <div>
-            <div className="mb-1 w-16 h-4 rounded-md bg-gray-100 animate-pulse" />
-            <div className="mb-1 w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+            <div className="mb-1 w-16 h-4 rounded-md bg-loadingui animate-pulse" />
+            <div className="mb-1 w-full h-10 rounded-md bg-loadingui animate-pulse" />
           </div>
           <div>
-            <div className="mb-1 w-16 h-4 rounded-md bg-gray-100 animate-pulse" />
-            <div className="mb-1 w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+            <div className="mb-1 w-16 h-4 rounded-md bg-loadingui animate-pulse" />
+            <div className="mb-1 w-full h-10 rounded-md bg-loadingui animate-pulse" />
           </div>
           <div>
-            <div className="mb-1 w-20 h-4 rounded-md bg-gray-100 animate-pulse" />
-            <div className="mb-1 w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+            <div className="mb-1 w-20 h-4 rounded-md bg-loadingui animate-pulse" />
+            <div className="mb-1 w-full h-10 rounded-md bg-loadingui animate-pulse" />
           </div>
           <div>
             <div className="flex justify-between mb-1">
-              <div className="w-14 h-4 rounded-md bg-gray-100 animate-pulse" />
+              <div className="w-14 h-4 rounded-md bg-loadingui animate-pulse" />
             </div>
-            <div className="mb-1 w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+            <div className="mb-1 w-full h-10 rounded-md bg-loadingui animate-pulse" />
           </div>
-          <div className="mt-3 w-full h-[44px] rounded-md bg-gray-100 animate-pulse" />
+          <div className="mt-3 w-full h-[44px] rounded-md bg-loadingui animate-pulse" />
         </div>
       ) : (
         <Form onSubmit={handleSubmit(submit)} className="flex flex-col gap-6 mt-3">
@@ -92,10 +92,10 @@ export default function Registration() {
       <Link href="/login" className="mt-4">
         <Button icon={<Icon.LightBulb className="mr-1" />} className="w-full" variant="secondary">
           <div className="flex items-center">
-            <span className="text-gray-500 font-medium">Already have an account?</span>
+            <span className="text-subtletext font-medium">Already have an account?</span>
             <span className="flex items-center ml-1 font-semibold">
               Sign in
-              <Icon.ArrowRight className="ml-1" />
+              <Icon.ArrowRight className="ml-1 stroke-primary" />
             </span>
           </div>
         </Button>

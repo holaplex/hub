@@ -45,8 +45,8 @@ export default function Drops({ project }: DropsPageProps) {
                   <div className="h-full flex flex-col p-4">
                     {dropsQuery.loading ? (
                       <>
-                        <div className="w-36 h-8 rounded-md bg-gray-100 animate-pulse" />
-                        <div className="w-32 h-8 rounded-md bg-gray-100 animate-pulse mt-4 self-end" />
+                        <div className="w-36 h-8 rounded-md bg-loadingui animate-pulse" />
+                        <div className="w-32 h-8 rounded-md bg-loadingui animate-pulse mt-4 self-end" />
                         <Table
                           className="mt-4"
                           columns={[
@@ -54,96 +54,96 @@ export default function Drops({ project }: DropsPageProps) {
                               id: 'name',
                               header: () => (
                                 <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />
-                                  <span className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />
+                                  <span className="rounded-full h-4 w-4 bg-loadingui animate-pulse" />
+                                  <span className="rounded-full h-4 w-28 bg-loadingui animate-pulse" />
                                 </div>
                               ),
                               cell: () => (
                                 <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-md h-8 w-8 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-4 w-4 bg-loadingui animate-pulse" />
+                                  <span className="rounded-md h-8 w-8 bg-loadingui animate-pulse" />
+                                  <span className="rounded-full h-4 w-28 bg-loadingui animate-pulse" />
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'price',
                               header: () => (
-                                <div className="rounded-full h-3 w-28 bg-gray-100 animate-pulse" />
+                                <div className="rounded-full h-3 w-28 bg-loadingui animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-3 w-11 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-3 w-4 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-3 w-11 bg-loadingui animate-pulse" />
+                                  <span className="rounded-full h-3 w-4 bg-loadingui animate-pulse" />
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'createdAt',
                               header: () => (
-                                <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />
+                                <div className="rounded-full h-4 w-28 bg-loadingui animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex flex-col gap-1">
-                                  <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-3 w-16 bg-loadingui animate-pulse" />
+                                  <span className="rounded-full h-3 w-8 bg-loadingui animate-pulse" />
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'startTime',
                               header: () => (
-                                <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />
+                                <div className="rounded-full h-4 w-28 bg-loadingui animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex flex-col gap-1">
-                                  <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-3 w-16 bg-loadingui animate-pulse" />
+                                  <span className="rounded-full h-3 w-8 bg-loadingui animate-pulse" />
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'endTime',
                               header: () => (
-                                <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />
+                                <div className="rounded-full h-4 w-28 bg-loadingui animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex flex-col gap-1">
-                                  <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-3 w-16 bg-loadingui animate-pulse" />
+                                  <span className="rounded-full h-3 w-8 bg-loadingui animate-pulse" />
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'supply',
                               header: () => (
-                                <div className="rounded-full h-3 w-28 bg-gray-100 animate-pulse" />
+                                <div className="rounded-full h-3 w-28 bg-loadingui animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-3 w-11 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-3 w-4 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-3 w-11 bg-loadingui animate-pulse" />
+                                  <span className="rounded-full h-3 w-4 bg-loadingui animate-pulse" />
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'status',
                               header: () => (
-                                <div className="rounded-full h-3 w-28 bg-gray-100 animate-pulse" />
+                                <div className="rounded-full h-3 w-28 bg-loadingui animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-6 w-20 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-6 w-20 bg-loadingui animate-pulse" />
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'options',
                               header: () => (
-                                <div className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />
+                                <div className="rounded-full h-4 w-4 bg-loadingui animate-pulse" />
                               ),
                               cell: () => (
-                                <div className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />
+                                <div className="rounded-full h-4 w-4 bg-loadingui animate-pulse" />
                               ),
                             }),
                           ]}
@@ -157,7 +157,7 @@ export default function Drops({ project }: DropsPageProps) {
                           <div className="h-full flex-1 flex flex-col items-center justify-center">
                             <Icon.Large.CreateNft />
                             <span className="mt-6 text-xl font-semibold">No drops yet</span>
-                            <span className="mt-2 text-gray-500 text-sm">
+                            <span className="mt-2 text-subtletext text-sm">
                               Click button below to mint your first drop
                             </span>
                             <Link
@@ -217,7 +217,7 @@ export default function Drops({ project }: DropsPageProps) {
                                           <span className="text-xs text-primary font-medium">
                                             {info.getValue().name}
                                           </span>
-                                          <span className="text-xs text-gray-500">
+                                          <span className="text-xs text-subtletext">
                                             {info.getValue().symbol}
                                           </span>
                                         </Link>
@@ -247,7 +247,7 @@ export default function Drops({ project }: DropsPageProps) {
                                             {price === 0 ? 'FREE' : price}
                                           </span>
                                           {price > 0 && (
-                                            <span className="text-xs text-gray-600 font-medium">
+                                            <span className="text-xs text-subtletext font-medium">
                                               Lamports
                                             </span>
                                           )}
@@ -262,13 +262,13 @@ export default function Drops({ project }: DropsPageProps) {
                                   ),
                                   cell: (info) => (
                                     <div className="flex flex-col gap-1">
-                                      <span className="text-xs text-primary font-medium">
+                                      <span className="text-xs text-subtletext font-medium">
                                         {format(
                                           convertLocalTime(info.getValue()),
                                           DateFormat.DATE_1
                                         )}
                                       </span>
-                                      <span className="text-xs text-gray-500">
+                                      <span className="text-xs">
                                         {format(
                                           convertLocalTime(info.getValue()),
                                           DateFormat.TIME_1
@@ -293,10 +293,10 @@ export default function Drops({ project }: DropsPageProps) {
 
                                       return (
                                         <div className="flex flex-col gap-1">
-                                          <span className="text-xs text-primary font-medium">
+                                          <span className="text-xs text-subtletext font-medium">
                                             {format(convertLocalTime(start), DateFormat.DATE_1)}
                                           </span>
-                                          <span className="text-xs text-gray-500">
+                                          <span className="text-xs">
                                             {format(convertLocalTime(start), DateFormat.TIME_1)}
                                           </span>
                                         </div>
@@ -312,13 +312,13 @@ export default function Drops({ project }: DropsPageProps) {
                                     <div className="flex flex-col gap-1">
                                       {info.getValue() ? (
                                         <>
-                                          <span className="text-xs text-primary font-medium">
+                                          <span className="text-xs text-subtletext font-medium">
                                             {format(
                                               convertLocalTime(info.getValue()),
                                               DateFormat.DATE_1
                                             )}
                                           </span>
-                                          <span className="text-xs text-gray-500">
+                                          <span className="text-xs">
                                             {format(
                                               convertLocalTime(info.getValue()),
                                               DateFormat.TIME_1
@@ -393,11 +393,7 @@ export default function Drops({ project }: DropsPageProps) {
                                   }
                                 ),
                                 columnHelper.accessor('status', {
-                                  header: () => (
-                                    <span className="flex text-xs text-gray-600 font-medium">
-                                      Status
-                                    </span>
-                                  ),
+                                  header: () => <span>Status</span>,
                                   cell: (info) => (
                                     <Table.DropStatusPill status={info.getValue() as DropStatus} />
                                   ),
@@ -446,7 +442,7 @@ export default function Drops({ project }: DropsPageProps) {
                                         triggerButton={
                                           <div
                                             className={clsx(
-                                              'px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min'
+                                              'px-2 py-1 hover:rounded-md hover:highlightcell max-w-min'
                                             )}
                                           >
                                             <Icon.More />

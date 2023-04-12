@@ -56,9 +56,9 @@ export default function OrganizationsPage() {
       <div className="mt-4 flex flex-col gap-2 max-h-[300px] overflow-auto">
         {userAffiliationsQuery.loading ? (
           <>
-            <div className="rounded-md h-10 w-full bg-gray-50 animate-pulse" />
-            <div className="rounded-md h-10 w-full bg-gray-50 animate-pulse" />
-            <div className="rounded-md h-10 w-full bg-gray-50 animate-pulse" />
+            <div className="rounded-md h-10 w-full bg-loadingui animate-pulse" />
+            <div className="rounded-md h-10 w-full bg-loadingui animate-pulse" />
+            <div className="rounded-md h-10 w-full bg-loadingui animate-pulse" />
           </>
         ) : (
           userAffiliationsQuery.data?.user.affiliations.map((affiliation) => {
@@ -67,7 +67,7 @@ export default function OrganizationsPage() {
               <div
                 key={id}
                 onClick={() => onChange(id)}
-                className="flex gap-2 items-center cursor-pointer border rounded-md p-2 border-gray-100 hover:bg-gray-50 transition capitalize"
+                className="flex gap-2 items-center cursor-pointer rounded-md p-2 hover:bg-highlightcell transition capitalize"
               >
                 {affiliation.organization?.profileImageUrl ? (
                   <img
@@ -84,13 +84,13 @@ export default function OrganizationsPage() {
           })
         )}
       </div>
-      <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
+
       <Link href="/organizations/new" className="mt-4">
         <Button className="w-full" variant="secondary">
           <div className="flex items-center">
             <span className="flex items-center ml-1 font-semibold">
               Create an organization
-              <Icon.ArrowRight className="ml-1" />
+              <Icon.ArrowRight className="ml-1 stroke-primary" />
             </span>
           </div>
         </Button>

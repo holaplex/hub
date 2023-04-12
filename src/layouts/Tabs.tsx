@@ -46,7 +46,7 @@ interface TabProps {
 
 function Tab({ name, active, href, className, loading }: TabProps) {
   if (loading) {
-    return <div className="h-6 w-24 bg-gray-100 animate-pulse rounded-md" />;
+    return <div className="h-6 w-24 bg-loadingui animate-pulse rounded-md" />;
   }
 
   return (

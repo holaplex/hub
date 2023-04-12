@@ -1,5 +1,5 @@
 'use client';
-import { useSelectedLayoutSegments } from 'next/navigation';
+import { useRouter, useSelectedLayoutSegments } from 'next/navigation';
 import { Icon } from '../components/Icon';
 import Sidebar from './Sidebar';
 import { OrganizationProvider } from '../providers/OrganizationProvider';
@@ -14,7 +14,7 @@ export default function Organization({
   hydrate?: OrganizationType;
 }): JSX.Element {
   const segments = useSelectedLayoutSegments();
-
+  const router = useRouter();
   return (
     <OrganizationProvider hydrate={hydrate}>
       {({ organization }) => {
@@ -23,7 +23,9 @@ export default function Organization({
             <Sidebar.Panel>
               <Sidebar.Header>
                 <div className="flex items-center gap-4">
-                  <Icon.ChevronLeft />
+                  <div className="cursor-pointer" onClick={() => router.push('/organizations')}>
+                    <Icon.ChevronLeft />
+                  </div>
                   <h1 className="flex items-center gap-2">
                     {organization?.profileImageUrl ? (
                       <img

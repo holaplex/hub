@@ -1785,13 +1785,7 @@ function EmailInCircle({ width = 96, height = 96, fill = 'none', className = '' 
 }
 Icon.EmailInCircle = EmailInCircle;
 
-function ArrowRight({
-  width = 16,
-  height = 16,
-  fill = 'none',
-  className = '',
-  stroke = 'black',
-}: IconProps) {
+function ArrowRight({ width = 16, height = 16, fill = 'none', className = '' }: IconProps) {
   return (
     <svg
       width={width}

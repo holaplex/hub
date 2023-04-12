@@ -109,15 +109,15 @@ input:focus {
 }
 
 .button-variant-primary {
-  @apply text-secondary bg-primary hover:bg-gray-800 disabled:bg-gray-700 transition;
+  @apply text-secondary bg-primary disabled:bg-gray-700 transition;
 }
 
 .button-variant-secondary {
-  @apply text-primary bg-mainbg border-2 border-primary hover:bg-gray-100  hover:border-gray-200 transition;
+  @apply text-primary bg-subtlebg border-2 border-primary transition;
 }
 
 .button-variant-tertiary {
-  @apply text-primary bg-mainbg hover:bg-gray-50 disabled:bg-gray-100 transition;
+  @apply text-primary bg-subtlebg disabled:bg-gray-100 transition;
 }
 
 .button-variant-failure {

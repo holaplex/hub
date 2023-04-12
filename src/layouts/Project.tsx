@@ -64,7 +64,7 @@ export default function Project({
                       )}
                       <span className="flex flex-col capitalize">
                         {project.name}
-                        <span className="text-gray-400 text-xs">Project</span>
+                        <span className="text-subtletext text-xs">Project</span>
                       </span>
                     </h1>
                     <Icon.Dropdown />
@@ -74,12 +74,12 @@ export default function Project({
                       {projectsQuery.loading ? (
                         <div className="flex flex-col gap-4">
                           <div className="flex gap-2 items-center">
-                            <div className="w-8 h-8 bg-gray-50 rounded-md animate-pulse" />
-                            <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
+                            <div className="w-8 h-8 bg-loadingui rounded-md animate-pulse" />
+                            <span className="rounded-full h-4 w-28 bg-loadingui animate-pulse" />
                           </div>
                           <div className="flex gap-2 items-center">
-                            <div className="w-8 h-8 bg-gray-50 rounded-md animate-pulse" />
-                            <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
+                            <div className="w-8 h-8 bg-loadingui rounded-md animate-pulse" />
+                            <span className="rounded-full h-4 w-28 bg-loadingui animate-pulse" />
                           </div>
                         </div>
                       ) : (

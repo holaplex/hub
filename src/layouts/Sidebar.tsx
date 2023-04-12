@@ -88,8 +88,8 @@ function SidebarMenuLink({ icon, name, href, active, className }: SidebarMenuIte
     <Link
       href={href}
       className={clsx('flex gap-4 w-full px-4 py-3 items-center rounded-md', className, {
-        'bg-activecell': active,
-        'hover:bg-activecell': !active,
+        'bg-highlightcell': active,
+        'hover:bg-highlightcell': !active,
       })}
     >
       {icon}
@@ -171,7 +171,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
           <div className="w-8 h-8 bg-gray-300 rounded-full" />
           <span className="flex flex-col font-bold text-sm">
             {userQuery.loading ? (
-              <div className="h-4 w-20 bg-gray-50 rounded-full animate-pulse" />
+              <div className="h-4 w-20 bg-loadingui rounded-full animate-pulse" />
             ) : (
               `${userQuery.data?.user.firstName} ${userQuery.data?.user.lastName}`
             )}
@@ -185,12 +185,12 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
           {userAffiliationsQuery.loading ? (
             <div className="flex flex-col gap-4">
               <div className="flex gap-2 items-center">
-                <div className="w-8 h-8 bg-gray-50 rounded-md animate-pulse" />
-                <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
+                <div className="w-8 h-8 bg-loadingui rounded-md animate-pulse" />
+                <span className="rounded-full h-4 w-28 bg-loadingui animate-pulse" />
               </div>
               <div className="flex gap-2 items-center">
-                <div className="w-8 h-8 bg-gray-50 rounded-md animate-pulse" />
-                <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
+                <div className="w-8 h-8 bg-loadingui rounded-md animate-pulse" />
+                <span className="rounded-full h-4 w-28 bg-loadingui animate-pulse" />
               </div>
             </div>
           ) : (
@@ -225,8 +225,8 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                       className={clsx(
                         'flex items-center rounded-md justify-between p-2 transition',
                         {
-                          'bg-activecell': affiliation.organization?.id === organization?.id,
-                          'cursor-pointer hover:bg-activecell':
+                          'bg-highlightcell': affiliation.organization?.id === organization?.id,
+                          'cursor-pointer hover:bg-highlightcell':
                             affiliation.organization?.id !== organization?.id,
                         }
                       )}
@@ -244,7 +244,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                         ) : (
                           <div className="w-8 h-8 bg-gray-300 rounded-md" />
                         )}
-                        <span className="text-gray-600 font-medium text-sm">
+                        <span className="text-subtletext font-medium text-sm">
                           {affiliation.organization?.name}
                         </span>
                       </div>
@@ -254,7 +254,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
               </div>
               <Link href="/organizations/new">
                 <Button
-                  icon={<Icon.Add className="stroke-secondary" />}
+                  icon={<Icon.Add className="stroke-primary" />}
                   className="w-full"
                   variant="secondary"
                 >

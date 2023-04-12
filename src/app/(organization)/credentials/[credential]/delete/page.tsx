@@ -78,14 +78,14 @@ export default function DeleteCredentialPage({ params: { credential } }: DeleteC
         {credentialQuery.loading ? (
           <>
             <div className="mt-2 flex flex-col gap-1">
-              <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
-              <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
-              <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
-              <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
+              <div className="w-full h-4 rounded-md bg-loadingui animate-pulse" />
+              <div className="w-full h-4 rounded-md bg-loadingui animate-pulse" />
+              <div className="w-full h-4 rounded-md bg-loadingui animate-pulse" />
+              <div className="w-full h-4 rounded-md bg-loadingui animate-pulse" />
             </div>
             <div className="mt-4 flex flex-col gap-2">
-              <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
-              <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+              <div className="w-full h-10 rounded-md bg-loadingui animate-pulse" />
+              <div className="w-full h-10 rounded-md bg-loadingui animate-pulse" />
             </div>
           </>
         ) : (

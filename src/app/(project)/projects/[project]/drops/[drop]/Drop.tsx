@@ -78,54 +78,54 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                     <>
                       <div className="flex items-center justify-between">
                         <div className="flex gap-2 items-center">
-                          <div className="h-8 w-80 bg-gray-100 animate-pulse rounded-md" />
-                          <div className="h-6 w-16 bg-gray-100 animate-pulse rounded-full" />
+                          <div className="h-8 w-80 bg-loadingui animate-pulse rounded-md" />
+                          <div className="h-6 w-16 bg-loadingui animate-pulse rounded-full" />
                         </div>
 
                         {/* <div className="flex items-center gap-2">
-              <div className="h-10 w-24 bg-gray-100 animate-pulse rounded-md" />
-              <div className="h-10 w-28 bg-gray-100 animate-pulse rounded-md" />
-              <div className="h-10 w-32 bg-gray-100 animate-pulse rounded-md" />
+              <div className="h-10 w-24 bg-loadingui animate-pulse rounded-md" />
+              <div className="h-10 w-28 bg-loadingui animate-pulse rounded-md" />
+              <div className="h-10 w-32 bg-loadingui animate-pulse rounded-md" />
             </div> */}
                       </div>
                       <div className="mt-5 flex gap-4">
                         <div className="basis-1/3">
-                          <div className="w-full aspect-square bg-gray-100 animate-pulse rounded-lg" />
+                          <div className="w-full aspect-square bg-loadingui animate-pulse rounded-lg" />
                         </div>
                         <div className="basis-2/3 flex flex-col gap-2">
                           <div className="w-full">
                             <div className="flex items-center justify-between">
-                              <div className="h-4 w-20 bg-gray-100 animate-pulse rounded-full" />
+                              <div className="h-4 w-20 bg-loadingui animate-pulse rounded-full" />
 
-                              <div className="h-4 w-14 bg-gray-100 animate-pulse rounded-full" />
+                              <div className="h-4 w-14 bg-loadingui animate-pulse rounded-full" />
                             </div>
-                            <div className="w-full rounded-full h-[12px] bg-gray-100 animate-pulse mt-1 relative overflow-hidden" />
+                            <div className="w-full rounded-full h-[12px] bg-loadingui animate-pulse mt-1 relative overflow-hidden" />
                           </div>
                           <div className="flex p-4 bg-white rounded-md">
-                            <div className="basis-1/2 h-full flex flex-col border-r border-r-gray-100 pr-4">
-                              <div className="h-4 w-8 bg-gray-100 animate-pulse rounded-full mb-2" />
-                              <span className="h-8 w-2/3 bg-gray-100 animate-pulse rounded-md mb-1" />
-                              <span className="h-6 w-1/3 bg-gray-100 animate-pulse rounded-md mb-7" />
-                              <div className="h-4 w-10 bg-gray-100 animate-pulse rounded-full mb-1" />
-                              <span className="h-12 w-3/4 bg-gray-100 animate-pulse rounded-md" />
+                            <div className="basis-1/2 h-full flex flex-col border-r border-r-loadingui pr-4">
+                              <div className="h-4 w-8 bg-loadingui animate-pulse rounded-full mb-2" />
+                              <span className="h-8 w-2/3 bg-loadingui animate-pulse rounded-md mb-1" />
+                              <span className="h-6 w-1/3 bg-loadingui animate-pulse rounded-md mb-7" />
+                              <div className="h-4 w-10 bg-loadingui animate-pulse rounded-full mb-1" />
+                              <span className="h-12 w-3/4 bg-loadingui animate-pulse rounded-md" />
                               <div className="flex gap-2 mt-4">
-                                <span className="h-14 w-full bg-gray-100 animate-pulse rounded-md" />
-                                <span className="h-14 w-full bg-gray-100 animate-pulse rounded-md" />
+                                <span className="h-14 w-full bg-loadingui animate-pulse rounded-md" />
+                                <span className="h-14 w-full bg-loadingui animate-pulse rounded-md" />
                               </div>
                             </div>
                             <div className="basis-1/2 h-full flex flex-col px-4 justify-between">
                               <div className="flex flex-col gap-2">
-                                <div className="h-4 w-8 bg-gray-100 animate-pulse rounded-full mb-2" />
-                                <span className="h-8 w-1/3 bg-gray-100 animate-pulse rounded-md mb-7" />
+                                <div className="h-4 w-8 bg-loadingui animate-pulse rounded-full mb-2" />
+                                <span className="h-8 w-1/3 bg-loadingui animate-pulse rounded-md mb-7" />
                               </div>
                               <div>
                                 <div className="flex flex-col gap-3">
-                                  <div className="h-12 w-full flex flex-col rounded-md bg-gray-100 animate-pulse" />
+                                  <div className="h-12 w-full flex flex-col rounded-md bg-loadingui animate-pulse" />
                                 </div>
 
                                 <div className="flex gap-2 mt-3">
-                                  <div className="h-12 w-full flex flex-col rounded-md bg-gray-100 animate-pulse" />
-                                  <div className="h-12 w-full flex flex-col rounded-md bg-gray-100 animate-pulse" />
+                                  <div className="h-12 w-full flex flex-col rounded-md bg-loadingui animate-pulse" />
+                                  <div className="h-12 w-full flex flex-col rounded-md bg-loadingui animate-pulse" />
                                 </div>
                               </div>
                             </div>
@@ -137,11 +137,11 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                     <>
                       <div className="flex items-center justify-between">
                         <div className="flex gap-2 text-2xl font-medium items-center">
-                          <Link href={`/projects/${project}/drops`} className="text-gray-500">
+                          <Link href={`/projects/${project}/drops`} className="text-subtletext">
                             Manage drops
                           </Link>{' '}
                           /
-                          <span className="text-primary">
+                          <span>
                             {dropQuery.data?.project?.drop?.collection?.metadataJson?.name}
                           </span>
                           <Table.DropStatusPill
@@ -194,13 +194,13 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                 <span className="text-primary">
                                   {dropQuery.data?.project?.drop?.status} - {percent}%
                                 </span>
-                                <span className="text-gray-500">
+                                <span className="text-subtletext">
                                   {dropQuery.data?.project?.drop?.collection?.totalMints}/
                                   {dropQuery.data?.project?.drop?.collection?.supply}
                                 </span>
                               </div>
                               {inTheFuture(startTime) && (
-                                <span className="text-gray-500">
+                                <span className="text-subtletext">
                                   {daysUntil(startTime)} to start
                                 </span>
                               )}
@@ -212,7 +212,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                     dropQuery.data?.project?.drop?.status === DropStatus.Minting,
                                   'bg-red-900':
                                     dropQuery.data?.project?.drop?.status === DropStatus.Shutdown,
-                                  'bg-gray-500':
+                                  'bg-subtletext':
                                     dropQuery.data?.project?.drop?.status === DropStatus.Paused,
                                 })}
                                 style={{ width: `${percent}%` }}
@@ -221,11 +221,11 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                           </div>
                           <div className="flex p-4 bg-white rounded-md">
                             <div className="basis-1/2 h-full flex flex-col border-r border-r-gray-100 pr-4">
-                              <span className="text-gray-500 text-xs font-medium mb-2">Name</span>
+                              <span className="text-subtletext text-xs font-medium mb-2">Name</span>
                               <span className="text-primary text-3xl font-medium">
                                 {dropQuery.data?.project?.drop?.collection?.metadataJson?.name}
                               </span>
-                              <span className="text-gray-500 mb-6">
+                              <span className="text-subtletext mb-6">
                                 {dropQuery.data?.project?.drop?.collection?.metadataJson?.symbol}
                               </span>
                               <span className="text-gray-400 text-xs font-medium mb-1">
@@ -239,7 +239,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                               </span>
                               <div className="flex gap-2 mt-4">
                                 <div className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50">
-                                  <span className="text-gray-500 text-xs font-medium">
+                                  <span className="text-subtletext text-xs font-medium">
                                     Treasury wallet
                                   </span>
                                   <span className="text-primary text-sm font-medium">
@@ -247,7 +247,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                   </span>
                                 </div>
                                 <div className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50">
-                                  <span className="text-gray-500 text-xs font-medium">
+                                  <span className="text-subtletext text-xs font-medium">
                                     Blockchain
                                   </span>
                                   <span className="text-primary text-sm font-medium">
@@ -258,7 +258,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                             </div>
                             <div className="basis-1/2 h-full flex flex-col px-4 justify-between">
                               <div className="flex flex-col gap-2">
-                                <span className="text-gray-500 text-xs font-medium mb-2">
+                                <span className="text-subtletext text-xs font-medium mb-2">
                                   Price
                                 </span>
                                 <span className="text-primary text-3xl font-medium">Free</span>
@@ -270,7 +270,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                       className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50 mt-3"
                                       key={creator.address}
                                     >
-                                      <span className="text-gray-500 text-xs font-medium">
+                                      <span className="text-subtletext text-xs font-medium">
                                         Royalty wallet address #{index + 1}
                                       </span>
                                       <span className="text-primary text-sm font-medium">
@@ -282,7 +282,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                 )}
                                 <div className="flex gap-2 mt-3">
                                   <div className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50">
-                                    <span className="text-gray-500 text-xs font-medium">
+                                    <span className="text-subtletext text-xs font-medium">
                                       Start date
                                     </span>
                                     <span className="text-primary text-sm font-medium">
@@ -291,7 +291,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                     </span>
                                   </div>
                                   <div className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50">
-                                    <span className="text-gray-500 text-xs font-medium">
+                                    <span className="text-subtletext text-xs font-medium">
                                       End date
                                     </span>
                                     <span className="text-primary text-sm font-medium">
