@@ -13,7 +13,7 @@ import {
 import { PauseDrop, ResumeDrop, ShutdownDrop } from './../mutations/drop.graphql';
 import { GetDropBasicDetail } from './../queries/drop.graphql';
 import Card from './Card';
-import Typography, { Size } from './Typography';
+import Typography, { Size, TextColor } from './Typography';
 
 export function Drop() {
   return <div />;
@@ -107,7 +107,7 @@ function Pause({ children }: PauseProps): JSX.Element {
             </>
           ) : (
             <>
-              <Typography.Header size={Size.H3} className="mt-2">
+              <Typography.Header size={Size.H3} color={TextColor.SubtleText} className="mt-2">
                 Are you sure you want to pause{' '}
                 <span className="text-primary font-medium">
                   {dropQueryResult.data?.project.drop?.collection.metadataJson?.name}
@@ -222,7 +222,7 @@ function Resume({ children }: ResumeProps): JSX.Element {
             </>
           ) : (
             <>
-              <Typography.Header size={Size.H3} className="mt-2">
+              <Typography.Header size={Size.H3} color={TextColor.SubtleText} className="mt-2">
                 Are you sure you want to resume{' '}
                 <span className="text-primary font-medium">
                   {dropQueryResult.data?.project.drop?.collection.metadataJson?.name}
@@ -337,7 +337,7 @@ function Shutdown({ children }: ShutdownProps): JSX.Element {
             </>
           ) : (
             <>
-              <Typography.Header size={Size.H3} className="mt-2">
+              <Typography.Header size={Size.H3} color={TextColor.SubtleText} className="mt-2">
                 Are you sure you want to shut-down{' '}
                 <span className="text-primary font-medium">
                   {dropQueryResult.data?.project.drop?.collection.metadataJson?.name}

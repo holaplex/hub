@@ -23,7 +23,7 @@ interface NavbarPanel {
 function NavbarPanel({ children }: NavbarPanel) {
   return (
     <>
-      <nav className={clsx('w-screen h-16 flex flex-row bg-white')}>{children}</nav>
+      <nav className={clsx('w-screen h-16 flex flex-row bg-subtlebg')}>{children}</nav>
     </>
   );
 }
@@ -53,16 +53,16 @@ function NavbarMenu({ children, className }: NavbarMenuProps) {
 }
 Navbar.Menu = NavbarMenu;
 
-interface NavbarMenuItemProps {
+interface NavbarMenuStepProps {
   icon: ReactNode;
   name: string;
   active: boolean;
   className?: string;
 }
 
-function NavbarMenuStep({ icon, name, active, className }: NavbarMenuItemProps) {
+function NavbarMenuStep({ icon, name, active, className }: NavbarMenuStepProps) {
   return (
-    <div className={clsx('flex flex-row items-center gap-2 px-2 py-2 text-gray-600', className)}>
+    <div className={clsx('flex flex-row items-center gap-2 px-2 py-2', className)}>
       {icon}
       <span className="text-sm">{name}</span>
     </div>
@@ -81,12 +81,12 @@ function MenuItemStepCount({ count, active, filled, className }: MenuItemStepCou
   return (
     <div
       className={clsx('rounded-md px-2 py-1 text-xs font-medium', className, {
-        'bg-primary text-white': active || (filled && active),
-        'bg-gray-100 text-gray-500': !active && !filled,
-        'bg-gray-100 border border-primary px-1': filled && !active,
+        'bg-primary text-secondary': active || (filled && active),
+        'bg-secondary text-primary': !active && !filled,
+        'bg-primary px-1': filled && !active,
       })}
     >
-      {!filled || active ? count : <Icon.Check />}
+      {!filled || active ? count : <Icon.Check className="fill-primary stroke-secondary" />}
     </div>
   );
 }

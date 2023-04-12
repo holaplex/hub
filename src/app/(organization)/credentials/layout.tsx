@@ -84,7 +84,7 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
           </>
         ) : (
           <>
-            <h1 className="text-2xl text-primary font-medium">Credentials</h1>
+            <h1 className="text-2xl font-medium">Credentials</h1>
             {noCredentials ? (
               <div className="h-full flex-1 flex flex-col items-center justify-center">
                 <Icon.Large.Crdentials />
@@ -93,7 +93,7 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                   Click button below to get started.
                 </span>
                 <Link href="/credentials/new">
-                  <Button icon={<Icon.AddCredential stroke="#ffffff" />} className="mt-8">
+                  <Button icon={<Icon.Add className="stroke-secondary" />} className="mt-8">
                     Generate token
                   </Button>
                 </Link>
@@ -101,7 +101,7 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
             ) : (
               <div className="mt-4 flex flex-col">
                 <Link href="/credentials/new" className="self-end">
-                  <Button icon={<Icon.AddCredential stroke="#ffffff" />} className="self-end">
+                  <Button icon={<Icon.Add className="stroke-secondary" />} className="self-end">
                     Generate token
                   </Button>
                 </Link>
@@ -109,22 +109,14 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                   className="mt-4"
                   columns={[
                     columnHelper.accessor('name', {
-                      header: () => (
-                        <div className="flex gap-2">
-                          <span className="text-xs text-gray-600 font-medium">Name</span>
-                        </div>
-                      ),
+                      header: () => <span>Name</span>,
                       cell: (info) => (
-                        <span className="text-xs text-primary font-medium">{info.getValue()}</span>
+                        <span className="text-xs font-medium">{info.getValue()}</span>
                       ),
                     }),
 
                     columnHelper.accessor('createdAt', {
-                      header: () => (
-                        <span className="flex text-xs text-gray-600 font-medium self-start">
-                          Created date
-                        </span>
-                      ),
+                      header: () => <span>Created date</span>,
                       cell: (info) => (
                         <div className="flex flex-col">
                           <span className="text-xs text-subtletext font-medium">
@@ -138,14 +130,10 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                     }),
 
                     columnHelper.accessor('createdBy', {
-                      header: () => (
-                        <span className="flex text-xs text-gray-600 font-medium self-start">
-                          Created by
-                        </span>
-                      ),
+                      header: () => <span>Created by</span>,
                       cell: (info) => (
                         <div className="flex flex-col">
-                          <span className="text-xs text-primary font-medium">
+                          <span className="text-xs font-medium">
                             {`${info.getValue().firstName} ${info.getValue().lastName}`}
                           </span>
                           <span className="text-xs text-subtletext">{info.getValue().email}</span>
@@ -155,7 +143,7 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
 
                     columnHelper.display({
                       id: 'clientId',
-                      header: () => <Icon.TableAction />,
+                      header: () => <div />,
                       cell: (info) => (
                         <PopoverBox
                           popperPlacement="auto"

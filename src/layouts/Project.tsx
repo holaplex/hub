@@ -52,7 +52,7 @@ export default function Project({
                       setShowProjects(!showProjects);
                     }}
                   >
-                    <h1 className="flex items-center gap-2 text-sm text-primary font-medium">
+                    <h1 className="flex items-center gap-2 text-sm font-medium">
                       {project.profileImageUrl ? (
                         <img
                           className="w-8 h-8 rounded-md"
@@ -62,15 +62,12 @@ export default function Project({
                       ) : (
                         <div className="w-8 h-8 bg-gray-300 rounded-md" />
                       )}
-                      <span className="flex flex-col capitalize">
-                        {project.name}
-                        <span className="text-subtletext text-xs">Project</span>
-                      </span>
+                      <span className="flex flex-col capitalize">{project.name}</span>
                     </h1>
                     <Icon.Dropdown />
                   </div>
                   {showProjects && (
-                    <div className="w-full border-t border-gray-100 py-2 mt-4">
+                    <div className="w-full border-t border-divider py-2 mt-4">
                       {projectsQuery.loading ? (
                         <div className="flex flex-col gap-4">
                           <div className="flex gap-2 items-center">
@@ -100,7 +97,7 @@ export default function Project({
                                     className="flex gap-2 items-center"
                                   >
                                     <div className="w-8 h-8 bg-gray-300 rounded-md" />
-                                    <span className="text-gray-600 font-medium text-sm">
+                                    <span className="text-subtletext font-medium text-sm">
                                       {pro.name}
                                     </span>
                                   </Link>,
@@ -109,7 +106,11 @@ export default function Project({
                             </>
                           </div>
                           <Link href="/projects/new">
-                            <Button icon={<Icon.Add stroke="#ffffff" />} className="w-full">
+                            <Button
+                              icon={<Icon.Add className="stroke-primary" />}
+                              className="w-full"
+                              variant="secondary"
+                            >
                               Add Project
                             </Button>
                           </Link>

@@ -68,7 +68,7 @@ export default function NewDropDetailsPage() {
                             <Form.DragDrop.Preview value={value} />
                           </div>
                         ) : (
-                          <div className="flex flex-col gap-2">
+                          <div className="flex flex-col gap-2 text-subtletext">
                             <p>
                               Drag & drop photo here <br />
                               Required jpeg, png or svg. Max 2mb.
@@ -159,7 +159,7 @@ export default function NewDropDetailsPage() {
                 </Form.Label>
 
                 <div
-                  className="rounded-md border border-gray-100 bg-gray-50 p-3 self-end cursor-pointer"
+                  className="rounded-md  bg-highlightcell p-3 self-end cursor-pointer"
                   onClick={() => remove(index)}
                 >
                   <Icon.Close />

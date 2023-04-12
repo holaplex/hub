@@ -125,8 +125,9 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
 
   return (
     <div className="h-full flex flex-col p-4">
-      <div className="text-2xl font-medium text-subtletext">
-        Webhooks / <span className="text-primary">Edit Webhook</span>
+      <div className="text-2xl font-medium">
+        <span className="text-subtletext">Webhooks / </span>
+        <span>Edit Webhook</span>
         <div className="w-full flex flex-col items-center">
           <Card className="w-[492px] mt-7">
             <Typography.Header size={Size.H2}>Webhook details</Typography.Header>
@@ -170,7 +171,7 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                 <Form.Label
                   name="Select project"
                   className="text-xs"
-                  asideComponent={<Icon.Help />}
+                  // asideComponent={<Icon.Help />}
                 >
                   <Controller
                     name="projects"
@@ -208,7 +209,11 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                   <Form.Error message={errors.projects?.message} />
                 </Form.Label>
                 <div className="flex gap-4">
-                  <Form.Label name="Name" className="text-xs mt-5" asideComponent={<Icon.Help />}>
+                  <Form.Label
+                    name="Name"
+                    className="text-xs mt-5"
+                    // asideComponent={<Icon.Help />}
+                  >
                     <Form.Input
                       {...register('description', { required: 'Name is required' })}
                       autoFocus
@@ -220,14 +225,14 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                   <Form.Label
                     name="Target URL"
                     className="text-xs mt-5"
-                    asideComponent={<Icon.Help />}
+                    // asideComponent={<Icon.Help />}
                   >
                     <Form.Input {...register('url', { required: 'Target URL is required' })} />
                     <Form.Error message={errors.url?.message} />
                   </Form.Label>
                 </div>
 
-                <hr className="w-full bg-divider my-4" color="#e6e6e6" />
+                <hr className="w-full bg-divider my-4 h-px border-0" />
 
                 <span className="text-sm text-primary font-medium">Events</span>
                 <div className="grid grid-cols-2 mt-4 mx-2 gap-5">
@@ -235,63 +240,47 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                     {...register('events')}
                     id="PROJECT_CREATED"
                     value="PROJECT_CREATED"
-                    label={
-                      <span className="text-xs font-medium text-primary">Project created</span>
-                    }
+                    label={<span className="text-xs font-medium">Project created</span>}
                   />
                   <Form.Checkbox
                     {...register('events')}
                     id="PROJECT_WALLET_CREATED"
                     value="PROJECT_WALLET_CREATED"
-                    label={
-                      <span className="text-xs font-medium text-primary">
-                        Project wallet created
-                      </span>
-                    }
+                    label={<span className="text-xs font-medium">Project wallet created</span>}
                   />
                   <Form.Checkbox
                     {...register('events')}
                     id="CUSTOMER_CREATED"
                     value="CUSTOMER_CREATED"
-                    label={
-                      <span className="text-xs font-medium text-primary">Customer created</span>
-                    }
+                    label={<span className="text-xs font-medium">Customer created</span>}
                   />
                   <Form.Checkbox
                     {...register('events')}
                     id="CUSTOMER_TREASURY_CREATED"
                     value="CUSTOMER_TREASURY_CREATED"
-                    label={
-                      <span className="text-xs font-medium text-primary">
-                        Customer treasury created
-                      </span>
-                    }
+                    label={<span className="text-xs font-medium">Customer treasury created</span>}
                   />
                   <Form.Checkbox
                     {...register('events')}
                     id="CUSTOMER_WALLET_CREATED"
                     value="CUSTOMER_WALLET_CREATED"
-                    label={
-                      <span className="text-xs font-medium text-primary">
-                        Customer wallet created
-                      </span>
-                    }
+                    label={<span className="text-xs font-medium">Customer wallet created</span>}
                   />
                   <Form.Checkbox
                     {...register('events')}
                     id="DROP_CREATED"
                     value="DROP_CREATED"
-                    label={<span className="text-xs font-medium text-primary">Drop created</span>}
+                    label={<span className="text-xs font-medium">Drop created</span>}
                   />
                   <Form.Checkbox
                     {...register('events')}
                     id="DROP_MINTED"
                     value="DROP_MINTED"
-                    label={<span className="text-xs font-medium text-primary">Drop minted</span>}
+                    label={<span className="text-xs font-medium">Drop minted</span>}
                   />
                 </div>
 
-                <hr className="w-full bg-divider my-4" color="#e6e6e6" />
+                <hr className="w-full bg-divider my-4 h-px border-0" />
 
                 <div className="flex items-center justify-between">
                   <Button

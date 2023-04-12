@@ -166,7 +166,7 @@ export default function NewDropRoyaltiesPage() {
           <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
 
           <span className="text-sm text-primary font-medium">
-            Secondary sale royalties <span className="text-gray-500">(optional)</span>
+            Secondary sale royalties <span className="text-subtletext">(optional)</span>
           </span>
 
           <Form.Label name="Seller fee" className="text-xs mt-3">

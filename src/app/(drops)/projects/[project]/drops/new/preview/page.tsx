@@ -110,7 +110,7 @@ export default function NewDropPreviewPage() {
       />
       <div className="flex items-center gap-2 mt-4">
         <Typography.Header size={Size.H2}>{stepOne.name}</Typography.Header>
-        <Typography.Header size={Size.H2} className="text-gray-500">
+        <Typography.Header size={Size.H2} className="text-subtletext">
           - {stepTwo.supply}
         </Typography.Header>
       </div>
@@ -132,8 +132,8 @@ export default function NewDropPreviewPage() {
         </div> */}
 
         <div className="flex gap-4 items-center">
-          <div className="w-full flex flex-col gap-2 border-2 border-gray-100 rounded-md py-2 px-3 mt-4">
-            <span className="text-gray-600 text-xs font-medium">Start date and time</span>
+          <div className="w-full flex flex-col gap-2 bg-highlightcell rounded-md py-2 px-3 mt-4">
+            <span className="text-subtletext text-xs font-medium">Start date and time</span>
             <span className="text-primary text-xs font-medium">
               {startDateTime
                 ? `${format(startDateTime, DateFormat.DATE_1)}, ${format(
@@ -147,8 +147,8 @@ export default function NewDropPreviewPage() {
             </span>
           </div>
           {endDateTime && (
-            <div className="w-full flex flex-col gap-2 border-2 border-gray-100 rounded-md py-2 px-3 mt-4">
-              <span className="text-gray-600 text-xs font-medium">End date and time</span>
+            <div className="w-full flex flex-col gap-2 bg-highlightcell rounded-md py-2 px-3 mt-4">
+              <span className="text-subtletext text-xs font-medium">End date and time</span>
               <span className="text-primary text-xs font-medium">
                 {`${format(endDateTime, DateFormat.DATE_1)}, ${format(
                   endDateTime,
@@ -159,7 +159,7 @@ export default function NewDropPreviewPage() {
           )}
         </div>
 
-        <hr className="w-full bg-gray-500 my-5" color="#e6e6e6" />
+        <hr className="w-full bg-divider border-0 h-px my-5" />
 
         <div className="flex items-center justify-between">
           <Button className="self-start" variant="tertiary" disabled={submitting} onClick={back}>

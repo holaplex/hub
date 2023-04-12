@@ -28,7 +28,7 @@ interface TabsPanel {
 function TabsPanel({ children, loading }: TabsPanel) {
   return (
     <>
-      <nav className={clsx('w-full flex flex-row gap-6')}>
+      <nav className={clsx('w-full flex flex-row gap-1')}>
         {Children.map(children, (child) => cloneElement(child, { loading }))}
       </nav>
     </>
@@ -52,9 +52,9 @@ function Tab({ name, active, href, className, loading }: TabProps) {
   return (
     <Link
       href={href}
-      className={clsx('text-xl font-semibold cursor-pointer', className, {
-        'text-gray-400': !active,
-        'text-primary': active,
+      className={clsx('text-base font-medium cursor-pointer p-4', className, {
+        'text-subtletext': !active,
+        'text-maintext border-b-2 border-primary': active,
       })}
     >
       {name}

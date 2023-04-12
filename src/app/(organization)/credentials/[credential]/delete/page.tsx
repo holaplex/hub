@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Button, Modal } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import Card from '../../../../../components/Card';
-import Typography, { Size } from '../../../../../components/Typography';
+import Typography, { Size, TextColor } from '../../../../../components/Typography';
 import {
   DeleteCredentialInput,
   DeleteCredentialPayload,
@@ -90,7 +90,7 @@ export default function DeleteCredentialPage({ params: { credential } }: DeleteC
           </>
         ) : (
           <>
-            <Typography.Header size={Size.H3} className="mt-2">
+            <Typography.Header size={Size.H3} color={TextColor.SubtleText} className="mt-2">
               Are you sure you want to delete{' '}
               <span className="text-primary font-medium">
                 {credentialQuery.data?.organization.credential?.name}

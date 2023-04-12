@@ -290,35 +290,18 @@ function Credentials({ width = 20, height = 20, fill = 'none', className = '' }:
 }
 Icon.Credentials = Credentials;
 
-function Copy({
-  width = 16,
-  height = 16,
-  fill = 'none',
-  stroke = 'black',
-  className = '',
-}: IconProps) {
+function Copy({ width = 16, height = 16, className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={fill}
-      className={className}
+      className={clsx('stroke-subtletext', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect
-        x="2"
-        y="6"
-        width="8"
-        height="8"
-        rx="2"
-        stroke={stroke}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <rect x="2" y="6" width="8" height="8" rx="2" strokeLinecap="round" strokeLinejoin="round" />
       <path
         d="M6 6V4C6 2.89543 6.89543 2 8 2H12C13.1046 2 14 2.89543 14 4V8C14 9.10457 13.1046 10 12 10H10"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -511,37 +494,19 @@ function Sol({
 }
 CryptoIcon.Sol = Sol;
 
-function ExternalLink({
-  width = 16,
-  height = 16,
-  fill = 'none',
-  stroke = 'black',
-  className = '',
-}: IconProps) {
+function ExternalLink({ width = 16, height = 16, className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={fill}
-      className={className}
+      className={clsx('stroke-subtletext', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path
-        d="M10.667 2H14.0003V5.33333"
-        stroke={stroke}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9.33301 6.66667L13.9997 2"
-        stroke={stroke}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M10.667 2H14.0003V5.33333" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9.33301 6.66667L13.9997 2" strokeLinecap="round" strokeLinejoin="round" />
       <path
         d="M12.6667 9.33325V12.6666C12.6667 13.4033 12.07 13.9999 11.3333 13.9999H3.33333C2.59667 13.9999 2 13.4033 2 12.6666V4.66659C2 3.92992 2.59667 3.33325 3.33333 3.33325H6.66667"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -550,25 +515,17 @@ function ExternalLink({
 }
 Icon.ExternalLink = ExternalLink;
 
-function Check({
-  width = 16,
-  height = 16,
-  fill = 'none',
-  stroke = 'black',
-  className = '',
-}: IconProps) {
+function Check({ width = 16, height = 16, className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={fill}
-      className={className}
+      className={clsx('stroke-subtletext fill-highlightcell', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
         d="M13.3337 4.33325L6.00033 11.6666L2.66699 8.33325"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -744,45 +701,28 @@ function Balance({
 }
 Icon.Balance = Balance;
 
-function Help({
-  width = 16,
-  height = 16,
-  fill = 'none',
-  stroke = 'black',
-  className = '',
-}: IconProps) {
+function Help({ width = 16, height = 16, className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={fill}
-      className={className}
+      className={clsx('stroke-subtletext fill-none', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle
-        cx="7.99957"
-        cy="8.00006"
-        r="6.0025"
-        stroke={stroke}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <circle cx="7.99957" cy="8.00006" r="6.0025" strokeLinecap="round" strokeLinejoin="round" />
       <path
         d="M6.45605 6.45654C6.61407 5.77551 7.23436 5.30331 7.93289 5.3323C8.71467 5.289 9.38486 5.88472 9.43351 6.66619C9.43351 7.66921 7.99958 8.00007 7.99958 8.66702"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M8.08383 10.501C8.08383 10.547 8.04651 10.5843 8.00046 10.5843C7.95442 10.5843 7.9171 10.547 7.9171 10.501C7.9171 10.4549 7.95442 10.4176 8.00046 10.4176"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M7.9998 10.4178C8.04584 10.4178 8.08316 10.4551 8.08316 10.5011"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -791,60 +731,35 @@ function Help({
 }
 Icon.Help = Help;
 
-function Close({
-  width = 16,
-  height = 16,
-  fill = 'none',
-  stroke = 'black',
-  className = '',
-}: IconProps) {
+function Close({ width = 16, height = 16, className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={fill}
-      className={className}
+      className={clsx('stroke-subtletext', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path
-        d="M5.33301 5.33325L10.6663 10.6666"
-        stroke={stroke}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M10.6663 5.33325L5.33301 10.6666"
-        stroke={stroke}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M5.33301 5.33325L10.6663 10.6666" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M10.6663 5.33325L5.33301 10.6666" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 Icon.Close = Close;
 
-function Resume({
-  width = 16,
-  height = 16,
-  fill = 'none',
-  stroke = 'black',
-  className = '',
-}: IconProps) {
+function Resume({ width = 16, height = 16, className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={fill}
-      className={className}
+      className={clsx('stroke-subtletext fill-none', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
         fill-rule="evenodd"
         clip-rule="evenodd"
         d="M15.5 8V8C15.5 12.1425 12.1425 15.5 8 15.5V15.5C3.8575 15.5 0.5 12.1425 0.5 8V8C0.5 3.8575 3.8575 0.5 8 0.5V0.5C12.1425 0.5 15.5 3.8575 15.5 8Z"
-        stroke={stroke}
         stroke-linecap="round"
         stroke-linejoin="round"
       />
@@ -853,29 +768,21 @@ function Resume({
 }
 Icon.Resume = Resume;
 
-function Pause({
-  width = 16,
-  height = 16,
-  fill = 'none',
-  stroke = 'black',
-  className = '',
-}: IconProps) {
+function Pause({ width = 16, height = 16, className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={fill}
-      className={className}
+      className={clsx('stroke-subtletext fill-none', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M9.33333 10V6" stroke={stroke} strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M6.66634 10V6" stroke={stroke} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9.33333 10V6" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M6.66634 10V6" strokeLinecap="round" strokeLinejoin="round" />
       <path
         fillRule="evenodd"
         clipRule="evenodd"
         d="M14 8V8C14 11.314 11.314 14 8 14V14C4.686 14 2 11.314 2 8V8C2 4.686 4.686 2 8 2V2C11.314 2 14 4.686 14 8Z"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -901,33 +808,24 @@ function Add({ width = 16, height = 16, fill = 'none', className = '' }: IconPro
 }
 Icon.Add = Add;
 
-function ManageNfts({
-  width = 16,
-  height = 16,
-  fill = 'none',
-  stroke = 'black',
-  className = '',
-}: IconProps) {
+function ManageNfts({ width = 16, height = 16, className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={fill}
-      className={className}
+      className={clsx('stroke-subtletext fill-none', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
         fillRule="evenodd"
         clipRule="evenodd"
         d="M7.62933 14.6667H3.40733C2.63 14.6667 2 14.0367 2 13.2594V6.22203C2 5.4447 2.63 4.8147 3.40733 4.8147H7.62933C8.40667 4.8147 9.03667 5.4447 9.03667 6.22203V13.2594C9.03733 14.0367 8.40667 14.6667 7.62933 14.6667Z"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M6.50098 4.81468L7.15364 2.37668C7.35498 1.62601 8.12698 1.18001 8.87764 1.38135L12.9556 2.47401C13.7063 2.67535 14.1523 3.44668 13.951 4.19801L12.1296 10.9953C11.9283 11.746 11.157 12.192 10.4063 11.9907L9.03631 11.624"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -936,58 +834,42 @@ function ManageNfts({
 }
 Icon.ManageNfts = ManageNfts;
 
-function Customers({
-  width = 16,
-  height = 16,
-  fill = 'none',
-  stroke = 'black',
-  className = '',
-}: IconProps) {
+function Customers({ width = 16, height = 16, className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox={`0 0 ${width} ${height}`}
-      fill={fill}
-      className={className}
+      className={clsx('stroke-subtletext fill-none', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
         d="M9.17818 7.32141C9.82906 7.97228 9.82906 9.02755 9.17818 9.67843C8.52731 10.3293 7.47204 10.3293 6.82116 9.67843C6.17029 9.02755 6.17029 7.97228 6.82116 7.32141C7.47204 6.67053 8.52731 6.67053 9.17818 7.32141"
-        stroke={stroke}
-        fill="#C5C5C5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M12.8354 3.32141C13.4863 3.97228 13.4863 5.02755 12.8354 5.67843C12.1845 6.3293 11.1293 6.3293 10.4784 5.67843C9.82752 5.02755 9.82752 3.97228 10.4784 3.32141C11.1293 2.67053 12.1845 2.67053 12.8354 3.32141"
-        stroke={stroke}
-        fill="#C5C5C5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M12 8.16675C13.022 8.16675 14 8.52208 14.6667 9.05541"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M5.52096 3.32141C6.17183 3.97228 6.17183 5.02755 5.52096 5.67843C4.87008 6.3293 3.81481 6.3293 3.16394 5.67843C2.51306 5.02755 2.51306 3.97228 3.16394 3.32141C3.81481 2.67053 4.87008 2.67053 5.52096 3.32141"
-        stroke={stroke}
-        fill="#C5C5C5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M1.33301 9.05541C1.99967 8.52208 2.97767 8.16675 3.99967 8.16675"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M11.0608 13.1667C10.2841 12.5661 9.16812 12.1667 8.00012 12.1667C6.83212 12.1667 5.71612 12.5661 4.93945 13.1667"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -996,37 +878,27 @@ function Customers({
 }
 Icon.Customers = Customers;
 
-function Treasury({
-  width = 16,
-  height = 16,
-  fill = 'none',
-  stroke = 'black',
-  className = '',
-}: IconProps) {
+function Treasury({ width = 16, height = 16, className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={fill}
-      className={className}
+      className={clsx('stroke-subtletext fill-none', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
         d="M11.355 8.3113C11.367 8.3233 11.367 8.34263 11.355 8.35463C11.343 8.36663 11.3237 8.36663 11.3117 8.35463C11.2997 8.34263 11.2997 8.3233 11.3117 8.3113C11.3237 8.2993 11.3437 8.29997 11.355 8.3113"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M9.77434 4.98541C9.91501 4.68475 9.99967 4.35341 9.99967 4.00008C9.99967 2.71141 8.95501 1.66675 7.66634 1.66675C6.37767 1.66675 5.33301 2.71141 5.33301 4.00008C5.33301 4.41541 5.45034 4.80008 5.64101 5.13741"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M1.52533 7C1.21267 7.182 1 7.51733 1 7.90533C1 8.486 1.47067 8.95667 2.05133 8.95667H2.66667"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -1034,7 +906,6 @@ function Treasury({
         fillRule="evenodd"
         clipRule="evenodd"
         d="M12.3337 4.33325V6.03592C12.8123 6.46792 13.1923 7.00659 13.4177 7.62325H14.0003C14.3683 7.62325 14.667 7.92192 14.667 8.28992V10.3333C14.667 10.7013 14.3683 10.9999 14.0003 10.9999H13.1263C12.7763 11.6053 12.271 12.1093 11.667 12.4606V13.6666C11.667 14.0346 11.3683 14.3333 11.0003 14.3333H9.66699C9.29899 14.3333 9.00033 14.0346 9.00033 13.6666V12.9999H6.66699V13.5786C6.66699 13.9466 6.36833 14.2453 6.00033 14.2453H4.66699C4.29899 14.2453 4.00033 13.9466 4.00033 13.5786V11.9753C3.18366 11.2426 2.66699 10.1833 2.66699 8.99992C2.66699 6.79059 4.45766 4.99992 6.66699 4.99992H9.68433C9.97033 4.99992 10.2477 4.90592 10.4757 4.73392C10.8083 4.48325 11.219 4.33325 11.667 4.33325H12.3337V4.33325Z"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -1152,28 +1023,28 @@ function TableSortDesc({ width = 16, height = 16, fill = '#7B7B7B', className = 
       height={height}
       viewBox="0 0 16 16"
       fill="none"
-      className={className}
+      className={clsx('fill-subtletext', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M8 3L10.5981 6.75H5.40192L8 3Z" fill={fill} />
-      <path d="M8 13L10.5981 9.25H5.40192L8 13Z" fill="black" />
+      <path d="M8 3L10.5981 6.75H5.40192L8 3Z" fill="#ffffff" />
+      <path d="M8 13L10.5981 9.25H5.40192L8 13Z" />
     </svg>
   );
 }
 Icon.TableSortDesc = TableSortDesc;
 
-function TableSortAsc({ width = 16, height = 16, fill = '#7B7B7B', className = '' }: IconProps) {
+function TableSortAsc({ width = 16, height = 16, className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
       fill="none"
-      className={className}
+      className={clsx('fill-subtletext', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M8 3L10.5981 6.75H5.40192L8 3Z" fill="black" />
-      <path d="M8 13L10.5981 9.25H5.40192L8 13Z" fill={fill} />
+      <path d="M8 3L10.5981 6.75H5.40192L8 3Z" />
+      <path d="M8 13L10.5981 9.25H5.40192L8 13Z" fill="#ffffff" />
     </svg>
   );
 }
@@ -1196,36 +1067,23 @@ function TableSort({ width = 16, height = 16, fill = '#7B7B7B', className = '' }
 }
 Icon.TableSort = TableSort;
 
-function Edit({
-  width = 16,
-  height = 16,
-  fill = 'none',
-  stroke = 'black',
-  className = '',
-}: IconProps) {
+function Edit({ width = 16, height = 16, className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill={fill}
-      className={className}
+      className={clsx('stroke-subtletext', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
         fillRule="evenodd"
         clipRule="evenodd"
         d="M3.52834 10.413L10.4123 3.52898C10.6723 3.26898 11.0943 3.26898 11.3543 3.52898L12.4717 4.64632C12.7317 4.90632 12.7317 5.32832 12.4717 5.58832L5.58701 12.4717C5.46234 12.597 5.29301 12.667 5.11634 12.667H3.33301V10.8837C3.33301 10.707 3.40301 10.5377 3.52834 10.413Z"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path
-        d="M9.16699 4.77344L11.227 6.83344"
-        stroke={stroke}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M9.16699 4.77344L11.227 6.83344" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }

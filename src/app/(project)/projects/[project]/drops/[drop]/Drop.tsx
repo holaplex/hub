@@ -101,7 +101,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                             </div>
                             <div className="w-full rounded-full h-[12px] bg-loadingui animate-pulse mt-1 relative overflow-hidden" />
                           </div>
-                          <div className="flex p-4 bg-white rounded-md">
+                          <div className="flex p-4 bg-subtlebg rounded-md">
                             <div className="basis-1/2 h-full flex flex-col border-r border-r-loadingui pr-4">
                               <div className="h-4 w-8 bg-loadingui animate-pulse rounded-full mb-2" />
                               <span className="h-8 w-2/3 bg-loadingui animate-pulse rounded-md mb-1" />
@@ -150,12 +150,15 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                         </div>
                         {dropQuery.data?.project.drop?.status !== DropStatus.Shutdown && (
                           <div className="flex items-center gap-2">
-                            <Button icon={<Icon.Edit />} variant="secondary">
+                            <Button
+                              icon={<Icon.Edit className="stroke-primary" />}
+                              variant="secondary"
+                            >
                               Edit drop
                             </Button>
                             {dropQuery.data?.project.drop?.status === DropStatus.Paused ? (
                               <Button
-                                icon={<Icon.Resume />}
+                                icon={<Icon.Resume className="stroke-primary" />}
                                 variant="secondary"
                                 onClick={() => resume(drop, project)}
                               >
@@ -163,7 +166,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                               </Button>
                             ) : (
                               <Button
-                                icon={<Icon.Pause />}
+                                icon={<Icon.Pause className="stroke-primary" />}
                                 variant="secondary"
                                 onClick={() => pause(drop, project)}
                               >
@@ -171,7 +174,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                               </Button>
                             )}
                             <Button
-                              icon={<Icon.Close />}
+                              icon={<Icon.Close className="stroke-primary" />}
                               variant="secondary"
                               onClick={() => shutdown(drop, project)}
                             >
@@ -219,7 +222,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                               />
                             </div>
                           </div>
-                          <div className="flex p-4 bg-white rounded-md">
+                          <div className="flex p-4 bg-subtlebg rounded-md">
                             <div className="basis-1/2 h-full flex flex-col border-r border-r-gray-100 pr-4">
                               <span className="text-subtletext text-xs font-medium mb-2">Name</span>
                               <span className="text-primary text-3xl font-medium">
@@ -238,7 +241,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                 }
                               </span>
                               <div className="flex gap-2 mt-4">
-                                <div className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50">
+                                <div className="w-full flex flex-col rounded-md py-2 px-3 bg-highlightcell">
                                   <span className="text-subtletext text-xs font-medium">
                                     Treasury wallet
                                   </span>
@@ -246,7 +249,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                     {wallet?.shortAddress}
                                   </span>
                                 </div>
-                                <div className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50">
+                                <div className="w-full flex flex-col rounded-md py-2 px-3 bg-highlightcell">
                                   <span className="text-subtletext text-xs font-medium">
                                     Blockchain
                                   </span>
@@ -267,7 +270,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                 {dropQuery.data?.project?.drop?.collection?.creators?.map(
                                   (creator, index) => (
                                     <div
-                                      className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50 mt-3"
+                                      className="w-full flex flex-col rounded-md py-2 px-3 bg-highlightcell mt-3"
                                       key={creator.address}
                                     >
                                       <span className="text-subtletext text-xs font-medium">
@@ -275,13 +278,13 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                       </span>
                                       <span className="text-primary text-sm font-medium">
                                         {creator.shortAddress}{' '}
-                                        <span className="text-gray-400">- {creator.share}%</span>a{' '}
+                                        <span className="text-gray-400">- {creator.share}%</span>
                                       </span>
                                     </div>
                                   )
                                 )}
                                 <div className="flex gap-2 mt-3">
-                                  <div className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50">
+                                  <div className="w-full flex flex-col rounded-md py-2 px-3 bg-highlightcell">
                                     <span className="text-subtletext text-xs font-medium">
                                       Start date
                                     </span>
@@ -290,7 +293,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                       {formatDateString(startTime, DateFormat.TIME_1)}
                                     </span>
                                   </div>
-                                  <div className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50">
+                                  <div className="w-full flex flex-col rounded-md py-2 px-3 bg-highlightcell">
                                     <span className="text-subtletext text-xs font-medium">
                                       End date
                                     </span>

@@ -91,7 +91,7 @@ export default function CustomersPage() {
         </>
       ) : (
         <>
-          <h1 className="text-2xl text-primary font-medium">Customers</h1>
+          <h1 className="text-2xl font-medium">Customers</h1>
           {noCustomers ? (
             <div className="h-full flex-1 flex flex-col items-center justify-center">
               <Icon.Large.CreateCustomers />
@@ -99,8 +99,11 @@ export default function CustomersPage() {
               <span className="mt-2 text-subtletext text-sm">
                 Click button below to understand how to integrate customers.
               </span>
-              <a href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet">
-                <Button icon={<Icon.Help stroke="#ffffff" />} className="mt-8">
+              <a
+                href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet"
+                target="_blank"
+              >
+                <Button icon={<Icon.Help className="stroke-secondary" />} className="mt-8">
                   How to integrate
                 </Button>
               </a>
@@ -111,7 +114,11 @@ export default function CustomersPage() {
                 href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet"
                 className="self-end"
               >
-                <Button icon={<Icon.Help stroke="#000" />} variant="secondary" className="self-end">
+                <Button
+                  icon={<Icon.Help className="stroke-primary" />}
+                  variant="secondary"
+                  className="self-end"
+                >
                   How to integrate
                 </Button>
               </a>
@@ -119,15 +126,11 @@ export default function CustomersPage() {
                 className="mt-4"
                 columns={[
                   columnHelper.accessor('id', {
-                    header: () => (
-                      <div className="flex gap-2">
-                        <span>Customer ID</span>
-                      </div>
-                    ),
+                    header: () => <span>Customer ID</span>,
                     cell: (info) => (
                       <Link
                         href={`/projects/${project?.id}/customers/${info.getValue()}/nfts`}
-                        className="text-xs text-primary font-medium"
+                        className="text-xs font-medium"
                       >
                         {info.getValue()}
                       </Link>
@@ -174,7 +177,7 @@ export default function CustomersPage() {
                   ),
                   columnHelper.display({
                     id: 'options',
-                    header: () => <Icon.TableAction />,
+                    header: () => <div />,
                     cell: (info) => (
                       <PopoverBox
                         triggerButton={

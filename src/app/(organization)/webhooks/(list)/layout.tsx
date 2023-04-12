@@ -114,7 +114,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
           </>
         ) : (
           <>
-            <div className="text-2xl text-primary font-medium">Webhooks</div>
+            <div className="text-2xl font-medium">Webhooks</div>
             {noWebhooks ? (
               <div className="h-full flex-1 flex flex-col items-center justify-center">
                 <Icon.Large.Webhook />
@@ -123,7 +123,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                   Click button below to get started.
                 </span>
                 <Button
-                  icon={<Icon.AddWebhook stroke="#ffffff" />}
+                  icon={<Icon.Add className="stroke-secondary" />}
                   className="mt-8"
                   onClick={() => router.push(`/webhooks/new`)}
                 >
@@ -133,7 +133,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
             ) : (
               <div className="mt-4 flex flex-col">
                 <Button
-                  icon={<Icon.AddWebhook stroke="#ffffff" />}
+                  icon={<Icon.Add className="stroke-secondary" />}
                   className="self-end"
                   onClick={() => router.push(`/webhooks/new`)}
                 >
@@ -205,7 +205,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                     // }),
                     columnHelper.display({
                       id: 'options',
-                      header: () => <Icon.TableAction />,
+                      header: () => <div />,
                       cell: (info) => (
                         <PopoverBox
                           triggerButton={

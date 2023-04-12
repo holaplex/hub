@@ -152,7 +152,7 @@ export default function Drops({ project }: DropsPageProps) {
                       </>
                     ) : (
                       <>
-                        <h1 className="text-2xl text-primary font-medium">Manage drops</h1>
+                        <h1 className="text-2xl font-medium">Manage drops</h1>
                         {noDrops ? (
                           <div className="h-full flex-1 flex flex-col items-center justify-center">
                             <Icon.Large.CreateNft />
@@ -163,7 +163,10 @@ export default function Drops({ project }: DropsPageProps) {
                             <Link
                               href={`/projects/${dropsQuery.data?.project.id}/drops/new/details`}
                             >
-                              <Button icon={<Icon.Add stroke="#ffffff" />} className="mt-8">
+                              <Button
+                                icon={<Icon.Add className="stroke-secondary" />}
+                                className="mt-8"
+                              >
                                 Create drop
                               </Button>
                             </Link>
@@ -174,7 +177,10 @@ export default function Drops({ project }: DropsPageProps) {
                               href={`/projects/${dropsQuery.data?.project.id}/drops/new/details`}
                               className="self-end"
                             >
-                              <Button icon={<Icon.Add stroke="#ffffff" />} variant="primary">
+                              <Button
+                                icon={<Icon.Add className="stroke-secondary" />}
+                                variant="primary"
+                              >
                                 Create drop
                               </Button>
                             </Link>
@@ -198,9 +204,7 @@ export default function Drops({ project }: DropsPageProps) {
                                   },
                                   {
                                     id: 'name',
-                                    header: () => (
-                                      <span className="table-header-text">Drop name</span>
-                                    ),
+                                    header: () => <span>Drop name</span>,
                                     cell: (info) => (
                                       <div className="flex gap-2 items-center">
                                         <img
@@ -214,7 +218,7 @@ export default function Drops({ project }: DropsPageProps) {
                                           }/holders`}
                                           className="flex flex-col gap-1"
                                         >
-                                          <span className="text-xs text-primary font-medium">
+                                          <span className="text-xs font-medium">
                                             {info.getValue().name}
                                           </span>
                                           <span className="text-xs text-subtletext">
@@ -238,12 +242,12 @@ export default function Drops({ project }: DropsPageProps) {
                                   },
                                   {
                                     id: 'price',
-                                    header: () => <span className="table-header-text">Price</span>,
+                                    header: () => <span>Price</span>,
                                     cell: (info) => {
                                       const price = info.getValue().price;
                                       return (
                                         <div className="flex gap-1">
-                                          <span className="text-xs text-primary font-medium">
+                                          <span className="text-xs font-medium">
                                             {price === 0 ? 'FREE' : price}
                                           </span>
                                           {price > 0 && (
@@ -257,9 +261,7 @@ export default function Drops({ project }: DropsPageProps) {
                                   }
                                 ),
                                 columnHelper.accessor('createdAt', {
-                                  header: () => (
-                                    <span className="table-header-text">Create date</span>
-                                  ),
+                                  header: () => <span>Create date</span>,
                                   cell: (info) => (
                                     <div className="flex flex-col gap-1">
                                       <span className="text-xs text-subtletext font-medium">
@@ -281,9 +283,7 @@ export default function Drops({ project }: DropsPageProps) {
                                   ({ startTime, createdAt }) => ({ startTime, createdAt }),
                                   {
                                     id: 'startTime',
-                                    header: () => (
-                                      <span className="table-header-text">Mint start date</span>
-                                    ),
+                                    header: () => <span>Mint start date</span>,
                                     cell: (info) => {
                                       let start = info.getValue().startTime;
 
@@ -305,9 +305,7 @@ export default function Drops({ project }: DropsPageProps) {
                                   }
                                 ),
                                 columnHelper.accessor('endTime', {
-                                  header: () => (
-                                    <span className="table-header-text">Mint end date</span>
-                                  ),
+                                  header: () => <span>Mint end date</span>,
                                   cell: (info) => (
                                     <div className="flex flex-col gap-1">
                                       {info.getValue() ? (
@@ -346,9 +344,7 @@ export default function Drops({ project }: DropsPageProps) {
                                   },
                                   {
                                     id: 'counts',
-                                    header: () => (
-                                      <span className="table-header-text">Minted out & supply</span>
-                                    ),
+                                    header: () => <span>Minted out & supply</span>,
                                     cell: (info) => {
                                       const { supply, totalMints } = info.getValue();
 
@@ -400,7 +396,7 @@ export default function Drops({ project }: DropsPageProps) {
                                 }),
                                 columnHelper.display({
                                   id: 'options',
-                                  header: () => <Icon.TableAction />,
+                                  header: () => <div />,
                                   cell: (info) => {
                                     const drop = info.row.original;
 

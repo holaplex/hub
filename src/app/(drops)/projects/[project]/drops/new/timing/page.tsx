@@ -27,7 +27,9 @@ export default function NewDropTimingPage() {
     <>
       <Card className="w-[400px]">
         <Typography.Header size={Size.H2}>Mint date</Typography.Header>
-        <Typography.Header size={Size.H3}>Scheduled in your current timezone</Typography.Header>
+        <Typography.Header size={Size.H3} color={TextColor.SubtleText}>
+          Scheduled in your current timezone
+        </Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
           {/* Start Date */}
           <div className="flex gap-4 items-end">

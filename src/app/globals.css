@@ -81,11 +81,11 @@ select:focus {
 }
 
 .form-checkbox {
-  @apply text-primary rounded;
+  @apply rounded text-secondary;
 }
 
 .form-checkbox-label {
-  @apply text-xs font-medium text-primary;
+  @apply text-xs font-medium;
 }
 
 *:focus {
@@ -137,10 +137,6 @@ input:focus {
   @apply border-black border-r-transparent;
 }
 
-.table-header-text {
-  @apply text-xs text-gray-600 font-medium;
-}
-
 .modal-close {
   @apply top-8 right-8 rounded-full bg-gray-50 p-2 hover:bg-gray-100 hover:text-gray-400;
 }
@@ -181,11 +177,11 @@ input[type='radio'] {
 }
 
 .popover-panel {
-  @apply w-screen max-w-[200px] border rounded-md border-gray-100 p-4 bg-white;
+  @apply w-screen max-w-[200px] border border-divider rounded-md p-4 bg-subtlebg;
 }
 
 .popover-elements {
-  @apply flex flex-col gap-5 text-sm text-primary;
+  @apply flex flex-col gap-5 text-sm;
 }
 
 .dragdrop-preview-image {

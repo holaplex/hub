@@ -45,11 +45,11 @@ export default function Nfts({ children, project, customer }: NftsProps) {
                 <span className="mt-6 text-xl font-semibold">
                   The customer does not own any NFTs yet
                 </span>
-                <span className="mt-2 text-gray-500 text-sm">
+                <span className="mt-2 text-subtletext text-sm">
                   Click button below to understand how to mint NFTs.
                 </span>
                 <a href="https://docs.holaplex.dev/hub/Guides/minting-drops">
-                  <Button icon={<Icon.Help stroke="#ffffff" />} className="mt-8">
+                  <Button icon={<Icon.Help className="stroke-secondary" />} className="mt-8">
                     How to mint
                   </Button>
                 </a>

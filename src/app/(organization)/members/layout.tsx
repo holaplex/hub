@@ -131,7 +131,7 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
         id: 'member',
         header: () => (
           <div className="flex gap-2">
-            <span className="text-xs text-subtletext font-medium">Members</span>
+            <span>Members</span>
           </div>
         ),
         cell: (info) => {
@@ -165,10 +165,10 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
       header: () => <span>Status</span>,
       cell: (info) => <Table.MemberPill status={info.getValue()} />,
     }),
-    columnHelper.accessor(({ id, status }) => ({ id, status }), {
+    columnHelper.display({
       id: 'options',
-      header: () => <Icon.TableAction />,
-      cell: (info) => <ActionCell id={info.getValue().id} status={info.getValue().status} />,
+      header: () => <div />,
+      cell: (info) => <ActionCell id={info.row.original.id} status={info.row.original.status} />,
     }),
   ];
 
@@ -224,10 +224,10 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
           </>
         ) : (
           <>
-            <h1 className="text-2xl text-primary font-medium">Members</h1>
+            <h1 className="text-2xl font-medium">Members</h1>
             <div className="mt-4 flex flex-col">
               <Link href="/members/invite" className="self-end">
-                <Button icon={<Icon.InviteMember stroke="#ffffff" />}>Invite member</Button>
+                <Button icon={<Icon.Add className="stroke-secondary" />}>Invite member</Button>
               </Link>
               <Table className="mt-4" columns={columns} data={associates} />
             </div>

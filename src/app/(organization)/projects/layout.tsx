@@ -100,11 +100,8 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
             ) : (
               <div className="mt-4 flex flex-col">
                 <Link href="/projects/new" className="self-end">
-                  <Button
-                    icon={<Icon.CreateProject className="stroke-secondary" />}
-                    className="self-end"
-                  >
-                    Create project
+                  <Button icon={<Icon.Add className="stroke-secondary" />} className="self-end">
+                    Create Project
                   </Button>
                 </Link>
                 <Table
