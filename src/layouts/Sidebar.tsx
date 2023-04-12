@@ -23,9 +23,6 @@ interface SidebarPageProps {
 function SidebarPage({ children, open }: SidebarPageProps) {
   return (
     <section className="flex flex-grow">
-      <div className="bg-red-500 text-white py-4 flex justify-center fixed top-0 left-0 w-full z-20">
-        This is a developer preview. All data created will be deleted before the production release.
-      </div>
       {Children.map(children, (child) => cloneElement(child, { open }))}
     </section>
   );
@@ -41,7 +38,7 @@ function SidebarPanel({ children }: SidebarPanel) {
     <>
       <aside
         className={clsx(
-          'w-[200px] lg:w-[260px] fixed top-[56px] left-0 bottom-0 flex flex-col flex-shrink-0 bg-white'
+          'w-[200px] lg:w-[260px] fixed top-0 left-0 bottom-0 flex flex-col flex-shrink-0 bg-white'
         )}
       >
         {children}
@@ -114,7 +111,7 @@ interface SidebarContentProps {
 function SidebarContent({ children, className }: SidebarContentProps) {
   return (
     <article
-      className={clsx('w-full pl-[200px] lg:pl-[260px] mb-4 pt-[56px] flex-grow', className)}
+      className={clsx('w-full pl-[200px] lg:pl-[260px] mb-4 flex-grow', className)}
     >
       {children}
     </article>
