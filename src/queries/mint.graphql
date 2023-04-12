@@ -5,8 +5,10 @@ query GetCollectionMints($project: UUID!, $drop: UUID!) {
       id
       collection {
         id
+        sellerFeeBasisPoints
         mints {
           owner
+          sellerFeeBasisPoints
           ownerShortAddress @client
           address
           shortAddress @client

@@ -10,18 +10,29 @@ import { Blockchain } from '../../../../../../../graphql.types';
 import { useProject } from '../../../../../../../hooks/useProject';
 import Divider from '../../../../../../../components/Divider';
 import clsx from 'clsx';
-import useCreateDropStore, { StepOneData } from '../../../../../../../hooks/useCreateDropStore';
-import { labelBlockchain } from '../../../../../../../modules/label';
+import { StoreApi, useStore } from 'zustand';
+import { DropFormState, DetailSettings } from '../../../../../../../providers/DropFormProvider';
+import { useDropForm } from '../../../../../../../hooks/useDropForm';
+
+const BLOCKCHAIN_LABELS = {
+  [Blockchain.Solana]: 'Solana',
+  [Blockchain.Ethereum]: 'Ethereum',
+  [Blockchain.Polygon]: 'Polygon',
+};
+
+const BLOCKCHAIN_OPTIONS = [Blockchain.Solana];
 
 export default function NewDropDetailsPage() {
   const router = useRouter();
   const { project } = useProject();
-  const { stepOne, setData } = useCreateDropStore();
-  const { handleSubmit, register, control, setValue, formState } = useForm<StepOneData>({
-    defaultValues: stepOne || {},
+  const store = useDropForm() as StoreApi<DropFormState>;
+  const detail = useStore(store, (store) => store.detail);
+  const setDetail = useStore(store, (store) => store.setDetail);
+  const { handleSubmit, register, control, setValue, formState } = useForm<DetailSettings>({
+    defaultValues: detail || {},
   });
-  const submit = (data: StepOneData) => {
-    setData({ step: 1, data });
+  const submit = (data: DetailSettings) => {
+    setDetail(data);
     router.push(`/projects/${project?.id}/drops/new/royalties`);
   };
 
@@ -29,8 +40,6 @@ export default function NewDropDetailsPage() {
     control,
     name: 'attributes',
   });
-
-  const options = [{ label: labelBlockchain(Blockchain.Solana), id: Blockchain.Solana }];
 
   return (
     <>
@@ -122,12 +131,12 @@ export default function NewDropDetailsPage() {
                 return (
                   <Form.Select value={value} onChange={onChange}>
                     <Form.Select.Button placeholder="Select blockchain">
-                      {value?.label}
+                      {BLOCKCHAIN_LABELS[value]}
                     </Form.Select.Button>
                     <Form.Select.Options>
-                      {options.map((i) => (
-                        <Form.Select.Option value={i} key={i.id}>
-                          <>{i.label}</>
+                      {BLOCKCHAIN_OPTIONS.map((i) => (
+                        <Form.Select.Option value={i} key={i}>
+                          <>{BLOCKCHAIN_LABELS[i]}</>
                         </Form.Select.Option>
                       ))}
                     </Form.Select.Options>

@@ -4,18 +4,24 @@ import { Button, Form } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import Card from '../../../../../../../components/Card';
-import { Icon } from '../../../../../../../components/Icon';
 import Typography, { Size } from '../../../../../../../components/Typography';
-import useCreateDropStore, { StepThreeData } from '../../../../../../../hooks/useCreateDropStore';
+import { StoreApi, useStore } from 'zustand';
+import {
+  TimingSettings,
+  DropFormState,
+} from '../../../../../../../providers/DropFormProvider';
+import { useDropForm } from '../../../../../../../hooks/useDropForm';
 import { useProject } from '../../../../../../../hooks/useProject';
 
 export default function NewDropTimingPage() {
   const router = useRouter();
   const { project } = useProject();
-  const { stepThree, setData } = useCreateDropStore();
-  const { handleSubmit, register } = useForm<StepThreeData>({ defaultValues: stepThree || {} });
-  const submit = (data: StepThreeData) => {
-    setData({ step: 3, data });
+  const store = useDropForm() as StoreApi<DropFormState>;
+  const timing = useStore(store, (store) => store.timing);
+  const setTiming = useStore(store, (store) => store.setTiming);
+  const { handleSubmit, register } = useForm<TimingSettings>({ defaultValues: timing || {} });
+  const submit = (data: TimingSettings) => {
+    setTiming(data);
     router.push(`/projects/${project?.id}/drops/new/preview`);
   };
 

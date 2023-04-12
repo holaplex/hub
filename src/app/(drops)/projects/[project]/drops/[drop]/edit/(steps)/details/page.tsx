@@ -6,31 +6,38 @@ import { Controller, useForm, useFieldArray } from 'react-hook-form';
 import Card from '../../../../../../../../../components/Card';
 import { Icon } from '../../../../../../../../../components/Icon';
 import Typography, { Size } from '../../../../../../../../../components/Typography';
-import { Blockchain, Drop } from '../../../../../../../../../graphql.types';
+import { Blockchain } from '../../../../../../../../../graphql.types';
 import { useProject } from '../../../../../../../../../hooks/useProject';
 import Divider from '../../../../../../../../../components/Divider';
 import clsx from 'clsx';
-import useCreateDropStore, {
-  StepOneData,
-} from '../../../../../../../../../hooks/useCreateDropStore';
-import { labelBlockchain } from '../../../../../../../../../modules/label';
-import { useEffect } from 'react';
+import { useDropForm } from '../../../../../../../../../hooks/useDropForm';
+import { StoreApi, useStore } from 'zustand';
+import {
+  DetailSettings,
+  DropFormState,
+} from '../../../../../../../../../providers/DropFormProvider';
 
-interface EditDropDetailsPageProps {
-  drop: Drop;
-}
+interface EditDropDetailsPageProps {}
 
-export default function EditDropDetailsPage({ drop }: EditDropDetailsPageProps) {
+const BLOCKCHAIN_LABELS = {
+  [Blockchain.Solana]: 'Solana',
+  [Blockchain.Ethereum]: 'Ethereum',
+  [Blockchain.Polygon]: 'Polygon',
+};
+
+export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
   const router = useRouter();
   const { project } = useProject();
-  const { stepOne, setData } = useCreateDropStore();
+  const store = useDropForm() as StoreApi<DropFormState>;
+  const detail = useStore(store, (store) => store.detail);
+  const setDetail = useStore(store, (store) => store.setDetail);
 
-  const { handleSubmit, register, control, setValue, formState, reset } = useForm<StepOneData>({
-    defaultValues: stepOne || {},
+  const { handleSubmit, register, control, setValue, formState } = useForm<DetailSettings>({
+    defaultValues: detail || {},
   });
 
-  const submit = (data: StepOneData) => {
-    setData({ step: 1, data });
+  const submit = (data: DetailSettings) => {
+    setDetail(data);
     router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/royalties`);
   };
 
@@ -38,28 +45,6 @@ export default function EditDropDetailsPage({ drop }: EditDropDetailsPageProps) 
     control,
     name: 'attributes',
   });
-
-  const options = [{ label: labelBlockchain(Blockchain.Solana), id: Blockchain.Solana }];
-
-  useEffect(() => {
-    const step = {
-      step: 1,
-      data: {
-        name: drop?.collection.metadataJson?.name!,
-        description: drop?.collection.metadataJson?.description!,
-        blockchain: {
-          label: labelBlockchain(drop?.collection.blockchain!),
-          id: drop?.collection.blockchain!,
-        },
-        symbol: drop?.collection.metadataJson?.symbol!,
-        image: drop?.collection.metadataJson?.image!,
-        attributes: drop?.collection.metadataJson?.attributes!,
-      },
-    };
-
-      setData(step);
-      reset(step.data);
-  }, [drop]);
 
   return (
     <>
@@ -143,33 +128,21 @@ export default function EditDropDetailsPage({ drop }: EditDropDetailsPageProps) 
           </div>
 
           <Form.Label name="Blockchain" className="text-xs mt-5">
-            <Controller
-              name="blockchain"
-              control={control}
-              rules={{ required: 'Please select a blockchain.' }}
-              render={({ field: { value, onChange } }) => {
-                return (
-                  <Form.Select value={value} onChange={onChange}>
-                    <Form.Select.Button placeholder="Select blockchain">
-                      {value?.label}
-                    </Form.Select.Button>
-                    <Form.Select.Options>
-                      {options.map((i) => (
-                        <Form.Select.Option value={i} key={i.id}>
-                          <>{i.label}</>
-                        </Form.Select.Option>
-                      ))}
-                    </Form.Select.Options>
-                    <Form.Error message={formState.errors.blockchain?.message} />
-                  </Form.Select>
-                );
-              }}
-            />
+            <span className="text-base">
+              {BLOCKCHAIN_LABELS[project?.drop?.collection.blockchain as Blockchain]}
+            </span>
           </Form.Label>
           <Form.Label name="Description" className="text-xs mt-5">
             <Form.Input
               {...register('description')}
               placeholder="Enter a description for the drop."
+            />
+            <Form.Error message="" />
+          </Form.Label>
+          <Form.Label name="External URL" className="text-xs mt-5">
+            <Form.Input
+              {...register('externalUrl')}
+              placeholder="(Optional) Set an external url on the drop."
             />
             <Form.Error message="" />
           </Form.Label>

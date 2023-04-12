@@ -2,6 +2,10 @@ extend type Wallet {
   shortAddress: String!
 }
 
+extend type Collection {
+  royalties: String!
+}
+
 extend type CollectionCreator {
   shortAddress: String!
 }

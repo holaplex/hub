@@ -2,16 +2,22 @@
 import { usePathname } from 'next/navigation';
 import { Icon } from '../../../../../../../../components/Icon';
 import Navbar from '../../../../../../../../layouts/Navbar';
-import useCreateDropStore from '../../../../../../../../hooks/useCreateDropStore';
 import Link from 'next/link';
+import { useStore } from 'zustand';
 import { pipe, isNil, not } from 'ramda';
 import { ProjectProvider } from '../../../../../../../../providers/ProjectProvider';
-import { Project } from '../../../../../../../../graphql.types';
-import { cloneElement } from 'react';
-import { DropProvider } from '../../../../../../../../providers/DropProvider';
+import {
+  CollectionCreatorInput,
+  Project,
+  Blockchain,
+  MetadataJsonAttribute,
+} from '../../../../../../../../graphql.types';
+import { DropFormProvider } from '../../../../../../../../providers/DropFormProvider';
+import { useDropFormState } from '../../../../../../../../hooks/useDropFormState';
+import { DateFormat, formatDateString } from '../../../../../../../../modules/time';
 
 interface CreateDropProps {
-  children: JSX.Element;
+  children: React.ReactNode;
   project: Project;
 }
 
@@ -20,52 +26,36 @@ const isComplete = pipe(isNil, not);
 export default function EditDrop({ children, project }: CreateDropProps): JSX.Element {
   const pathname = usePathname();
   const drop = project.drop;
-  const { stepOne, stepTwo, stepThree, setData } = useCreateDropStore();
 
-  // useEffect(() => {
-  //   if (drop && !stepOne && !stepTwo && !stepThree) {
-  //     setData({
-  //       step: 1,
-  //       data: {
-  //         name: drop?.collection.metadataJson?.name!,
-  //         description: drop?.collection.metadataJson?.description!,
-  //         blockchain: {
-  //           label: labelBlockchain(drop?.collection.blockchain!),
-  //           id: drop?.collection.blockchain!,
-  //         },
-  //         symbol: drop?.collection.metadataJson?.symbol!,
-  //         image: drop?.collection.metadataJson?.image!,
-  //         attributes: drop?.collection.metadataJson?.attributes!,
-  //       },
-  //     });
+  const store = useDropFormState({
+    detail: {
+      name: drop?.collection.metadataJson?.name as string,
+      description: drop?.collection.metadataJson?.description as string,
+      blockchain: drop?.collection.blockchain as Blockchain,
+      symbol: drop?.collection.metadataJson?.symbol as string,
+      image: drop?.collection.metadataJson?.image as string,
+      attributes: drop?.collection.metadataJson?.attributes as MetadataJsonAttribute[],
+      externalUrl: drop?.collection.metadataJson?.externalUrl as string,
+    },
+    payment: {
+      supply: drop?.collection.supply?.toString() as string,
+      creators: drop?.collection.creators as CollectionCreatorInput[],
+      treasuryAllRoyalties: false,
+      royalties: drop?.collection.royalties as string,
+    },
+    timing: {
+      startDate: drop?.startTime && formatDateString(drop?.startTime, DateFormat.DATE_3),
+      endDate: drop?.endTime && formatDateString(drop?.endTime, DateFormat.DATE_3),
+      startTime: drop?.startTime && formatDateString(drop?.startTime, DateFormat.TIME_2),
+      endTime: drop?.endTime && formatDateString(drop?.endTime, DateFormat.TIME_2),
+      noEndTime: isNil(drop?.endTime),
+      startNow: isNil(drop?.startTime),
+    },
+  });
 
-  //     setData({
-  //       step: 2,
-  //       data: {
-  //         supply: drop?.collection.supply! as any,
-  //         creators: drop?.collection.creators!,
-  //         treasuryAllRoyalties: false, // TODO:
-  //         royalties: '', // TODO:
-  //       },
-  //     });
-
-  //     setData({
-  //       step: 3,
-  //       data: {
-  //         startDate: drop.startTime,
-  //         endDate: drop.endTime,
-  //         startTime: drop.startTime
-  //           ? drop.startTime.getHours() + ':' + drop.startTime.getMinutes()
-  //           : undefined,
-  //         endTime: drop.endTime
-  //           ? drop.endTime.getHours() + ':' + drop.endTime.getMinutes()
-  //           : undefined,
-  //         noEndTime: drop.endTime ? false : true,
-  //         startNow: drop.startTime ? false : true,
-  //       },
-  //     });
-  //   }
-  // }, [drop, setData, stepOne, stepThree, stepTwo]);
+  const detail = useStore(store, (store) => store.detail);
+  const payment = useStore(store, (store) => store.payment);
+  const timing = useStore(store, (store) => store.timing);
 
   return (
     <Navbar.Page>
@@ -84,51 +74,51 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
             name="Drop details"
             icon={
               <Navbar.Menu.Step.StepCount
-                active={pathname === `/projects/${project.id}/drops/${drop}/edit/details`}
+                active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/details`}
                 count="1"
-                filled={isComplete(stepOne)}
+                filled={isComplete(detail)}
               />
             }
-            active={pathname === `/projects/${project.id}/drops/${drop}/edit/details`}
+            active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/details`}
           />
           <Navbar.Menu.Step
             name="Payment and royalties"
             icon={
               <Navbar.Menu.Step.StepCount
-                active={pathname === `/projects/${project.id}/drops/${drop}/edit/royalties`}
+                active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/royalties`}
                 count="2"
-                filled={isComplete(stepTwo)}
+                filled={isComplete(payment)}
               />
             }
-            active={pathname === `/projects/${project.id}/drops/${drop}/edit/royalties`}
+            active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/royalties`}
           />
           <Navbar.Menu.Step
             name="Mint date"
             icon={
               <Navbar.Menu.Step.StepCount
-                active={pathname === `/projects/${project.id}/drops/${drop}/edit/timing`}
+                active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/timing`}
                 count="3"
-                filled={isComplete(stepThree)}
+                filled={isComplete(timing)}
               />
             }
-            active={pathname === `/projects/${project.id}/drops/${drop}/edit/timing`}
+            active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/timing`}
           />
           <Navbar.Menu.Step
             name="Final preview"
             icon={
               <Navbar.Menu.Step.StepCount
-                active={pathname === `/projects/${project.id}/drops/${drop}/edit/preview`}
+                active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/preview`}
                 count="4"
                 filled={false}
               />
             }
-            active={pathname === `/projects/${project.id}/drops/${drop}/edit/preview`}
+            active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/preview`}
           />
         </Navbar.Menu>
       </Navbar.Panel>
       <Navbar.Content>
         <ProjectProvider project={project}>
-          <DropProvider drop={drop}>{children}</DropProvider>
+          <DropFormProvider store={store}>{children}</DropFormProvider>
         </ProjectProvider>
       </Navbar.Content>
     </Navbar.Page>

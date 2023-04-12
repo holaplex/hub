@@ -5,6 +5,8 @@ import { appConfig } from '../../../../../../../../app.config';
 import { Project } from '../../../../../../../../graphql.types';
 import { GetDrop } from '../../../../../../../../queries/drop.graphql';
 
+export const revalidate = 0;
+
 interface EditDropLayoutProps {
   children: React.ReactNode;
   params: { project: string; drop: string };
@@ -32,6 +34,7 @@ export default async function CreateDropLayout({
   const dropQuery = await client.query<GetDropsData, GetDropVars>({
     query: GetDrop,
     variables: { project, drop },
+    fetchPolicy: 'network-only'
   });
 
   return <EditDrop project={dropQuery.data.project}>{children}</EditDrop>;

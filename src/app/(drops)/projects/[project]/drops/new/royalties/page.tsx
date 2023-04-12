@@ -8,15 +8,20 @@ import { pipe, isNil, not } from 'ramda';
 import { Blockchain, AssetType, CollectionCreatorInput } from '../../../../../../../graphql.types';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { useProject } from '../../../../../../../hooks/useProject';
-import useCreateDropStore, { StepTwoData } from '../../../../../../../hooks/useCreateDropStore';
+import { StoreApi, useStore } from 'zustand';
+import { PaymentSettings, DropFormState } from '../../../../../../../providers/DropFormProvider';
+import { useDropForm } from '../../../../../../../hooks/useDropForm';
 
 export default function NewDropRoyaltiesPage() {
   const router = useRouter();
   const { project } = useProject();
-  const { stepTwo, stepOne, setData } = useCreateDropStore();
+  const store = useDropForm() as StoreApi<DropFormState>;
+  const detail = useStore(store, (store) => store.detail);
+  const payment = useStore(store, (store) => store.payment);
+  const setPayment = useStore(store, (store) => store.setPayment);
 
   const wallet = project?.treasury?.wallets?.find((wallet) => {
-    switch (stepOne?.blockchain.id) {
+    switch (detail?.blockchain) {
       case Blockchain.Solana:
         return wallet.assetId === AssetType.SolTest || wallet.assetId === AssetType.Sol;
       case Blockchain.Polygon:
@@ -26,8 +31,8 @@ export default function NewDropRoyaltiesPage() {
     }
   });
 
-  const { handleSubmit, register, control, watch, formState } = useForm<StepTwoData>({
-    defaultValues: stepTwo || {
+  const { handleSubmit, register, control, watch, formState } = useForm<PaymentSettings>({
+    defaultValues: payment || {
       treasuryAllRoyalties: true,
       creators: [{ address: wallet?.address, share: 100, verified: true }],
     },
@@ -41,7 +46,7 @@ export default function NewDropRoyaltiesPage() {
     rules: {
       required: true,
       validate: (creators) => {
-        switch (stepOne?.blockchain.id) {
+        switch (detail?.blockchain) {
           case Blockchain.Solana:
             if (creators.length > 5) {
               return 'Can only set up to 5 creators.';
@@ -65,7 +70,7 @@ export default function NewDropRoyaltiesPage() {
 
   const treasuryAllRoyalties = watch('treasuryAllRoyalties');
 
-  const submit = (data: StepTwoData) => {
+  const submit = (data: PaymentSettings) => {
     if (data.treasuryAllRoyalties) {
       data.creators = [{ address: wallet?.address as string, share: 100 }];
     }
@@ -80,7 +85,7 @@ export default function NewDropRoyaltiesPage() {
       return creator;
     });
 
-    setData({ step: 2, data });
+    setPayment(data);
     router.push(`/projects/${project?.id}/drops/new/timing`);
   };
 
