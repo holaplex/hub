@@ -143,6 +143,13 @@ export default function NewDropDetailsPage() {
             />
             <Form.Error message="" />
           </Form.Label>
+          <Form.Label name="External URL" className="text-xs mt-5">
+            <Form.Input
+              {...register('externalUrl')}
+              placeholder="(Optional) Set an external url on the drop."
+            />
+            <Form.Error message="" />
+          </Form.Label>
           <Form.Label name="Attribute" className="text-xs mt-5">
             {fields.map((field, index) => (
               <div className="flex gap-4" key={field.id}>

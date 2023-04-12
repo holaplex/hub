@@ -13,6 +13,7 @@ export type StepOneData = {
   description: string;
   image: File;
   attributes: Attribute[];
+  externalUrl: string;
 };
 
 export type StepTwoData = {
