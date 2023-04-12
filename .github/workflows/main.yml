@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - release
 
 jobs:
   release:
@@ -30,8 +31,9 @@ jobs:
           version: v0.9.1
           endpoint: mycontext
       -
-        name: Build and push hub-ui
+        name: Build and push hub-ui staging
         uses: docker/build-push-action@v3
+        if: github.ref == 'refs/heads/main'
         with:
           context: .
           file: ./Dockerfile
@@ -42,11 +44,35 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - 
-        name: Invoke workflow in hub-kubes repo
+        name: Invoke workflow in hub-kubes repo staging
         uses: benc-uk/workflow-dispatch@v1
+        if: github.ref == 'refs/heads/main'
         with:
           ref: main
           token: ${{ secrets.ACTIONS_TOKEN }}
           workflow: release.yml
           repo: holaplex/hub-kubes
           inputs: '{ "service": "frontend", "environment": "stage", "commit_hash": "${{ github.sha }}"}'
+      -
+        name: Build and push hub-ui production
+        uses: docker/build-push-action@v3
+        if: github.ref == 'refs/heads/release'
+        with:
+          context: .
+          file: ./Dockerfile
+          build-args: |
+            APP_FQDN=https://hub.holaplex.com
+          push: true
+          tags: ${{ vars.DOCKERHUB_ORG }}/hub-ui:${{ github.sha }},${{ vars.DOCKERHUB_ORG }}/hub-ui:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - 
+        name: Invoke workflow in hub-kubes repo production
+        uses: benc-uk/workflow-dispatch@v1
+        if: github.ref == 'refs/heads/release'
+        with:
+          ref: main
+          token: ${{ secrets.ACTIONS_TOKEN }}
+          workflow: release.yml
+          repo: holaplex/hub-kubes
+          inputs: '{ "service": "frontend", "environment": "prod", "commit_hash": "${{ github.sha }}"}'
