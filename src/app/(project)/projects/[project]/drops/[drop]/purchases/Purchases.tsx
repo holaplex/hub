@@ -8,7 +8,7 @@ import { useQuery } from '@apollo/client';
 import Table from '../../../../../../../components/Table';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { formatDateString, DateFormat } from './../../../../../../../modules/time';
-import { Project, Purchase } from '../../../../../../../graphql.types';
+import { Blockchain, Project, Purchase } from '../../../../../../../graphql.types';
 import { GetCollectionPurchases } from './../../../../../../../queries/purchase.graphql';
 
 interface PurchaseProps {
@@ -35,6 +35,7 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
   });
 
   const purchases = purchasesQuery.data?.project.drop?.collection.purchases || [];
+  const blockchain = purchasesQuery.data?.project.drop?.collection.blockchain;
   const noPurchases = purchases.length === 0;
 
   return (
@@ -173,6 +174,7 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
                 const txId = info.row.original.txSignature;
                 const options = [];
                 txId &&
+                  blockchain === Blockchain.Solana &&
                   options.push(
                     <Link
                       href={`https://solscan.io/tx/${txId}`}
