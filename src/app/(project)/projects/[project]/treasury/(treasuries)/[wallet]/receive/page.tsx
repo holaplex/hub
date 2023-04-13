@@ -27,7 +27,7 @@ export default function MemberDeletePage() {
                 <span className="text-xs font-medium text-gray-600">Wallet address</span>
                 <span className="text-sm text-primary">0xA91...a2#9</span>
               </div>
-              <Button icon={<Icon.Copy stroke="#ffffff" />} className="w-full mt-4">
+              <Button icon={<Icon.Copy />} className="w-full mt-4">
                 Copy address
               </Button>
             </div>

@@ -43,11 +43,11 @@ export default function CustomerWallets({ children, project, customer }: Custome
               <span className="mt-6 text-xl font-semibold">
                 The customer does not have any wallets yet
               </span>
-              <span className="mt-2 text-gray-500 text-sm">
+              <span className="mt-2 text-subtletext text-sm">
                 Click button below to learn how to create customer wallets.
               </span>
               <a href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet">
-                <Button icon={<Icon.Help stroke="#ffffff" />} className="mt-8">
+                <Button icon={<Icon.Help className="stroke-secondary" />} className="mt-8">
                   How to create wallets
                 </Button>
               </a>

@@ -296,7 +296,7 @@ function Copy({ width = 16, height = 16, className = '' }: IconProps) {
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      className={clsx('stroke-subtletext', className)}
+      className={clsx('stroke-subtletext fill-none', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
       <rect x="2" y="6" width="8" height="8" rx="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -521,7 +521,7 @@ function Check({ width = 16, height = 16, className = '' }: IconProps) {
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      className={clsx('stroke-subtletext fill-highlightcell', className)}
+      className={clsx('stroke-subtletext fill-none', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

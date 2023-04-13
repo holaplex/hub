@@ -49,9 +49,11 @@ export default function Customer({ children, project, customer }: CustomerProps)
         </div>
       ) : (
         <div className="flex justify-between">
-          <div className="flex gap-2 text-2xl font-medium items-center text-subtletext">
-            <Link href={`/projects/${project}/customers`}>Customers</Link> /{' '}
-            <span className="text-primary">{customer}</span>
+          <div className="flex gap-2 text-2xl font-medium items-center">
+            <Link href={`/projects/${project}/customers`} className="text-subtletext">
+              Customers
+            </Link>{' '}
+            / <span>{customer}</span>
           </div>
           <ul className="flex-row gap-4">
             <li className="flex flex-col items-end gap-1">
