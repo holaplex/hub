@@ -1,0 +1,23 @@
+query GetCollectionPurchases($project: UUID!, $drop: UUID!) {
+  project(id: $project) {
+    id
+    drop(id: $drop) {
+      id
+      price
+      collection {
+        id
+        totalMints
+        purchases {
+          id
+          wallet
+          shortWallet @client
+          shortTx @client
+          txSignature
+          status
+          createdAt
+          spent
+        }
+      }
+    }
+  }
+}

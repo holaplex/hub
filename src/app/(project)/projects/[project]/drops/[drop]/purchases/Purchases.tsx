@@ -8,8 +8,8 @@ import { useQuery } from '@apollo/client';
 import Table from '../../../../../../../components/Table';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { formatDateString, DateFormat } from './../../../../../../../modules/time';
-import { CollectionMint, Project } from '../../../../../../../graphql.types';
-import { GetCollectionMints } from './../../../../../../../queries/mint.graphql';
+import { Project, Purchase } from '../../../../../../../graphql.types';
+import { GetCollectionPurchases } from './../../../../../../../queries/purchase.graphql';
 
 interface PurchaseProps {
   loading?: boolean;
@@ -17,34 +17,34 @@ interface PurchaseProps {
   drop: string;
 }
 
-interface GetMintsData {
+interface GetPurchasesData {
   project: Pick<Project, 'drop'>;
 }
 
-interface GetMintsVars {
+interface GetPurchasesVars {
   project: string;
   drop: string;
 }
 
 export default function Purchases({ loading, project, drop }: PurchaseProps) {
-  const columnHelper = createColumnHelper<CollectionMint>();
+  const columnHelper = createColumnHelper<Purchase>();
   const loadingColumnHelper = createColumnHelper<any>();
 
-  const mintsQuery = useQuery<GetMintsData, GetMintsVars>(GetCollectionMints, {
+  const purchasesQuery = useQuery<GetPurchasesData, GetPurchasesVars>(GetCollectionPurchases, {
     variables: { project, drop },
   });
 
-  const mints = mintsQuery.data?.project.drop?.collection.mints || [];
-  const noMints = mints.length === 0;
+  const purchases = purchasesQuery.data?.project.drop?.collection.purchases || [];
+  const noPurchases = purchases.length === 0;
 
   return (
     <div className="flex flex-col">
-      {mintsQuery.loading || loading ? (
+      {purchasesQuery.loading || loading ? (
         <>
           <Table
             columns={[
               loadingColumnHelper.display({
-                id: 'ownerShortAddress',
+                id: 'shortWallet',
                 header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-row gap-2">
@@ -52,6 +52,16 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
                     <span className="rounded-full h-3 w-24 bg-gray-50 animate-pulse" />
                   </div>
                 ),
+              }),
+              loadingColumnHelper.display({
+                id: 'shortTx',
+                header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                cell: () => <span className="rounded-full h-3 w-24 bg-gray-50 animate-pulse" />,
+              }),
+              loadingColumnHelper.display({
+                id: 'spent',
+                header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                cell: () => <span className="rounded-full h-3 w-20 bg-gray-50 animate-pulse" />,
               }),
               loadingColumnHelper.display({
                 id: 'createdAt',
@@ -82,7 +92,7 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
             data={new Array(4)}
           />
         </>
-      ) : noMints ? (
+      ) : noPurchases ? (
         <div className="flex flex-col gap-2 items-center">
           <Icon.Large.Clipboard />
           <Typography.Header size={Size.H2}>No purchase history yet</Typography.Header>
@@ -93,7 +103,7 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
       ) : (
         <Table
           columns={[
-            columnHelper.accessor('ownerShortAddress', {
+            columnHelper.accessor('shortWallet', {
               header: () => (
                 <div className="flex gap-2">
                   <span className="text-xs text-gray-600 font-medium">Wallet</span>
@@ -104,6 +114,31 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
                   <div className="flex gap-2">
                     <Icon.Crypto.Sol />
                     <span className="text-xs text-primary font-medium">{info.getValue()}</span>
+                  </div>
+                );
+              },
+            }),
+            columnHelper.accessor('shortTx', {
+              header: () => (
+                <div className="flex gap-2">
+                  <span className="text-xs text-gray-600 font-medium">Wallet</span>
+                </div>
+              ),
+              cell: (info) => {
+                return <span className="text-xs text-primary font-medium">{info.getValue()}</span>;
+              },
+            }),
+            columnHelper.accessor('spent', {
+              header: () => (
+                <div className="flex gap-2">
+                  <span className="text-xs text-gray-600 font-medium">Wallet</span>
+                </div>
+              ),
+              cell: (info) => {
+                return (
+                  <div className="flex gap-1">
+                    <span className="text-xs text-primary font-medium">{info.getValue()}</span>
+                    <span className="text-xs text-gray-600 font-medium">SOL</span>
                   </div>
                 );
               },
@@ -127,35 +162,43 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
                 );
               },
             }),
-            columnHelper.accessor('creationStatus', {
+            columnHelper.accessor('status', {
               header: () => <span className="flex text-xs text-gray-600 font-medium">Status</span>,
               cell: (info) => <Table.PurchaseStatusPill status={info.getValue()} />,
             }),
             columnHelper.display({
               id: 'moreOptions',
               header: () => <Icon.TableAction />,
-              cell: () => (
-                <PopoverBox
-                  triggerButton={
-                    <div className={clsx('px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min')}>
-                      <Icon.More />
-                    </div>
-                  }
-                  elements={[
+              cell: (info) => {
+                const txId = info.row.original.txSignature;
+                const options = [];
+                txId &&
+                  options.push(
                     <Link
-                      href="https://solscan.io"
+                      href={`https://solscan.io/tx/${txId}`}
                       target="_blank"
                       key="change_email"
                       className="flex gap-2 items-center"
                     >
                       <Icon.ExternalLink /> <span>View on SolScan</span>
-                    </Link>,
-                  ]}
-                />
-              ),
+                    </Link>
+                  );
+                return (
+                  <PopoverBox
+                    triggerButton={
+                      <div
+                        className={clsx('px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min')}
+                      >
+                        <Icon.More />
+                      </div>
+                    }
+                    elements={options}
+                  />
+                );
+              },
             }),
           ]}
-          data={mints}
+          data={purchases}
         />
       )}
     </div>

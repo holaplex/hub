@@ -9,6 +9,18 @@ function asShortAddress(_: any, { readField }: { readField: ReadFieldFunction })
   return shorten(address as string);
 }
 
+function asShortWallet(_: any, { readField }: { readField: ReadFieldFunction }): string {
+  const address: string | undefined = readField('wallet');
+
+  return shorten(address as string);
+}
+
+function asShortTx(_: any, { readField }: { readField: ReadFieldFunction }): string {
+  const address: string | undefined = readField('txSignature');
+
+  return shorten(address as string);
+}
+
 export function apollo(uri: string, session?: string): ApolloClient<NormalizedCacheObject> {
   let headers: Record<string, string> = {};
 
@@ -36,6 +48,12 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
         Holder: {
           fields: {
             shortAddress: asShortAddress,
+          },
+        },
+        Purchase: {
+          fields: {
+            shortWallet: asShortWallet,
+            shortTx: asShortTx,
           },
         },
         CollectionMint: {

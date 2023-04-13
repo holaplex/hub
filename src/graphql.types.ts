@@ -1086,6 +1086,8 @@ export type Purchase = {
   id: Scalars['UUID'];
   /** The ID of the NFT being purchased. */
   mintId: Scalars['UUID'];
+  shortTx: Scalars['String'];
+  shortWallet: Scalars['String'];
   /** The amount spent on the purchase. */
   spent: Scalars['Int'];
   /** The status of the creation of the NFT. */
