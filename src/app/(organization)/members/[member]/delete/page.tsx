@@ -33,6 +33,11 @@ export default function MemberDeletePage({ params: { member } }: DeleteMemberPro
   const [deleteMember, { loading }] = useMutation<DeleteMemberData, DeleteMemberVars>(
     DeactivateMember,
     {
+      variables: {
+        input: {
+          id: member,
+        },
+      },
       awaitRefetchQueries: true,
       refetchQueries: [
         { query: GetOrganizationMembers, variables: { organization: organization?.id } },

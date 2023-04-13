@@ -117,6 +117,8 @@ export type Collection = {
   metadataJson?: Maybe<MetadataJson>;
   /** The list of minted NFTs from the collection including the NFTs address and current owner's wallet address. */
   mints?: Maybe<Array<CollectionMint>>;
+  /** A list of all NFT purchases from the collection, including both primary and secondary sales. */
+  purchases?: Maybe<Array<Purchase>>;
   signature?: Maybe<Scalars['String']>;
   /** The total supply of the collection. Setting to `null` implies unlimited minting. */
   supply?: Maybe<Scalars['Int']>;
@@ -156,6 +158,12 @@ export type CollectionMint = {
   createdBy: Scalars['UUID'];
   creationStatus: CreationStatus;
   id: Scalars['UUID'];
+  /**
+   * The metadata json associated to the collection.
+   * ## References
+   * [Metaplex v1.1.0 Standard](https://docs.metaplex.com/programs/token-metadata/token-standard)
+   */
+  metadataJson?: Maybe<MetadataJson>;
   owner: Scalars['String'];
   ownerShortAddress: Scalars['String'];
   shortAddress: Scalars['String'];
@@ -293,16 +301,30 @@ export type Credential = {
 /** A customer record represents a user in your service and is used to group custodial wallets within a specific project. This allows for easy management of wallets and associated assets for a particular customer within your service. */
 export type Customer = {
   __typename?: 'Customer';
+  /**
+   * Returns all the wallet addresses associated with the customer. The blockchain of the address is not included and they are in no particular order. In the future, the blockchain may be indicated with a pattern of {blockchain}:{address}.
+   * This field returns null when there is no treasury assigned to the customer yet.
+   */
+  addresses?: Maybe<Array<Scalars['String']>>;
   /** The datetime when the customer record was created. */
   createdAt: Scalars['NaiveDateTime'];
   /** The unique identifier for the customer record. */
   id: Scalars['UUID'];
+  /** The NFTs owned by any of the customers' wallets. */
+  mints?: Maybe<Array<CollectionMint>>;
   /** The ID of the project to which the customer record belongs. */
   projectId: Scalars['UUID'];
   /** The treasury assigned to the customer, which contains the customer's wallets. */
   treasury?: Maybe<Treasury>;
   /** An optional datetime indicating the last time the customer record was updated. If the customer record has not been updated, this field will be `null`. */
   updatedAt?: Maybe<Scalars['NaiveDateTime']>;
+  wallet?: Maybe<Array<Wallet>>;
+};
+
+
+/** A customer record represents a user in your service and is used to group custodial wallets within a specific project. This allows for easy management of wallets and associated assets for a particular customer within your service. */
+export type CustomerWalletArgs = {
+  assetId?: InputMaybe<AssetType>;
 };
 
 export type DeactivateMemberInput = {
@@ -350,6 +372,8 @@ export type Drop = {
   price: Scalars['Int'];
   /** The identifier of the project to which the drop is associated. */
   projectId: Scalars['UUID'];
+  /** A list of all NFT purchases from this drop. */
+  purchases?: Maybe<Array<Purchase>>;
   /**
    * The shutdown_at field represents the date and time in UTC when the drop was shutdown
    * If it is null, the drop is currently not shutdown
@@ -557,11 +581,11 @@ export type MetadataJson = {
   /** An optional animated version of the NFT art. */
   animationUrl?: Maybe<Scalars['String']>;
   attributes?: Maybe<Array<MetadataJsonAttribute>>;
-  collectionId: Scalars['UUID'];
   /** The description of the NFT. */
   description: Scalars['String'];
   /** An optional URL where viewers can find more information on the NFT, such as the collection's homepage or Twitter page. */
   externalUrl?: Maybe<Scalars['String']>;
+  id: Scalars['UUID'];
   identifier: Scalars['String'];
   /** The image URI for the NFT. */
   image: Scalars['String'];
@@ -576,8 +600,8 @@ export type MetadataJson = {
 /** An attribute of the NFT. */
 export type MetadataJsonAttribute = {
   __typename?: 'MetadataJsonAttribute';
-  collectionId: Scalars['UUID'];
   id: Scalars['UUID'];
+  metadataJsonId: Scalars['UUID'];
   /** The name of the attribute. */
   traitType: Scalars['String'];
   /** The value of the attribute. */
@@ -1049,6 +1073,27 @@ export type ProjectCustomerArgs = {
 /** A Holaplex project that belongs to an organization. Projects are used to group unique NFT campaigns or initiatives, and are used to assign objects that end customers will interact with, such as drops and wallets. */
 export type ProjectDropArgs = {
   id: Scalars['UUID'];
+};
+
+/** Represents the purchase of an NFT. */
+export type Purchase = {
+  __typename?: 'Purchase';
+  /** The date and time when the purchase was created. */
+  createdAt: Scalars['NaiveDateTime'];
+  /** The ID of the drop that facilitated the purchase, if any. */
+  dropId?: Maybe<Scalars['UUID']>;
+  /** The ID of the purchase. */
+  id: Scalars['UUID'];
+  /** The ID of the NFT being purchased. */
+  mintId: Scalars['UUID'];
+  /** The amount spent on the purchase. */
+  spent: Scalars['Int'];
+  /** The status of the creation of the NFT. */
+  status: CreationStatus;
+  /** The signature of the transaction, if any. */
+  txSignature?: Maybe<Scalars['String']>;
+  /** The wallet address of the buyer. */
+  wallet: Scalars['String'];
 };
 
 export type Query = {
