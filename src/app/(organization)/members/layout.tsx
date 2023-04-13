@@ -39,8 +39,9 @@ function ActionCell({ id, status }: { id: string; status: MemberStatus }): JSX.E
     return <div />;
   }
 
-  let elements: JSX.Element[] = [
-    status === MemberStatus.Inactive && (
+  let elements: JSX.Element[] = [];
+  status === MemberStatus.Inactive &&
+    elements.push(
       <Link
         key="reactivate_member"
         className="flex gap-2 items-center"
@@ -48,14 +49,14 @@ function ActionCell({ id, status }: { id: string; status: MemberStatus }): JSX.E
       >
         <span>Reactivate member</span>
       </Link>
-    ),
-    status === MemberStatus.Accepted && (
+    );
+  status === MemberStatus.Accepted &&
+    elements.push(
       <Link key="delete_member" className="flex gap-2 items-center" href={`/members/${id}/delete`}>
         <Icon.Delete fill="#E52E2E" />
         <span className="text-negative">Delete member</span>
       </Link>
-    ),
-  ];
+    );
 
   if (status === MemberStatus.Sent) {
     elements = [
