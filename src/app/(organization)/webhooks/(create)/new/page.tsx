@@ -260,7 +260,7 @@ export default function NewWebhook() {
 
           <Button
             className="mt-2"
-            variant="tertiary"
+            variant="secondary"
             size="large"
             block
             onClick={() => {

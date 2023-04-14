@@ -210,7 +210,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                 />
 
                 <div
-                  className="flex gap-4 w-full px-4 py-3 items-center cursor-pointer"
+                  className="flex gap-4 w-full px-4 py-3 items-center cursor-pointer hover:bg-highlightcell"
                   onClick={() => logout()}
                 >
                   <Icon.Logout />
@@ -254,7 +254,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
               </div>
               <Link href="/organizations/new">
                 <Button
-                  icon={<Icon.Add className="stroke-primary" />}
+                  icon={<Icon.Add className="secondary-button-icon" />}
                   className="w-full"
                   variant="secondary"
                 >

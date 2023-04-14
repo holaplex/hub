@@ -21,7 +21,7 @@ export default function DeleteProject() {
             <Button htmlType="submit" className="w-full mt-5">
               Transfer funds
             </Button>
-            <Button variant="tertiary" className="w-full mt-5 " onClick={() => {}}>
+            <Button variant="secondary" className="w-full mt-2" onClick={() => {}}>
               Cancel
             </Button>
           </Form>
@@ -44,7 +44,7 @@ export default function DeleteProject() {
             <Button htmlType="submit" className="w-full mt-5" variant="failure">
               Delete
             </Button>
-            <Button variant="tertiary" className="w-full mt-5 " onClick={() => {}}>
+            <Button variant="secondary" className="w-full mt-2" onClick={() => {}}>
               Cancel
             </Button>
           </Form>

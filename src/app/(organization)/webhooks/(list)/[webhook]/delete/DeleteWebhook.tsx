@@ -107,7 +107,7 @@ export default function DeleteWebhook({ webhook }: DeleteWebhookProps) {
               >
                 Delete
               </Button>
-              <Button variant="tertiary" className="w-full" onClick={onClose} disabled={loading}>
+              <Button variant="secondary" className="w-full" onClick={onClose} disabled={loading}>
                 Cancel
               </Button>
             </div>

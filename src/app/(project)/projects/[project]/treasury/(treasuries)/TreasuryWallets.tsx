@@ -45,7 +45,9 @@ export default function TreasuryWallets({ children, project }: TreasuryLayoutPro
               <Icon.Large.Treasury />
               <span className="mt-2 text-gray-500 text-sm">Click button below to add wallet</span>
               <Link href={`/projects/${project}/treasuries/new`} className="mt-8">
-                <Button icon={<Icon.AddWallet stroke="#ffffff" />}>Add wallet</Button>
+                <Button icon={<Icon.AddWallet className="primary-button-icon" />}>
+                  Add wallet
+                </Button>
               </Link>
             </div>
           ) : (

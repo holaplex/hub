@@ -41,7 +41,7 @@ function ActionCell({ id, status }: { id: string; status: MemberStatus }): JSX.E
 
   let elements: JSX.Element[] = [
     // <Link key="delete_member" className="flex gap-2 items-center" href={`/members/${id}/delete`}>
-    //   <Icon.Delete fill="#E52E2E" />
+    //   <Icon.Delete className="stroke-negative" />
     //   <span className="text-negative">Delete member</span>
     // </Link>,
   ];
@@ -227,7 +227,7 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
             <h1 className="text-2xl font-medium">Members</h1>
             <div className="mt-4 flex flex-col">
               <Link href="/members/invite" className="self-end">
-                <Button icon={<Icon.Add className="stroke-secondary" />}>Invite member</Button>
+                <Button icon={<Icon.Add className="primary-button-icon" />}>Invite member</Button>
               </Link>
               <Table className="mt-4" columns={columns} data={associates} />
             </div>

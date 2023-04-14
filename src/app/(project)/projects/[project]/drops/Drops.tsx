@@ -164,7 +164,7 @@ export default function Drops({ project }: DropsPageProps) {
                               href={`/projects/${dropsQuery.data?.project.id}/drops/new/details`}
                             >
                               <Button
-                                icon={<Icon.Add className="stroke-secondary" />}
+                                icon={<Icon.Add className="primary-button-icon" />}
                                 className="mt-8"
                               >
                                 Create drop
@@ -178,7 +178,7 @@ export default function Drops({ project }: DropsPageProps) {
                               className="self-end"
                             >
                               <Button
-                                icon={<Icon.Add className="stroke-secondary" />}
+                                icon={<Icon.Add className="primary-button-icon" />}
                                 variant="primary"
                               >
                                 Create drop

@@ -80,7 +80,7 @@ export default function Login() {
             <span className="text-subtletext font-medium">Dont have an account?</span>
             <span className="flex items-center ml-1 font-semibold">
               Create account
-              <Icon.ArrowRight className="ml-1 stroke-primary" />
+              <Icon.ArrowRight className="ml-1 secondary-button-icon" />
             </span>
           </div>
         </Button>

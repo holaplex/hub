@@ -47,7 +47,7 @@ export default function CustomerWallets({ children, project, customer }: Custome
                 Click button below to learn how to create customer wallets.
               </span>
               <a href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet">
-                <Button icon={<Icon.Help className="stroke-secondary" />} className="mt-8">
+                <Button icon={<Icon.Help className="primary-button-icon" />} className="mt-8">
                   How to create wallets
                 </Button>
               </a>

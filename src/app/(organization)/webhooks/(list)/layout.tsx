@@ -123,7 +123,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                   Click button below to get started.
                 </span>
                 <Button
-                  icon={<Icon.Add className="stroke-secondary" />}
+                  icon={<Icon.Add className="primary-button-icon" />}
                   className="mt-8"
                   onClick={() => router.push(`/webhooks/new`)}
                 >
@@ -133,7 +133,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
             ) : (
               <div className="mt-4 flex flex-col">
                 <Button
-                  icon={<Icon.Add className="stroke-secondary" />}
+                  icon={<Icon.Add className="primary-button-icon" />}
                   className="self-end"
                   onClick={() => router.push(`/webhooks/new`)}
                 >
@@ -237,7 +237,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                               className="flex gap-2 items-center"
                               href={`/webhooks/${info.row.original.id}/delete`}
                             >
-                              <Icon.Delete fill="#E52E2E" />
+                              <Icon.Delete className="stroke-negative" />
                               <span className="text-negative">Delete</span>
                             </Link>,
                           ]}

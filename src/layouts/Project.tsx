@@ -107,7 +107,7 @@ export default function Project({
                           </div>
                           <Link href="/projects/new">
                             <Button
-                              icon={<Icon.Add className="stroke-primary" />}
+                              icon={<Icon.Add className="secondary-button-icon" />}
                               className="w-full"
                               variant="secondary"
                             >

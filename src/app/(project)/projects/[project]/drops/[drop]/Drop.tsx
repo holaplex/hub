@@ -151,14 +151,14 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                         {dropQuery.data?.project.drop?.status !== DropStatus.Shutdown && (
                           <div className="flex items-center gap-2">
                             <Button
-                              icon={<Icon.Edit className="stroke-primary" />}
+                              icon={<Icon.Edit className="secondary-button-icon" />}
                               variant="secondary"
                             >
                               Edit drop
                             </Button>
                             {dropQuery.data?.project.drop?.status === DropStatus.Paused ? (
                               <Button
-                                icon={<Icon.Resume className="stroke-primary" />}
+                                icon={<Icon.Resume className="secondary-button-icon" />}
                                 variant="secondary"
                                 onClick={() => resume(drop, project)}
                               >
@@ -166,7 +166,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                               </Button>
                             ) : (
                               <Button
-                                icon={<Icon.Pause className="stroke-primary" />}
+                                icon={<Icon.Pause className="secondary-button-icon" />}
                                 variant="secondary"
                                 onClick={() => pause(drop, project)}
                               >
@@ -174,7 +174,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                               </Button>
                             )}
                             <Button
-                              icon={<Icon.Close className="stroke-primary" />}
+                              icon={<Icon.Close className="secondary-button-icon" />}
                               variant="secondary"
                               onClick={() => shutdown(drop, project)}
                             >

@@ -90,7 +90,7 @@ export default function OrganizationsPage() {
           <div className="flex items-center">
             <span className="flex items-center ml-1 font-semibold">
               Create an organization
-              <Icon.ArrowRight className="ml-1 stroke-primary" />
+              <Icon.ArrowRight className="ml-1 secondary-button-icon" />
             </span>
           </div>
         </Button>

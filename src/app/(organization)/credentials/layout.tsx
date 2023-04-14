@@ -93,7 +93,7 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                   Click button below to get started.
                 </span>
                 <Link href="/credentials/new">
-                  <Button icon={<Icon.Add className="stroke-secondary" />} className="mt-8">
+                  <Button icon={<Icon.Add className="primary-button-icon" />} className="mt-8">
                     Generate token
                   </Button>
                 </Link>
@@ -101,7 +101,7 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
             ) : (
               <div className="mt-4 flex flex-col">
                 <Link href="/credentials/new" className="self-end">
-                  <Button icon={<Icon.Add className="stroke-secondary" />} className="self-end">
+                  <Button icon={<Icon.Add className="primary-button-icon" />} className="self-end">
                     Generate token
                   </Button>
                 </Link>
@@ -158,7 +158,7 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                               className="flex gap-2 items-center"
                               href={`/credentials/${info.row.original.clientId}/delete`}
                             >
-                              <Icon.Delete fill="#E52E2E" />
+                              <Icon.Delete className="stroke-negative" />
                               <span className="text-negative">Delete</span>
                             </Link>,
                           ]}

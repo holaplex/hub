@@ -90,7 +90,7 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                 </span>
                 <Link href="/projects/new">
                   <Button
-                    icon={<Icon.CreateProject className="stroke-secondary" />}
+                    icon={<Icon.CreateProject className="primary-button-icon" />}
                     className="mt-8"
                   >
                     Create new project
@@ -100,7 +100,7 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
             ) : (
               <div className="mt-4 flex flex-col">
                 <Link href="/projects/new" className="self-end">
-                  <Button icon={<Icon.Add className="stroke-secondary" />} className="self-end">
+                  <Button icon={<Icon.Add className="primary-button-icon" />} className="self-end">
                     Create Project
                   </Button>
                 </Link>
@@ -168,7 +168,7 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                                 className="flex gap-2 items-center"
                                 href={`/projects/${projectId}/delete`}
                               >
-                                <Icon.Delete fill="#E52E2E" />
+                                <Icon.Delete className="stroke-negative" />
                                 <span className="text-negative">Delete project</span>
                               </Link>,
                             ]}

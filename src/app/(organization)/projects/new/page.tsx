@@ -138,8 +138,8 @@ export default function NewProjectPage() {
             Create
           </Button>
           <Button
-            className="w-full mt-5"
-            variant="tertiary"
+            className="w-full mt-2"
+            variant="secondary"
             disabled={loading || formState.isSubmitting}
             onClick={() => {
               router.push('/projects');

@@ -95,7 +95,7 @@ export default function Registration() {
             <span className="text-subtletext font-medium">Already have an account?</span>
             <span className="flex items-center ml-1 font-semibold">
               Sign in
-              <Icon.ArrowRight className="ml-1 stroke-primary" />
+              <Icon.ArrowRight className="ml-1 secondary-button-icon" />
             </span>
           </div>
         </Button>

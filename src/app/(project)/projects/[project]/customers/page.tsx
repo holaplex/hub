@@ -103,7 +103,7 @@ export default function CustomersPage() {
                 href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet"
                 target="_blank"
               >
-                <Button icon={<Icon.Help className="stroke-secondary" />} className="mt-8">
+                <Button icon={<Icon.Help className="primary-button-icon" />} className="mt-8">
                   How to integrate
                 </Button>
               </a>
@@ -115,7 +115,7 @@ export default function CustomersPage() {
                 className="self-end"
               >
                 <Button
-                  icon={<Icon.Help className="stroke-primary" />}
+                  icon={<Icon.Help className="secondary-button-icon" />}
                   variant="secondary"
                   className="self-end"
                 >
@@ -191,7 +191,7 @@ export default function CustomersPage() {
                             className="flex gap-2 items-center"
                             href={`/projects/${project?.id}/customers/${info.getValue()}/delete`}
                           >
-                            <Icon.Delete fill="#E52E2E" />
+                            <Icon.Delete className="stroke-negative" />
                             <span className="text-negative">Remove</span>
                           </Link>,
                         ]}

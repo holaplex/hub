@@ -49,7 +49,7 @@ export default function Nfts({ children, project, customer }: NftsProps) {
                   Click button below to understand how to mint NFTs.
                 </span>
                 <a href="https://docs.holaplex.dev/hub/Guides/minting-drops">
-                  <Button icon={<Icon.Help className="stroke-secondary" />} className="mt-8">
+                  <Button icon={<Icon.Help className="primary-button-icon" />} className="mt-8">
                     How to mint
                   </Button>
                 </a>

@@ -47,7 +47,7 @@ h3 {
 }
 
 .form-input {
-  @apply rounded-md text-secondary;
+  @apply rounded-md bg-highlightcell text-subtletext border-none;
 }
 
 [type='text']:focus,
@@ -81,11 +81,11 @@ select:focus {
 }
 
 .form-checkbox {
-  @apply rounded text-secondary;
+  @apply rounded text-primary focus:ring-primary bg-highlightcell;
 }
 
 .form-checkbox-label {
-  @apply text-xs font-medium;
+  @apply text-xs font-medium text-subtletext;
 }
 
 *:focus {
@@ -101,7 +101,7 @@ input:focus {
 }
 
 .button-medium {
-  @apply py-2 px-4 text-xs font-semibold;
+  @apply py-2 px-4 text-sm font-semibold;
 }
 
 .button-large {
@@ -109,15 +109,17 @@ input:focus {
 }
 
 .button-variant-primary {
-  @apply text-secondary bg-primary disabled:bg-gray-700 transition;
+  @apply text-secondary bg-primary hover:bg-hoverprimary disabled:bg-disabledprimary transition;
 }
 
 .button-variant-secondary {
-  @apply text-primary bg-subtlebg border-2 border-primary transition;
+  @apply text-primary hover:text-hoverprimary disabled:text-disabledprimary bg-subtlebg 
+  border-2 border-primary hover:border-hoverprimary disabled:border-disabledprimary transition;
 }
 
 .button-variant-tertiary {
-  @apply text-primary bg-subtlebg disabled:bg-gray-100 transition;
+  @apply text-primary hover:text-hoverprimary disabled:text-disabledprimary bg-subtlebg 
+  disabled:bg-gray-100 transition;
 }
 
 .button-variant-failure {
@@ -125,35 +127,36 @@ input:focus {
 }
 
 .spinner {
-  @apply inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-r-transparent border-current align-[-0.125em];
+  @apply inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-r-transparent 
+  border-current align-[-0.125em];
 }
 
 .spinner-primary {
-  @apply border-gray-50 border-r-transparent;
+  @apply border-secondary border-r-transparent;
 }
 
 .spinner-secondary,
 .spinner-tertiary {
-  @apply border-black border-r-transparent;
+  @apply border-primary border-r-transparent;
 }
 
 .modal-close {
-  @apply top-8 right-8 rounded-full bg-gray-50 p-2 hover:bg-gray-100 hover:text-gray-400;
-}
-
-.form-select-options {
-  @apply bg-white p-1 text-base rounded-md shadow-lg max-h-40 z-10 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm flex flex-col gap-1;
+  @apply top-8 right-8 rounded-full bg-highlightcell p-2 hover:text-gray-400;
 }
 
 .form-select-button {
-  @apply form-input text-left min-h-[42px];
+  @apply form-input text-left min-h-[42px] bg-highlightcell border-none focus:border-none;
+}
+
+.form-select-options {
+  @apply bg-highlightcell p-1 rounded-md shadow-lg max-h-40 z-10 ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col gap-1;
 }
 
 .form-select {
   @apply text-left;
 }
 .form-select-option {
-  @apply p-2 text-black rounded;
+  @apply p-2 text-subtletext text-sm font-normal hover:bg-primary hover:text-secondary rounded-md;
 }
 
 .form-select-button-dropdown {
@@ -161,7 +164,7 @@ input:focus {
 }
 
 .form-select-option-selected {
-  @apply bg-gray-50 rounded-sm;
+  @apply text-primary rounded-sm;
 }
 
 .form-select-option-active {
@@ -177,7 +180,7 @@ input[type='radio'] {
 }
 
 .popover-panel {
-  @apply w-screen max-w-[200px] border border-divider rounded-md p-4 bg-subtlebg;
+  @apply w-screen max-w-[200px] rounded-md p-4 bg-popoverbg;
 }
 
 .popover-elements {
@@ -186,4 +189,12 @@ input[type='radio'] {
 
 .dragdrop-preview-image {
   @apply w-40 h-40 object-cover;
+}
+
+.secondary-button-icon {
+  @apply stroke-primary group-hover:stroke-hoverprimary group-disabled:stroke-disabledprimary;
+}
+
+.primary-button-icon {
+  @apply stroke-secondary;
 }
