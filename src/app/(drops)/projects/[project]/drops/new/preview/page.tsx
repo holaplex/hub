@@ -33,7 +33,7 @@ export default function NewDropPreviewPage() {
   const { stepOne, stepTwo, stepThree } = useCreateDropStore();
 
   const back = () => {
-    router.push(`/projects/${project?.id}/drops/new/timing`);
+    router.push(`/projects/${project?.id}/drops/new/schedule`);
   };
 
   const [createDrop] = useMutation<CreateDropData, CreateDropVars>(CreateDrop, {
@@ -161,8 +161,8 @@ export default function NewDropPreviewPage() {
 
         <hr className="w-full bg-divider border-0 h-px my-5" />
 
-        <div className="flex items-center justify-between">
-          <Button className="self-start" variant="tertiary" disabled={submitting} onClick={back}>
+        <div className="flex items-center justify-end gap-4">
+          <Button variant="secondary" disabled={submitting} onClick={back}>
             Back
           </Button>
           <Button htmlType="submit" loading={submitting} disabled={submitting} onClick={onSubmit}>

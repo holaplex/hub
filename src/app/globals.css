@@ -73,11 +73,11 @@ select:focus {
 }
 
 .form-label-text {
-  @apply text-primary;
+  @apply text-subtletext;
 }
 
 .form-show-password-container {
-  @apply p-2 bg-gray-50 rounded-md;
+  @apply p-2 bg-highlightcell rounded-md;
 }
 
 .form-checkbox {

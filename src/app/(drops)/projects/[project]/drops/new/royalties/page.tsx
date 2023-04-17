@@ -81,7 +81,7 @@ export default function NewDropRoyaltiesPage() {
     });
 
     setData({ step: 2, data });
-    router.push(`/projects/${project?.id}/drops/new/timing`);
+    router.push(`/projects/${project?.id}/drops/new/schedule`);
   };
 
   const back = () => {
@@ -109,14 +109,14 @@ export default function NewDropRoyaltiesPage() {
             </Form.Label> */}
           </div>
 
-          <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
+          <hr className="w-full bg-divider border-0 h-px my-4" />
 
-          <span className="text-sm text-primary font-medium">Royalties</span>
+          <span className="text-sm font-medium mb-2">Royalties</span>
           <Form.Checkbox
             {...register('treasuryAllRoyalties')}
             id="royaltyInTreasuryWallet"
             label={
-              <span className="text-xs font-medium text-primary">
+              <span className="text-xs font-medium text-subtletext">
                 I want to receive all royalties to the selected treasury wallet
               </span>
             }
@@ -163,9 +163,9 @@ export default function NewDropRoyaltiesPage() {
 
           <Form.Error message={formState.errors.creators?.root?.message} />
 
-          <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
+          <hr className="w-full bg-divider border-0 h-px my-4" />
 
-          <span className="text-sm text-primary font-medium">
+          <span className="text-sm font-medium">
             Secondary sale royalties <span className="text-subtletext">(optional)</span>
           </span>
 
@@ -188,14 +188,12 @@ export default function NewDropRoyaltiesPage() {
             <Form.Error message={formState.errors.royalties?.message} />
           </Form.Label>
 
-          <hr className="w-full bg-gray-500 my-5" color="#e6e6e6" />
-          <div className="flex items-center justify-between">
-            <Button className="self-start" variant="tertiary" onClick={back}>
+          <hr className="w-full bg-divider border-0 h-px my-5" color="#e6e6e6" />
+          <div className="flex items-center justify-end gap-4">
+            <Button variant="secondary" onClick={back}>
               Back
             </Button>
-            <Button htmlType="submit" className="self-end">
-              Next
-            </Button>
+            <Button htmlType="submit">Next</Button>
           </div>
         </Form>
       </Card>

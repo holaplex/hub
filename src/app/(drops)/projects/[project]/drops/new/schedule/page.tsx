@@ -26,7 +26,7 @@ export default function NewDropTimingPage() {
   return (
     <>
       <Card className="w-[400px]">
-        <Typography.Header size={Size.H2}>Mint date</Typography.Header>
+        <Typography.Header size={Size.H2}>Drop schedule</Typography.Header>
         <Typography.Header size={Size.H3} color={TextColor.SubtleText}>
           Scheduled in your current timezone
         </Typography.Header>
@@ -79,14 +79,12 @@ export default function NewDropTimingPage() {
             }
           />
 
-          <hr className="w-full bg-gray-500 my-5" color="#e6e6e6" />
-          <div className="flex items-center justify-between">
-            <Button className="self-start" variant="tertiary" onClick={back}>
+          <hr className="w-full bg-divider border-0 h-px my-5" color="#e6e6e6" />
+          <div className="flex items-center justify-end gap-4">
+            <Button variant="secondary" onClick={back}>
               Back
             </Button>
-            <Button htmlType="submit" className="self-end">
-              Next
-            </Button>
+            <Button htmlType="submit">Next</Button>
           </div>
         </Form>
       </Card>

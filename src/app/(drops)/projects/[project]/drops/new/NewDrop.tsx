@@ -28,8 +28,8 @@ export default function NewDrop({ children, project }: CreateDropProps): JSX.Ele
             href={`/projects/${project.id}/drops`}
             className="flex items-center gap-4 px-5 cursor-pointer"
           >
-            <Icon.Close />
-            <span className="flex items-center gap-2 text-sm text-primary font-medium">Close</span>
+            <Icon.Close className="stroke-maintext" />
+            <span className="flex items-center gap-2 text-sm font-medium">Close</span>
           </Link>
         </Navbar.Header>
         <Navbar.Menu>
@@ -56,15 +56,15 @@ export default function NewDrop({ children, project }: CreateDropProps): JSX.Ele
             active={pathname === `/projects/${project.id}/drops/new/royalties`}
           />
           <Navbar.Menu.Step
-            name="Mint date"
+            name="Schedule"
             icon={
               <Navbar.Menu.Step.StepCount
-                active={pathname === `/projects/${project.id}/drops/new/timing`}
+                active={pathname === `/projects/${project.id}/drops/new/schedule`}
                 count="3"
                 filled={isComplete(stepThree)}
               />
             }
-            active={pathname === `/projects/${project.id}/drops/new/timing`}
+            active={pathname === `/projects/${project.id}/drops/new/schedule`}
           />
           <Navbar.Menu.Step
             name="Final preview"

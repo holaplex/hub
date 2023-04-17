@@ -175,7 +175,7 @@ export default function NewDropDetailsPage() {
           >
             Add attribute
           </Button>
-          <hr className="w-full bg-gray-500 my-5" color="#e6e6e6" />
+          <hr className="w-full bg-divider border-0 h-px my-5" />
           <Button htmlType="submit" className="self-end">
             Next
           </Button>
