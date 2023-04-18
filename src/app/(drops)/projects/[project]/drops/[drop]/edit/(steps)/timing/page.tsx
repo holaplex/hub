@@ -3,15 +3,15 @@
 import { Button, Form } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import Card from '../../../../../../../components/Card';
-import Typography, { Size } from '../../../../../../../components/Typography';
 import { StoreApi, useStore } from 'zustand';
+import Card from '../../../../../../../../../components/Card';
+import Typography, { Size } from '../../../../../../../../../components/Typography';
 import {
   TimingSettings,
   DropFormState,
-} from '../../../../../../../providers/DropFormProvider';
-import { useDropForm } from '../../../../../../../hooks/useDropForm';
-import { useProject } from '../../../../../../../hooks/useProject';
+} from '../../../../../../../../../providers/DropFormProvider';
+import { useDropForm } from '../../../../../../../../../hooks/useDropForm';
+import { useProject } from '../../../../../../../../../hooks/useProject';
 
 export default function NewDropTimingPage() {
   const router = useRouter();
@@ -19,14 +19,16 @@ export default function NewDropTimingPage() {
   const store = useDropForm() as StoreApi<DropFormState>;
   const timing = useStore(store, (store) => store.timing);
   const setTiming = useStore(store, (store) => store.setTiming);
-  const { handleSubmit, register } = useForm<TimingSettings>({ defaultValues: timing || {} });
+  const { handleSubmit, register, reset } = useForm<TimingSettings>({
+    defaultValues: timing || {},
+  });
   const submit = (data: TimingSettings) => {
-    setTiming(data);
-    router.push(`/projects/${project?.id}/drops/new/preview`);
+    setTiming(data)
+    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/preview`);
   };
 
   const back = () => {
-    router.push(`/projects/${project?.id}/drops/new/royalties`);
+    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/royalties`);
   };
 
   return (

@@ -3,16 +3,21 @@ import { Button, Form } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import Dropzone from 'react-dropzone';
 import { Controller, useForm, useFieldArray } from 'react-hook-form';
-import Card from '../../../../../../../components/Card';
-import { Icon } from '../../../../../../../components/Icon';
-import Typography, { Size } from '../../../../../../../components/Typography';
-import { Blockchain } from '../../../../../../../graphql.types';
-import { useProject } from '../../../../../../../hooks/useProject';
-import Divider from '../../../../../../../components/Divider';
+import Card from '../../../../../../../../../components/Card';
+import { Icon } from '../../../../../../../../../components/Icon';
+import Typography, { Size } from '../../../../../../../../../components/Typography';
+import { Blockchain } from '../../../../../../../../../graphql.types';
+import { useProject } from '../../../../../../../../../hooks/useProject';
+import Divider from '../../../../../../../../../components/Divider';
 import clsx from 'clsx';
+import { useDropForm } from '../../../../../../../../../hooks/useDropForm';
 import { StoreApi, useStore } from 'zustand';
-import { DropFormState, DetailSettings } from '../../../../../../../providers/DropFormProvider';
-import { useDropForm } from '../../../../../../../hooks/useDropForm';
+import {
+  DetailSettings,
+  DropFormState,
+} from '../../../../../../../../../providers/DropFormProvider';
+
+interface EditDropDetailsPageProps {}
 
 const BLOCKCHAIN_LABELS = {
   [Blockchain.Solana]: 'Solana',
@@ -20,20 +25,20 @@ const BLOCKCHAIN_LABELS = {
   [Blockchain.Polygon]: 'Polygon',
 };
 
-const BLOCKCHAIN_OPTIONS = [Blockchain.Solana];
-
-export default function NewDropDetailsPage() {
+export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
   const router = useRouter();
   const { project } = useProject();
   const store = useDropForm() as StoreApi<DropFormState>;
   const detail = useStore(store, (store) => store.detail);
   const setDetail = useStore(store, (store) => store.setDetail);
+
   const { handleSubmit, register, control, setValue, formState } = useForm<DetailSettings>({
     defaultValues: detail || {},
   });
+
   const submit = (data: DetailSettings) => {
     setDetail(data);
-    router.push(`/projects/${project?.id}/drops/new/royalties`);
+    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/royalties`);
   };
 
   const { fields, append, remove } = useFieldArray({
@@ -123,28 +128,9 @@ export default function NewDropDetailsPage() {
           </div>
 
           <Form.Label name="Blockchain" className="text-xs mt-5">
-            <Controller
-              name="blockchain"
-              control={control}
-              rules={{ required: 'Please select a blockchain.' }}
-              render={({ field: { value, onChange } }) => {
-                return (
-                  <Form.Select value={value} onChange={onChange}>
-                    <Form.Select.Button placeholder="Select blockchain">
-                      {BLOCKCHAIN_LABELS[value]}
-                    </Form.Select.Button>
-                    <Form.Select.Options>
-                      {BLOCKCHAIN_OPTIONS.map((i) => (
-                        <Form.Select.Option value={i} key={i}>
-                          <>{BLOCKCHAIN_LABELS[i]}</>
-                        </Form.Select.Option>
-                      ))}
-                    </Form.Select.Options>
-                    <Form.Error message={formState.errors.blockchain?.message} />
-                  </Form.Select>
-                );
-              }}
-            />
+            <span className="text-base">
+              {BLOCKCHAIN_LABELS[project?.drop?.collection.blockchain as Blockchain]}
+            </span>
           </Form.Label>
           <Form.Label name="Description" className="text-xs mt-5">
             <Form.Input

@@ -163,6 +163,7 @@ deploy:
           - secrets.credentials.yaml
       - name: federated-router
         remoteChart: oci://ghcr.io/apollographql/helm-charts/router
+        version: 1.14.0
         valuesFiles:
           - values.router.yaml
           - secrets.router.yaml

@@ -2,15 +2,22 @@
 import { Button, Form } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
-import Card from '../../../../../../../components/Card';
-import { Icon } from '../../../../../../../components/Icon';
+import Card from '../../../../../../../../../components/Card';
+import { Icon } from '../../../../../../../../../components/Icon';
 import { pipe, isNil, not } from 'ramda';
-import { Blockchain, AssetType, CollectionCreatorInput } from '../../../../../../../graphql.types';
-import Typography, { Size } from '../../../../../../../components/Typography';
-import { useProject } from '../../../../../../../hooks/useProject';
 import { StoreApi, useStore } from 'zustand';
-import { PaymentSettings, DropFormState } from '../../../../../../../providers/DropFormProvider';
-import { useDropForm } from '../../../../../../../hooks/useDropForm';
+import {
+  Blockchain,
+  AssetType,
+  CollectionCreatorInput,
+} from '../../../../../../../../../graphql.types';
+import {
+  PaymentSettings,
+  DropFormState,
+} from '../../../../../../../../../providers/DropFormProvider';
+import Typography, { Size } from '../../../../../../../../../components/Typography';
+import { useProject } from '../../../../../../../../../hooks/useProject';
+import { useDropForm } from '../../../../../../../../../hooks/useDropForm';
 
 export default function NewDropRoyaltiesPage() {
   const router = useRouter();
@@ -31,7 +38,7 @@ export default function NewDropRoyaltiesPage() {
     }
   });
 
-  const { handleSubmit, register, control, watch, formState } = useForm<PaymentSettings>({
+  const { handleSubmit, register, control, watch, formState, reset } = useForm<PaymentSettings>({
     defaultValues: payment || {
       treasuryAllRoyalties: true,
       creators: [{ address: wallet?.address, share: 100, verified: true }],
@@ -86,11 +93,11 @@ export default function NewDropRoyaltiesPage() {
     });
 
     setPayment(data);
-    router.push(`/projects/${project?.id}/drops/new/timing`);
+    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/timing`);
   };
 
   const back = () => {
-    router.push(`/projects/${project?.id}/drops/new/details`);
+    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/details`);
   };
 
   return (
@@ -100,8 +107,7 @@ export default function NewDropRoyaltiesPage() {
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
           <div className="flex gap-4">
             <Form.Label name="Max supply" className="text-xs mt-5">
-              <Form.Input {...register('supply')} autoFocus placeholder="e.g. 10,000" />
-              <Form.Error message="" />
+              <span className="text-lg">{project?.drop?.collection.supply}</span>
             </Form.Label>
 
             {/* <Form.Label name="Price in SOL" className="text-xs mt-5" >
@@ -173,6 +179,8 @@ export default function NewDropRoyaltiesPage() {
           <span className="text-sm text-primary font-medium">
             Secondary sale royalties <span className="text-gray-500">(optional)</span>
           </span>
+
+          
 
           <Form.Label name="Seller fee" className="text-xs mt-3">
             <Form.Input

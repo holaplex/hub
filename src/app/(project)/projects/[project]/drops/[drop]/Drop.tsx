@@ -150,9 +150,11 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                         </div>
                         {dropQuery.data?.project.drop?.status !== DropStatus.Shutdown && (
                           <div className="flex items-center gap-2">
-                            <Button icon={<Icon.Edit />} variant="secondary">
-                              Edit drop
-                            </Button>
+                            <Link href={`/projects/${project}/drops/${drop}/edit/details`}>
+                              <Button icon={<Icon.Edit />} variant="secondary">
+                                Edit drop
+                              </Button>
+                            </Link>
                             {dropQuery.data?.project.drop?.status === DropStatus.Paused ? (
                               <Button
                                 icon={<Icon.Resume />}
@@ -275,7 +277,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                       </span>
                                       <span className="text-primary text-sm font-medium">
                                         {creator.shortAddress}{' '}
-                                        <span className="text-gray-400">- {creator.share}%</span>a{' '}
+                                        <span className="text-gray-400">- {creator.share}%</span>{' '}
                                       </span>
                                     </div>
                                   )

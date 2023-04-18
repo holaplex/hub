@@ -9,8 +9,8 @@ import { GetProjectDrops } from './../../../../../queries/drop.graphql';
 import { Icon } from '../../../../../components/Icon';
 import Table from '../../../../../components/Table';
 import { DateFormat, convertLocalTime } from '../../../../../modules/time';
-import { Project, Drop, DropStatus } from '../../../../../graphql.types';
-import { Drop as DropModal } from '../../../../../components/Drop';
+import { Project, Drop as DropType, DropStatus } from '../../../../../graphql.types';
+import { Drop } from '../../../../../components/Drop';
 
 interface DropsPageProps {
   project: string;
@@ -32,14 +32,14 @@ export default function Drops({ project }: DropsPageProps) {
   const drops = dropsQuery.data?.project.drops || [];
   const noDrops = drops.length === 0;
   const loadingColumnHelper = createColumnHelper<any>();
-  const columnHelper = createColumnHelper<Drop>();
+  const columnHelper = createColumnHelper<DropType>();
 
   return (
-    <DropModal.Shutdown>
+    <Drop.Shutdown>
       {({ shutdown }) => (
-        <DropModal.Resume>
+        <Drop.Resume>
           {({ resume }) => (
-            <DropModal.Pause>
+            <Drop.Pause>
               {({ pause }) => (
                 <>
                   <div className="h-full flex flex-col p-4">
@@ -408,29 +408,44 @@ export default function Drops({ project }: DropsPageProps) {
                                   cell: (info) => {
                                     const drop = info.row.original;
 
-                                    const popupList: JSX.Element[] = [];
-                                    drop.status === DropStatus.Paused
-                                      ? popupList.push(
-                                          <div
-                                            key="resume_mint"
-                                            onClick={() => resume(drop.id, drop.projectId)}
-                                            className="flex gap-2 items-center"
-                                          >
-                                            <Icon.Pause /> <span>Resume mint</span>
-                                          </div>
-                                        )
-                                      : popupList.push(
-                                          <div
-                                            key="pause_mint"
-                                            onClick={() => pause(drop.id, drop.projectId)}
-                                            className="flex gap-2 items-center"
-                                          >
-                                            <Icon.Pause /> <span>Pause mint</span>
-                                          </div>
-                                        );
+                                    if (drop.status === DropStatus.Shutdown) {
+                                      return <div />;
+                                    }
+
+                                    let actions: JSX.Element[] = [
+                                      <Link
+                                        key="edit_drop"
+                                        className="flex gap-2 items-center"
+                                        href={`/projects/${project}/drops/${info.row.original.id}/edit`}
+                                      >
+                                        <Icon.Edit /> <span>Edit drop</span>
+                                      </Link>,
+                                    ];
+
+                                    if (drop.status === DropStatus.Paused) {
+                                      actions.push(
+                                        <div
+                                          key="resume_mint"
+                                          onClick={() => resume(drop.id, drop.projectId)}
+                                          className="flex gap-2 items-center"
+                                        >
+                                          <Icon.Pause /> <span>Resume mint</span>
+                                        </div>
+                                      );
+                                    } else {
+                                      actions.push(
+                                        <div
+                                          key="pause_mint"
+                                          onClick={() => pause(drop.id, drop.projectId)}
+                                          className="flex gap-2 items-center"
+                                        >
+                                          <Icon.Pause /> <span>Pause mint</span>
+                                        </div>
+                                      );
+                                    }
 
                                     if (drop.status === DropStatus.Minting) {
-                                      popupList.push(
+                                      actions.push(
                                         <div
                                           key="shutdown_mint"
                                           onClick={() => shutdown(drop.id, drop.projectId)}
@@ -452,7 +467,7 @@ export default function Drops({ project }: DropsPageProps) {
                                             <Icon.More />
                                           </div>
                                         }
-                                        elements={popupList}
+                                        elements={actions}
                                       />
                                     );
                                   },
@@ -467,10 +482,10 @@ export default function Drops({ project }: DropsPageProps) {
                   </div>
                 </>
               )}
-            </DropModal.Pause>
+            </Drop.Pause>
           )}
-        </DropModal.Resume>
+        </Drop.Resume>
       )}
-    </DropModal.Shutdown>
+    </Drop.Shutdown>
   );
 }
