@@ -1,5 +1,5 @@
 'use client';
-import { Button, Form } from '@holaplex/ui-library-react';
+import { Button, Form, Placement } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
 import Card from '../../../../../../../components/Card';
@@ -117,15 +117,12 @@ export default function NewDropRoyaltiesPage() {
           <hr className="w-full bg-divider border-0 h-px my-4" />
 
           <span className="text-sm font-medium mb-2">Royalties</span>
-          <Form.Checkbox
-            {...register('treasuryAllRoyalties')}
-            id="royaltyInTreasuryWallet"
-            label={
-              <span className="text-xs font-medium text-subtletext">
-                I want to receive all royalties to the selected treasury wallet
-              </span>
-            }
-          />
+          <Form.Label
+            name="I want to receive all royalties to the selected treasury wallet"
+            placement={Placement.Right}
+          >
+            <Form.Checkbox {...register('treasuryAllRoyalties')} id="royaltyInTreasuryWallet" />
+          </Form.Label>
           {fields.map((field, index) => (
             <div className="flex gap-4" key={field.id}>
               <Form.Label name="Wallet" className="text-xs mt-5 basis-3/4">

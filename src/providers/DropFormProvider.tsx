@@ -29,8 +29,8 @@ export type TimingSettings = {
   startTime?: string;
   endDate?: Date;
   endTime?: string;
-  startNow?: boolean;
-  noEndTime?: boolean;
+  selectStartDate: string;
+  selectEndDate: string;
 };
 
 export interface DropFormProps {

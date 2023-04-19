@@ -69,7 +69,7 @@ select:focus {
 }
 
 .form-label {
-  @apply flex flex-col w-full gap-1;
+  @apply w-full gap-2;
 }
 
 .form-label-text {
@@ -84,10 +84,13 @@ select:focus {
   @apply rounded text-primary focus:ring-primary bg-highlightcell;
 }
 
-.form-checkbox-label {
-  @apply text-xs font-medium text-subtletext;
+.form-radio-group {
+  @apply flex flex-col gap-2;
 }
 
+.form-radio {
+  @apply text-primary focus:ring-primary checked:text-primary bg-highlightcell;
+}
 *:focus {
   outline: none;
   outline-width: 0;

@@ -3,12 +3,15 @@
 import { Button, Form, Placement } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import Card from '../../../../../../../components/Card';
-import Typography, { Size, TextColor } from '../../../../../../../components/Typography';
 import { StoreApi, useStore } from 'zustand';
-import { TimingSettings, DropFormState } from '../../../../../../../providers/DropFormProvider';
-import { useDropForm } from '../../../../../../../hooks/useDropForm';
-import { useProject } from '../../../../../../../hooks/useProject';
+import Card from '../../../../../../../../../components/Card';
+import Typography, { Size } from '../../../../../../../../../components/Typography';
+import {
+  TimingSettings,
+  DropFormState,
+} from '../../../../../../../../../providers/DropFormProvider';
+import { useDropForm } from '../../../../../../../../../hooks/useDropForm';
+import { useProject } from '../../../../../../../../../hooks/useProject';
 
 export default function NewDropTimingPage() {
   const router = useRouter();
@@ -17,6 +20,7 @@ export default function NewDropTimingPage() {
 
   const timing = useStore(store, (store) => store.timing);
   const setTiming = useStore(store, (store) => store.setTiming);
+
   const { handleSubmit, register, watch } = useForm<TimingSettings>({
     defaultValues: timing || {},
   });
@@ -26,20 +30,18 @@ export default function NewDropTimingPage() {
 
   const submit = (data: TimingSettings) => {
     setTiming(data);
-    router.push(`/projects/${project?.id}/drops/new/preview`);
+    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/preview`);
   };
 
   const back = () => {
-    router.push(`/projects/${project?.id}/drops/new/royalties`);
+    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/royalties`);
   };
 
   return (
     <>
       <Card className="w-[400px]">
-        <Typography.Header size={Size.H2}>Drop schedule</Typography.Header>
-        <Typography.Header size={Size.H3} color={TextColor.SubtleText}>
-          Scheduled in your current timezone
-        </Typography.Header>
+        <Typography.Header size={Size.H2}>Mint date</Typography.Header>
+        <Typography.Header size={Size.H3}>Scheduled in your current timezone</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
           {/* Start Date */}
           <Form.Label name="Start date/time">
@@ -77,12 +79,14 @@ export default function NewDropTimingPage() {
             </div>
           )}
 
-          <hr className="w-full bg-divider border-0 h-px my-5" color="#e6e6e6" />
-          <div className="flex items-center justify-end gap-4">
-            <Button variant="secondary" onClick={back}>
+          <hr className="w-full bg-gray-500 my-5" color="#e6e6e6" />
+          <div className="flex items-center justify-between">
+            <Button className="self-start" variant="tertiary" onClick={back}>
               Back
             </Button>
-            <Button htmlType="submit">Next</Button>
+            <Button htmlType="submit" className="self-end">
+              Next
+            </Button>
           </div>
         </Form>
       </Card>

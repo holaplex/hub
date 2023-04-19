@@ -48,8 +48,8 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
       endDate: drop?.endTime && formatDateString(drop?.endTime, DateFormat.DATE_3),
       startTime: drop?.startTime && formatDateString(drop?.startTime, DateFormat.TIME_2),
       endTime: drop?.endTime && formatDateString(drop?.endTime, DateFormat.TIME_2),
-      noEndTime: isNil(drop?.endTime),
-      startNow: isNil(drop?.startTime),
+      selectEndDate: isNil(drop?.endTime) ? 'neverEnd' : 'specifyEndDate',
+      selectStartDate: isNil(drop?.startTime) ? 'mintImmediately' : 'specifyStartDate',
     },
   });
 
@@ -96,12 +96,12 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
             name="Mint date"
             icon={
               <Navbar.Menu.Step.StepCount
-                active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/timing`}
+                active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/schedule`}
                 count="3"
                 filled={isComplete(timing)}
               />
             }
-            active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/timing`}
+            active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/schedule`}
           />
           <Navbar.Menu.Step
             name="Final preview"

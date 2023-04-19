@@ -1,5 +1,5 @@
 'use client';
-import { Button, Form } from '@holaplex/ui-library-react';
+import { Button, Form, Placement } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
 import Card from '../../../../../../../../../components/Card';
@@ -93,7 +93,7 @@ export default function NewDropRoyaltiesPage() {
     });
 
     setPayment(data);
-    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/timing`);
+    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/schedule`);
   };
 
   const back = () => {
@@ -123,15 +123,12 @@ export default function NewDropRoyaltiesPage() {
           <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
 
           <span className="text-sm text-primary font-medium">Royalties</span>
-          <Form.Checkbox
-            {...register('treasuryAllRoyalties')}
-            id="royaltyInTreasuryWallet"
-            label={
-              <span className="text-xs font-medium text-primary">
-                I want to receive all royalties to the selected treasury wallet
-              </span>
-            }
-          />
+          <Form.Label
+            name="I want to receive all royalties to the selected treasury wallet"
+            placement={Placement.Right}
+          >
+            <Form.Checkbox {...register('treasuryAllRoyalties')} id="royaltyInTreasuryWallet" />
+          </Form.Label>
           {fields.map((field, index) => (
             <div className="flex gap-4" key={field.id}>
               <Form.Label name="Wallet" className="text-xs mt-5 basis-3/4">
@@ -179,8 +176,6 @@ export default function NewDropRoyaltiesPage() {
           <span className="text-sm text-primary font-medium">
             Secondary sale royalties <span className="text-gray-500">(optional)</span>
           </span>
-
-          
 
           <Form.Label name="Seller fee" className="text-xs mt-3">
             <Form.Input

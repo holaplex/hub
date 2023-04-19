@@ -1,6 +1,6 @@
 'use client';
 import { useMutation, useQuery } from '@apollo/client';
-import { Button, Form, Modal } from '@holaplex/ui-library-react';
+import { Button, Form, Modal, Placement } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import { isNil, not, pipe } from 'ramda';
 import { Controller, useForm } from 'react-hook-form';
@@ -166,48 +166,48 @@ export default function NewWebhook() {
 
               <span className="text-sm text-primary font-medium">Events</span>
               <div className="grid grid-cols-2 mt-4 mx-2 gap-5">
-                <Form.Checkbox
-                  {...register('events')}
-                  id="PROJECT_CREATED"
-                  value="PROJECT_CREATED"
-                  label={<span className="text-xs font-medium">Project created</span>}
-                />
-                <Form.Checkbox
-                  {...register('events')}
-                  id="PROJECT_WALLET_CREATED"
-                  value="PROJECT_WALLET_CREATED"
-                  label={<span className="text-xs font-medium">Project wallet created</span>}
-                />
-                <Form.Checkbox
-                  {...register('events')}
-                  id="CUSTOMER_CREATED"
-                  value="CUSTOMER_CREATED"
-                  label={<span className="text-xs font-medium">Customer created</span>}
-                />
-                <Form.Checkbox
-                  {...register('events')}
-                  id="CUSTOMER_TREASURY_CREATED"
-                  value="CUSTOMER_TREASURY_CREATED"
-                  label={<span className="text-xs font-medium">Customer treasury created</span>}
-                />
-                <Form.Checkbox
-                  {...register('events')}
-                  id="CUSTOMER_WALLET_CREATED"
-                  value="CUSTOMER_WALLET_CREATED"
-                  label={<span className="text-xs font-medium">Customer wallet created</span>}
-                />
-                <Form.Checkbox
-                  {...register('events')}
-                  id="DROP_CREATED"
-                  value="DROP_CREATED"
-                  label={<span className="text-xs font-medium">Drop created</span>}
-                />
-                <Form.Checkbox
-                  {...register('events')}
-                  id="DROP_MINTED"
-                  value="DROP_MINTED"
-                  label={<span className="text-xs font-medium">Drop minted</span>}
-                />
+                <Form.Label name="Project created" placement={Placement.Right}>
+                  <Form.Checkbox
+                    {...register('events')}
+                    id="PROJECT_CREATED"
+                    value="PROJECT_CREATED"
+                  />
+                </Form.Label>
+                <Form.Label name="Project wallet created" placement={Placement.Right}>
+                  <Form.Checkbox
+                    {...register('events')}
+                    id="PROJECT_WALLET_CREATED"
+                    value="PROJECT_WALLET_CREATED"
+                  />
+                </Form.Label>
+                <Form.Label name="Customer created" placement={Placement.Right}>
+                  <Form.Checkbox
+                    {...register('events')}
+                    id="CUSTOMER_CREATED"
+                    value="CUSTOMER_CREATED"
+                  />
+                </Form.Label>
+                <Form.Label name="Customer treasury created" placement={Placement.Right}>
+                  <Form.Checkbox
+                    {...register('events')}
+                    id="CUSTOMER_TREASURY_CREATED"
+                    value="CUSTOMER_TREASURY_CREATED"
+                  />
+                </Form.Label>
+                <Form.Label name="Customer wallet created" placement={Placement.Right}>
+                  <Form.Checkbox
+                    {...register('events')}
+                    id="CUSTOMER_WALLET_CREATED"
+                    value="CUSTOMER_WALLET_CREATED"
+                  />
+                </Form.Label>
+                <Form.Label name="Drop created" placement={Placement.Right}>
+                  <Form.Checkbox {...register('events')} id="DROP_CREATED" value="DROP_CREATED" />
+                </Form.Label>
+
+                <Form.Label name="Drop minted" placement={Placement.Right}>
+                  <Form.Checkbox {...register('events')} id="DROP_MINTED" value="DROP_MINTED" />
+                </Form.Label>
               </div>
 
               <hr className="w-full bg-divider my-4 h-px border-0" />

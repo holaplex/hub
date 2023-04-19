@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.4",
-    "@holaplex/ui-library-react": "^0.15.0",
+    "@holaplex/ui-library-react": "^0.16.0",
     "@ory/client": "^1.1.4",
     "@ory/integrations": "^1.1.0",
     "@tanstack/react-table": "^8.7.6",

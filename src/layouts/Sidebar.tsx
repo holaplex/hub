@@ -38,11 +38,7 @@ function SidebarPanel({ children }: SidebarPanel) {
     <>
       <aside
         className={clsx(
-<<<<<<< HEAD
-          'w-[200px] lg:w-[260px] fixed top-[56px] left-0 bottom-0 flex flex-col flex-shrink-0 bg-subtlebg'
-=======
-          'w-[200px] lg:w-[260px] fixed top-0 left-0 bottom-0 flex flex-col flex-shrink-0 bg-white'
->>>>>>> main
+          'w-[200px] lg:w-[260px] fixed top-0 left-0 bottom-0 flex flex-col flex-shrink-0 bg-subtlebg'
         )}
       >
         {children}
@@ -108,9 +104,7 @@ interface SidebarContentProps {
 
 function SidebarContent({ children, className }: SidebarContentProps) {
   return (
-    <article
-      className={clsx('w-full pl-[200px] lg:pl-[260px] mb-4 flex-grow', className)}
-    >
+    <article className={clsx('w-full pl-[200px] lg:pl-[260px] mb-4 flex-grow', className)}>
       {children}
     </article>
   );

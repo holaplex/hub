@@ -55,7 +55,7 @@ export default function NewDropPreviewPage() {
   const timing = useStore(store, (store) => store.timing);
 
   const back = () => {
-    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/timing`);
+    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/schedule`);
   };
 
   const [createDrop] = useMutation<PatchDropData, PatchDropVars>(PatchDrop, {
@@ -69,7 +69,7 @@ export default function NewDropPreviewPage() {
   }
 
   let startDateTime: Date | null = null;
-  if (!timing.startNow && timing.startTime && timing.startDate) {
+  if (timing.selectStartDate === 'specifyStartDate' && timing.startTime && timing.startDate) {
     const [startTimeHrs, startTimeMins] = timing.startTime.split(':');
     startDateTime = combineDateTime(
       new Date(timing.startDate),
@@ -79,7 +79,7 @@ export default function NewDropPreviewPage() {
   }
 
   let endDateTime: Date | null = null;
-  if (!timing.noEndTime && timing.endTime && timing.endDate) {
+  if (timing.selectEndDate === 'specifyEndDate' && timing.endTime && timing.endDate) {
     const [endTimeHrs, endTimeMins] = timing.endTime.split(':');
     endDateTime = combineDateTime(
       new Date(timing.endDate),
