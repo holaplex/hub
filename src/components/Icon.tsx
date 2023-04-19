@@ -85,7 +85,112 @@ function SolanaLarge({
 }
 LargeIcon.Solana = SolanaLarge;
 
+<<<<<<< HEAD
 function Logout({ width = 20, height = 20, fill = 'none', className = '' }: IconProps) {
+=======
+function Royalties({
+  width = 20,
+  height = 20,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 20 20"
+      fill={fill}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M2.50098 7.5C2.50098 8.42083 4.36598 9.16667 6.66764 9.16667"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M6.66681 12.5C4.36598 12.5 2.50098 11.7542 2.50098 10.8334"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M10.8323 4.16663H10.8331V6.66663"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M9.16748 13.3334C9.16748 14.2542 11.0325 15 13.3341 15C15.6358 15 17.5008 14.2542 17.5008 13.3334"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M9.16748 10C9.16748 10.9208 11.0325 11.6667 13.3341 11.6667C15.6358 11.6667 17.5008 10.9208 17.5008 10"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M13.3335 8.33337C11.0335 8.33337 9.16679 9.07921 9.16846 10"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M9.16748 10V16.6667C9.16748 17.5875 11.0325 18.3333 13.3341 18.3333"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M13.3335 8.33337C15.6335 8.33337 17.5002 9.07921 17.4985 10"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M17.5002 10V16.6667C17.5002 17.5875 15.6352 18.3333 13.3335 18.3333"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M6.66667 15.8333C4.36583 15.8333 2.5 15.0875 2.5 14.1666"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M6.66667 5.83333C8.96785 5.83333 10.8333 5.08714 10.8333 4.16667C10.8333 3.24619 8.96785 2.5 6.66667 2.5C4.36548 2.5 2.5 3.24619 2.5 4.16667C2.5 5.08714 4.36548 5.83333 6.66667 5.83333Z"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M2.50016 4.16663V14.1666"
+        stroke={stroke}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Royalties = Royalties;
+
+function Logout({
+  width = 20,
+  height = 20,
+  fill = 'none',
+  stroke = 'black',
+  className = '',
+}: IconProps) {
+>>>>>>> main
   return (
     <svg
       width={width}
@@ -1499,7 +1604,13 @@ function ChevronLeft({ width = 4, height = 8, fill = 'none', className = '' }: I
 }
 Icon.ChevronLeft = ChevronLeft;
 
-function Settings({ width = 16, height = 16, fill = 'none', className = '' }: IconProps) {
+function Settings({
+  width = 16,
+  height = 16,
+  fill = 'none',
+  className = '',
+  stroke = 'black',
+}: IconProps) {
   return (
     <svg
       width={width}
@@ -1511,6 +1622,10 @@ function Settings({ width = 16, height = 16, fill = 'none', className = '' }: Ic
     >
       <path
         d="M9.17818 6.82141C9.82906 7.47228 9.82906 8.52755 9.17818 9.17843C8.52731 9.8293 7.47204 9.8293 6.82116 9.17843C6.17029 8.52755 6.17029 7.47228 6.82116 6.82141C7.47204 6.17053 8.52731 6.17053 9.17818 6.82141"
+<<<<<<< HEAD
+=======
+        stroke={stroke}
+>>>>>>> main
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -1518,6 +1633,10 @@ function Settings({ width = 16, height = 16, fill = 'none', className = '' }: Ic
         fillRule="evenodd"
         clipRule="evenodd"
         d="M9.89943 2.74664L10.2881 2.87597C10.6441 2.99464 10.8848 3.32797 10.8848 3.7033V4.2613C10.8848 4.73597 11.2634 5.1233 11.7381 5.1333L12.2968 5.1453C12.6201 5.15197 12.9134 5.33797 13.0581 5.6273L13.2414 5.99397C13.4094 6.32997 13.3434 6.7353 13.0781 7.00064L12.6834 7.3953C12.3481 7.73064 12.3421 8.27264 12.6701 8.6153L13.0568 9.0193C13.2808 9.2533 13.3568 9.5913 13.2541 9.89864L13.1248 10.2873C13.0061 10.6433 12.6728 10.884 12.2974 10.884H11.7394C11.2648 10.884 10.8774 11.2626 10.8674 11.7373L10.8554 12.296C10.8488 12.6193 10.6628 12.9126 10.3734 13.0573L10.0068 13.2406C9.67077 13.4086 9.26543 13.3426 9.0001 13.0773L8.60543 12.6826C8.2701 12.3473 7.7281 12.3413 7.38543 12.6693L6.98143 13.056C6.74743 13.28 6.40943 13.356 6.1021 13.2533L5.71343 13.124C5.35743 13.0053 5.11677 12.672 5.11677 12.2966V11.7386C5.11677 11.264 4.7381 10.8766 4.26343 10.8666L3.70477 10.8546C3.38143 10.848 3.0881 10.662 2.94343 10.3726L2.7601 10.006C2.5921 9.66997 2.6581 9.26464 2.92343 8.9993L3.3181 8.60464C3.65343 8.2693 3.65943 7.7273 3.33143 7.38464L2.94477 6.98064C2.7201 6.74597 2.6441 6.4073 2.74677 6.10064L2.8761 5.71197C2.99477 5.35597 3.3281 5.1153 3.70343 5.1153H4.26143C4.7361 5.1153 5.12343 4.73664 5.13343 4.26197L5.14543 3.7033C5.15343 3.37997 5.33877 3.08664 5.6281 2.94197L5.99477 2.75864C6.33077 2.59064 6.7361 2.65664 7.00143 2.92197L7.3961 3.31664C7.73143 3.65197 8.27343 3.65797 8.6161 3.32997L9.0201 2.9433C9.2541 2.71997 9.59277 2.64397 9.89943 2.74664V2.74664Z"
+<<<<<<< HEAD
+=======
+        stroke={stroke}
+>>>>>>> main
         strokeLinecap="round"
         strokeLinejoin="round"
       />

@@ -9,6 +9,12 @@ function asShortAddress(_: any, { readField }: { readField: ReadFieldFunction })
   return shorten(address as string);
 }
 
+function asRoyalties(_: any, { readField }: { readField: ReadFieldFunction }): string {
+  const sellerFeeBasisPoints: number | undefined = readField('sellerFeeBasisPoints');
+
+  return `${(sellerFeeBasisPoints as number) / 100}%`;
+}
+
 export function apollo(uri: string, session?: string): ApolloClient<NormalizedCacheObject> {
   let headers: Record<string, string> = {};
 
@@ -26,6 +32,11 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
         Wallet: {
           fields: {
             shortAddress: asShortAddress,
+          },
+        },
+        Collection: {
+          fields: {
+            royalties: asRoyalties,
           },
         },
         CollectionCreator: {

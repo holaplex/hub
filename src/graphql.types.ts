@@ -94,7 +94,6 @@ export enum Blockchain {
   Solana = 'SOLANA'
 }
 
-/** An NFT collection that has either a fixed supply or unlimited mints. NFT collections are deployed to a desired blockchain. */
 export type Collection = {
   __typename?: 'Collection';
   /** The blockchain address of the collection used to view it in blockchain explorers. */
@@ -119,6 +118,10 @@ export type Collection = {
   mints?: Maybe<Array<CollectionMint>>;
   /** A list of all NFT purchases from the collection, including both primary and secondary sales. */
   purchases?: Maybe<Array<Purchase>>;
+  royalties: Scalars['String'];
+  /** The royalties assigned to mints belonging to the collection expressed in basis points. */
+  sellerFeeBasisPoints: Scalars['Int'];
+  /** The transaction signature of the collection. */
   signature?: Maybe<Scalars['String']>;
   /** The total supply of the collection. Setting to `null` implies unlimited minting. */
   supply?: Maybe<Scalars['Int']>;
@@ -149,24 +152,35 @@ export type CollectionCreatorInput = {
   verified?: InputMaybe<Scalars['Boolean']>;
 };
 
+/** Represents a single NFT minted from a collection. */
 export type CollectionMint = {
   __typename?: 'CollectionMint';
+  /** The wallet address of the NFT. */
   address: Scalars['String'];
+  /** The collection the NFT was minted from. */
   collection?: Maybe<Collection>;
+  /** The ID of the collection the NFT was minted from. */
   collectionId: Scalars['UUID'];
+  /** The date and time when the NFT was created. */
   createdAt: Scalars['NaiveDateTime'];
+  /** The unique ID of the creator of the NFT. */
   createdBy: Scalars['UUID'];
+  /** The status of the NFT creation. */
   creationStatus: CreationStatus;
+  /** The unique ID of the minted NFT. */
   id: Scalars['UUID'];
   /**
    * The metadata json associated to the collection.
-   * ## References
    * [Metaplex v1.1.0 Standard](https://docs.metaplex.com/programs/token-metadata/token-standard)
    */
   metadataJson?: Maybe<MetadataJson>;
+  /** The wallet address of the owner of the NFT. */
   owner: Scalars['String'];
   ownerShortAddress: Scalars['String'];
+  /** The seller fee basis points (ie royalties) for the NFT. */
+  sellerFeeBasisPoints: Scalars['Int'];
   shortAddress: Scalars['String'];
+  /** The transaction signature associated with the NFT. */
   signature?: Maybe<Scalars['String']>;
 };
 

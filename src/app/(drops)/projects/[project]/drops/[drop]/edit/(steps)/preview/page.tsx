@@ -2,31 +2,48 @@
 import { Button } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import Card from '../../../../../../../components/Card';
-import Typography, { Size } from '../../../../../../../components/Typography';
-import { CreateDropInput, CreateDropPayload } from '../../../../../../../graphql.types';
+import Card from '../../../../../../../../../components/Card';
+import Typography, { Size } from '../../../../../../../../../components/Typography';
+import { PatchDropInput, PatchDropPayload } from '../../../../../../../../../graphql.types';
 import { StoreApi, useStore } from 'zustand';
 import { useMutation } from '@apollo/client';
 import { format } from 'date-fns';
-import { CreateDrop } from './../../../../../../../mutations/drop.graphql';
-import { combineDateTime, maybeToUtc, DateFormat } from '../../../../../../../modules/time';
-import { useProject } from '../../../../../../../hooks/useProject';
+import { File } from 'nft.storage';
+import { PatchDrop } from './../../../../../../../../../mutations/drop.graphql';
+import { combineDateTime, maybeToUtc, DateFormat } from '../../../../../../../../../modules/time';
+import { useProject } from '../../../../../../../../../hooks/useProject';
 import { useState } from 'react';
-import { GetProjectDrops } from './../../../../../../../queries/drop.graphql';
+import { GetProjectDrops } from './../../../../../../../../../queries/drop.graphql';
 import { ifElse, isNil, always } from 'ramda';
-import { uploadFile } from '../../../../../../../modules/upload';
-import { DropFormState } from '../../../../../../../providers/DropFormProvider';
-import { useDropForm } from '../../../../../../../hooks/useDropForm';
+import { DropFormState } from '../../../../../../../../../providers/DropFormProvider';
+import { useDropForm } from '../../../../../../../../../hooks/useDropForm';
 
-interface CreateDropData {
-  createProject: CreateDropPayload;
+interface PatchDropData {
+  createProject: PatchDropPayload;
 }
 
-interface CreateDropVars {
-  input: CreateDropInput;
+interface PatchDropVars {
+  input: PatchDropInput;
 }
 
 const LAMPORTS_PER_SOL = 1_000_000_000;
+
+async function uploadFile(file: File): Promise<{ url: string; name: string }> {
+  const body = new FormData();
+  body.append(file.name, file, file.name);
+
+  try {
+    const response = await fetch('/api/uploads', {
+      method: 'POST',
+      body,
+    });
+    const json = await response.json();
+    return json[0];
+  } catch (e: any) {
+    console.error('Could not upload file', e);
+    throw new Error(e);
+  }
+}
 
 export default function NewDropPreviewPage() {
   const router = useRouter();
@@ -38,17 +55,16 @@ export default function NewDropPreviewPage() {
   const timing = useStore(store, (store) => store.timing);
 
   const back = () => {
-    router.push(`/projects/${project?.id}/drops/new/schedule`);
+    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/timing`);
   };
 
-  const [createDrop] = useMutation<CreateDropData, CreateDropVars>(CreateDrop, {
-    awaitRefetchQueries: true,
+  const [createDrop] = useMutation<PatchDropData, PatchDropVars>(PatchDrop, {
     refetchQueries: [{ query: GetProjectDrops, variables: { project: project?.id } }],
   });
 
   if (!detail || !payment || !timing) {
     toast('Incomplete drops data. Check again.');
-    router.push(`/projects/${project?.id}/drops/new/details`);
+    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/details`);
     return;
   }
 
@@ -83,18 +99,15 @@ export default function NewDropPreviewPage() {
     createDrop({
       variables: {
         input: {
-          project: project?.id,
-          blockchain: detail.blockchain,
+          id: project?.drop?.id,
           metadataJson: {
             name: detail.name,
             symbol: detail.symbol,
             description: detail.description,
             image: imageUrl as string,
-            attributes: detail.attributes,
-            externalUrl: detail.externalUrl,
+            attributes: detail.attributes.map(({ traitType, value }) => ({ traitType, value })),
           },
           creators: payment.creators,
-          supply: parseInt(payment.supply.replace(',', '')),
           price: 0,
           sellerFeeBasisPoints: ifElse(
             isNil,
@@ -120,7 +133,7 @@ export default function NewDropPreviewPage() {
       />
       <div className="flex items-center gap-2 mt-4">
         <Typography.Header size={Size.H2}>{detail.name}</Typography.Header>
-        <Typography.Header size={Size.H2} className="text-subtletext">
+        <Typography.Header size={Size.H2} className="text-gray-500">
           - {payment.supply}
         </Typography.Header>
       </div>
@@ -142,8 +155,8 @@ export default function NewDropPreviewPage() {
         </div> */}
 
         <div className="flex gap-4 items-center">
-          <div className="w-full flex flex-col gap-2 bg-highlightcell rounded-md py-2 px-3 mt-4">
-            <span className="text-subtletext text-xs font-medium">Start date and time</span>
+          <div className="w-full flex flex-col gap-2 border-2 border-gray-100 rounded-md py-2 px-3 mt-4">
+            <span className="text-gray-600 text-xs font-medium">Start date and time</span>
             <span className="text-primary text-xs font-medium">
               {startDateTime
                 ? `${format(startDateTime, DateFormat.DATE_1)}, ${format(
@@ -157,8 +170,8 @@ export default function NewDropPreviewPage() {
             </span>
           </div>
           {endDateTime && (
-            <div className="w-full flex flex-col gap-2 bg-highlightcell rounded-md py-2 px-3 mt-4">
-              <span className="text-subtletext text-xs font-medium">End date and time</span>
+            <div className="w-full flex flex-col gap-2 border-2 border-gray-100 rounded-md py-2 px-3 mt-4">
+              <span className="text-gray-600 text-xs font-medium">End date and time</span>
               <span className="text-primary text-xs font-medium">
                 {`${format(endDateTime, DateFormat.DATE_1)}, ${format(
                   endDateTime,
@@ -169,14 +182,14 @@ export default function NewDropPreviewPage() {
           )}
         </div>
 
-        <hr className="w-full bg-divider border-0 h-px my-5" />
+        <hr className="w-full bg-gray-500 my-5" color="#e6e6e6" />
 
-        <div className="flex items-center justify-end gap-4">
-          <Button variant="secondary" disabled={submitting} onClick={back}>
+        <div className="flex items-center justify-between">
+          <Button className="self-start" variant="tertiary" disabled={submitting} onClick={back}>
             Back
           </Button>
           <Button htmlType="submit" loading={submitting} disabled={submitting} onClick={onSubmit}>
-            {startDateTime ? 'Schedule mint' : 'Start mint'}
+            Update drop
           </Button>
         </div>
       </div>
