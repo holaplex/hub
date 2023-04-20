@@ -45,7 +45,7 @@ async function uploadFile(file: File): Promise<{ url: string; name: string }> {
   }
 }
 
-export default function NewDropPreviewPage() {
+export default function EditDropPreviewPage() {
   const router = useRouter();
   const { project } = useProject();
   const [submitting, setSubmitting] = useState(false);
@@ -112,8 +112,12 @@ export default function NewDropPreviewPage() {
           sellerFeeBasisPoints: ifElse(
             isNil,
             always(null),
-            (royalties) => parseInt(royalties.split('%')[0]) * 100
-          )(payment.royalties),
+            (royalties) => parseFloat(royalties.split('%')[0]) * 100
+          )(
+            payment.royaltyPercentage === 'custom'
+              ? payment.customRoyalty
+              : payment.royaltyPercentage
+          ),
           startTime: maybeToUtc(startDateTime),
           endTime: maybeToUtc(endDateTime),
         },

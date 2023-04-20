@@ -85,12 +85,17 @@ select:focus {
 }
 
 .form-radio-group {
-  @apply flex flex-col gap-2;
+  @apply flex flex-row gap-2;
 }
 
 .form-radio {
   @apply text-primary focus:ring-primary checked:text-primary bg-highlightcell;
 }
+
+.form-radio-custombox {
+  @apply flex items-center justify-between bg-highlightcell rounded-lg cursor-pointer border border-divider peer-checked:border-primary peer-checked:border-2 py-3 px-6;
+}
+
 *:focus {
   outline: none;
   outline-width: 0;

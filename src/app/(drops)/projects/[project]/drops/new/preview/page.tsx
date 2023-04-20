@@ -99,8 +99,12 @@ export default function NewDropPreviewPage() {
           sellerFeeBasisPoints: ifElse(
             isNil,
             always(null),
-            (royalties) => parseInt(royalties.split('%')[0]) * 100
-          )(payment.royalties),
+            (royalties) => parseFloat(royalties.split('%')[0]) * 100
+          )(
+            payment.royaltyPercentage === 'custom'
+              ? payment.customRoyalty
+              : payment.royaltyPercentage
+          ),
           startTime: maybeToUtc(startDateTime),
           endTime: maybeToUtc(endDateTime),
         },

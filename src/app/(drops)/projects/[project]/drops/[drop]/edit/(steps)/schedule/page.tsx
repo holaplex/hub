@@ -13,7 +13,7 @@ import {
 import { useDropForm } from '../../../../../../../../../hooks/useDropForm';
 import { useProject } from '../../../../../../../../../hooks/useProject';
 
-export default function NewDropTimingPage() {
+export default function EditDropTimingPage() {
   const router = useRouter();
   const { project } = useProject();
   const store = useDropForm() as StoreApi<DropFormState>;

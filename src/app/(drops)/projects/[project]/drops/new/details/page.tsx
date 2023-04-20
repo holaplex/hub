@@ -79,14 +79,14 @@ export default function NewDropDetailsPage() {
                           </div>
                         ) : (
                           <div className="flex flex-col gap-2 text-subtletext">
-                            <p>
-                              Drag & drop photo here <br />
-                              Required jpeg, png or svg. Max 2mb.
+                            <p className="text-center">
+                              Drag & drop file or{' '}
+                              <span className="text-primary cursor-pointer">Browse files</span>
+                              <br />
+                              Add artwork size based on a preview size.
+                              <br />
+                              400x400 etc. Should be strict rectangular.
                             </p>
-                            <Divider.Or />
-                            <Button onClick={open} variant="secondary" size="small">
-                              Upload Logo
-                            </Button>
                           </div>
                         )}
                       </div>
@@ -153,10 +153,10 @@ export default function NewDropDetailsPage() {
             />
             <Form.Error message="" />
           </Form.Label>
-          <Form.Label name="External URL" className="text-xs mt-5">
+          <Form.Label name="External URL (optional)" className="text-xs mt-5">
             <Form.Input
               {...register('externalUrl')}
-              placeholder="(Optional) Set an external url on the drop."
+              placeholder="Set an external url on the drop."
             />
             <Form.Error message="" />
           </Form.Label>

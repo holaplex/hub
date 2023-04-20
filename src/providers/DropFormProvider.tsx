@@ -19,9 +19,10 @@ export type DetailSettings = {
 
 export type PaymentSettings = {
   supply: string;
-  treasuryAllRoyalties: boolean;
+  royaltyDestination: string;
   creators: CollectionCreatorInput[];
-  royalties: string;
+  royaltyPercentage: string;
+  customRoyalty?: string;
 };
 
 export type TimingSettings = {
