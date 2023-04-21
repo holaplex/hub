@@ -79,14 +79,12 @@ export default function EditDropTimingPage() {
             </div>
           )}
 
-          <hr className="w-full bg-gray-500 my-5" color="#e6e6e6" />
-          <div className="flex items-center justify-between">
-            <Button className="self-start" variant="tertiary" onClick={back}>
+          <hr className="w-full bg-divider border-0 h-px my-5" />
+          <div className="flex items-center justify-end gap-4">
+            <Button variant="secondary" onClick={back}>
               Back
             </Button>
-            <Button htmlType="submit" className="self-end">
-              Next
-            </Button>
+            <Button htmlType="submit">Next</Button>
           </div>
         </Form>
       </Card>

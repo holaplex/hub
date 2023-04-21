@@ -51,7 +51,7 @@ export default function NewDrop({ children, project }: CreateDropProps): JSX.Ele
             active={pathname === `/projects/${project.id}/drops/new/details`}
           />
           <Navbar.Menu.Step
-            name="Payment and royalties"
+            name="Supply and royalties"
             icon={
               <Navbar.Menu.Step.StepCount
                 active={pathname === `/projects/${project.id}/drops/new/royalties`}

@@ -32,8 +32,6 @@ export default function EditDropPage({ params: { drop, project } }: EditDropProp
     variables: { drop, project },
   });
 
-  const onEdit = () => {};
-
   return (
     <Modal open={true} setOpen={onClose}>
       <Card className="w-[400px]">
@@ -58,16 +56,20 @@ export default function EditDropPage({ params: { drop, project } }: EditDropProp
 
             <div className="flex flex-col gap-2 mt-4">
               <Link href={`/projects/${project}/drops/${drop}/edit/details`} className="w-full">
-                <Button onClick={onEdit} icon={<Icon.Settings stroke="white" />} className="w-full">
+                <Button icon={<Icon.Settings className="stroke-secondary" />} className="w-full">
                   Drop details
                 </Button>
               </Link>
-              <Button className="w-full" onClick={onEdit} icon={<Icon.Royalties stroke="white" />}>
-                Payments & royalties
-              </Button>
-              <Button className="w-full" onClick={onEdit} icon={<Icon.Calendar stroke="white" />}>
-                Mint date
-              </Button>
+              <Link href={`/projects/${project}/drops/${drop}/edit/royalties`} className="w-full">
+                <Button className="w-full" icon={<Icon.Royalties className="stroke-secondary" />}>
+                  Supply & royalties
+                </Button>
+              </Link>
+              <Link href={`/projects/${project}/drops/${drop}/edit/schedule`} className="w-full">
+                <Button className="w-full" icon={<Icon.Calendar className="stroke-secondary" />}>
+                  Schedule
+                </Button>
+              </Link>
               <Button variant="tertiary" className="w-full" onClick={onClose}>
                 Cancel
               </Button>

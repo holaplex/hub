@@ -28,10 +28,10 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
   const pathname = usePathname();
   const drop = project.drop;
   const royalty = drop?.collection.royalties;
-  const royaltyPercentage = (royalty ? parseInt(royalty) / 100 : 0) + '%';
+  const royaltyPercentage = (royalty ? parseFloat(royalty) : 0) + '%';
 
   const wallet = project?.treasury?.wallets?.find((wallet) => {
-    switch (detail?.blockchain) {
+    switch (drop?.collection.blockchain) {
       case Blockchain.Solana:
         return wallet.assetId === AssetType.SolTest || wallet.assetId === AssetType.Sol;
       case Blockchain.Polygon:
@@ -88,8 +88,8 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
             href={`/projects/${project.id}/drops`}
             className="flex items-center gap-4 px-5 cursor-pointer"
           >
-            <Icon.Close />
-            <span className="flex items-center gap-2 text-sm text-primary font-medium">Close</span>
+            <Icon.Close className="stroke-maintext" />
+            <span className="flex items-center gap-2 text-sm font-medium">Close</span>
           </Link>
         </Navbar.Header>
         <Navbar.Menu>
@@ -105,7 +105,7 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
             active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/details`}
           />
           <Navbar.Menu.Step
-            name="Payment and royalties"
+            name="Supply and royalties"
             icon={
               <Navbar.Menu.Step.StepCount
                 active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/royalties`}

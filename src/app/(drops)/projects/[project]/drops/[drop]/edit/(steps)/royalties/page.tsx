@@ -64,11 +64,11 @@ export default function EditDropRoyaltiesPage() {
     });
 
     setPayment(data);
-    router.push(`/projects/${project?.id}/drops/new/schedule`);
+    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/schedule`);
   };
 
   const back = () => {
-    router.push(`/projects/${project?.id}/drops/new/details`);
+    router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/details`);
   };
 
   return (

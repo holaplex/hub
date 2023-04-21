@@ -45,6 +45,8 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
     name: 'attributes',
   });
 
+  const BLOCKCHAIN_OPTIONS = [Blockchain.Solana];
+
   return (
     <>
       <Card className="w-[492px]">
@@ -127,9 +129,28 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
           </div>
 
           <Form.Label name="Blockchain" className="text-xs mt-5">
-            <span className="text-base">
-              {BLOCKCHAIN_LABELS[project?.drop?.collection.blockchain as Blockchain]}
-            </span>
+            <Controller
+              name="blockchain"
+              control={control}
+              rules={{ required: 'Please select a blockchain.' }}
+              render={({ field: { value, onChange } }) => {
+                return (
+                  <Form.Select value={value} onChange={onChange}>
+                    <Form.Select.Button placeholder="Select blockchain">
+                      {BLOCKCHAIN_LABELS[value]}
+                    </Form.Select.Button>
+                    <Form.Select.Options>
+                      {BLOCKCHAIN_OPTIONS.map((i) => (
+                        <Form.Select.Option value={i} key={i}>
+                          <>{BLOCKCHAIN_LABELS[i]}</>
+                        </Form.Select.Option>
+                      ))}
+                    </Form.Select.Options>
+                    <Form.Error message={formState.errors.blockchain?.message} />
+                  </Form.Select>
+                );
+              }}
+            />
           </Form.Label>
           <Form.Label name="Description" className="text-xs mt-5">
             <Form.Input
@@ -161,7 +182,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
                 </Form.Label>
 
                 <div
-                  className="rounded-md border border-gray-100 bg-gray-50 p-3 self-end cursor-pointer"
+                  className="rounded-md bg-highlightcell p-3 self-end cursor-pointer"
                   onClick={() => remove(index)}
                 >
                   <Icon.Close />
@@ -177,7 +198,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
           >
             Add attribute
           </Button>
-          <hr className="w-full bg-gray-500 my-5" color="#e6e6e6" />
+          <hr className="w-full bg-divider border-0 h-px my-5" />
           <Button htmlType="submit" className="self-end">
             Next
           </Button>

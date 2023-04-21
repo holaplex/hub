@@ -77,7 +77,7 @@ export default function NewDropTimingPage() {
             </div>
           )}
 
-          <hr className="w-full bg-divider border-0 h-px my-5" color="#e6e6e6" />
+          <hr className="w-full bg-divider border-0 h-px my-5" />
           <div className="flex items-center justify-end gap-4">
             <Button variant="secondary" onClick={back}>
               Back

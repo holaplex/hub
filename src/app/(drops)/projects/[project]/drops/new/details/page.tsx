@@ -176,7 +176,7 @@ export default function NewDropDetailsPage() {
                 </Form.Label>
 
                 <div
-                  className="rounded-md  bg-highlightcell p-3 self-end cursor-pointer"
+                  className="rounded-md bg-highlightcell p-3 self-end cursor-pointer"
                   onClick={() => remove(index)}
                 >
                   <Icon.Close />

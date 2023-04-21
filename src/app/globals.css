@@ -149,7 +149,7 @@ input:focus {
 }
 
 .modal-close {
-  @apply top-8 right-8 rounded-full bg-highlightcell p-2 hover:text-gray-400;
+  @apply top-8 right-8 rounded-full bg-highlightcell stroke-subtletext p-2;
 }
 
 .form-select-button {
@@ -168,7 +168,7 @@ input:focus {
 }
 
 .form-select-button-dropdown {
-  @apply mr-2;
+  @apply mr-2 stroke-subtletext;
 }
 
 .form-select-option-selected {
