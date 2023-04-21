@@ -92,7 +92,7 @@ export default function EditDropRoyaltiesPage() {
                 name="0%"
                 htmlFor="0"
                 placement={Placement.Right}
-                className="form-radio-custombox"
+                peerClassName="form-radio-custombox"
               >
                 <Form.RadioGroup.Radio
                   {...register('royaltyPercentage')}
@@ -105,7 +105,7 @@ export default function EditDropRoyaltiesPage() {
                 name="2.5%"
                 htmlFor="2.5"
                 placement={Placement.Right}
-                className="form-radio-custombox"
+                peerClassName="form-radio-custombox"
               >
                 <Form.RadioGroup.Radio
                   {...register('royaltyPercentage')}
@@ -118,7 +118,7 @@ export default function EditDropRoyaltiesPage() {
                 name="5%"
                 htmlFor="5"
                 placement={Placement.Right}
-                className="form-radio-custombox"
+                peerClassName="form-radio-custombox"
               >
                 <Form.RadioGroup.Radio
                   {...register('royaltyPercentage')}
@@ -131,7 +131,7 @@ export default function EditDropRoyaltiesPage() {
                 name="10%"
                 htmlFor="10"
                 placement={Placement.Right}
-                className="form-radio-custombox"
+                peerClassName="form-radio-custombox"
               >
                 <Form.RadioGroup.Radio
                   {...register('royaltyPercentage')}
@@ -144,7 +144,7 @@ export default function EditDropRoyaltiesPage() {
                 name="Custom"
                 htmlFor="custom"
                 placement={Placement.Right}
-                className="form-radio-custombox"
+                peerClassName="form-radio-custombox"
               >
                 <Form.RadioGroup.Radio
                   {...register('royaltyPercentage')}
@@ -154,30 +154,31 @@ export default function EditDropRoyaltiesPage() {
                 />
               </Form.Label>
             </Form.RadioGroup>
-            {royaltyPercentage === 'custom' && (
-              <>
-                <Form.Input
-                  {...register('customRoyalty', {
-                    required: royaltyPercentage === 'custom',
-                    validate: (customRoyalty) => {
-                      if (!customRoyalty) {
-                        return true;
-                      }
-
-                      const amount = customRoyalty.split('%')[0];
-
-                      return (
-                        parseFloat(amount) <= 100 ||
-                        'Royalty percentage must be equal to or under a 100%'
-                      );
-                    },
-                  })}
-                  placeholder="e.g. 12.5%"
-                />
-                <Form.Error message={formState.errors.customRoyalty?.message} />
-              </>
-            )}
           </Form.Label>
+          {royaltyPercentage === 'custom' && (
+            <>
+              <Form.Input
+                {...register('customRoyalty', {
+                  required: royaltyPercentage === 'custom',
+                  validate: (customRoyalty) => {
+                    if (!customRoyalty) {
+                      return true;
+                    }
+
+                    const amount = customRoyalty.split('%')[0];
+
+                    return (
+                      parseFloat(amount) <= 100 ||
+                      'Royalty percentage must be equal to or under a 100%'
+                    );
+                  },
+                })}
+                className="mt-2"
+                placeholder="e.g. 12.5%"
+              />
+              <Form.Error message={formState.errors.customRoyalty?.message} />
+            </>
+          )}
 
           <Form.Label name="Destination for royalties received" className="mt-8">
             <Form.RadioGroup>
