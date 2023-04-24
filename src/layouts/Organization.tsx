@@ -71,6 +71,12 @@ export default function Organization({
                   href="/settings"
                   active={segments[0] === 'settings'}
                 />
+                <Sidebar.Menu.Link
+                  name="Credits"
+                  icon={<Icon.Balance />}
+                  href="/credits"
+                  active={segments[0] === 'credits'}
+                />
               </Sidebar.Menu>
               <Sidebar.Footer organization={organization} />
             </Sidebar.Panel>
