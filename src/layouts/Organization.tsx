@@ -74,7 +74,7 @@ export default function Organization({
                 <Sidebar.Menu.Link
                   name="Credits"
                   icon={<Icon.Balance />}
-                  href="/credits"
+                  href="/credits/cost"
                   active={segments[0] === 'credits'}
                 />
               </Sidebar.Menu>
