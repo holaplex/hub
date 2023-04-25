@@ -5,6 +5,8 @@ import Sidebar from './Sidebar';
 import { OrganizationProvider } from '../providers/OrganizationProvider';
 import { Organization as OrganizationType } from '../graphql.types';
 import Image from 'next/image';
+import { PopoverBox } from '@holaplex/ui-library-react';
+import Copy from '../components/Copy';
 
 export default function Organization({
   children,
@@ -26,18 +28,32 @@ export default function Organization({
                   <div className="cursor-pointer" onClick={() => router.push('/organizations')}>
                     <Icon.ChevronLeft />
                   </div>
-                  <h1 className="flex items-center gap-2">
-                    {organization?.profileImageUrl ? (
-                      <img
-                        src={organization.profileImageUrl}
-                        className="w-8 h-8 rounded-md"
-                        alt="logo"
-                      />
-                    ) : (
-                      <div className="w-8 h-8 bg-gray-300 rounded-md" />
-                    )}
-                    <span className="capitalize text-sm font-medium">{organization?.name}</span>
-                  </h1>
+                  <div className="w-full flex justify-between">
+                    <h1 className="flex items-center gap-2">
+                      {organization?.profileImageUrl ? (
+                        <img
+                          src={organization.profileImageUrl}
+                          className="w-8 h-8 rounded-md"
+                          alt="logo"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 bg-gray-300 rounded-md" />
+                      )}
+                      <span className="capitalize text-sm font-medium">{organization?.name}</span>
+                    </h1>
+                    <PopoverBox
+                      triggerButton={
+                        <div className="px-2 py-1 hover:rounded-md hover:bg-highlightcell max-w-min">
+                          <Icon.More />
+                        </div>
+                      }
+                      elements={[
+                        <Copy key="copy_id" copyString={organization?.id}>
+                          <span>Copy Organization ID</span>
+                        </Copy>,
+                      ]}
+                    />
+                  </div>
                 </div>
               </Sidebar.Header>
               <Sidebar.Menu>
