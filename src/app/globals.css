@@ -51,7 +51,7 @@ h3 {
 }
 
 .form-label {
-  @apply flex flex-col w-full gap-1;
+  @apply w-full gap-1;
 }
 
 .form-label-text {
@@ -63,7 +63,7 @@ h3 {
 }
 
 .form-checkbox {
-  @apply text-white rounded bg-stone-800 border-none;
+  @apply text-yellow-300 rounded bg-stone-800 border-none focus:ring-yellow-300;
 }
 
 .form-checkbox-label {
@@ -167,6 +167,18 @@ input:focus {
 
 input[type='radio'] {
   @apply text-black;
+}
+
+.form-radio-group {
+  @apply flex flex-row gap-2;
+}
+
+.form-radio {
+  @apply text-yellow-300 focus:ring-yellow-300 checked:text-yellow-300 bg-stone-800;
+}
+
+.form-radio-custombox {
+  @apply flex items-center justify-between bg-stone-800 rounded-lg cursor-pointer border border-stone-800 peer-checked:border-yellow-300 peer-checked:border-2 py-3 px-6;
 }
 
 .popover-panel {

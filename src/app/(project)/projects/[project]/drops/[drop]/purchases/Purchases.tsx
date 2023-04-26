@@ -137,7 +137,9 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
               cell: () => (
                 <PopoverBox
                   triggerButton={
-                    <div className={clsx('px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min')}>
+                    <div
+                      className={clsx('px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min')}
+                    >
                       <Icon.More />
                     </div>
                   }

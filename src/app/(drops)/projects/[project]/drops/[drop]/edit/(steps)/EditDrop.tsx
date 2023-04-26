@@ -11,6 +11,7 @@ import {
   Project,
   Blockchain,
   MetadataJsonAttribute,
+  AssetType,
 } from '../../../../../../../../graphql.types';
 import { DropFormProvider } from '../../../../../../../../providers/DropFormProvider';
 import { useDropFormState } from '../../../../../../../../hooks/useDropFormState';
@@ -26,6 +27,23 @@ const isComplete = pipe(isNil, not);
 export default function EditDrop({ children, project }: CreateDropProps): JSX.Element {
   const pathname = usePathname();
   const drop = project.drop;
+  const royalty = drop?.collection.royalties;
+  const royaltyPercentage = (royalty ? parseFloat(royalty) : 0) + '%';
+
+  const wallet = project?.treasury?.wallets?.find((wallet) => {
+    switch (drop?.collection.blockchain) {
+      case Blockchain.Solana:
+        return wallet.assetId === AssetType.SolTest || wallet.assetId === AssetType.Sol;
+      case Blockchain.Polygon:
+        return wallet.assetId === AssetType.MaticTest || wallet.assetId === AssetType.Matic;
+      case Blockchain.Ethereum:
+        return wallet.assetId === AssetType.EthTest || wallet.assetId === AssetType.Eth;
+    }
+  });
+
+  const creators = drop?.collection.creators;
+  const creatorWallet =
+    creators && creators[0].address === wallet?.address ? 'projectTreasury' : 'specifyWallet';
 
   const store = useDropFormState({
     detail: {
@@ -40,16 +58,21 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
     payment: {
       supply: drop?.collection.supply?.toString() as string,
       creators: drop?.collection.creators as CollectionCreatorInput[],
-      treasuryAllRoyalties: false,
-      royalties: drop?.collection.royalties as string,
+      royaltyPercentage: ['0%', '2.5%', '5%', '10%'].includes(royaltyPercentage)
+        ? royaltyPercentage
+        : 'custom',
+      customRoyalty: ['0%', '2.5%', '5%', '10%'].includes(royaltyPercentage)
+        ? undefined
+        : royaltyPercentage,
+      royaltyDestination: creatorWallet,
     },
     timing: {
       startDate: drop?.startTime && formatDateString(drop?.startTime, DateFormat.DATE_3),
       endDate: drop?.endTime && formatDateString(drop?.endTime, DateFormat.DATE_3),
       startTime: drop?.startTime && formatDateString(drop?.startTime, DateFormat.TIME_2),
       endTime: drop?.endTime && formatDateString(drop?.endTime, DateFormat.TIME_2),
-      noEndTime: isNil(drop?.endTime),
-      startNow: isNil(drop?.startTime),
+      selectEndDate: isNil(drop?.endTime) ? 'neverEnd' : 'specifyEndDate',
+      selectStartDate: isNil(drop?.startTime) ? 'mintImmediately' : 'specifyStartDate',
     },
   });
 
@@ -65,8 +88,8 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
             href={`/projects/${project.id}/drops`}
             className="flex items-center gap-4 px-5 cursor-pointer"
           >
-            <Icon.Close />
-            <span className="flex items-center gap-2 text-sm text-white font-medium">Close</span>
+            <Icon.Close stroke="stroke-white" />
+            <span className="flex items-center gap-2 text-sm font-medium">Close</span>
           </Link>
         </Navbar.Header>
         <Navbar.Menu>
@@ -82,7 +105,7 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
             active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/details`}
           />
           <Navbar.Menu.Step
-            name="Payment and royalties"
+            name="Supply and royalties"
             icon={
               <Navbar.Menu.Step.StepCount
                 active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/royalties`}
@@ -96,12 +119,12 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
             name="Mint date"
             icon={
               <Navbar.Menu.Step.StepCount
-                active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/timing`}
+                active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/schedule`}
                 count="3"
                 filled={isComplete(timing)}
               />
             }
-            active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/timing`}
+            active={pathname === `/projects/${project.id}/drops/${drop?.id}/edit/schedule`}
           />
           <Navbar.Menu.Step
             name="Final preview"

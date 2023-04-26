@@ -126,7 +126,7 @@ function Pause({ children }: PauseProps): JSX.Element {
                   Pause mint
                 </Button>
                 <Button
-                  variant="tertiary"
+                  variant="secondary"
                   className="w-full"
                   onClick={() => setOpen(false)}
                   disabled={loading}
@@ -241,7 +241,7 @@ function Resume({ children }: ResumeProps): JSX.Element {
                   Resume mint
                 </Button>
                 <Button
-                  variant="tertiary"
+                  variant="secondary"
                   className="w-full"
                   onClick={() => setOpen(false)}
                   disabled={loading}
@@ -356,7 +356,7 @@ function Shutdown({ children }: ShutdownProps): JSX.Element {
                   Shut-down mint
                 </Button>
                 <Button
-                  variant="tertiary"
+                  variant="secondary"
                   className="w-full"
                   onClick={() => setOpen(false)}
                   disabled={loading}

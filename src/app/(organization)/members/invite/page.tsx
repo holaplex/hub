@@ -60,7 +60,7 @@ export default function MemberInvitePage() {
           <Button htmlType="submit" className="w-full mt-5" loading={loading} disabled={loading}>
             Send invite
           </Button>
-          <Button variant="secondary" className="w-full mt-5 " onClick={onClose} disabled={loading}>
+          <Button variant="secondary" className="w-full mt-4" onClick={onClose} disabled={loading}>
             Cancel
           </Button>
         </Form>

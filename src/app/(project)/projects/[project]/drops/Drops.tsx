@@ -46,8 +46,8 @@ export default function Drops({ project }: DropsPageProps) {
                   <div className="h-full flex flex-col p-4">
                     {dropsQuery.loading ? (
                       <>
-                        <div className="w-36 h-8 rounded-md bg-stone-900 animate-pulse" />
-                        <div className="w-32 h-8 rounded-md bg-stone-900 animate-pulse mt-4 self-end" />
+                        <div className="w-36 h-8 rounded-md bg-stone-800 animate-pulse" />
+                        <div className="w-32 h-8 rounded-md bg-stone-800 animate-pulse mt-4 self-end" />
                         <Table
                           className="mt-4"
                           columns={[
@@ -70,7 +70,7 @@ export default function Drops({ project }: DropsPageProps) {
                             loadingColumnHelper.display({
                               id: 'price',
                               header: () => (
-                                <div className="rounded-full h-3 w-28 bg-stone-950 animate-pulse" />
+                                <div className="rounded-full h-3 w-28 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex gap-2 items-center">
@@ -118,7 +118,7 @@ export default function Drops({ project }: DropsPageProps) {
                             loadingColumnHelper.display({
                               id: 'supply',
                               header: () => (
-                                <div className="rounded-full h-3 w-28 bg-stone-950 animate-pulse" />
+                                <div className="rounded-full h-3 w-28 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex gap-2 items-center">
@@ -130,7 +130,7 @@ export default function Drops({ project }: DropsPageProps) {
                             loadingColumnHelper.display({
                               id: 'status',
                               header: () => (
-                                <div className="rounded-full h-3 w-28 bg-stone-950 animate-pulse" />
+                                <div className="rounded-full h-3 w-28 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex gap-2 items-center">
@@ -175,7 +175,10 @@ export default function Drops({ project }: DropsPageProps) {
                               href={`/projects/${dropsQuery.data?.project.id}/drops/new/details`}
                               className="self-end"
                             >
-                              <Button icon={<Icon.Add stroke="#ffffff" />} variant="primary">
+                              <Button
+                                icon={<Icon.Add stroke="stroke-stone-950" />}
+                                variant="primary"
+                              >
                                 Create drop
                               </Button>
                             </Link>
@@ -417,7 +420,8 @@ export default function Drops({ project }: DropsPageProps) {
                                         className="flex gap-2 items-center"
                                         href={`/projects/${project}/drops/${info.row.original.id}/edit`}
                                       >
-                                        <Icon.Edit /> <span>Edit drop</span>
+                                        <Icon.Edit stroke="stroke-gray-400" />{' '}
+                                        <span>Edit drop</span>
                                       </Link>,
                                     ];
 
@@ -428,7 +432,8 @@ export default function Drops({ project }: DropsPageProps) {
                                           onClick={() => resume(drop.id, drop.projectId)}
                                           className="flex gap-2 items-center"
                                         >
-                                          <Icon.Pause /> <span>Resume mint</span>
+                                          <Icon.Pause stroke="stroke-gray-400" />{' '}
+                                          <span>Resume mint</span>
                                         </div>
                                       );
                                     } else {
@@ -438,7 +443,8 @@ export default function Drops({ project }: DropsPageProps) {
                                           onClick={() => pause(drop.id, drop.projectId)}
                                           className="flex gap-2 items-center"
                                         >
-                                          <Icon.Pause /> <span>Pause mint</span>
+                                          <Icon.Pause stroke="stroke-gray-400" />{' '}
+                                          <span>Pause mint</span>
                                         </div>
                                       );
                                     }
@@ -450,7 +456,8 @@ export default function Drops({ project }: DropsPageProps) {
                                           onClick={() => shutdown(drop.id, drop.projectId)}
                                           className="flex gap-2 items-center"
                                         >
-                                          <Icon.Close /> <span>Shut-down mint</span>
+                                          <Icon.Close stroke="stroke-gray-400" />{' '}
+                                          <span>Shut-down mint</span>
                                         </div>
                                       );
                                     }

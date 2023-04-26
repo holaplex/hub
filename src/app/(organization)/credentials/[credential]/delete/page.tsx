@@ -109,7 +109,7 @@ export default function DeleteCredentialPage({ params: { credential } }: DeleteC
               >
                 Delete
               </Button>
-              <Button variant="tertiary" className="w-full" onClick={onClose} disabled={loading}>
+              <Button variant="secondary" className="w-full" onClick={onClose} disabled={loading}>
                 Cancel
               </Button>
             </div>

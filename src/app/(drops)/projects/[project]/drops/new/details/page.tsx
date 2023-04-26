@@ -46,7 +46,7 @@ export default function NewDropDetailsPage() {
       <Card className="w-[492px]">
         <Typography.Header size={Size.H2}>Drop details</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-          <Form.Label name="Artwork" className="text-xs text-white mt-5">
+          <Form.Label name="Artwork" className="text-xs text-yellow-300 mt-5">
             <Controller
               name="image"
               control={control}
@@ -65,25 +65,28 @@ export default function NewDropDetailsPage() {
                       <div
                         {...getRootProps()}
                         className={clsx(
-                          'flex items-center justify-center border border-dashed border-stone-800 cursor-pointer rounded-md p-6 text-center text-gray-400',
+                          'flex items-center justify-center border border-dashed border-gray-200 cursor-pointer rounded-md',
                           {
-                            'bg-stone-950': isDragActive,
+                            'bg-gray-100': isDragActive,
+                            'p-6 text-center text-gray-500': !value,
                           }
                         )}
                       >
                         <input {...getInputProps({ onBlur })} />
                         {value ? (
-                          <Form.DragDrop.Preview value={value} />
+                          <div className="bg-white rounded-lg p-3 overflow-hidden">
+                            <Form.DragDrop.Preview value={value} />
+                          </div>
                         ) : (
-                          <div className="flex flex-col gap-2">
-                            <p>
-                              Drag & drop photo here <br />
-                              Required jpeg, png or svg. Max 2mb.
+                          <div className="flex flex-col gap-2 text-subtletext">
+                            <p className="text-center">
+                              Drag & drop file or{' '}
+                              <span className="text-yellow-300 cursor-pointer">Browse files</span>
+                              <br />
+                              Add artwork size based on a preview size.
+                              <br />
+                              400x400 etc. Should be strict rectangular.
                             </p>
-                            <Divider.Or />
-                            <Button onClick={open} variant="secondary" size="small">
-                              Upload Logo
-                            </Button>
                           </div>
                         )}
                       </div>
@@ -150,10 +153,10 @@ export default function NewDropDetailsPage() {
             />
             <Form.Error message="" />
           </Form.Label>
-          <Form.Label name="External URL" className="text-xs mt-5">
+          <Form.Label name="External URL (optional)" className="text-xs mt-5">
             <Form.Input
               {...register('externalUrl')}
-              placeholder="(Optional) Set an external url on the drop."
+              placeholder="Set an external url on the drop."
             />
             <Form.Error message="" />
           </Form.Label>
@@ -173,10 +176,10 @@ export default function NewDropDetailsPage() {
                 </Form.Label>
 
                 <div
-                  className="rounded-md border border-gray-100 bg-stone-800 p-3 self-end cursor-pointer"
+                  className="rounded-md bg-stone-800 p-3 self-end cursor-pointer"
                   onClick={() => remove(index)}
                 >
-                  <Icon.Close />
+                  <Icon.Close stroke="stroke-white" />
                 </div>
               </div>
             ))}
@@ -189,7 +192,7 @@ export default function NewDropDetailsPage() {
           >
             Add attribute
           </Button>
-          <hr className="w-full bg-stone-800 my-5" color="#e6e6e6" />
+          <hr className="w-full bg-divider border-0 h-px my-5" />
           <Button htmlType="submit" className="self-end">
             Next
           </Button>

@@ -19,9 +19,10 @@ export type DetailSettings = {
 
 export type PaymentSettings = {
   supply: string;
-  treasuryAllRoyalties: boolean;
+  royaltyDestination: string;
   creators: CollectionCreatorInput[];
-  royalties: string;
+  royaltyPercentage: string;
+  customRoyalty?: string;
 };
 
 export type TimingSettings = {
@@ -29,8 +30,8 @@ export type TimingSettings = {
   startTime?: string;
   endDate?: Date;
   endTime?: string;
-  startNow?: boolean;
-  noEndTime?: boolean;
+  selectStartDate: string;
+  selectEndDate: string;
 };
 
 export interface DropFormProps {

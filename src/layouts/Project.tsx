@@ -25,6 +25,7 @@ export default function Project({
   children: React.ReactNode;
   project: ProjectType;
 }): JSX.Element {
+  console.log('project', project);
   const segments = useSelectedLayoutSegments();
   const [showProjects, setShowProjects] = useState<Boolean>(false);
 
@@ -109,7 +110,10 @@ export default function Project({
                             </>
                           </div>
                           <Link href="/projects/new">
-                            <Button icon={<Icon.Add stroke="#ffffff" />} className="w-full">
+                            <Button
+                              icon={<Icon.Add stroke="stroke-stone-950" />}
+                              className="w-full"
+                            >
                               Add Project
                             </Button>
                           </Link>

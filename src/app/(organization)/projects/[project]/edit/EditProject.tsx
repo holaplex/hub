@@ -192,8 +192,8 @@ export default function EditProject({ project }: { project: string }) {
               </Button>
 
               <Button
-                className="w-full mt-5"
-                variant="tertiary"
+                className="w-full mt-4"
+                variant="secondary"
                 onClick={onClose}
                 disabled={loading}
               >

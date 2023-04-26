@@ -33,7 +33,7 @@ export default function MemberDeletePage() {
             </div>
           </div>
 
-          <Button className="w-full mt-5" variant="tertiary" onClick={onClose}>
+          <Button className="w-full mt-5" variant="secondary" onClick={onClose}>
             Close
           </Button>
         </div>

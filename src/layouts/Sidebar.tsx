@@ -200,7 +200,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                 /> */}
                 <Sidebar.Menu.Link
                   name="Help"
-                  icon={<Icon.HelpHeadphones />}
+                  icon={<Icon.HelpHeadphones stroke="stroke-gray-400" />}
                   href="https://docs.holaplex.dev"
                   active={false}
                 />
@@ -209,7 +209,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                   className="flex gap-4 w-full px-4 py-3 items-center text-gray-400 cursor-pointer"
                   onClick={() => logout()}
                 >
-                  <Icon.Logout />
+                  <Icon.Logout stroke="stroke-gray-400" />
                   <span className="text-sm">Logout</span>
                 </div>
               </div>
@@ -249,7 +249,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                 })}
               </div>
               <Link href="/organizations/new">
-                <Button icon={<Icon.Add stroke="#ffffff" />} className="w-full">
+                <Button icon={<Icon.Add stroke="stroke-stone-950" />} className="w-full">
                   Add organization
                 </Button>
               </Link>
