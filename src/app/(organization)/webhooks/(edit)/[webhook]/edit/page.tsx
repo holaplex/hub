@@ -125,8 +125,8 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
 
   return (
     <div className="h-full flex flex-col p-4">
-      <div className="text-2xl font-medium text-gray-500">
-        Webhooks / <span className="text-primary">Edit Webhook</span>
+      <div className="text-2xl font-medium text-gray-400">
+        Webhooks / <span className="text-white">Edit Webhook</span>
         <div className="w-full flex flex-col items-center">
           <Card className="w-[492px] mt-7">
             <Typography.Header size={Size.H2}>Webhook details</Typography.Header>
@@ -136,33 +136,33 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
             {loading ? (
               <div className="flex flex-col gap-5 mt-5">
                 <div>
-                  <div className="mb-1 w-20 h-4 rounded-md bg-gray-100 animate-pulse" />
-                  <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+                  <div className="mb-1 w-20 h-4 rounded-md bg-stone-950 animate-pulse" />
+                  <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
                 </div>
                 <div className="flex gap-2">
                   <div className="w-full">
-                    <div className="mb-1 w-20 h-4 rounded-md bg-gray-100 animate-pulse" />
-                    <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+                    <div className="mb-1 w-20 h-4 rounded-md bg-stone-950 animate-pulse" />
+                    <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
                   </div>
                   <div className="w-full">
-                    <div className="mb-1 w-20 h-4 rounded-md bg-gray-100 animate-pulse" />
-                    <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+                    <div className="mb-1 w-20 h-4 rounded-md bg-stone-950 animate-pulse" />
+                    <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
                   </div>
                 </div>
                 <div>
-                  <div className="mb-1 mt-4 w-20 h-4 rounded-md bg-gray-100 animate-pulse" />
+                  <div className="mb-1 mt-4 w-20 h-4 rounded-md bg-stone-950 animate-pulse" />
                   <div className="grid grid-cols-2 gap-5 my-2">
-                    <div className="w-full h-5 rounded-md bg-gray-100 animate-pulse" />
-                    <div className="w-full h-5 rounded-md bg-gray-100 animate-pulse" />
-                    <div className="w-full h-5 rounded-md bg-gray-100 animate-pulse" />
-                    <div className="w-full h-5 rounded-md bg-gray-100 animate-pulse" />
-                    <div className="w-full h-5 rounded-md bg-gray-100 animate-pulse" />
-                    <div className="w-full h-5 rounded-md bg-gray-100 animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-stone-950 animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-stone-950 animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-stone-950 animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-stone-950 animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-stone-950 animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-stone-950 animate-pulse" />
                   </div>
                 </div>
                 <div className="flex justify-between">
-                  <div className="w-24 h-10 rounded-md bg-gray-100 animate-pulse" />
-                  <div className="w-24 h-10 rounded-md bg-gray-100 animate-pulse" />
+                  <div className="w-24 h-10 rounded-md bg-stone-950 animate-pulse" />
+                  <div className="w-24 h-10 rounded-md bg-stone-950 animate-pulse" />
                 </div>
               </div>
             ) : (
@@ -227,16 +227,16 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                   </Form.Label>
                 </div>
 
-                <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
+                <hr className="w-full bg-stone-800 my-4" color="#e6e6e6" />
 
-                <span className="text-sm text-primary font-medium">Events</span>
+                <span className="text-sm text-white font-medium">Events</span>
                 <div className="grid grid-cols-2 mt-4 mx-2 gap-5">
                   <Form.Checkbox
                     {...register('events')}
                     id="PROJECT_CREATED"
                     value="PROJECT_CREATED"
                     label={
-                      <span className="text-xs font-medium text-primary">Project created</span>
+                      <span className="text-xs font-medium text-white">Project created</span>
                     }
                   />
                   <Form.Checkbox
@@ -244,7 +244,7 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                     id="PROJECT_WALLET_CREATED"
                     value="PROJECT_WALLET_CREATED"
                     label={
-                      <span className="text-xs font-medium text-primary">
+                      <span className="text-xs font-medium text-white">
                         Project wallet created
                       </span>
                     }
@@ -254,7 +254,7 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                     id="CUSTOMER_CREATED"
                     value="CUSTOMER_CREATED"
                     label={
-                      <span className="text-xs font-medium text-primary">Customer created</span>
+                      <span className="text-xs font-medium text-white">Customer created</span>
                     }
                   />
                   <Form.Checkbox
@@ -262,7 +262,7 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                     id="CUSTOMER_TREASURY_CREATED"
                     value="CUSTOMER_TREASURY_CREATED"
                     label={
-                      <span className="text-xs font-medium text-primary">
+                      <span className="text-xs font-medium text-white">
                         Customer treasury created
                       </span>
                     }
@@ -272,7 +272,7 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                     id="CUSTOMER_WALLET_CREATED"
                     value="CUSTOMER_WALLET_CREATED"
                     label={
-                      <span className="text-xs font-medium text-primary">
+                      <span className="text-xs font-medium text-white">
                         Customer wallet created
                       </span>
                     }
@@ -281,17 +281,17 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                     {...register('events')}
                     id="DROP_CREATED"
                     value="DROP_CREATED"
-                    label={<span className="text-xs font-medium text-primary">Drop created</span>}
+                    label={<span className="text-xs font-medium text-white">Drop created</span>}
                   />
                   <Form.Checkbox
                     {...register('events')}
                     id="DROP_MINTED"
                     value="DROP_MINTED"
-                    label={<span className="text-xs font-medium text-primary">Drop minted</span>}
+                    label={<span className="text-xs font-medium text-white">Drop minted</span>}
                   />
                 </div>
 
-                <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
+                <hr className="w-full bg-stone-800 my-4" color="#e6e6e6" />
 
                 <div className="flex items-center justify-between">
                   <Button

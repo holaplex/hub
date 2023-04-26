@@ -33,7 +33,7 @@ export default function DropsPage() {
           columnHelper.accessor('dropName', {
             header: () => (
               <div className="flex gap-2">
-                <span className="text-xs text-gray-600 font-medium">TxID</span>
+                <span className="text-xs text-gray-400 font-medium">TxID</span>
               </div>
             ),
             cell: (info) => {
@@ -41,8 +41,8 @@ export default function DropsPage() {
                 <div className="flex gap-2 items-center">
                   <Icon.EmptyAvatar />
                   <div className="flex flex-col">
-                    <span className="text-xs text-primary font-medium">{info.getValue()}</span>
-                    <span className="text-xs text-gray-500">{info.row.original.dropSymbol}</span>
+                    <span className="text-xs text-white font-medium">{info.getValue()}</span>
+                    <span className="text-xs text-gray-400">{info.row.original.dropSymbol}</span>
                   </div>
                 </div>
               );
@@ -53,14 +53,14 @@ export default function DropsPage() {
             id: 'price',
             header: () => (
               <div className="flex gap-2">
-                <span className="text-xs text-gray-600 font-medium">Price</span>
+                <span className="text-xs text-gray-400 font-medium">Price</span>
               </div>
             ),
             cell: (info) => {
               return (
                 <div className="flex gap-2 text-xs font-medium">
-                  <span className="text-primary">{info.getValue()}</span>
-                  <span className="text-gray-600"> SOL</span>
+                  <span className="text-white">{info.getValue()}</span>
+                  <span className="text-gray-400"> SOL</span>
                 </div>
               );
             },
@@ -68,14 +68,14 @@ export default function DropsPage() {
           columnHelper.accessor('createDate', {
             header: () => (
               <div className="flex gap-2">
-                <span className="text-xs text-gray-600 font-medium">Create date</span>
+                <span className="text-xs text-gray-400 font-medium">Create date</span>
               </div>
             ),
             cell: (info) => {
               return (
                 <div className="flex flex-col gap-1 text-xs">
-                  <span className="text-primary font-medium">{info.getValue()}</span>
-                  <span className="text-gray-500">9:56 AM</span>
+                  <span className="text-white font-medium">{info.getValue()}</span>
+                  <span className="text-gray-400">9:56 AM</span>
                 </div>
               );
             },
@@ -83,14 +83,14 @@ export default function DropsPage() {
           columnHelper.accessor('startMintDate', {
             header: () => (
               <div className="flex gap-2">
-                <span className="text-xs text-gray-600 font-medium">Start mint date</span>
+                <span className="text-xs text-gray-400 font-medium">Start mint date</span>
               </div>
             ),
             cell: (info) => {
               return (
                 <div className="flex flex-col gap-1 text-xs">
-                  <span className="text-primary font-medium">{info.getValue()}</span>
-                  <span className="text-gray-500">9:56 AM</span>
+                  <span className="text-white font-medium">{info.getValue()}</span>
+                  <span className="text-gray-400">9:56 AM</span>
                 </div>
               );
             },
@@ -98,14 +98,14 @@ export default function DropsPage() {
           columnHelper.accessor('endMintDate', {
             header: () => (
               <div className="flex gap-2">
-                <span className="text-xs text-gray-600 font-medium">End mint date</span>
+                <span className="text-xs text-gray-400 font-medium">End mint date</span>
               </div>
             ),
             cell: (info) => {
               return (
                 <div className="flex flex-col gap-1 text-xs">
-                  <span className="text-primary font-medium">{info.getValue()}</span>
-                  <span className="text-gray-500">9:56 AM</span>
+                  <span className="text-white font-medium">{info.getValue()}</span>
+                  <span className="text-gray-400">9:56 AM</span>
                 </div>
               );
             },
@@ -114,12 +114,12 @@ export default function DropsPage() {
             id: 'mintedAndSupply',
             header: () => (
               <div className="flex gap-2">
-                <span className="text-xs text-gray-600 font-medium">Minted out & supply</span>
+                <span className="text-xs text-gray-400 font-medium">Minted out & supply</span>
               </div>
             ),
             cell: (info) => {
               return (
-                <div className="flex gap-2 text-xs font-medium text-primary">
+                <div className="flex gap-2 text-xs font-medium text-white">
                   {info.getValue()} / {info.row.original.supply} minted
                 </div>
               );
@@ -128,7 +128,7 @@ export default function DropsPage() {
 
           columnHelper.accessor((row) => row.status.toString(), {
             id: 'status',
-            header: () => <span className="flex text-xs text-gray-600 font-medium">Status</span>,
+            header: () => <span className="flex text-xs text-gray-400 font-medium">Status</span>,
             cell: (info) => <Table.DropStatusPill status={info.row.original.status} />,
           }),
 
@@ -138,7 +138,7 @@ export default function DropsPage() {
             cell: () => (
               <PopoverBox
                 triggerButton={
-                  <div className={clsx('px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min')}>
+                  <div className={clsx('px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min')}>
                     <Icon.More />
                   </div>
                 }

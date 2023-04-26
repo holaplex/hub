@@ -62,7 +62,7 @@ interface NavbarMenuItemProps {
 
 function NavbarMenuStep({ icon, name, active, className }: NavbarMenuItemProps) {
   return (
-    <div className={clsx('flex flex-row items-center gap-2 px-2 py-2 text-gray-600', className)}>
+    <div className={clsx('flex flex-row items-center gap-2 px-2 py-2 text-gray-400', className)}>
       {icon}
       <span className="text-sm">{name}</span>
     </div>
@@ -82,8 +82,8 @@ function MenuItemStepCount({ count, active, filled, className }: MenuItemStepCou
     <div
       className={clsx('rounded-md px-2 py-1 text-xs font-medium', className, {
         'bg-primary text-white': active || (filled && active),
-        'bg-gray-100 text-gray-500': !active && !filled,
-        'bg-gray-100 border border-primary px-1': filled && !active,
+        'bg-stone-950 text-gray-400': !active && !filled,
+        'bg-stone-950 border border-primary px-1': filled && !active,
       })}
     >
       {!filled || active ? count : <Icon.Check />}

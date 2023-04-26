@@ -73,7 +73,7 @@ export default function CreateOrganizationPage() {
           />
           <Form.Error message={error?.message} />
         </Form.Label>
-        <Form.Label name="Organization logo" className="text-xs text-primary mt-5">
+        <Form.Label name="Organization logo" className="text-xs text-white mt-5">
           <Controller
             name="file"
             control={control}
@@ -90,18 +90,15 @@ export default function CreateOrganizationPage() {
                     <div
                       {...getRootProps()}
                       className={clsx(
-                        'flex items-center justify-center border border-dashed border-gray-200 cursor-pointer rounded-md',
+                        'flex items-center justify-center border border-dashed border-stone-800 cursor-pointer rounded-md p-6 text-center text-gray-400',
                         {
-                          'bg-gray-100': isDragActive,
-                          'p-6 text-center text-gray-500': !value,
+                          'bg-stone-950': isDragActive,
                         }
                       )}
                     >
                       <input {...getInputProps({ onBlur })} />
                       {value ? (
-                        <div className="bg-white rounded-lg p-3 overflow-hidden">
-                          <Form.DragDrop.Preview value={value} />
-                        </div>
+                        <Form.DragDrop.Preview value={value} />
                       ) : (
                         <div className="flex flex-col gap-2">
                           <p>
@@ -131,13 +128,13 @@ export default function CreateOrganizationPage() {
           Create
         </Button>
       </Form>
-      <span className="flex-wrap text-gray-500 text-xs mt-2">
+      <span className="flex-wrap text-gray-400 text-xs mt-2">
         By pressing &quot;Create an aсcount&quot;, I agree to Holaplex{' '}
-        <Link href="" className="text-primary">
+        <Link href="" className="text-white">
           Terms of Use
         </Link>{' '}
         and{' '}
-        <Link href="" className="text-primary">
+        <Link href="" className="text-white">
           Privacy Policy.
         </Link>
       </span>

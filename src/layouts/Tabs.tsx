@@ -46,7 +46,7 @@ interface TabProps {
 
 function Tab({ name, active, href, className, loading }: TabProps) {
   if (loading) {
-    return <div className="h-6 w-24 bg-gray-100 animate-pulse rounded-md" />;
+    return <div className="h-6 w-24 bg-stone-950 animate-pulse rounded-md" />;
   }
 
   return (
@@ -54,7 +54,7 @@ function Tab({ name, active, href, className, loading }: TabProps) {
       href={href}
       className={clsx('text-xl font-semibold cursor-pointer', className, {
         'text-gray-400': !active,
-        'text-primary': active,
+        'text-white': active,
       })}
     >
       {name}

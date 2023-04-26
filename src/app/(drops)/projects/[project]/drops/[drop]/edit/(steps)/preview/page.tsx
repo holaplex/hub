@@ -133,22 +133,22 @@ export default function NewDropPreviewPage() {
       />
       <div className="flex items-center gap-2 mt-4">
         <Typography.Header size={Size.H2}>{detail.name}</Typography.Header>
-        <Typography.Header size={Size.H2} className="text-gray-500">
+        <Typography.Header size={Size.H2} className="text-gray-400">
           - {payment.supply}
         </Typography.Header>
       </div>
       <div className="flex flex-col mt-5">
         {/* <div className="flex flex-col gap-2 bg-gray-50 rounded-md py-2 px-3">
-          <span className="text-gray-600 text-xs font-medium">Price</span>
+          <span className="text-gray-400 text-xs font-medium">Price</span>
           <div className="flex items-end justify-between">
-            <span className="text-base text-primary font-medium">{payment.price} SOL</span>
+            <span className="text-base text-white font-medium">{payment.price} SOL</span>
           </div>
         </div>
 
         <div className="flex flex-col gap-2 border-2 border-gray-100 rounded-md py-2 px-3 mt-4">
-          <span className="text-gray-600 text-xs font-medium">Estimated total value</span>
+          <span className="text-gray-400 text-xs font-medium">Estimated total value</span>
           <div className="flex items-end justify-between">
-            <span className="text-base text-primary font-medium">
+            <span className="text-base text-white font-medium">
               {round(parseInt(payment.supply) * parseInt(payment.price))} SOL
             </span>
           </div>
@@ -156,8 +156,8 @@ export default function NewDropPreviewPage() {
 
         <div className="flex gap-4 items-center">
           <div className="w-full flex flex-col gap-2 border-2 border-gray-100 rounded-md py-2 px-3 mt-4">
-            <span className="text-gray-600 text-xs font-medium">Start date and time</span>
-            <span className="text-primary text-xs font-medium">
+            <span className="text-gray-400 text-xs font-medium">Start date and time</span>
+            <span className="text-white text-xs font-medium">
               {startDateTime
                 ? `${format(startDateTime, DateFormat.DATE_1)}, ${format(
                     startDateTime,
@@ -171,8 +171,8 @@ export default function NewDropPreviewPage() {
           </div>
           {endDateTime && (
             <div className="w-full flex flex-col gap-2 border-2 border-gray-100 rounded-md py-2 px-3 mt-4">
-              <span className="text-gray-600 text-xs font-medium">End date and time</span>
-              <span className="text-primary text-xs font-medium">
+              <span className="text-gray-400 text-xs font-medium">End date and time</span>
+              <span className="text-white text-xs font-medium">
                 {`${format(endDateTime, DateFormat.DATE_1)}, ${format(
                   endDateTime,
                   DateFormat.TIME_1
@@ -182,7 +182,7 @@ export default function NewDropPreviewPage() {
           )}
         </div>
 
-        <hr className="w-full bg-gray-500 my-5" color="#e6e6e6" />
+        <hr className="w-full bg-stone-800 my-5" color="#e6e6e6" />
 
         <div className="flex items-center justify-between">
           <Button className="self-start" variant="tertiary" disabled={submitting} onClick={back}>

@@ -52,7 +52,7 @@ export default function Project({
                       setShowProjects(!showProjects);
                     }}
                   >
-                    <h1 className="flex items-center gap-2 text-sm text-primary font-medium">
+                    <h1 className="flex items-center gap-2 text-sm text-white font-medium">
                       {project.profileImageUrl ? (
                         <img
                           className="w-8 h-8 rounded-md"
@@ -99,8 +99,8 @@ export default function Project({
                                     href={`/projects/${pro.id}/drops`}
                                     className="flex gap-2 items-center"
                                   >
-                                    <div className="w-8 h-8 bg-gray-300 rounded-md" />
-                                    <span className="text-gray-600 font-medium text-sm">
+                                    <div className="w-8 h-8 bg-stone-800 rounded-md" />
+                                    <span className="text-gray-400 font-medium text-sm">
                                       {pro.name}
                                     </span>
                                   </Link>,
@@ -121,19 +121,19 @@ export default function Project({
                 <Sidebar.Menu>
                   <Sidebar.Menu.Link
                     name="Drops"
-                    icon={<Icon.ManageNfts />}
+                    icon={<Icon.ManageNfts stroke="stroke-gray-400" />}
                     href={`/projects/${project.id}/drops`}
                     active={segments[0] === 'drops'}
                   />
                   <Sidebar.Menu.Link
                     name="Customers"
-                    icon={<Icon.Customers />}
+                    icon={<Icon.Customers stroke="stroke-gray-400" />}
                     href={`/projects/${project.id}/customers`}
                     active={segments[0] === 'customers'}
                   />
                   <Sidebar.Menu.Link
                     name="Treasury"
-                    icon={<Icon.Treasury />}
+                    icon={<Icon.Treasury stroke="stroke-gray-400" />}
                     href={`/projects/${project.id}/treasury`}
                     active={segments[0] === 'treasury'}
                   />

@@ -32,7 +32,7 @@ function WalletCard({ wallet, className }: WalletCardProps) {
   return (
     <Card className={clsx('p-6 items-center', className)}>
       <div className="rounded-full p-5 bg-gray-50 mt-2 flex items-center">{icon}</div>
-      <div className="text-xs font-medium text-gray-600 mt-2">{wallet.assetId}</div>
+      <div className="text-xs font-medium text-gray-400 mt-2">{wallet.assetId}</div>
       <div
         className="flex gap-2 text-xs font-medium items-center mt-2 cursor-pointer"
         onClick={copyText}
@@ -50,10 +50,10 @@ function WalletSkeleton() {
   return (
     <Card className="p-6 items-center">
       <div className="rounded-full w-20 aspect-square bg-gray-50 mt-2 animate-pulse" />
-      <span className="rounded-full h-4 w-14 bg-gray-100 animate-pulse mt-2" />
+      <span className="rounded-full h-4 w-14 bg-stone-950 animate-pulse mt-2" />
       <div className="flex gap-2 mt-2">
-        <span className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />
-        <span className="rounded-md h-4 w-4 bg-gray-100 animate-pulse" />
+        <span className="rounded-full h-4 w-28 bg-stone-950 animate-pulse" />
+        <span className="rounded-md h-4 w-4 bg-stone-950 animate-pulse" />
       </div>
     </Card>
   );

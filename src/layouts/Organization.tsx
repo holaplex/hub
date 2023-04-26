@@ -24,7 +24,7 @@ export default function Organization({
               <Sidebar.Header>
                 <div className="flex items-center gap-4">
                   <Icon.ChevronLeft />
-                  <h1 className="flex items-center gap-2 text-sm text-primary font-medium">
+                  <h1 className="flex items-center gap-2 text-sm text-white font-medium">
                     {organization?.profileImageUrl ? (
                       <img
                         src={organization.profileImageUrl}
@@ -32,7 +32,7 @@ export default function Organization({
                         alt="logo"
                       />
                     ) : (
-                      <div className="w-8 h-8 bg-gray-300 rounded-md" />
+                      <div className="w-8 h-8 bg-stone-800 rounded-md" />
                     )}
                     <span className="flex flex-col capitalize">
                       {organization?.name}
@@ -44,31 +44,31 @@ export default function Organization({
               <Sidebar.Menu>
                 <Sidebar.Menu.Link
                   name="Projects"
-                  icon={<Icon.Projects />}
+                  icon={<Icon.Projects stroke="stroke-gray-400" />}
                   href="/projects"
                   active={segments[0] === 'projects'}
                 />
                 <Sidebar.Menu.Link
                   name="Members"
-                  icon={<Icon.Members />}
+                  icon={<Icon.Members stroke="stroke-gray-400" />}
                   href="/members"
                   active={segments[0] === 'members'}
                 />
                 <Sidebar.Menu.Link
                   name="Webhooks"
-                  icon={<Icon.Webhook />}
+                  icon={<Icon.Webhook stroke="stroke-gray-400" />}
                   href="/webhooks"
                   active={segments[0] === 'webhooks'}
                 />
                 <Sidebar.Menu.Link
                   name="Credentials"
-                  icon={<Icon.Credentials />}
+                  icon={<Icon.Credentials stroke="stroke-gray-400" />}
                   href="/credentials"
                   active={segments[0] === 'credentials'}
                 />
                 <Sidebar.Menu.Link
                   name="Settings"
-                  icon={<Icon.Settings />}
+                  icon={<Icon.Settings stroke="stroke-gray-400" />}
                   href="/settings"
                   active={segments[0] === 'settings'}
                 />

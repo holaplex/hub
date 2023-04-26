@@ -108,14 +108,14 @@ export default function EditProject({ project }: { project: string }) {
       <Card className="w-[400px]">
         {projectQuery.loading ? (
           <>
-            <div className="bg-gray-100 animate-pulse h-6 w-24 rounded-md" />
-            <div className="bg-gray-100 animate-pulse h-4 w-40 rounded-md mt-2" />
-            <div className="bg-gray-100 animate-pulse h-4 w-20 rounded-md mt-5" />
-            <div className="bg-gray-100 animate-pulse h-10 w-full rounded-md mt-2" />
-            <div className="bg-gray-100 animate-pulse h-4 w-20 rounded-md mt-5" />
-            <div className="bg-gray-100 animate-pulse h-44 w-full rounded-md mt-2" />
-            <div className="bg-gray-100 animate-pulse h-10 w-full rounded-md mt-5" />
-            <div className="bg-gray-100 animate-pulse h-10 w-full rounded-md mt-5" />
+            <div className="bg-stone-800 animate-pulse h-6 w-24 rounded-md" />
+            <div className="bg-stone-800 animate-pulse h-4 w-40 rounded-md mt-2" />
+            <div className="bg-stone-800 animate-pulse h-4 w-20 rounded-md mt-5" />
+            <div className="bg-stone-800 animate-pulse h-10 w-full rounded-md mt-2" />
+            <div className="bg-stone-800 animate-pulse h-4 w-20 rounded-md mt-5" />
+            <div className="bg-stone-800 animate-pulse h-44 w-full rounded-md mt-2" />
+            <div className="bg-stone-800 animate-pulse h-10 w-full rounded-md mt-5" />
+            <div className="bg-stone-800 animate-pulse h-10 w-full rounded-md mt-5" />
           </>
         ) : (
           <>
@@ -127,7 +127,7 @@ export default function EditProject({ project }: { project: string }) {
             </Typography.Header>
 
             <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-              <Form.Label name="Project name" className="text-xs text-primary">
+              <Form.Label name="Project name" className="text-xs text-white">
                 <Form.Input
                   autoFocus
                   placeholder="e.g. Apple events"
@@ -136,7 +136,7 @@ export default function EditProject({ project }: { project: string }) {
                 <Form.Error message={formState.errors.name?.message} />
               </Form.Label>
 
-              <Form.Label name="Project logo" className="text-xs text-primary mt-5">
+              <Form.Label name="Project logo" className="text-xs text-white mt-5">
                 <Controller
                   name="profileImage"
                   control={control}
@@ -153,18 +153,15 @@ export default function EditProject({ project }: { project: string }) {
                           <div
                             {...getRootProps()}
                             className={clsx(
-                              'flex items-center justify-center border border-dashed border-gray-200 cursor-pointer rounded-md',
+                              'flex items-center justify-center border border-dashed border-stone-800 cursor-pointer rounded-md p-6 text-center text-gray-400',
                               {
-                                'bg-gray-100': isDragActive,
-                                'p-6 text-center text-gray-500': !value,
+                                'bg-stone-950': isDragActive,
                               }
                             )}
                           >
                             <input {...getInputProps({ onBlur })} />
                             {value ? (
-                              <div className="bg-white rounded-lg p-3 overflow-hidden">
-                                <Form.DragDrop.Preview value={value} />
-                              </div>
+                              <Form.DragDrop.Preview value={value} />
                             ) : (
                               <div className="flex flex-col gap-2">
                                 <p>

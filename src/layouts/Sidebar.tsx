@@ -38,7 +38,7 @@ function SidebarPanel({ children }: SidebarPanel) {
     <>
       <aside
         className={clsx(
-          'w-[200px] lg:w-[260px] fixed top-0 left-0 bottom-0 flex flex-col flex-shrink-0 bg-white'
+          'w-[200px] lg:w-[260px] fixed top-0 left-0 bottom-0 flex flex-col flex-shrink-0 bg-stone-900'
         )}
       >
         {children}
@@ -54,9 +54,7 @@ interface SidebarHeaderProps {
 }
 
 function SidebarHeader({ children, className }: SidebarHeaderProps) {
-  return (
-    <div className={clsx('w-full border-b border-gray-100 py-4 px-6', className)}>{children}</div>
-  );
+  return <div className={clsx('w-full py-4 px-6', className)}>{children}</div>;
 }
 Sidebar.Header = SidebarHeader;
 
@@ -87,11 +85,11 @@ function SidebarMenuLink({ icon, name, href, active, className }: SidebarMenuIte
     <Link
       href={href}
       className={clsx(
-        'flex gap-4 w-full px-4 py-3 items-center rounded-md border border-white',
+        'flex gap-4 w-full px-4 py-3 items-center rounded-md border border-stone-900',
         className,
         {
-          'text-primary bg-gray-50 border-white': active,
-          'text-gray-600 hover:border-gray-50': !active,
+          'text-white bg-stone-800 border-stone-900': active,
+          'text-white hover:border-gray-400': !active,
         }
       )}
     >
@@ -110,9 +108,7 @@ interface SidebarContentProps {
 
 function SidebarContent({ children, className }: SidebarContentProps) {
   return (
-    <article
-      className={clsx('w-full pl-[200px] lg:pl-[260px] mb-4 flex-grow', className)}
-    >
+    <article className={clsx('w-full pl-[200px] lg:pl-[260px] mb-4 flex-grow', className)}>
       {children}
     </article>
   );
@@ -157,11 +153,8 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
 
   return (
     <div className={clsx('flex flex-col w-full p-2 flex-shrink-0 gap-2', className)}>
-      <div className="flex justify-center">
-        <Image src="/holaplex-small.svg" alt="Holaplex" width="64" height="6" />
-      </div>
       <div
-        className="flex items-center gap-2 justify-between cursor-pointer border-t border-gray-100 pt-2"
+        className="flex items-center gap-2 justify-between cursor-pointer pt-2"
         onClick={() => {
           if (!userAffiliationsQuery.called) {
             loadUserAffiliations();
@@ -170,35 +163,35 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
           setExpandFooter(!expandFooter);
         }}
       >
-        <h1 className="flex items-center gap-2 text-sm text-primary font-medium">
+        <h1 className="flex items-center gap-2 text-sm text-white font-medium">
           <div className="w-8 h-8 bg-gray-300 rounded-md" />
           <span className="flex flex-col capitalize">
             {userQuery.loading ? (
-              <div className="h-4 w-20 bg-gray-50 rounded-full animate-pulse" />
+              <div className="h-4 w-20 bg-stone-800 rounded-full animate-pulse" />
             ) : (
               `${userQuery.data?.user.firstName} ${userQuery.data?.user.lastName}`
             )}
             <span className="text-gray-400 text-xs">{organization?.name}</span>
           </span>
         </h1>
-        <Icon.Expand />
+        {/* {expandFooter ? <Icon.DropdownReverse /> : <Icon.Dropdown />} */}
       </div>
       {expandFooter && (
         <div className="w-full border-t border-gray-100 py-2">
           {userAffiliationsQuery.loading ? (
             <div className="flex flex-col gap-4">
               <div className="flex gap-2 items-center">
-                <div className="w-8 h-8 bg-gray-50 rounded-md animate-pulse" />
-                <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
+                <div className="w-8 h-8 bg-stone-800 rounded-md animate-pulse" />
+                <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
               </div>
               <div className="flex gap-2 items-center">
-                <div className="w-8 h-8 bg-gray-50 rounded-md animate-pulse" />
-                <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
+                <div className="w-8 h-8 bg-stone-800 rounded-md animate-pulse" />
+                <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
               </div>
             </div>
           ) : (
             <div className="flex flex-col gap-4">
-              <div className="flex flex-col border-b border-gray-100 py-2">
+              <div className="flex flex-col border-b border-gray-800 py-2">
                 {/* <Sidebar.Menu.Link
                   name="Settings"
                   icon={<Icon.Settings />}
@@ -213,7 +206,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                 />
 
                 <div
-                  className="flex gap-4 w-full px-4 py-3 items-center text-gray-600 cursor-pointer"
+                  className="flex gap-4 w-full px-4 py-3 items-center text-gray-400 cursor-pointer"
                   onClick={() => logout()}
                 >
                   <Icon.Logout />
@@ -240,14 +233,14 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                       >
                         {affiliation.organization?.profileImageUrl ? (
                           <img
-                            className="w-8 h-8 rounded-md"
+                            className="w-8 h-8 rounded-full"
                             src={affiliation.organization.profileImageUrl}
                             alt="logo"
                           />
                         ) : (
-                          <div className="w-8 h-8 bg-gray-300 rounded-md" />
+                          <div className="w-8 h-8 bg-stone-800 rounded-md" />
                         )}
-                        <span className="text-gray-600 font-medium text-sm">
+                        <span className="text-gray-400 font-medium text-sm">
                           {affiliation.organization?.name}
                         </span>
                       </div>

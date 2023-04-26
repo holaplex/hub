@@ -6,8 +6,8 @@ export enum FontWeight {
 }
 
 export enum TextColor {
-  Primary = 'text-primary',
-  Gray = 'text-gray-600',
+  Primary = 'text-white',
+  Gray = 'text-gray-400',
 }
 
 export enum Size {

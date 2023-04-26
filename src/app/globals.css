@@ -11,7 +11,7 @@
 html,
 body {
   overflow-x: hidden;
-  @apply bg-gray-50 min-h-screen relative flex flex-col flex-grow;
+  @apply bg-stone-950 min-h-screen relative flex flex-col flex-grow text-white;
 }
 
 a {
@@ -20,26 +20,26 @@ a {
 }
 
 h1 {
-  @apply text-2xl font-semibold text-primary;
+  @apply text-2xl font-semibold text-white;
 }
 
 h2 {
-  @apply text-xl font-semibold text-primary;
+  @apply text-xl font-semibold text-white;
 }
 
 h3 {
-  @apply text-sm text-gray-600;
+  @apply text-sm text-gray-400;
 }
 
 /* UI Library specific */
 
 .form-error {
-  @apply text-left text-sm text-negative;
+  @apply text-left text-sm text-red-500;
 }
 
 .form-input-container,
 .form-input {
-  @apply w-full;
+  @apply w-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400;
 }
 
 .form-input-container {
@@ -47,25 +47,7 @@ h3 {
 }
 
 .form-input {
-  @apply rounded-md;
-}
-
-[type='text']:focus,
-[type='email']:focus,
-[type='url']:focus,
-[type='password']:focus,
-[type='number']:focus,
-[type='date']:focus,
-[type='datetime-local']:focus,
-[type='month']:focus,
-[type='search']:focus,
-[type='tel']:focus,
-[type='time']:focus,
-[type='week']:focus,
-[multiple]:focus,
-textarea:focus,
-select:focus {
-  @apply border-gray-100 outline-none;
+  @apply rounded-lg bg-stone-800 border border-stone-800 text-white;
 }
 
 .form-label {
@@ -73,19 +55,19 @@ select:focus {
 }
 
 .form-label-text {
-  @apply text-primary;
+  @apply text-gray-400;
 }
 
 .form-show-password-container {
-  @apply p-2 bg-gray-50 rounded-md;
+  @apply p-2 bg-stone-900 rounded-md;
 }
 
 .form-checkbox {
-  @apply text-primary rounded;
+  @apply text-white rounded bg-stone-800 border-none;
 }
 
 .form-checkbox-label {
-  @apply text-xs font-medium text-primary;
+  @apply text-xs font-medium text-white;
 }
 
 *:focus {
@@ -101,27 +83,31 @@ input:focus {
 }
 
 .button-medium {
-  @apply py-2 px-4 text-xs font-semibold;
+  @apply py-2 px-4 font-medium;
+}
+
+.button-variant-secondary.button-medium {
+  @apply py-[6px];
 }
 
 .button-large {
-  @apply py-2 px-4 text-base font-semibold;
+  @apply py-2 px-4 text-base font-medium;
 }
 
 .button-variant-primary {
-  @apply text-white bg-primary hover:bg-gray-800 disabled:bg-gray-700 transition;
+  @apply text-stone-950 bg-yellow-300 hover:bg-yellow-400 disabled:opacity-70 transition rounded-lg;
 }
 
 .button-variant-secondary {
-  @apply text-primary bg-gray-50 border border-gray-100 hover:bg-gray-100  hover:border-gray-200 transition;
+  @apply text-yellow-300 bg-transparent border-2 border-yellow-300 hover:text-yellow-400 hover:border-yellow-400 transition rounded-lg;
 }
 
 .button-variant-tertiary {
-  @apply text-primary bg-white hover:bg-gray-50 disabled:bg-gray-100 transition;
+  @apply text-white bg-white hover:bg-gray-50 disabled:bg-stone-950 transition;
 }
 
 .button-variant-failure {
-  @apply text-white bg-negative;
+  @apply text-white bg-red-500;
 }
 
 .spinner {
@@ -129,24 +115,27 @@ input:focus {
 }
 
 .spinner-primary {
-  @apply border-gray-50 border-r-transparent;
+  @apply border-stone-950 border-r-transparent;
 }
 
 .spinner-secondary,
 .spinner-tertiary {
-  @apply border-black border-r-transparent;
+  @apply border-stone-950 border-r-transparent;
 }
 
 .table-header-text {
-  @apply text-xs text-gray-600 font-medium;
+  @apply text-xs text-gray-400 font-medium;
 }
 
 .modal-close {
-  @apply top-8 right-8 rounded-full bg-gray-50 p-2 hover:bg-gray-100 hover:text-gray-400;
+  @apply top-8 right-8 rounded-full bg-stone-800 p-2 hover:opacity-70;
 }
 
+.modal-close-icon {
+  @apply text-white;
+}
 .form-select-options {
-  @apply bg-white p-1 text-base rounded-md shadow-lg max-h-40 z-10 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm flex flex-col gap-1;
+  @apply bg-stone-800 p-1 text-base rounded-lg shadow-lg max-h-40 z-10 ring-1 ring-stone-800 ring-opacity-5 focus:outline-none sm:text-sm flex flex-col gap-1;
 }
 
 .form-select-button {
@@ -157,23 +146,23 @@ input:focus {
   @apply text-left;
 }
 .form-select-option {
-  @apply p-2 text-black rounded;
+  @apply p-2 text-gray-400 rounded;
 }
 
 .form-select-button-dropdown {
-  @apply mr-2;
+  @apply mr-2 stroke-gray-200;
 }
 
 .form-select-option-selected {
-  @apply bg-gray-50 rounded-sm;
+  @apply bg-yellow-300 text-stone-800 rounded-lg;
 }
 
 .form-select-option-active {
-  @apply bg-gray-50 rounded-sm;
+  @apply text-yellow-300;
 }
 
 .form-select-button-placeholder {
-  @apply text-gray-500;
+  @apply text-gray-400;
 }
 
 input[type='radio'] {
@@ -181,11 +170,11 @@ input[type='radio'] {
 }
 
 .popover-panel {
-  @apply w-screen max-w-[200px] border rounded-md border-gray-100 p-4 bg-white;
+  @apply w-screen max-w-[200px] rounded-md p-4 bg-stone-800 text-white;
 }
 
 .popover-elements {
-  @apply flex flex-col gap-5 text-sm text-primary;
+  @apply flex flex-col gap-5 text-sm text-white;
 }
 
 .dragdrop-preview-image {

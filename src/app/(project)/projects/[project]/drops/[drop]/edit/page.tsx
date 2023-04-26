@@ -41,13 +41,13 @@ export default function EditDropPage({ params: { drop, project } }: EditDropProp
         {dropQuery.loading ? (
           <>
             <div className="mt-2 flex flex-col gap-1">
-              <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
+              <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
             </div>
             <div className="mt-4 flex flex-col gap-2">
-              <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
-              <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
-              <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
-              <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+              <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+              <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+              <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+              <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
             </div>
           </>
         ) : (
