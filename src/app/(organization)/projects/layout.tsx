@@ -10,6 +10,7 @@ import { GetOrganizationProjects } from './../../../queries/organization.graphql
 import { Organization, Project } from '../../../graphql.types';
 import { useOrganization } from '../../../hooks/useOrganization';
 import { DateFormat, formatDateString } from '../../../modules/time';
+import Copy from '../../../components/Copy';
 
 interface GetProjectsData {
   organization: Organization;
@@ -169,6 +170,9 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                               >
                                 <Icon.Edit stroke="stroke-white" /> <span>Edit project</span>
                               </Link>,
+                              <Copy key="copy_id" copyString={projectId}>
+                                <span>Copy project ID</span>
+                              </Copy>,
                             ]}
                           />
                         );

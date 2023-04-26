@@ -11,6 +11,7 @@ import Table from '../../../../../components/Table';
 import { DateFormat, convertLocalTime } from '../../../../../modules/time';
 import { Project, Drop as DropType, DropStatus } from '../../../../../graphql.types';
 import { Drop } from '../../../../../components/Drop';
+import Copy from '../../../../../components/Copy';
 
 interface DropsPageProps {
   project: string;
@@ -326,9 +327,7 @@ export default function Drops({ project }: DropsPageProps) {
                                           </span>
                                         </>
                                       ) : (
-                                        <span className="text-xs text-white font-medium">
-                                          None
-                                        </span>
+                                        <span className="text-xs text-white font-medium">None</span>
                                       )}
                                     </div>
                                   ),
@@ -455,6 +454,12 @@ export default function Drops({ project }: DropsPageProps) {
                                         </div>
                                       );
                                     }
+
+                                    actions.push(
+                                      <Copy key="copy_id" copyString={drop.id}>
+                                        <span>Copy drop ID</span>
+                                      </Copy>
+                                    );
 
                                     return (
                                       <PopoverBox
