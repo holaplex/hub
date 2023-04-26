@@ -35,7 +35,7 @@ export default function NewDrop({ children, project }: CreateDropProps): JSX.Ele
             className="flex items-center gap-4 px-5 cursor-pointer"
           >
             <Icon.Close />
-            <span className="flex items-center gap-2 text-sm text-primary font-medium">Close</span>
+            <span className="flex items-center gap-2 text-sm text-white font-medium">Close</span>
           </Link>
         </Navbar.Header>
         <Navbar.Menu>

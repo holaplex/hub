@@ -66,7 +66,7 @@ export default function NewDropTimingPage() {
             id="mintImmediately"
             className="mt-7"
             label={
-              <span className="text-xs font-medium text-primary">
+              <span className="text-xs font-medium text-white">
                 I want to start minting immediately
               </span>
             }
@@ -77,13 +77,13 @@ export default function NewDropTimingPage() {
             id="noEndOfSales"
             className="mt-3"
             label={
-              <span className="text-xs font-medium text-primary">
+              <span className="text-xs font-medium text-white">
                 I do not need to end collection sales
               </span>
             }
           />
 
-          <hr className="w-full bg-gray-500 my-5" color="#e6e6e6" />
+          <hr className="w-full bg-stone-800 my-5" color="#e6e6e6" />
           <div className="flex items-center justify-between">
             <Button className="self-start" variant="tertiary" onClick={back}>
               Back

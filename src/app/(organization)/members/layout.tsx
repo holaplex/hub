@@ -41,8 +41,8 @@ function ActionCell({ id, status }: { id: string; status: MemberStatus }): JSX.E
 
   let elements: JSX.Element[] = [
     // <Link key="delete_member" className="flex gap-2 items-center" href={`/members/${id}/delete`}>
-    //   <Icon.Delete fill="#E52E2E" />
-    //   <span className="text-negative">Delete member</span>
+    //   <Icon.Delete stroke="stroke-red-500" />
+    //   <span className="text-red-500">Delete member</span>
     // </Link>,
   ];
 
@@ -60,7 +60,7 @@ function ActionCell({ id, status }: { id: string; status: MemberStatus }): JSX.E
     <PopoverBox
       popperPlacement="auto"
       triggerButton={
-        <div className={clsx('px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min')}>
+        <div className={clsx('px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min')}>
           <Icon.More />
         </div>
       }
@@ -131,17 +131,17 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
         id: 'member',
         header: () => (
           <div className="flex gap-2">
-            <span className="text-xs text-gray-600 font-medium">Members</span>
+            <span className="text-xs text-gray-400 font-medium">Members</span>
           </div>
         ),
         cell: (info) => {
           return (
             <div className="flex flex-col">
-              <span className="text-xs text-primary font-medium">
+              <span className="text-xs text-white font-medium">
                 {info.getValue().fullName ? info.getValue().fullName : info.getValue().email}
               </span>
               {info.getValue().email && (
-                <span className="text-xs text-gray-500">{info.getValue().email}</span>
+                <span className="text-xs text-gray-400">{info.getValue().email}</span>
               )}
             </div>
           );
@@ -150,15 +150,15 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
     ),
     columnHelper.accessor('createdAt', {
       header: () => (
-        <span className="flex text-xs text-gray-600 font-medium self-start">Invited</span>
+        <span className="flex text-xs text-gray-400 font-medium self-start">Invited</span>
       ),
       cell: (info) => {
         return (
           <div className="flex flex-col">
-            <span className="text-xs text-primary font-medium">
+            <span className="text-xs text-white font-medium">
               {formatDateString(info.getValue(), DateFormat.DATE_1)}
             </span>
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-gray-400">
               {formatDateString(info.getValue(), DateFormat.TIME_1)}
             </span>
           </div>
@@ -166,7 +166,7 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
       },
     }),
     columnHelper.accessor('status', {
-      header: () => <span className="flex text-xs text-gray-600 font-medium">Status</span>,
+      header: () => <span className="flex text-xs text-gray-400 font-medium">Status</span>,
       cell: (info) => <Table.MemberPill status={info.getValue()} />,
     }),
     columnHelper.accessor(({ id, status }) => ({ id, status }), {
@@ -181,40 +181,46 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
       <div className="h-full flex flex-col p-4">
         {loading ? (
           <>
-            <div className="w-36 h-8 rounded-md bg-gray-100 animate-pulse" />
-            <div className="w-32 h-8 rounded-md bg-gray-100 animate-pulse mt-4 self-end" />
+            <div className="w-36 h-8 rounded-md bg-stone-900 animate-pulse" />
+            <div className="w-32 h-8 rounded-md bg-stone-900 animate-pulse mt-4 self-end" />
             <Table
               className="mt-4"
               columns={[
                 loadingColumnHelper.display({
                   id: 'member',
-                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                  header: () => (
+                    <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
+                  ),
                   cell: () => (
                     <div className="flex flex-col gap-1">
-                      <span className="rounded-full h-3 w-20 bg-gray-50 animate-pulse" />
-                      <span className="rounded-full h-3 w-24 bg-gray-50 animate-pulse" />
+                      <span className="rounded-full h-3 w-20 bg-stone-800 animate-pulse" />
+                      <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
                     </div>
                   ),
                 }),
                 loadingColumnHelper.display({
                   id: 'createdAt',
-                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                  header: () => (
+                    <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
+                  ),
                   cell: () => (
                     <div className="flex flex-col gap-1">
-                      <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
-                      <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
+                      <span className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />
+                      <span className="rounded-full h-3 w-8 bg-stone-800 animate-pulse" />
                     </div>
                   ),
                 }),
                 loadingColumnHelper.display({
                   id: 'status',
-                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
-                  cell: () => <div className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />,
+                  header: () => (
+                    <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
+                  ),
+                  cell: () => <div className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />,
                 }),
                 loadingColumnHelper.display({
                   id: 'options',
-                  header: () => <div className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />,
-                  cell: () => <div className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />,
+                  header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
+                  cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                 }),
               ]}
               data={new Array(4)}
@@ -222,10 +228,10 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
           </>
         ) : (
           <>
-            <h1 className="text-2xl text-primary font-medium">Members</h1>
+            <h1 className="text-2xl text-white font-medium">Members</h1>
             <div className="mt-4 flex flex-col">
               <Link href="/members/invite" className="self-end">
-                <Button icon={<Icon.InviteMember stroke="#ffffff" />}>Invite member</Button>
+                <Button icon={<Icon.InviteMember />}>Invite member</Button>
               </Link>
               <Table className="mt-4" columns={columns} data={associates} />
             </div>

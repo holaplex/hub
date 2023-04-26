@@ -35,12 +35,12 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
   });
   return (
     <div className={className}>
-      <table className="min-w-full border border-gray-100 border-b-0 rounded-md table-fixed border-collapse">
-        <thead>
+      <table className="min-w-full rounded-md table-fixed bg-stone-900 drop-shadow-lg">
+        <thead className="border-b border-stone-800">
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="bg-gray-50">
+            <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id} className="p-3 border-r border-gray-100">
+                <th key={header.id} className="p-3 ">
                   {header.isPlaceholder ? null : (
                     <div
                       {...{
@@ -63,11 +63,11 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
             </tr>
           ))}
         </thead>
-        <tbody className="bg-white">
+        <tbody>
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="border border-gray-100 p-3">
+                <td key={cell.id} className=" p-3">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
@@ -164,7 +164,7 @@ function DropStatusPill({ status, className }: DropStatusPillProps) {
         'bg-purple-200 text-purple-600': status === DropStatus.Scheduled,
         'bg-blue-200 text-blue-600': status === DropStatus.Minting,
         'bg-green-200 text-green-600': status === DropStatus.Minted,
-        'bg-gray-100 text-gray-500': status === DropStatus.Creating || DropStatus.Paused,
+        'bg-stone-950 text-gray-400': status === DropStatus.Creating || DropStatus.Paused,
         'bg-red-100 text-red-900': status === DropStatus.Expired || status === DropStatus.Shutdown,
       })}
     >
@@ -206,7 +206,7 @@ function WebhookStatusPill({ status, className }: WebhookStatusProps) {
   return (
     <div
       className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
-        'bg-gray-100 text-gray-700': status === WebhookStatus.DISABLED,
+        'bg-stone-950 text-gray-700': status === WebhookStatus.DISABLED,
         'bg-green-200 text-green-600': status === WebhookStatus.ACTIVE,
       })}
     >
@@ -249,7 +249,7 @@ function CredentialStatusPill({ status, className }: CredentialStatusProps) {
   return (
     <div
       className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
-        'bg-gray-100 text-gray-700': status === CredentialStatus.DISABLED,
+        'bg-stone-950 text-gray-700': status === CredentialStatus.DISABLED,
         'bg-green-200 text-green-600': status === CredentialStatus.ACTIVE,
       })}
     >

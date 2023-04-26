@@ -78,19 +78,19 @@ export default function DeleteWebhook({ webhook }: DeleteWebhookProps) {
         {webhookQuery.loading ? (
           <>
             <div className="mt-2 flex flex-col gap-1">
-              <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
-              <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
+              <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
+              <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
             </div>
             <div className="mt-4 flex flex-col gap-2">
-              <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
-              <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+              <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+              <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
             </div>
           </>
         ) : (
           <>
             <Typography.Header size={Size.H3} className="mt-2">
               Are you sure you want to delete{' '}
-              <span className="text-primary font-medium">
+              <span className="text-white font-medium">
                 {webhookQuery.data?.organization.webhook?.description}
               </span>{' '}
               webhook and all its contents?

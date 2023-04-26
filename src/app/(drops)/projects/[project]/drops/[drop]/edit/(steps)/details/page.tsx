@@ -51,7 +51,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
       <Card className="w-[492px]">
         <Typography.Header size={Size.H2}>Drop details</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-          <Form.Label name="Artwork" className="text-xs text-primary mt-5">
+          <Form.Label name="Artwork" className="text-xs text-white mt-5">
             <Controller
               name="image"
               control={control}
@@ -70,18 +70,15 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
                       <div
                         {...getRootProps()}
                         className={clsx(
-                          'flex items-center justify-center border border-dashed border-gray-200 cursor-pointer rounded-md',
+                          'flex items-center justify-center border border-dashed border-stone-800 cursor-pointer rounded-md p-6 text-center text-gray-400',
                           {
-                            'bg-gray-100': isDragActive,
-                            'p-6 text-center text-gray-500': !value,
+                            'bg-stone-950': isDragActive,
                           }
                         )}
                       >
                         <input {...getInputProps({ onBlur })} />
                         {value ? (
-                          <div className="bg-white rounded-lg p-3 overflow-hidden">
-                            <Form.DragDrop.Preview value={value} />
-                          </div>
+                          <Form.DragDrop.Preview value={value} />
                         ) : (
                           <div className="flex flex-col gap-2">
                             <p>
@@ -178,7 +175,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
           >
             Add attribute
           </Button>
-          <hr className="w-full bg-gray-500 my-5" color="#e6e6e6" />
+          <hr className="w-full bg-stone-800 my-5" color="#e6e6e6" />
           <Button htmlType="submit" className="self-end">
             Next
           </Button>

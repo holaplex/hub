@@ -24,8 +24,8 @@ export default function MemberDeletePage() {
             <Icon.EmptyAvatar className="w-32 aspect-square" />
             <div className="w-full flex flex-col justify-between items-start">
               <div className="flex flex-col gap-1">
-                <span className="text-xs font-medium text-gray-600">Wallet address</span>
-                <span className="text-sm text-primary">0xA91...a2#9</span>
+                <span className="text-xs font-medium text-gray-400">Wallet address</span>
+                <span className="text-sm text-white">0xA91...a2#9</span>
               </div>
               <Button icon={<Icon.Copy stroke="#ffffff" />} className="w-full mt-4">
                 Copy address

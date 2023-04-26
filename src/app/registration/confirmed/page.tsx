@@ -19,7 +19,7 @@ export default function EmailConfirmed() {
         <Button
           border="rounded"
           htmlType="submit"
-          className="w-full bg-gray-100 text-primary p-2 mt-5"
+          className="w-full bg-stone-950 text-white p-2 mt-5"
         >
           Sign in
         </Button>

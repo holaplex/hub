@@ -53,14 +53,14 @@ export default function MemberInvitePage() {
         <Typography.Header size={Size.H3}>Enter member email address to invite.</Typography.Header>
 
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(onSubmit)}>
-          <Form.Label name="Member email address" className="text-xs text-primary">
+          <Form.Label name="Member email address" className="text-xs text-white">
             <Form.Input autoFocus placeholder="name@example.com" {...register('email')} />
           </Form.Label>
           <Form.Error message="" />
           <Button htmlType="submit" className="w-full mt-5" loading={loading} disabled={loading}>
             Send invite
           </Button>
-          <Button variant="tertiary" className="w-full mt-5 " onClick={onClose} disabled={loading}>
+          <Button variant="secondary" className="w-full mt-5 " onClick={onClose} disabled={loading}>
             Cancel
           </Button>
         </Form>

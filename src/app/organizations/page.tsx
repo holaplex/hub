@@ -84,7 +84,7 @@ export default function OrganizationsPage() {
           })
         )}
       </div>
-      <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
+      <hr className="w-full bg-stone-800 my-4" color="#e6e6e6" />
       <Link href="/organizations/new" className="mt-4">
         <Button className="w-full" variant="secondary">
           <div className="flex items-center">

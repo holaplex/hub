@@ -20,7 +20,7 @@ export default function EmailSent() {
         </Typography.Header>
       </div>
       {loading ? (
-        <div className="mt-3 w-full h-[44px] rounded-md bg-gray-100 animate-pulse" />
+        <div className="mt-3 w-full h-[44px] rounded-md bg-stone-950 animate-pulse" />
       ) : (
         <a href="">
           <Button htmlType="submit" variant="secondary" className="w-full mt-5">

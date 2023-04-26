@@ -120,14 +120,14 @@ export default function NewDropRoyaltiesPage() {
             </Form.Label> */}
           </div>
 
-          <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
+          <hr className="w-full bg-stone-800 my-4" color="#e6e6e6" />
 
-          <span className="text-sm text-primary font-medium">Royalties</span>
+          <span className="text-sm text-white font-medium">Royalties</span>
           <Form.Checkbox
             {...register('treasuryAllRoyalties')}
             id="royaltyInTreasuryWallet"
             label={
-              <span className="text-xs font-medium text-primary">
+              <span className="text-xs font-medium text-white">
                 I want to receive all royalties to the selected treasury wallet
               </span>
             }
@@ -174,10 +174,10 @@ export default function NewDropRoyaltiesPage() {
 
           <Form.Error message={formState.errors.creators?.root?.message} />
 
-          <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
+          <hr className="w-full bg-stone-800 my-4" color="#e6e6e6" />
 
-          <span className="text-sm text-primary font-medium">
-            Secondary sale royalties <span className="text-gray-500">(optional)</span>
+          <span className="text-sm text-white font-medium">
+            Secondary sale royalties <span className="text-gray-400">(optional)</span>
           </span>
 
           
@@ -201,7 +201,7 @@ export default function NewDropRoyaltiesPage() {
             <Form.Error message={formState.errors.royalties?.message} />
           </Form.Label>
 
-          <hr className="w-full bg-gray-500 my-5" color="#e6e6e6" />
+          <hr className="w-full bg-stone-800 my-5" color="#e6e6e6" />
           <div className="flex items-center justify-between">
             <Button className="self-start" variant="tertiary" onClick={back}>
               Back

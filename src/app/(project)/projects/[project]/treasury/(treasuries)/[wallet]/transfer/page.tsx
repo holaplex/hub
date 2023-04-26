@@ -21,10 +21,10 @@ export default function MemberDeletePage() {
         <Form className="flex flex-col mt-5">
           <Form.Label
             name="Amount"
-            className="text-xs text-primary mt-5"
+            className="text-xs text-white mt-5"
             asideComponent={
               <div
-                className="text-primary font-semibold text-xs cursor-pointer"
+                className="text-white font-semibold text-xs cursor-pointer"
                 onClick={() => {
                   console.log('Max clicked');
                 }}
@@ -36,11 +36,11 @@ export default function MemberDeletePage() {
             <Form.Input />
           </Form.Label>
           <div className="flex items-center gap-1 text-xs font-medium">
-            <span className="text-gray-500">Balance:</span>
-            <span className="text-primary">0.456 SOL</span>
+            <span className="text-gray-400">Balance:</span>
+            <span className="text-white">0.456 SOL</span>
           </div>
           <Form.Error message="" />
-          <Form.Label name="To wallet address" className="text-xs text-primary mt-5">
+          <Form.Label name="To wallet address" className="text-xs text-white mt-5">
             <Form.Input />
           </Form.Label>
           <Form.Error message="" />

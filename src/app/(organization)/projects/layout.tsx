@@ -38,8 +38,8 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
       <div className="h-full flex flex-col p-4">
         {loading ? (
           <>
-            <div className="w-36 h-8 rounded-md bg-gray-100 animate-pulse" />
-            <div className="w-32 h-8 rounded-md bg-gray-100 animate-pulse mt-4 self-end" />
+            <div className="w-36 h-8 rounded-md bg-stone-900 animate-pulse" />
+            <div className="w-32 h-8 rounded-md bg-stone-900 animate-pulse mt-4 self-end" />
             <Table
               className="mt-4"
               columns={[
@@ -47,30 +47,32 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                   id: 'name',
                   header: () => (
                     <div className="flex gap-2 items-center">
-                      <span className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />
+                      <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                     </div>
                   ),
                   cell: () => (
                     <div className="flex gap-2 items-center">
-                      <span className="rounded-md h-8 w-8 bg-gray-50 animate-pulse" />
-                      <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
+                      <span className="rounded-md h-8 w-8 bg-stone-800 animate-pulse" />
+                      <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                     </div>
                   ),
                 }),
                 loadingColumnHelper.display({
                   id: 'createdAt',
-                  header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                  header: () => (
+                    <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
+                  ),
                   cell: () => (
                     <div className="flex flex-col gap-1">
-                      <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
-                      <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
+                      <span className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />
+                      <span className="rounded-full h-3 w-8 bg-stone-800 animate-pulse" />
                     </div>
                   ),
                 }),
                 loadingColumnHelper.display({
                   id: 'options',
-                  header: () => <div className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />,
-                  cell: () => <div className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />,
+                  header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
+                  cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                 }),
               ]}
               data={new Array(4)}
@@ -78,16 +80,16 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
           </>
         ) : (
           <>
-            <h1 className="text-2xl text-primary font-medium">Projects</h1>
+            <h1 className="text-2xl text-white font-medium">Projects</h1>
             {noProjects ? (
               <div className="h-full flex-1 flex flex-col items-center justify-center">
                 <Icon.Large.CreateProject />
                 <span className="mt-6 text-xl font-semibold">No projects created yet</span>
-                <span className="mt-2 text-gray-500 text-sm">
+                <span className="mt-2 text-gray-400 text-sm">
                   Click button below to get started.
                 </span>
                 <Link href="/projects/new">
-                  <Button icon={<Icon.CreateProject stroke="#ffffff" />} className="mt-8">
+                  <Button icon={<Icon.CreateProject />} className="mt-8">
                     Create new project
                   </Button>
                 </Link>
@@ -95,7 +97,7 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
             ) : (
               <div className="mt-4 flex flex-col">
                 <Link href="/projects/new" className="self-end">
-                  <Button icon={<Icon.CreateProject stroke="#ffffff" />} className="self-end">
+                  <Button icon={<Icon.CreateProject />} className="self-end">
                     Create project
                   </Button>
                 </Link>
@@ -106,7 +108,7 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                     columnHelper.accessor('name', {
                       header: () => (
                         <div className="flex gap-2">
-                          <span className="text-xs text-gray-600 font-medium">Project Name</span>
+                          <span className="text-xs text-gray-400 font-medium">Project Name</span>
                         </div>
                       ),
                       cell: (info) => {
@@ -119,9 +121,9 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                             {profileImage ? (
                               <img className="w-8 h-8 rounded-md" src={profileImage} alt="logo" />
                             ) : (
-                              <div className="w-8 h-8 bg-gray-300 rounded-md" />
+                              <div className="w-8 h-8 bg-stone-800 rounded-md" />
                             )}
-                            <span className="text-xs text-primary font-medium">
+                            <span className="text-xs text-white font-medium">
                               {info.getValue()}
                             </span>
                           </Link>
@@ -130,17 +132,17 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                     }),
                     columnHelper.accessor('createdAt', {
                       header: () => (
-                        <span className="flex text-xs text-gray-600 font-medium self-start">
+                        <span className="flex text-xs text-gray-400 font-medium self-start">
                           Created date
                         </span>
                       ),
                       cell: (info) => {
                         return (
                           <div className="flex flex-col">
-                            <span className="text-xs text-primary font-medium">
+                            <span className="text-xs text-white font-medium">
                               {formatDateString(info.getValue(), DateFormat.DATE_1)}
                             </span>
-                            <span className="text-xs text-gray-500">
+                            <span className="text-xs text-gray-400">
                               {formatDateString(info.getValue(), DateFormat.TIME_1)}
                             </span>
                           </div>
@@ -155,7 +157,7 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                         return (
                           <PopoverBox
                             triggerButton={
-                              <div className="px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min">
+                              <div className="px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min">
                                 <Icon.More />
                               </div>
                             }
@@ -165,16 +167,7 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                                 className="flex gap-2 items-center"
                                 href={`/projects/${projectId}/edit`}
                               >
-                                <Icon.Edit /> <span>Edit project</span>
-                              </Link>,
-                              // TODO: Check the project treasury, if it has funds ask to transfer funds.
-                              <Link
-                                key="delete_project"
-                                className="flex gap-2 items-center"
-                                href={`/projects/${projectId}/delete`}
-                              >
-                                <Icon.Delete fill="#E52E2E" />
-                                <span className="text-negative">Delete project</span>
+                                <Icon.Edit stroke="stroke-white" /> <span>Edit project</span>
                               </Link>,
                             ]}
                           />

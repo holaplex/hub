@@ -97,19 +97,19 @@ function Pause({ children }: PauseProps): JSX.Element {
           {dropQueryResult.loading ? (
             <>
               <div className="mt-2 flex flex-col gap-1">
-                <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
-                <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
+                <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
+                <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
               </div>
               <div className="mt-4 flex flex-col gap-2">
-                <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
-                <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+                <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+                <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
               </div>
             </>
           ) : (
             <>
               <Typography.Header size={Size.H3} className="mt-2">
                 Are you sure you want to pause{' '}
-                <span className="text-primary font-medium">
+                <span className="text-white font-medium">
                   {dropQueryResult.data?.project.drop?.collection.metadataJson?.name}
                 </span>{' '}
                 drop and stop sales?
@@ -212,19 +212,19 @@ function Resume({ children }: ResumeProps): JSX.Element {
           {dropQueryResult.loading ? (
             <>
               <div className="mt-2 flex flex-col gap-1">
-                <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
-                <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
+                <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
+                <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
               </div>
               <div className="mt-4 flex flex-col gap-2">
-                <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
-                <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+                <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+                <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
               </div>
             </>
           ) : (
             <>
               <Typography.Header size={Size.H3} className="mt-2">
                 Are you sure you want to resume{' '}
-                <span className="text-primary font-medium">
+                <span className="text-white font-medium">
                   {dropQueryResult.data?.project.drop?.collection.metadataJson?.name}
                 </span>{' '}
                 drop and continue sales?
@@ -327,19 +327,19 @@ function Shutdown({ children }: ShutdownProps): JSX.Element {
           {dropQueryResult.loading ? (
             <>
               <div className="mt-2 flex flex-col gap-1">
-                <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
-                <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
+                <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
+                <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
               </div>
               <div className="mt-4 flex flex-col gap-2">
-                <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
-                <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+                <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+                <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
               </div>
             </>
           ) : (
             <>
               <Typography.Header size={Size.H3} className="mt-2">
                 Are you sure you want to shut-down{' '}
-                <span className="text-primary font-medium">
+                <span className="text-white font-medium">
                   {dropQueryResult.data?.project.drop?.collection.metadataJson?.name}
                 </span>{' '}
                 minting?
