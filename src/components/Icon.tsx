@@ -50,7 +50,6 @@ function SolanaLarge({
   width = 38,
   height = 38,
   fill = '#AAAAAA',
-  stroke = 'black',
   className = '',
 }: IconProps) {
   return (
@@ -187,7 +186,7 @@ function HelpHeadphones({
   height = 20,
   fill = 'none',
   className = '',
-  stroke = 'stroke-stone-950',
+  stroke = 'stroke-gray-400',
 }: IconProps) {
   return (
     <svg
@@ -243,7 +242,7 @@ function Dropdown({
   height = 4,
   fill = 'none',
   className = '',
-  stroke = 'stroke-stone-950',
+  stroke = 'stroke-gray-400',
 }: IconProps) {
   return (
     <svg
@@ -523,76 +522,33 @@ function Webhook({
 }
 Icon.Webhook = Webhook;
 
-function Sol({
-  width = 16,
-  height = 16,
-  fill = 'none',
-  stroke = 'black',
-  className = '',
-}: IconProps) {
+function Sol({ width = 20, height = 20, fill = 'fill-white', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
-      viewBox="0 0 16 16"
-      fill={fill}
-      className={className}
+      viewBox="0 0 20 20"
+      className={clsx(fill, className)}
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="8" cy="8" r="8" fill="black" />
+      <path d="M4.59949 4.14168C4.70006 4.0522 4.83281 4 4.96958 4H17.7377C17.971 4 18.0877 4.26099 17.9228 4.41385L15.4005 6.75153C15.304 6.84101 15.1712 6.89321 15.0304 6.89321H2.26229C2.02897 6.89321 1.91231 6.63222 2.07724 6.47936L4.59949 4.14168Z" />
       <path
-        d="M4.95947 9.89515C5.0149 9.83971 5.09113 9.80737 5.17198 9.80737H12.5036C12.6376 9.80737 12.7046 9.96907 12.6099 10.0638L11.1616 11.5121C11.1061 11.5675 11.0299 11.5999 10.9491 11.5999H3.61741C3.48343 11.5999 3.41644 11.4382 3.51115 11.3435L4.95947 9.89515Z"
-        fill="url(#paint0_linear_889_107778)"
+        d="M15.4005 8.69508C15.304 8.6056 15.1712 8.5534 15.0304 8.5534H2.26229C2.02897 8.5534 1.91231 8.81439 2.07724 8.96725L4.59949 11.3049C4.69604 11.3944 4.82879 11.4466 4.96958 11.4466H17.7377C17.971 11.4466 18.0877 11.1856 17.9228 11.0328L15.4005 8.69508Z"
+        fill="white"
       />
-      <path
-        d="M4.95947 4.48768C5.01721 4.43224 5.09344 4.3999 5.17198 4.3999H12.5036C12.6376 4.3999 12.7046 4.5616 12.6099 4.6563L11.1616 6.10462C11.1061 6.16006 11.0299 6.1924 10.9491 6.1924H3.61741C3.48343 6.1924 3.41644 6.0307 3.51115 5.93599L4.95947 4.48768Z"
-        fill="url(#paint1_linear_889_107778)"
-      />
-      <path
-        d="M11.1616 7.1742C11.1061 7.11876 11.0299 7.08643 10.9491 7.08643H3.61741C3.48343 7.08643 3.41644 7.24812 3.51115 7.34283L4.95947 8.79114C5.0149 8.84658 5.09113 8.87892 5.17198 8.87892H12.5036C12.6376 8.87892 12.7046 8.71723 12.6099 8.62252L11.1616 7.1742Z"
-        fill="url(#paint2_linear_889_107778)"
-      />
-      <defs>
-        <linearGradient
-          id="paint0_linear_889_107778"
-          x1="-13.104"
-          y1="3.0397"
-          x2="-13.2991"
-          y2="12.8556"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stop-color="#00FFA3" />
-          <stop offset="1" stop-color="#DC1FFF" />
-        </linearGradient>
-        <linearGradient
-          id="paint1_linear_889_107778"
-          x1="-15.3227"
-          y1="1.8814"
-          x2="-15.5178"
-          y2="11.6973"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stop-color="#00FFA3" />
-          <stop offset="1" stop-color="#DC1FFF" />
-        </linearGradient>
-        <linearGradient
-          id="paint2_linear_889_107778"
-          x1="-14.2204"
-          y1="2.45697"
-          x2="-14.4155"
-          y2="12.2729"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stop-color="#00FFA3" />
-          <stop offset="1" stop-color="#DC1FFF" />
-        </linearGradient>
-      </defs>
+      <path d="M4.59949 13.2485C4.69604 13.159 4.82879 13.1068 4.96958 13.1068H17.7377C17.971 13.1068 18.0877 13.3678 17.9228 13.5206L15.4005 15.8583C15.304 15.9478 15.1712 16 15.0304 16H2.26229C2.02897 16 1.91231 15.739 2.07724 15.5862L4.59949 13.2485Z" />
     </svg>
   );
 }
 CryptoIcon.Sol = Sol;
 
-function ExternalLink({ width = 16, height = 16, className = '' }: IconProps) {
+function ExternalLink({
+  width = 16,
+  height = 16,
+  className = '',
+  stroke = 'stroke-white',
+}: IconProps) {
   return (
     <svg
       width={width}
@@ -776,13 +732,13 @@ function Balance({
 }
 Icon.Balance = Balance;
 
-function Help({ width = 16, height = 16, className = '' }: IconProps) {
+function Help({ width = 16, height = 16, className = '', stroke = 'stroke-gray-400' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      className={clsx('stroke-stone-950 fill-none', className)}
+      className={clsx('fill-none', className, stroke)}
       xmlns="http://www.w3.org/2000/svg"
     >
       <circle cx="7.99957" cy="8.00006" r="6.0025" strokeLinecap="round" strokeLinejoin="round" />

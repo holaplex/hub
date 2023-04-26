@@ -31,7 +31,7 @@ export default function TreasuryWallet({
           </Button>
         </div>
       </div>
-      <div className="mt-5 flex flex-col w-full rounded-md bg-gray-50 border border-gray-100">
+      <div className="mt-5 flex flex-col w-full rounded-md bg-stone-800 border border-gray-100">
         <div className="flex items-center py-3 w-full text-xs font-medium text-gray-400">
           <span className="text-white px-5 border-r border-r-gray-200">
             Created: 11/28/2022 10:27 AM

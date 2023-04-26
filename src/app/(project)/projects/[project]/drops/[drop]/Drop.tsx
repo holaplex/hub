@@ -240,7 +240,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                 }
                               </span>
                               <div className="flex gap-2 mt-4">
-                                <div className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50">
+                                <div className="w-full flex flex-col rounded-md py-2 px-3 bg-stone-800">
                                   <span className="text-gray-400 text-xs font-medium">
                                     Treasury wallet
                                   </span>
@@ -248,7 +248,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                     {wallet?.shortAddress}
                                   </span>
                                 </div>
-                                <div className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50">
+                                <div className="w-full flex flex-col rounded-md py-2 px-3 bg-stone-800">
                                   <span className="text-gray-400 text-xs font-medium">
                                     Blockchain
                                   </span>
@@ -269,7 +269,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                 {dropQuery.data?.project?.drop?.collection?.creators?.map(
                                   (creator, index) => (
                                     <div
-                                      className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50 mt-3"
+                                      className="w-full flex flex-col rounded-md py-2 px-3 bg-stone-800 mt-3"
                                       key={creator.address}
                                     >
                                       <span className="text-gray-400 text-xs font-medium">
@@ -283,7 +283,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                   )
                                 )}
                                 <div className="flex gap-2 mt-3">
-                                  <div className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50">
+                                  <div className="w-full flex flex-col rounded-md py-2 px-3 bg-stone-800">
                                     <span className="text-gray-400 text-xs font-medium">
                                       Start date
                                     </span>
@@ -292,7 +292,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                       {formatDateString(startTime, DateFormat.TIME_1)}
                                     </span>
                                   </div>
-                                  <div className="w-full flex flex-col rounded-md py-2 px-3 bg-gray-50">
+                                  <div className="w-full flex flex-col rounded-md py-2 px-3 bg-stone-800">
                                     <span className="text-gray-400 text-xs font-medium">
                                       End date
                                     </span>

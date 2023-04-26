@@ -35,7 +35,7 @@ export default function DeleteProject() {
           </Typography.Header>
 
           <Form className="flex flex-col mt-5">
-            <div className="flex items-start gap-2 rounded-md bg-gray-50 p-3">
+            <div className="flex items-start gap-2 rounded-md bg-stone-800 p-3">
               <Icon.CheckBox />
               <span className="text-xs text-gray-400 font-medium">
                 I want to delete the project permanently

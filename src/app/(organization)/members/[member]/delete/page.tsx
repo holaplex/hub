@@ -19,7 +19,7 @@ export default function MemberDeletePage() {
         <Typography.Header size={Size.H3}>This action cannot be reversed.</Typography.Header>
 
         <Form className="flex flex-col mt-5">
-          <div className="flex items-start gap-2 rounded-md bg-gray-50 p-3">
+          <div className="flex items-start gap-2 rounded-md bg-stone-800 p-3">
             <Icon.Info />
             <span className="text-xs text-gray-400 font-medium">
               The member will be deprived of access to the project

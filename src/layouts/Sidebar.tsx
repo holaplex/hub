@@ -222,7 +222,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                         'flex items-center rounded-md justify-between p-2 border transition',
                         {
                           'border-gray-100': affiliation.organization?.id === organization?.id,
-                          'border-white cursor-pointer hover:border-gray-100 hover:bg-gray-50':
+                          'border-white cursor-pointer hover:border-gray-100 hover:bg-stone-800':
                             affiliation.organization?.id !== organization?.id,
                         }
                       )}

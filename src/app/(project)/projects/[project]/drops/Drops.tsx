@@ -55,15 +55,15 @@ export default function Drops({ project }: DropsPageProps) {
                               id: 'name',
                               header: () => (
                                 <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-4 w-4 bg-stone-950 animate-pulse" />
-                                  <span className="rounded-full h-4 w-28 bg-stone-950 animate-pulse" />
+                                  <span className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                                 </div>
                               ),
                               cell: () => (
                                 <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-md h-8 w-8 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-md h-8 w-8 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                                 </div>
                               ),
                             }),
@@ -74,44 +74,44 @@ export default function Drops({ project }: DropsPageProps) {
                               ),
                               cell: () => (
                                 <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-3 w-11 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-3 w-4 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-3 w-11 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-full h-3 w-4 bg-stone-800 animate-pulse" />
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'createdAt',
                               header: () => (
-                                <div className="rounded-full h-4 w-28 bg-stone-950 animate-pulse" />
+                                <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex flex-col gap-1">
-                                  <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-full h-3 w-8 bg-stone-800 animate-pulse" />
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'startTime',
                               header: () => (
-                                <div className="rounded-full h-4 w-28 bg-stone-950 animate-pulse" />
+                                <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex flex-col gap-1">
-                                  <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-full h-3 w-8 bg-stone-800 animate-pulse" />
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'endTime',
                               header: () => (
-                                <div className="rounded-full h-4 w-28 bg-stone-950 animate-pulse" />
+                                <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex flex-col gap-1">
-                                  <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-full h-3 w-8 bg-stone-800 animate-pulse" />
                                 </div>
                               ),
                             }),
@@ -122,8 +122,8 @@ export default function Drops({ project }: DropsPageProps) {
                               ),
                               cell: () => (
                                 <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-3 w-11 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-3 w-4 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-3 w-11 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-full h-3 w-4 bg-stone-800 animate-pulse" />
                                 </div>
                               ),
                             }),
@@ -134,17 +134,17 @@ export default function Drops({ project }: DropsPageProps) {
                               ),
                               cell: () => (
                                 <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-6 w-20 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-6 w-20 bg-stone-800 animate-pulse" />
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'options',
                               header: () => (
-                                <div className="rounded-full h-4 w-4 bg-stone-950 animate-pulse" />
+                                <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
-                                <div className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />
+                                <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />
                               ),
                             }),
                           ]}

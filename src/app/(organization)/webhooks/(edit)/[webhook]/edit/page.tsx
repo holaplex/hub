@@ -1,6 +1,6 @@
 'use client';
 import { useMutation, useQuery } from '@apollo/client';
-import { Button, Form } from '@holaplex/ui-library-react';
+import { Button, Form, Placement } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -136,33 +136,33 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
             {loading ? (
               <div className="flex flex-col gap-5 mt-5">
                 <div>
-                  <div className="mb-1 w-20 h-4 rounded-md bg-stone-950 animate-pulse" />
-                  <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+                  <div className="mb-1 w-20 h-4 rounded-md bg-stone-800 animate-pulse" />
+                  <div className="w-full h-10 rounded-md bg-stone-800 animate-pulse" />
                 </div>
                 <div className="flex gap-2">
                   <div className="w-full">
-                    <div className="mb-1 w-20 h-4 rounded-md bg-stone-950 animate-pulse" />
-                    <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+                    <div className="mb-1 w-20 h-4 rounded-md bg-stone-800 animate-pulse" />
+                    <div className="w-full h-10 rounded-md bg-stone-800 animate-pulse" />
                   </div>
                   <div className="w-full">
-                    <div className="mb-1 w-20 h-4 rounded-md bg-stone-950 animate-pulse" />
-                    <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+                    <div className="mb-1 w-20 h-4 rounded-md bg-stone-800 animate-pulse" />
+                    <div className="w-full h-10 rounded-md bg-stone-800 animate-pulse" />
                   </div>
                 </div>
                 <div>
-                  <div className="mb-1 mt-4 w-20 h-4 rounded-md bg-stone-950 animate-pulse" />
+                  <div className="mb-1 mt-4 w-20 h-4 rounded-md bg-stone-800 animate-pulse" />
                   <div className="grid grid-cols-2 gap-5 my-2">
-                    <div className="w-full h-5 rounded-md bg-stone-950 animate-pulse" />
-                    <div className="w-full h-5 rounded-md bg-stone-950 animate-pulse" />
-                    <div className="w-full h-5 rounded-md bg-stone-950 animate-pulse" />
-                    <div className="w-full h-5 rounded-md bg-stone-950 animate-pulse" />
-                    <div className="w-full h-5 rounded-md bg-stone-950 animate-pulse" />
-                    <div className="w-full h-5 rounded-md bg-stone-950 animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-stone-800 animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-stone-800 animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-stone-800 animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-stone-800 animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-stone-800 animate-pulse" />
+                    <div className="w-full h-5 rounded-md bg-stone-800 animate-pulse" />
                   </div>
                 </div>
                 <div className="flex justify-between">
-                  <div className="w-24 h-10 rounded-md bg-stone-950 animate-pulse" />
-                  <div className="w-24 h-10 rounded-md bg-stone-950 animate-pulse" />
+                  <div className="w-24 h-10 rounded-md bg-stone-800 animate-pulse" />
+                  <div className="w-24 h-10 rounded-md bg-stone-800 animate-pulse" />
                 </div>
               </div>
             ) : (
@@ -231,67 +231,51 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
 
                 <span className="text-sm text-white font-medium">Events</span>
                 <div className="grid grid-cols-2 mt-4 mx-2 gap-5">
+                <Form.Label name="Project created" placement={Placement.Right}>
                   <Form.Checkbox
                     {...register('events')}
                     id="PROJECT_CREATED"
                     value="PROJECT_CREATED"
-                    label={
-                      <span className="text-xs font-medium text-white">Project created</span>
-                    }
                   />
+                </Form.Label>
+                <Form.Label name="Project wallet created" placement={Placement.Right}>
                   <Form.Checkbox
                     {...register('events')}
                     id="PROJECT_WALLET_CREATED"
                     value="PROJECT_WALLET_CREATED"
-                    label={
-                      <span className="text-xs font-medium text-white">
-                        Project wallet created
-                      </span>
-                    }
                   />
+                </Form.Label>
+                <Form.Label name="Customer created" placement={Placement.Right}>
                   <Form.Checkbox
                     {...register('events')}
                     id="CUSTOMER_CREATED"
                     value="CUSTOMER_CREATED"
-                    label={
-                      <span className="text-xs font-medium text-white">Customer created</span>
-                    }
                   />
+                </Form.Label>
+                <Form.Label name="Customer treasury created" placement={Placement.Right}>
                   <Form.Checkbox
                     {...register('events')}
                     id="CUSTOMER_TREASURY_CREATED"
                     value="CUSTOMER_TREASURY_CREATED"
-                    label={
-                      <span className="text-xs font-medium text-white">
-                        Customer treasury created
-                      </span>
-                    }
                   />
+                </Form.Label>
+                <Form.Label name="Customer wallet created" placement={Placement.Right}>
                   <Form.Checkbox
                     {...register('events')}
                     id="CUSTOMER_WALLET_CREATED"
                     value="CUSTOMER_WALLET_CREATED"
-                    label={
-                      <span className="text-xs font-medium text-white">
-                        Customer wallet created
-                      </span>
-                    }
                   />
-                  <Form.Checkbox
-                    {...register('events')}
-                    id="DROP_CREATED"
-                    value="DROP_CREATED"
-                    label={<span className="text-xs font-medium text-white">Drop created</span>}
-                  />
-                  <Form.Checkbox
-                    {...register('events')}
-                    id="DROP_MINTED"
-                    value="DROP_MINTED"
-                    label={<span className="text-xs font-medium text-white">Drop minted</span>}
-                  />
+                </Form.Label>
+                <Form.Label name="Drop created" placement={Placement.Right}>
+                  <Form.Checkbox {...register('events')} id="DROP_CREATED" value="DROP_CREATED" />
+                </Form.Label>
+
+                <Form.Label name="Drop minted" placement={Placement.Right}>
+                  <Form.Checkbox {...register('events')} id="DROP_MINTED" value="DROP_MINTED" />
+                </Form.Label>
                 </div>
 
-                <hr className="w-full bg-stone-800 my-4" color="#e6e6e6" />
+                <hr className="w-full bg-stone-800 my-4" />
 
                 <div className="flex items-center justify-between">
                   <Button

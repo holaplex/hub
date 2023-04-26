@@ -64,13 +64,13 @@ Mint.Card = MintCard;
 function MintSkeleton() {
   return (
     <Card>
-      <div className="w-full aspect-square rounded-md bg-stone-950  animate-pulse" />
+      <div className="w-full aspect-square rounded-md bg-stone-800 animate-pulse" />
       <div className="flex justify-between mt-4">
         <ul className="flex flex-col gap-2">
           {Array.from(Array(2)).map((_, index) => (
             <li className="flex flex-col gap-1" key={index}>
-              <span className="rounded-full h-4 w-14 bg-stone-950 animate-pulse" />
-              <span className="rounded-full h-4 w-28 bg-stone-950 animate-pulse" />
+              <span className="rounded-full h-4 w-14 bg-stone-800 animate-pulse" />
+              <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
             </li>
           ))}
         </ul>

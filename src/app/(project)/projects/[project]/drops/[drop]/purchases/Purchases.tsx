@@ -45,38 +45,38 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
             columns={[
               loadingColumnHelper.display({
                 id: 'ownerShortAddress',
-                header: () => <div className="rounded-full h-4 w-28 bg-stone-950 animate-pulse" />,
+                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-row gap-2">
-                    <span className="rounded-full w-2 aspect-square  bg-gray-50 animate-pulse" />
-                    <span className="rounded-full h-3 w-24 bg-gray-50 animate-pulse" />
+                    <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
+                    <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
                   </div>
                 ),
               }),
               loadingColumnHelper.display({
                 id: 'createdAt',
-                header: () => <div className="rounded-full h-4 w-28 bg-stone-950 animate-pulse" />,
+                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-row gap-2">
-                    <span className="rounded-full w-2 aspect-square  bg-gray-50 animate-pulse" />
-                    <span className="rounded-full h-3 w-24 bg-gray-50 animate-pulse" />
+                    <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
+                    <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
                   </div>
                 ),
               }),
               loadingColumnHelper.display({
                 id: 'creationStatus',
-                header: () => <div className="rounded-full h-4 w-28 bg-stone-950 animate-pulse" />,
+                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-row gap-2">
-                    <span className="rounded-full w-2 aspect-square  bg-gray-50 animate-pulse" />
-                    <span className="rounded-full h-3 w-24 bg-gray-50 animate-pulse" />
+                    <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
+                    <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
                   </div>
                 ),
               }),
               loadingColumnHelper.display({
                 id: 'options',
-                header: () => <div className="rounded-full h-4 w-4 bg-stone-950 animate-pulse" />,
-                cell: () => <div className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />,
+                header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
+                cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
               }),
             ]}
             data={new Array(4)}
