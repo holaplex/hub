@@ -20,7 +20,7 @@ export default function MemberDeletePage() {
         </Typography.Header>
 
         <div className="flex flex-col mt-5">
-          <div className="flex bg-gray-50 rounded-md p-3 mt-5">
+          <div className="flex bg-stone-800 rounded-md p-3 mt-5">
             <Icon.EmptyAvatar className="w-32 aspect-square" />
             <div className="w-full flex flex-col justify-between items-start">
               <div className="flex flex-col gap-1">

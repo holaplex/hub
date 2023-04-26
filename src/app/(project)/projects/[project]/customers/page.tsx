@@ -50,40 +50,40 @@ export default function CustomersPage() {
                 id: 'id',
                 header: () => (
                   <div className="flex gap-2 items-center">
-                    <span className="rounded-full h-4 w-28 bg-stone-950 animate-pulse" />
+                    <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                   </div>
                 ),
                 cell: () => (
                   <div className="flex gap-2 items-center">
-                    <span className="rounded-full h-3 w-40 bg-gray-50 animate-pulse" />
+                    <span className="rounded-full h-3 w-40 bg-stone-800 animate-pulse" />
                   </div>
                 ),
               }),
               loadingColumnHelper.display({
                 id: 'createdAt',
-                header: () => <div className="rounded-full h-4 w-28 bg-stone-950 animate-pulse" />,
+                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-col gap-1">
-                    <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
-                    <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
+                    <span className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />
+                    <span className="rounded-full h-3 w-8 bg-stone-800 animate-pulse" />
                   </div>
                 ),
               }),
               loadingColumnHelper.display({
                 id: 'wallets',
-                header: () => <div className="rounded-full h-4 w-28 bg-stone-950 animate-pulse" />,
+                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-row gap-1">
-                    <span className="rounded-full w-6 aspect-square bg-gray-50 animate-pulse" />
-                    <span className="rounded-full w-6 aspect-square bg-gray-50 animate-pulse" />
-                    <span className="rounded-full w-6 aspect-square bg-gray-50 animate-pulse" />
+                    <span className="rounded-full w-6 aspect-square bg-stone-800 animate-pulse" />
+                    <span className="rounded-full w-6 aspect-square bg-stone-800 animate-pulse" />
+                    <span className="rounded-full w-6 aspect-square bg-stone-800 animate-pulse" />
                   </div>
                 ),
               }),
               loadingColumnHelper.display({
                 id: 'options',
-                header: () => <div className="rounded-full h-4 w-4 bg-stone-950 animate-pulse" />,
-                cell: () => <div className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />,
+                header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
+                cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
               }),
             ]}
             data={new Array(4)}
@@ -91,7 +91,7 @@ export default function CustomersPage() {
         </>
       ) : (
         <>
-          <h1 className="text-2xl text-white font-medium">Customers</h1>
+          <h1 className="text-2xl font-medium">Customers</h1>
           {noCustomers ? (
             <div className="h-full flex-1 flex flex-col items-center justify-center">
               <Icon.Large.CreateCustomers />
@@ -100,7 +100,7 @@ export default function CustomersPage() {
                 Click button below to understand how to integrate customers.
               </span>
               <a href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet">
-                <Button icon={<Icon.Help stroke="#ffffff" />} className="mt-8">
+                <Button icon={<Icon.Help stroke="stroke-yellow-300" />} className="mt-8">
                   How to integrate
                 </Button>
               </a>
@@ -111,7 +111,7 @@ export default function CustomersPage() {
                 href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet"
                 className="self-end"
               >
-                <Button icon={<Icon.Help stroke="#000" />} variant="secondary" className="self-end">
+                <Button icon={<Icon.Help stroke="stroke-yellow-300" />} variant="secondary" className="self-end">
                   How to integrate
                 </Button>
               </a>

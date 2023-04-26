@@ -173,7 +173,7 @@ export default function NewDropDetailsPage() {
                 </Form.Label>
 
                 <div
-                  className="rounded-md border border-gray-100 bg-gray-50 p-3 self-end cursor-pointer"
+                  className="rounded-md border border-gray-100 bg-stone-800 p-3 self-end cursor-pointer"
                   onClick={() => remove(index)}
                 >
                   <Icon.Close />

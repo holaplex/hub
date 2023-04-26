@@ -138,7 +138,7 @@ export default function NewDropPreviewPage() {
         </Typography.Header>
       </div>
       <div className="flex flex-col mt-5">
-        {/* <div className="flex flex-col gap-2 bg-gray-50 rounded-md py-2 px-3">
+        {/* <div className="flex flex-col gap-2 bg-stone-800 rounded-md py-2 px-3">
           <span className="text-gray-400 text-xs font-medium">Price</span>
           <div className="flex items-end justify-between">
             <span className="text-base text-white font-medium">{payment.price} SOL</span>
