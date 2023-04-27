@@ -320,11 +320,6 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                   <Tabs.Page className="mt-8">
                     <Tabs.Panel loading={loading}>
                       <Tabs.Tab
-                        name="Analytics"
-                        href={`/projects/${project}/drops/${drop}/analytics`}
-                        active={pathname === `/projects/${project}/drops/${drop}/analytics`}
-                      />
-                      <Tabs.Tab
                         name="Purchase history"
                         href={`/projects/${project}/drops/${drop}/purchases`}
                         active={pathname === `/projects/${project}/drops/${drop}/purchases`}
