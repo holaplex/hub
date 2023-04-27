@@ -18,7 +18,7 @@ export default function App({ children, session }: AppLayoutProps) {
       <OryProvider>
         <ApolloProvider client={apollo('/graphql')}>
           {children}
-          <ToastContainer />
+          <ToastContainer theme="dark" position="bottom-right" />
         </ApolloProvider>
       </OryProvider>
     </SessionProvider>

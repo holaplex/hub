@@ -4,6 +4,7 @@ import { Button } from '@holaplex/ui-library-react';
 import Card from '../components/Card';
 import Image from 'next/image';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 export default function Home() {
   return (
