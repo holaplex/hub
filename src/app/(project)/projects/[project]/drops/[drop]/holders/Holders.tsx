@@ -47,38 +47,38 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
             columns={[
               loadingColumnHelper.display({
                 id: 'address',
-                header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-row gap-2">
-                    <span className="rounded-full w-2 aspect-square  bg-gray-50 animate-pulse" />
-                    <span className="rounded-full h-3 w-24 bg-gray-50 animate-pulse" />
+                    <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
+                    <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
                   </div>
                 ),
               }),
               loadingColumnHelper.display({
                 id: 'owns',
-                header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-row gap-2">
-                    <span className="rounded-full w-2 aspect-square  bg-gray-50 animate-pulse" />
-                    <span className="rounded-full h-3 w-24 bg-gray-50 animate-pulse" />
+                    <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
+                    <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
                   </div>
                 ),
               }),
               loadingColumnHelper.display({
                 id: 'spent',
-                header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-row gap-2">
-                    <span className="rounded-full w-2 aspect-square  bg-gray-50 animate-pulse" />
-                    <span className="rounded-full h-3 w-24 bg-gray-50 animate-pulse" />
+                    <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
+                    <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
                   </div>
                 ),
               }),
               loadingColumnHelper.display({
                 id: 'options',
-                header: () => <div className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />,
-                cell: () => <div className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />,
+                header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
+                cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
               }),
             ]}
             data={new Array(4)}
@@ -88,7 +88,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
         <div className="flex flex-col gap-2 items-center">
           <Icon.Large.CreateCustomers />
           <Typography.Header size={Size.H2}>No holders yet</Typography.Header>
-          <Typography.Paragraph className="text-gray-500">
+          <Typography.Paragraph className="text-gray-400">
             The current holder holders information will appear after the first mint
           </Typography.Paragraph>
         </div>
@@ -98,7 +98,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
             columnHelper.accessor('shortAddress', {
               header: () => (
                 <div className="flex gap-2">
-                  <span className="text-xs text-gray-600 font-medium">Wallet</span>
+                  <span className="text-xs text-gray-400 font-medium">Wallet</span>
                 </div>
               ),
               cell: (info) => {
@@ -106,7 +106,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
                 return (
                   <div className="flex gap-2">
                     <Icon.Crypto.Sol />
-                    <span className="text-xs text-primary font-medium">{address}</span>
+                    <span className="text-xs text-white font-medium">{address}</span>
                   </div>
                 );
               },
@@ -115,7 +115,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
               id: 'spent',
               header: () => (
                 <div className="flex gap-2">
-                  <span className="text-xs text-gray-600 font-medium">Spent</span>
+                  <span className="text-xs text-gray-400 font-medium">Spent</span>
                 </div>
               ),
               cell: (info) => {
@@ -123,7 +123,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
                 return (
                   <div className="flex gap-1 items-center">
                     {(owns * (holdersQuery.data?.project.drop?.price || 0)) as number}
-                    <span className="text-xs text-gray-600">SOL</span>
+                    <span className="text-xs text-gray-400">SOL</span>
                   </div>
                 );
               },
@@ -132,7 +132,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
               id: 'owns',
               header: () => (
                 <div className="flex gap-2">
-                  <span className="text-xs text-gray-600 font-medium">Owned Editions</span>
+                  <span className="text-xs text-gray-400 font-medium">Owned Editions</span>
                 </div>
               ),
               cell: (info) => {
@@ -142,7 +142,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
                 );
                 return (
                   <div className="flex gap-1 items-center">
-                    {owns} / <span className="text-xs text-gray-600">{share}%</span>
+                    {owns} / <span className="text-xs text-gray-400">{share}%</span>
                   </div>
                 );
               },
@@ -153,7 +153,9 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
               cell: () => (
                 <PopoverBox
                   triggerButton={
-                    <div className={clsx('px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min')}>
+                    <div
+                      className={clsx('px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min')}
+                    >
                       <Icon.More />
                     </div>
                   }

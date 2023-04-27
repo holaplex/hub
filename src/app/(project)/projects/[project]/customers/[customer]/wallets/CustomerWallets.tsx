@@ -32,7 +32,7 @@ export default function CustomerWallets({ children, project, customer }: Custome
     <div className="h-full flex flex-col">
       {walletsQuery.loading ? (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {Array.from(Array(6)).map((_, index) => (
+          {Array.from(Array(4)).map((_, index) => (
             <Wallet.Skeleton key={index} />
           ))}
         </div>
@@ -43,11 +43,11 @@ export default function CustomerWallets({ children, project, customer }: Custome
               <span className="mt-6 text-xl font-semibold">
                 The customer does not have any wallets yet
               </span>
-              <span className="mt-2 text-gray-500 text-sm">
+              <span className="mt-2 text-gray-400 text-sm">
                 Click button below to learn how to create customer wallets.
               </span>
               <a href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet">
-                <Button icon={<Icon.Help stroke="#ffffff" />} className="mt-8">
+                <Button icon={<Icon.Help stroke="stroke-stone-950" />} className="mt-8">
                   How to create wallets
                 </Button>
               </a>

@@ -19,13 +19,13 @@ export default function MemberDeletePage() {
         </Typography.Header>
 
         <Form className="flex flex-col mt-5">
-          <Form.Label name="Wallet name" className="text-xs text-primary">
+          <Form.Label name="Wallet name" className="text-xs text-white">
             <Form.Input />
           </Form.Label>
           <Button htmlType="submit" className="w-full mt-4">
             Update
           </Button>
-          <Button variant="tertiary" className="w-full mt-5 " onClick={onClose}>
+          <Button variant="secondary" className="w-full mt-5 " onClick={onClose}>
             Cancel
           </Button>
         </Form>

@@ -1,22 +1,31 @@
 'use client';
-import { Button, Form } from '@holaplex/ui-library-react';
+import { Button, Form, Placement } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
 import Card from '../../../../../../../components/Card';
-import { Icon } from '../../../../../../../components/Icon';
-import { pipe, isNil, not } from 'ramda';
 import { Blockchain, AssetType, CollectionCreatorInput } from '../../../../../../../graphql.types';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { useProject } from '../../../../../../../hooks/useProject';
-import useCreateDropStore, { StepTwoData } from '../../../../../../../hooks/useCreateDropStore';
+import { StoreApi, useStore } from 'zustand';
+import {
+  PaymentSettings,
+  DropFormState,
+  RoyaltiesShortcut,
+  RoyaltiesDestination,
+} from '../../../../../../../providers/DropFormProvider';
+import { Icon } from './../../../../../../../components/Icon';
+import { useDropForm } from '../../../../../../../hooks/useDropForm';
 
 export default function NewDropRoyaltiesPage() {
   const router = useRouter();
   const { project } = useProject();
-  const { stepTwo, stepOne, setData } = useCreateDropStore();
+  const store = useDropForm() as StoreApi<DropFormState>;
+  const detail = useStore(store, (store) => store.detail);
+  const payment = useStore(store, (store) => store.payment);
+  const setPayment = useStore(store, (store) => store.setPayment);
 
   const wallet = project?.treasury?.wallets?.find((wallet) => {
-    switch (stepOne?.blockchain.id) {
+    switch (detail?.blockchain) {
       case Blockchain.Solana:
         return wallet.assetId === AssetType.SolTest || wallet.assetId === AssetType.Sol;
       case Blockchain.Polygon:
@@ -26,14 +35,43 @@ export default function NewDropRoyaltiesPage() {
     }
   });
 
-  const { handleSubmit, register, control, watch, formState } = useForm<StepTwoData>({
-    defaultValues: stepTwo || {
-      treasuryAllRoyalties: true,
-      creators: [{ address: wallet?.address, share: 100, verified: true }],
+  const { handleSubmit, register, control, watch, formState } = useForm<PaymentSettings>({
+    defaultValues: payment || {
+      royaltiesDestination: RoyaltiesDestination.ProjectTreasury,
+      royaltiesShortcut: RoyaltiesShortcut.Zero,
+      creators: [{ address: '', share: 100 }],
     },
   });
 
-  const royalties = watch('royalties');
+  const royaltiesDestination = watch('royaltiesDestination');
+  const royaltiesShortcut = watch('royaltiesShortcut');
+
+  const submit = (data: PaymentSettings) => {
+    if (data.royaltiesDestination === RoyaltiesDestination.ProjectTreasury) {
+      data.creators = [{ address: wallet?.address as string, share: 100 }];
+    }
+
+    if (data.royaltiesShortcut !== RoyaltiesShortcut.Custom) {
+      data.royalties = data.royaltiesShortcut as string;
+    }
+
+    data.creators = data.creators.map(({ address, share = 100 }) => {
+      const creator: CollectionCreatorInput = { address, share };
+
+      if (address == wallet?.address) {
+        creator.verified = true;
+      }
+
+      return creator;
+    });
+
+    setPayment(data);
+    router.push(`/projects/${project?.id}/drops/new/schedule`);
+  };
+
+  const back = () => {
+    router.push(`/projects/${project?.id}/drops/new/details`);
+  };
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -41,15 +79,17 @@ export default function NewDropRoyaltiesPage() {
     rules: {
       required: true,
       validate: (creators) => {
-        switch (stepOne?.blockchain.id) {
+        switch (detail?.blockchain) {
           case Blockchain.Solana:
             if (creators.length > 5) {
               return 'Can only set up to 5 creators.';
             }
+            break;
           case Blockchain.Polygon || Blockchain.Ethereum:
             if (creators.length > 1) {
               return 'Can only set 1 creator.';
             }
+            break;
         }
 
         const total = creators.reduce(
@@ -63,139 +103,175 @@ export default function NewDropRoyaltiesPage() {
     },
   });
 
-  const treasuryAllRoyalties = watch('treasuryAllRoyalties');
-
-  const submit = (data: StepTwoData) => {
-    if (data.treasuryAllRoyalties) {
-      data.creators = [{ address: wallet?.address as string, share: 100 }];
-    }
-
-    data.creators = data.creators.map(({ address, share }) => {
-      const creator: CollectionCreatorInput = { address, share };
-
-      if (address == wallet?.address) {
-        creator.verified = true;
-      }
-
-      return creator;
-    });
-
-    setData({ step: 2, data });
-    router.push(`/projects/${project?.id}/drops/new/timing`);
-  };
-
-  const back = () => {
-    router.push(`/projects/${project?.id}/drops/new/details`);
-  };
-
   return (
     <>
       <Card className="w-[492px]">
-        <Typography.Header size={Size.H2}>Payment & royalties</Typography.Header>
+        <Typography.Header size={Size.H2}>Supply</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
           <div className="flex gap-4">
-            <Form.Label name="Max supply" className="text-xs mt-5">
+            <Form.Label name="Specify how many editions will be available" className="text-xs mt-5">
               <Form.Input {...register('supply')} autoFocus placeholder="e.g. 10,000" />
-              <Form.Error message="" />
             </Form.Label>
-
-            {/* <Form.Label name="Price in SOL" className="text-xs mt-5" >
-              <Form.Input
-                {...register('price', { required: true })}
-                type="number"
-                placeholder="e.g. 100"
-              />
-              <Form.Error message="" />
-            </Form.Label> */}
           </div>
 
-          <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
+          <Typography.Header size={Size.H2} className="mt-6 mb-8">
+            Royalties
+          </Typography.Header>
 
-          <span className="text-sm text-primary font-medium">Royalties</span>
-          <Form.Checkbox
-            {...register('treasuryAllRoyalties')}
-            id="royaltyInTreasuryWallet"
-            label={
-              <span className="text-xs font-medium text-primary">
-                I want to receive all royalties to the selected treasury wallet
-              </span>
-            }
-          />
-          {fields.map((field, index) => (
-            <div className="flex gap-4" key={field.id}>
-              <Form.Label name="Wallet" className="text-xs mt-5 basis-3/4">
-                <Form.Input
-                  {...register(`creators.${index}.address`)}
-                  placeholder="Paste royalty wallet address"
-                  disabled={treasuryAllRoyalties}
+          <Form.Label name="Royalty percentage">
+            <Form.RadioGroup>
+              <Form.Label
+                name="0%"
+                htmlFor="0"
+                placement={Placement.Right}
+                peerClassName="form-radio-custombox"
+              >
+                <Form.RadioGroup.Radio
+                  {...register('royaltiesShortcut')}
+                  id="0"
+                  value={RoyaltiesShortcut.Zero}
+                  className="hidden peer"
                 />
               </Form.Label>
-
-              <Form.Label name="Royalties" className="text-xs mt-5 basis-1/4">
-                <Form.Input
-                  {...register(`creators.${index}.share`)}
-                  type="number"
-                  placeholder="e.g. 10%"
-                  disabled={treasuryAllRoyalties}
+              <Form.Label
+                name="2.5%"
+                htmlFor="2.5"
+                placement={Placement.Right}
+                peerClassName="form-radio-custombox"
+              >
+                <Form.RadioGroup.Radio
+                  {...register('royaltiesShortcut')}
+                  id="2.5"
+                  value={RoyaltiesShortcut.TwoPointFive}
+                  className="hidden peer"
                 />
               </Form.Label>
+              <Form.Label
+                name="5%"
+                htmlFor="5"
+                placement={Placement.Right}
+                peerClassName="form-radio-custombox"
+              >
+                <Form.RadioGroup.Radio
+                  {...register('royaltiesShortcut')}
+                  id="5"
+                  value={RoyaltiesShortcut.Five}
+                  className="hidden peer"
+                />
+              </Form.Label>
+              <Form.Label
+                name="10%"
+                placement={Placement.Right}
+                peerClassName="form-radio-custombox"
+              >
+                <Form.RadioGroup.Radio
+                  {...register('royaltiesShortcut')}
+                  id="10"
+                  value={RoyaltiesShortcut.Ten}
+                  className="hidden peer"
+                />
+              </Form.Label>
+              <Form.Label
+                name="Custom"
+                htmlFor="custom"
+                placement={Placement.Right}
+                peerClassName="form-radio-custombox"
+              >
+                <Form.RadioGroup.Radio
+                  {...register('royaltiesShortcut')}
+                  id="custom"
+                  value={RoyaltiesShortcut.Custom}
+                  className="hidden peer"
+                />
+              </Form.Label>
+            </Form.RadioGroup>
+          </Form.Label>
+          {royaltiesShortcut === RoyaltiesShortcut.Custom && (
+            <>
+              <Form.Input
+                {...register('royalties', {
+                  required: royaltiesShortcut === RoyaltiesShortcut.Custom,
+                  validate: (royalties) => {
+                    if (!royalties) {
+                      return true;
+                    }
 
-              {fields.length > 1 && (
-                <div
-                  className="rounded-md border border-gray-100 bg-gray-50 p-3 self-end cursor-pointer"
-                  onClick={() => remove(index)}
-                >
-                  <Icon.Close />
-                </div>
-              )}
-            </div>
-          ))}
+                    const amount = royalties.split('%')[0];
 
-          {!treasuryAllRoyalties && (
-            <Button
-              className="mt-4 self-start"
-              variant="secondary"
-              onClick={() => append({ address: '', share: Number() })}
-            >
-              Add wallet
-            </Button>
+                    return (
+                      parseFloat(amount) <= 100 ||
+                      'Royalty percentage must be equal to or under a 100%'
+                    );
+                  },
+                })}
+                className="mt-2"
+                placeholder="e.g. 12.5%"
+              />
+              <Form.Error message={formState.errors.royalties?.message} />
+            </>
           )}
-
-          <Form.Error message={formState.errors.creators?.root?.message} />
-
-          <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
-
-          <span className="text-sm text-primary font-medium">
-            Secondary sale royalties <span className="text-gray-500">(optional)</span>
-          </span>
-
-          <Form.Label name="Seller fee" className="text-xs mt-3">
-            <Form.Input
-              {...register('royalties', {
-                required: pipe(isNil, not)(royalties),
-                validate: (royalties) => {
-                  if (!royalties) {
-                    return true;
-                  }
-
-                  const amount = royalties.split('%')[0];
-
-                  return parseInt(amount) <= 100 || 'Seller fee must be equal to or under a 100%';
-                },
-              })}
-              placeholder="e.g. 2.5%"
-            />
-            <Form.Error message={formState.errors.royalties?.message} />
+          <Form.Label name="Destination for royalties received" className="mt-8">
+            <Form.RadioGroup>
+              <Form.Label name="Use project treasury" placement={Placement.Right}>
+                <Form.RadioGroup.Radio
+                  {...register('royaltiesDestination')}
+                  value={RoyaltiesDestination.ProjectTreasury}
+                />
+              </Form.Label>
+              <Form.Label name="Specify wallet address" placement={Placement.Right}>
+                <Form.RadioGroup.Radio
+                  {...register('royaltiesDestination')}
+                  value={RoyaltiesDestination.Creators}
+                />
+              </Form.Label>
+            </Form.RadioGroup>
           </Form.Label>
 
-          <hr className="w-full bg-gray-500 my-5" color="#e6e6e6" />
-          <div className="flex items-center justify-between">
-            <Button className="self-start" variant="tertiary" onClick={back}>
+          {royaltiesDestination === RoyaltiesDestination.Creators && (
+            <>
+              {fields.map((field, index) => (
+                <div className="flex gap-4" key={field.id}>
+                  <Form.Label name="Wallet" className="text-xs mt-5 basis-3/4">
+                    <Form.Input
+                      {...register(`creators.${index}.address`)}
+                      placeholder="Paste royalty wallet address"
+                    />
+                  </Form.Label>
+
+                  <Form.Label name="Royalties" className="text-xs mt-5 basis-1/4">
+                    <Form.Input
+                      {...register(`creators.${index}.share`)}
+                      type="number"
+                      placeholder="e.g. 10%"
+                    />
+                  </Form.Label>
+
+                  <div
+                    className="rounded-md bg-stone-800 hover:bg-stone-950 p-3 self-end cursor-pointer"
+                    onClick={() => remove(index)}
+                  >
+                    <Icon.Close stroke="stroke-white" />
+                  </div>
+                </div>
+              ))}
+              <Button
+                className="mt-4 self-start"
+                variant="secondary"
+                onClick={() => append({ address: '', share: Number() })}
+              >
+                Add wallet
+              </Button>
+              <Form.Error message={formState.errors.creators?.root?.message} />
+            </>
+          )}
+
+          <hr className="w-full bg-stone-800 border-0 h-px my-5" />
+
+          <div className="flex items-center justify-end gap-4">
+            <Button variant="secondary" onClick={back}>
               Back
             </Button>
-            <Button htmlType="submit" className="self-end">
-              Next
-            </Button>
+            <Button htmlType="submit">Next</Button>
           </div>
         </Form>
       </Card>

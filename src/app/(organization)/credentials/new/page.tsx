@@ -65,21 +65,21 @@ export default function GenerateToken() {
             <Typography.Header size={Size.H2} className="self-start">
               Token
             </Typography.Header>
-            <Typography.Paragraph className="py-4 text-gray-600">
+            <Typography.Paragraph className="py-4 text-gray-400">
               Make sure to copy the token now as you will not be able to see it again
             </Typography.Paragraph>
             <div className="flex gap-2">
-              <div className="shrink border px-4 py-3 bg-white border-gray-100 rounded-md truncate">
+              <div className="shrink border px-4 py-3 bg-stone-900 border-stone-800 rounded-md truncate">
                 {data?.createCredential.accessToken.accessToken}
               </div>
               <button
                 onClick={copyText}
-                className="flex-none aspect-square rounded-md w-12 flex items-center justify-center bg-gray-50 border-gray-100 border"
+                className="flex-none aspect-square rounded-md w-12 flex items-center justify-center bg-stone-800 text-gray-400"
               >
                 {copied ? <Icon.Check /> : <Icon.Copy />}
               </button>
             </div>
-            <aside className="text-sm text-gray-500 mt-1">
+            <aside className="text-sm text-gray-400 mt-1">
               {data?.createCredential.accessToken.expiresAt &&
                 `Expires at ${format(
                   convertLocalTime(data?.createCredential.accessToken.expiresAt),
@@ -91,7 +91,7 @@ export default function GenerateToken() {
             </aside>
             <Button
               className="mt-2"
-              variant="tertiary"
+              variant="secondary"
               size="large"
               block
               onClick={() => {
@@ -108,11 +108,11 @@ export default function GenerateToken() {
               Fill required details to generate access token.
             </Typography.Header>
             <Form className="flex flex-col mt-5" onSubmit={handleSubmit(onSubmit)}>
-              <Form.Label name="Name" className="text-xs mt-4" asideComponent={<Icon.Help />}>
+              <Form.Label name="Name" className="text-xs mt-4">
                 <Form.Input {...register('name')} autoFocus placeholder="e.g. Service A" />
                 <Form.Error message="" />
               </Form.Label>
-              <hr className="w-full bg-gray-500 my-4" color="#e6e6e6" />
+              <hr className="w-full border-stone-800 my-4" />
               <div className="flex items-center justify-between">
                 <Link href="/credentials">
                   <Button className="self-start" variant="secondary" disabled={loading}>

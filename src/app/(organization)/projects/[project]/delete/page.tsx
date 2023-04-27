@@ -21,7 +21,7 @@ export default function DeleteProject() {
             <Button htmlType="submit" className="w-full mt-5">
               Transfer funds
             </Button>
-            <Button variant="tertiary" className="w-full mt-5 " onClick={() => {}}>
+            <Button variant="secondary" className="w-full mt-4" onClick={() => {}}>
               Cancel
             </Button>
           </Form>
@@ -35,16 +35,16 @@ export default function DeleteProject() {
           </Typography.Header>
 
           <Form className="flex flex-col mt-5">
-            <div className="flex items-start gap-2 rounded-md bg-gray-50 p-3">
+            <div className="flex items-start gap-2 rounded-md bg-stone-800 p-3">
               <Icon.CheckBox />
-              <span className="text-xs text-gray-500 font-medium">
+              <span className="text-xs text-gray-400 font-medium">
                 I want to delete the project permanently
               </span>
             </div>
             <Button htmlType="submit" className="w-full mt-5" variant="failure">
               Delete
             </Button>
-            <Button variant="tertiary" className="w-full mt-5 " onClick={() => {}}>
+            <Button variant="secondary" className="w-full mt-4" onClick={() => {}}>
               Cancel
             </Button>
           </Form>

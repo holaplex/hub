@@ -73,7 +73,7 @@ export default function NewProjectPage() {
         </Typography.Header>
 
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(onSubmit)}>
-          <Form.Label name="Project name" className="text-xs text-primary">
+          <Form.Label name="Project name" className="text-xs text-white">
             <Form.Input
               autoFocus
               placeholder="e.g. Apple events"
@@ -81,7 +81,7 @@ export default function NewProjectPage() {
             />
             <Form.Error message={formState.errors.name?.message} />
           </Form.Label>
-          <Form.Label name="Project logo" className="text-xs text-primary mt-5">
+          <Form.Label name="Project logo" className="text-xs text-white mt-5">
             <Controller
               name="file"
               control={control}
@@ -98,18 +98,15 @@ export default function NewProjectPage() {
                       <div
                         {...getRootProps()}
                         className={clsx(
-                          'flex items-center justify-center border border-dashed border-gray-200 cursor-pointer rounded-md',
+                          'flex items-center justify-center border border-dashed border-stone-800 cursor-pointer rounded-md p-6 text-center text-gray-400',
                           {
-                            'bg-gray-100': isDragActive,
-                            'p-6 text-center text-gray-500': !value,
+                            'bg-stone-950': isDragActive,
                           }
                         )}
                       >
                         <input {...getInputProps({ onBlur })} />
                         {value ? (
-                          <div className="bg-white rounded-lg p-3 overflow-hidden">
-                            <Form.DragDrop.Preview value={value} />
-                          </div>
+                          <Form.DragDrop.Preview value={value} />
                         ) : (
                           <div className="flex flex-col gap-2">
                             <p>
@@ -138,8 +135,8 @@ export default function NewProjectPage() {
             Create
           </Button>
           <Button
-            className="w-full mt-5"
-            variant="tertiary"
+            className="w-full mt-4"
+            variant="secondary"
             disabled={loading || formState.isSubmitting}
             onClick={() => {
               router.push('/projects');

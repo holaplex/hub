@@ -10,17 +10,31 @@ import { Blockchain } from '../../../../../../../graphql.types';
 import { useProject } from '../../../../../../../hooks/useProject';
 import Divider from '../../../../../../../components/Divider';
 import clsx from 'clsx';
-import useCreateDropStore, { StepOneData } from '../../../../../../../hooks/useCreateDropStore';
+import { StoreApi, useStore } from 'zustand';
+import { DropFormState, DetailSettings } from '../../../../../../../providers/DropFormProvider';
+import { useDropForm } from '../../../../../../../hooks/useDropForm';
+
+const BLOCKCHAIN_LABELS = {
+  [Blockchain.Solana]: 'Solana',
+  [Blockchain.Ethereum]: 'Ethereum',
+  [Blockchain.Polygon]: 'Polygon',
+};
+
+const BLOCKCHAIN_OPTIONS = [Blockchain.Solana];
 
 export default function NewDropDetailsPage() {
   const router = useRouter();
   const { project } = useProject();
-  const { stepOne, setData } = useCreateDropStore();
-  const { handleSubmit, register, control, setValue, formState } = useForm<StepOneData>({
-    defaultValues: stepOne || {},
+  const store = useDropForm() as StoreApi<DropFormState>;
+  const detail = useStore(store, (store) => store.detail);
+  const setDetail = useStore(store, (store) => store.setDetail);
+  const { handleSubmit, register, control, setValue, formState } = useForm<DetailSettings>({
+    defaultValues: detail || {
+      blockchain: Blockchain.Solana,
+    },
   });
-  const submit = (data: StepOneData) => {
-    setData({ step: 1, data });
+  const submit = (data: DetailSettings) => {
+    setDetail(data);
     router.push(`/projects/${project?.id}/drops/new/royalties`);
   };
 
@@ -29,14 +43,12 @@ export default function NewDropDetailsPage() {
     name: 'attributes',
   });
 
-  const options = [{ label: 'Solana', id: Blockchain.Solana }];
-
   return (
     <>
       <Card className="w-[492px]">
         <Typography.Header size={Size.H2}>Drop details</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-          <Form.Label name="Artwork" className="text-xs text-primary mt-5">
+          <Form.Label name="Artwork" className="text-xs text-yellow-300 mt-5">
             <Controller
               name="image"
               control={control}
@@ -55,28 +67,25 @@ export default function NewDropDetailsPage() {
                       <div
                         {...getRootProps()}
                         className={clsx(
-                          'flex items-center justify-center border border-dashed border-gray-200 cursor-pointer rounded-md',
+                          'flex items-center justify-center border border-dashed border-stone-800 cursor-pointer rounded-md p-6 text-center text-gray-500',
                           {
                             'bg-gray-100': isDragActive,
-                            'p-6 text-center text-gray-500': !value,
                           }
                         )}
                       >
                         <input {...getInputProps({ onBlur })} />
                         {value ? (
-                          <div className="bg-white rounded-lg p-3 overflow-hidden">
-                            <Form.DragDrop.Preview value={value} />
-                          </div>
+                          <Form.DragDrop.Preview value={value} />
                         ) : (
-                          <div className="flex flex-col gap-2">
-                            <p>
-                              Drag & drop photo here <br />
-                              Required jpeg, png or svg. Max 2mb.
+                          <div className="flex flex-col gap-2 text-gray-400">
+                            <p className="text-center">
+                              Drag & drop file or{' '}
+                              <span className="text-yellow-300 cursor-pointer">Browse files</span>
+                              <br />
+                              Add artwork size based on a preview size.
+                              <br />
+                              400x400 etc. Should be strict rectangular.
                             </p>
-                            <Divider.Or />
-                            <Button onClick={open} variant="secondary" size="small">
-                              Upload Logo
-                            </Button>
                           </div>
                         )}
                       </div>
@@ -121,12 +130,12 @@ export default function NewDropDetailsPage() {
                 return (
                   <Form.Select value={value} onChange={onChange}>
                     <Form.Select.Button placeholder="Select blockchain">
-                      {value?.label}
+                      {BLOCKCHAIN_LABELS[value]}
                     </Form.Select.Button>
                     <Form.Select.Options>
-                      {options.map((i) => (
-                        <Form.Select.Option value={i} key={i.id}>
-                          <>{i.label}</>
+                      {BLOCKCHAIN_OPTIONS.map((i) => (
+                        <Form.Select.Option value={i} key={i}>
+                          <>{BLOCKCHAIN_LABELS[i]}</>
                         </Form.Select.Option>
                       ))}
                     </Form.Select.Options>
@@ -146,7 +155,7 @@ export default function NewDropDetailsPage() {
           <Form.Label name="External URL" className="text-xs mt-5">
             <Form.Input
               {...register('externalUrl')}
-              placeholder="(Optional) Set an external url on the drop."
+              placeholder="Set an external url on the drop."
             />
             <Form.Error message="" />
           </Form.Label>
@@ -166,10 +175,10 @@ export default function NewDropDetailsPage() {
                 </Form.Label>
 
                 <div
-                  className="rounded-md border border-gray-100 bg-gray-50 p-3 self-end cursor-pointer"
+                  className="rounded-md bg-stone-800 hover:bg-stone-950 p-3 self-end cursor-pointer"
                   onClick={() => remove(index)}
                 >
-                  <Icon.Close />
+                  <Icon.Close stroke="stroke-white" />
                 </div>
               </div>
             ))}
@@ -182,7 +191,7 @@ export default function NewDropDetailsPage() {
           >
             Add attribute
           </Button>
-          <hr className="w-full bg-gray-500 my-5" color="#e6e6e6" />
+          <hr className="w-full bg-divider border-0 h-px my-5" />
           <Button htmlType="submit" className="self-end">
             Next
           </Button>

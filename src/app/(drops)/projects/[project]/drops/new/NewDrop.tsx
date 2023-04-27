@@ -2,11 +2,13 @@
 import { usePathname } from 'next/navigation';
 import { Icon } from '../../../../../../components/Icon';
 import Navbar from '../../../../../../layouts/Navbar';
-import useCreateDropStore from '../../../../../../hooks/useCreateDropStore';
+import { useStore } from 'zustand';
 import Link from 'next/link';
 import { pipe, isNil, not } from 'ramda';
 import { ProjectProvider } from '../../../../../../providers/ProjectProvider';
 import { Project } from '../../../../../../graphql.types';
+import { DropFormProvider } from '../../../../../../providers/DropFormProvider';
+import { useDropFormState } from '../../../../../../hooks/useDropFormState';
 
 interface CreateDropProps {
   children: React.ReactNode;
@@ -18,7 +20,11 @@ const isComplete = pipe(isNil, not);
 export default function NewDrop({ children, project }: CreateDropProps): JSX.Element {
   const pathname = usePathname();
 
-  const { stepOne, stepTwo, stepThree } = useCreateDropStore();
+  const store = useDropFormState();
+
+  const detail = useStore(store, (store) => store.detail);
+  const payment = useStore(store, (store) => store.payment);
+  const timing = useStore(store, (store) => store.timing);
 
   return (
     <Navbar.Page>
@@ -28,8 +34,8 @@ export default function NewDrop({ children, project }: CreateDropProps): JSX.Ele
             href={`/projects/${project.id}/drops`}
             className="flex items-center gap-4 px-5 cursor-pointer"
           >
-            <Icon.Close />
-            <span className="flex items-center gap-2 text-sm text-primary font-medium">Close</span>
+            <Icon.Close stroke="stroke-white" />
+            <span className="flex items-center gap-2 text-sm font-medium">Close</span>
           </Link>
         </Navbar.Header>
         <Navbar.Menu>
@@ -39,32 +45,32 @@ export default function NewDrop({ children, project }: CreateDropProps): JSX.Ele
               <Navbar.Menu.Step.StepCount
                 active={pathname === `/projects/${project.id}/drops/new/details`}
                 count="1"
-                filled={isComplete(stepOne)}
+                filled={isComplete(detail)}
               />
             }
             active={pathname === `/projects/${project.id}/drops/new/details`}
           />
           <Navbar.Menu.Step
-            name="Payment and royalties"
+            name="Supply and royalties"
             icon={
               <Navbar.Menu.Step.StepCount
                 active={pathname === `/projects/${project.id}/drops/new/royalties`}
                 count="2"
-                filled={isComplete(stepTwo)}
+                filled={isComplete(payment)}
               />
             }
             active={pathname === `/projects/${project.id}/drops/new/royalties`}
           />
           <Navbar.Menu.Step
-            name="Mint date"
+            name="Schedule"
             icon={
               <Navbar.Menu.Step.StepCount
-                active={pathname === `/projects/${project.id}/drops/new/timing`}
+                active={pathname === `/projects/${project.id}/drops/new/schedule`}
                 count="3"
-                filled={isComplete(stepThree)}
+                filled={isComplete(timing)}
               />
             }
-            active={pathname === `/projects/${project.id}/drops/new/timing`}
+            active={pathname === `/projects/${project.id}/drops/new/schedule`}
           />
           <Navbar.Menu.Step
             name="Final preview"
@@ -80,7 +86,9 @@ export default function NewDrop({ children, project }: CreateDropProps): JSX.Ele
         </Navbar.Menu>
       </Navbar.Panel>
       <Navbar.Content>
-        <ProjectProvider project={project}>{children}</ProjectProvider>
+        <ProjectProvider project={project}>
+          <DropFormProvider store={store}>{children}</DropFormProvider>
+        </ProjectProvider>
       </Navbar.Content>
     </Navbar.Page>
   );

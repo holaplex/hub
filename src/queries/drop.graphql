@@ -47,6 +47,8 @@ query GetDrop($project: UUID!, $drop: UUID!) {
         supply
         totalMints
         blockchain
+        sellerFeeBasisPoints
+        royalties @client
         creators {
           address
           verified
@@ -59,6 +61,11 @@ query GetDrop($project: UUID!, $drop: UUID!) {
           image
           description
           symbol
+          attributes {
+            id
+            traitType
+            value
+          }
         }
       }
     }
@@ -80,3 +87,5 @@ query GetDropBasicDetail($project: UUID!, $drop: UUID!) {
     }
   }
 }
+
+

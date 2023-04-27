@@ -37,25 +37,25 @@ export default function Customer({ children, project, customer }: CustomerProps)
   return (
     <div className="flex flex-col px-4 py-2 flex-grow">
       {loading ? (
-        <div className="flex justify-between flex-row text-gray-100">
+        <div className="flex justify-between flex-row text-gray-400">
           <div className="flex flex-row gap-1  items-center">
-            <div className="w-36 h-8 rounded-md bg-gray-100 animate-pulse" /> /{' '}
-            <div className="w-60 h-8 rounded-md bg-gray-100 animate-pulse" />
+            <div className="w-36 h-8 rounded-md bg-stone-900 animate-pulse" /> /{' '}
+            <div className="w-60 h-8 rounded-md bg-stone-900 animate-pulse" />
           </div>
           <div className="flex flex-col gap-1 items-end">
-            <div className="w-14 h-4 rounded-full bg-gray-100 animate-pulse" />
-            <div className="w-32 h-4 rounded-full bg-gray-100 animate-pulse" />
+            <div className="w-14 h-4 rounded-full bg-stone-900 animate-pulse" />
+            <div className="w-32 h-4 rounded-full bg-stone-900 animate-pulse" />
           </div>
         </div>
       ) : (
         <div className="flex justify-between">
-          <div className="flex gap-2 text-2xl font-medium items-center text-gray-500">
+          <div className="flex gap-2 text-2xl font-medium items-center text-gray-400">
             <Link href={`/projects/${project}/customers`}>Customers</Link> /{' '}
-            <span className="text-primary">{customer}</span>
+            <span className="text-white">{customer}</span>
           </div>
           <ul className="flex-row gap-4">
             <li className="flex flex-col items-end gap-1">
-              <span className="text-gray-500 font-medium text-xs">Registered</span>
+              <span className="text-gray-400 font-medium text-xs">Registered</span>
               <span className="text-xs">
                 {format(
                   convertLocalTime(customerQuery?.data?.project?.customer?.createdAt),

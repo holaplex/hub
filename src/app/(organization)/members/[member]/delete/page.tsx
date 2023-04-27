@@ -19,16 +19,16 @@ export default function MemberDeletePage() {
         <Typography.Header size={Size.H3}>This action cannot be reversed.</Typography.Header>
 
         <Form className="flex flex-col mt-5">
-          <div className="flex items-start gap-2 rounded-md bg-gray-50 p-3">
+          <div className="flex items-start gap-2 rounded-md bg-stone-800 p-3">
             <Icon.Info />
-            <span className="text-xs text-gray-500 font-medium">
+            <span className="text-xs text-gray-400 font-medium">
               The member will be deprived of access to the project
             </span>
           </div>
           <Button htmlType="submit" className="w-full mt-5" variant="failure">
             Delete member
           </Button>
-          <Button variant="tertiary" className="w-full mt-5" onClick={onClose}>
+          <Button variant="secondary" className="w-full mt-4" onClick={onClose}>
             Cancel
           </Button>
         </Form>
