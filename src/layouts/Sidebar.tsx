@@ -65,7 +65,7 @@ interface SidebarMenuProps {
 
 function SidebarMenu({ children, className }: SidebarMenuProps) {
   return (
-    <div className={clsx('w-full py-3 flex flex-col gap-2 px-2 flex-1 overflow-y-auto', className)}>
+    <div className={clsx('w-full py-3 flex flex-col gap-2 px-6 flex-1 overflow-y-auto', className)}>
       {children}
     </div>
   );
@@ -84,7 +84,7 @@ function SidebarMenuLink({ icon, name, href, active, className }: SidebarMenuIte
   return (
     <Link
       href={href}
-      className={clsx('flex gap-4 w-full px-4 py-3 items-center rounded-md text-white', className, {
+      className={clsx('flex gap-4 w-full px-4 py-3 items-center rounded-lg text-white', className, {
         'bg-stone-800': active,
         'hover:bg-stone-800': !active,
       })}
@@ -202,20 +202,20 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                 />
 
                 <div
-                  className="flex gap-4 w-full px-4 py-3 items-center text-gray-400 cursor-pointer"
+                  className="flex gap-4 w-full px-4 py-3 items-center text-gray-400 rounded-lg hover:bg-stone-800 cursor-pointer"
                   onClick={() => logout()}
                 >
                   <Icon.Logout stroke="stroke-gray-400" />
                   <span className="text-sm text-white">Logout</span>
                 </div>
               </div>
-              <div className="flex flex-col gap-4 max-h-60 overflow-y-auto">
+              <div className="flex flex-col gap-2 max-h-60 overflow-y-auto">
                 {userAffiliationsQuery.data?.user.affiliations.map((affiliation) => {
                   return (
                     <div
                       key={affiliation.organization?.id}
                       className={clsx(
-                        'flex items-center rounded-md justify-between p-2 transition',
+                        'flex items-center rounded-lg justify-between p-2 transition',
                         {
                           'bg-stone-800': affiliation.organization?.id === organization?.id,
                           'cursor-pointer hover:bg-stone-800':
@@ -229,7 +229,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                       >
                         {affiliation.organization?.profileImageUrl ? (
                           <img
-                            className="w-8 h-8 rounded-lg"
+                            className="w-8 h-8 rounded-md"
                             src={affiliation.organization.profileImageUrl}
                             alt="logo"
                           />

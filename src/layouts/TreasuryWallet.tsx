@@ -26,7 +26,7 @@ export default function TreasuryWallet({
           <span className="text-white">{wallet.name}</span>
         </div>
         <div className="flex items-center gap-2">
-          <Button icon={<Icon.Edit />} variant="secondary">
+          <Button icon={<Icon.Edit stroke="stroke-yellow-300" />} variant="secondary">
             Edit
           </Button>
         </div>
