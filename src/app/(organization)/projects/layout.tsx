@@ -168,7 +168,7 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                                 className="flex gap-2 items-center"
                                 href={`/projects/${projectId}/edit`}
                               >
-                                <Icon.Edit stroke="stroke-white" /> <span>Edit project</span>
+                                <Icon.Edit stroke="stroke-gray-400" /> <span>Edit project</span>
                               </Link>,
                               <Copy key="copy_id" copyString={projectId}>
                                 <span>Copy project ID</span>

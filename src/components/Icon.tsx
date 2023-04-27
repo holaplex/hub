@@ -568,7 +568,7 @@ function ExternalLink({
 }
 Icon.ExternalLink = ExternalLink;
 
-function Check({ width = 16, height = 16, className = '', stroke = 'stroke-text-400' }: IconProps) {
+function Check({ width = 16, height = 16, className = '', stroke = 'stroke-gray-400' }: IconProps) {
   return (
     <svg
       width={width}

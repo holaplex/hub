@@ -84,14 +84,10 @@ function SidebarMenuLink({ icon, name, href, active, className }: SidebarMenuIte
   return (
     <Link
       href={href}
-      className={clsx(
-        'flex gap-4 w-full px-4 py-3 items-center rounded-md border border-stone-900',
-        className,
-        {
-          'text-white bg-stone-800 border-stone-900': active,
-          'text-white hover:border-gray-400': !active,
-        }
-      )}
+      className={clsx('flex gap-4 w-full px-4 py-3 items-center rounded-md text-white', className, {
+        'bg-stone-800': active,
+        'hover:bg-stone-800': !active,
+      })}
     >
       {icon}
       <span className="text-sm">{name}</span>
@@ -152,7 +148,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
   });
 
   return (
-    <div className={clsx('flex flex-col w-full p-2 flex-shrink-0 gap-2', className)}>
+    <div className={clsx('flex flex-col w-full p-6 flex-shrink-0 gap-2', className)}>
       <div
         className="flex items-center gap-2 justify-between cursor-pointer pt-2"
         onClick={() => {
@@ -177,7 +173,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
         {expandFooter ? <Icon.Dropdown /> : <Icon.DropdownReverse />}
       </div>
       {expandFooter && (
-        <div className="w-full border-t border-gray-800 py-2">
+        <div className="w-full py-2">
           {userAffiliationsQuery.loading ? (
             <div className="flex flex-col gap-4">
               <div className="flex gap-2 items-center">
@@ -219,11 +215,10 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                     <div
                       key={affiliation.organization?.id}
                       className={clsx(
-                        'flex items-center rounded-md justify-between p-2 border border-stone-900 transition',
+                        'flex items-center rounded-md justify-between p-2 transition',
                         {
-                          'bg-stone-800 border-stone-800':
-                            affiliation.organization?.id === organization?.id,
-                          'cursor-pointer hover:border-gray-400':
+                          'bg-stone-800': affiliation.organization?.id === organization?.id,
+                          'cursor-pointer hover:bg-stone-800':
                             affiliation.organization?.id !== organization?.id,
                         }
                       )}
