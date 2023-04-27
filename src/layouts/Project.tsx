@@ -109,10 +109,10 @@ export default function Project({
                                     href={`/projects/${pro.id}/drops`}
                                     className="flex gap-2 items-center"
                                   >
-                                    {project.profileImageUrl ? (
+                                    {pro.profileImageUrl ? (
                                       <img
                                         className="w-8 h-8 rounded-md"
-                                        src={project.profileImageUrl}
+                                        src={pro.profileImageUrl}
                                         alt="logo"
                                       />
                                     ) : (
