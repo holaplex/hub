@@ -78,19 +78,19 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                     <>
                       <div className="flex items-center justify-between">
                         <div className="flex gap-2 items-center">
-                          <div className="h-8 w-80 bg-stone-800 animate-pulse rounded-md" />
-                          <div className="h-6 w-16 bg-stone-800 animate-pulse rounded-full" />
+                          <div className="h-8 w-80 bg-stone-900 animate-pulse rounded-md" />
+                          <div className="h-6 w-16 bg-stone-900 animate-pulse rounded-full" />
                         </div>
 
-                        {/* <div className="flex items-center gap-2">
-              <div className="h-10 w-24 bg-stone-800 animate-pulse rounded-md" />
-              <div className="h-10 w-28 bg-stone-800 animate-pulse rounded-md" />
-              <div className="h-10 w-32 bg-stone-800 animate-pulse rounded-md" />
-            </div> */}
+                        <div className="flex items-center gap-2">
+                          <div className="h-10 w-24 bg-stone-900 animate-pulse rounded-md" />
+                          <div className="h-10 w-28 bg-stone-900 animate-pulse rounded-md" />
+                          <div className="h-10 w-32 bg-stone-900 animate-pulse rounded-md" />
+                        </div>
                       </div>
                       <div className="mt-5 flex gap-4">
                         <div className="basis-1/3">
-                          <div className="w-full aspect-square bg-stone-800 animate-pulse rounded-lg" />
+                          <div className="w-full aspect-square bg-stone-900 animate-pulse rounded-lg" />
                         </div>
                         <div className="basis-2/3 flex flex-col gap-2">
                           <div className="w-full">
@@ -101,7 +101,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                             </div>
                             <div className="w-full rounded-full h-[12px] bg-stone-800 animate-pulse mt-1 relative overflow-hidden" />
                           </div>
-                          <div className="flex p-4 bg-subtlebg rounded-md">
+                          <div className="flex p-4 bg-stone-900 rounded-md">
                             <div className="basis-1/2 h-full flex flex-col border-r border-r-stone-800 pr-4">
                               <div className="h-4 w-8 bg-stone-800 animate-pulse rounded-full mb-2" />
                               <span className="h-8 w-2/3 bg-stone-800 animate-pulse rounded-md mb-1" />
@@ -138,9 +138,8 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                       <div className="flex items-center justify-between">
                         <div className="flex gap-2 text-2xl font-medium items-center">
                           <Link href={`/projects/${project}/drops`} className="text-gray-400">
-                            Manage drops
+                            Manage drops /
                           </Link>{' '}
-                          /
                           <span>
                             {dropQuery.data?.project?.drop?.collection?.metadataJson?.name}
                           </span>
@@ -196,7 +195,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                           <div className="w-full text-xs font-medium">
                             <div className="flex items-center justify-between">
                               <div className="flex gap-2 items-center">
-                                <span className="text-yellow-300">
+                                <span className="text-white">
                                   {dropQuery.data?.project?.drop?.status} - {percent}%
                                 </span>
                                 <span className="text-gray-400">
@@ -210,14 +209,15 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                                 </span>
                               )}
                             </div>
-                            <div className="w-full rounded-full h-[12px] bg-gray-100 mt-1 relative overflow-hidden">
+                            <div className="w-full rounded-full h-[12px] bg-stone-800 mt-1 relative overflow-hidden">
                               <div
                                 className={clsx('top-0 bottom-0 left-0 absolute rounded-r-full', {
-                                  'bg-blue-600':
+                                  'bg-blue-400':
                                     dropQuery.data?.project?.drop?.status === DropStatus.Minting,
-                                  'bg-red-900':
-                                    dropQuery.data?.project?.drop?.status === DropStatus.Shutdown,
-                                  'bg-stone-800':
+                                  'bg-red-500':
+                                    dropQuery.data?.project?.drop?.status === DropStatus.Shutdown ||
+                                    dropQuery.data?.project?.drop?.status === DropStatus.Expired,
+                                  'bg-stone-900':
                                     dropQuery.data?.project?.drop?.status === DropStatus.Paused,
                                 })}
                                 style={{ width: `${percent}%` }}
@@ -225,7 +225,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                             </div>
                           </div>
                           <div className="flex p-4 bg-stone-900 rounded-md">
-                            <div className="basis-1/2 h-full flex flex-col border-r border-r-gray-100 pr-4">
+                            <div className="basis-1/2 h-full flex flex-col border-r border-r-stone-800 pr-4">
                               <span className="text-gray-400 text-xs font-medium mb-2">Name</span>
                               <span className="text-white text-3xl font-medium">
                                 {dropQuery.data?.project?.drop?.collection?.metadataJson?.name}

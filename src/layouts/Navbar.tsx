@@ -83,11 +83,14 @@ interface MenuItemStepCountProps {
 function MenuItemStepCount({ count, active, filled, className }: MenuItemStepCountProps) {
   return (
     <div
-      className={clsx('rounded-md px-2 py-1 text-xs font-medium bg-stone-800', className, {
-        'text-maintext': active || (filled && active),
-        'text-gray-400': !active && !filled,
-        'px-1': filled && !active,
-      })}
+      className={clsx(
+        'h-6 w-6 flex justify-center items-center rounded-md text-xs font-medium bg-stone-800',
+        className,
+        {
+          'text-white': active || (filled && active),
+          'text-gray-400': !active && !filled,
+        }
+      )}
     >
       {!filled || active ? count : <Icon.Check stroke="stroke-gray-400" />}
     </div>

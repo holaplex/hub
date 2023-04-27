@@ -13,7 +13,11 @@ import {
   MetadataJsonAttribute,
   AssetType,
 } from '../../../../../../../../graphql.types';
-import { DropFormProvider } from '../../../../../../../../providers/DropFormProvider';
+import {
+  DropFormProvider,
+  RoyaltiesDestination,
+  RoyaltiesShortcut,
+} from '../../../../../../../../providers/DropFormProvider';
 import { useDropFormState } from '../../../../../../../../hooks/useDropFormState';
 import { DateFormat, formatDateString } from '../../../../../../../../modules/time';
 
@@ -27,8 +31,7 @@ const isComplete = pipe(isNil, not);
 export default function EditDrop({ children, project }: CreateDropProps): JSX.Element {
   const pathname = usePathname();
   const drop = project.drop;
-  const royalty = drop?.collection.royalties;
-  const royaltyPercentage = (royalty ? parseFloat(royalty) : 0) + '%';
+  const royalties = drop?.collection.royalties as string;
 
   const wallet = project?.treasury?.wallets?.find((wallet) => {
     switch (drop?.collection.blockchain) {
@@ -41,9 +44,27 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
     }
   });
 
-  const creators = drop?.collection.creators;
-  const creatorWallet =
-    creators && creators[0].address === wallet?.address ? 'projectTreasury' : 'specifyWallet';
+  const creators = drop?.collection.creators || [];
+  const defaultRoyaltiesDestination =
+    wallet?.address === creators[0]?.address && creators[0]?.share === 100
+      ? RoyaltiesDestination.ProjectTreasury
+      : RoyaltiesDestination.Creators;
+  let defaultRoyaltiesShortcut = RoyaltiesShortcut.Custom;
+
+  switch (royalties) {
+    case RoyaltiesShortcut.Zero:
+      defaultRoyaltiesShortcut = RoyaltiesShortcut.Zero;
+      break;
+    case RoyaltiesShortcut.TwoPointFive:
+      defaultRoyaltiesShortcut = RoyaltiesShortcut.TwoPointFive;
+      break;
+    case RoyaltiesShortcut.Five:
+      defaultRoyaltiesShortcut = RoyaltiesShortcut.Five;
+      break;
+    case RoyaltiesShortcut.Ten:
+      defaultRoyaltiesShortcut = RoyaltiesShortcut.Ten;
+      break;
+  }
 
   const store = useDropFormState({
     detail: {
@@ -58,13 +79,9 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
     payment: {
       supply: drop?.collection.supply?.toString() as string,
       creators: drop?.collection.creators as CollectionCreatorInput[],
-      royaltyPercentage: ['0%', '2.5%', '5%', '10%'].includes(royaltyPercentage)
-        ? royaltyPercentage
-        : 'custom',
-      customRoyalty: ['0%', '2.5%', '5%', '10%'].includes(royaltyPercentage)
-        ? undefined
-        : royaltyPercentage,
-      royaltyDestination: creatorWallet,
+      royaltiesDestination: defaultRoyaltiesDestination,
+      royaltiesShortcut: defaultRoyaltiesShortcut,
+      royalties,
     },
     timing: {
       startDate: drop?.startTime && formatDateString(drop?.startTime, DateFormat.DATE_3),

@@ -16,11 +16,7 @@ export default function EmailConfirmed() {
         </Typography.Header>
       </div>
       <Form className="flex flex-col mt-5">
-        <Button
-          border="rounded"
-          htmlType="submit"
-          className="w-full bg-stone-950 text-white p-2 mt-5"
-        >
+        <Button htmlType="submit" className="w-full bg-stone-950 text-white p-2 mt-5">
           Sign in
         </Button>
       </Form>

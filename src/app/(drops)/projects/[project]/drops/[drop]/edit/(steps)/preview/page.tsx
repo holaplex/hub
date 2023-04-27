@@ -113,11 +113,7 @@ export default function EditDropPreviewPage() {
             isNil,
             always(null),
             (royalties) => parseFloat(royalties.split('%')[0]) * 100
-          )(
-            payment.royaltyPercentage === 'custom'
-              ? payment.customRoyalty
-              : payment.royaltyPercentage
-          ),
+          )(payment.royalties),
           startTime: maybeToUtc(startDateTime),
           endTime: maybeToUtc(endDateTime),
         },

@@ -97,12 +97,12 @@ function Pause({ children }: PauseProps): JSX.Element {
           {dropQueryResult.loading ? (
             <>
               <div className="mt-2 flex flex-col gap-1">
-                <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
-                <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
+                <div className="w-full h-4 rounded-md bg-stone-800 animate-pulse" />
+                <div className="w-full h-4 rounded-md bg-stone-800 animate-pulse" />
               </div>
               <div className="mt-4 flex flex-col gap-2">
-                <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
-                <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+                <div className="w-full h-10 rounded-md bg-stone-800 animate-pulse" />
+                <div className="w-full h-10 rounded-md bg-stone-800 animate-pulse" />
               </div>
             </>
           ) : (
@@ -212,12 +212,12 @@ function Resume({ children }: ResumeProps): JSX.Element {
           {dropQueryResult.loading ? (
             <>
               <div className="mt-2 flex flex-col gap-1">
-                <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
-                <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
+                <div className="w-full h-4 rounded-md bg-stone-800 animate-pulse" />
+                <div className="w-full h-4 rounded-md bg-stone-800 animate-pulse" />
               </div>
               <div className="mt-4 flex flex-col gap-2">
-                <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
-                <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+                <div className="w-full h-10 rounded-md bg-stone-800 animate-pulse" />
+                <div className="w-full h-10 rounded-md bg-stone-800 animate-pulse" />
               </div>
             </>
           ) : (
@@ -327,12 +327,12 @@ function Shutdown({ children }: ShutdownProps): JSX.Element {
           {dropQueryResult.loading ? (
             <>
               <div className="mt-2 flex flex-col gap-1">
-                <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
-                <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
+                <div className="w-full h-4 rounded-md bg-stone-800 animate-pulse" />
+                <div className="w-full h-4 rounded-md bg-stone-800 animate-pulse" />
               </div>
               <div className="mt-4 flex flex-col gap-2">
-                <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
-                <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+                <div className="w-full h-10 rounded-md bg-stone-800 animate-pulse" />
+                <div className="w-full h-10 rounded-md bg-stone-800 animate-pulse" />
               </div>
             </>
           ) : (

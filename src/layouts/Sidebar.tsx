@@ -164,7 +164,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
         }}
       >
         <h1 className="flex items-center gap-2 text-sm text-white font-medium">
-          <div className="w-8 h-8 bg-gray-300 rounded-md" />
+          <div className="w-8 h-8 bg-gray-800 rounded-full" />
           <span className="flex flex-col capitalize">
             {userQuery.loading ? (
               <div className="h-4 w-20 bg-stone-800 rounded-full animate-pulse" />
@@ -174,10 +174,10 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
             <span className="text-gray-400 text-xs">{organization?.name}</span>
           </span>
         </h1>
-        {/* {expandFooter ? <Icon.DropdownReverse /> : <Icon.Dropdown />} */}
+        {expandFooter ? <Icon.Dropdown /> : <Icon.DropdownReverse />}
       </div>
       {expandFooter && (
-        <div className="w-full border-t border-gray-100 py-2">
+        <div className="w-full border-t border-gray-800 py-2">
           {userAffiliationsQuery.loading ? (
             <div className="flex flex-col gap-4">
               <div className="flex gap-2 items-center">
@@ -210,7 +210,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                   onClick={() => logout()}
                 >
                   <Icon.Logout stroke="stroke-gray-400" />
-                  <span className="text-sm">Logout</span>
+                  <span className="text-sm text-white">Logout</span>
                 </div>
               </div>
               <div className="flex flex-col gap-4 max-h-60 overflow-y-auto">
@@ -219,10 +219,11 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                     <div
                       key={affiliation.organization?.id}
                       className={clsx(
-                        'flex items-center rounded-md justify-between p-2 border transition',
+                        'flex items-center rounded-md justify-between p-2 border border-stone-900 transition',
                         {
-                          'border-gray-100': affiliation.organization?.id === organization?.id,
-                          'border-white cursor-pointer hover:border-gray-100 hover:bg-stone-800':
+                          'bg-stone-800 border-stone-800':
+                            affiliation.organization?.id === organization?.id,
+                          'cursor-pointer hover:border-gray-400':
                             affiliation.organization?.id !== organization?.id,
                         }
                       )}
@@ -233,7 +234,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                       >
                         {affiliation.organization?.profileImageUrl ? (
                           <img
-                            className="w-8 h-8 rounded-full"
+                            className="w-8 h-8 rounded-lg"
                             src={affiliation.organization.profileImageUrl}
                             alt="logo"
                           />
@@ -249,7 +250,11 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                 })}
               </div>
               <Link href="/organizations/new">
-                <Button icon={<Icon.Add stroke="stroke-stone-950" />} className="w-full">
+                <Button
+                  icon={<Icon.Add stroke="stroke-yellow-300" />}
+                  variant="secondary"
+                  className="w-full"
+                >
                   Add organization
                 </Button>
               </Link>

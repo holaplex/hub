@@ -26,8 +26,6 @@ interface CreateDropVars {
   input: CreateDropInput;
 }
 
-const LAMPORTS_PER_SOL = 1_000_000_000;
-
 export default function NewDropPreviewPage() {
   const router = useRouter();
   const { project } = useProject();
@@ -100,11 +98,7 @@ export default function NewDropPreviewPage() {
             isNil,
             always(null),
             (royalties) => parseFloat(royalties.split('%')[0]) * 100
-          )(
-            payment.royaltyPercentage === 'custom'
-              ? payment.customRoyalty
-              : payment.royaltyPercentage
-          ),
+          )(payment.royalties),
           startTime: maybeToUtc(startDateTime),
           endTime: maybeToUtc(endDateTime),
         },
@@ -162,7 +156,7 @@ export default function NewDropPreviewPage() {
           </div>
           {endDateTime && (
             <div className="w-full flex flex-col gap-2 bg-stone-800 rounded-md py-2 px-3 mt-4">
-              <span className="text-subtletext text-xs font-medium">End date and time</span>
+              <span className="text-gray-400 text-xs font-medium">End date and time</span>
               <span className="text-yellow-300 text-xs font-medium">
                 {`${format(endDateTime, DateFormat.DATE_1)}, ${format(
                   endDateTime,

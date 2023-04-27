@@ -236,7 +236,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                               className="flex gap-2 items-center"
                               href={`/webhooks/${info.row.original.id}/edit`}
                             >
-                              <Icon.Edit /> <span>Edit</span>
+                              <Icon.Edit stroke="stoke-white" /> <span>Edit</span>
                             </Link>,
                             <Link
                               key="delete"

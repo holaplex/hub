@@ -19,6 +19,10 @@ a {
   text-decoration: none;
 }
 
+.toast-message {
+  @apply bg-stone-900 drop-shadow-sm text-white;
+}
+
 h1 {
   @apply text-2xl font-semibold text-white;
 }
@@ -95,11 +99,11 @@ input:focus {
 }
 
 .button-variant-primary {
-  @apply text-stone-950 bg-yellow-300 hover:bg-yellow-400 disabled:opacity-70 transition rounded-lg;
+  @apply text-stone-950 bg-yellow-300 hover:bg-yellow-500 disabled:opacity-70 transition rounded-lg;
 }
 
 .button-variant-secondary {
-  @apply text-yellow-300 bg-transparent border-2 border-yellow-300 hover:text-yellow-400 hover:border-yellow-400 transition rounded-lg;
+  @apply text-yellow-300 bg-transparent border-2 border-yellow-300 hover:text-yellow-500 hover:border-yellow-500 transition rounded-lg;
 }
 
 .button-variant-tertiary {
@@ -107,7 +111,7 @@ input:focus {
 }
 
 .button-variant-failure {
-  @apply text-white bg-red-500;
+  @apply text-white bg-red-500 rounded-lg hover:bg-opacity-80 transition;
 }
 
 .spinner {
@@ -134,9 +138,6 @@ input:focus {
 .modal-close-icon {
   @apply text-white;
 }
-.form-select-options {
-  @apply bg-stone-800 p-1 text-base rounded-lg shadow-lg max-h-40 z-10 ring-1 ring-stone-800 ring-opacity-5 focus:outline-none sm:text-sm flex flex-col gap-1;
-}
 
 .form-select-button {
   @apply form-input text-left min-h-[42px];
@@ -145,6 +146,11 @@ input:focus {
 .form-select {
   @apply text-left;
 }
+
+.form-select-options {
+  @apply bg-stone-800 p-2 text-base rounded-lg shadow-lg max-h-40 z-10 ring-1 ring-stone-800 ring-opacity-5 focus:outline-none sm:text-sm flex flex-col gap-2;
+}
+
 .form-select-option {
   @apply p-2 text-gray-400 rounded;
 }
@@ -165,16 +171,12 @@ input:focus {
   @apply text-gray-400;
 }
 
-input[type='radio'] {
-  @apply text-black;
-}
-
 .form-radio-group {
   @apply flex flex-row gap-2;
 }
 
 .form-radio {
-  @apply text-yellow-300 focus:ring-yellow-300 checked:text-yellow-300 bg-stone-800;
+  @apply w-4 h-4 text-yellow-300 bg-stone-800 border-none focus:ring-yellow-300 cursor-pointer ring-offset-0;
 }
 
 .form-radio-custombox {
@@ -191,4 +193,8 @@ input[type='radio'] {
 
 .dragdrop-preview-image {
   @apply w-40 h-40 object-cover;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  @apply text-gray-400;
 }

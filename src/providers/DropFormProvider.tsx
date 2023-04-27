@@ -17,12 +17,25 @@ export type DetailSettings = {
   externalUrl: string;
 };
 
+export enum RoyaltiesShortcut {
+  Zero = '0%',
+  TwoPointFive = '2.5%',
+  Five = '5%',
+  Ten = '10%',
+  Custom = 'custom',
+}
+
+export enum RoyaltiesDestination {
+  ProjectTreasury = 'projectTreasury',
+  Creators = 'creators',
+}
+
 export type PaymentSettings = {
   supply: string;
-  royaltyDestination: string;
+  royaltiesDestination: RoyaltiesDestination;
   creators: CollectionCreatorInput[];
-  royaltyPercentage: string;
-  customRoyalty?: string;
+  royaltiesShortcut: RoyaltiesShortcut;
+  royalties?: string;
 };
 
 export type TimingSettings = {

@@ -18,7 +18,10 @@ export default function NewDropTimingPage() {
   const timing = useStore(store, (store) => store.timing);
   const setTiming = useStore(store, (store) => store.setTiming);
   const { handleSubmit, register, watch } = useForm<TimingSettings>({
-    defaultValues: timing || {},
+    defaultValues: timing || {
+      selectStartDate: 'mintImmediately',
+      selectEndDate: 'neverEnd',
+    },
   });
 
   const selectStartDate = watch('selectStartDate');
@@ -35,7 +38,7 @@ export default function NewDropTimingPage() {
 
   return (
     <>
-      <Card className="w-[400px]">
+      <Card className="w-[460px]">
         <Typography.Header size={Size.H2}>Drop schedule</Typography.Header>
         <Typography.Header size={Size.H3} color={TextColor.Gray}>
           Scheduled in your current timezone

@@ -100,7 +100,7 @@ export default function CustomersPage() {
                 Click button below to understand how to integrate customers.
               </span>
               <a href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet">
-                <Button icon={<Icon.Help stroke="stroke-yellow-300" />} className="mt-8">
+                <Button icon={<Icon.Help stroke="stroke-stone-950" />} className="mt-8">
                   How to integrate
                 </Button>
               </a>
@@ -111,7 +111,7 @@ export default function CustomersPage() {
                 href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet"
                 className="self-end"
               >
-                <Button icon={<Icon.Help stroke="stroke-yellow-300" />} variant="secondary" className="self-end">
+                <Button icon={<Icon.Help stroke="stroke-stone-950" />} className="self-end">
                   How to integrate
                 </Button>
               </a>

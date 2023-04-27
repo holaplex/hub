@@ -3,12 +3,17 @@ import { Button, Form, Placement } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
 import Card from '../../../../../../../components/Card';
-import { pipe, isNil, not } from 'ramda';
 import { Blockchain, AssetType, CollectionCreatorInput } from '../../../../../../../graphql.types';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { useProject } from '../../../../../../../hooks/useProject';
 import { StoreApi, useStore } from 'zustand';
-import { PaymentSettings, DropFormState } from '../../../../../../../providers/DropFormProvider';
+import {
+  PaymentSettings,
+  DropFormState,
+  RoyaltiesShortcut,
+  RoyaltiesDestination,
+} from '../../../../../../../providers/DropFormProvider';
+import { Icon } from './../../../../../../../components/Icon';
 import { useDropForm } from '../../../../../../../hooks/useDropForm';
 
 export default function NewDropRoyaltiesPage() {
@@ -32,17 +37,22 @@ export default function NewDropRoyaltiesPage() {
 
   const { handleSubmit, register, control, watch, formState } = useForm<PaymentSettings>({
     defaultValues: payment || {
-      royaltyDestination: 'projectTreasury',
-      creators: [],
+      royaltiesDestination: RoyaltiesDestination.ProjectTreasury,
+      royaltiesShortcut: RoyaltiesShortcut.Zero,
+      creators: [{ address: '', share: 100 }],
     },
   });
 
-  const royaltyDestination = watch('royaltyDestination');
-  const royaltyPercentage = watch('royaltyPercentage');
+  const royaltiesDestination = watch('royaltiesDestination');
+  const royaltiesShortcut = watch('royaltiesShortcut');
 
   const submit = (data: PaymentSettings) => {
-    if (data.royaltyDestination === 'projectTreasury') {
+    if (data.royaltiesDestination === RoyaltiesDestination.ProjectTreasury) {
       data.creators = [{ address: wallet?.address as string, share: 100 }];
+    }
+
+    if (data.royaltiesShortcut !== RoyaltiesShortcut.Custom) {
+      data.royalties = data.royaltiesShortcut as string;
     }
 
     data.creators = data.creators.map(({ address, share = 100 }) => {
@@ -62,6 +72,36 @@ export default function NewDropRoyaltiesPage() {
   const back = () => {
     router.push(`/projects/${project?.id}/drops/new/details`);
   };
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'creators',
+    rules: {
+      required: true,
+      validate: (creators) => {
+        switch (detail?.blockchain) {
+          case Blockchain.Solana:
+            if (creators.length > 5) {
+              return 'Can only set up to 5 creators.';
+            }
+            break;
+          case Blockchain.Polygon || Blockchain.Ethereum:
+            if (creators.length > 1) {
+              return 'Can only set 1 creator.';
+            }
+            break;
+        }
+
+        const total = creators.reduce(
+          (acc: number, creator: CollectionCreatorInput) =>
+            acc + parseInt(creator.share as unknown as string),
+          0
+        );
+
+        return total === 100 || 'Creator shares must sum to 100.';
+      },
+    },
+  });
 
   return (
     <>
@@ -87,9 +127,9 @@ export default function NewDropRoyaltiesPage() {
                 peerClassName="form-radio-custombox"
               >
                 <Form.RadioGroup.Radio
-                  {...register('royaltyPercentage')}
+                  {...register('royaltiesShortcut')}
                   id="0"
-                  value="0"
+                  value={RoyaltiesShortcut.Zero}
                   className="hidden peer"
                 />
               </Form.Label>
@@ -100,9 +140,9 @@ export default function NewDropRoyaltiesPage() {
                 peerClassName="form-radio-custombox"
               >
                 <Form.RadioGroup.Radio
-                  {...register('royaltyPercentage')}
+                  {...register('royaltiesShortcut')}
                   id="2.5"
-                  value="2.5"
+                  value={RoyaltiesShortcut.TwoPointFive}
                   className="hidden peer"
                 />
               </Form.Label>
@@ -113,22 +153,21 @@ export default function NewDropRoyaltiesPage() {
                 peerClassName="form-radio-custombox"
               >
                 <Form.RadioGroup.Radio
-                  {...register('royaltyPercentage')}
+                  {...register('royaltiesShortcut')}
                   id="5"
-                  value="5"
+                  value={RoyaltiesShortcut.Five}
                   className="hidden peer"
                 />
               </Form.Label>
               <Form.Label
                 name="10%"
-                htmlFor="10"
                 placement={Placement.Right}
                 peerClassName="form-radio-custombox"
               >
                 <Form.RadioGroup.Radio
-                  {...register('royaltyPercentage')}
+                  {...register('royaltiesShortcut')}
                   id="10"
-                  value="10"
+                  value={RoyaltiesShortcut.Ten}
                   className="hidden peer"
                 />
               </Form.Label>
@@ -139,25 +178,25 @@ export default function NewDropRoyaltiesPage() {
                 peerClassName="form-radio-custombox"
               >
                 <Form.RadioGroup.Radio
-                  {...register('royaltyPercentage')}
+                  {...register('royaltiesShortcut')}
                   id="custom"
-                  value="custom"
+                  value={RoyaltiesShortcut.Custom}
                   className="hidden peer"
                 />
               </Form.Label>
             </Form.RadioGroup>
           </Form.Label>
-          {royaltyPercentage === 'custom' && (
+          {royaltiesShortcut === RoyaltiesShortcut.Custom && (
             <>
               <Form.Input
-                {...register('customRoyalty', {
-                  required: royaltyPercentage === 'custom',
-                  validate: (customRoyalty) => {
-                    if (!customRoyalty) {
+                {...register('royalties', {
+                  required: royaltiesShortcut === RoyaltiesShortcut.Custom,
+                  validate: (royalties) => {
+                    if (!royalties) {
                       return true;
                     }
 
-                    const amount = customRoyalty.split('%')[0];
+                    const amount = royalties.split('%')[0];
 
                     return (
                       parseFloat(amount) <= 100 ||
@@ -168,32 +207,63 @@ export default function NewDropRoyaltiesPage() {
                 className="mt-2"
                 placeholder="e.g. 12.5%"
               />
-              <Form.Error message={formState.errors.customRoyalty?.message} />
+              <Form.Error message={formState.errors.royalties?.message} />
             </>
           )}
           <Form.Label name="Destination for royalties received" className="mt-8">
             <Form.RadioGroup>
               <Form.Label name="Use project treasury" placement={Placement.Right}>
                 <Form.RadioGroup.Radio
-                  {...register('royaltyDestination')}
-                  value="projectTreasury"
+                  {...register('royaltiesDestination')}
+                  value={RoyaltiesDestination.ProjectTreasury}
                 />
               </Form.Label>
               <Form.Label name="Specify wallet address" placement={Placement.Right}>
-                <Form.RadioGroup.Radio {...register('royaltyDestination')} value="specifyWallet" />
+                <Form.RadioGroup.Radio
+                  {...register('royaltiesDestination')}
+                  value={RoyaltiesDestination.Creators}
+                />
               </Form.Label>
             </Form.RadioGroup>
           </Form.Label>
 
-          {royaltyDestination === 'specifyWallet' && (
-            <Form.Input
-              {...register(`creators.${0}.address`)}
-              placeholder="Enter Solana wallet address"
-              className="mt-2"
-            />
-          )}
+          {royaltiesDestination === RoyaltiesDestination.Creators && (
+            <>
+              {fields.map((field, index) => (
+                <div className="flex gap-4" key={field.id}>
+                  <Form.Label name="Wallet" className="text-xs mt-5 basis-3/4">
+                    <Form.Input
+                      {...register(`creators.${index}.address`)}
+                      placeholder="Paste royalty wallet address"
+                    />
+                  </Form.Label>
 
-          <Form.Error message={formState.errors.creators?.root?.message} />
+                  <Form.Label name="Royalties" className="text-xs mt-5 basis-1/4">
+                    <Form.Input
+                      {...register(`creators.${index}.share`)}
+                      type="number"
+                      placeholder="e.g. 10%"
+                    />
+                  </Form.Label>
+
+                  <div
+                    className="rounded-md bg-stone-800 hover:bg-stone-950 p-3 self-end cursor-pointer"
+                    onClick={() => remove(index)}
+                  >
+                    <Icon.Close stroke="stroke-white" />
+                  </div>
+                </div>
+              ))}
+              <Button
+                className="mt-4 self-start"
+                variant="secondary"
+                onClick={() => append({ address: '', share: Number() })}
+              >
+                Add wallet
+              </Button>
+              <Form.Error message={formState.errors.creators?.root?.message} />
+            </>
+          )}
 
           <hr className="w-full bg-stone-800 border-0 h-px my-5" />
 

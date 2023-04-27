@@ -116,10 +116,10 @@ function MemberPill({ status, className }: InviteStatusPillProps) {
   return (
     <div
       className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
-        'bg-purple-200 text-purple-600': status == MemberStatus.Owner,
-        'bg-green-200 text-green-600': status === MemberStatus.Accepted,
-        'bg-cyan-200 text-cyan-600': status === MemberStatus.Sent,
-        'bg-red-100 text-red-900': status === MemberStatus.Revoked,
+        'bg-green-400 bg-opacity-20 text-green-400':
+          status == MemberStatus.Owner || status === MemberStatus.Accepted,
+        'bg-blue-400 bg-opacity-20 text-blue-400': status === MemberStatus.Sent,
+        'bg-red-500 bg-opacity-20 text-red-500': status === MemberStatus.Revoked,
       })}
     >
       {label}
@@ -143,7 +143,7 @@ function DropStatusPill({ status, className }: DropStatusPillProps) {
       label = 'Scheduled';
       break;
     case DropStatus.Minting:
-      label = 'Minting';
+      label = 'Live';
       break;
     case DropStatus.Paused:
       label = 'Paused';
@@ -161,11 +161,16 @@ function DropStatusPill({ status, className }: DropStatusPillProps) {
   return (
     <div
       className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
-        'bg-purple-200 text-purple-600': status === DropStatus.Scheduled,
-        'bg-blue-200 text-blue-600': status === DropStatus.Minting,
-        'bg-green-200 text-green-600': status === DropStatus.Minted,
-        'bg-stone-950 text-gray-400': status === DropStatus.Creating || DropStatus.Paused,
-        'bg-red-100 text-red-900': status === DropStatus.Expired || status === DropStatus.Shutdown,
+        'bg-blue-400 bg-opacity-20 text-blue-400':
+          status === DropStatus.Minting ||
+          status === DropStatus.Scheduled ||
+          status === DropStatus.Creating,
+        'bg-green-400 bg-opacity-20 text-green-400': status === DropStatus.Minted,
+        'bg-yellow-400 bg-opacity-20 text-yellow-400': status === DropStatus.Paused,
+        'bg-red-500 bg-opacity-20 text-red-500':
+          status === DropStatus.Expired ||
+          status === DropStatus.Shutdown ||
+          status === DropStatus.Failed,
       })}
     >
       {label}
@@ -185,8 +190,8 @@ function PurchaseStatusPill({ status, className }: PurchaseStatusPillProps) {
   return (
     <div
       className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
-        'bg-cyan-200 text-cyan-600': status === CreationStatus.Pending,
-        'bg-green-200 text-green-600': status === CreationStatus.Created,
+        'bg-blue-400 bg-opacity-20 text-blue-400': status === CreationStatus.Pending,
+        'bg-green-400 bg-opacity-20 text-green-400': status === CreationStatus.Created,
       })}
     >
       {label}
@@ -206,8 +211,8 @@ function WebhookStatusPill({ status, className }: WebhookStatusProps) {
   return (
     <div
       className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
-        'bg-stone-950 text-gray-700': status === WebhookStatus.DISABLED,
-        'bg-green-200 text-green-600': status === WebhookStatus.ACTIVE,
+        'bg-red-500 bg-opacity-20 text-red-500': status === WebhookStatus.DISABLED,
+        'bg-green-400 bg-opacity-20 text-green-400': status === WebhookStatus.ACTIVE,
       })}
     >
       {label}
@@ -227,9 +232,9 @@ function TransactionStatusPill({ status, className }: TransactionStatusPillProps
   return (
     <div
       className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
-        'bg-cyan-200 text-cyan-600': status === TransactionStatus.IN_PROCESS,
-        'bg-green-200 text-green-600': status === TransactionStatus.SUCCESS,
-        'bg-red-100 text-red-900': status === TransactionStatus.FAILED,
+        'bg-blue-400 bg-opacity-20 text-blue-400': status === TransactionStatus.IN_PROCESS,
+        'bg-green-400 bg-opacity-20 text-green-400': status === TransactionStatus.SUCCESS,
+        'bg-red-500 bg-opacity-20 text-red-500': status === TransactionStatus.FAILED,
       })}
     >
       {label}

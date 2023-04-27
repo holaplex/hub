@@ -71,20 +71,17 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
                       <div
                         {...getRootProps()}
                         className={clsx(
-                          'flex items-center justify-center border border-dashed border-gray-200 cursor-pointer rounded-md',
+                          'flex items-center justify-center border border-dashed border-gray-800 cursor-pointer rounded-md p-6 text-center text-gray-500',
                           {
                             'bg-gray-100': isDragActive,
-                            'p-6 text-center text-gray-500': !value,
                           }
                         )}
                       >
                         <input {...getInputProps({ onBlur })} />
                         {value ? (
-                          <div className="bg-white rounded-lg p-3 overflow-hidden">
-                            <Form.DragDrop.Preview value={value} />
-                          </div>
+                          <Form.DragDrop.Preview value={value} />
                         ) : (
-                          <div className="flex flex-col gap-2 text-subtletext">
+                          <div className="flex flex-col gap-2 text-gray-400">
                             <p className="text-center">
                               Drag & drop file or{' '}
                               <span className="text-yellow-300 cursor-pointer">Browse files</span>
@@ -159,7 +156,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
             />
             <Form.Error message="" />
           </Form.Label>
-          <Form.Label name="External URL (optional)" className="text-xs mt-5">
+          <Form.Label name="External URL" className="text-xs mt-5">
             <Form.Input
               {...register('externalUrl')}
               placeholder="Set an external url on the drop."
@@ -182,7 +179,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
                 </Form.Label>
 
                 <div
-                  className="rounded-md bg-stone-800 p-3 self-end cursor-pointer"
+                  className="rounded-md bg-stone-800 hover:bg-stone-950 p-3 self-end cursor-pointer transition"
                   onClick={() => remove(index)}
                 >
                   <Icon.Close stroke="stroke-white" />

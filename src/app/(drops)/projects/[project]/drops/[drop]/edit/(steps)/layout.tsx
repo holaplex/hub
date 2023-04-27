@@ -34,7 +34,7 @@ export default async function CreateDropLayout({
   const dropQuery = await client.query<GetDropsData, GetDropVars>({
     query: GetDrop,
     variables: { project, drop },
-    fetchPolicy: 'network-only'
+    fetchPolicy: 'network-only',
   });
 
   return <EditDrop project={dropQuery.data.project}>{children}</EditDrop>;

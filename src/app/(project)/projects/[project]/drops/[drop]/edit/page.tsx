@@ -34,7 +34,7 @@ export default function EditDropPage({ params: { drop, project } }: EditDropProp
 
   return (
     <Modal open={true} setOpen={onClose}>
-      <Card className="w-[400px]">
+      <Card className="w-[460px]">
         <Typography.Header size={Size.H2}>Edit drop</Typography.Header>
         {dropQuery.loading ? (
           <>

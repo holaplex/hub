@@ -49,7 +49,7 @@ export default function MemberInvitePage() {
   return (
     <Modal open={true} setOpen={onClose}>
       <Card className="w-[400px]">
-        <Typography.Header size={Size.H2}>Invite new member to</Typography.Header>
+        <Typography.Header size={Size.H2}>Invite new member to the organization</Typography.Header>
         <Typography.Header size={Size.H3}>Enter member email address to invite.</Typography.Header>
 
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(onSubmit)}>

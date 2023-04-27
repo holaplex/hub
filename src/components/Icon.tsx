@@ -46,12 +46,7 @@ function EthLarge({ width = 28, height = 42, fill = '#AAAAAA', className = '' }:
 }
 LargeIcon.Eth = EthLarge;
 
-function SolanaLarge({
-  width = 38,
-  height = 38,
-  fill = '#AAAAAA',
-  className = '',
-}: IconProps) {
+function SolanaLarge({ width = 38, height = 38, fill = '#AAAAAA', className = '' }: IconProps) {
   return (
     <svg
       width={width}
@@ -94,58 +89,58 @@ function Royalties({
     >
       <path
         d="M2.50098 7.5C2.50098 8.42083 4.36598 9.16667 6.66764 9.16667"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M6.66681 12.5C4.36598 12.5 2.50098 11.7542 2.50098 10.8334"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
-      <path d="M10.8323 4.16663H10.8331V6.66663" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M10.8323 4.16663H10.8331V6.66663" strokeLinecap="round" strokeLinejoin="round" />
       <path
         d="M9.16748 13.3334C9.16748 14.2542 11.0325 15 13.3341 15C15.6358 15 17.5008 14.2542 17.5008 13.3334"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M9.16748 10C9.16748 10.9208 11.0325 11.6667 13.3341 11.6667C15.6358 11.6667 17.5008 10.9208 17.5008 10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M13.3335 8.33337C11.0335 8.33337 9.16679 9.07921 9.16846 10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M9.16748 10V16.6667C9.16748 17.5875 11.0325 18.3333 13.3341 18.3333"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M13.3335 8.33337C15.6335 8.33337 17.5002 9.07921 17.4985 10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M17.5002 10V16.6667C17.5002 17.5875 15.6352 18.3333 13.3335 18.3333"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M6.66667 15.8333C4.36583 15.8333 2.5 15.0875 2.5 14.1666"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         fill-rule="evenodd"
         clip-rule="evenodd"
         d="M6.66667 5.83333C8.96785 5.83333 10.8333 5.08714 10.8333 4.16667C10.8333 3.24619 8.96785 2.5 6.66667 2.5C4.36548 2.5 2.5 3.24619 2.5 4.16667C2.5 5.08714 4.36548 5.83333 6.66667 5.83333Z"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
-      <path d="M2.50016 4.16663V14.1666" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M2.50016 4.16663V14.1666" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -253,7 +248,7 @@ function Dropdown({
       className={clsx(stroke, className)}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M0.5 0.75L3 3.25L5.5 0.75" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M0.5 0.75L3 3.25L5.5 0.75" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -264,7 +259,7 @@ function DropdownReverse({
   height = 4,
   fill = 'none',
   className = '',
-  stroke = 'stroke-stone-950',
+  stroke = 'stroke-gray-400',
 }: IconProps) {
   return (
     <svg
@@ -275,7 +270,7 @@ function DropdownReverse({
       className={clsx(stroke, className)}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M5.5 3.25L3 0.75L0.5 3.25" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M5.5 3.25L3 0.75L0.5 3.25" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -332,15 +327,15 @@ function CrdentialsLarge({ width = 96, height = 96, fill = 'none', className = '
         fillRule="evenodd"
         clipRule="evenodd"
         d="M39.6088 65.4623V60.8668H45.3548L50.2331 55.9885L56.9671 58.8485C59.4078 59.8853 62.2321 59.336 64.1041 57.4608L73.6688 47.896C75.5441 46.0208 76.0901 43.1965 75.0566 40.759L70.1751 29.267C69.5186 27.7168 68.2836 26.485 66.7333 25.8253L55.2413 20.9438C52.8006 19.907 49.9796 20.4563 48.1043 22.3315L38.5396 31.8963C36.6676 33.7683 36.1183 36.5925 37.1551 39.0333L39.9403 45.595L20.3623 65.173V75.5145H30.7038L35.0133 71.205V65.459H39.6088V65.4623Z"
-        fill="#C5C5C5"
-        stroke="#555555"
+        fill="#AAAAAA"
+        stroke="#AAAAAA"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M55.7217 37.9055C54.9449 37.9087 54.3144 38.5392 54.3177 39.316C54.3177 40.0927 54.9514 40.7232 55.7282 40.72C56.5049 40.72 57.1354 40.0895 57.1354 39.3127C57.1354 38.536 56.5049 37.9055 55.7282 37.9055"
-        stroke="#555555"
+        stroke="#AAAAAA"
         strokeWidth="5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -472,14 +467,17 @@ function AddWebhook({
     >
       <path
         d="M10.562 5.37792C10.7605 4.9523 10.8283 4.47739 10.7569 4.01323C10.6854 3.54908 10.4779 3.11653 10.1607 2.77029C9.8434 2.42405 9.43058 2.17967 8.97442 2.06805C8.51826 1.95642 8.03924 1.98258 7.59795 2.1432C7.15665 2.30382 6.77289 2.59169 6.4952 2.97041C6.21751 3.34913 6.05836 3.8017 6.03787 4.27087C6.01739 4.74004 6.13649 5.20475 6.38011 5.60624C6.45944 5.73695 6.5508 5.85906 6.65264 5.97115C6.99838 6.35169 7.20974 6.90687 6.97349 7.36353L5.24414 10.7063"
+        stroke={stroke}
         strokeLinecap="round"
       />
       <path
         d="M5.03691 8.34082C4.57774 8.381 4.1402 8.55394 3.77765 8.83855C3.41511 9.12316 3.14324 9.50714 2.9952 9.94364C2.84717 10.3801 2.82938 10.8503 2.94401 11.2967C3.05863 11.7432 3.30071 12.1466 3.64071 12.4578C3.98071 12.769 4.40393 12.9745 4.85875 13.0492C5.31356 13.124 5.7803 13.0648 6.20202 12.8788C6.62374 12.6928 6.98221 12.388 7.2337 12.0018C7.31909 11.8706 7.39089 11.732 7.44846 11.5881C7.63424 11.1236 8.02429 10.7038 8.52451 10.7041L11.5757 10.7063"
+        stroke={stroke}
         strokeLinecap="round"
       />
       <path
         d="M9.82293 12.0682C10.0923 12.4529 10.4697 12.749 10.9074 12.9192C11.3451 13.0895 11.8234 13.1261 12.2819 13.0244C12.7404 12.9228 13.1584 12.6874 13.4832 12.3482C13.8079 12.009 14.0248 11.5811 14.1063 11.1186C14.1879 10.6561 14.1305 10.1798 13.9413 9.74995C13.7522 9.3201 13.4398 8.95599 13.0437 8.70366C12.6477 8.45134 12.1857 8.32213 11.7162 8.33237C11.6123 8.33464 11.5091 8.34371 11.4072 8.35937C10.8479 8.44535 10.1897 8.28569 9.95533 7.77068L8.41001 4.37442"
+        stroke={stroke}
         strokeLinecap="round"
       />
       <path d="M2.33333 3V5.66667" stroke={stroke} strokeLinecap="round" strokeLinejoin="round" />
@@ -544,8 +542,8 @@ function Sol({ width = 20, height = 20, fill = 'fill-white', className = '' }: I
 CryptoIcon.Sol = Sol;
 
 function ExternalLink({
-  width = 16,
-  height = 16,
+  width = 20,
+  height = 20,
   className = '',
   stroke = 'stroke-white',
 }: IconProps) {
@@ -553,14 +551,15 @@ function ExternalLink({
     <svg
       width={width}
       height={height}
-      viewBox="0 0 16 16"
+      viewBox="0 0 20 20"
       className={clsx(stroke, className)}
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M10.667 2H14.0003V5.33333" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M9.33301 6.66667L13.9997 2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M13.3334 2.5H17.5V6.66667" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M11.6666 8.33333L17.5 2.5" strokeLinecap="round" strokeLinejoin="round" />
       <path
-        d="M12.6667 9.33325V12.6666C12.6667 13.4033 12.07 13.9999 11.3333 13.9999H3.33333C2.59667 13.9999 2 13.4033 2 12.6666V4.66659C2 3.92992 2.59667 3.33325 3.33333 3.33325H6.66667"
+        d="M15.8333 11.6667V15.8333C15.8333 16.7542 15.0875 17.5 14.1667 17.5H4.16667C3.24583 17.5 2.5 16.7542 2.5 15.8333V5.83332C2.5 4.91249 3.24583 4.16666 4.16667 4.16666H8.33333"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -796,8 +795,8 @@ function Resume({ width = 16, height = 16, className = '' }: IconProps) {
         fill-rule="evenodd"
         clip-rule="evenodd"
         d="M15.5 8V8C15.5 12.1425 12.1425 15.5 8 15.5V15.5C3.8575 15.5 0.5 12.1425 0.5 8V8C0.5 3.8575 3.8575 0.5 8 0.5V0.5C12.1425 0.5 15.5 3.8575 15.5 8Z"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -837,7 +836,7 @@ function Add({
   height = 16,
   fill = 'none',
   className = '',
-  stroke = 'slate-stone-950',
+  stroke = 'stroke-stone-950',
 }: IconProps) {
   return (
     <svg
@@ -1343,7 +1342,7 @@ function TableAction({ width = 16, height = 16, fill = 'none', className = '' }:
         fillRule="evenodd"
         clipRule="evenodd"
         d="M12.5491 7.71669L8.54173 13.5054C8.17439 14.0354 7.34306 13.776 7.34306 13.1307V9.31536H3.99306C3.46239 9.31536 3.14973 8.71936 3.45239 8.28269L7.45973 2.49402C7.82706 1.96402 8.65839 2.22336 8.65839 2.86869V6.68402H12.0084C12.5384 6.68402 12.8511 7.28002 12.5491 7.71669Z"
-        fill="#C5C5C5"
+        fill="#AAAAAA"
       />
     </svg>
   );
@@ -1437,7 +1436,7 @@ function CheckBox({ width = 16, height = 16, fill = 'none', className = '' }: Ic
       xmlns="http://www.w3.org/2000/svg"
     >
       <rect x="0.5" y="0.5" width="15" height="15" rx="3.5" fill="#F5F5F5" />
-      <rect x="0.5" y="0.5" width="15" height="15" rx="3.5" stroke="#C5C5C5" />
+      <rect x="0.5" y="0.5" width="15" height="15" rx="3.5" stroke="#AAAAAA" />
     </svg>
   );
 }
@@ -1541,18 +1540,29 @@ function CreateProject({
       height={height}
       viewBox="0 0 20 20"
       fill={fill}
-      className={clsx(stroke, className)}
+      className={clsx(className, stroke)}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
         fillRule="evenodd"
         clipRule="evenodd"
         d="M15.8333 5.78325H10.4408C10.165 5.78325 9.90667 5.64659 9.75167 5.41825L8.58083 3.69742C8.42583 3.46992 8.16833 3.33325 7.8925 3.33325H4.16667C3.24583 3.33325 2.5 4.07909 2.5 4.99992V14.9999C2.5 15.9208 3.24583 16.6666 4.16667 16.6666H15.8333C16.7542 16.6666 17.5 15.9208 17.5 14.9999V7.44992C17.5 6.52992 16.7542 5.78325 15.8333 5.78325Z"
+        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="M9.99186 8.8501V13.4334" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M7.7002 11.1418H12.2835" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M9.99186 8.8501V13.4334"
+        stroke={stroke}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M7.7002 11.1418H12.2835"
+        stroke={stroke}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -1563,7 +1573,7 @@ function ChevronLeft({
   height = 8,
   fill = 'none',
   className = '',
-  stroke = 'stroke-stone-950',
+  stroke = 'stroke-gray-400',
 }: IconProps) {
   return (
     <svg
