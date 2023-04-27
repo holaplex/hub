@@ -12,13 +12,21 @@ function asShortAddress(_: any, { readField }: { readField: ReadFieldFunction })
 function asShortWallet(_: any, { readField }: { readField: ReadFieldFunction }): string {
   const address: string | undefined = readField('wallet');
 
-  return shorten(address as string);
+  if (address) {
+    return shorten(address as string);
+  }
+
+  return '';
 }
 
 function asShortTx(_: any, { readField }: { readField: ReadFieldFunction }): string {
   const address: string | undefined = readField('txSignature');
 
-  return shorten(address as string);
+  if (address) {
+    return shorten(address as string);
+  }
+
+  return '';
 }
 
 function asRoyalties(_: any, { readField }: { readField: ReadFieldFunction }): string {
