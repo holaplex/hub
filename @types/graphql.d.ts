@@ -101,6 +101,15 @@ declare module '*/mint.graphql' {
   export default defaultDocument;
 }
 
+declare module '*/purchase.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const GetCollectionPurchases: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/treasury.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { Icon } from '../../../../../../../components/Icon';
 import Table from '../../../../../../../components/Table';
-import { Holder, Project } from '../../../../../../../graphql.types';
+import { Holder, Project, Blockchain } from '../../../../../../../graphql.types';
 import { GetCollectionHolders } from './../../../../../../../queries/holder.graphql';
 import { useQuery } from '@apollo/client';
 import Typography, { Size } from '../../../../../../../components/Typography';
@@ -150,27 +150,36 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
             columnHelper.display({
               id: 'options',
               header: () => <Icon.TableAction />,
-              cell: () => (
-                <PopoverBox
-                  triggerButton={
-                    <div
-                      className={clsx('px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min')}
-                    >
-                      <Icon.More />
-                    </div>
-                  }
-                  elements={[
+              cell: (info) => {
+                const address = info.row.original.address;
+                const options = [];
+
+                if (holdersQuery.data?.project.drop?.collection.blockchain === Blockchain.Solana) {
+                  options.push(
                     <Link
-                      href="https://solscan.io"
+                      href={`https://solscan.io/account/${address}`}
                       target="_blank"
                       key="change_email"
                       className="flex gap-2 items-center"
                     >
                       <Icon.ExternalLink /> <span>View on SolScan</span>
-                    </Link>,
-                  ]}
-                />
-              ),
+                    </Link>
+                  );
+                }
+
+                return (
+                  <PopoverBox
+                    triggerButton={
+                      <div
+                        className={clsx('px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min')}
+                      >
+                        <Icon.More />
+                      </div>
+                    }
+                    elements={options}
+                  />
+                );
+              },
             }),
           ]}
           data={holders}

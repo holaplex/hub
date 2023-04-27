@@ -18,3 +18,8 @@ extend type CollectionMint {
   ownerShortAddress: String!
   shortAddress: String!
 }
+
+extend type Purchase {
+  shortWallet: String!
+  shortTx: String!
+}
