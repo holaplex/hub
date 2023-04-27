@@ -10,11 +10,11 @@ export default function Home() {
     <main className="w-full flex justify-center align-middle flex-col h-screen">
       <Card className="flex flex-col gap-4 w-96 mx-auto">
         <Image
-          src="/holaplex.png"
-          width={212}
-          height={20}
-          alt="Holaplex logo"
+          src="/img/holaplex.svg"
+          width={199}
+          height={18}
           priority
+          alt="Holaplex logo"
           className="m-auto"
         />
         <aside className="grid justify-center grid-cols-2 gap-2 mt-6">

@@ -10,11 +10,10 @@ export default function Splash({ children }: SplashProps) {
     <div className="flex flex-col items-center mt-10 mb-20">
       <Link href="/">
         <Image
-          src="/holaplex.png"
-          priority
+          src="/img/holaplex.svg"
           alt="Holaplex logo"
-          width={212}
-          height={20}
+          width={199}
+          height={18}
           className="mb-16"
         />
       </Link>

@@ -1817,7 +1817,7 @@ function ShowPasswordIcon({
   height = 16,
   fill = 'none',
   className = '',
-  stroke = 'stroke-stone-950',
+  stroke = 'stroke-gray-400',
 }: IconProps) {
   return (
     <svg
@@ -1855,7 +1855,7 @@ function HidePasswordIcon({
   height = 16,
   fill = 'none',
   className = '',
-  stroke = 'stroke-',
+  stroke = 'stroke-gray-400',
 }: IconProps) {
   return (
     <svg
