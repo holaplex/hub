@@ -382,7 +382,7 @@ export default function Drops({ project }: DropsPageProps) {
                                         className="flex gap-2 items-center"
                                         href={`/projects/${project}/drops/${info.row.original.id}/edit`}
                                       >
-                                        <Icon.Edit stroke="stroke-gray-400" />{' '}
+                                        <Icon.Edit stroke="stroke-gray-400" />
                                         <span>Edit drop</span>
                                       </Link>,
                                     ];

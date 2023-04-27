@@ -25,7 +25,7 @@ export default function Organization({
             <Sidebar.Panel>
               <Sidebar.Header>
                 <div className="flex items-center gap-4">
-                  <div className="w-full flex justify-between">
+                  <div className="w-full flex justify-between items-center">
                     <h1 className="flex items-center gap-2 text-sm text-white font-medium">
                       {organization?.profileImageUrl ? (
                         <img

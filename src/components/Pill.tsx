@@ -28,7 +28,7 @@ export function Pill({ children, onClear }: PillProps): JSX.Element {
 }
 
 function PillList({ children }: { children: JSX.Element[] }): JSX.Element {
-  return <ul className="flex flex-row gap-2">{children}</ul>;
+  return <ul className="flex flex-wrap gap-2">{children}</ul>;
 }
 
 Pill.List = PillList;

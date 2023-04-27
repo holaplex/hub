@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --toastify-color-dark: #2b2b2b;
+  --toastify-color-info: #0061f3;
+  --toastify-color-success: #628e36;
+  --toastify-color-warning: #f3af00;
+  --toastify-color-error: #e4584f;
+
+  --toastify-text-color-dark: #fff;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -20,7 +30,7 @@ a {
 }
 
 .toast-message {
-  @apply bg-stone-900 drop-shadow-sm text-white;
+  @apply bg-stone-800 drop-shadow-sm text-white;
 }
 
 h1 {
