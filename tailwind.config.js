@@ -24,8 +24,10 @@ module.exports = {
         yellow: {
           // cta
           300: '#F3F36D',
+          // caution
+          400: '#F3AF00',
           // cta hover
-          400: '#ADAD4C'
+          500: '#ADAD4C',
         },
         gray: {
           50: '#f5f5f5',
@@ -43,9 +45,14 @@ module.exports = {
           500: '#E4584F',
           900: '#D61717',
         },
+        blue: {
+          // info
+          400: '#0061F3',
+        },
         green: {
           200: '#C7F4D1',
-          400: '#A5DBB1',
+          // success
+          400: '#628E36',
           600: '#194D19',
         },
         brown: {

@@ -17,11 +17,25 @@ export type DetailSettings = {
   externalUrl: string;
 };
 
+export enum RoyaltiesShortcut {
+  Zero = '0%',
+  TwoPointFive = '2.5%',
+  Five = '5%',
+  Ten = '10%',
+  Custom = 'custom',
+}
+
+export enum RoyaltiesDestination {
+  ProjectTreasury = 'projectTreasury',
+  Creators = 'creators',
+}
+
 export type PaymentSettings = {
   supply: string;
-  treasuryAllRoyalties: boolean;
+  royaltiesDestination: RoyaltiesDestination;
   creators: CollectionCreatorInput[];
-  royalties: string;
+  royaltiesShortcut: RoyaltiesShortcut;
+  royalties?: string;
 };
 
 export type TimingSettings = {
@@ -29,8 +43,8 @@ export type TimingSettings = {
   startTime?: string;
   endDate?: Date;
   endTime?: string;
-  startNow?: boolean;
-  noEndTime?: boolean;
+  selectStartDate: string;
+  selectEndDate: string;
 };
 
 export interface DropFormProps {

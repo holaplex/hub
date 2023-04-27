@@ -30,7 +30,7 @@ export default function Link({
       href={href}
       className={clsx(
         {
-          'text-yellow-300 font-semibold hover:text-yellow-400 transition': styled,
+          'text-yellow-300 font-semibold hover:text-yellow-500 transition': styled,
         },
         size,
         className

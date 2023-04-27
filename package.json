@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.4",
-    "@holaplex/ui-library-react": "^0.17.1",
+    "@holaplex/ui-library-react": "^0.17.2",
     "@ory/client": "^1.1.4",
     "@ory/integrations": "^1.1.0",
     "@tanstack/react-table": "^8.7.6",
@@ -22,7 +22,7 @@
     "eslint": "8.31.0",
     "formidable": "^3.2.5",
     "graphql": "^16.6.0",
-    "next": "^13.2.4",
+    "next": "^13.3.1",
     "next-plugin-graphql": "^0.0.2",
     "nft.storage": "^7.0.0",
     "ramda": "^0.28.0",

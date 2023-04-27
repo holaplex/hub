@@ -1,5 +1,5 @@
 'use client';
-import Link from 'next/link';
+import Link from './../../../components/Link';
 import Card from './../../../components/Card';
 import Typography, { Size } from './../../../components/Typography';
 import { Button, Form } from '@holaplex/ui-library-react';
@@ -119,7 +119,6 @@ export default function CreateOrganizationPage() {
           />
         </Form.Label>
         <Button
-          border="rounded"
           htmlType="submit"
           disabled={loading || formState.isSubmitting}
           loading={loading || formState.isSubmitting}
@@ -130,13 +129,7 @@ export default function CreateOrganizationPage() {
       </Form>
       <span className="flex-wrap text-gray-400 text-xs mt-2">
         By pressing &quot;Create an aсcount&quot;, I agree to Holaplex{' '}
-        <Link href="" className="text-white">
-          Terms of Use
-        </Link>{' '}
-        and{' '}
-        <Link href="" className="text-white">
-          Privacy Policy.
-        </Link>
+        <Link href="">Terms of Use</Link> and <Link href="">Privacy Policy.</Link>
       </span>
     </Card>
   );

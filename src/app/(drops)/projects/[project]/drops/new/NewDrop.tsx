@@ -6,7 +6,7 @@ import { useStore } from 'zustand';
 import Link from 'next/link';
 import { pipe, isNil, not } from 'ramda';
 import { ProjectProvider } from '../../../../../../providers/ProjectProvider';
-import { Blockchain, Project } from '../../../../../../graphql.types';
+import { Project } from '../../../../../../graphql.types';
 import { DropFormProvider } from '../../../../../../providers/DropFormProvider';
 import { useDropFormState } from '../../../../../../hooks/useDropFormState';
 
@@ -34,8 +34,8 @@ export default function NewDrop({ children, project }: CreateDropProps): JSX.Ele
             href={`/projects/${project.id}/drops`}
             className="flex items-center gap-4 px-5 cursor-pointer"
           >
-            <Icon.Close />
-            <span className="flex items-center gap-2 text-sm text-white font-medium">Close</span>
+            <Icon.Close stroke="stroke-white" />
+            <span className="flex items-center gap-2 text-sm font-medium">Close</span>
           </Link>
         </Navbar.Header>
         <Navbar.Menu>
@@ -51,7 +51,7 @@ export default function NewDrop({ children, project }: CreateDropProps): JSX.Ele
             active={pathname === `/projects/${project.id}/drops/new/details`}
           />
           <Navbar.Menu.Step
-            name="Payment and royalties"
+            name="Supply and royalties"
             icon={
               <Navbar.Menu.Step.StepCount
                 active={pathname === `/projects/${project.id}/drops/new/royalties`}
@@ -62,15 +62,15 @@ export default function NewDrop({ children, project }: CreateDropProps): JSX.Ele
             active={pathname === `/projects/${project.id}/drops/new/royalties`}
           />
           <Navbar.Menu.Step
-            name="Mint date"
+            name="Schedule"
             icon={
               <Navbar.Menu.Step.StepCount
-                active={pathname === `/projects/${project.id}/drops/new/timing`}
+                active={pathname === `/projects/${project.id}/drops/new/schedule`}
                 count="3"
                 filled={isComplete(timing)}
               />
             }
-            active={pathname === `/projects/${project.id}/drops/new/timing`}
+            active={pathname === `/projects/${project.id}/drops/new/schedule`}
           />
           <Navbar.Menu.Step
             name="Final preview"

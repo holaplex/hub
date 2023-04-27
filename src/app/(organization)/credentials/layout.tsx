@@ -44,12 +44,16 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
               columns={[
                 loadingColumnHelper.display({
                   id: 'name',
-                  header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
+                  header: () => (
+                    <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
+                  ),
                   cell: () => <div className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />,
                 }),
                 loadingColumnHelper.display({
                   id: 'createdAt',
-                  header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
+                  header: () => (
+                    <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
+                  ),
                   cell: () => (
                     <div className="flex flex-col gap-1">
                       <span className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />
@@ -59,7 +63,9 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                 }),
                 loadingColumnHelper.display({
                   id: 'createdBy',
-                  header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
+                  header: () => (
+                    <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
+                  ),
                   cell: () => (
                     <div className="flex flex-col gap-1">
                       <span className="rounded-full h-3 w-10 bg-stone-800 animate-pulse" />

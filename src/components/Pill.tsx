@@ -11,7 +11,7 @@ export function Pill({ children, onClear }: PillProps): JSX.Element {
   return (
     <li
       className={clsx(
-        'rounded-lg pl-2 py-2 pr-1 text-gray-400 bg-stone-900 items-center flex fle-row justify-between text-xs',
+        'rounded-lg pl-2 py-1 pr-1 text-gray-400 bg-stone-900 items-center flex fle-row justify-between text-xs',
         {
           'pr-2': !onClear,
         }

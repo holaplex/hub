@@ -26,8 +26,6 @@ interface CreateDropVars {
   input: CreateDropInput;
 }
 
-const LAMPORTS_PER_SOL = 1_000_000_000;
-
 export default function NewDropPreviewPage() {
   const router = useRouter();
   const { project } = useProject();
@@ -38,7 +36,7 @@ export default function NewDropPreviewPage() {
   const timing = useStore(store, (store) => store.timing);
 
   const back = () => {
-    router.push(`/projects/${project?.id}/drops/new/timing`);
+    router.push(`/projects/${project?.id}/drops/new/schedule`);
   };
 
   const [createDrop] = useMutation<CreateDropData, CreateDropVars>(CreateDrop, {
@@ -53,7 +51,7 @@ export default function NewDropPreviewPage() {
   }
 
   let startDateTime: Date | null = null;
-  if (!timing.startNow && timing.startTime && timing.startDate) {
+  if (timing.selectStartDate === 'specifyStartDate' && timing.startTime && timing.startDate) {
     const [startTimeHrs, startTimeMins] = timing.startTime.split(':');
     startDateTime = combineDateTime(
       new Date(timing.startDate),
@@ -63,7 +61,7 @@ export default function NewDropPreviewPage() {
   }
 
   let endDateTime: Date | null = null;
-  if (!timing.noEndTime && timing.endTime && timing.endDate) {
+  if (timing.selectEndDate === 'specifyEndDate' && timing.endTime && timing.endDate) {
     const [endTimeHrs, endTimeMins] = timing.endTime.split(':');
     endDateTime = combineDateTime(
       new Date(timing.endDate),
@@ -99,7 +97,7 @@ export default function NewDropPreviewPage() {
           sellerFeeBasisPoints: ifElse(
             isNil,
             always(null),
-            (royalties) => parseInt(royalties.split('%')[0]) * 100
+            (royalties) => parseFloat(royalties.split('%')[0]) * 100
           )(payment.royalties),
           startTime: maybeToUtc(startDateTime),
           endTime: maybeToUtc(endDateTime),
@@ -128,23 +126,23 @@ export default function NewDropPreviewPage() {
         {/* <div className="flex flex-col gap-2 bg-stone-800 rounded-md py-2 px-3">
           <span className="text-gray-400 text-xs font-medium">Price</span>
           <div className="flex items-end justify-between">
-            <span className="text-base text-white font-medium">{payment.price} SOL</span>
+            <span className="text-base text-primary font-medium">{payment.price} SOL</span>
           </div>
         </div>
 
         <div className="flex flex-col gap-2 border-2 border-gray-100 rounded-md py-2 px-3 mt-4">
-          <span className="text-gray-400 text-xs font-medium">Estimated total value</span>
+          <span className="text-gray-600 text-xs font-medium">Estimated total value</span>
           <div className="flex items-end justify-between">
-            <span className="text-base text-white font-medium">
+            <span className="text-base text-primary font-medium">
               {round(parseInt(payment.supply) * parseInt(payment.price))} SOL
             </span>
           </div>
         </div> */}
 
         <div className="flex gap-4 items-center">
-          <div className="w-full flex flex-col gap-2 border-2 border-gray-100 rounded-md py-2 px-3 mt-4">
+          <div className="w-full flex flex-col gap-2 bg-stone-800 rounded-md py-2 px-3 mt-4">
             <span className="text-gray-400 text-xs font-medium">Start date and time</span>
-            <span className="text-white text-xs font-medium">
+            <span className="text-yellow-300 text-xs font-medium">
               {startDateTime
                 ? `${format(startDateTime, DateFormat.DATE_1)}, ${format(
                     startDateTime,
@@ -157,9 +155,9 @@ export default function NewDropPreviewPage() {
             </span>
           </div>
           {endDateTime && (
-            <div className="w-full flex flex-col gap-2 border-2 border-gray-100 rounded-md py-2 px-3 mt-4">
+            <div className="w-full flex flex-col gap-2 bg-stone-800 rounded-md py-2 px-3 mt-4">
               <span className="text-gray-400 text-xs font-medium">End date and time</span>
-              <span className="text-white text-xs font-medium">
+              <span className="text-yellow-300 text-xs font-medium">
                 {`${format(endDateTime, DateFormat.DATE_1)}, ${format(
                   endDateTime,
                   DateFormat.TIME_1
@@ -169,10 +167,10 @@ export default function NewDropPreviewPage() {
           )}
         </div>
 
-        <hr className="w-full bg-stone-800 my-5" color="#e6e6e6" />
+        <hr className="w-full bg-stone-800 border-0 h-px my-5" />
 
-        <div className="flex items-center justify-between">
-          <Button className="self-start" variant="tertiary" disabled={submitting} onClick={back}>
+        <div className="flex items-center justify-end gap-4">
+          <Button variant="secondary" disabled={submitting} onClick={back}>
             Back
           </Button>
           <Button htmlType="submit" loading={submitting} disabled={submitting} onClick={onSubmit}>

@@ -135,7 +135,7 @@ export default function NewProjectPage() {
             Create
           </Button>
           <Button
-            className="w-full mt-5"
+            className="w-full mt-4"
             variant="secondary"
             disabled={loading || formState.isSubmitting}
             onClick={() => {

@@ -45,11 +45,11 @@ export default function TreasuryWallets({ children, project }: TreasuryLayoutPro
               <Icon.Large.Treasury />
               <span className="mt-2 text-gray-400 text-sm">Click button below to add wallet</span>
               <Link href={`/projects/${project}/treasuries/new`} className="mt-8">
-                <Button icon={<Icon.AddWallet stroke="#ffffff" />}>Add wallet</Button>
+                <Button icon={<Icon.AddWallet />}>Add wallet</Button>
               </Link>
             </div>
           ) : (
-            <div className="mt-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
               {wallets.map((wallet) => (
                 <Wallet.Card key={wallet.address} wallet={wallet} />
               ))}

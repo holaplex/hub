@@ -39,7 +39,7 @@ export default function MemberDeletePage() {
           <Button className="w-full mt-4" onClick={() => {}}>
             Add wallet
           </Button>
-          <Button className="w-full mt-4" variant="tertiary" onClick={onClose}>
+          <Button className="w-full mt-4" variant="secondary" onClick={onClose}>
             Cancel
           </Button>
         </Form>

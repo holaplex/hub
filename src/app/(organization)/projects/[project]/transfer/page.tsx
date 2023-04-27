@@ -41,7 +41,7 @@ export default function TransferFundsProject() {
           <Button htmlType="submit" className="w-full mt-5">
             Transfer
           </Button>
-          <Button className="w-full mt-5" variant="tertiary" onClick={() => {}}>
+          <Button className="w-full mt-4" variant="secondary" onClick={() => {}}>
             Cancel
           </Button>
         </Form>

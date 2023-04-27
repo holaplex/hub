@@ -138,7 +138,6 @@ export default function OrganizationSettingsPage() {
             />
           </Form.Label>
           <Button
-            border="rounded"
             htmlType="submit"
             disabled={loading || formState.isSubmitting}
             loading={loading || formState.isSubmitting}

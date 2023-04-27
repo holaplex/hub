@@ -153,7 +153,9 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
               cell: () => (
                 <PopoverBox
                   triggerButton={
-                    <div className={clsx('px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min')}>
+                    <div
+                      className={clsx('px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min')}
+                    >
                       <Icon.More />
                     </div>
                   }

@@ -48,7 +48,7 @@ export default function MemberDeletePage() {
           <Button htmlType="submit" className="w-full mt-5">
             Transfer
           </Button>
-          <Button className="w-full mt-5" variant="tertiary" onClick={onClose}>
+          <Button className="w-full mt-5" variant="secondary" onClick={onClose}>
             Cancel
           </Button>
         </Form>
