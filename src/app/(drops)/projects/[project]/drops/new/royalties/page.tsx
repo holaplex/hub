@@ -118,7 +118,7 @@ export default function NewDropRoyaltiesPage() {
             Royalties
           </Typography.Header>
 
-          <Form.Label name="Royalty percentage">
+          <Form.Label name="Royalty percentage" className="text-xs">
             <Form.RadioGroup>
               <Form.Label
                 name="0%"
@@ -210,7 +210,7 @@ export default function NewDropRoyaltiesPage() {
               <Form.Error message={formState.errors.royalties?.message} />
             </>
           )}
-          <Form.Label name="Destination for royalties received" className="mt-8">
+          <Form.Label name="Destination for royalties received" className="mt-8 text-xs">
             <Form.RadioGroup>
               <Form.Label name="Use project treasury" placement={Placement.Right}>
                 <Form.RadioGroup.Radio

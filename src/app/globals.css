@@ -213,7 +213,7 @@ input:focus {
 }
 
 .dragdrop-preview-image {
-  @apply w-40 h-40 object-cover;
+  @apply w-40 h-40 aspect-square rounded-lg;
 }
 
 input[type='date']::-webkit-calendar-picker-indicator {
