@@ -2,10 +2,13 @@
 const withGraphql = require('next-plugin-graphql');
 
 const nextConfig = {
-  output: 'standalone',
   experimental: {
+    turbo: {
+      loaders: {
+        '.graphql': ['graphql-tag/loader']
+      }
+    },
     appDir: true,
-    enableUndici: true,
     swcFileReading: false,
   },
   reactStrictMode: true,
