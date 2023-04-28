@@ -1077,52 +1077,50 @@ function Info({
 }
 Icon.Info = Info;
 
-function TableSortDesc({ width = 16, height = 16, fill = '#7B7B7B', className = '' }: IconProps) {
+function TableSortDesc({ width = 16, height = 16, fill = '#ffffff', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill="none"
-      className={clsx('fill-stone-950', className)}
+      className={clsx('fill-gray-400', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M8 3L10.5981 6.75H5.40192L8 3Z" fill="#ffffff" />
+      <path d="M8 3L10.5981 6.75H5.40192L8 3Z" fill={fill} />
       <path d="M8 13L10.5981 9.25H5.40192L8 13Z" />
     </svg>
   );
 }
 Icon.TableSortDesc = TableSortDesc;
 
-function TableSortAsc({ width = 16, height = 16, className = '' }: IconProps) {
+function TableSortAsc({ width = 16, height = 16, fill = '#ffffff', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
       fill="none"
-      className={clsx('fill-stone-950', className)}
+      className={clsx('fill-gray-400', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path d="M8 3L10.5981 6.75H5.40192L8 3Z" />
-      <path d="M8 13L10.5981 9.25H5.40192L8 13Z" fill="#ffffff" />
+      <path d="M8 13L10.5981 9.25H5.40192L8 13Z" fill={fill} />
     </svg>
   );
 }
 Icon.TableSortAsc = TableSortAsc;
 
-function TableSort({ width = 16, height = 16, fill = '#7B7B7B', className = '' }: IconProps) {
+function TableSort({ width = 16, height = 16, className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
       viewBox="0 0 16 16"
-      fill="none"
-      className={className}
+      className={clsx('fill-gray-400', className)}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M8 3L10.5981 6.75H5.40192L8 3Z" fill={fill} />
-      <path d="M8 13L10.5981 9.25H5.40192L8 13Z" fill={fill} />
+      <path d="M8 3L10.5981 6.75H5.40192L8 3Z" />
+      <path d="M8 13L10.5981 9.25H5.40192L8 13Z" />
     </svg>
   );
 }

@@ -31,11 +31,7 @@ export default function DropsPage() {
         className=""
         columns={[
           columnHelper.accessor('dropName', {
-            header: () => (
-              <div className="flex gap-2">
-                <span className="text-xs text-gray-400 font-medium">TxID</span>
-              </div>
-            ),
+            header: () => <span>TxID</span>,
             cell: (info) => {
               return (
                 <div className="flex gap-2 items-center">
@@ -51,11 +47,7 @@ export default function DropsPage() {
 
           columnHelper.accessor((row) => row.price.toString(), {
             id: 'price',
-            header: () => (
-              <div className="flex gap-2">
-                <span className="text-xs text-gray-400 font-medium">Price</span>
-              </div>
-            ),
+            header: () => <span>Price</span>,
             cell: (info) => {
               return (
                 <div className="flex gap-2 text-xs font-medium">
@@ -66,11 +58,7 @@ export default function DropsPage() {
             },
           }),
           columnHelper.accessor('createDate', {
-            header: () => (
-              <div className="flex gap-2">
-                <span className="text-xs text-gray-400 font-medium">Create date</span>
-              </div>
-            ),
+            header: () => <span>Create date</span>,
             cell: (info) => {
               return (
                 <div className="flex flex-col gap-1 text-xs">
@@ -81,11 +69,7 @@ export default function DropsPage() {
             },
           }),
           columnHelper.accessor('startMintDate', {
-            header: () => (
-              <div className="flex gap-2">
-                <span className="text-xs text-gray-400 font-medium">Start mint date</span>
-              </div>
-            ),
+            header: () => <span>Start mint date</span>,
             cell: (info) => {
               return (
                 <div className="flex flex-col gap-1 text-xs">
@@ -96,11 +80,7 @@ export default function DropsPage() {
             },
           }),
           columnHelper.accessor('endMintDate', {
-            header: () => (
-              <div className="flex gap-2">
-                <span className="text-xs text-gray-400 font-medium">End mint date</span>
-              </div>
-            ),
+            header: () => <span>End mint date</span>,
             cell: (info) => {
               return (
                 <div className="flex flex-col gap-1 text-xs">
@@ -112,11 +92,7 @@ export default function DropsPage() {
           }),
           columnHelper.accessor((row) => row.minted.toString(), {
             id: 'mintedAndSupply',
-            header: () => (
-              <div className="flex gap-2">
-                <span className="text-xs text-gray-400 font-medium">Minted out & supply</span>
-              </div>
-            ),
+            header: () => <span>Minted out & supply</span>,
             cell: (info) => {
               return (
                 <div className="flex gap-2 text-xs font-medium text-white">
@@ -134,7 +110,7 @@ export default function DropsPage() {
 
           columnHelper.display({
             id: 'moreOptions',
-            header: () => <Icon.TableAction />,
+            header: () => <></>,
             cell: () => (
               <PopoverBox
                 triggerButton={

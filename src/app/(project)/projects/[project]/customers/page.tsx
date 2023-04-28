@@ -121,7 +121,7 @@ export default function CustomersPage() {
                   columnHelper.accessor('id', {
                     header: () => (
                       <div className="flex gap-2">
-                        <span className="text-xs text-gray-400 font-medium">Customer ID</span>
+                        <span>Customer ID</span>
                       </div>
                     ),
                     cell: (info) => (
@@ -134,18 +134,14 @@ export default function CustomersPage() {
                     ),
                   }),
                   columnHelper.accessor('createdAt', {
-                    header: () => (
-                      <span className="flex text-xs text-gray-400 font-medium self-start">
-                        Registered
-                      </span>
-                    ),
+                    header: () => <span>Registered</span>,
                     cell: (info) => {
                       return (
                         <div className="flex flex-col">
-                          <span className="text-xs text-white font-medium">
+                          <span className="text-xs text-gray-400 font-medium">
                             {formatDateString(info.getValue(), DateFormat.DATE_1)}
                           </span>
-                          <span className="text-xs text-gray-400">
+                          <span className="text-xs text-white">
                             {formatDateString(info.getValue(), DateFormat.TIME_1)}
                           </span>
                         </div>
@@ -156,11 +152,7 @@ export default function CustomersPage() {
                     ({ treasury }) => treasury?.wallets?.map((wallet) => wallet.assetId),
                     {
                       id: 'wallets',
-                      header: () => (
-                        <span className="flex text-xs text-gray-400 font-medium self-start">
-                          Wallets
-                        </span>
-                      ),
+                      header: () => <span>Wallets</span>,
                       cell: (info) => {
                         return (
                           <div className="flex flex-row gap-1">
@@ -182,7 +174,7 @@ export default function CustomersPage() {
                   ),
                   columnHelper.display({
                     id: 'options',
-                    header: () => <Icon.TableAction />,
+                    header: () => <></>,
                     cell: (info) => (
                       <PopoverBox
                         triggerButton={
@@ -194,7 +186,7 @@ export default function CustomersPage() {
                           <Link
                             key="delete_project"
                             className="flex gap-2 items-center"
-                            href={`/projects/${project?.id}/customers/${info.getValue()}/delete`}
+                            href={`/projects/${project?.id}/customers/${info.row.original.id}/delete`}
                           >
                             <Icon.Delete stroke="stroke-red-500" />
                             <span className="text-red-500">Remove</span>

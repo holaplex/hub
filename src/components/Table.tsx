@@ -18,7 +18,6 @@ interface TableProps<T> {
   className?: string;
 }
 
-//TODO: Replace with real dynamic data.
 export default function Table<T>({ columns, data, className }: TableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -40,12 +39,12 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id} className="p-3 ">
+                <th key={header.id} className="p-4 text-xs font-medium text-gray-400">
                   {header.isPlaceholder ? null : (
                     <div
                       {...{
                         className: header.column.getCanSort()
-                          ? 'cursor-pointer select-none flex items-center justify-between'
+                          ? 'cursor-pointer select-none flex items-center gap-2'
                           : '',
                         onClick: header.column.getToggleSortingHandler(),
                       }}
@@ -67,7 +66,7 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className=" p-3">
+                <td key={cell.id} className="border-t border-stone-800 p-4">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
