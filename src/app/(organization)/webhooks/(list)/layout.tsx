@@ -143,20 +143,20 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                   className="mt-4"
                   columns={[
                     columnHelper.accessor('description', {
-                      header: () => <span className="text-xs text-gray-400 font-medium">Name</span>,
+                      header: () => <span>Name</span>,
                       cell: (info) => (
-                        <span className="text-xs text-white font-medium">{info.getValue()}</span>
+                        <span className="text-white text-xs font-medium">{info.getValue()}</span>
                       ),
                     }),
                     columnHelper.accessor('url', {
-                      header: () => <span className="text-xs text-gray-400 font-medium">URL</span>,
-                      cell: (info) => <span className="text-xs text-white">{info.getValue()}</span>,
+                      header: () => <span>URL</span>,
+                      cell: (info) => (
+                        <span className="text-white text-xs font-medium">{info.getValue()}</span>
+                      ),
                     }),
                     columnHelper.display({
                       id: 'events',
-                      header: () => (
-                        <span className="flex text-xs text-gray-400 font-medium">Events</span>
-                      ),
+                      header: () => <span>Events</span>,
                       cell: (info) => (
                         <div className="flex gap-1">
                           {info.row.original.events.map((event) => {
@@ -173,15 +173,13 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                       ),
                     }),
                     columnHelper.accessor('createdAt', {
-                      header: () => (
-                        <span className="flex text-xs text-gray-400 font-medium">Created date</span>
-                      ),
+                      header: () => <span>Created date</span>,
                       cell: (info) => (
                         <div className="flex flex-col">
-                          <span className="text-xs text-white font-medium">
+                          <span className="text-gray-400 text-xs font-medium">
                             {formatDateString(info.getValue(), DateFormat.DATE_1)}
                           </span>
-                          <span className="text-xs text-gray-400">
+                          <span className="text-xs text-white">
                             {formatDateString(info.getValue(), DateFormat.TIME_1)}
                           </span>
                         </div>
@@ -211,7 +209,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                     // }),
                     columnHelper.display({
                       id: 'options',
-                      header: () => <Icon.TableAction />,
+                      header: () => <></>,
                       cell: (info) => (
                         <PopoverBox
                           triggerButton={

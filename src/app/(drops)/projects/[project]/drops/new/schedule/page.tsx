@@ -45,7 +45,7 @@ export default function NewDropTimingPage() {
         </Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
           {/* Start Date */}
-          <Form.Label name="Start date/time">
+          <Form.Label name="Start date/time" className="text-xs">
             <Form.RadioGroup>
               <Form.Label name="Start immediately" placement={Placement.Right}>
                 <Form.RadioGroup.Radio {...register('selectStartDate')} value="mintImmediately" />
@@ -63,7 +63,7 @@ export default function NewDropTimingPage() {
           )}
 
           {/* End Date */}
-          <Form.Label name="End date/time" className="mt-8">
+          <Form.Label name="End date/time" className="mt-8 text-xs">
             <Form.RadioGroup>
               <Form.Label name="Never end" placement={Placement.Right}>
                 <Form.RadioGroup.Radio {...register('selectEndDate')} value="neverEnd" />

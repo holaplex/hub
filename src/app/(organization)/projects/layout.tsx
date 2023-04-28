@@ -107,11 +107,7 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                   columns={[
                     // @ts-ignore
                     columnHelper.accessor('name', {
-                      header: () => (
-                        <div className="flex gap-2">
-                          <span className="text-xs text-gray-400 font-medium">Project Name</span>
-                        </div>
-                      ),
+                      header: () => <span>Project Name</span>,
                       cell: (info) => {
                         const profileImage = info.row.original.profileImageUrl;
                         return (
@@ -124,7 +120,7 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                             ) : (
                               <div className="w-8 h-8 bg-stone-800 rounded-md" />
                             )}
-                            <span className="text-xs text-white font-medium">
+                            <span className="text-white text-xs font-medium">
                               {info.getValue()}
                             </span>
                           </Link>
@@ -132,18 +128,14 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                       },
                     }),
                     columnHelper.accessor('createdAt', {
-                      header: () => (
-                        <span className="flex text-xs text-gray-400 font-medium self-start">
-                          Created date
-                        </span>
-                      ),
+                      header: () => <span>Created date</span>,
                       cell: (info) => {
                         return (
                           <div className="flex flex-col">
-                            <span className="text-xs text-white font-medium">
+                            <span className="text-gray-400 text-xs font-medium">
                               {formatDateString(info.getValue(), DateFormat.DATE_1)}
                             </span>
-                            <span className="text-xs text-gray-400">
+                            <span className="text-white text-xs">
                               {formatDateString(info.getValue(), DateFormat.TIME_1)}
                             </span>
                           </div>
@@ -152,7 +144,7 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                     }),
                     columnHelper.display({
                       id: 'options',
-                      header: () => <Icon.TableAction />,
+                      header: () => <></>,
                       cell: (info) => {
                         const projectId = info.row.original.id;
                         return (

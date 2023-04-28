@@ -129,19 +129,15 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
       // @ts-ignore
       {
         id: 'member',
-        header: () => (
-          <div className="flex gap-2">
-            <span className="text-xs text-gray-400 font-medium">Members</span>
-          </div>
-        ),
+        header: () => <span>Members</span>,
         cell: (info) => {
           return (
             <div className="flex flex-col">
-              <span className="text-xs text-white font-medium">
+              <span className="text-white text-xs font-medium">
                 {info.getValue().fullName ? info.getValue().fullName : info.getValue().email}
               </span>
               {info.getValue().email && (
-                <span className="text-xs text-gray-400">{info.getValue().email}</span>
+                <span className="text-gray-400 text-xs font-medium">{info.getValue().email}</span>
               )}
             </div>
           );
@@ -149,16 +145,14 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
       }
     ),
     columnHelper.accessor('createdAt', {
-      header: () => (
-        <span className="flex text-xs text-gray-400 font-medium self-start">Invited</span>
-      ),
+      header: () => <span>Invited</span>,
       cell: (info) => {
         return (
           <div className="flex flex-col">
-            <span className="text-xs text-white font-medium">
+            <span className="text-gray-400 text-xs font-medium">
               {formatDateString(info.getValue(), DateFormat.DATE_1)}
             </span>
-            <span className="text-xs text-gray-400">
+            <span className="text-white text-xs">
               {formatDateString(info.getValue(), DateFormat.TIME_1)}
             </span>
           </div>
@@ -166,13 +160,13 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
       },
     }),
     columnHelper.accessor('status', {
-      header: () => <span className="flex text-xs text-gray-400 font-medium">Status</span>,
+      header: () => <span>Status</span>,
       cell: (info) => <Table.MemberPill status={info.getValue()} />,
     }),
-    columnHelper.accessor(({ id, status }) => ({ id, status }), {
+    columnHelper.display({
       id: 'options',
-      header: () => <Icon.TableAction />,
-      cell: (info) => <ActionCell id={info.getValue().id} status={info.getValue().status} />,
+      header: () => <></>,
+      cell: (info) => <ActionCell id={info.row.original.id} status={info.row.original.status} />,
     }),
   ];
 

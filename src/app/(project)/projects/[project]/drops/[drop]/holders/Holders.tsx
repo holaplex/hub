@@ -96,11 +96,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
         <Table
           columns={[
             columnHelper.accessor('shortAddress', {
-              header: () => (
-                <div className="flex gap-2">
-                  <span className="text-xs text-gray-400 font-medium">Wallet</span>
-                </div>
-              ),
+              header: () => <span>Wallet</span>,
               cell: (info) => {
                 const address = info.getValue();
                 return (
@@ -113,11 +109,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
             }),
             columnHelper.accessor('owns', {
               id: 'spent',
-              header: () => (
-                <div className="flex gap-2">
-                  <span className="text-xs text-gray-400 font-medium">Spent</span>
-                </div>
-              ),
+              header: () => <span>Spent</span>,
               cell: (info) => {
                 const owns = info.getValue();
                 return (
@@ -130,11 +122,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
             }),
             columnHelper.accessor('owns', {
               id: 'owns',
-              header: () => (
-                <div className="flex gap-2">
-                  <span className="text-xs text-gray-400 font-medium">Owned Editions</span>
-                </div>
-              ),
+              header: () => <span>Owned Editions</span>,
               cell: (info) => {
                 const owns = info.getValue();
                 const share = Math.ceil(
@@ -149,7 +137,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
             }),
             columnHelper.display({
               id: 'options',
-              header: () => <Icon.TableAction />,
+              header: () => <></>,
               cell: (info) => {
                 const address = info.row.original.address;
                 const options = [];

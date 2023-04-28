@@ -57,12 +57,16 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
               loadingColumnHelper.display({
                 id: 'shortTx',
                 header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
-                cell: () => <span className="rounded-full h-3 w-24 inline-block bg-stone-800 animate-pulse" />,
+                cell: () => (
+                  <span className="rounded-full h-3 w-24 inline-block bg-stone-800 animate-pulse" />
+                ),
               }),
               loadingColumnHelper.display({
                 id: 'spent',
                 header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
-                cell: () => <span className="rounded-full h-3 w-20 inline-block bg-stone-800 animate-pulse" />,
+                cell: () => (
+                  <span className="rounded-full h-3 w-20 inline-block bg-stone-800 animate-pulse" />
+                ),
               }),
               loadingColumnHelper.display({
                 id: 'createdAt',
@@ -103,11 +107,7 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
         <Table
           columns={[
             columnHelper.accessor('shortWallet', {
-              header: () => (
-                <div className="flex gap-2">
-                  <span className="text-xs text-gray-400 font-medium">Wallet</span>
-                </div>
-              ),
+              header: () => <span>Wallet</span>,
               cell: (info) => {
                 return (
                   <div className="flex gap-2">
@@ -118,21 +118,13 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
               },
             }),
             columnHelper.accessor('shortTx', {
-              header: () => (
-                <div className="flex gap-2">
-                  <span className="text-xs text-gray-400 font-medium">Transaction</span>
-                </div>
-              ),
+              header: () => <span>Transaction</span>,
               cell: (info) => {
                 return <span className="text-xs text-white font-medium">{info.getValue()}</span>;
               },
             }),
             columnHelper.accessor('spent', {
-              header: () => (
-                <div className="flex gap-2">
-                  <span className="text-xs text-gray-400 font-medium">Wallet</span>
-                </div>
-              ),
+              header: () => <span>Wallet</span>,
               cell: (info) => {
                 return (
                   <div className="flex gap-1">
@@ -143,11 +135,7 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
               },
             }),
             columnHelper.accessor('createdAt', {
-              header: () => (
-                <div className="flex gap-2">
-                  <span className="text-xs text-gray-400 font-medium">Date</span>
-                </div>
-              ),
+              header: () => <span>Date</span>,
               cell: (info) => {
                 return (
                   <div className="flex flex-col gap-1 text-xs">
@@ -162,12 +150,12 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
               },
             }),
             columnHelper.accessor('status', {
-              header: () => <span className="flex text-xs text-gray-400 font-medium">Status</span>,
+              header: () => <span>Status</span>,
               cell: (info) => <Table.PurchaseStatusPill status={info.getValue()} />,
             }),
             columnHelper.display({
               id: 'moreOptions',
-              header: () => <Icon.TableAction />,
+              header: () => <></>,
               cell: (info) => {
                 const txId = info.row.original.txSignature;
                 const options = [];
