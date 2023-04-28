@@ -6,7 +6,9 @@ import { OryProvider } from '../providers/OryProvider';
 import { apollo } from '../client';
 import { ToastContainer } from 'react-toastify';
 import { Session } from '@ory/client';
+import { start } from '../modules/bugsnag';
 
+start();
 interface AppLayoutProps {
   children: React.ReactNode;
   session?: Session;
