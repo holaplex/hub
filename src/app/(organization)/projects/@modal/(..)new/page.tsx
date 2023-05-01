@@ -7,12 +7,7 @@ export default function NewProjectPage() {
   const router = useRouter();
 
   return (
-    <Modal
-      open={true}
-      setOpen={() => {
-        router.push('/projects');
-      }}
-    >
+    <Modal open={true} setOpen={() => {}}>
       <NewProject />
     </Modal>
   );
