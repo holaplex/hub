@@ -4,10 +4,11 @@ import { usePathname } from 'next/navigation';
 import { cloneElement } from 'react';
 import { Icon } from '../../../components/Icon';
 import Tabs from '../../../layouts/Tabs';
-import { GetOrganizationCreditBalance } from './../../../queries/credits.graphql';
+import { GetOrganizationCreditAndDeductionTotals } from './../../../queries/credits.graphql';
 import { useQuery } from '@apollo/client';
 import { useOrganization } from '../../../hooks/useOrganization';
-import { Organization } from '../../../graphql.types';
+import { Action, DeductionTotals, Organization } from '../../../graphql.types';
+import Link from 'next/link';
 
 interface GetOrganizationBalanceVars {
   organization: string;
@@ -24,30 +25,46 @@ export default function CreditsLayout({
   const pathname = usePathname();
 
   const { organization } = useOrganization();
-  const creditBalanceQuery = useQuery<GetOrganizationCreditBalanceData, GetOrganizationBalanceVars>(
-    GetOrganizationCreditBalance,
-    {
-      variables: { organization: organization?.id },
-    }
-  );
+  const creditAndDeductionsQuery = useQuery<
+    GetOrganizationCreditBalanceData,
+    GetOrganizationBalanceVars
+  >(GetOrganizationCreditAndDeductionTotals, {
+    variables: { organization: organization?.id },
+  });
+
+  const deductions = creditAndDeductionsQuery.data?.organization.deductionTotals || [];
   return (
     <>
       <div className="h-full flex flex-col p-4">
         <h1 className="text-2xl font-medium">Credits</h1>
         <div className="mt-8 flex gap-8">
-          <div className="flex flex-col basis-1/3 gap-4 items-center p-6 bg-stone-900 rounded-lg">
+          <div className="flex flex-col basis-1/3 gap-4 items-center justify-center p-6 bg-stone-900 rounded-lg">
             <span className="text-gray-400">Current credit balance</span>
             <span className="text-6xl font-semibold">
-              {creditBalanceQuery.data?.organization.credits?.balance}
+              {creditAndDeductionsQuery.data?.organization.credits?.balance}
             </span>
-            <Button icon={<Icon.Add className="primary-button-icon" />} onClick={() => {}}>
-              Buy more credits
-            </Button>
+            <Link href="/credits/buy">
+              <Button icon={<Icon.Add className="primary-button-icon" />} onClick={() => {}}>
+                Buy more credits
+              </Button>
+            </Link>
           </div>
           <div className="flex basis-2/3 gap-8 bg-stone-900 rounded-lg p-6">
-            <div className="flex gap-4 basis-1/4">
+            <div className="flex flex-col gap-4 basis-1/4">
               <span className="font-bold">Credits used</span>
-              <div></div>
+              <div className="flex flex-col gap-2 w-full">
+                {deductions.map((deduction) => {
+                  return (
+                    <div
+                      className="flex items-center justify-between w-full"
+                      key={deduction.action}
+                    >
+                      <span className="text-gray-400 text-sm">{deduction.action}:</span>
+                      <span className="text-sm font-semibold">{deduction.spent}</span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
             <div className="flex gap-4 py-10 px-4 bg-stone-950 basis-3/4 rounded-lg items-center">
               <span className="text-gray-400 font-medium text-sm">
@@ -62,16 +79,16 @@ export default function CreditsLayout({
           </div>
         </div>
         <Tabs.Page className="mt-8">
-          <Tabs.Panel loading={creditBalanceQuery.loading}>
+          <Tabs.Panel loading={creditAndDeductionsQuery.loading}>
             <Tabs.Tab
               name="Cost in credits"
-              href="/credits/cost"
+              href="/credits/costs"
               active={pathname === '/credits/costs'}
             />
             <Tabs.Tab
               name="Credits purchase history"
-              href="/credits/history"
-              active={pathname === '/credits/history'}
+              href="/credits/purchasehistory"
+              active={pathname === '/credits/purchasehistory'}
             />
             <Tabs.Tab
               name="Alerts"
@@ -80,11 +97,10 @@ export default function CreditsLayout({
             />
           </Tabs.Panel>
           <Tabs.Content>
-            {cloneElement(children as JSX.Element, { loading: creditBalanceQuery.loading })}
+            {cloneElement(children as JSX.Element, { loading: creditAndDeductionsQuery.loading })}
           </Tabs.Content>
         </Tabs.Page>
       </div>
-      {children}
     </>
   );
 }
