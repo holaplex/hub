@@ -75,6 +75,11 @@ deploy:
         remoteChart: postgresql
         valuesFiles:
           - values.customers.postgresql.yaml
+      - name: hub-credits-db
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: postgresql
+        valuesFiles:
+          - values.credits.postgresql.yaml
       - name: hub-nfts-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
@@ -155,6 +160,12 @@ deploy:
         valuesFiles:
           - values.customers.yaml
           - secrets.customers.yaml
+      - name: hub-credits
+        remoteChart: hub-credits
+        repo: https://charts.holaplex.com
+        valuesFiles:
+          - values.credits.yaml
+          - secrets.credits.yaml
       - name: hub-credentials
         remoteChart: hub-credentials
         repo: https://charts.holaplex.com
