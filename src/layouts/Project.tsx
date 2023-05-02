@@ -8,7 +8,8 @@ import { useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import { GetOrganizationProjects } from './../queries/organization.graphql';
 import Link from '../components/Link';
-import { Button } from '@holaplex/ui-library-react';
+import { Button, PopoverBox } from '@holaplex/ui-library-react';
+import Copy from '../components/Copy';
 import { OrganizationProvider } from '../providers/OrganizationProvider';
 
 interface GetProjectsData {
@@ -51,15 +52,7 @@ export default function Project({
                       >
                         <Icon.ChevronLeft />
                       </Link>
-                      <span
-                        className="flex grow items-center justify-between"
-                        onClick={() => {
-                          if (!projectsQuery.called) {
-                            loadProjects();
-                          }
-                          setShowProjects(!showProjects);
-                        }}
-                      >
+                      <span className="flex grow items-center justify-between">
                         <div className="flex flex-row justify-between items-center gap-2">
                           {project.profileImageUrl ? (
                             <img
@@ -70,19 +63,43 @@ export default function Project({
                           ) : (
                             <div className="w-8 h-8 bg-stone-800 rounded-md" />
                           )}
-                          <span className="flex flex-col capitalize">
-                            {project.name}
-                            <span className="text-gray-400 text-xs">Project</span>
+                          <span className="flex flex-row gap-2 items-center">
+                            <span className="flex flex-col capitalize">
+                              {project.name}
+                              <span className="text-gray-400 text-xs">Project</span>
+                            </span>
+                            <PopoverBox
+                              triggerButton={
+                                <div className="px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min">
+                                  <Icon.More />
+                                </div>
+                              }
+                              elements={[
+                                <Copy key="copy_id" copyString={project?.id}>
+                                  <span>Copy Project ID</span>
+                                </Copy>,
+                              ]}
+                            />
                           </span>
                         </div>
-                        {showProjects ? <Icon.DropdownReverse /> : <Icon.Dropdown />}
+                        <button
+                          className=""
+                          onClick={() => {
+                            if (!projectsQuery.called) {
+                              loadProjects();
+                            }
+                            setShowProjects(!showProjects);
+                          }}
+                        >
+                          {showProjects ? <Icon.DropdownReverse /> : <Icon.Dropdown />}
+                        </button>
                       </span>
                     </h1>
                   </div>
                   {showProjects && (
                     <div className="w-full border-t border-stone-800 py-2 mt-4">
                       {projectsQuery.loading ? (
-                        <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-6">
                           <div className="flex gap-2 items-center">
                             <div className="w-8 h-8 bg-stone-800 rounded-md animate-pulse" />
                             <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
@@ -93,8 +110,8 @@ export default function Project({
                           </div>
                         </div>
                       ) : (
-                        <div className="flex flex-col gap-4">
-                          <div className="flex flex-col gap-4 max-h-60 overflow-y-auto">
+                        <div className="flex flex-col gap-6">
+                          <div className="flex flex-col gap-6 max-h-60 overflow-y-auto">
                             <>
                               {projectsQuery.data?.organization.projects.reduce<
                                 (Element | JSX.Element)[]

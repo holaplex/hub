@@ -57,7 +57,7 @@ export default function EditDropTimingPage() {
             </Form.RadioGroup>
           </Form.Label>
           {selectStartDate === 'specifyStartDate' && (
-            <div className="flex gap-4 items-end mt-4">
+            <div className="flex gap-6 items-end mt-4">
               <Form.Input {...register('startDate')} type="date" className="basis-3/5" />
               <Form.Input {...register('startTime')} type="time" className="basis-2/5" />
             </div>
@@ -75,14 +75,14 @@ export default function EditDropTimingPage() {
             </Form.RadioGroup>
           </Form.Label>
           {selectEndDate === 'specifyEndDate' && (
-            <div className="flex gap-4 items-end mt-4">
+            <div className="flex gap-6 items-end mt-4">
               <Form.Input {...register('endDate')} type="date" className="basis-3/5" />
               <Form.Input {...register('endTime')} type="time" className="basis-2/5" />
             </div>
           )}
 
           <hr className="w-full bg-stone-800 border-0 h-px my-5" />
-          <div className="flex items-center justify-end gap-4">
+          <div className="flex items-center justify-end gap-6">
             <Button variant="secondary" onClick={back}>
               Back
             </Button>

@@ -38,7 +38,7 @@ export default function CustomersPage() {
   const loading = projectsQuery.loading;
 
   return (
-    <div className="h-full flex flex-col p-4">
+    <div className="h-full flex flex-col p-6">
       {loading ? (
         <>
           <div className="w-36 h-8 rounded-md bg-stone-900 animate-pulse" />
@@ -99,7 +99,10 @@ export default function CustomersPage() {
               <span className="mt-2 text-gray-400 text-sm">
                 Click button below to understand how to integrate customers.
               </span>
-              <a href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet">
+              <a
+                href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet"
+                target="_blank"
+              >
                 <Button icon={<Icon.Help stroke="stroke-stone-950" />} className="mt-8">
                   How to integrate
                 </Button>
@@ -110,6 +113,7 @@ export default function CustomersPage() {
               <a
                 href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet"
                 className="self-end"
+                target="_blank"
               >
                 <Button icon={<Icon.Help stroke="stroke-stone-950" />} className="self-end">
                   How to integrate

@@ -36,7 +36,7 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
 
   return (
     <>
-      <div className="h-full flex flex-col p-4">
+      <div className="h-full flex flex-col p-6">
         {loading ? (
           <>
             <div className="w-36 h-8 rounded-md bg-stone-900 animate-pulse" />

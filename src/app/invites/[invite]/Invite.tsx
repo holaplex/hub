@@ -60,7 +60,7 @@ export default function Invite({ invite }: InviteProps) {
     });
   };
   return (
-    <Card className="w-[400px] flex flex-col gap-4">
+    <Card className="w-[400px] flex flex-col gap-6">
       <Typography.Header size={Size.H1}>Accept your invite</Typography.Header>
       <Typography.Paragraph>
         Welcome to <span className="capitalize">{inviteQuery.data?.invite.organization?.name}</span>
