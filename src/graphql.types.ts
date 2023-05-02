@@ -63,6 +63,13 @@ export type AccessToken = {
   tokenType: Scalars['String'];
 };
 
+export enum Action {
+  CreateDrop = 'CREATE_DROP',
+  MintEdition = 'MINT_EDITION',
+  RetryMint = 'RETRY_MINT',
+  TransferAsset = 'TRANSFER_ASSET'
+}
+
 /** An enum type named Affiliation that defines a user's association to an organization. The enum is derived using a Union attribute. It has two variants, each containing an associated data type: */
 export type Affiliation = Member | Owner;
 
@@ -85,13 +92,13 @@ export enum AssetType {
    * Devnet Solana
    * Note: Holaplex uses `SOL_TEST` for provisioning wallets on its staging environment but still submits transactions to mainnet.
    */
-  SolTest = 'SOL_TEST',
+  SolTest = 'SOL_TEST'
 }
 
 export enum Blockchain {
   Ethereum = 'ETHEREUM',
   Polygon = 'POLYGON',
-  Solana = 'SOLANA',
+  Solana = 'SOLANA'
 }
 
 export type Collection = {
@@ -292,7 +299,7 @@ export enum CreationStatus {
   Created = 'CREATED',
   Failed = 'FAILED',
   Pending = 'PENDING',
-  Rejected = 'REJECTED',
+  Rejected = 'REJECTED'
 }
 
 /** An `OAuth2` client application used for authentication with the Hub API. */
@@ -310,6 +317,25 @@ export type Credential = {
   name: Scalars['String'];
   /** The ID of the organization the credential belongs to. */
   organizationId: Scalars['UUID'];
+};
+
+export type CreditDeposit = {
+  __typename?: 'CreditDeposit';
+  cost: Scalars['Float'];
+  createdAt: Scalars['NaiveDateTime'];
+  credits: Scalars['Int'];
+  id: Scalars['UUID'];
+  initiatedBy: Scalars['UUID'];
+  organization: Scalars['UUID'];
+  perCreditCost: Scalars['Float'];
+  reason: DepositReason;
+};
+
+export type Credits = {
+  __typename?: 'Credits';
+  balance: Scalars['Int'];
+  deposits?: Maybe<Array<CreditDeposit>>;
+  id: Scalars['UUID'];
 };
 
 /** A customer record represents a user in your service and is used to group custodial wallets within a specific project. This allows for easy management of wallets and associated assets for a particular customer within your service. */
@@ -335,6 +361,7 @@ export type Customer = {
   wallet?: Maybe<Array<Wallet>>;
 };
 
+
 /** A customer record represents a user in your service and is used to group custodial wallets within a specific project. This allows for easy management of wallets and associated assets for a particular customer within your service. */
 export type CustomerWalletArgs = {
   assetId?: InputMaybe<AssetType>;
@@ -342,6 +369,12 @@ export type CustomerWalletArgs = {
 
 export type DeactivateMemberInput = {
   id: Scalars['UUID'];
+};
+
+export type DeductionTotals = {
+  __typename?: 'DeductionTotals';
+  action: Action;
+  spent: Scalars['Int'];
 };
 
 /** The input for deleting a credential. */
@@ -365,6 +398,11 @@ export type DeleteWebhookPayload = {
   __typename?: 'DeleteWebhookPayload';
   webhook: Scalars['UUID'];
 };
+
+export enum DepositReason {
+  Gifted = 'GIFTED',
+  Purchased = 'PURCHASED'
+}
 
 export type Drop = {
   __typename?: 'Drop';
@@ -415,7 +453,7 @@ export enum DropStatus {
   /** The drop is scheduled for minting. */
   Scheduled = 'SCHEDULED',
   /** The drop is permanently shut down and can no longer be minted. */
-  Shutdown = 'SHUTDOWN',
+  Shutdown = 'SHUTDOWN'
 }
 
 /** The input for editing the name of an existing credential by providing the `client_id` of the credential and the new `name` to be assigned. */
@@ -501,7 +539,7 @@ export enum FilterType {
   /** Event triggered when a new project is created */
   ProjectCreated = 'PROJECT_CREATED',
   /** Event triggered when a new wallet is created for a project */
-  ProjectWalletCreated = 'PROJECT_WALLET_CREATED',
+  ProjectWalletCreated = 'PROJECT_WALLET_CREATED'
 }
 
 /** The holder of a collection. */
@@ -556,7 +594,7 @@ export enum InviteStatus {
   /** The member invitation has been revoked by an existing member of the organization and is no longer valid. */
   Revoked = 'REVOKED',
   /** The member invitation has been sent to the invited user. */
-  Sent = 'SENT',
+  Sent = 'SENT'
 }
 
 /** A member of a Holaplex organization, representing an individual who has been granted access to the organization. */
@@ -776,89 +814,111 @@ export type Mutation = {
   shutdownDrop: ShutdownDropPayload;
 };
 
+
 export type MutationAcceptInviteArgs = {
   input: AcceptInviteInput;
 };
+
 
 export type MutationCreateCredentialArgs = {
   input: CreateCredentialInput;
 };
 
+
 export type MutationCreateCustomerArgs = {
   input: CreateCustomerInput;
 };
+
 
 export type MutationCreateCustomerWalletArgs = {
   input: CreateCustomerWalletInput;
 };
 
+
 export type MutationCreateDropArgs = {
   input: CreateDropInput;
 };
+
 
 export type MutationCreateOrganizationArgs = {
   input: CreateOrganizationInput;
 };
 
+
 export type MutationCreateProjectArgs = {
   input: CreateProjectInput;
 };
+
 
 export type MutationCreateWebhookArgs = {
   input: CreateWebhookInput;
 };
 
+
 export type MutationDeactivateMemberArgs = {
   input: DeactivateMemberInput;
 };
+
 
 export type MutationDeleteCredentialArgs = {
   input: DeleteCredentialInput;
 };
 
+
 export type MutationDeleteWebhookArgs = {
   input: DeleteWebhookInput;
 };
+
 
 export type MutationEditCredentialArgs = {
   input: EditCredentialInput;
 };
 
+
 export type MutationEditOrganizationArgs = {
   input: EditOrganizationInput;
 };
+
 
 export type MutationEditProjectArgs = {
   input: EditProjectInput;
 };
 
+
 export type MutationEditWebhookArgs = {
   input: EditWebhookInput;
 };
+
 
 export type MutationInviteMemberArgs = {
   input: InviteMemberInput;
 };
 
+
 export type MutationMintEditionArgs = {
   input: MintDropInput;
 };
+
 
 export type MutationPatchDropArgs = {
   input: PatchDropInput;
 };
 
+
 export type MutationPauseDropArgs = {
   input: PauseDropInput;
 };
+
 
 export type MutationReactivateMemberArgs = {
   input: ReactivateMemberInput;
 };
 
+
 export type MutationResumeDropArgs = {
   input: ResumeDropInput;
 };
+
 
 export type MutationShutdownDropArgs = {
   input: ShutdownDropInput;
@@ -896,8 +956,22 @@ export type Organization = {
    * A list of API credentials associated with this organization.
    */
   credentials: Array<Credential>;
+  /**
+   * Define an asynchronous function to load the credits for the organization
+   * Returns `Credits` object
+   * #Errors
+   * returns error if credits_loader is not found in the context or if the loader fails to load the credits
+   */
+  credits?: Maybe<Credits>;
   /** The datetime, in UTC, when the Holaplex organization was deactivated by its owner. */
   deactivatedAt?: Maybe<Scalars['NaiveDateTime']>;
+  /**
+   * Define an asynchronous function to load the total credits deducted for each action
+   * Returns `DeductionTotals` object
+   * #Errors
+   * returns error if total_deductions_loader is not found in the context or if the loader fails to load the total deductions
+   */
+  deductionTotals?: Maybe<Array<DeductionTotals>>;
   /** The unique identifier assigned to the Holaplex organization, which is used to distinguish it from other organizations within the Holaplex ecosystem. */
   id: Scalars['UUID'];
   /** The invitations to join the Holaplex organization that have been sent to email addresses and are either awaiting or have been accepted by the recipients. */
@@ -947,10 +1021,12 @@ export type Organization = {
   webhooks?: Maybe<Array<Webhook>>;
 };
 
+
 /** A Holaplex organization is the top-level account within the Holaplex ecosystem. Each organization has a single owner who can invite members to join. Organizations use projects to organize NFT campaigns or initiatives. */
 export type OrganizationCredentialArgs = {
   clientId: Scalars['String'];
 };
+
 
 /** A Holaplex organization is the top-level account within the Holaplex ecosystem. Each organization has a single owner who can invite members to join. Organizations use projects to organize NFT campaigns or initiatives. */
 export type OrganizationCredentialsArgs = {
@@ -958,10 +1034,12 @@ export type OrganizationCredentialsArgs = {
   offset?: InputMaybe<Scalars['Int']>;
 };
 
+
 /** A Holaplex organization is the top-level account within the Holaplex ecosystem. Each organization has a single owner who can invite members to join. Organizations use projects to organize NFT campaigns or initiatives. */
 export type OrganizationInvitesArgs = {
   status?: InputMaybe<InviteStatus>;
 };
+
 
 /** A Holaplex organization is the top-level account within the Holaplex ecosystem. Each organization has a single owner who can invite members to join. Organizations use projects to organize NFT campaigns or initiatives. */
 export type OrganizationWebhookArgs = {
@@ -1050,10 +1128,12 @@ export type Project = {
   treasury?: Maybe<Treasury>;
 };
 
+
 /** A Holaplex project that belongs to an organization. Projects are used to group unique NFT campaigns or initiatives, and are used to assign objects that end customers will interact with, such as drops and wallets. */
 export type ProjectCustomerArgs = {
   id: Scalars['UUID'];
 };
+
 
 /** A Holaplex project that belongs to an organization. Projects are used to group unique NFT campaigns or initiatives, and are used to assign objects that end customers will interact with, such as drops and wallets. */
 export type ProjectDropArgs = {
@@ -1107,17 +1187,21 @@ export type Query = {
   user?: Maybe<User>;
 };
 
+
 export type QueryInviteArgs = {
   id: Scalars['UUID'];
 };
+
 
 export type QueryOrganizationArgs = {
   id: Scalars['UUID'];
 };
 
+
 export type QueryProjectArgs = {
   id: Scalars['UUID'];
 };
+
 
 export type QueryUserArgs = {
   id: Scalars['UUID'];
@@ -1169,6 +1253,7 @@ export type Treasury = {
   /** The treasury's associated wallets. */
   wallets?: Maybe<Array<Wallet>>;
 };
+
 
 /** A collection of wallets assigned to different entities in the Holaplex ecosystem. */
 export type TreasuryWalletArgs = {

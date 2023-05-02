@@ -4,14 +4,32 @@ import { usePathname } from 'next/navigation';
 import { cloneElement } from 'react';
 import { Icon } from '../../../components/Icon';
 import Tabs from '../../../layouts/Tabs';
+import { GetOrganizationCreditBalance } from './../../../queries/credits.graphql';
+import { useQuery } from '@apollo/client';
+import { useOrganization } from '../../../hooks/useOrganization';
+import { Organization } from '../../../graphql.types';
 
+interface GetOrganizationBalanceVars {
+  organization: string;
+}
+
+interface GetOrganizationCreditBalanceData {
+  organization: Organization;
+}
 export default function CreditsLayout({
   children,
 }: {
   children: React.ReactNode;
 }): React.ReactNode {
   const pathname = usePathname();
-  const loading = false;
+
+  const { organization } = useOrganization();
+  const creditBalanceQuery = useQuery<GetOrganizationCreditBalanceData, GetOrganizationBalanceVars>(
+    GetOrganizationCreditBalance,
+    {
+      variables: { organization: organization?.id },
+    }
+  );
   return (
     <>
       <div className="h-full flex flex-col p-4">
@@ -19,7 +37,9 @@ export default function CreditsLayout({
         <div className="mt-8 flex gap-8">
           <div className="flex flex-col basis-1/3 gap-4 items-center p-6 bg-stone-900 rounded-lg">
             <span className="text-gray-400">Current credit balance</span>
-            <span className="text-6xl font-semibold">16,921</span>
+            <span className="text-6xl font-semibold">
+              {creditBalanceQuery.data?.organization.credits?.balance}
+            </span>
             <Button icon={<Icon.Add className="primary-button-icon" />} onClick={() => {}}>
               Buy more credits
             </Button>
@@ -42,16 +62,16 @@ export default function CreditsLayout({
           </div>
         </div>
         <Tabs.Page className="mt-8">
-          <Tabs.Panel loading={loading}>
+          <Tabs.Panel loading={creditBalanceQuery.loading}>
             <Tabs.Tab
               name="Cost in credits"
               href="/credits/cost"
-              active={pathname === '/credits/cost'}
+              active={pathname === '/credits/costs'}
             />
             <Tabs.Tab
               name="Credits purchase history"
-              href="/credits/purchasehistory"
-              active={pathname === '/credits/purchasehistory'}
+              href="/credits/history"
+              active={pathname === '/credits/history'}
             />
             <Tabs.Tab
               name="Alerts"
@@ -59,7 +79,9 @@ export default function CreditsLayout({
               active={pathname === '/credits/alerts'}
             />
           </Tabs.Panel>
-          <Tabs.Content>{cloneElement(children as JSX.Element, { loading })}</Tabs.Content>
+          <Tabs.Content>
+            {cloneElement(children as JSX.Element, { loading: creditBalanceQuery.loading })}
+          </Tabs.Content>
         </Tabs.Page>
       </div>
       {children}

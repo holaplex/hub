@@ -1,0 +1,8 @@
+query GetOrganizationCreditBalance($organization: UUID!) {
+  organization(id: $organization) {
+    id
+    credits {
+      balance
+    }
+  }
+}
