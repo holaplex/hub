@@ -160,7 +160,7 @@ input:focus {
   @apply text-white;
 }
 
-.popover-scrim {
+.modal-scrim {
   @apply bg-stone-950 bg-opacity-40;
 }
 

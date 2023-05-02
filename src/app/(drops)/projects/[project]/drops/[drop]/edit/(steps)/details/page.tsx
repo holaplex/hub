@@ -73,7 +73,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
                         className={clsx(
                           'flex items-center justify-center border border-dashed border-gray-800 cursor-pointer rounded-md p-6 text-center text-gray-500',
                           {
-                            'bg-gray-100': isDragActive,
+                            'bg-stone-800': isDragActive,
                           }
                         )}
                       >

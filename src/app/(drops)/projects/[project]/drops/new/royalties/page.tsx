@@ -56,9 +56,12 @@ export default function NewDropRoyaltiesPage() {
     }
 
     data.creators = data.creators.map(({ address, share = 100 }) => {
-      const creator: CollectionCreatorInput = { address, share };
+      const creator: CollectionCreatorInput = {
+        address,
+        share: typeof share === 'string' ? parseInt(share) : share,
+      };
 
-      if (address == wallet?.address) {
+      if (address === wallet?.address) {
         creator.verified = true;
       }
 
