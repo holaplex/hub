@@ -78,7 +78,7 @@ export default function OrganizationSettingsPage() {
   };
 
   return (
-    <article className="flex flex-col p-4">
+    <article className="flex flex-col p-6">
       <Typography.Header size={Size.H2}>Settings</Typography.Header>
       <Card className="w-[400px] place-self-center mt-4">
         <Typography.Header size={Size.H3}>Update your organization information.</Typography.Header>

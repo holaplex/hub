@@ -39,7 +39,7 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id} className="p-4 text-xs font-medium text-gray-400">
+                <th key={header.id} className="p-6 text-xs font-medium text-gray-400">
                   {header.isPlaceholder ? null : (
                     <div
                       {...{
@@ -66,7 +66,7 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="border-t border-stone-800 p-4">
+                <td key={cell.id} className="border-t border-stone-800 p-6">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}

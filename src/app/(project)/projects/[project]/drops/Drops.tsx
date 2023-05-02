@@ -43,7 +43,7 @@ export default function Drops({ project }: DropsPageProps) {
             <Drop.Pause>
               {({ pause }) => (
                 <>
-                  <div className="h-full flex flex-col p-4">
+                  <div className="h-full flex flex-col p-6">
                     {dropsQuery.loading ? (
                       <>
                         <div className="w-36 h-8 rounded-md bg-stone-800 animate-pulse" />

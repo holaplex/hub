@@ -154,7 +154,7 @@ export default function EditDropPreviewPage() {
           </div>
         </div> */}
 
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-6 items-center">
           <div className="w-full flex flex-col gap-2 bg-stone-800 rounded-md py-2 px-3 mt-4">
             <span className="text-gray-400 text-xs font-medium">Start date and time</span>
             <span className="text-yellow-300 text-xs font-medium">
@@ -184,7 +184,7 @@ export default function EditDropPreviewPage() {
 
         <hr className="w-full bg-stone-800 border-0 h-px my-5" />
 
-        <div className="flex items-center justify-end gap-4">
+        <div className="flex items-center justify-end gap-6">
           <Button variant="secondary" disabled={submitting} onClick={back}>
             Back
           </Button>

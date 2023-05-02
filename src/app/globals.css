@@ -160,6 +160,10 @@ input:focus {
   @apply text-white;
 }
 
+.popover-scrim {
+  @apply bg-stone-950 bg-opacity-40;
+}
+
 .form-select-button {
   @apply form-input text-left min-h-[42px];
 }
