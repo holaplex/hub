@@ -10,6 +10,7 @@ import { GetProjectCustomers } from './../../../../../queries/customer.graphql';
 import { AssetType, Customer, Project } from './../../../../../graphql.types';
 import { useProject } from '../../../../../hooks/useProject';
 import { DateFormat, formatDateString } from './../../../../../modules/time';
+import Copy from '../../../../../components/Copy';
 
 interface GetProjectCustomersData {
   project: Pick<Project, 'customers'>;
@@ -179,25 +180,31 @@ export default function CustomersPage() {
                   columnHelper.display({
                     id: 'options',
                     header: () => <></>,
-                    cell: (info) => (
-                      <PopoverBox
-                        triggerButton={
-                          <div className="px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min">
-                            <Icon.More />
-                          </div>
-                        }
-                        elements={[
-                          <Link
-                            key="delete_project"
-                            className="flex gap-2 items-center"
-                            href={`/projects/${project?.id}/customers/${info.row.original.id}/delete`}
-                          >
-                            <Icon.Delete stroke="stroke-red-500" />
-                            <span className="text-red-500">Remove</span>
-                          </Link>,
-                        ]}
-                      />
-                    ),
+                    cell: (info) => {
+                      const customer = info.row.original;
+                      return (
+                        <PopoverBox
+                          triggerButton={
+                            <div className="px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min">
+                              <Icon.More />
+                            </div>
+                          }
+                          elements={[
+                            <Copy key="copy_id" copyString={customer.wallet}>
+                              <span>Copy Wallet Address</span>
+                            </Copy>,
+                            <Link
+                              key="delete_project"
+                              className="flex gap-2 items-center"
+                              href={`/projects/${project?.id}/customers/${customer.id}/delete`}
+                            >
+                              <Icon.Delete stroke="stroke-red-500" />
+                              <span className="text-red-500">Remove</span>
+                            </Link>,
+                          ]}
+                        />
+                      );
+                    },
                   }),
                 ]}
                 data={customers}

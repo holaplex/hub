@@ -45,6 +45,7 @@ export default function NewDropRoyaltiesPage() {
 
   const royaltiesDestination = watch('royaltiesDestination');
   const royaltiesShortcut = watch('royaltiesShortcut');
+  const creators = watch('creators');
 
   const submit = (data: PaymentSettings) => {
     if (data.royaltiesDestination === RoyaltiesDestination.ProjectTreasury) {
@@ -248,13 +249,14 @@ export default function NewDropRoyaltiesPage() {
                       placeholder="e.g. 10%"
                     />
                   </Form.Label>
-
-                  <div
-                    className="rounded-md bg-stone-900 hover:bg-stone-800 p-3 self-end cursor-pointer"
-                    onClick={() => remove(index)}
-                  >
-                    <Icon.Close stroke="stroke-white" />
-                  </div>
+                  {creators.length > 1 && (
+                    <div
+                      className="rounded-md bg-stone-900 hover:bg-stone-800 p-3 self-end cursor-pointer"
+                      onClick={() => remove(index)}
+                    >
+                      <Icon.Close stroke="stroke-white" />
+                    </div>
+                  )}
                 </div>
               ))}
               <Button
