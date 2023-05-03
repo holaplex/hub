@@ -17,9 +17,10 @@ interface GetCreditSheetData {
 
 export default function CostPage() {
   const creditSheetQuery = useQuery<GetCreditSheetData>(GetCreditSheet);
-  console.log('creditSheet', creditSheetQuery.data);
+
   const creditSheet = creditSheetQuery.data?.creditSheet;
   const loading = creditSheetQuery.loading;
+
   const data: CreditLineItem[] = [];
   creditSheet?.map((ac: ActionCost) => {
     data.push({
