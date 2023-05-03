@@ -39,9 +39,9 @@ export type PaymentSettings = {
 };
 
 export type TimingSettings = {
-  startDate?: Date;
+  startDate?: string;
   startTime?: string;
-  endDate?: Date;
+  endDate?: string;
   endTime?: string;
   selectStartDate: string;
   selectEndDate: string;

@@ -9,6 +9,8 @@ import { StoreApi, useStore } from 'zustand';
 import { TimingSettings, DropFormState } from '../../../../../../../providers/DropFormProvider';
 import { useDropForm } from '../../../../../../../hooks/useDropForm';
 import { useProject } from '../../../../../../../hooks/useProject';
+import { format } from 'date-fns';
+import add from 'date-fns/add';
 
 export default function NewDropTimingPage() {
   const router = useRouter();
@@ -17,10 +19,16 @@ export default function NewDropTimingPage() {
 
   const timing = useStore(store, (store) => store.timing);
   const setTiming = useStore(store, (store) => store.setTiming);
+  const now = new Date();
+  const thirtyDays = add(now, { days: 30 });
   const { handleSubmit, register, watch } = useForm<TimingSettings>({
     defaultValues: timing || {
       selectStartDate: 'mintImmediately',
+      startDate: format(now, 'yyyy-MM-dd'),
+      startTime: format(now, 'HH:mm'),
       selectEndDate: 'neverEnd',
+      endDate: format(thirtyDays, 'yyyy-MM-dd'),
+      endTime: format(thirtyDays, 'HH:mm'),
     },
   });
 
