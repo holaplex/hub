@@ -26,3 +26,13 @@ query GetOrganizationCreditDeposits($organization: UUID!) {
     }
   }
 }
+
+query GetCreditSheet {
+  creditSheet {
+    action
+    blockchains {
+      blockchain
+      credits
+    }
+  }
+}

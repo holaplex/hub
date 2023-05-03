@@ -87,6 +87,7 @@ declare module '*/credits.graphql' {
   const defaultDocument: DocumentNode;
   export const GetOrganizationCreditAndDeductionTotals: DocumentNode;
 export const GetOrganizationCreditDeposits: DocumentNode;
+export const GetCreditSheet: DocumentNode;
 
   export default defaultDocument;
 }
