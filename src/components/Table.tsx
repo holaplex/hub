@@ -34,7 +34,7 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
   });
   return (
     <div className={className}>
-      <table className="min-w-full rounded-md table-fixed bg-stone-900 drop-shadow-lg">
+      <table className="min-w-full rounded-md table-fixed bg-stone-900">
         <thead className="border-b border-stone-800">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
