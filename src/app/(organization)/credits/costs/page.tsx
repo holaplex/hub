@@ -3,12 +3,11 @@ import { useQuery } from '@apollo/client';
 import { createColumnHelper } from '@tanstack/react-table';
 import GridTable from '../../../../components/GridTable';
 import { GetCreditSheet } from '../../../../queries/credits.graphql';
-import { ActionCost, Blockchain, BlockchainCost } from '../../../../graphql.types';
+import { ActionCost } from '../../../../graphql.types';
 
 interface CreditLineItem {
   action: string;
-  solana: number;
-  polygon: number;
+  [key: string]: number | string;
 }
 
 interface GetCreditSheetData {
@@ -21,17 +20,20 @@ export default function CostPage() {
   const creditSheet = creditSheetQuery.data?.creditSheet;
   const loading = creditSheetQuery.loading;
 
-  const data: CreditLineItem[] = [];
-  creditSheet?.map((ac: ActionCost) => {
-    data.push({
-      action: ac.action as string,
-      solana: ac.blockchains.filter((bc: BlockchainCost) => bc.blockchain === Blockchain.Solana)[0]
-        .credits,
-      polygon: ac.blockchains.filter(
-        (bc: BlockchainCost) => bc.blockchain === Blockchain.Polygon
-      )[0].credits,
-    });
-  });
+  const data: CreditLineItem[] =
+    creditSheet?.reduce((result: CreditLineItem[], sheet: ActionCost) => {
+      const creditCost = sheet.blockchains.reduce(
+        (creditLineItem: CreditLineItem, blockchain: { blockchain: string; credits: number }) => {
+          creditLineItem[blockchain.blockchain] = blockchain.credits;
+          return creditLineItem;
+        },
+        { action: sheet.action }
+      );
+
+      result.push(creditCost);
+
+      return result;
+    }, []) || [];
 
   const columnHelper = createColumnHelper<CreditLineItem>();
   const loadingColumnHelper = createColumnHelper<any>();
@@ -45,19 +47,23 @@ export default function CostPage() {
         return <span className="text-gray-400">{action}</span>;
       },
     }),
-    columnHelper.accessor('solana', {
-      header: () => <div className="text-gray-400">Solana</div>,
-      cell: (info) => {
-        return <span className="text-white font-semibold">{info.getValue()}</span>;
-      },
-    }),
-    columnHelper.accessor('polygon', {
-      header: () => <div className="text-gray-400">Polygon</div>,
-      cell: (info) => {
-        return <span className="text-white font-semibold">{info.getValue()}</span>;
-      },
-    }),
   ];
+
+  data.length > 0 &&
+    Object.entries(data[0]).forEach(([key, _value]) => {
+      if (key !== 'action') {
+        columns.push(
+          columnHelper.display({
+            id: key,
+            header: () => <div className="text-gray-400">{key}</div>,
+            cell: (info) => {
+              const credits = info.row.original[key];
+              return <span className="text-white font-semibold">{credits}</span>;
+            },
+          })
+        );
+      }
+    });
 
   return (
     <div>
@@ -72,12 +78,12 @@ export default function CostPage() {
                 cell: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
               }),
               loadingColumnHelper.display({
-                id: 'solana',
+                id: 'blockchain1',
                 header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => <div className="rounded-full h-4 w-8 bg-stone-800 animate-pulse" />,
               }),
               loadingColumnHelper.display({
-                id: 'polygon',
+                id: 'blockchain2',
                 header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => <div className="rounded-full h-4 w-8 bg-stone-800 animate-pulse" />,
               }),
