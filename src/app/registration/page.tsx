@@ -5,8 +5,9 @@ import { Icon } from '../../components/Icon';
 import Typography, { Size } from '../../components/Typography';
 import Card from '../../components/Card';
 import Divider from '../../components/Divider';
-import Link from './../../components/Link';
 import { useRegistrationFlow } from './../../hooks/useRegistrationFlow';
+import { PRIVACY_POLICY, TERMS_OF_SERVICE } from '../../constants';
+import Link from 'next/link';
 
 export default function Registration() {
   const { loading, flow } = useRegistrationFlow();
@@ -85,18 +86,27 @@ export default function Registration() {
         </Form>
       )}
 
+      <span className="flex-wrap text-gray-400 text-xs mt-4">
+        By signing up I have read and agreed to Holaplex Hub{' '}
+        <Link href={TERMS_OF_SERVICE} target="_blank" className="underline">
+          Terms
+        </Link>{' '}
+        and{' '}
+        <Link href={PRIVACY_POLICY} target="_blank" className="underline">
+          Privacy Policy
+        </Link>
+      </span>
+
       <Divider.Or className="my-4" />
 
-      <Link href="/login" styled={false}>
-        <Button icon={<Icon.LightBulb stroke="stroke-gray-400" />} block variant="secondary">
-          <div className="flex items-center my-1">
-            <span className="text-gray-400 font-medium">Already have an account?</span>
-            <span className="flex items-center ml-1 font-semibold">
-              Sign in
-              <Icon.ArrowRight />
-            </span>
-          </div>
-        </Button>
+      <Link href="/login">
+        <div className="flex items-center justify-center border rounded-lg border-stone-800 w-full my-1 py-4 ">
+          <span className="text-gray-400">Already have an account?</span>
+          <span className="flex items-center ml-1 text-yellow-300">
+            Sign in
+            <Icon.ArrowRight />
+          </span>
+        </div>
       </Link>
     </Card>
   );
