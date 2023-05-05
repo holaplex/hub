@@ -1,4 +1,5 @@
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-notion-x/src/styles.css';
 import './globals.css';
 
 import App from './App';

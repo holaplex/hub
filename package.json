@@ -26,11 +26,13 @@
     "next": "^13.3.1",
     "next-plugin-graphql": "^0.0.2",
     "nft.storage": "^7.0.0",
+    "notion-client": "^6.16.0",
     "ramda": "^0.28.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.41.5",
+    "react-notion-x": "^6.16.0",
     "react-toastify": "^9.1.1",
     "zustand": "^4.3.2"
   },
