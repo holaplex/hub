@@ -127,10 +127,6 @@ export default function CreateOrganizationPage() {
           Create
         </Button>
       </Form>
-      <span className="flex-wrap text-gray-400 text-xs mt-2">
-        By pressing &quot;Create an aсcount&quot;, I agree to Holaplex{' '}
-        <Link href="">Terms of Use</Link> and <Link href="">Privacy Policy.</Link>
-      </span>
     </Card>
   );
 }

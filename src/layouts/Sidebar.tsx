@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Children, cloneElement, ReactNode, useState } from 'react';
 import { Icon } from '../components/Icon';
+import { PRIVACY_POLICY, TERMS_OF_SERVICE } from '../constants';
 import { Organization, User } from '../graphql.types';
 import { useLogout } from '../hooks/useLogout';
 import { useOrganization } from '../hooks/useOrganization';
@@ -256,6 +257,15 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                   Add organization
                 </Button>
               </Link>
+              <span className="flex gap-1 w-full text-gray-400 text-xs justify-center items-center">
+                <Link href={TERMS_OF_SERVICE} target="_blank">
+                  Terms of service
+                </Link>
+                -
+                <Link href={PRIVACY_POLICY} target="_blank">
+                  Privacy Policy
+                </Link>
+              </span>
             </div>
           )}
         </div>
