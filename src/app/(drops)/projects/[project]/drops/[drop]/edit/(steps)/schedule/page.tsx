@@ -22,7 +22,7 @@ export default function EditDropTimingPage() {
   const setTiming = useStore(store, (store) => store.setTiming);
 
   const { handleSubmit, register, watch } = useForm<TimingSettings>({
-    defaultValues: timing || {},
+    defaultValues: timing,
   });
 
   const selectStartDate = watch('selectStartDate');
@@ -38,58 +38,56 @@ export default function EditDropTimingPage() {
   };
 
   return (
-    <>
-      <Card className="w-[400px]">
-        <Typography.Header size={Size.H2}>Mint date</Typography.Header>
-        <Typography.Header size={Size.H3} color={TextColor.Gray}>
-          Scheduled in your current timezone
-        </Typography.Header>
-        <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-          {/* Start Date */}
-          <Form.Label name="Start date/time" className="text-xs">
-            <Form.RadioGroup>
-              <Form.Label name="Start immediately" placement={Placement.Right}>
-                <Form.RadioGroup.Radio {...register('selectStartDate')} value="mintImmediately" />
-              </Form.Label>
-              <Form.Label name="Specify start date/time" placement={Placement.Right}>
-                <Form.RadioGroup.Radio {...register('selectStartDate')} value="specifyStartDate" />
-              </Form.Label>
-            </Form.RadioGroup>
-          </Form.Label>
-          {selectStartDate === 'specifyStartDate' && (
-            <div className="flex gap-6 items-end mt-4">
-              <Form.Input {...register('startDate')} type="date" className="basis-3/5" />
-              <Form.Input {...register('startTime')} type="time" className="basis-2/5" />
-            </div>
-          )}
-
-          {/* End Date */}
-          <Form.Label name="End date/time" className="mt-8 text-xs">
-            <Form.RadioGroup>
-              <Form.Label name="Never end" placement={Placement.Right}>
-                <Form.RadioGroup.Radio {...register('selectEndDate')} value="neverEnd" />
-              </Form.Label>
-              <Form.Label name="Specify end date/time" placement={Placement.Right}>
-                <Form.RadioGroup.Radio {...register('selectEndDate')} value="specifyEndDate" />
-              </Form.Label>
-            </Form.RadioGroup>
-          </Form.Label>
-          {selectEndDate === 'specifyEndDate' && (
-            <div className="flex gap-6 items-end mt-4">
-              <Form.Input {...register('endDate')} type="date" className="basis-3/5" />
-              <Form.Input {...register('endTime')} type="time" className="basis-2/5" />
-            </div>
-          )}
-
-          <hr className="w-full bg-stone-800 border-0 h-px my-5" />
-          <div className="flex items-center justify-end gap-6">
-            <Button variant="secondary" onClick={back}>
-              Back
-            </Button>
-            <Button htmlType="submit">Next</Button>
+    <Card className="max-w-md">
+      <Typography.Header size={Size.H2}>Drop schedule</Typography.Header>
+      <Typography.Header size={Size.H3} color={TextColor.Gray}>
+        Scheduled in your current timezone
+      </Typography.Header>
+      <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
+        {/* Start Date */}
+        <Form.Label name="Start date/time" className="text-xs">
+          <Form.RadioGroup>
+            <Form.Label name="Start immediately" placement={Placement.Right}>
+              <Form.RadioGroup.Radio {...register('selectStartDate')} value="mintImmediately" />
+            </Form.Label>
+            <Form.Label name="Specify start date/time" placement={Placement.Right}>
+              <Form.RadioGroup.Radio {...register('selectStartDate')} value="specifyStartDate" />
+            </Form.Label>
+          </Form.RadioGroup>
+        </Form.Label>
+        {selectStartDate === 'specifyStartDate' && (
+          <div className="flex gap-6 items-end mt-4">
+            <Form.Input {...register('startDate')} type="date" className="basis-3/5" />
+            <Form.Input {...register('startTime')} type="time" className="basis-2/5" />
           </div>
-        </Form>
-      </Card>
-    </>
+        )}
+
+        {/* End Date */}
+        <Form.Label name="End date/time" className="mt-8 text-xs">
+          <Form.RadioGroup>
+            <Form.Label name="Never end" placement={Placement.Right}>
+              <Form.RadioGroup.Radio {...register('selectEndDate')} value="neverEnd" />
+            </Form.Label>
+            <Form.Label name="Specify end date/time" placement={Placement.Right}>
+              <Form.RadioGroup.Radio {...register('selectEndDate')} value="specifyEndDate" />
+            </Form.Label>
+          </Form.RadioGroup>
+        </Form.Label>
+        {selectEndDate === 'specifyEndDate' && (
+          <div className="flex gap-6 items-end mt-4">
+            <Form.Input {...register('endDate')} type="date" className="basis-3/5" />
+            <Form.Input {...register('endTime')} type="time" className="basis-2/5" />
+          </div>
+        )}
+
+        <hr className="w-full bg-stone-800 border-0 h-px my-5" />
+        <div className="flex items-center justify-end gap-6">
+          <Button variant="secondary" onClick={back}>
+            Back
+          </Button>
+          <Button htmlType="submit">Next</Button>
+        </div>
+      </Form>
+    </Card>
   );
 }

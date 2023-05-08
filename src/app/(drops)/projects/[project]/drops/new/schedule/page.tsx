@@ -11,6 +11,7 @@ import { useDropForm } from '../../../../../../../hooks/useDropForm';
 import { useProject } from '../../../../../../../hooks/useProject';
 import { format } from 'date-fns';
 import add from 'date-fns/add';
+import { DateFormat } from '../../../../../../../modules/time';
 
 export default function NewDropTimingPage() {
   const router = useRouter();
@@ -24,11 +25,11 @@ export default function NewDropTimingPage() {
   const { handleSubmit, register, watch } = useForm<TimingSettings>({
     defaultValues: timing || {
       selectStartDate: 'mintImmediately',
-      startDate: format(now, 'yyyy-MM-dd'),
-      startTime: format(now, 'HH:mm'),
+      startDate: format(now, DateFormat.DATE_3),
+      startTime: format(now, DateFormat.TIME_2),
       selectEndDate: 'neverEnd',
-      endDate: format(thirtyDays, 'yyyy-MM-dd'),
-      endTime: format(thirtyDays, 'HH:mm'),
+      endDate: format(thirtyDays, DateFormat.DATE_3),
+      endTime: format(thirtyDays, DateFormat.TIME_2),
     },
   });
 
