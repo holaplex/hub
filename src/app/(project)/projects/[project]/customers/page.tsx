@@ -190,9 +190,6 @@ export default function CustomersPage() {
                             </div>
                           }
                           elements={[
-                            <Copy key="copy_id" copyString={customer.wallet}>
-                              <span>Copy Wallet Address</span>
-                            </Copy>,
                             <Link
                               key="delete_project"
                               className="flex gap-2 items-center"
