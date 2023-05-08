@@ -7,7 +7,7 @@ import Table from './../../../../../components/Table';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import { GetProjectCustomers } from './../../../../../queries/customer.graphql';
-import { AssetType, Customer, Project } from './../../../../../graphql.types';
+import { AssetType, Customer, Project, Wallet } from './../../../../../graphql.types';
 import { useProject } from '../../../../../hooks/useProject';
 import { DateFormat, formatDateString } from './../../../../../modules/time';
 import Copy from '../../../../../components/Copy';
@@ -154,23 +154,37 @@ export default function CustomersPage() {
                     },
                   }),
                   columnHelper.accessor(
-                    ({ treasury }) => treasury?.wallets?.map((wallet) => wallet.assetId),
+                    ({ treasury }) => treasury?.wallets?.map((wallet) => wallet),
                     {
                       id: 'wallets',
                       header: () => <span>Wallets</span>,
                       cell: (info) => {
                         return (
                           <div className="flex flex-row gap-1">
-                            {info.getValue().map((assetId: AssetType) => {
+                            {info.getValue().map((wallet: Wallet) => {
                               let icon: React.ReactNode;
 
-                              switch (assetId) {
+                              switch (wallet.assetId) {
                                 case AssetType.SolTest:
                                 case AssetType.Sol:
                                   icon = <Icon.Crypto.Sol />;
                               }
 
-                              return icon;
+                              return (
+                                <PopoverBox
+                                  key={wallet.address}
+                                  triggerButton={
+                                    <div className="px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min">
+                                      {icon}
+                                    </div>
+                                  }
+                                  elements={[
+                                    <Copy key="copy_id" copyString={wallet.address}>
+                                      <span>Copy Wallet Address</span>
+                                    </Copy>,
+                                  ]}
+                                />
+                              );
                             })}
                           </div>
                         );
