@@ -107,7 +107,11 @@ export default function EditDropPreviewPage() {
             image: imageUrl as string,
             attributes: detail.attributes.map(({ traitType, value }) => ({ traitType, value })),
           },
-          creators: payment.creators,
+          creators: payment.creators.map(({ address, share, verified }) => ({
+            address,
+            share,
+            verified,
+          })),
           price: 0,
           sellerFeeBasisPoints: ifElse(
             isNil,
