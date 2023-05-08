@@ -21,7 +21,7 @@ export default function EditDropTimingPage() {
   const timing = useStore(store, (store) => store.timing);
   const setTiming = useStore(store, (store) => store.setTiming);
 
-  const { handleSubmit, register, watch } = useForm<TimingSettings>({
+  const { handleSubmit, register, watch, formState } = useForm<TimingSettings>({
     defaultValues: timing,
   });
 
@@ -38,7 +38,7 @@ export default function EditDropTimingPage() {
   };
 
   return (
-    <Card className="max-w-md">
+    <Card className="w-[364px]">
       <Typography.Header size={Size.H2}>Drop schedule</Typography.Header>
       <Typography.Header size={Size.H3} color={TextColor.Gray}>
         Scheduled in your current timezone
@@ -57,8 +57,34 @@ export default function EditDropTimingPage() {
         </Form.Label>
         {selectStartDate === 'specifyStartDate' && (
           <div className="flex gap-6 items-end mt-4">
-            <Form.Input {...register('startDate')} type="date" className="basis-3/5" />
-            <Form.Input {...register('startTime')} type="time" className="basis-2/5" />
+            <div className="flex flex-col gap-1">
+              <Form.Input
+                {...register('startDate', {
+                  validate: (value, { selectStartDate }) => {
+                    if (selectStartDate === 'specifyStartDate' && !value) {
+                      return 'Please select a start date.';
+                    }
+                  },
+                })}
+                type="date"
+                className="basis-3/5"
+              />
+              <Form.Error message={formState.errors.startDate?.message} />
+            </div>
+            <div className="flex flex-col gap-1">
+              <Form.Input
+                {...register('startTime', {
+                  validate: (value, { selectStartDate }) => {
+                    if (selectStartDate === 'specifyStartDate' && !value) {
+                      return 'Please select a start time.';
+                    }
+                  },
+                })}
+                type="time"
+                className="basis-2/5"
+              />
+              <Form.Error message={formState.errors.startTime?.message} />
+            </div>
           </div>
         )}
 
@@ -75,8 +101,34 @@ export default function EditDropTimingPage() {
         </Form.Label>
         {selectEndDate === 'specifyEndDate' && (
           <div className="flex gap-6 items-end mt-4">
-            <Form.Input {...register('endDate')} type="date" className="basis-3/5" />
-            <Form.Input {...register('endTime')} type="time" className="basis-2/5" />
+            <div className="flex flex-col gap-1">
+              <Form.Input
+                {...register('endDate', {
+                  validate: (value, { selectEndDate }) => {
+                    if (selectEndDate === 'specifyEndDate' && !value) {
+                      return 'Please select an end date.';
+                    }
+                  },
+                })}
+                type="date"
+                className="basis-3/5"
+              />
+              <Form.Error message={formState.errors.endDate?.message} />
+            </div>
+            <div className="flex flex-col gap-1">
+              <Form.Input
+                {...register('endTime', {
+                  validate: (value, { selectEndDate }) => {
+                    if (selectEndDate === 'specifyEndDate' && !value) {
+                      return 'Please select an end time.';
+                    }
+                  },
+                })}
+                type="time"
+                className="basis-2/5"
+              />
+            </div>
+            <Form.Error message={formState.errors.endTime?.message} />
           </div>
         )}
 

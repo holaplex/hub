@@ -47,7 +47,7 @@ export default function NewDropTimingPage() {
 
   return (
     <>
-      <Card className="w-[460px]">
+      <Card className="w-[364px]">
         <Typography.Header size={Size.H2}>Drop schedule</Typography.Header>
         <Typography.Header size={Size.H3} color={TextColor.Gray}>
           Scheduled in your current timezone
