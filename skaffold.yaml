@@ -130,6 +130,12 @@ deploy:
         remoteChart: hydra
         valuesFiles:
           - values.hydra.yaml
+      - name: hub-credits
+        remoteChart: hub-credits
+        repo: https://charts.holaplex.com
+        valuesFiles:
+          - values.credits.yaml
+          - secrets.credits.yaml
       - name: hub-identities
         remoteChart: hub-identities
         repo: https://charts.holaplex.com
@@ -160,12 +166,6 @@ deploy:
         valuesFiles:
           - values.customers.yaml
           - secrets.customers.yaml
-      - name: hub-credits
-        remoteChart: hub-credits
-        repo: https://charts.holaplex.com
-        valuesFiles:
-          - values.credits.yaml
-          - secrets.credits.yaml
       - name: hub-credentials
         remoteChart: hub-credentials
         repo: https://charts.holaplex.com

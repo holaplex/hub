@@ -78,16 +78,18 @@ interface SidebarMenuItemProps {
   href: string;
   active: boolean;
   className?: string;
+  target?: string;
 }
 
-function SidebarMenuLink({ icon, name, href, active, className }: SidebarMenuItemProps) {
+function SidebarMenuLink({ icon, name, href, active, className, target }: SidebarMenuItemProps) {
   return (
     <Link
       href={href}
-      className={clsx('flex gap-4 w-full px-4 py-3 items-center rounded-lg text-white', className, {
+      className={clsx('flex gap-6 w-full px-4 py-3 items-center rounded-lg text-white', className, {
         'bg-stone-800': active,
         'hover:bg-stone-800': !active,
       })}
+      target={target}
     >
       {icon}
       <span className="text-sm">{name}</span>
@@ -175,7 +177,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
       {expandFooter && (
         <div className="w-full py-2">
           {userAffiliationsQuery.loading ? (
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-6">
               <div className="flex gap-2 items-center">
                 <div className="w-8 h-8 bg-stone-800 rounded-md animate-pulse" />
                 <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
@@ -186,7 +188,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
               </div>
             </div>
           ) : (
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-6">
               <div className="flex flex-col border-b border-gray-800 py-2">
                 {/* <Sidebar.Menu.Link
                   name="Settings"
@@ -199,10 +201,11 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                   icon={<Icon.HelpHeadphones stroke="stroke-gray-400" />}
                   href="https://docs.holaplex.dev"
                   active={false}
+                  target="_blank"
                 />
 
                 <div
-                  className="flex gap-4 w-full px-4 py-3 items-center text-gray-400 rounded-lg hover:bg-stone-800 cursor-pointer"
+                  className="flex gap-6 w-full px-4 py-3 items-center text-gray-400 rounded-lg hover:bg-stone-800 cursor-pointer"
                   onClick={() => logout()}
                 >
                   <Icon.Logout stroke="stroke-gray-400" />

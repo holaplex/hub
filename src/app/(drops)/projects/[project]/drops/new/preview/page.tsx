@@ -139,10 +139,10 @@ export default function NewDropPreviewPage() {
           </div>
         </div> */}
 
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-6 items-center">
           <div className="w-full flex flex-col gap-2 bg-stone-800 rounded-md py-2 px-3 mt-4">
             <span className="text-gray-400 text-xs font-medium">Start date and time</span>
-            <span className="text-yellow-300 text-xs font-medium">
+            <span className="text-white text-xs font-medium">
               {startDateTime
                 ? `${format(startDateTime, DateFormat.DATE_1)}, ${format(
                     startDateTime,
@@ -157,7 +157,7 @@ export default function NewDropPreviewPage() {
           {endDateTime && (
             <div className="w-full flex flex-col gap-2 bg-stone-800 rounded-md py-2 px-3 mt-4">
               <span className="text-gray-400 text-xs font-medium">End date and time</span>
-              <span className="text-yellow-300 text-xs font-medium">
+              <span className="text-white text-xs font-medium">
                 {`${format(endDateTime, DateFormat.DATE_1)}, ${format(
                   endDateTime,
                   DateFormat.TIME_1
@@ -169,12 +169,12 @@ export default function NewDropPreviewPage() {
 
         <hr className="w-full bg-stone-800 border-0 h-px my-5" />
 
-        <div className="flex items-center justify-end gap-4">
+        <div className="flex items-center justify-end gap-6">
           <Button variant="secondary" disabled={submitting} onClick={back}>
             Back
           </Button>
           <Button htmlType="submit" loading={submitting} disabled={submitting} onClick={onSubmit}>
-            {startDateTime ? 'Schedule mint' : 'Start mint'}
+            {startDateTime ? 'Schedule drop' : 'Create drop'}
           </Button>
         </div>
       </div>

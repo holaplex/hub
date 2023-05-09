@@ -88,7 +88,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                           <div className="h-10 w-32 bg-stone-900 animate-pulse rounded-md" />
                         </div>
                       </div>
-                      <div className="mt-5 flex gap-4">
+                      <div className="mt-5 flex gap-6">
                         <div className="basis-1/3">
                           <div className="w-full aspect-square bg-stone-900 animate-pulse rounded-lg" />
                         </div>
@@ -101,7 +101,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                             </div>
                             <div className="w-full rounded-full h-[12px] bg-stone-800 animate-pulse mt-1 relative overflow-hidden" />
                           </div>
-                          <div className="flex p-4 bg-stone-900 rounded-md">
+                          <div className="flex p-6 bg-stone-900 rounded-md">
                             <div className="basis-1/2 h-full flex flex-col border-r border-r-stone-800 pr-4">
                               <div className="h-4 w-8 bg-stone-800 animate-pulse rounded-full mb-2" />
                               <span className="h-8 w-2/3 bg-stone-800 animate-pulse rounded-md mb-1" />
@@ -184,11 +184,11 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                           </div>
                         )}
                       </div>
-                      <div className="mt-5 flex gap-4">
+                      <div className="mt-5 flex gap-6">
                         <div className="basis-1/3">
                           <img
                             src={dropQuery.data?.project?.drop?.collection?.metadataJson?.image}
-                            className="w-full aspect-square rounded-lg"
+                            className="w-full aspect-square rounded-lg object-cover"
                           />
                         </div>
                         <div className="basis-2/3 flex flex-col gap-2">
@@ -224,7 +224,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                               />
                             </div>
                           </div>
-                          <div className="flex p-4 bg-stone-900 rounded-md">
+                          <div className="flex p-6 bg-stone-900 rounded-md">
                             <div className="basis-1/2 h-full flex flex-col border-r border-r-stone-800 pr-4">
                               <span className="text-gray-400 text-xs font-medium mb-2">Name</span>
                               <span className="text-white text-3xl font-medium">

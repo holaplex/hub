@@ -69,7 +69,7 @@ export default function NewDropDetailsPage() {
                         className={clsx(
                           'flex items-center justify-center border border-dashed border-stone-800 cursor-pointer rounded-md p-6 text-center text-gray-500',
                           {
-                            'bg-gray-100': isDragActive,
+                            'bg-stone-800': isDragActive,
                           }
                         )}
                       >
@@ -97,7 +97,7 @@ export default function NewDropDetailsPage() {
             <Form.Error message={formState.errors.image?.message} />
           </Form.Label>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6">
             <Form.Label name="Name" className="text-xs mt-5 basis-3/4">
               <Form.Input
                 {...register('name', {
@@ -161,7 +161,7 @@ export default function NewDropDetailsPage() {
           </Form.Label>
           <Form.Label name="Attribute" className="text-xs mt-5">
             {fields.map((field, index) => (
-              <div className="flex gap-4" key={field.id}>
+              <div className="flex gap-6" key={field.id}>
                 <Form.Label name="Trait" className="text-xs basis-1/2">
                   <Form.Input
                     {...register(`attributes.${index}.traitType`, { required: true, minLength: 1 })}

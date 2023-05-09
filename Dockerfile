@@ -38,8 +38,26 @@ ENV NODE_ENV "production"
 
 RUN npm run build
 
+FROM production AS runner
+WORKDIR /app
+
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+
+COPY --from=production /app/public ./public
+
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=production --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=production --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+RUN chown -R nextjs:nodejs /app/.next
+
+USER nextjs
+
+RUN chmod +rw /app/.next
+
 EXPOSE 3000
 
 ENV PORT 3000
 
-CMD ["npm", "run", "start"]
+CMD ["node", "server.js"]

@@ -45,6 +45,7 @@ export default function NewDropRoyaltiesPage() {
 
   const royaltiesDestination = watch('royaltiesDestination');
   const royaltiesShortcut = watch('royaltiesShortcut');
+  const creators = watch('creators');
 
   const submit = (data: PaymentSettings) => {
     if (data.royaltiesDestination === RoyaltiesDestination.ProjectTreasury) {
@@ -56,9 +57,12 @@ export default function NewDropRoyaltiesPage() {
     }
 
     data.creators = data.creators.map(({ address, share = 100 }) => {
-      const creator: CollectionCreatorInput = { address, share };
+      const creator: CollectionCreatorInput = {
+        address,
+        share: typeof share === 'string' ? parseInt(share) : share,
+      };
 
-      if (address == wallet?.address) {
+      if (address === wallet?.address) {
         creator.verified = true;
       }
 
@@ -108,7 +112,7 @@ export default function NewDropRoyaltiesPage() {
       <Card className="w-[492px]">
         <Typography.Header size={Size.H2}>Supply</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-          <div className="flex gap-4">
+          <div className="flex gap-6">
             <Form.Label name="Specify how many editions will be available" className="text-xs mt-5">
               <Form.Input {...register('supply')} autoFocus placeholder="e.g. 10,000" />
             </Form.Label>
@@ -230,7 +234,7 @@ export default function NewDropRoyaltiesPage() {
           {royaltiesDestination === RoyaltiesDestination.Creators && (
             <>
               {fields.map((field, index) => (
-                <div className="flex gap-4" key={field.id}>
+                <div className="flex gap-6" key={field.id}>
                   <Form.Label name="Wallet" className="text-xs mt-5 basis-3/4">
                     <Form.Input
                       {...register(`creators.${index}.address`)}
@@ -245,13 +249,14 @@ export default function NewDropRoyaltiesPage() {
                       placeholder="e.g. 10%"
                     />
                   </Form.Label>
-
-                  <div
-                    className="rounded-md bg-stone-800 hover:bg-stone-950 p-3 self-end cursor-pointer"
-                    onClick={() => remove(index)}
-                  >
-                    <Icon.Close stroke="stroke-white" />
-                  </div>
+                  {creators.length > 1 && (
+                    <div
+                      className="rounded-md bg-stone-900 hover:bg-stone-800 p-3 self-end cursor-pointer"
+                      onClick={() => remove(index)}
+                    >
+                      <Icon.Close stroke="stroke-white" />
+                    </div>
+                  )}
                 </div>
               ))}
               <Button
@@ -267,7 +272,7 @@ export default function NewDropRoyaltiesPage() {
 
           <hr className="w-full bg-stone-800 border-0 h-px my-5" />
 
-          <div className="flex items-center justify-end gap-4">
+          <div className="flex items-center justify-end gap-6">
             <Button variant="secondary" onClick={back}>
               Back
             </Button>

@@ -38,7 +38,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
 
   return (
     <>
-      <div className="h-full flex flex-col p-4">
+      <div className="h-full flex flex-col p-6">
         {webhooksQuery.loading ? (
           <>
             <div className="w-36 h-8 rounded-md bg-stone-900 animate-pulse" />

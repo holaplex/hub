@@ -56,6 +56,10 @@ function ActionCell({ id, status }: { id: string; status: MemberStatus }): JSX.E
     ];
   }
 
+  if (elements.length === 0) {
+    return <div />;
+  }
+
   return (
     <PopoverBox
       popperPlacement="auto"
@@ -172,7 +176,7 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
 
   return (
     <>
-      <div className="h-full flex flex-col p-4">
+      <div className="h-full flex flex-col p-6">
         {loading ? (
           <>
             <div className="w-36 h-8 rounded-md bg-stone-900 animate-pulse" />
