@@ -5,6 +5,8 @@ migrate:
   image:
     pullPolicy: Always
 
+creditSheetName: hub-credits-credit-sheet
+
 environment:
   port: '80'
   kafkaUsername: admin
