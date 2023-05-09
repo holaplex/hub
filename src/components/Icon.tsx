@@ -21,6 +21,30 @@ function CryptoIcon() {
 }
 Icon.Crypto = CryptoIcon;
 
+function Alert({ width = 20, height = 20, className = '' }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 20 20"
+      className={clsx('stroke-gray-400 fill-none', className)}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M10 11.6667C10.9205 11.6667 11.6667 10.9205 11.6667 10C11.6667 9.07954 10.9205 8.33334 10 8.33334C9.07957 8.33334 8.33337 9.07954 8.33337 10C8.33337 10.9205 9.07957 11.6667 10 11.6667Z"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M13.5333 6.46667C13.9982 6.93104 14.367 7.48248 14.6186 8.08947C14.8703 8.69646 14.9998 9.34709 14.9998 10.0042C14.9998 10.6612 14.8703 11.3119 14.6186 11.9189C14.367 12.5259 13.9982 13.0773 13.5333 13.5417M6.46668 13.5333C6.0018 13.069 5.633 12.5175 5.38138 11.9105C5.12976 11.3035 5.00024 10.6529 5.00024 9.99584C5.00024 9.33876 5.12976 8.68813 5.38138 8.08114C5.633 7.47415 6.0018 6.9227 6.46668 6.45834M15.8917 4.10834C17.4539 5.67107 18.3316 7.7903 18.3316 10C18.3316 12.2097 17.4539 14.3289 15.8917 15.8917M4.10834 15.8917C2.54609 14.3289 1.66846 12.2097 1.66846 10C1.66846 7.7903 2.54609 5.67107 4.10834 4.10834"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Alert = Alert;
+
 function EthLarge({ width = 28, height = 42, fill = '#AAAAAA', className = '' }: IconProps) {
   return (
     <svg
@@ -640,7 +664,7 @@ function Balance({
   width = 20,
   height = 20,
   fill = 'none',
-  stroke = 'black',
+  stroke = 'stroke-gray-400',
   className = '',
 }: IconProps) {
   return (
@@ -649,66 +673,52 @@ function Balance({
       height={height}
       viewBox="0 0 20 20"
       fill={fill}
-      className={className}
+      className={clsx(stroke, className)}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
         d="M2.50098 7.5C2.50098 8.42083 4.36598 9.16667 6.66764 9.16667"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M6.66681 12.4999C4.36598 12.4999 2.50098 11.7541 2.50098 10.8333"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path
-        d="M10.8323 4.16675H10.8331V6.66675"
-        stroke={stroke}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M10.8323 4.16675H10.8331V6.66675" strokeLinecap="round" strokeLinejoin="round" />
       <path
         d="M9.16797 13.3333C9.16797 14.2541 11.033 14.9999 13.3346 14.9999C15.6363 14.9999 17.5013 14.2541 17.5013 13.3333"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M9.16797 10C9.16797 10.9208 11.033 11.6667 13.3346 11.6667C15.6363 11.6667 17.5013 10.9208 17.5013 10"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M13.333 8.33325C11.033 8.33325 9.1663 9.07909 9.16797 9.99992"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M9.16797 10V16.6667C9.16797 17.5875 11.033 18.3333 13.3346 18.3333"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M13.333 8.33325C15.633 8.33325 17.4997 9.07909 17.498 9.99992"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M17.4997 10V16.6667C17.4997 17.5875 15.6347 18.3333 13.333 18.3333"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M6.66667 15.8334C4.36583 15.8334 2.5 15.0876 2.5 14.1667"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -716,16 +726,10 @@ function Balance({
         fillRule="evenodd"
         clipRule="evenodd"
         d="M6.66667 5.83333C8.96785 5.83333 10.8333 5.08714 10.8333 4.16667C10.8333 3.24619 8.96785 2.5 6.66667 2.5C4.36548 2.5 2.5 3.24619 2.5 4.16667C2.5 5.08714 4.36548 5.83333 6.66667 5.83333Z"
-        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path
-        d="M2.49967 4.16675V14.1667"
-        stroke={stroke}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M2.49967 4.16675V14.1667" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }

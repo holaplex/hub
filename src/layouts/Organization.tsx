@@ -82,6 +82,12 @@ export default function Organization({
                   active={segments[0] === 'credentials'}
                 />
                 <Sidebar.Menu.Link
+                  name="Credits"
+                  icon={<Icon.Balance stroke="stroke-gray-400" />}
+                  href="/credits/costs"
+                  active={segments[0] === 'credits'}
+                />
+                <Sidebar.Menu.Link
                   name="Settings"
                   icon={<Icon.Settings stroke="stroke-gray-400" />}
                   href="/settings"
