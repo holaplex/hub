@@ -44,9 +44,7 @@ export default function CreditsLayout({
               {creditAndDeductionsQuery.data?.organization.credits?.balance}
             </span>
             <Link href="/credits/buy">
-              <Button icon={<Icon.Add className="primary-button-icon" />} onClick={() => {}}>
-                Buy more credits
-              </Button>
+              <Button icon={<Icon.Add />}>Buy more credits</Button>
             </Link>
           </div>
           <div className="flex basis-2/3 gap-8 bg-stone-900 rounded-lg p-6">

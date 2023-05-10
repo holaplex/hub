@@ -92,7 +92,7 @@ export default function NewDropPreviewPage() {
             externalUrl: detail.externalUrl,
           },
           creators: payment.creators,
-          supply: parseInt(payment.supply.replace(',', '')),
+          supply: parseInt(payment.supply.replaceAll(',', '')),
           price: 0,
           sellerFeeBasisPoints: ifElse(
             isNil,

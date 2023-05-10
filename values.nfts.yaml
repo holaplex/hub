@@ -1,6 +1,8 @@
 image:
   pullPolicy: Always
 
+creditSheetName: hub-credits-credit-sheet
+
 migrate:
   image:
     pullPolicy: Always
