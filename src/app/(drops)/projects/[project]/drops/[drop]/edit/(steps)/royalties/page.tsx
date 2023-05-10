@@ -28,7 +28,7 @@ import { useQuery } from '@apollo/client';
 import {
   GetCreditSheet,
   GetOrganizationCreditBalance,
-} from '../../../../../../../queries/credits.graphql';
+} from '../../../../../../../../../queries/credits.graphql';
 import Link from 'next/link';
 import clsx from 'clsx';
 interface GetOrganizationBalanceVars {
@@ -181,7 +181,7 @@ export default function EditDropRoyaltiesPage() {
                 </div>
                 {createDropCredits * supply <= creditBalance && (
                   <Link href="/credits/buy">
-                    <Button icon={<Icon.Add />}>Buy credits</Button>
+                    <Button>Buy credits</Button>
                   </Link>
                 )}
               </div>

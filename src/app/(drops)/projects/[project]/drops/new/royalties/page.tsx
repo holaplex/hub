@@ -24,7 +24,6 @@ import {
 import { Icon } from './../../../../../../../components/Icon';
 import { useDropForm } from '../../../../../../../hooks/useDropForm';
 import Link from 'next/link';
-import { useOrganization } from '../../../../../../../hooks/useOrganization';
 import { useQuery } from '@apollo/client';
 import {
   GetCreditSheet,
@@ -52,11 +51,10 @@ export default function NewDropRoyaltiesPage() {
   const payment = useStore(store, (store) => store.payment);
   const setPayment = useStore(store, (store) => store.setPayment);
 
-  const { organization } = useOrganization();
   const creditBalanceQuery = useQuery<GetOrganizationCreditBalanceData, GetOrganizationBalanceVars>(
     GetOrganizationCreditBalance,
     {
-      variables: { organization: organization?.id },
+      variables: { organization: project?.organization?.id },
     }
   );
   const creditBalance = creditBalanceQuery.data?.organization.credits?.balance;
@@ -87,7 +85,7 @@ export default function NewDropRoyaltiesPage() {
   const royaltiesDestination = watch('royaltiesDestination');
   const royaltiesShortcut = watch('royaltiesShortcut');
   const creators = watch('creators');
-  const supply = parseInt(watch('supply').replaceAll(',', ''));
+  const supply = parseInt(watch('supply')?.replaceAll(',', '')) || false;
 
   const createDropCredits = creditSheet
     ?.find((actionCost: ActionCost) => actionCost.action === Action.CreateDrop)
@@ -182,9 +180,9 @@ export default function NewDropRoyaltiesPage() {
                     credits.
                   </div>
                 </div>
-                {createDropCredits * supply <= creditBalance && (
-                  <Link href="/credits/buy">
-                    <Button icon={<Icon.Add />}>Buy credits</Button>
+                {createDropCredits * supply > creditBalance && (
+                  <Link href="/credits/buy" className="flex-none">
+                    <Button>Buy credits</Button>
                   </Link>
                 )}
               </div>

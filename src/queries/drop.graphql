@@ -85,6 +85,7 @@ query GetDrop($project: UUID!, $drop: UUID!) {
           image
           description
           symbol
+          externalUrl
           attributes {
             id
             traitType
