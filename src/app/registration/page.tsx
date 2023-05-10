@@ -6,7 +6,6 @@ import Typography, { Size } from '../../components/Typography';
 import Card from '../../components/Card';
 import Divider from '../../components/Divider';
 import { useRegistrationFlow } from './../../hooks/useRegistrationFlow';
-import { PRIVACY_POLICY, TERMS_OF_SERVICE } from '../../constants';
 import Link from 'next/link';
 
 export default function Registration() {
@@ -88,11 +87,11 @@ export default function Registration() {
 
       <span className="flex-wrap text-gray-400 text-xs mt-4">
         By signing up I have read and agreed to Holaplex Hub{' '}
-        <Link href={TERMS_OF_SERVICE} target="_blank" className="underline">
+        <Link href="/terms-of-service" target="_blank" className="underline">
           Terms
         </Link>{' '}
         and{' '}
-        <Link href={PRIVACY_POLICY} target="_blank" className="underline">
+        <Link href="/privacy-policy" target="_blank" className="underline">
           Privacy Policy
         </Link>
       </span>

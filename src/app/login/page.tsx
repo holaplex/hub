@@ -66,6 +66,17 @@ export default function Login() {
         </Form>
       )}
 
+      <span className="flex-wrap text-gray-400 text-xs mt-4">
+        By signing in I have read and agreed to Holaplex Hub{' '}
+        <Link styled={false} href="/terms-of-service" target="_blank" className="underline">
+          Terms
+        </Link>{' '}
+        and{' '}
+        <Link styled={false} href="/privacy-policy" target="_blank" className="underline">
+          Privacy Policy
+        </Link>
+      </span>
+
       <Divider.Or className="my-4" />
 
       <Link
