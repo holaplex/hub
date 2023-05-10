@@ -28,7 +28,7 @@ import { useQuery } from '@apollo/client';
 import {
   GetCreditSheet,
   GetOrganizationCreditBalance,
-} from '../../../../../../../queries/credits.graphql';
+} from '../../../../../../../../../queries/credits.graphql';
 import Link from 'next/link';
 import clsx from 'clsx';
 interface GetOrganizationBalanceVars {
