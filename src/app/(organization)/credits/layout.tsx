@@ -5,10 +5,12 @@ import { cloneElement } from 'react';
 import { Icon } from '../../../components/Icon';
 import Tabs from '../../../layouts/Tabs';
 import { GetOrganizationCreditAndDeductionTotals } from './../../../queries/credits.graphql';
+import { GetOrganizationDrops } from './../../../queries/drop.graphql';
 import { useQuery } from '@apollo/client';
 import { useOrganization } from '../../../hooks/useOrganization';
-import { Organization } from '../../../graphql.types';
+import { ActionCost, Organization, Project, Drop, Action } from '../../../graphql.types';
 import Link from 'next/link';
+import clsx from 'clsx';
 
 interface GetOrganizationBalanceVars {
   organization: string;
@@ -17,6 +19,20 @@ interface GetOrganizationBalanceVars {
 interface GetOrganizationCreditBalanceData {
   organization: Organization;
 }
+
+interface GetOrganizationDropsVars {
+  organization: string;
+}
+
+interface GetOrganizationDropsData {
+  organization: Organization;
+  creditSheet: ActionCost[];
+}
+
+interface ActionCreditMap {
+  createDrop: Map<string, number>;
+}
+
 export default function CreditsLayout({
   children,
 }: {
@@ -25,6 +41,7 @@ export default function CreditsLayout({
   const pathname = usePathname();
 
   const { organization } = useOrganization();
+
   const creditAndDeductionsQuery = useQuery<
     GetOrganizationCreditBalanceData,
     GetOrganizationBalanceVars
@@ -33,6 +50,45 @@ export default function CreditsLayout({
   });
 
   const deductions = creditAndDeductionsQuery.data?.organization.deductionTotals || [];
+  const balance = creditAndDeductionsQuery.data?.organization.credits?.balance;
+
+  const dropsQuery = useQuery<GetOrganizationDropsData, GetOrganizationDropsVars>(
+    GetOrganizationDrops,
+    {
+      variables: { organization: organization?.id },
+    }
+  );
+
+  const projects = dropsQuery.data?.organization.projects;
+  const creditSheet = dropsQuery.data?.creditSheet;
+
+  const actionCreditMap: ActionCreditMap =
+    creditSheet?.reduce((result: ActionCreditMap, sheet: ActionCost) => {
+      if (sheet.action === Action.CreateDrop) {
+        const creditCost = sheet.blockchains.reduce(
+          (map: Map<string, number>, blockchain: { blockchain: string; credits: number }) => {
+            map.set(blockchain.blockchain, blockchain.credits);
+            return map;
+          },
+          new Map<string, number>()
+        );
+
+        result.createDrop = creditCost;
+      }
+      return result;
+    }, {} as ActionCreditMap) || ({} as ActionCreditMap);
+
+  const estimatedCredits = projects?.reduce((result: number, project: Project) => {
+    return (
+      result +
+      (project.drops?.reduce((dropResult: number, drop: Drop) => {
+        const toMint = drop.collection.totalMints - (drop.collection.supply ?? 0);
+        const createDropPrice = actionCreditMap.createDrop.get(drop.collection.blockchain);
+        return dropResult + (createDropPrice ? toMint * createDropPrice : 0);
+      }, 0) ?? 0)
+    );
+  }, 0);
+
   return (
     <>
       <div className="h-full flex flex-col p-4">
@@ -43,9 +99,7 @@ export default function CreditsLayout({
             {creditAndDeductionsQuery.loading ? (
               <div className="bg-stone-950 animate-pulse rounded-md h-[60px] w-2/3" />
             ) : (
-              <span className="text-6xl font-semibold">
-                {creditAndDeductionsQuery.data?.organization.credits?.balance}
-              </span>
+              <span className="text-6xl font-semibold">{balance}</span>
             )}
             <Link href="/credits/buy">
               <Button icon={<Icon.Add />}>Buy more credits</Button>
@@ -80,10 +134,31 @@ export default function CreditsLayout({
             </div>
             <div className="flex gap-4 py-10 px-4 bg-stone-950 basis-3/4 rounded-lg items-center">
               <span className="text-gray-400 font-medium text-sm">
-                Based on estimated usage you will need about 34,000 credits to create wallets and
-                mint all the NFTs available in your current active drops. You currently have 16,921
+                Based on estimated usage you will need about{' '}
+                {dropsQuery.loading ? (
+                  <div className="rounded-full h-4 w-8 bg-stone-800 animate-pulse" />
+                ) : (
+                  <span className="text-white">{estimatedCredits}</span>
+                )}{' '}
+                credits to create wallets and mint all the NFTs available in your current active
+                drops. You currently have{' '}
+                {creditAndDeductionsQuery.loading || dropsQuery.loading ? (
+                  <div className="rounded-full h-4 w-8 bg-stone-800 animate-pulse" />
+                ) : balance ? (
+                  <span
+                    className={clsx({
+                      'text-red-500': estimatedCredits && estimatedCredits > balance,
+                      'text-green-400': estimatedCredits && estimatedCredits <= balance,
+                    })}
+                  >
+                    {balance}
+                  </span>
+                ) : (
+                  <>no</>
+                )}{' '}
                 credits.
               </span>
+
               <Button onClick={() => {}} variant="secondary" className="shrink-0">
                 Learn more
               </Button>
