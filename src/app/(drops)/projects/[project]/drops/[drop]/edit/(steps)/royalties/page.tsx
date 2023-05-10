@@ -181,7 +181,7 @@ export default function EditDropRoyaltiesPage() {
                 </div>
                 {createDropCredits * supply <= creditBalance && (
                   <Link href="/credits/buy">
-                    <Button icon={<Icon.Add />}>Buy credits</Button>
+                    <Button>Buy credits</Button>
                   </Link>
                 )}
               </div>
