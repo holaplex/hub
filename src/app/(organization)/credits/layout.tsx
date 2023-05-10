@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@holaplex/ui-library-react';
 import { usePathname } from 'next/navigation';
-import { cloneElement } from 'react';
+import { cloneElement, useMemo } from 'react';
 import { Icon } from '../../../components/Icon';
 import Tabs from '../../../layouts/Tabs';
 import { GetOrganizationCreditAndDeductionTotals } from './../../../queries/credits.graphql';
@@ -12,6 +12,7 @@ import { ActionCost, Organization, Project, Drop, Action } from '../../../graphq
 import { ACTION_LABEL } from './constant';
 import Link from 'next/link';
 import clsx from 'clsx';
+import { CreditLookup } from '../../../modules/credit';
 
 interface GetOrganizationBalanceVars {
   organization: string;
@@ -28,10 +29,6 @@ interface GetOrganizationDropsVars {
 interface GetOrganizationDropsData {
   organization: Organization;
   creditSheet: ActionCost[];
-}
-
-interface ActionCreditMap {
-  createDrop: Map<string, number>;
 }
 
 export default function CreditsLayout({
@@ -63,36 +60,28 @@ export default function CreditsLayout({
   const projects = dropsQuery.data?.organization.projects;
   const creditSheet = dropsQuery.data?.creditSheet;
 
-  const actionCreditMap: ActionCreditMap =
-    creditSheet?.reduce((result: ActionCreditMap, sheet: ActionCost) => {
-      if (sheet.action === Action.CreateDrop) {
-        const creditCost = sheet.blockchains.reduce(
-          (map: Map<string, number>, blockchain: { blockchain: string; credits: number }) => {
-            map.set(blockchain.blockchain, blockchain.credits);
-            return map;
-          },
-          new Map<string, number>()
-        );
+  const estimatedCost = useMemo(() => {
+    const costLookup = new CreditLookup(creditSheet || []);
 
-        result.createDrop = creditCost;
-      }
-      return result;
-    }, {} as ActionCreditMap) || ({} as ActionCreditMap);
-
-  const estimatedCredits = projects?.reduce((result: number, project: Project) => {
     return (
-      result +
-      (project.drops?.reduce((dropResult: number, drop: Drop) => {
-        const toMint = drop.collection.totalMints - (drop.collection.supply ?? 0);
-        const createDropPrice = actionCreditMap.createDrop.get(drop.collection.blockchain);
-        return dropResult + (createDropPrice ? toMint * createDropPrice : 0);
-      }, 0) ?? 0)
+      projects?.reduce((result: number, project: Project) => {
+        return (
+          result +
+          (project.drops?.reduce((cost: number, drop: Drop) => {
+            const toMint = (drop.collection.supply ?? 0) - drop.collection.totalMints;
+            const costToMint = costLookup.cost(Action.MintEdition, drop.collection.blockchain);
+            return cost + costToMint * toMint;
+          }, 0) ?? 0)
+        );
+      }, 0) || 0
     );
-  }, 0);
+  }, [creditSheet, projects]);
+
+  const loading = creditAndDeductionsQuery.loading || dropsQuery.loading;
 
   return (
     <div className="h-full flex flex-col p-4">
-      {creditAndDeductionsQuery.loading ? (
+      {loading ? (
         <>
           <div className="bg-stone-950 h-8 w-10 rounded-md animate-pulse" />
           <div className="mt-8 flex gap-8">
@@ -118,7 +107,6 @@ export default function CreditsLayout({
                   <div className="bg-stone-900 rounded-full h-3.5 w-full animate-pulse" />
                   <div className="bg-stone-900 rounded-full h-3.5 w-2/3 animate-pulse" />
                 </div>
-                <div className="bg-stone-900 rounded-md h-10 w-32 animate-pulse" />
               </div>
             </div>
           </div>
@@ -153,44 +141,40 @@ export default function CreditsLayout({
                   })}
                 </div>
               </div>
-            </div>
-            <div className="flex gap-4 py-10 px-4 bg-stone-950 basis-3/4 rounded-lg items-center">
-              <span className="text-gray-400 font-medium text-sm">
-                Based on estimated usage you will need about{' '}
-                {dropsQuery.loading ? (
-                  <div className="rounded-full h-4 w-8 bg-stone-800 animate-pulse" />
-                ) : (
-                  <span className="text-white">{estimatedCredits}</span>
-                )}{' '}
-                credits to create wallets and mint all the NFTs available in your current active
-                drops. You currently have{' '}
-                {creditAndDeductionsQuery.loading || dropsQuery.loading ? (
-                  <div className="rounded-full h-4 w-8 bg-stone-800 animate-pulse" />
-                ) : balance ? (
-                  <span
-                    className={clsx({
-                      'text-red-500': estimatedCredits && estimatedCredits > balance,
-                      'text-green-400': estimatedCredits && estimatedCredits <= balance,
-                    })}
-                  >
-                    {balance}
-                  </span>
-                ) : (
-                  <>no</>
-                )}{' '}
-                credits.
-              </span>
-
-              <Button onClick={() => {}} variant="secondary" className="shrink-0">
-                Learn more
-              </Button>
+              <div className="flex gap-4 py-10 px-4 bg-stone-950 basis-3/4 rounded-lg items-center">
+                <span className="text-gray-400 font-medium text-sm">
+                  Based on estimated usage you will need about{' '}
+                  {dropsQuery.loading ? (
+                    <div className="rounded-full h-4 w-8 bg-stone-800 animate-pulse" />
+                  ) : (
+                    <span className="text-white">{estimatedCost}</span>
+                  )}{' '}
+                  credits to mint all the NFTs available in your current active drops. You currently
+                  have{' '}
+                  {loading || dropsQuery.loading ? (
+                    <div className="rounded-full h-4 w-8 bg-stone-800 animate-pulse" />
+                  ) : balance ? (
+                    <span
+                      className={clsx({
+                        'text-red-500': estimatedCost > balance,
+                        'text-green-400': estimatedCost <= balance,
+                      })}
+                    >
+                      {balance}
+                    </span>
+                  ) : (
+                    <>no</>
+                  )}{' '}
+                  credits.
+                </span>
+              </div>
             </div>
           </div>
         </>
       )}
 
       <Tabs.Page className="mt-8">
-        <Tabs.Panel loading={creditAndDeductionsQuery.loading}>
+        <Tabs.Panel loading={loading}>
           <Tabs.Tab
             name="Cost in credits"
             href="/credits/costs"
@@ -203,9 +187,7 @@ export default function CreditsLayout({
           />
           <Tabs.Tab name="Alerts" href="/credits/alerts" active={pathname === '/credits/alerts'} />
         </Tabs.Panel>
-        <Tabs.Content>
-          {cloneElement(children as JSX.Element, { loading: creditAndDeductionsQuery.loading })}
-        </Tabs.Content>
+        <Tabs.Content>{cloneElement(children as JSX.Element, { loading })}</Tabs.Content>
       </Tabs.Page>
     </div>
   );

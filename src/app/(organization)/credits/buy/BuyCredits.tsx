@@ -8,8 +8,13 @@ export default function BuyCredits() {
       <Typography.Header size={Size.H2} className="self-start">
         Buy more credits
       </Typography.Header>
-      <span className="mt-5 text-gray-400">We will get back to you very soon</span>
-      <Button className="w-full mt-5">Contact Us</Button>
+      <span className="mt-5 text-gray-400">
+        Please reach out to buy more credits. Note that it may take up to 24 hours after payment to
+        see credits added to your account.
+      </span>
+      <a href="mailto:support@holaplex.com">
+        <Button className="w-full mt-5">Contact Us</Button>
+      </a>
     </Card>
   );
 }

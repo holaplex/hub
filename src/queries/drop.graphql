@@ -9,6 +9,7 @@ query GetOrganizationDrops($organization: UUID!) {
           id
           supply
           totalMints
+          blockchain
         }
       }
     }

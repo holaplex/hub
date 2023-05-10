@@ -226,6 +226,13 @@ export default function NewDropPreviewPage() {
           </div>
         </div>
 
+        {cost > creditBalance && (
+          <div className="flex bg-red-500 text-red-500 bg-opacity-20 mb-4 rounded-lg p-4">
+            Your organization currently has {creditBalance} credits. You need {cost} credits to
+            create the drop. Please purchase more credits to continue.
+          </div>
+        )}
+
         <div className="flex items-center justify-end gap-6">
           <Button variant="secondary" disabled={submitting} onClick={back}>
             Back
