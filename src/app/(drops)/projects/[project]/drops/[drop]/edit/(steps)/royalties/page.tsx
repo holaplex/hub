@@ -8,6 +8,10 @@ import {
   Blockchain,
   AssetType,
   CollectionCreatorInput,
+  Organization,
+  ActionCost,
+  Action,
+  BlockchainCost,
 } from './../../../../../../../../../graphql.types';
 import {
   PaymentSettings,
@@ -19,6 +23,25 @@ import { Icon } from './../../../../../../../../../components/Icon';
 import Typography, { Size } from '../../../../../../../../../components/Typography';
 import { useProject } from '../../../../../../../../../hooks/useProject';
 import { useDropForm } from '../../../../../../../../../hooks/useDropForm';
+import { useOrganization } from '../../../../../../../../../hooks/useOrganization';
+import { useQuery } from '@apollo/client';
+import {
+  GetCreditSheet,
+  GetOrganizationCreditBalance,
+} from '../../../../../../../queries/credits.graphql';
+import Link from 'next/link';
+import clsx from 'clsx';
+interface GetOrganizationBalanceVars {
+  organization: string;
+}
+
+interface GetOrganizationCreditBalanceData {
+  organization: Organization;
+}
+
+interface GetCreditSheetData {
+  creditSheet: ActionCost[];
+}
 
 export default function EditDropRoyaltiesPage() {
   const router = useRouter();
@@ -26,8 +49,20 @@ export default function EditDropRoyaltiesPage() {
   const store = useDropForm() as StoreApi<DropFormState>;
   const detail = useStore(store, (store) => store.detail);
   const payment = useStore(store, (store) => store.payment);
-
   const setPayment = useStore(store, (store) => store.setPayment);
+
+  const { organization } = useOrganization();
+  const creditBalanceQuery = useQuery<GetOrganizationCreditBalanceData, GetOrganizationBalanceVars>(
+    GetOrganizationCreditBalance,
+    {
+      variables: { organization: organization?.id },
+    }
+  );
+  const creditBalance = creditBalanceQuery.data?.organization.credits?.balance;
+
+  const creditSheetQuery = useQuery<GetCreditSheetData>(GetCreditSheet);
+
+  const creditSheet = creditSheetQuery.data?.creditSheet;
 
   const wallet = project?.treasury?.wallets?.find((wallet) => {
     switch (detail?.blockchain) {
@@ -49,6 +84,13 @@ export default function EditDropRoyaltiesPage() {
   const royaltiesDestination = watch('royaltiesDestination');
   const royaltiesShortcut = watch('royaltiesShortcut');
   const creators = watch('creators');
+  const supply = parseInt(watch('supply').replaceAll(',', ''));
+
+  const createDropCredits = creditSheet
+    ?.find((actionCost: ActionCost) => actionCost.action === Action.CreateDrop)
+    ?.blockchains.find(
+      (blockchainCost: BlockchainCost) => blockchainCost.blockchain === detail?.blockchain
+    )?.credits;
 
   const submit = (data: PaymentSettings) => {
     if (data.royaltiesDestination === RoyaltiesDestination.ProjectTreasury) {
@@ -115,10 +157,35 @@ export default function EditDropRoyaltiesPage() {
       <Card className="w-[492px]">
         <Typography.Header size={Size.H2}>Supply</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-          <div className="flex gap-6">
+          <div className="flex flex-col gap-2">
             <Form.Label name="Specify how many editions will be available" className="text-xs mt-5">
               <Form.Input {...register('supply')} autoFocus placeholder="e.g. 10,000" />
             </Form.Label>
+            {supply && creditBalance && createDropCredits && (
+              <div className="flex items-center gap-4 rounded-lg bg-stone-950 p-4">
+                <div className="flex items-center gap-2">
+                  <Icon.Balance />
+                  <div className="text-gray-400 text-xs font-medium">
+                    You will need <span className="text-white">{createDropCredits * supply}</span>{' '}
+                    credits to mint {supply} NFTs. You currently have{' '}
+                    <span
+                      className={clsx({
+                        'text-red-500': createDropCredits * supply > creditBalance,
+                        'text-green-400': createDropCredits * supply <= creditBalance,
+                      })}
+                    >
+                      {creditBalance}
+                    </span>{' '}
+                    credits.
+                  </div>
+                </div>
+                {createDropCredits * supply <= creditBalance && (
+                  <Link href="/credits/buy">
+                    <Button icon={<Icon.Add />}>Buy credits</Button>
+                  </Link>
+                )}
+              </div>
+            )}
           </div>
 
           <Typography.Header size={Size.H2} className="mt-6 mb-8">

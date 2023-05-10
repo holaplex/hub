@@ -30,6 +30,7 @@ import {
   GetCreditSheet,
   GetOrganizationCreditBalance,
 } from '../../../../../../../queries/credits.graphql';
+import clsx from 'clsx';
 
 interface GetOrganizationBalanceVars {
   organization: string;
@@ -169,13 +170,23 @@ export default function NewDropRoyaltiesPage() {
                   <Icon.Balance />
                   <div className="text-gray-400 text-xs font-medium">
                     You will need <span className="text-white">{createDropCredits * supply}</span>{' '}
-                    credits to mint {supply} NFTs. You currently have <span>{creditBalance}</span>{' '}
+                    credits to mint {supply} NFTs. You currently have{' '}
+                    <span
+                      className={clsx({
+                        'text-red-500': createDropCredits * supply > creditBalance,
+                        'text-green-400': createDropCredits * supply <= creditBalance,
+                      })}
+                    >
+                      {creditBalance}
+                    </span>{' '}
                     credits.
                   </div>
                 </div>
-                <Link href="/credits/buy">
-                  <Button icon={<Icon.Add />}>Buy credits</Button>
-                </Link>
+                {createDropCredits * supply <= creditBalance && (
+                  <Link href="/credits/buy">
+                    <Button icon={<Icon.Add />}>Buy credits</Button>
+                  </Link>
+                )}
               </div>
             )}
           </div>
