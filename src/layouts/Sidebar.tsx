@@ -1,7 +1,6 @@
 import { useLazyQuery, useQuery } from '@apollo/client';
 import { Button } from '@holaplex/ui-library-react';
 import clsx from 'clsx';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Children, cloneElement, ReactNode, useState } from 'react';
 import { Icon } from '../components/Icon';
@@ -256,6 +255,15 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                   Add organization
                 </Button>
               </Link>
+              <span className="flex gap-1 w-full text-gray-400 text-xs justify-center items-center">
+                <Link href="/terms-of-service" target="_blank">
+                  Terms of service
+                </Link>
+                -
+                <Link href="/privacy-policy" target="_blank">
+                  Privacy Policy
+                </Link>
+              </span>
             </div>
           )}
         </div>

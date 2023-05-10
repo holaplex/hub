@@ -16,6 +16,7 @@ interface LinkProps {
   children: string | React.ReactNode | React.ReactNode[];
   className?: string;
   styled?: boolean;
+  target?: string;
 }
 
 export default function Link({
@@ -24,10 +25,12 @@ export default function Link({
   children,
   className,
   styled = true,
+  target,
 }: LinkProps) {
   return (
     <NextLink
       href={href}
+      target={target}
       className={clsx(
         {
           'text-yellow-300 font-semibold hover:text-yellow-500 transition': styled,
