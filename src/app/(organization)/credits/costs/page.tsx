@@ -1,91 +1,78 @@
 'use client';
+import { useQuery } from '@apollo/client';
 import { createColumnHelper } from '@tanstack/react-table';
-import GridTable from '../../../../components/GridTable';
-import Table from '../../../../components/Table';
-
-interface CreditBlockchain {
-  cost: number;
-}
+import Spreadsheet from '../../../../components/Spreadsheet';
+import { GetCreditSheet } from '../../../../queries/credits.graphql';
+import { ActionCost } from '../../../../graphql.types';
+import { ACTION_LABEL } from './../constant';
 
 interface CreditLineItem {
   action: string;
-  blockchains: CreditBlockchain[];
+  [key: string]: number | string;
 }
+
+interface GetCreditSheetData {
+  creditSheet: ActionCost[];
+}
+
 export default function CostPage() {
+  const creditSheetQuery = useQuery<GetCreditSheetData>(GetCreditSheet);
+
+  const creditSheet = creditSheetQuery.data?.creditSheet;
+  const loading = creditSheetQuery.loading;
+
+  const data: CreditLineItem[] =
+    creditSheet?.map((sheet: ActionCost) => {
+      const creditCost = sheet.blockchains.reduce(
+        (creditLineItem: CreditLineItem, blockchain: { blockchain: string; credits: number }) => {
+          creditLineItem[blockchain.blockchain] = blockchain.credits;
+          return creditLineItem;
+        },
+        { action: ACTION_LABEL[sheet.action] }
+      );
+
+      return creditCost;
+    }) || [];
+
   const columnHelper = createColumnHelper<CreditLineItem>();
   const loadingColumnHelper = createColumnHelper<any>();
 
-  //TODO: Replace with real data
-  const sampleData: CreditLineItem[] = [
-    {
-      action: 'Mint Nft',
-      blockchains: [{ cost: 23 }],
-    },
-    {
-      action: 'Create drop',
-      blockchains: [{ cost: 28 }],
-    },
-    {
-      action: 'Create wallet',
-      blockchains: [{ cost: 100 }],
-    },
-    {
-      action: 'Transfer Nft',
-      blockchains: [{ cost: 2 }],
-    },
-  ];
-
-  const loading = false;
-
-  const columns = [
-    columnHelper.display({
-      id: 'action',
-      header: () => <div />,
-      cell: (info) => {
-        const action = info.row.original.action;
-        return <span className="text-gray-400">{action}</span>;
-      },
-    }),
-    columnHelper.display({
-      id: 'solana',
-      header: () => <div className="text-gray-400">Solana</div>,
-      cell: (info) => {
-        const cost = info.row.original.blockchains[0].cost;
-        return <span className="text-white font-semibold">{cost}</span>;
-      },
-    }),
-  ];
-
   return (
-    <div>
+    <div className="mt-4">
       {loading ? (
-        <>
-          <GridTable
-            className="mt-4"
-            columns={[
-              loadingColumnHelper.display({
-                id: 'action',
-                header: () => <div />,
-                cell: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
-              }),
-              loadingColumnHelper.display({
-                id: 'blockchain1',
-                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
-                cell: () => <div className="rounded-full h-4 w-8 bg-stone-800 animate-pulse" />,
-              }),
-              loadingColumnHelper.display({
-                id: 'blockchain2',
-                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
-                cell: () => <div className="rounded-full h-4 w-8 bg-stone-800 animate-pulse" />,
-              }),
-            ]}
-            data={new Array(5)}
-          />
-        </>
+        <Spreadsheet
+          columns={[
+            loadingColumnHelper.display({
+              id: 'action',
+              header: () => <div />,
+              cell: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
+            }),
+            loadingColumnHelper.display({
+              id: 'SOLANA',
+              header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
+              cell: () => <div className="rounded-full h-4 w-8 bg-stone-800 animate-pulse" />,
+            }),
+          ]}
+          data={new Array(4)}
+        />
       ) : (
-        <>
-          <GridTable className="mt-4" columns={columns} data={sampleData} />
-        </>
+        <Spreadsheet
+          columns={[
+            columnHelper.accessor('action', {
+              header: () => <div />,
+              cell: (info) => {
+                return <span className="text-gray-400">{info.getValue()}</span>;
+              },
+            }),
+            columnHelper.accessor('SOLANA', {
+              header: () => <div className="text-gray-400">Solana</div>,
+              cell: (info) => {
+                return <span className="text-white font-semibold">{info.getValue()}</span>;
+              },
+            }),
+          ]}
+          data={data}
+        />
       )}
     </div>
   );

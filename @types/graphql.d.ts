@@ -85,8 +85,10 @@ export const GetOrganizationCredential: DocumentNode;
 declare module '*/credits.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
-  export const GetOrganizationCreditAndDeductionTotals: DocumentNode;
+  export const GetOrganizationCreditBalance: DocumentNode;
+export const GetOrganizationCreditAndDeductionTotals: DocumentNode;
 export const GetOrganizationCreditDeposits: DocumentNode;
+export const GetCreditSheet: DocumentNode;
 
   export default defaultDocument;
 }

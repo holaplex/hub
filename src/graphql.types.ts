@@ -70,6 +70,15 @@ export enum Action {
   TransferAsset = 'TRANSFER_ASSET'
 }
 
+/** Represents the cost of performing a certain action on different blockchains */
+export type ActionCost = {
+  __typename?: 'ActionCost';
+  /** enum that represents the type of action being performed. */
+  action: Action;
+  /** a vector of BlockchainCost structs that represents the cost of performing the action on each blockchain. */
+  blockchains: Array<BlockchainCost>;
+};
+
 /** An enum type named Affiliation that defines a user's association to an organization. The enum is derived using a Union attribute. It has two variants, each containing an associated data type: */
 export type Affiliation = Member | Owner;
 
@@ -100,6 +109,15 @@ export enum Blockchain {
   Polygon = 'POLYGON',
   Solana = 'SOLANA'
 }
+
+/** Represents the cost of performing an action on a specific blockchain */
+export type BlockchainCost = {
+  __typename?: 'BlockchainCost';
+  /** enum that represents the blockchain on which the action is being performed. */
+  blockchain: Blockchain;
+  /** represents the cost in credits for performing the action on the blockchain. */
+  credits: Scalars['Int'];
+};
 
 export type Collection = {
   __typename?: 'Collection';
@@ -1165,6 +1183,13 @@ export type Purchase = {
 
 export type Query = {
   __typename?: 'Query';
+  /**
+   * Returns a list of `ActionCost` which represents the cost of each action on different blockchains.
+   *
+   * # Errors
+   * This function fails if it fails to get `CreditsClient` or if blockchain enum conversion fails.
+   */
+  creditSheet: Array<ActionCost>;
   /**
    * Returns a list of event types that an external service can subscribe to.
    *
