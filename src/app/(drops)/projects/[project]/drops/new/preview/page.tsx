@@ -4,7 +4,13 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import Card from '../../../../../../../components/Card';
 import Typography, { Size } from '../../../../../../../components/Typography';
-import { CreateDropInput, CreateDropPayload } from '../../../../../../../graphql.types';
+import {
+  CreateDropInput,
+  CreateDropPayload,
+  Organization,
+  ActionCost,
+  Action,
+} from '../../../../../../../graphql.types';
 import { StoreApi, useStore } from 'zustand';
 import { useMutation } from '@apollo/client';
 import { format } from 'date-fns';
@@ -13,10 +19,17 @@ import { combineDateTime, maybeToUtc, DateFormat } from '../../../../../../../mo
 import { useProject } from '../../../../../../../hooks/useProject';
 import { useState } from 'react';
 import { GetProjectDrops } from './../../../../../../../queries/drop.graphql';
+import { Icon } from '../../../../../../../components/Icon';
+import Link from 'next/link';
+import { useQuery } from '@apollo/client';
 import { ifElse, isNil, always } from 'ramda';
 import { uploadFile } from '../../../../../../../modules/upload';
 import { DropFormState } from '../../../../../../../providers/DropFormProvider';
 import { useDropForm } from '../../../../../../../hooks/useDropForm';
+import {
+  GetCreditSheet,
+  GetOrganizationCreditBalance,
+} from '../../../../../../../queries/credits.graphql';
 
 interface CreateDropData {
   createProject: CreateDropPayload;
@@ -24,6 +37,18 @@ interface CreateDropData {
 
 interface CreateDropVars {
   input: CreateDropInput;
+}
+
+interface GetOrganizationBalanceVars {
+  organization: string;
+}
+
+interface GetOrganizationCreditBalanceData {
+  organization: Organization;
+}
+
+interface GetCreditSheetData {
+  creditSheet: ActionCost[];
 }
 
 export default function NewDropPreviewPage() {
@@ -34,6 +59,23 @@ export default function NewDropPreviewPage() {
   const detail = useStore(store, (store) => store.detail);
   const payment = useStore(store, (store) => store.payment);
   const timing = useStore(store, (store) => store.timing);
+
+  const creditBalanceQuery = useQuery<GetOrganizationCreditBalanceData, GetOrganizationBalanceVars>(
+    GetOrganizationCreditBalance,
+    {
+      variables: { organization: project?.organization?.id },
+    }
+  );
+  const creditBalance = creditBalanceQuery.data?.organization.credits?.balance as number;
+
+  const creditSheetQuery = useQuery<GetCreditSheetData>(GetCreditSheet);
+
+  const creditSheet = creditSheetQuery.data?.creditSheet;
+
+  const cost = creditSheet
+    ?.find((cost) => cost.action === Action.CreateDrop)
+    ?.blockchains?.find((blockchain) => blockchain.blockchain === detail?.blockchain)
+    ?.credits as number;
 
   const back = () => {
     router.push(`/projects/${project?.id}/drops/new/schedule`);
@@ -167,13 +209,33 @@ export default function NewDropPreviewPage() {
           )}
         </div>
 
-        <hr className="w-full bg-stone-800 border-0 h-px my-5" />
+        <hr className="w-full bg-stone-800 border-0 h-px my-4" />
+
+        <div className="flex items-center gap-4 rounded-lg justify-between bg-stone-950 p-4 mb-4">
+          <div className="flex items-center gap-2">
+            <Icon.Balance />
+            <div className="text-gray-400">Cost to create the drop</div>
+          </div>
+          <div className="flex flex-col gap-2">
+            <span className="text-white font-medium">{cost} credits</span>
+            {cost > creditBalance && (
+              <Link href="/credits/buy" className="flex-none">
+                <Button icon={<Icon.Add />}>Buy credits</Button>
+              </Link>
+            )}
+          </div>
+        </div>
 
         <div className="flex items-center justify-end gap-6">
           <Button variant="secondary" disabled={submitting} onClick={back}>
             Back
           </Button>
-          <Button htmlType="submit" loading={submitting} disabled={submitting} onClick={onSubmit}>
+          <Button
+            htmlType="submit"
+            loading={submitting}
+            disabled={submitting || cost > creditBalance}
+            onClick={onSubmit}
+          >
             {startDateTime ? 'Schedule drop' : 'Create drop'}
           </Button>
         </div>
