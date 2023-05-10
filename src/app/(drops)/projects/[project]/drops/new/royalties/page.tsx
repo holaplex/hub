@@ -182,7 +182,7 @@ export default function NewDropRoyaltiesPage() {
                 </div>
                 {createDropCredits * supply > creditBalance && (
                   <Link href="/credits/buy" className="flex-none">
-                    <Button icon={<Icon.Add />}>Buy credits</Button>
+                    <Button>Buy credits</Button>
                   </Link>
                 )}
               </div>
