@@ -40,7 +40,7 @@ export default function Login() {
               {...register('identifier', { required: true })}
               autoFocus
               placeholder="e.g. name@example.com"
-              className=""
+              className="lowercase"
             />
           </Form.Label>
           <Form.Label

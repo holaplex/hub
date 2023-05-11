@@ -54,7 +54,12 @@ export default function MemberInvitePage() {
 
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(onSubmit)}>
           <Form.Label name="Member email address" className="text-xs text-white">
-            <Form.Input autoFocus placeholder="name@example.com" {...register('email')} />
+            <Form.Input
+              autoFocus
+              placeholder="name@example.com"
+              {...register('email')}
+              className="lowercase"
+            />
           </Form.Label>
           <Form.Error message="" />
           <Button htmlType="submit" className="w-full mt-5" loading={loading} disabled={loading}>

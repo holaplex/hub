@@ -61,7 +61,7 @@ export default function Registration() {
             <Form.Input
               {...register('email', { required: true })}
               placeholder="e.g. name@example.com"
-              className=""
+              className="lowercase"
             />
             <Form.Error message={formState.errors.email?.message} />
           </Form.Label>
