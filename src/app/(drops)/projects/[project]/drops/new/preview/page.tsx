@@ -30,6 +30,7 @@ import {
   GetCreditSheet,
   GetOrganizationCreditBalance,
 } from '../../../../../../../queries/credits.graphql';
+import BuyCredits from '../../../../../../../components/BuyCredits';
 
 interface CreateDropData {
   createProject: CreateDropPayload;
@@ -219,9 +220,10 @@ export default function NewDropPreviewPage() {
           <div className="flex flex-col gap-2">
             <span className="text-white font-medium">{cost} credits</span>
             {cost > creditBalance && (
-              <Link href="/credits/buy" className="flex-none">
-                <Button icon={<Icon.Add />}>Buy credits</Button>
-              </Link>
+              // <Link href="/credits/buy" className="flex-none">
+              //   <Button icon={<Icon.Add />}>Buy credits</Button>
+              // </Link>
+              <BuyCredits text="Buy credits" icon={<Icon.Add />} />
             )}
           </div>
         </div>
