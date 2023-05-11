@@ -65,7 +65,7 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
         updateRegistrationFlowBody: {
           method: 'password',
           password,
-          traits: { email, name, profileImage },
+          traits: { email, name, profile_image: profileImage },
           csrf_token: csrfToken,
         },
       });
