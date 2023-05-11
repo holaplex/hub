@@ -4,7 +4,15 @@ import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
 import { useSession } from './useSession';
 import { toast } from 'react-toastify';
-import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
+import {
+  Control,
+  FormState,
+  useForm,
+  UseFormHandleSubmit,
+  UseFormRegister,
+  UseFormSetValue,
+} from 'react-hook-form';
+import { uploadFile } from '../modules/upload';
 
 interface LoginResponse {
   redirect_path: string;
@@ -14,6 +22,7 @@ interface RegistrationForm {
   email: string;
   password: string;
   name: { first: string; last: string };
+  file?: File;
 }
 interface RegisterContext {
   flow: RegistrationFlow | undefined;
@@ -21,6 +30,8 @@ interface RegisterContext {
   register: UseFormRegister<RegistrationForm>;
   handleSubmit: UseFormHandleSubmit<RegistrationForm>;
   formState: FormState<RegistrationForm>;
+  control: Control<RegistrationForm, any>;
+  setValue: UseFormSetValue<RegistrationForm>;
 }
 
 export function useRegister(flow: RegistrationFlow | undefined): RegisterContext {
@@ -29,9 +40,10 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
   const { setSession } = useSession();
   const { ory } = useOry();
 
-  const { register, handleSubmit, formState, setError } = useForm<RegistrationForm>();
+  const { register, handleSubmit, formState, setError, control, setValue } =
+    useForm<RegistrationForm>();
 
-  const onSubmit = async ({ email, password, name }: RegistrationForm): Promise<void> => {
+  const onSubmit = async ({ email, password, name, file }: RegistrationForm): Promise<void> => {
     if (!flow) {
       return;
     }
@@ -41,12 +53,19 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
         extractFlowNode('csrf_token')(flow.ui.nodes).attributes as UiNodeInputAttributes
       ).value;
 
+      let profileImage;
+      if (file) {
+        const { url } = await uploadFile(file);
+        profileImage = url;
+      }
+
       const response = await ory.updateRegistrationFlow({
         flow: flow.id,
+
         updateRegistrationFlowBody: {
           method: 'password',
           password,
-          traits: { email, name },
+          traits: { email, name, profileImage },
           csrf_token: csrfToken,
         },
       });
@@ -107,5 +126,7 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
     register,
     handleSubmit,
     formState,
+    control,
+    setValue,
   };
 }
