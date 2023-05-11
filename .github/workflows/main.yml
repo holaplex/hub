@@ -5,7 +5,7 @@ on:
       - main
       - release
     paths-ignore:
-      - 'helm/*.yaml'
+      - '.helm/*.yaml'
 
 jobs:
   release:
