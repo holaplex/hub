@@ -82,16 +82,20 @@ interface SidebarMenuItemProps {
 
 function SidebarMenuLink({ icon, name, href, active, className, target }: SidebarMenuItemProps) {
   return (
-    <Link
-      href={href}
-      className={clsx('flex gap-6 w-full px-4 py-3 items-center rounded-lg text-white', className, {
-        'bg-stone-800': active,
-        'hover:bg-stone-800': !active,
-      })}
-      target={target}
-    >
-      {icon}
-      <span className="text-sm">{name}</span>
+    <Link href={href} target={target}>
+      <div
+        className={clsx(
+          'flex gap-6 w-full px-4 py-3 items-center rounded-lg text-white',
+          className,
+          {
+            'bg-stone-800': active,
+            'hover:bg-stone-800': !active,
+          }
+        )}
+      >
+        {icon}
+        <span className="text-sm">{name}</span>
+      </div>
     </Link>
   );
 }
@@ -150,6 +154,10 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
 
   return (
     <div className={clsx('flex flex-col w-full p-6 flex-shrink-0 gap-2', className)}>
+      <div className="flex justify-center gap-2 items-center mb-4">
+        <Icon.HubLogo />
+        <Icon.Beta />
+      </div>
       <div
         className="flex items-center gap-2 justify-between cursor-pointer pt-2"
         onClick={() => {
