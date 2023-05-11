@@ -121,12 +121,12 @@ deploy:
         valuesFiles:
           - .helm/values.mailhog.yaml
       - name: kratos
-        repo: https://k8s.ory.sh/.helm/charts
+        repo: https://k8s.ory.sh/helm/charts
         remoteChart: kratos
         valuesFiles:
           - .helm/values.kratos.yaml 
       - name: hydra
-        repo: https://k8s.ory.sh/.helm/charts
+        repo: https://k8s.ory.sh/helm/charts
         remoteChart: hydra
         valuesFiles:
           - .helm/values.hydra.yaml
