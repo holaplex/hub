@@ -27,47 +27,52 @@ export default function Project({
             <Sidebar.Page>
               <Sidebar.Panel>
                 <Sidebar.Header>
-                  <div className="flex items-center gap-2 justify-between cursor-pointer">
-                    <h1 className="flex items-center gap-2 grow text-sm text-white font-medium">
-                      <Link
-                        href="/projects"
-                        className="w-6 h-6 rounded-md hover:bg-stone-800 transition flex justify-center items-center flex-0"
-                      >
-                        <Icon.ChevronLeft />
-                      </Link>
-                      <span className="flex grow items-center justify-between">
-                        <div className="flex flex-row justify-between items-center gap-2">
-                          {project.profileImageUrl ? (
-                            <img
-                              className="w-8 h-8 rounded-md"
-                              src={project.profileImageUrl}
-                              alt="logo"
-                            />
-                          ) : (
-                            <div className="w-8 h-8 bg-stone-800 rounded-md" />
-                          )}
-                          <span className="flex flex-row gap-2 items-center">
-                            <span className="flex flex-col capitalize">
-                              {project.name}
-                              <span className="text-gray-400 text-xs">Project</span>
-                            </span>
-                            <PopoverBox
-                              triggerButton={
-                                <div className="px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min">
-                                  <Icon.More />
-                                </div>
-                              }
-                              elements={[
-                                <Copy key="copy_id" copyString={project?.id}>
-                                  <span>Copy Project ID</span>
-                                </Copy>,
-                              ]}
-                            />
-                          </span>
-                        </div>
+                  <h1 className="w-full flex items-center gap-2 grow text-sm text-white font-medium cursor-pointer">
+                    <Link
+                      href="/projects"
+                      className="w-6 h-6 rounded-md hover:bg-stone-800 transition flex justify-center items-center flex-0"
+                    >
+                      <Icon.ChevronLeft />
+                    </Link>
+                    <div className="flex flex-row grow justify-between items-center gap-2 w-full">
+                      <span className="flex flex-row gap-2 items-center">
+                        {project.profileImageUrl ? (
+                          <img
+                            className="w-8 h-8 rounded-md"
+                            src={project.profileImageUrl}
+                            alt="logo"
+                          />
+                        ) : (
+                          <div className="w-8 h-8 bg-stone-800 rounded-md" />
+                        )}
+                        <span className="flex flex-col capitalize">
+                          {project.name}
+                          <span className="text-gray-400 text-xs">Project</span>
+                        </span>
                       </span>
-                    </h1>
-                  </div>
+                      <PopoverBox
+                        triggerButton={
+                          <div className="px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min">
+                            <Icon.More />
+                          </div>
+                        }
+                        elements={[
+                          <Copy key="copy_id" copyString={project?.id}>
+                            <span>Copy Project ID</span>
+                          </Copy>,
+                          <Link
+                            key="edit_project"
+                            styled={false}
+                            size="text-base"
+                            className="flex gap-2 items-center"
+                            href={`/projects/${project.id}/edit`}
+                          >
+                            <Icon.Edit stroke="stroke-gray-400" /> <span>Edit project</span>
+                          </Link>,
+                        ]}
+                      />
+                    </div>
+                  </h1>
                 </Sidebar.Header>
                 <Sidebar.Menu>
                   <Sidebar.Menu.Link

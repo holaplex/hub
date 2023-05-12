@@ -22,7 +22,6 @@ build:
             dest: .
           - src: 'src/mutations/*.graphql'
             dest: .
-
 portForward:
   - resourceType: service
     resourceName: apisix-gateway
@@ -34,7 +33,6 @@ portForward:
     namespace: default
     port: 80
     localPort: 3005
-
 deploy:
   helm:
     releases:
