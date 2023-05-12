@@ -325,9 +325,15 @@ export default function Drops({ project }: DropsPageProps) {
 
                                       return (
                                         <div className="flex items-center text-white text-xs font-medium">
-                                          {`${supply || 0}${totalMints ? ' / ' : ''}${
-                                            totalMints || ''
-                                          } minted`}
+                                          {supply ? (
+                                            <>
+                                              {`${supply}${totalMints ? ' / ' : ''}${
+                                                totalMints || ''
+                                              } minted`}
+                                            </>
+                                          ) : (
+                                            <>Unlimited</>
+                                          )}
                                         </div>
                                       );
                                     },
@@ -355,7 +361,7 @@ export default function Drops({ project }: DropsPageProps) {
 
                                       return (
                                         <div className="flex gap-2 items-center">
-                                          {supply && (
+                                          {supply ? (
                                             <span
                                               className="w-6 h-6 rounded-full flex items-center justify-center"
                                               style={{
@@ -364,6 +370,8 @@ export default function Drops({ project }: DropsPageProps) {
                                             >
                                               <span className="w-4 h-4 rounded-full flex items-center justify-center text-xs bg-stone-900" />
                                             </span>
+                                          ) : (
+                                            <span className="text-gray-400 text-xl">∞</span>
                                           )}
 
                                           <Table.DropStatusPill status={status as DropStatus} />
