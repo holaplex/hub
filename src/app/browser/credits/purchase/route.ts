@@ -7,11 +7,11 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
 });
 
 const price = process.env.STRIPE_PRICE_ID;
+const fqdn = process.env.NEXT_PUBLIC_APP_FQDN;
 
 export async function POST() {
   const headersList = headers();
   const cookiesList = cookies();
-  const origin = headersList.get('origin');
   const userId = headersList.get('x-user-id');
   const organization = cookiesList.get('_hub_org')?.value as string;
 
@@ -28,8 +28,8 @@ export async function POST() {
       },
     ],
     mode: 'payment',
-    success_url: `${origin}/credits/purchased`,
-    cancel_url: `${origin}/credits/cost`,
+    success_url: `${fqdn}/credits/purchased`,
+    cancel_url: `${fqdn}/credits/cost`,
     automatic_tax: { enabled: true },
     metadata: {
       organization_id: organization,
