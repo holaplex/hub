@@ -219,9 +219,11 @@ export default function NewDropPreviewPage() {
           <div className="flex flex-col gap-2">
             <span className="text-white font-medium">{cost} credits</span>
             {cost > creditBalance && (
-              <Link href="/credits/buy" className="flex-none">
-                <Button icon={<Icon.Add />}>Buy credits</Button>
-              </Link>
+              <form action="/browser/credits/purchase" method="POST">
+                <Button icon={<Icon.Add />} htmlType="submit">
+                  Buy more credits
+                </Button>
+              </form>
             )}
           </div>
         </div>

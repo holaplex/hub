@@ -48,7 +48,7 @@ export default function Nfts({ children, project, customer }: NftsProps) {
                 <span className="mt-2 text-gray-400 text-sm">
                   Click button below to understand how to mint NFTs.
                 </span>
-                <a href="https://docs.holaplex.dev/hub/Guides/minting-drops" target="_blank">
+                <a href="https://docs.holaplex.com/hub/Guides/minting-drops" target="_blank">
                   <Button
                     icon={<Icon.Help stroke="stroke-yellow-300" />}
                     variant="secondary"

@@ -1,7 +1,6 @@
 import EditDrop from './EditDrop';
 import { apollo } from '../../../../../../../../client';
 import { cookies } from 'next/headers';
-import { appConfig } from '../../../../../../../../app.config';
 import { Project } from '../../../../../../../../graphql.types';
 import { GetDrop } from '../../../../../../../../queries/drop.graphql';
 
@@ -27,7 +26,7 @@ export default async function CreateDropLayout({
 }: EditDropLayoutProps): Promise<React.ReactNode> {
   const cookieStore = cookies();
   const client = apollo(
-    appConfig.server('graphql'),
+    process.env.GRAPHQL_ENDPOINT as string,
     cookieStore.get('hub_session')?.value as string
   );
 

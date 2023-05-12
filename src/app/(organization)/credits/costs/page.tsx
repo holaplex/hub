@@ -1,9 +1,9 @@
 'use client';
 import { useQuery } from '@apollo/client';
 import { createColumnHelper } from '@tanstack/react-table';
-import Spreadsheet from '../../../../components/Spreadsheet';
-import { GetCreditSheet } from '../../../../queries/credits.graphql';
-import { ActionCost } from '../../../../graphql.types';
+import Spreadsheet from './../../../../components/Spreadsheet';
+import { GetCreditSheet } from './../../../../queries/credits.graphql';
+import { ActionCost } from './../../../../graphql.types';
 import { ACTION_LABEL } from './../constant';
 
 interface CreditLineItem {
