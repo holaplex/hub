@@ -195,7 +195,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
           >
             Add attribute
           </Button>
-          <hr className="w-full bg-divider border-0 h-px my-5" />
+          <hr className="w-full bg-stone-800 border-0 h-px my-5" />
           <Button htmlType="submit" className="self-end">
             Next
           </Button>

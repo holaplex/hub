@@ -73,6 +73,7 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
       blockchain: drop?.collection.blockchain as Blockchain,
       symbol: drop?.collection.metadataJson?.symbol as string,
       image: drop?.collection.metadataJson?.image as string,
+      artwork: drop?.collection.metadataJson?.uri as string,
       attributes: (drop?.collection.metadataJson?.attributes || []) as MetadataJsonAttribute[],
       externalUrl: drop?.collection.metadataJson?.externalUrl as string,
     },

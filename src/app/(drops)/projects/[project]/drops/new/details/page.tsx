@@ -28,11 +28,15 @@ export default function NewDropDetailsPage() {
   const store = useDropForm() as StoreApi<DropFormState>;
   const detail = useStore(store, (store) => store.detail);
   const setDetail = useStore(store, (store) => store.setDetail);
-  const { handleSubmit, register, control, setValue, formState } = useForm<DetailSettings>({
+
+  const { handleSubmit, register, control, setValue, formState, watch } = useForm<DetailSettings>({
     defaultValues: detail || {
       blockchain: Blockchain.Solana,
     },
   });
+
+  // const artwork = watch('artwork');
+
   const submit = (data: DetailSettings) => {
     setDetail(data);
     router.push(`/projects/${project?.id}/drops/new/royalties`);
@@ -48,6 +52,54 @@ export default function NewDropDetailsPage() {
       <Card className="w-[492px]">
         <Typography.Header size={Size.H2}>Drop details</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
+          {/* <Form.Label name="Main artwork" className="text-xs text-yellow-300 mt-5">
+            <Controller
+              name="artwork"
+              control={control}
+              rules={{ required: 'Please upload your artwork.' }}
+              render={({ field: { value, onBlur } }) => (
+                <Dropzone
+                  noClick
+                  multiple={false}
+                  onDrop={([file], _reject, e) => {
+                    e.preventDefault();
+                    setValue('artwork', file as unknown as File, { shouldValidate: true });
+                  }}
+                >
+                  {({ getRootProps, getInputProps, isDragActive, open }) => {
+                    return (
+                      <div
+                        {...getRootProps()}
+                        className={clsx(
+                          'flex items-center justify-center border border-dashed border-stone-800 cursor-pointer rounded-md p-6 text-center text-gray-500',
+                          {
+                            'bg-stone-800': isDragActive,
+                          }
+                        )}
+                      >
+                        <input {...getInputProps({ onBlur })} />
+                        {value ? (
+                          <Form.DragDrop.Preview value={value} />
+                        ) : (
+                          <div className="flex flex-col gap-2 text-gray-400">
+                            <p className="text-center">
+                              Drag & drop file or{' '}
+                              <span className="text-yellow-300 cursor-pointer">Browse files</span>{' '}
+                              to upload.
+                              <br />
+                              <br />
+                              JPEG, PNG supported. Must be under 10 MB.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }}
+                </Dropzone>
+              )}
+            />
+            <Form.Error message={formState.errors.image?.message} />
+          </Form.Label> */}
           <Form.Label name="Artwork" className="text-xs text-yellow-300 mt-5">
             <Controller
               name="image"
@@ -79,12 +131,13 @@ export default function NewDropDetailsPage() {
                         ) : (
                           <div className="flex flex-col gap-2 text-gray-400">
                             <p className="text-center">
-                              Drag & drop file or{' '}
-                              <span className="text-yellow-300 cursor-pointer">Browse files</span>
+                              Since you uploaded a video as your main artwork you need to upload a
+                              static image for your cover image. Drag & drop file or{' '}
+                              <span className="text-yellow-300 cursor-pointer">Browse files</span>{' '}
+                              to upload.
                               <br />
-                              Add artwork size based on a preview size.
                               <br />
-                              400x400 etc. Should be strict rectangular.
+                              JPEG, PNG supported. Must be under 10 MB.
                             </p>
                           </div>
                         )}
@@ -191,7 +244,7 @@ export default function NewDropDetailsPage() {
           >
             Add attribute
           </Button>
-          <hr className="w-full bg-divider border-0 h-px my-5" />
+          <hr className="w-full bg-stone-800 border-0 h-px my-5" />
           <Button htmlType="submit" className="self-end">
             Next
           </Button>
