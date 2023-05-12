@@ -10,10 +10,8 @@ import { useQuery } from '@apollo/client';
 import { useOrganization } from '../../../hooks/useOrganization';
 import { ActionCost, Organization, Project, Drop, Action } from '../../../graphql.types';
 import { ACTION_LABEL } from './constant';
-import Link from 'next/link';
 import clsx from 'clsx';
 import { CreditLookup } from '../../../modules/credit';
-import BuyCredits from '../../../components/BuyCredits';
 
 interface GetOrganizationBalanceVars {
   organization: string;
@@ -119,10 +117,11 @@ export default function CreditsLayout({
             <div className="flex flex-col basis-1/3 gap-4 items-center justify-center p-6 bg-stone-900 rounded-lg">
               <span className="text-gray-400">Current credit balance</span>
               <span className="text-6xl font-semibold">{balance}</span>
-              {/* <Link href="/credits/buy">
-                <Button icon={<Icon.Add />}>Buy more credits</Button>
-              </Link> */}
-              <BuyCredits text="Buy more credits" icon={<Icon.Add />} />
+              <form action="/browser/credits/purchase" method="POST">
+                <Button icon={<Icon.Add />} htmlType="submit">
+                  Buy more credits
+                </Button>
+              </form>
             </div>
             <div className="flex basis-2/3 gap-8 bg-stone-900 rounded-lg p-6">
               <div className="flex flex-col gap-4 basis-1/4">
@@ -174,7 +173,6 @@ export default function CreditsLayout({
           </div>
         </>
       )}
-
       <Tabs.Page className="mt-8">
         <Tabs.Panel loading={loading}>
           <Tabs.Tab

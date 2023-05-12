@@ -1,7 +1,6 @@
 import { apollo } from '../../../../client';
 import { cookies } from 'next/headers';
 import Project from '../../../../layouts/Project';
-import { appConfig } from '../../../../app.config';
 import { Project as ProjectType } from './../../../../graphql.types';
 import { GetProject } from './../../../../queries/project.graphql';
 
@@ -25,7 +24,7 @@ export default async function ProjectLayout({
 }: ProjectLayoutProps): Promise<React.ReactNode> {
   const cookieStore = cookies();
   const client = apollo(
-    appConfig.server('graphql'),
+    process.env.GRAPHQL_ENDPOINT as string,
     cookieStore.get('hub_session')?.value as string
   );
 

@@ -29,9 +29,8 @@ import {
   GetCreditSheet,
   GetOrganizationCreditBalance,
 } from '../../../../../../../../../queries/credits.graphql';
-import Link from 'next/link';
 import clsx from 'clsx';
-import BuyCredits from '../../../../../../../../../components/BuyCredits';
+
 interface GetOrganizationBalanceVars {
   organization: string;
 }
@@ -181,10 +180,11 @@ export default function EditDropRoyaltiesPage() {
                   </div>
                 </div>
                 {createDropCredits * supply <= creditBalance && (
-                  // <Link href="/credits/buy">
-                  //   <Button>Buy credits</Button>
-                  // </Link>
-                  <BuyCredits text="Buy credits" />
+                  <form action="/browser/credits/purchase" method="POST">
+                    <Button icon={<Icon.Add />} htmlType="submit">
+                      Buy more credits
+                    </Button>
+                  </form>
                 )}
               </div>
             )}

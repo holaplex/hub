@@ -1,6 +1,5 @@
 import { cookies } from 'next/headers';
 import { apollo } from '../../../../../../../client';
-import { appConfig } from '../../../../../../../app.config';
 import { GetProject } from './../../../../../../../queries/project.graphql';
 import TreasuryWallet, { Wallet } from '../../../../../../../layouts/TreasuryWallet';
 
@@ -24,7 +23,7 @@ export default async function WalletLayout({
 }: WalletLayoutProps): Promise<React.ReactNode> {
   const cookieStore = cookies();
   const client = apollo(
-    appConfig.server('graphql'),
+    process.env.GRAPHQL_ENDPOINT as string,
     cookieStore.get('hub_session')?.value as string
   );
 
