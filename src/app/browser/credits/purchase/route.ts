@@ -15,8 +15,6 @@ export async function POST() {
   const userId = headersList.get('x-user-id');
   const organization = cookiesList.get('_hub_org')?.value as string;
 
-  console.log(headersList, cookiesList, userId, organization);
-
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
