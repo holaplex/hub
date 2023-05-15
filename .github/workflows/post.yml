@@ -7,7 +7,7 @@ on:
 
 env:
   SERVICE_NAME: frontend
-  DOCKERHUB_REPO: ${{ vars.DOCKERHUB_ORG }}/${{ github.event.repository.name }}
+  DOCKERHUB_REPO: ${{ vars.DOCKERHUB_ORG }}/hub-ui
   CHECK_INTERVAL: 10
 
 jobs:
