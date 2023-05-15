@@ -51,7 +51,7 @@ jobs:
           else
             echo "::set-output name=fqdn::https://hub.holaplex.dev"
           fi
-      - 
+      -
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: ${{ vars.AWS_REGION }}
@@ -68,6 +68,6 @@ jobs:
           push: true
           provenance: false
           platforms: linux/${{ matrix.arch }}
-          tags: ${{ vars.DOCKERHUB_ORG }}/hub-ui:${{ github.sha }}
+          tags: ${{ vars.DOCKERHUB_ORG }}/hub-ui:latest-${{ matrix.arch }}
           cache-from: ${{ env.CACHE_CONFIG }},prefix=buildx/hub-ui/${{ matrix.arch }}/
           cache-to: ${{ env.CACHE_CONFIG }},prefix=buildx/hub-ui/${{ matrix.arch }}/,mode=max
