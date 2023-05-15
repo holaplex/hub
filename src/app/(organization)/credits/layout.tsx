@@ -4,7 +4,10 @@ import { usePathname } from 'next/navigation';
 import { cloneElement, useMemo } from 'react';
 import { Icon } from '../../../components/Icon';
 import Tabs from '../../../layouts/Tabs';
-import { GetOrganizationCreditAndDeductionTotals } from './../../../queries/credits.graphql';
+import {
+  GetOrganizationCreditAndDeductionTotals,
+  GetCreditSheet,
+} from './../../../queries/credits.graphql';
 import { GetOrganizationDrops } from './../../../queries/drop.graphql';
 import { useQuery } from '@apollo/client';
 import { useOrganization } from '../../../hooks/useOrganization';
@@ -27,6 +30,9 @@ interface GetOrganizationDropsVars {
 
 interface GetOrganizationDropsData {
   organization: Organization;
+}
+
+interface GetCreditSheetData {
   creditSheet: ActionCost[];
 }
 
@@ -56,8 +62,10 @@ export default function CreditsLayout({
     }
   );
 
+  const creditSheetQuery = useQuery<GetCreditSheetData>(GetCreditSheet);
+
   const projects = dropsQuery.data?.organization.projects;
-  const creditSheet = dropsQuery.data?.creditSheet;
+  const creditSheet = creditSheetQuery.data?.creditSheet;
 
   const estimatedCost = useMemo(() => {
     const costLookup = new CreditLookup(creditSheet || []);
@@ -76,7 +84,8 @@ export default function CreditsLayout({
     );
   }, [creditSheet, projects]);
 
-  const loading = creditAndDeductionsQuery.loading || dropsQuery.loading;
+  const loading =
+    creditAndDeductionsQuery.loading || dropsQuery.loading || creditSheetQuery.loading;
 
   return (
     <div className="h-full flex flex-col p-4">
