@@ -26,5 +26,6 @@ query GetUser($user: UUID!) {
     firstName
     lastName
     profileImage
+    email
   }
 }

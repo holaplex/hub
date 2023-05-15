@@ -231,6 +231,13 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                     <Icon.Logout stroke="stroke-gray-400" />
                     <span className="text-sm text-white">Logout</span>
                   </div>
+
+                  <Sidebar.Menu.Link
+                    name="Edit profile"
+                    icon={<Icon.Edit stroke="stroke-gray-400" />}
+                    href={`/members/${userQuery.data?.user.id}/edit`}
+                    active={false}
+                  />
                 </div>
                 <div className="flex flex-col gap-2 max-h-60 overflow-y-auto">
                   {userAffiliationsQuery.data?.user.affiliations.map((affiliation) => {
