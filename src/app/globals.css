@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --toastify-color-dark: #2b2b2b;
+  --toastify-color-info: #0061f3;
+  --toastify-color-success: #628e36;
+  --toastify-color-warning: #f3af00;
+  --toastify-color-error: #e4584f;
+
+  --toastify-text-color-dark: #fff;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -11,7 +21,7 @@
 html,
 body {
   overflow-x: hidden;
-  @apply bg-gray-50 min-h-screen relative flex flex-col flex-grow;
+  @apply bg-stone-950 min-h-screen relative flex flex-col flex-grow text-white;
 }
 
 a {
@@ -19,27 +29,54 @@ a {
   text-decoration: none;
 }
 
+.toast-message {
+  @apply bg-stone-800 drop-shadow-sm text-white;
+}
+
 h1 {
-  @apply text-2xl font-semibold text-primary;
+  @apply text-2xl font-semibold text-white;
 }
 
 h2 {
-  @apply text-xl font-semibold text-primary;
+  @apply text-xl font-semibold text-white;
 }
 
 h3 {
-  @apply text-sm text-gray-600;
+  @apply text-sm text-gray-400;
 }
 
 /* UI Library specific */
 
+@layer components {
+  [type='checkbox']:checked {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='%231A1A1D' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+  }
+
+  [type='radio']:checked {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='%231A1A1D' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+  }
+
+  [type='checkbox'],
+  [type='radio'] {
+    @apply focus:ring-0 focus:ring-offset-0;
+  }
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 24 24"><path fill="%23AAAAAA" d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>');
+}
+
+input[type='time']::-webkit-calendar-picker-indicator {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16px" height="16px"><circle cx="8" cy="8" r="7" stroke="%23AAAAAA" fill="none"/><path stroke="%23AAAAAA" stroke-linecap="round" d="M8,4.5v3.5l2.5,1.5"/></svg>');
+}
+
 .form-error {
-  @apply text-left text-sm text-negative;
+  @apply text-left text-sm text-red-500;
 }
 
 .form-input-container,
 .form-input {
-  @apply w-full;
+  @apply w-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400;
 }
 
 .form-input-container {
@@ -47,45 +84,27 @@ h3 {
 }
 
 .form-input {
-  @apply rounded-md;
-}
-
-[type='text']:focus,
-[type='email']:focus,
-[type='url']:focus,
-[type='password']:focus,
-[type='number']:focus,
-[type='date']:focus,
-[type='datetime-local']:focus,
-[type='month']:focus,
-[type='search']:focus,
-[type='tel']:focus,
-[type='time']:focus,
-[type='week']:focus,
-[multiple]:focus,
-textarea:focus,
-select:focus {
-  @apply border-gray-100 outline-none;
+  @apply rounded-lg bg-stone-800 border border-stone-800 text-white;
 }
 
 .form-label {
-  @apply flex flex-col w-full gap-1;
+  @apply w-full gap-1;
 }
 
 .form-label-text {
-  @apply text-primary;
+  @apply text-gray-400;
 }
 
 .form-show-password-container {
-  @apply p-2 bg-gray-50 rounded-md;
+  @apply p-2 bg-stone-900 rounded-md;
 }
 
 .form-checkbox {
-  @apply text-primary rounded;
+  @apply text-yellow-300 rounded bg-stone-800 border-none;
 }
 
 .form-checkbox-label {
-  @apply text-xs font-medium text-primary;
+  @apply text-xs font-medium text-white;
 }
 
 *:focus {
@@ -101,27 +120,31 @@ input:focus {
 }
 
 .button-medium {
-  @apply py-2 px-4 text-xs font-semibold;
+  @apply py-2 px-4 font-medium;
+}
+
+.button-variant-secondary.button-medium {
+  @apply py-[6px];
 }
 
 .button-large {
-  @apply py-2 px-4 text-base font-semibold;
+  @apply py-2 px-4 text-base font-medium;
 }
 
 .button-variant-primary {
-  @apply text-white bg-primary hover:bg-gray-800 disabled:bg-gray-700 transition;
+  @apply text-stone-950 bg-yellow-300 hover:bg-yellow-500 disabled:opacity-70 transition rounded-lg;
 }
 
 .button-variant-secondary {
-  @apply text-primary bg-gray-50 border border-gray-100 hover:bg-gray-100  hover:border-gray-200 transition;
+  @apply text-yellow-300 bg-transparent border-2 border-yellow-300 hover:text-yellow-500 hover:border-yellow-500 transition rounded-lg;
 }
 
 .button-variant-tertiary {
-  @apply text-primary bg-white hover:bg-gray-50 disabled:bg-gray-100 transition;
+  @apply text-white bg-white hover:bg-stone-800 disabled:bg-stone-950 transition;
 }
 
 .button-variant-failure {
-  @apply text-white bg-negative;
+  @apply text-white bg-red-500 rounded-lg hover:bg-opacity-80 transition;
 }
 
 .spinner {
@@ -129,24 +152,24 @@ input:focus {
 }
 
 .spinner-primary {
-  @apply border-gray-50 border-r-transparent;
+  @apply border-stone-950 border-r-transparent;
 }
 
 .spinner-secondary,
 .spinner-tertiary {
-  @apply border-black border-r-transparent;
-}
-
-.table-header-text {
-  @apply text-xs text-gray-600 font-medium;
+  @apply border-stone-950 border-r-transparent;
 }
 
 .modal-close {
-  @apply top-8 right-8 rounded-full bg-gray-50 p-2 hover:bg-gray-100 hover:text-gray-400;
+  @apply top-8 right-8 rounded-full bg-stone-800 p-2 hover:opacity-70;
 }
 
-.form-select-options {
-  @apply bg-white p-1 text-base rounded-md shadow-lg max-h-40 z-10 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm flex flex-col gap-1;
+.modal-close-icon {
+  @apply text-white;
+}
+
+.modal-scrim {
+  @apply bg-stone-950 bg-opacity-40;
 }
 
 .form-select-button {
@@ -156,38 +179,55 @@ input:focus {
 .form-select {
   @apply text-left;
 }
+
+.form-select-options {
+  @apply bg-stone-800 p-2 text-base rounded-lg shadow-lg max-h-40 z-10 ring-1 ring-stone-800 ring-opacity-5 focus:outline-none sm:text-sm flex flex-col gap-2;
+}
+
 .form-select-option {
-  @apply p-2 text-black rounded;
+  @apply p-2 text-gray-400 rounded;
 }
 
 .form-select-button-dropdown {
-  @apply mr-2;
+  @apply mr-2 stroke-gray-200;
 }
 
 .form-select-option-selected {
-  @apply bg-gray-50 rounded-sm;
+  @apply bg-yellow-300 text-stone-800 rounded-lg;
 }
 
 .form-select-option-active {
-  @apply bg-gray-50 rounded-sm;
+  @apply text-yellow-300;
 }
 
 .form-select-button-placeholder {
-  @apply text-gray-500;
+  @apply text-gray-400;
 }
 
-input[type='radio'] {
-  @apply text-black;
+.form-radio-group {
+  @apply flex flex-row gap-2;
+}
+
+.form-radio {
+  @apply w-4 h-4 text-yellow-300 bg-stone-800 border-none cursor-pointer;
+}
+
+.form-radio-custombox {
+  @apply flex items-center justify-between bg-stone-800 rounded-lg cursor-pointer border border-stone-800 peer-checked:border-yellow-300 peer-checked:border-2 py-3 px-6;
 }
 
 .popover-panel {
-  @apply w-screen max-w-[200px] border rounded-md border-gray-100 p-4 bg-white;
+  @apply w-screen max-w-[200px] rounded-md p-4 bg-stone-800 text-white;
 }
 
 .popover-elements {
-  @apply flex flex-col gap-5 text-sm text-primary;
+  @apply flex flex-col gap-5 text-sm text-white;
 }
 
 .dragdrop-preview-image {
-  @apply w-40 h-40 object-cover;
+  @apply w-40 h-40 aspect-square rounded-lg;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  @apply text-gray-400;
 }

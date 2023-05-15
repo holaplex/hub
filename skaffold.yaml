@@ -22,7 +22,6 @@ build:
             dest: .
           - src: 'src/mutations/*.graphql'
             dest: .
-
 portForward:
   - resourceType: service
     resourceName: apisix-gateway
@@ -34,7 +33,6 @@ portForward:
     namespace: default
     port: 80
     localPort: 3005
-
 deploy:
   helm:
     releases:
@@ -44,18 +42,18 @@ deploy:
         remoteChart: hub-gateway
         repo: https://charts.holaplex.com
         valuesFiles:
-          - values.gateway.yaml
+          - .helm/values.gateway.yaml
       - name: hub-permissions
         remoteChart: hub-permissions
         repo: https://charts.holaplex.com
         valuesFiles:
-          - values.permissions.yaml
-          - secrets.permissions.yaml
+          - .helm/values.permissions.yaml
+          - .helm/secrets.permissions.yaml
       - name: redpanda
         repo: https://charts.redpanda.com/
         remoteChart: redpanda
         valuesFiles:
-          - values.redpanda.yaml
+          - .helm/values.redpanda.yaml
       - name: hub-ui
         repo: https://charts.holaplex.com
         remoteChart: hub-ui
@@ -64,111 +62,123 @@ deploy:
           image.repository: "{{ .IMAGE_REPO_hub_ui }}"
           image.tag: "{{ .IMAGE_TAG_hub_ui }}"
         valuesFiles:
-          - secrets.ui.yaml
+          - .helm/secrets.ui.yaml
       - name: kratos-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
         valuesFiles:
-          - values.kratos.postgresql.yaml
+          - .helm/values.kratos.postgresql.yaml
       - name: hub-customers-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
         valuesFiles:
-          - values.customers.postgresql.yaml
+          - .helm/values.customers.postgresql.yaml
+      - name: hub-credits-db
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: postgresql
+        valuesFiles:
+          - .helm/values.credits.postgresql.yaml
       - name: hub-nfts-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
         valuesFiles:
-          - values.nfts.postgresql.yaml
+          - .helm/values.nfts.postgresql.yaml
       - name: hydra-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
         valuesFiles:
-          - values.hydra.postgresql.yaml
+          - .helm/values.hydra.postgresql.yaml
       - name: keto-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
         valuesFiles:
-          - values.keto.postgresql.yaml
+          - .helm/values.keto.postgresql.yaml
       - name: svix-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
         valuesFiles:
-          - values.svix.postgresql.yaml
+          - .helm/values.svix.postgresql.yaml
       - name: hub-orgs-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
         valuesFiles:
-          - values.orgs.postgresql.yaml
+          - .helm/values.orgs.postgresql.yaml
       - name: hub-webhooks-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
         valuesFiles:
-          - values.webhooks.postgresql.yaml
+          - .helm/values.webhooks.postgresql.yaml
       - name: hub-treasuries-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
         valuesFiles:
-          - values.treasuries.postgresql.yaml
+          - .helm/values.treasuries.postgresql.yaml
       - name: mailhog
         repo: https://codecentric.github.io/helm-charts
         remoteChart: mailhog
         valuesFiles:
-          - values.mailhog.yaml
+          - .helm/values.mailhog.yaml
       - name: kratos
         repo: https://k8s.ory.sh/helm/charts
         remoteChart: kratos
         valuesFiles:
-          - values.kratos.yaml 
+          - .helm/values.kratos.yaml 
       - name: hydra
         repo: https://k8s.ory.sh/helm/charts
         remoteChart: hydra
         valuesFiles:
-          - values.hydra.yaml
+          - .helm/values.hydra.yaml
+      - name: hub-credits
+        remoteChart: hub-credits
+        repo: https://charts.holaplex.com
+        valuesFiles:
+          - .helm/values.credits.yaml
+          - .helm/secrets.credits.yaml
       - name: hub-identities
         remoteChart: hub-identities
         repo: https://charts.holaplex.com
         valuesFiles:
-          - values.identities.yaml
-          - secrets.identities.yaml
+          - .helm/values.identities.yaml
+          - .helm/secrets.identities.yaml
       - name: hub-orgs
         remoteChart: hub-orgs
         repo: https://charts.holaplex.com
         valuesFiles:
-          - values.orgs.yaml
-          - secrets.orgs.yaml
+          - .helm/values.orgs.yaml
+          - .helm/secrets.orgs.yaml
       - name: hub-webhooks
         remoteChart: hub-webhooks
         repo: https://charts.holaplex.com
         valuesFiles:
-          - values.webhooks.yaml
-          - secrets.webhooks.yaml
+          - .helm/values.webhooks.yaml
+          - .helm/secrets.webhooks.yaml
       - name: hub-nfts
         remoteChart: hub-nfts
         repo: https://charts.holaplex.com
         valuesFiles:
-          - values.nfts.yaml
-          - secrets.nfts.yaml
+          - .helm/values.nfts.yaml
+          - .helm/secrets.nfts.yaml
       - name: hub-customers
         remoteChart: hub-customers
         repo: https://charts.holaplex.com
         valuesFiles:
-          - values.customers.yaml
-          - secrets.customers.yaml
+          - .helm/values.customers.yaml
+          - .helm/secrets.customers.yaml
       - name: hub-credentials
         remoteChart: hub-credentials
         repo: https://charts.holaplex.com
         valuesFiles:
-          - values.credentials.yaml
-          - secrets.credentials.yaml
+          - .helm/values.credentials.yaml
+          - .helm/secrets.credentials.yaml
       - name: federated-router
         remoteChart: oci://ghcr.io/apollographql/helm-charts/router
+        version: 1.14.0
         valuesFiles:
-          - values.router.yaml
-          - secrets.router.yaml
+          - .helm/values.router.yaml
+          - .helm/secrets.router.yaml
       - name: hub-treasuries
         remoteChart: hub-treasuries
         repo: https://charts.holaplex.com
         valuesFiles:
-          - values.treasuries.yaml
-          - secrets.treasuries.yaml
+          - .helm/values.treasuries.yaml
+          - .helm/secrets.treasuries.yaml

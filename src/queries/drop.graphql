@@ -1,3 +1,28 @@
+query GetOrganizationDrops($organization: UUID!) {
+  organization(id: $organization) {
+    id
+    projects {
+      id
+      drops {
+        id
+        collection {
+          id
+          supply
+          totalMints
+          blockchain
+        }
+      }
+    }
+  }
+  creditSheet {
+    action
+    blockchains {
+      blockchain
+      credits
+    }
+  }
+}
+
 query GetProjectDrops($project: UUID!) {
   project(id: $project) {
     id
@@ -47,6 +72,8 @@ query GetDrop($project: UUID!, $drop: UUID!) {
         supply
         totalMints
         blockchain
+        sellerFeeBasisPoints
+        royalties @client
         creators {
           address
           verified
@@ -59,6 +86,12 @@ query GetDrop($project: UUID!, $drop: UUID!) {
           image
           description
           symbol
+          externalUrl
+          attributes {
+            id
+            traitType
+            value
+          }
         }
       }
     }

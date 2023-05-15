@@ -1,3 +1,5 @@
+maester:
+  enabled: false
 hydra:
   config:
     dsn: postgres://hydra:hydra@hydra-db-postgresql:5432/hydra

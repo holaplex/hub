@@ -18,12 +18,12 @@ export default function Recovery() {
         Enter your email address to receive a recovery link.
       </Typography.Header>
       {loading ? (
-        <div className="flex flex-col gap-4 mt-3">
+        <div className="flex flex-col gap-6 mt-3">
           <div>
-            <div className="mb-1 w-20 h-4 rounded-md bg-gray-100 animate-pulse" />
-            <div className="mb-1 w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+            <div className="mb-1 w-20 h-4 rounded-md bg-stone-950 animate-pulse" />
+            <div className="mb-1 w-full h-10 rounded-md bg-stone-950 animate-pulse" />
           </div>
-          <div className="mt-3 w-full h-[44px] rounded-md bg-gray-100 animate-pulse" />
+          <div className="mt-3 w-full h-[44px] rounded-md bg-stone-950 animate-pulse" />
         </div>
       ) : (
         <Form onSubmit={handleSubmit(submit)} className="flex flex-col gap-6 mt-3">

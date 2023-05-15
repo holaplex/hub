@@ -46,15 +46,15 @@ interface TabProps {
 
 function Tab({ name, active, href, className, loading }: TabProps) {
   if (loading) {
-    return <div className="h-6 w-24 bg-gray-100 animate-pulse rounded-md" />;
+    return <div className="h-8 w-28 bg-stone-900 animate-pulse rounded-md" />;
   }
 
   return (
     <Link
       href={href}
-      className={clsx('text-xl font-semibold cursor-pointer', className, {
-        'text-gray-400': !active,
-        'text-primary': active,
+      className={clsx('text-sm font-medium cursor-pointer border-b-2 p-4', className, {
+        'text-gray-400 border-stone-950': !active,
+        'text-white border-yellow-300': active,
       })}
     >
       {name}
@@ -70,6 +70,6 @@ interface TabsContentProps {
 }
 
 function TabsContent({ children, className }: TabsContentProps) {
-  return <article className={clsx('w-full', className)}>{children}</article>;
+  return <article className={clsx('w-full flex-grow', className)}>{children}</article>;
 }
 Tabs.Content = TabsContent;

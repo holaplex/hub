@@ -9,8 +9,9 @@ import { GetProjectDrops } from './../../../../../queries/drop.graphql';
 import { Icon } from '../../../../../components/Icon';
 import Table from '../../../../../components/Table';
 import { DateFormat, convertLocalTime } from '../../../../../modules/time';
-import { Project, Drop, DropStatus } from '../../../../../graphql.types';
-import { Drop as DropModal } from '../../../../../components/Drop';
+import { Project, Drop as DropType, DropStatus } from '../../../../../graphql.types';
+import { Drop } from '../../../../../components/Drop';
+import Copy from '../../../../../components/Copy';
 
 interface DropsPageProps {
   project: string;
@@ -32,21 +33,21 @@ export default function Drops({ project }: DropsPageProps) {
   const drops = dropsQuery.data?.project.drops || [];
   const noDrops = drops.length === 0;
   const loadingColumnHelper = createColumnHelper<any>();
-  const columnHelper = createColumnHelper<Drop>();
+  const columnHelper = createColumnHelper<DropType>();
 
   return (
-    <DropModal.Shutdown>
+    <Drop.Shutdown>
       {({ shutdown }) => (
-        <DropModal.Resume>
+        <Drop.Resume>
           {({ resume }) => (
-            <DropModal.Pause>
+            <Drop.Pause>
               {({ pause }) => (
                 <>
-                  <div className="h-full flex flex-col p-4">
+                  <div className="h-full flex flex-col p-6">
                     {dropsQuery.loading ? (
                       <>
-                        <div className="w-36 h-8 rounded-md bg-gray-100 animate-pulse" />
-                        <div className="w-32 h-8 rounded-md bg-gray-100 animate-pulse mt-4 self-end" />
+                        <div className="w-36 h-8 rounded-md bg-stone-800 animate-pulse" />
+                        <div className="w-32 h-8 rounded-md bg-stone-800 animate-pulse mt-4 self-end" />
                         <Table
                           className="mt-4"
                           columns={[
@@ -54,96 +55,85 @@ export default function Drops({ project }: DropsPageProps) {
                               id: 'name',
                               header: () => (
                                 <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />
-                                  <span className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />
+                                  <span className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                                 </div>
                               ),
                               cell: () => (
                                 <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-md h-8 w-8 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-4 w-28 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-md h-8 w-8 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'price',
                               header: () => (
-                                <div className="rounded-full h-3 w-28 bg-gray-100 animate-pulse" />
+                                <div className="rounded-full h-3 w-28 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-3 w-11 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-3 w-4 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-3 w-11 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-full h-3 w-4 bg-stone-800 animate-pulse" />
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'createdAt',
                               header: () => (
-                                <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />
+                                <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex flex-col gap-1">
-                                  <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-full h-3 w-8 bg-stone-800 animate-pulse" />
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'startTime',
                               header: () => (
-                                <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />
+                                <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex flex-col gap-1">
-                                  <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-full h-3 w-8 bg-stone-800 animate-pulse" />
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'endTime',
                               header: () => (
-                                <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />
+                                <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex flex-col gap-1">
-                                  <span className="rounded-full h-3 w-16 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-3 w-8 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-full h-3 w-8 bg-stone-800 animate-pulse" />
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'supply',
                               header: () => (
-                                <div className="rounded-full h-3 w-28 bg-gray-100 animate-pulse" />
+                                <div className="rounded-full h-3 w-28 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-3 w-11 bg-gray-50 animate-pulse" />
-                                  <span className="rounded-full h-3 w-4 bg-gray-50 animate-pulse" />
-                                </div>
-                              ),
-                            }),
-                            loadingColumnHelper.display({
-                              id: 'status',
-                              header: () => (
-                                <div className="rounded-full h-3 w-28 bg-gray-100 animate-pulse" />
-                              ),
-                              cell: () => (
-                                <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-6 w-20 bg-gray-50 animate-pulse" />
+                                  <span className="rounded-full w-8 h-8 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-full h-6 w-20 bg-stone-800 animate-pulse" />
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'options',
                               header: () => (
-                                <div className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />
+                                <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
-                                <div className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />
+                                <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />
                               ),
                             }),
                           ]}
@@ -152,18 +142,21 @@ export default function Drops({ project }: DropsPageProps) {
                       </>
                     ) : (
                       <>
-                        <h1 className="text-2xl text-primary font-medium">Manage drops</h1>
+                        <h1 className="text-2xl text-white font-medium">Manage drops</h1>
                         {noDrops ? (
                           <div className="h-full flex-1 flex flex-col items-center justify-center">
                             <Icon.Large.CreateNft />
                             <span className="mt-6 text-xl font-semibold">No drops yet</span>
-                            <span className="mt-2 text-gray-500 text-sm">
+                            <span className="mt-2 text-gray-400 text-sm">
                               Click button below to mint your first drop
                             </span>
                             <Link
                               href={`/projects/${dropsQuery.data?.project.id}/drops/new/details`}
                             >
-                              <Button icon={<Icon.Add stroke="#ffffff" />} className="mt-8">
+                              <Button
+                                icon={<Icon.Add stroke="stroke-stone-950" />}
+                                className="mt-8"
+                              >
                                 Create drop
                               </Button>
                             </Link>
@@ -174,7 +167,10 @@ export default function Drops({ project }: DropsPageProps) {
                               href={`/projects/${dropsQuery.data?.project.id}/drops/new/details`}
                               className="self-end"
                             >
-                              <Button icon={<Icon.Add stroke="#ffffff" />} variant="primary">
+                              <Button
+                                icon={<Icon.Add stroke="stroke-stone-950" />}
+                                variant="primary"
+                              >
                                 Create drop
                               </Button>
                             </Link>
@@ -198,9 +194,7 @@ export default function Drops({ project }: DropsPageProps) {
                                   },
                                   {
                                     id: 'name',
-                                    header: () => (
-                                      <span className="table-header-text">Drop name</span>
-                                    ),
+                                    header: () => <span>Drop name</span>,
                                     cell: (info) => (
                                       <div className="flex gap-2 items-center">
                                         <img
@@ -214,10 +208,10 @@ export default function Drops({ project }: DropsPageProps) {
                                           }/holders`}
                                           className="flex flex-col gap-1"
                                         >
-                                          <span className="text-xs text-primary font-medium">
+                                          <span className="text-xs text-white font-medium">
                                             {info.getValue().name}
                                           </span>
-                                          <span className="text-xs text-gray-500">
+                                          <span className="text-xs text-gray-400">
                                             {info.getValue().symbol}
                                           </span>
                                         </Link>
@@ -238,16 +232,16 @@ export default function Drops({ project }: DropsPageProps) {
                                   },
                                   {
                                     id: 'price',
-                                    header: () => <span className="table-header-text">Price</span>,
+                                    header: () => <span>Price</span>,
                                     cell: (info) => {
                                       const price = info.getValue().price;
                                       return (
                                         <div className="flex gap-1">
-                                          <span className="text-xs text-primary font-medium">
+                                          <span className="text-xs text-white font-medium">
                                             {price === 0 ? 'FREE' : price}
                                           </span>
                                           {price > 0 && (
-                                            <span className="text-xs text-gray-600 font-medium">
+                                            <span className="text-xs text-gray-400 font-medium">
                                               Lamports
                                             </span>
                                           )}
@@ -257,18 +251,16 @@ export default function Drops({ project }: DropsPageProps) {
                                   }
                                 ),
                                 columnHelper.accessor('createdAt', {
-                                  header: () => (
-                                    <span className="table-header-text">Create date</span>
-                                  ),
+                                  header: () => <span>Create date</span>,
                                   cell: (info) => (
                                     <div className="flex flex-col gap-1">
-                                      <span className="text-xs text-primary font-medium">
+                                      <span className="text-xs text-gray-400 font-medium">
                                         {format(
                                           convertLocalTime(info.getValue()),
                                           DateFormat.DATE_1
                                         )}
                                       </span>
-                                      <span className="text-xs text-gray-500">
+                                      <span className="text-xs text-white">
                                         {format(
                                           convertLocalTime(info.getValue()),
                                           DateFormat.TIME_1
@@ -281,9 +273,7 @@ export default function Drops({ project }: DropsPageProps) {
                                   ({ startTime, createdAt }) => ({ startTime, createdAt }),
                                   {
                                     id: 'startTime',
-                                    header: () => (
-                                      <span className="table-header-text">Mint start date</span>
-                                    ),
+                                    header: () => <span>Mint start date</span>,
                                     cell: (info) => {
                                       let start = info.getValue().startTime;
 
@@ -293,10 +283,10 @@ export default function Drops({ project }: DropsPageProps) {
 
                                       return (
                                         <div className="flex flex-col gap-1">
-                                          <span className="text-xs text-primary font-medium">
+                                          <span className="text-xs text-gray-400 font-medium">
                                             {format(convertLocalTime(start), DateFormat.DATE_1)}
                                           </span>
-                                          <span className="text-xs text-gray-500">
+                                          <span className="text-xs text-white">
                                             {format(convertLocalTime(start), DateFormat.TIME_1)}
                                           </span>
                                         </div>
@@ -305,20 +295,18 @@ export default function Drops({ project }: DropsPageProps) {
                                   }
                                 ),
                                 columnHelper.accessor('endTime', {
-                                  header: () => (
-                                    <span className="table-header-text">Mint end date</span>
-                                  ),
+                                  header: () => <span>Mint end date</span>,
                                   cell: (info) => (
                                     <div className="flex flex-col gap-1">
                                       {info.getValue() ? (
                                         <>
-                                          <span className="text-xs text-primary font-medium">
+                                          <span className="text-xs text-gray-400 font-medium">
                                             {format(
                                               convertLocalTime(info.getValue()),
                                               DateFormat.DATE_1
                                             )}
                                           </span>
-                                          <span className="text-xs text-gray-500">
+                                          <span className="text-xs text-white">
                                             {format(
                                               convertLocalTime(info.getValue()),
                                               DateFormat.TIME_1
@@ -326,15 +314,13 @@ export default function Drops({ project }: DropsPageProps) {
                                           </span>
                                         </>
                                       ) : (
-                                        <span className="text-xs text-primary font-medium">
-                                          None
-                                        </span>
+                                        <span className="text-xs text-white font-medium">None</span>
                                       )}
                                     </div>
                                   ),
                                 }),
                                 columnHelper.accessor(
-                                  ({ collection }) => {
+                                  ({ collection, status }) => {
                                     if (!collection) {
                                       throw new Error('no collection');
                                     }
@@ -342,117 +328,112 @@ export default function Drops({ project }: DropsPageProps) {
                                     return {
                                       supply: collection?.supply,
                                       totalMints: collection?.totalMints,
+                                      status,
                                     };
                                   },
                                   {
                                     id: 'counts',
-                                    header: () => (
-                                      <span className="table-header-text">Minted out & supply</span>
-                                    ),
+                                    header: () => <span>Status</span>,
                                     cell: (info) => {
-                                      const { supply, totalMints } = info.getValue();
+                                      const { supply, totalMints, status } = info.getValue();
 
-                                      if (supply) {
-                                        const percent = Math.ceil((totalMints / supply) * 100);
-
-                                        return (
-                                          <div className="flex gap-1 items-center justify-between">
-                                            <span className="text-xs text-primary font-medium">
-                                              {totalMints} / {supply} Minted
-                                            </span>
-                                            <span
-                                              className="w-11 h-5 rounded-full flex items-center justify-center"
-                                              style={{
-                                                background: `conic-gradient(#000 ${percent}%, #E6E6E6 0)`,
-                                              }}
-                                            >
-                                              <span
-                                                className={clsx(
-                                                  'w-[38px] h-4 rounded-full flex items-center justify-center text-xs',
-                                                  {
-                                                    'bg-white text-black': percent < 100,
-                                                    'bg-black text-white': percent === 100,
-                                                  }
-                                                )}
-                                              >
-                                                {percent}%
-                                              </span>
-                                            </span>
-                                          </div>
-                                        );
-                                      }
+                                      const percent = Math.ceil((totalMints / supply) * 100);
 
                                       return (
-                                        <div className="flex gap-1 items-center justify-between">
-                                          <span className="text-xs text-primary font-medium">
-                                            {totalMints} / Unlimited
-                                          </span>
+                                        <div className="flex gap-2 items-center">
+                                          {supply && (
+                                            <span
+                                              className="w-6 h-6 rounded-full flex items-center justify-center"
+                                              style={{
+                                                background: `conic-gradient(#AAAAAA ${percent}%, #2B2B2B 0)`,
+                                              }}
+                                            >
+                                              <span className="w-4 h-4 rounded-full flex items-center justify-center text-xs bg-stone-900" />
+                                            </span>
+                                          )}
+
+                                          <Table.DropStatusPill status={status as DropStatus} />
                                         </div>
                                       );
                                     },
                                   }
                                 ),
-                                columnHelper.accessor('status', {
-                                  header: () => (
-                                    <span className="flex text-xs text-gray-600 font-medium">
-                                      Status
-                                    </span>
-                                  ),
-                                  cell: (info) => (
-                                    <Table.DropStatusPill status={info.getValue() as DropStatus} />
-                                  ),
-                                }),
                                 columnHelper.display({
                                   id: 'options',
-                                  header: () => <Icon.TableAction />,
+                                  header: () => <></>,
                                   cell: (info) => {
                                     const drop = info.row.original;
 
-                                    const popupList: JSX.Element[] = [];
-                                    drop.status === DropStatus.Paused
-                                      ? popupList.push(
-                                          <div
-                                            key="resume_mint"
-                                            onClick={() => resume(drop.id, drop.projectId)}
-                                            className="flex gap-2 items-center"
-                                          >
-                                            <Icon.Pause /> <span>Resume mint</span>
-                                          </div>
-                                        )
-                                      : popupList.push(
-                                          <div
-                                            key="pause_mint"
-                                            onClick={() => pause(drop.id, drop.projectId)}
-                                            className="flex gap-2 items-center"
-                                          >
-                                            <Icon.Pause /> <span>Pause mint</span>
-                                          </div>
-                                        );
+                                    if (drop.status === DropStatus.Shutdown) {
+                                      return <div />;
+                                    }
+
+                                    let actions: JSX.Element[] = [
+                                      <Link
+                                        key="edit_drop"
+                                        className="flex gap-2 items-center"
+                                        href={`/projects/${project}/drops/${info.row.original.id}/edit`}
+                                      >
+                                        <Icon.Edit stroke="stroke-gray-400" />
+                                        <span>Edit drop</span>
+                                      </Link>,
+                                    ];
+
+                                    if (drop.status === DropStatus.Paused) {
+                                      actions.push(
+                                        <div
+                                          key="resume_mint"
+                                          onClick={() => resume(drop.id, drop.projectId)}
+                                          className="flex gap-2 items-center"
+                                        >
+                                          <Icon.Pause stroke="stroke-gray-400" />{' '}
+                                          <span>Resume mint</span>
+                                        </div>
+                                      );
+                                    } else {
+                                      actions.push(
+                                        <div
+                                          key="pause_mint"
+                                          onClick={() => pause(drop.id, drop.projectId)}
+                                          className="flex gap-2 items-center"
+                                        >
+                                          <Icon.Pause stroke="stroke-gray-400" />{' '}
+                                          <span>Pause mint</span>
+                                        </div>
+                                      );
+                                    }
 
                                     if (drop.status === DropStatus.Minting) {
-                                      popupList.push(
+                                      actions.push(
                                         <div
                                           key="shutdown_mint"
                                           onClick={() => shutdown(drop.id, drop.projectId)}
                                           className="flex gap-2 items-center"
                                         >
-                                          <Icon.Close /> <span>Shut-down mint</span>
+                                          <Icon.Close stroke="stroke-gray-400" />{' '}
+                                          <span>Shut-down mint</span>
                                         </div>
                                       );
                                     }
+
+                                    actions.push(
+                                      <Copy key="copy_id" copyString={drop.id}>
+                                        <span>Copy drop ID</span>
+                                      </Copy>
+                                    );
 
                                     return (
                                       <PopoverBox
                                         triggerButton={
                                           <div
                                             className={clsx(
-                                              'px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min'
+                                              'px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min'
                                             )}
                                           >
                                             <Icon.More />
                                           </div>
                                         }
-                                        elements={popupList}
+                                        elements={actions}
                                       />
                                     );
                                   },
@@ -467,10 +448,10 @@ export default function Drops({ project }: DropsPageProps) {
                   </div>
                 </>
               )}
-            </DropModal.Pause>
+            </Drop.Pause>
           )}
-        </DropModal.Resume>
+        </Drop.Resume>
       )}
-    </DropModal.Shutdown>
+    </Drop.Shutdown>
   );
 }

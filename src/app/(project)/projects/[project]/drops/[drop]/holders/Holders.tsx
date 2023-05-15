@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { Icon } from '../../../../../../../components/Icon';
 import Table from '../../../../../../../components/Table';
-import { Holder, Project } from '../../../../../../../graphql.types';
+import { Holder, Project, Blockchain } from '../../../../../../../graphql.types';
 import { GetCollectionHolders } from './../../../../../../../queries/holder.graphql';
 import { useQuery } from '@apollo/client';
 import Typography, { Size } from '../../../../../../../components/Typography';
@@ -47,38 +47,38 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
             columns={[
               loadingColumnHelper.display({
                 id: 'address',
-                header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-row gap-2">
-                    <span className="rounded-full w-2 aspect-square  bg-gray-50 animate-pulse" />
-                    <span className="rounded-full h-3 w-24 bg-gray-50 animate-pulse" />
+                    <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
+                    <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
                   </div>
                 ),
               }),
               loadingColumnHelper.display({
                 id: 'owns',
-                header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-row gap-2">
-                    <span className="rounded-full w-2 aspect-square  bg-gray-50 animate-pulse" />
-                    <span className="rounded-full h-3 w-24 bg-gray-50 animate-pulse" />
+                    <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
+                    <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
                   </div>
                 ),
               }),
               loadingColumnHelper.display({
                 id: 'spent',
-                header: () => <div className="rounded-full h-4 w-28 bg-gray-100 animate-pulse" />,
+                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-row gap-2">
-                    <span className="rounded-full w-2 aspect-square  bg-gray-50 animate-pulse" />
-                    <span className="rounded-full h-3 w-24 bg-gray-50 animate-pulse" />
+                    <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
+                    <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
                   </div>
                 ),
               }),
               loadingColumnHelper.display({
                 id: 'options',
-                header: () => <div className="rounded-full h-4 w-4 bg-gray-100 animate-pulse" />,
-                cell: () => <div className="rounded-full h-4 w-4 bg-gray-50 animate-pulse" />,
+                header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
+                cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
               }),
             ]}
             data={new Array(4)}
@@ -88,7 +88,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
         <div className="flex flex-col gap-2 items-center">
           <Icon.Large.CreateCustomers />
           <Typography.Header size={Size.H2}>No holders yet</Typography.Header>
-          <Typography.Paragraph className="text-gray-500">
+          <Typography.Paragraph className="text-gray-400">
             The current holder holders information will appear after the first mint
           </Typography.Paragraph>
         </div>
@@ -96,45 +96,33 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
         <Table
           columns={[
             columnHelper.accessor('shortAddress', {
-              header: () => (
-                <div className="flex gap-2">
-                  <span className="text-xs text-gray-600 font-medium">Wallet</span>
-                </div>
-              ),
+              header: () => <span>Wallet</span>,
               cell: (info) => {
                 const address = info.getValue();
                 return (
                   <div className="flex gap-2">
                     <Icon.Crypto.Sol />
-                    <span className="text-xs text-primary font-medium">{address}</span>
+                    <span className="text-xs text-white font-medium">{address}</span>
                   </div>
                 );
               },
             }),
             columnHelper.accessor('owns', {
               id: 'spent',
-              header: () => (
-                <div className="flex gap-2">
-                  <span className="text-xs text-gray-600 font-medium">Spent</span>
-                </div>
-              ),
+              header: () => <span>Spent</span>,
               cell: (info) => {
                 const owns = info.getValue();
                 return (
                   <div className="flex gap-1 items-center">
                     {(owns * (holdersQuery.data?.project.drop?.price || 0)) as number}
-                    <span className="text-xs text-gray-600">SOL</span>
+                    <span className="text-xs text-gray-400">SOL</span>
                   </div>
                 );
               },
             }),
             columnHelper.accessor('owns', {
               id: 'owns',
-              header: () => (
-                <div className="flex gap-2">
-                  <span className="text-xs text-gray-600 font-medium">Owned Editions</span>
-                </div>
-              ),
+              header: () => <span>Owned Editions</span>,
               cell: (info) => {
                 const owns = info.getValue();
                 const share = Math.ceil(
@@ -142,33 +130,44 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
                 );
                 return (
                   <div className="flex gap-1 items-center">
-                    {owns} / <span className="text-xs text-gray-600">{share}%</span>
+                    {owns} / <span className="text-xs text-gray-400">{share}%</span>
                   </div>
                 );
               },
             }),
             columnHelper.display({
               id: 'options',
-              header: () => <Icon.TableAction />,
-              cell: () => (
-                <PopoverBox
-                  triggerButton={
-                    <div className={clsx('px-2 py-1 hover:rounded-md hover:bg-gray-50 max-w-min')}>
-                      <Icon.More />
-                    </div>
-                  }
-                  elements={[
+              header: () => <></>,
+              cell: (info) => {
+                const address = info.row.original.address;
+                const options = [];
+
+                if (holdersQuery.data?.project.drop?.collection.blockchain === Blockchain.Solana) {
+                  options.push(
                     <Link
-                      href="https://solscan.io"
+                      href={`https://solscan.io/account/${address}`}
                       target="_blank"
                       key="change_email"
                       className="flex gap-2 items-center"
                     >
                       <Icon.ExternalLink /> <span>View on SolScan</span>
-                    </Link>,
-                  ]}
-                />
-              ),
+                    </Link>
+                  );
+                }
+
+                return (
+                  <PopoverBox
+                    triggerButton={
+                      <div
+                        className={clsx('px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min')}
+                      >
+                        <Icon.More />
+                      </div>
+                    }
+                    elements={options}
+                  />
+                );
+              },
             }),
           ]}
           data={holders}

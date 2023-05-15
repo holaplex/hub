@@ -5,6 +5,9 @@ import { zonedTimeToUtc, utcToZonedTime } from 'date-fns-tz';
 export enum DateFormat {
   DATE_1 = 'MM/dd/yyyy',
   TIME_1 = 'h:mm a',
+  DATE_2 = 'MM/dd/yyyy h:mm a',
+  DATE_3 = 'yyyy-MM-dd',
+  TIME_2 = 'HH:mm',
 }
 
 export function formatDateString(dateStr: string, formatStr: string): string {

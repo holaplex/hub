@@ -13,12 +13,12 @@ The Hub development environment runs within a local Kubernetes cluster using [sk
 
 ### Instructions
 
-There are some secrets required for the API. Reach out to a fellow engineer to to get the secrets files. They should be placed in the root of the project and follow the pattern of secret.{service}.yaml.
+There are some secrets required for the API. Reach out to a fellow engineer to to get the secrets files. They should be placed in the [.helm](./.helm) directory of the project and follow the pattern of secret.{service}.yaml.
 
 ```
 /src
 skaffold.yaml
-secrets.*.yaml
+/.helm/secrets.*.yaml
 ```
 
 ### Deploy

@@ -78,7 +78,7 @@ export default function OrganizationSettingsPage() {
   };
 
   return (
-    <article className="flex flex-col p-4">
+    <article className="flex flex-col p-6">
       <Typography.Header size={Size.H2}>Settings</Typography.Header>
       <Card className="w-[400px] place-self-center mt-4">
         <Typography.Header size={Size.H3}>Update your organization information.</Typography.Header>
@@ -92,7 +92,7 @@ export default function OrganizationSettingsPage() {
             />
             <Form.Error message={error?.message} />
           </Form.Label>
-          <Form.Label name="Organization logo" className="text-xs text-primary mt-5">
+          <Form.Label name="Organization logo" className="text-xs text-white mt-5">
             <Controller
               name="profileImage"
               control={control}
@@ -109,18 +109,15 @@ export default function OrganizationSettingsPage() {
                       <div
                         {...getRootProps()}
                         className={clsx(
-                          'flex items-center justify-center border border-dashed border-gray-200 cursor-pointer rounded-md',
+                          'flex items-center justify-center border border-dashed border-stone-800 cursor-pointer rounded-md p-6 text-center text-gray-400',
                           {
-                            'bg-gray-100': isDragActive,
-                            'p-6 text-center text-gray-500': !value,
+                            'bg-stone-950': isDragActive,
                           }
                         )}
                       >
                         <input {...getInputProps({ onBlur })} />
                         {value ? (
-                          <div className="bg-white rounded-lg p-3 overflow-hidden">
-                            <Form.DragDrop.Preview value={value} />
-                          </div>
+                          <Form.DragDrop.Preview value={value} />
                         ) : (
                           <div className="flex flex-col gap-2">
                             <p>
@@ -141,7 +138,6 @@ export default function OrganizationSettingsPage() {
             />
           </Form.Label>
           <Button
-            border="rounded"
             htmlType="submit"
             disabled={loading || formState.isSubmitting}
             loading={loading || formState.isSubmitting}

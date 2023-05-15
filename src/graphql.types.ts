@@ -63,6 +63,22 @@ export type AccessToken = {
   tokenType: Scalars['String'];
 };
 
+export enum Action {
+  CreateDrop = 'CREATE_DROP',
+  MintEdition = 'MINT_EDITION',
+  RetryMint = 'RETRY_MINT',
+  TransferAsset = 'TRANSFER_ASSET'
+}
+
+/** Represents the cost of performing a certain action on different blockchains */
+export type ActionCost = {
+  __typename?: 'ActionCost';
+  /** enum that represents the type of action being performed. */
+  action: Action;
+  /** a vector of BlockchainCost structs that represents the cost of performing the action on each blockchain. */
+  blockchains: Array<BlockchainCost>;
+};
+
 /** An enum type named Affiliation that defines a user's association to an organization. The enum is derived using a Union attribute. It has two variants, each containing an associated data type: */
 export type Affiliation = Member | Owner;
 
@@ -94,7 +110,15 @@ export enum Blockchain {
   Solana = 'SOLANA'
 }
 
-/** An NFT collection that has either a fixed supply or unlimited mints. NFT collections are deployed to a desired blockchain. */
+/** Represents the cost of performing an action on a specific blockchain */
+export type BlockchainCost = {
+  __typename?: 'BlockchainCost';
+  /** enum that represents the blockchain on which the action is being performed. */
+  blockchain: Blockchain;
+  /** represents the cost in credits for performing the action on the blockchain. */
+  credits: Scalars['Int'];
+};
+
 export type Collection = {
   __typename?: 'Collection';
   /** The blockchain address of the collection used to view it in blockchain explorers. */
@@ -119,6 +143,10 @@ export type Collection = {
   mints?: Maybe<Array<CollectionMint>>;
   /** A list of all NFT purchases from the collection, including both primary and secondary sales. */
   purchases?: Maybe<Array<Purchase>>;
+  royalties: Scalars['String'];
+  /** The royalties assigned to mints belonging to the collection expressed in basis points. */
+  sellerFeeBasisPoints: Scalars['Int'];
+  /** The transaction signature of the collection. */
   signature?: Maybe<Scalars['String']>;
   /** The total supply of the collection. Setting to `null` implies unlimited minting. */
   supply?: Maybe<Scalars['Int']>;
@@ -149,24 +177,35 @@ export type CollectionCreatorInput = {
   verified?: InputMaybe<Scalars['Boolean']>;
 };
 
+/** Represents a single NFT minted from a collection. */
 export type CollectionMint = {
   __typename?: 'CollectionMint';
+  /** The wallet address of the NFT. */
   address: Scalars['String'];
+  /** The collection the NFT was minted from. */
   collection?: Maybe<Collection>;
+  /** The ID of the collection the NFT was minted from. */
   collectionId: Scalars['UUID'];
+  /** The date and time when the NFT was created. */
   createdAt: Scalars['NaiveDateTime'];
+  /** The unique ID of the creator of the NFT. */
   createdBy: Scalars['UUID'];
+  /** The status of the NFT creation. */
   creationStatus: CreationStatus;
+  /** The unique ID of the minted NFT. */
   id: Scalars['UUID'];
   /**
    * The metadata json associated to the collection.
-   * ## References
    * [Metaplex v1.1.0 Standard](https://docs.metaplex.com/programs/token-metadata/token-standard)
    */
   metadataJson?: Maybe<MetadataJson>;
+  /** The wallet address of the owner of the NFT. */
   owner: Scalars['String'];
   ownerShortAddress: Scalars['String'];
+  /** The seller fee basis points (ie royalties) for the NFT. */
+  sellerFeeBasisPoints: Scalars['Int'];
   shortAddress: Scalars['String'];
+  /** The transaction signature associated with the NFT. */
   signature?: Maybe<Scalars['String']>;
 };
 
@@ -298,6 +337,25 @@ export type Credential = {
   organizationId: Scalars['UUID'];
 };
 
+export type CreditDeposit = {
+  __typename?: 'CreditDeposit';
+  cost: Scalars['Float'];
+  createdAt: Scalars['NaiveDateTime'];
+  credits: Scalars['Int'];
+  id: Scalars['UUID'];
+  initiatedBy: Scalars['UUID'];
+  organization: Scalars['UUID'];
+  perCreditCost: Scalars['Float'];
+  reason: DepositReason;
+};
+
+export type Credits = {
+  __typename?: 'Credits';
+  balance: Scalars['Int'];
+  deposits?: Maybe<Array<CreditDeposit>>;
+  id: Scalars['UUID'];
+};
+
 /** A customer record represents a user in your service and is used to group custodial wallets within a specific project. This allows for easy management of wallets and associated assets for a particular customer within your service. */
 export type Customer = {
   __typename?: 'Customer';
@@ -331,6 +389,12 @@ export type DeactivateMemberInput = {
   id: Scalars['UUID'];
 };
 
+export type DeductionTotals = {
+  __typename?: 'DeductionTotals';
+  action: Action;
+  spent: Scalars['Int'];
+};
+
 /** The input for deleting a credential. */
 export type DeleteCredentialInput = {
   /** The unique identifier assigned to the credential to be deleted. */
@@ -352,6 +416,11 @@ export type DeleteWebhookPayload = {
   __typename?: 'DeleteWebhookPayload';
   webhook: Scalars['UUID'];
 };
+
+export enum DepositReason {
+  Gifted = 'GIFTED',
+  Purchased = 'PURCHASED'
+}
 
 export type Drop = {
   __typename?: 'Drop';
@@ -905,8 +974,22 @@ export type Organization = {
    * A list of API credentials associated with this organization.
    */
   credentials: Array<Credential>;
+  /**
+   * Define an asynchronous function to load the credits for the organization
+   * Returns `Credits` object
+   * #Errors
+   * returns error if credits_loader is not found in the context or if the loader fails to load the credits
+   */
+  credits?: Maybe<Credits>;
   /** The datetime, in UTC, when the Holaplex organization was deactivated by its owner. */
   deactivatedAt?: Maybe<Scalars['NaiveDateTime']>;
+  /**
+   * Define an asynchronous function to load the total credits deducted for each action
+   * Returns `DeductionTotals` object
+   * #Errors
+   * returns error if total_deductions_loader is not found in the context or if the loader fails to load the total deductions
+   */
+  deductionTotals?: Maybe<Array<DeductionTotals>>;
   /** The unique identifier assigned to the Holaplex organization, which is used to distinguish it from other organizations within the Holaplex ecosystem. */
   id: Scalars['UUID'];
   /** The invitations to join the Holaplex organization that have been sent to email addresses and are either awaiting or have been accepted by the recipients. */
@@ -1086,6 +1169,8 @@ export type Purchase = {
   id: Scalars['UUID'];
   /** The ID of the NFT being purchased. */
   mintId: Scalars['UUID'];
+  shortTx: Scalars['String'];
+  shortWallet: Scalars['String'];
   /** The amount spent on the purchase. */
   spent: Scalars['Int'];
   /** The status of the creation of the NFT. */
@@ -1098,6 +1183,13 @@ export type Purchase = {
 
 export type Query = {
   __typename?: 'Query';
+  /**
+   * Returns a list of `ActionCost` which represents the cost of each action on different blockchains.
+   *
+   * # Errors
+   * This function fails if it fails to get `CreditsClient` or if blockchain enum conversion fails.
+   */
+  creditSheet: Array<ActionCost>;
   /**
    * Returns a list of event types that an external service can subscribe to.
    *
@@ -1207,6 +1299,8 @@ export type User = {
   id: Scalars['UUID'];
   /** The last name of the user identity. */
   lastName: Scalars['String'];
+  /** The profile image associated with the user identity. */
+  profileImage?: Maybe<Scalars['String']>;
   /** The timestamp in UTC when the user identity was last updated. */
   updatedAt: Scalars['String'];
 };

@@ -23,6 +23,31 @@ mutation CreateDrop($input: CreateDropInput!) {
   }
 }
 
+mutation PatchDrop($input: PatchDropInput!) {
+  patchDrop(input: $input) {
+    drop {
+      id
+      price
+      status
+      createdAt
+      startTime
+      endTime
+      collection {
+        id
+        supply
+        totalMints
+        metadataJson {
+          id
+          name
+          image
+          description
+          symbol
+        }
+      }
+    }
+  }
+}
+
 mutation PauseDrop($input: PauseDropInput!) {
   pauseDrop(input: $input) {
     drop {

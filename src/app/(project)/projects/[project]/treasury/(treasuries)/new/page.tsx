@@ -21,7 +21,7 @@ export default function MemberDeletePage() {
         </Typography.Header>
 
         <Form className="flex flex-col mt-5">
-          <Form.Label name="Blockchain" className="text-xs mt-5 text-primary">
+          <Form.Label name="Blockchain" className="text-xs mt-5 text-white">
             <Form.Select value={{ option: 'Solana', value: 'solana' }} onChange={() => {}}>
               <Form.Select.Button placeholder="Select blockchain">Solana</Form.Select.Button>
               <Form.Select.Options>
@@ -39,7 +39,7 @@ export default function MemberDeletePage() {
           <Button className="w-full mt-4" onClick={() => {}}>
             Add wallet
           </Button>
-          <Button className="w-full mt-4" variant="tertiary" onClick={onClose}>
+          <Button className="w-full mt-4" variant="secondary" onClick={onClose}>
             Cancel
           </Button>
         </Form>

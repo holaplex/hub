@@ -58,6 +58,7 @@ RUN chmod +rw /app/.next
 
 EXPOSE 3000
 
+ENV NEXT_PUBLIC_APP_FQDN $APP_FQDN
 ENV PORT 3000
 
 CMD ["node", "server.js"]

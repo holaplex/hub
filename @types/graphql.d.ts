@@ -14,9 +14,11 @@ declare module '*/drop.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const CreateDrop: DocumentNode;
+export const PatchDrop: DocumentNode;
 export const PauseDrop: DocumentNode;
 export const ResumeDrop: DocumentNode;
 export const ShutdownDrop: DocumentNode;
+export const GetOrganizationDrops: DocumentNode;
 export const GetProjectDrops: DocumentNode;
 export const GetDrop: DocumentNode;
 export const GetDropBasicDetail: DocumentNode;
@@ -91,10 +93,25 @@ export const GetOrganizationCredential: DocumentNode;
 }
     
 
+declare module '*/credits.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const GetOrganizationCreditBalance: DocumentNode;
+export const GetOrganizationCreditAndDeductionTotals: DocumentNode;
+export const GetOrganizationCreditDeposits: DocumentNode;
+export const GetCreditSheet: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/customer.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const GetProjectCustomers: DocumentNode;
+export const GetCustomerBasicDetail: DocumentNode;
+export const GetWallets: DocumentNode;
+export const GetCustomerNfts: DocumentNode;
 
   export default defaultDocument;
 }
@@ -113,6 +130,24 @@ declare module '*/mint.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const GetCollectionMints: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/purchase.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const GetCollectionPurchases: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/treasury.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const GetTreasuryWallets: DocumentNode;
 
   export default defaultDocument;
 }

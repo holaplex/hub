@@ -9,6 +9,32 @@ function asShortAddress(_: any, { readField }: { readField: ReadFieldFunction })
   return shorten(address as string);
 }
 
+function asShortWallet(_: any, { readField }: { readField: ReadFieldFunction }): string {
+  const address: string | undefined = readField('wallet');
+
+  if (address) {
+    return shorten(address as string);
+  }
+
+  return '';
+}
+
+function asShortTx(_: any, { readField }: { readField: ReadFieldFunction }): string {
+  const address: string | undefined = readField('txSignature');
+
+  if (address) {
+    return shorten(address as string);
+  }
+
+  return '';
+}
+
+function asRoyalties(_: any, { readField }: { readField: ReadFieldFunction }): string {
+  const sellerFeeBasisPoints: number | undefined = readField('sellerFeeBasisPoints');
+
+  return `${(sellerFeeBasisPoints as number) / 100}%`;
+}
+
 export function apollo(uri: string, session?: string): ApolloClient<NormalizedCacheObject> {
   let headers: Record<string, string> = {};
 
@@ -28,6 +54,11 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
             shortAddress: asShortAddress,
           },
         },
+        Collection: {
+          fields: {
+            royalties: asRoyalties,
+          },
+        },
         CollectionCreator: {
           fields: {
             shortAddress: asShortAddress,
@@ -36,6 +67,12 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
         Holder: {
           fields: {
             shortAddress: asShortAddress,
+          },
+        },
+        Purchase: {
+          fields: {
+            shortWallet: asShortWallet,
+            shortTx: asShortTx,
           },
         },
         CollectionMint: {

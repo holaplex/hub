@@ -3,8 +3,6 @@ import Organization from '../../layouts/Organization';
 import { redirect } from 'next/navigation';
 import { GetOrganizationBasicInfo } from './../../queries/organization.graphql';
 import { apollo } from '../../client';
-import { appConfig } from '../../app.config';
-import { ApolloError } from '@apollo/client';
 import { Organization as OrganizationType } from '../../graphql.types';
 
 export const revalidate = 0;
@@ -24,7 +22,7 @@ export default async function OrganizationLayout({
 }): Promise<React.ReactNode> {
   const cookieStore = cookies();
   const client = apollo(
-    appConfig.server('graphql'),
+    process.env.GRAPHQL_ENDPOINT as string,
     cookieStore.get('hub_session')?.value as string
   );
 

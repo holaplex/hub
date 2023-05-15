@@ -78,21 +78,21 @@ export default function DeleteCredentialPage({ params: { credential } }: DeleteC
         {credentialQuery.loading ? (
           <>
             <div className="mt-2 flex flex-col gap-1">
-              <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
-              <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
-              <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
-              <div className="w-full h-4 rounded-md bg-gray-100 animate-pulse" />
+              <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
+              <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
+              <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
+              <div className="w-full h-4 rounded-md bg-stone-950 animate-pulse" />
             </div>
             <div className="mt-4 flex flex-col gap-2">
-              <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
-              <div className="w-full h-10 rounded-md bg-gray-100 animate-pulse" />
+              <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+              <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
             </div>
           </>
         ) : (
           <>
             <Typography.Header size={Size.H3} className="mt-2">
               Are you sure you want to delete{' '}
-              <span className="text-primary font-medium">
+              <span className="text-white font-medium">
                 {credentialQuery.data?.organization.credential?.name}
               </span>{' '}
               access token and all its contents? You will not be able to recover this access token
@@ -110,7 +110,7 @@ export default function DeleteCredentialPage({ params: { credential } }: DeleteC
               >
                 Delete
               </Button>
-              <Button variant="tertiary" className="w-full" onClick={onClose} disabled={loading}>
+              <Button variant="secondary" className="w-full" onClick={onClose} disabled={loading}>
                 Cancel
               </Button>
             </div>

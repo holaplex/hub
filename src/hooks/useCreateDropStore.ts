@@ -11,8 +11,9 @@ export type StepOneData = {
   symbol: string;
   blockchain: { label: string; id: Blockchain };
   description: string;
-  image: File;
+  image: File | string;
   attributes: Attribute[];
+  externalUrl: string;
 };
 
 export type StepTwoData = {

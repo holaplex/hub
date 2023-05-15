@@ -4,8 +4,14 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import Card from '../../../../../../../components/Card';
 import Typography, { Size } from '../../../../../../../components/Typography';
-import { CreateDropInput, CreateDropPayload } from '../../../../../../../graphql.types';
-import useCreateDropStore from '../../../../../../../hooks/useCreateDropStore';
+import {
+  CreateDropInput,
+  CreateDropPayload,
+  Organization,
+  ActionCost,
+  Action,
+} from '../../../../../../../graphql.types';
+import { StoreApi, useStore } from 'zustand';
 import { useMutation } from '@apollo/client';
 import { format } from 'date-fns';
 import { CreateDrop } from './../../../../../../../mutations/drop.graphql';
@@ -13,8 +19,17 @@ import { combineDateTime, maybeToUtc, DateFormat } from '../../../../../../../mo
 import { useProject } from '../../../../../../../hooks/useProject';
 import { useState } from 'react';
 import { GetProjectDrops } from './../../../../../../../queries/drop.graphql';
+import { Icon } from '../../../../../../../components/Icon';
+import Link from 'next/link';
+import { useQuery } from '@apollo/client';
 import { ifElse, isNil, always } from 'ramda';
 import { uploadFile } from '../../../../../../../modules/upload';
+import { DropFormState } from '../../../../../../../providers/DropFormProvider';
+import { useDropForm } from '../../../../../../../hooks/useDropForm';
+import {
+  GetCreditSheet,
+  GetOrganizationCreditBalance,
+} from '../../../../../../../queries/credits.graphql';
 
 interface CreateDropData {
   createProject: CreateDropPayload;
@@ -24,16 +39,46 @@ interface CreateDropVars {
   input: CreateDropInput;
 }
 
-const LAMPORTS_PER_SOL = 1_000_000_000;
+interface GetOrganizationBalanceVars {
+  organization: string;
+}
+
+interface GetOrganizationCreditBalanceData {
+  organization: Organization;
+}
+
+interface GetCreditSheetData {
+  creditSheet: ActionCost[];
+}
 
 export default function NewDropPreviewPage() {
   const router = useRouter();
   const { project } = useProject();
   const [submitting, setSubmitting] = useState(false);
-  const { stepOne, stepTwo, stepThree } = useCreateDropStore();
+  const store = useDropForm() as StoreApi<DropFormState>;
+  const detail = useStore(store, (store) => store.detail);
+  const payment = useStore(store, (store) => store.payment);
+  const timing = useStore(store, (store) => store.timing);
+
+  const creditBalanceQuery = useQuery<GetOrganizationCreditBalanceData, GetOrganizationBalanceVars>(
+    GetOrganizationCreditBalance,
+    {
+      variables: { organization: project?.organization?.id },
+    }
+  );
+  const creditBalance = creditBalanceQuery.data?.organization.credits?.balance as number;
+
+  const creditSheetQuery = useQuery<GetCreditSheetData>(GetCreditSheet);
+
+  const creditSheet = creditSheetQuery.data?.creditSheet;
+
+  const cost = creditSheet
+    ?.find((cost) => cost.action === Action.CreateDrop)
+    ?.blockchains?.find((blockchain) => blockchain.blockchain === detail?.blockchain)
+    ?.credits as number;
 
   const back = () => {
-    router.push(`/projects/${project?.id}/drops/new/timing`);
+    router.push(`/projects/${project?.id}/drops/new/schedule`);
   };
 
   const [createDrop] = useMutation<CreateDropData, CreateDropVars>(CreateDrop, {
@@ -41,27 +86,27 @@ export default function NewDropPreviewPage() {
     refetchQueries: [{ query: GetProjectDrops, variables: { project: project?.id } }],
   });
 
-  if (!stepOne || !stepTwo || !stepThree) {
+  if (!detail || !payment || !timing) {
     toast('Incomplete drops data. Check again.');
     router.push(`/projects/${project?.id}/drops/new/details`);
     return;
   }
 
   let startDateTime: Date | null = null;
-  if (!stepThree.startNow && stepThree.startTime && stepThree.startDate) {
-    const [startTimeHrs, startTimeMins] = stepThree.startTime.split(':');
+  if (timing.selectStartDate === 'specifyStartDate' && timing.startTime && timing.startDate) {
+    const [startTimeHrs, startTimeMins] = timing.startTime.split(':');
     startDateTime = combineDateTime(
-      new Date(stepThree.startDate),
+      new Date(timing.startDate),
       parseInt(startTimeHrs),
       parseInt(startTimeMins)
     );
   }
 
   let endDateTime: Date | null = null;
-  if (!stepThree.noEndTime && stepThree.endTime && stepThree.endDate) {
-    const [endTimeHrs, endTimeMins] = stepThree.endTime.split(':');
+  if (timing.selectEndDate === 'specifyEndDate' && timing.endTime && timing.endDate) {
+    const [endTimeHrs, endTimeMins] = timing.endTime.split(':');
     endDateTime = combineDateTime(
-      new Date(stepThree.endDate),
+      new Date(timing.endDate),
       parseInt(endTimeHrs),
       parseInt(endTimeMins)
     );
@@ -69,28 +114,33 @@ export default function NewDropPreviewPage() {
 
   const onSubmit = async () => {
     setSubmitting(true);
-    const { url: image } = await uploadFile(stepOne.image);
+    let imageUrl = detail.image;
+    if (detail.image instanceof File) {
+      const { url: image } = await uploadFile(detail.image);
+      imageUrl = image;
+    }
 
     createDrop({
       variables: {
         input: {
           project: project?.id,
-          blockchain: stepOne.blockchain.id,
+          blockchain: detail.blockchain,
           metadataJson: {
-            name: stepOne.name,
-            symbol: stepOne.symbol,
-            description: stepOne.description,
-            image,
-            attributes: stepOne.attributes,
+            name: detail.name,
+            symbol: detail.symbol,
+            description: detail.description,
+            image: imageUrl as string,
+            attributes: detail.attributes,
+            externalUrl: detail.externalUrl,
           },
-          creators: stepTwo.creators,
-          supply: parseInt(stepTwo.supply),
+          creators: payment.creators,
+          supply: parseInt(payment.supply.replaceAll(',', '')),
           price: 0,
           sellerFeeBasisPoints: ifElse(
             isNil,
             always(null),
-            (royalties) => parseInt(royalties.split('%')[0]) * 100
-          )(stepTwo.royalties),
+            (royalties) => parseFloat(royalties.split('%')[0]) * 100
+          )(payment.royalties),
           startTime: maybeToUtc(startDateTime),
           endTime: maybeToUtc(endDateTime),
         },
@@ -105,20 +155,20 @@ export default function NewDropPreviewPage() {
   return (
     <Card className="w-[372px]">
       <img
-        src={URL.createObjectURL(stepOne.image)}
+        src={detail.image instanceof File ? URL.createObjectURL(detail.image) : detail.image}
         className="w-[340px] h-[340px] self-center object-cover"
       />
       <div className="flex items-center gap-2 mt-4">
-        <Typography.Header size={Size.H2}>{stepOne.name}</Typography.Header>
-        <Typography.Header size={Size.H2} className="text-gray-500">
-          - {stepTwo.supply}
+        <Typography.Header size={Size.H2}>{detail.name}</Typography.Header>
+        <Typography.Header size={Size.H2} className="text-gray-400">
+          - {payment.supply}
         </Typography.Header>
       </div>
       <div className="flex flex-col mt-5">
-        {/* <div className="flex flex-col gap-2 bg-gray-50 rounded-md py-2 px-3">
-          <span className="text-gray-600 text-xs font-medium">Price</span>
+        {/* <div className="flex flex-col gap-2 bg-stone-800 rounded-md py-2 px-3">
+          <span className="text-gray-400 text-xs font-medium">Price</span>
           <div className="flex items-end justify-between">
-            <span className="text-base text-primary font-medium">{stepTwo.price} SOL</span>
+            <span className="text-base text-primary font-medium">{payment.price} SOL</span>
           </div>
         </div>
 
@@ -126,15 +176,15 @@ export default function NewDropPreviewPage() {
           <span className="text-gray-600 text-xs font-medium">Estimated total value</span>
           <div className="flex items-end justify-between">
             <span className="text-base text-primary font-medium">
-              {round(parseInt(stepTwo.supply) * parseInt(stepTwo.price))} SOL
+              {round(parseInt(payment.supply) * parseInt(payment.price))} SOL
             </span>
           </div>
         </div> */}
 
-        <div className="flex gap-4 items-center">
-          <div className="w-full flex flex-col gap-2 border-2 border-gray-100 rounded-md py-2 px-3 mt-4">
-            <span className="text-gray-600 text-xs font-medium">Start date and time</span>
-            <span className="text-primary text-xs font-medium">
+        <div className="flex gap-6 items-center">
+          <div className="w-full flex flex-col gap-2 bg-stone-800 rounded-md py-2 px-3 mt-4">
+            <span className="text-gray-400 text-xs font-medium">Start date and time</span>
+            <span className="text-white text-xs font-medium">
               {startDateTime
                 ? `${format(startDateTime, DateFormat.DATE_1)}, ${format(
                     startDateTime,
@@ -147,9 +197,9 @@ export default function NewDropPreviewPage() {
             </span>
           </div>
           {endDateTime && (
-            <div className="w-full flex flex-col gap-2 border-2 border-gray-100 rounded-md py-2 px-3 mt-4">
-              <span className="text-gray-600 text-xs font-medium">End date and time</span>
-              <span className="text-primary text-xs font-medium">
+            <div className="w-full flex flex-col gap-2 bg-stone-800 rounded-md py-2 px-3 mt-4">
+              <span className="text-gray-400 text-xs font-medium">End date and time</span>
+              <span className="text-white text-xs font-medium">
                 {`${format(endDateTime, DateFormat.DATE_1)}, ${format(
                   endDateTime,
                   DateFormat.TIME_1
@@ -159,14 +209,43 @@ export default function NewDropPreviewPage() {
           )}
         </div>
 
-        <hr className="w-full bg-gray-500 my-5" color="#e6e6e6" />
+        <hr className="w-full bg-stone-800 border-0 h-px my-4" />
 
-        <div className="flex items-center justify-between">
-          <Button className="self-start" variant="tertiary" disabled={submitting} onClick={back}>
+        <div className="flex items-center gap-4 rounded-lg justify-between bg-stone-950 p-4 mb-4">
+          <div className="flex items-center gap-2">
+            <Icon.Balance />
+            <div className="text-gray-400">Cost to create the drop</div>
+          </div>
+          <div className="flex flex-col gap-2">
+            <span className="text-white font-medium">{cost} credits</span>
+            {cost > creditBalance && (
+              <form action="/browser/credits/purchase" method="POST">
+                <Button icon={<Icon.Add />} htmlType="submit">
+                  Buy more credits
+                </Button>
+              </form>
+            )}
+          </div>
+        </div>
+
+        {cost > creditBalance && (
+          <div className="flex bg-red-500 text-red-500 bg-opacity-20 mb-4 rounded-lg p-4">
+            Your organization currently has {creditBalance} credits. You need {cost} credits to
+            create the drop. Please purchase more credits to continue.
+          </div>
+        )}
+
+        <div className="flex items-center justify-end gap-6">
+          <Button variant="secondary" disabled={submitting} onClick={back}>
             Back
           </Button>
-          <Button htmlType="submit" loading={submitting} disabled={submitting} onClick={onSubmit}>
-            {startDateTime ? 'Schedule mint' : 'Start mint'}
+          <Button
+            htmlType="submit"
+            loading={submitting}
+            disabled={submitting || cost > creditBalance}
+            onClick={onSubmit}
+          >
+            {startDateTime ? 'Schedule drop' : 'Create drop'}
           </Button>
         </div>
       </div>
