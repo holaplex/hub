@@ -51,6 +51,12 @@ jobs:
           else
             echo "::set-output name=fqdn::https://hub.holaplex.dev"
           fi
+      - 
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       -
         name: Build and push hub-ui
         uses: docker/build-push-action@v3
