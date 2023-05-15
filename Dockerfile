@@ -21,9 +21,11 @@ COPY src src
 
 FROM builder as development
 
+ARG APP_FQDN
 EXPOSE 3000
 
 ENV NODE_ENV "development"
+ENV NEXT_PUBLIC_APP_FQDN $APP_FQDN
 
 ENV PORT 3000
 
@@ -31,14 +33,15 @@ CMD ["npm", "run", "dev"]
 
 FROM builder AS production
 
-ARG APP_FQDN
-
 ENV NEXT_PUBLIC_APP_FQDN $APP_FQDN
 ENV NODE_ENV "production"
 
 RUN npm run build
 
 FROM production AS runner
+
+ARG APP_FQDN
+
 WORKDIR /app
 
 RUN addgroup -g 1001 -S nodejs

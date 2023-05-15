@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { headers, cookies } from 'next/headers';
+import { NextRequest } from 'next/server';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
@@ -9,11 +9,11 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
 const price = process.env.STRIPE_PRICE_ID;
 const fqdn = process.env.NEXT_PUBLIC_APP_FQDN;
 
-export async function POST() {
-  const headersList = headers();
-  const cookiesList = cookies();
-  const userId = headersList.get('x-user-id');
-  const organization = cookiesList.get('_hub_org')?.value as string;
+export async function POST(request: NextRequest) {
+  const headers = request.headers;
+  const cookies = request.cookies;
+  const userId = headers.get('x-user-id');
+  const organization = cookies.get('_hub_org')?.value as string;
 
   const session = await stripe.checkout.sessions.create({
     line_items: [
