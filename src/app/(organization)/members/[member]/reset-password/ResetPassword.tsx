@@ -8,6 +8,8 @@ import { useQuery } from '@apollo/client';
 import { useSession } from '../../../../../hooks/useSession';
 import { GetUser } from '../../../../../queries/user.graphql';
 import { useForm } from 'react-hook-form';
+import { useRecoveryFlow } from '../../../../../hooks/userRecoveryFlow';
+import { useRecovery } from '../../../../../hooks/useRecovery';
 
 interface GetUserData {
   user: User;
@@ -23,6 +25,8 @@ interface UpdatePasswordForm {
 export default function ResetPassword({ member }: { member: string }) {
   const router = useRouter();
   const { session } = useSession();
+  // const { flow, loading } = useRecoveryFlow();
+  // const { submit, register, handleSubmit, formState } = useRecovery(flow);
 
   const userQuery = useQuery<GetUserData, GetUserVars>(GetUser, {
     variables: { user: session?.identity.id! },
