@@ -236,25 +236,6 @@ export default function Drops({ project }: DropsPageProps) {
                                     },
                                   }
                                 ),
-                                // columnHelper.accessor('createdAt', {
-                                //   header: () => <span>Create date</span>,
-                                //   cell: (info) => (
-                                //     <div className="flex flex-col gap-1">
-                                //       <span className="text-xs text-gray-400 font-medium">
-                                //         {format(
-                                //           convertLocalTime(info.getValue()),
-                                //           DateFormat.DATE_1
-                                //         )}
-                                //       </span>
-                                //       <span className="text-xs text-white">
-                                //         {format(
-                                //           convertLocalTime(info.getValue()),
-                                //           DateFormat.TIME_1
-                                //         )}
-                                //       </span>
-                                //     </div>
-                                //   ),
-                                // }),
                                 columnHelper.accessor(
                                   ({ startTime, createdAt }) => ({ startTime, createdAt }),
                                   {
@@ -280,31 +261,6 @@ export default function Drops({ project }: DropsPageProps) {
                                     },
                                   }
                                 ),
-                                // columnHelper.accessor('endTime', {
-                                //   header: () => <span>Mint end date</span>,
-                                //   cell: (info) => (
-                                //     <div className="flex flex-col gap-1">
-                                //       {info.getValue() ? (
-                                //         <>
-                                //           <span className="text-xs text-gray-400 font-medium">
-                                //             {format(
-                                //               convertLocalTime(info.getValue()),
-                                //               DateFormat.DATE_1
-                                //             )}
-                                //           </span>
-                                //           <span className="text-xs text-white">
-                                //             {format(
-                                //               convertLocalTime(info.getValue()),
-                                //               DateFormat.TIME_1
-                                //             )}
-                                //           </span>
-                                //         </>
-                                //       ) : (
-                                //         <span className="text-xs text-white font-medium">None</span>
-                                //       )}
-                                //     </div>
-                                //   ),
-                                // }),
                                 columnHelper.accessor(
                                   ({ collection, status }) => {
                                     if (!collection) {
@@ -325,15 +281,9 @@ export default function Drops({ project }: DropsPageProps) {
 
                                       return (
                                         <div className="flex items-center text-white text-xs font-medium">
-                                          {supply ? (
-                                            <>
-                                              {`${supply}${totalMints ? ' / ' : ''}${
-                                                totalMints || ''
-                                              } minted`}
-                                            </>
-                                          ) : (
-                                            <>Unlimited</>
-                                          )}
+                                          {supply
+                                            ? `${totalMints} / ${supply} minted`
+                                            : 'Unlimited'}
                                         </div>
                                       );
                                     },

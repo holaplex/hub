@@ -1299,6 +1299,8 @@ export type User = {
   id: Scalars['UUID'];
   /** The last name of the user identity. */
   lastName: Scalars['String'];
+  /** The profile image associated with the user identity. */
+  profileImage?: Maybe<Scalars['String']>;
   /** The timestamp in UTC when the user identity was last updated. */
   updatedAt: Scalars['String'];
 };
