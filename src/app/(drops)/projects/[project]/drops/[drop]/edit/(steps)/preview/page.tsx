@@ -301,7 +301,7 @@ export default function EditDropPreviewPage() {
           </div>
 
           {error && (
-            <div className="text-sm font-medium text-red-500 bg-red-500/75 p-4 my-5 rounded-lg">
+            <div className="text-sm font-medium text-red-500 bg-red-500/25 p-4 my-5 rounded-lg">
               {error}
             </div>
           )}

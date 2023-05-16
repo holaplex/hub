@@ -13,6 +13,7 @@ import clsx from 'clsx';
 import { StoreApi, useStore } from 'zustand';
 import { DropFormState, DetailSettings } from '../../../../../../../providers/DropFormProvider';
 import { useDropForm } from '../../../../../../../hooks/useDropForm';
+import { error } from 'console';
 
 const BLOCKCHAIN_LABELS = {
   [Blockchain.Solana]: 'Solana',
@@ -29,11 +30,12 @@ export default function NewDropDetailsPage() {
   const detail = useStore(store, (store) => store.detail);
   const setDetail = useStore(store, (store) => store.setDetail);
 
-  const { handleSubmit, register, control, setValue, formState, watch } = useForm<DetailSettings>({
-    defaultValues: detail || {
-      blockchain: Blockchain.Solana,
-    },
-  });
+  const { handleSubmit, register, control, setValue, formState, watch, setError, clearErrors } =
+    useForm<DetailSettings>({
+      defaultValues: detail || {
+        blockchain: Blockchain.Solana,
+      },
+    });
 
   const includeAnimationUrl = watch('includeAnimationUrl');
 
@@ -66,7 +68,15 @@ export default function NewDropDetailsPage() {
                   multiple={false}
                   onDrop={([file], _reject, e) => {
                     e.preventDefault();
-                    setValue('image', file as unknown as File, { shouldValidate: true });
+                    clearErrors('image');
+                    if (file['type'].split('/')[0] !== 'image') {
+                      setError('image', {
+                        message:
+                          'Uploading video files is not currently supported. You can add a link to a hosted video by checking the "Include a video" checkbox below.',
+                      });
+                    } else {
+                      setValue('image', file as unknown as File, { shouldValidate: true });
+                    }
                   }}
                 >
                   {({ getRootProps, getInputProps, isDragActive, open }) => {
@@ -86,13 +96,12 @@ export default function NewDropDetailsPage() {
                         ) : (
                           <div className="flex flex-col gap-2 text-gray-400">
                             <p className="text-center">
-                              Since you uploaded a video as your main artwork you need to upload a
-                              static image for your cover image. Drag & drop file or{' '}
+                              Drag & drop file or{' '}
                               <span className="text-yellow-300 cursor-pointer">Browse files</span>{' '}
                               to upload.
                               <br />
                               <br />
-                              JPEG, PNG supported. Must be under 10 MB.
+                              JPEG, GIF and PNG supported. Must be under 10 MB.
                             </p>
                           </div>
                         )}
