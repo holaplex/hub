@@ -143,6 +143,7 @@ export default function NewDropPreviewPage() {
             image: imageUrl as string,
             attributes: detail.attributes,
             externalUrl: detail.externalUrl,
+            animationUrl: detail.includeAnimationUrl ? detail.animationUrl : undefined,
           },
           creators: payment.creators,
           supply: parseInt(payment.supply.replaceAll(',', '')),

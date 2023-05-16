@@ -207,7 +207,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                   <Sidebar.Menu.Link
                     name="Help"
                     icon={<Icon.HelpHeadphones stroke="stroke-gray-400" />}
-                    href="https://docs.holaplex.dev"
+                    href="https://docs.holaplex.com"
                     active={false}
                     target="_blank"
                   />

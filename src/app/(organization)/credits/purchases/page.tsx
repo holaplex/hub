@@ -2,10 +2,10 @@
 
 import { useQuery } from '@apollo/client';
 import { createColumnHelper } from '@tanstack/react-table';
-import Table from '../../../../components/Table';
-import { CreditDeposit, DepositReason, Organization } from '../../../../graphql.types';
-import { useOrganization } from '../../../../hooks/useOrganization';
-import { DateFormat, formatDateString } from '../../../../modules/time';
+import Table from './../../../../components/Table';
+import { CreditDeposit, Organization } from './../../../../graphql.types';
+import { useOrganization } from './../../../../hooks/useOrganization';
+import { DateFormat, formatDateString } from './../../../../modules/time';
 import { GetOrganizationCreditDeposits } from './../../../../queries/credits.graphql';
 
 interface GetOrganizationDepositsVars {

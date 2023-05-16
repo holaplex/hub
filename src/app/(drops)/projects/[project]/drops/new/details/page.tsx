@@ -1,5 +1,5 @@
 'use client';
-import { Button, Form } from '@holaplex/ui-library-react';
+import { Button, Form, Placement } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import Dropzone from 'react-dropzone';
 import { Controller, useForm, useFieldArray } from 'react-hook-form';
@@ -35,7 +35,7 @@ export default function NewDropDetailsPage() {
     },
   });
 
-  // const artwork = watch('artwork');
+  const includeAnimationUrl = watch('includeAnimationUrl');
 
   const submit = (data: DetailSettings) => {
     setDetail(data);
@@ -52,55 +52,7 @@ export default function NewDropDetailsPage() {
       <Card className="w-[492px]">
         <Typography.Header size={Size.H2}>Drop details</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-          {/* <Form.Label name="Main artwork" className="text-xs text-yellow-300 mt-5">
-            <Controller
-              name="artwork"
-              control={control}
-              rules={{ required: 'Please upload your artwork.' }}
-              render={({ field: { value, onBlur } }) => (
-                <Dropzone
-                  noClick
-                  multiple={false}
-                  onDrop={([file], _reject, e) => {
-                    e.preventDefault();
-                    setValue('artwork', file as unknown as File, { shouldValidate: true });
-                  }}
-                >
-                  {({ getRootProps, getInputProps, isDragActive, open }) => {
-                    return (
-                      <div
-                        {...getRootProps()}
-                        className={clsx(
-                          'flex items-center justify-center border border-dashed border-stone-800 cursor-pointer rounded-md p-6 text-center text-gray-500',
-                          {
-                            'bg-stone-800': isDragActive,
-                          }
-                        )}
-                      >
-                        <input {...getInputProps({ onBlur })} />
-                        {value ? (
-                          <Form.DragDrop.Preview value={value} />
-                        ) : (
-                          <div className="flex flex-col gap-2 text-gray-400">
-                            <p className="text-center">
-                              Drag & drop file or{' '}
-                              <span className="text-yellow-300 cursor-pointer">Browse files</span>{' '}
-                              to upload.
-                              <br />
-                              <br />
-                              JPEG, PNG supported. Must be under 10 MB.
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  }}
-                </Dropzone>
-              )}
-            />
-            <Form.Error message={formState.errors.image?.message} />
-          </Form.Label> */}
-          <Form.Label name="Artwork" className="text-xs text-yellow-300 mt-5">
+          <Form.Label name="Main Artwork" className="text-xs text-yellow-300 mt-5">
             <Controller
               name="image"
               control={control}
@@ -149,6 +101,23 @@ export default function NewDropDetailsPage() {
             />
             <Form.Error message={formState.errors.image?.message} />
           </Form.Label>
+
+          <Form.Label name="Include a video" placement={Placement.Right} className="mt-5">
+            <Form.Checkbox {...register('includeAnimationUrl')} />
+          </Form.Label>
+
+          {includeAnimationUrl && (
+            <Form.Label name="Video URL" className="text-xs mt-5 basis-3/4">
+              <Form.Input
+                {...register('animationUrl', {
+                  required: 'Please enter a name.',
+                })}
+                autoFocus
+                placeholder="URL to hosted video"
+              />
+              <Form.Error message={formState.errors.name?.message} />
+            </Form.Label>
+          )}
 
           <div className="flex items-center gap-6">
             <Form.Label name="Name" className="text-xs mt-5 basis-3/4">

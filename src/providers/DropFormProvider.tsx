@@ -14,6 +14,8 @@ export type DetailSettings = {
   description: string;
   artwork: File | string;
   image: File | string;
+  animationUrl?: string;
+  includeAnimationUrl?: boolean;
   attributes: Attribute[];
   externalUrl: string;
 };

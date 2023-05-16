@@ -23,7 +23,6 @@ import {
 } from '../../../../../../../providers/DropFormProvider';
 import { Icon } from './../../../../../../../components/Icon';
 import { useDropForm } from '../../../../../../../hooks/useDropForm';
-import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import {
   GetCreditSheet,
@@ -88,7 +87,7 @@ export default function NewDropRoyaltiesPage() {
   const supply = parseInt(watch('supply')?.replaceAll(',', '')) || false;
 
   const createDropCredits = creditSheet
-    ?.find((actionCost: ActionCost) => actionCost.action === Action.CreateDrop)
+    ?.find((actionCost: ActionCost) => actionCost.action === Action.MintEdition)
     ?.blockchains.find(
       (blockchainCost: BlockchainCost) => blockchainCost.blockchain === detail?.blockchain
     )?.credits;
@@ -181,9 +180,11 @@ export default function NewDropRoyaltiesPage() {
                   </div>
                 </div>
                 {createDropCredits * supply > creditBalance && (
-                  <Link href="/credits/buy" className="flex-none">
-                    <Button>Buy credits</Button>
-                  </Link>
+                  <form action="/browser/credits/purchase" method="POST">
+                    <Button icon={<Icon.Add />} htmlType="submit">
+                      Buy more credits
+                    </Button>
+                  </form>
                 )}
               </div>
             )}
