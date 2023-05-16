@@ -157,36 +157,7 @@ export default function EditDropRoyaltiesPage() {
       <Card className="w-[492px]">
         <Typography.Header size={Size.H2}>Supply</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-          <div className="flex flex-col gap-2">
-            <Form.Label name="Specify how many editions will be available" className="text-xs mt-5">
-              <Form.Input {...register('supply')} autoFocus placeholder="e.g. 10,000" />
-            </Form.Label>
-            {supply && creditBalance && createDropCredits && (
-              <div className="flex items-center gap-4 rounded-lg bg-stone-950 p-4">
-                <div className="flex items-center gap-2 shrink">
-                  <Icon.Balance />
-                  <div className="text-gray-400 text-xs font-medium shrink">
-                    You will need <span className="text-white">{createDropCredits * supply}</span>{' '}
-                    credits to mint {supply} NFTs. You currently have{' '}
-                    <span
-                      className={clsx({
-                        'text-red-500': createDropCredits * supply > creditBalance,
-                        'text-green-400': createDropCredits * supply <= creditBalance,
-                      })}
-                    >
-                      {creditBalance}
-                    </span>{' '}
-                    credits.
-                  </div>
-                </div>
-                {createDropCredits * supply <= creditBalance && (
-                  <form action="/browser/credits/purchase" method="POST" className="shrink-0">
-                    <Button htmlType="submit">Buy credits</Button>
-                  </form>
-                )}
-              </div>
-            )}
-          </div>
+          {supply}
 
           <Typography.Header size={Size.H2} className="mt-6 mb-8">
             Royalties

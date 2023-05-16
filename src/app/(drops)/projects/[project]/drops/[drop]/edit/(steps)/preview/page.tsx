@@ -141,7 +141,7 @@ export default function EditDropPreviewPage() {
             description: detail.description,
             image: imageUrl as string,
             attributes: detail.attributes.map(({ traitType, value }) => ({ traitType, value })),
-            animationUrl: detail.includeAnimationUrl ? detail.animationUrl : undefined,
+            animationUrl: detail.animationUrl,
           },
           creators: payment.creators.map(({ address, share, verified }) => ({
             address,
@@ -173,6 +173,16 @@ export default function EditDropPreviewPage() {
     <Card className="w-[906px]">
       <div className="flex gap-8">
         <div className="basis-1/3 flex flex-col gap-4 w-full">
+          {detail.includeAnimationUrl && detail.animationUrl && (
+            <>
+              <span className="text-sm text-gray-400">Main artwork</span>
+              <video
+                src={detail.animationUrl}
+                controls
+                className="w-full aspect-video object-cover rounded-lg"
+              />
+            </>
+          )}
           <span className="text-sm text-gray-400">
             {detail.includeAnimationUrl && detail.animationUrl ? 'Cover image' : 'Main artwork'}
           </span>
@@ -213,12 +223,6 @@ export default function EditDropPreviewPage() {
           <hr className="w-full bg-stone-800 my-4 h-px border-0" />
 
           <div className="flex flex-col gap-2 text-white text-sm w-full">
-            {detail.includeAnimationUrl && detail.animationUrl && (
-              <div className="flex items-center justify-between gap-2">
-                <span>Video URL</span>
-                <span>{detail.animationUrl}</span>
-              </div>
-            )}
             <div className="flex items-center justify-between gap-2">
               <span>Royalties</span>
               <span>{payment.royalties}</span>

@@ -120,16 +120,19 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
           </Form.Label>
 
           {includeAnimationUrl && (
-            <Form.Label name="Video URL" className="text-xs mt-5 basis-3/4">
-              <Form.Input
-                {...register('animationUrl', {
-                  required: 'Please enter a name.',
-                })}
-                autoFocus
-                placeholder="URL to hosted video"
-              />
-              <Form.Error message={formState.errors.name?.message} />
-            </Form.Label>
+            <>
+              <Form.Label name="Video URL" className="text-xs mt-5 basis-3/4">
+                <Form.Input
+                  {...register('animationUrl')}
+                  autoFocus
+                  placeholder="URL to hosted video"
+                />
+              </Form.Label>
+              <div className="text-sm font-medium text-blue-400 bg-blue-400/20 mt-4 p-4 rounded-lg">
+                Uploading video files is not currently supported. You can add a link to a hosted
+                video and it will be set on the metadata JSON of the NFTs.
+              </div>
+            </>
           )}
 
           <div className="flex items-center gap-6">
@@ -190,7 +193,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
           <Form.Label name="External URL" className="text-xs mt-5">
             <Form.Input
               {...register('externalUrl')}
-              placeholder="Set an external url on the drop."
+              placeholder="Set an external url for the drop."
             />
             <Form.Error message="" />
           </Form.Label>
