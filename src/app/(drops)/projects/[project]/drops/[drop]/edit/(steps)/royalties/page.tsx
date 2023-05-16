@@ -163,9 +163,9 @@ export default function EditDropRoyaltiesPage() {
             </Form.Label>
             {supply && creditBalance && createDropCredits && (
               <div className="flex items-center gap-4 rounded-lg bg-stone-950 p-4">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 shrink">
                   <Icon.Balance />
-                  <div className="text-gray-400 text-xs font-medium">
+                  <div className="text-gray-400 text-xs font-medium shrink">
                     You will need <span className="text-white">{createDropCredits * supply}</span>{' '}
                     credits to mint {supply} NFTs. You currently have{' '}
                     <span
@@ -180,10 +180,8 @@ export default function EditDropRoyaltiesPage() {
                   </div>
                 </div>
                 {createDropCredits * supply <= creditBalance && (
-                  <form action="/browser/credits/purchase" method="POST">
-                    <Button icon={<Icon.Add />} htmlType="submit">
-                      Buy more credits
-                    </Button>
+                  <form action="/browser/credits/purchase" method="POST" className="shrink-0">
+                    <Button htmlType="submit">Buy credits</Button>
                   </form>
                 )}
               </div>

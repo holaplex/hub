@@ -54,7 +54,10 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
       <Card className="w-[492px]">
         <Typography.Header size={Size.H2}>Drop details</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-          <Form.Label name="Main artwork" className="text-xs text-yellow-300 mt-5">
+          <Form.Label
+            name={includeAnimationUrl ? 'Cover image' : 'Main artwork'}
+            className="text-xs text-yellow-300 mt-5"
+          >
             <Controller
               name="image"
               control={control}
