@@ -1,5 +1,5 @@
 'use client';
-import { Button, Form } from '@holaplex/ui-library-react';
+import { Button, Form, Placement } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import Dropzone from 'react-dropzone';
 import { Controller, useForm, useFieldArray } from 'react-hook-form';
@@ -31,9 +31,11 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
   const detail = useStore(store, (store) => store.detail);
   const setDetail = useStore(store, (store) => store.setDetail);
 
-  const { handleSubmit, register, control, setValue, formState } = useForm<DetailSettings>({
+  const { handleSubmit, register, control, setValue, formState, watch } = useForm<DetailSettings>({
     defaultValues: detail || {},
   });
+
+  const includeAnimationUrl = watch('includeAnimationUrl');
 
   const submit = (data: DetailSettings) => {
     setDetail(data);
@@ -52,7 +54,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
       <Card className="w-[492px]">
         <Typography.Header size={Size.H2}>Drop details</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-          <Form.Label name="Artwork" className="text-xs text-yellow-300 mt-5">
+          <Form.Label name="Main artwork" className="text-xs text-yellow-300 mt-5">
             <Controller
               name="image"
               control={control}
@@ -83,12 +85,13 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
                         ) : (
                           <div className="flex flex-col gap-2 text-gray-400">
                             <p className="text-center">
-                              Drag & drop file or{' '}
-                              <span className="text-yellow-300 cursor-pointer">Browse files</span>
+                              Since you uploaded a video as your main artwork you need to upload a
+                              static image for your cover image. Drag & drop file or{' '}
+                              <span className="text-yellow-300 cursor-pointer">Browse files</span>{' '}
+                              to upload.
                               <br />
-                              Add artwork size based on a preview size.
                               <br />
-                              400x400 etc. Should be strict rectangular.
+                              JPEG, PNG supported. Must be under 10 MB.
                             </p>
                           </div>
                         )}
@@ -100,6 +103,23 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
             />
             <Form.Error message={formState.errors.image?.message} />
           </Form.Label>
+
+          <Form.Label name="Include a video" placement={Placement.Right} className="mt-5">
+            <Form.Checkbox {...register('includeAnimationUrl')} />
+          </Form.Label>
+
+          {includeAnimationUrl && (
+            <Form.Label name="Video URL" className="text-xs mt-5 basis-3/4">
+              <Form.Input
+                {...register('animationUrl', {
+                  required: 'Please enter a name.',
+                })}
+                autoFocus
+                placeholder="URL to hosted video"
+              />
+              <Form.Error message={formState.errors.name?.message} />
+            </Form.Label>
+          )}
 
           <div className="flex items-center gap-6">
             <Form.Label name="Name" className="text-xs mt-5 basis-3/4">

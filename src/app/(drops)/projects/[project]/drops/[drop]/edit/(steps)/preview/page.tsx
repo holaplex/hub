@@ -4,9 +4,17 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import Card from '../../../../../../../../../components/Card';
 import Typography, { Size } from '../../../../../../../../../components/Typography';
-import { PatchDropInput, PatchDropPayload } from '../../../../../../../../../graphql.types';
+import {
+  Action,
+  ActionCost,
+  BlockchainCost,
+  CollectionCreatorInput,
+  Organization,
+  PatchDropInput,
+  PatchDropPayload,
+} from '../../../../../../../../../graphql.types';
 import { StoreApi, useStore } from 'zustand';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { format } from 'date-fns';
 import { File } from 'nft.storage';
 import { PatchDrop } from './../../../../../../../../../mutations/drop.graphql';
@@ -15,8 +23,16 @@ import { useProject } from '../../../../../../../../../hooks/useProject';
 import { useState } from 'react';
 import { GetProjectDrops } from './../../../../../../../../../queries/drop.graphql';
 import { ifElse, isNil, always } from 'ramda';
-import { DropFormState } from '../../../../../../../../../providers/DropFormProvider';
+import { Attribute, DropFormState } from '../../../../../../../../../providers/DropFormProvider';
 import { useDropForm } from '../../../../../../../../../hooks/useDropForm';
+import {
+  GetCreditSheet,
+  GetOrganizationCreditBalance,
+} from '../../../../../../../../../queries/credits.graphql';
+import { uploadFile } from '../../../../../../../../../modules/upload';
+import { Icon } from '../../../../../../../../../components/Icon';
+import Link from 'next/link';
+import clsx from 'clsx';
 
 interface PatchDropData {
   createProject: PatchDropPayload;
@@ -26,23 +42,16 @@ interface PatchDropVars {
   input: PatchDropInput;
 }
 
-const LAMPORTS_PER_SOL = 1_000_000_000;
+interface GetOrganizationBalanceVars {
+  organization: string;
+}
 
-async function uploadFile(file: File): Promise<{ url: string; name: string }> {
-  const body = new FormData();
-  body.append(file.name, file, file.name);
+interface GetOrganizationCreditBalanceData {
+  organization: Organization;
+}
 
-  try {
-    const response = await fetch('/api/uploads', {
-      method: 'POST',
-      body,
-    });
-    const json = await response.json();
-    return json[0];
-  } catch (e: any) {
-    console.error('Could not upload file', e);
-    throw new Error(e);
-  }
+interface GetCreditSheetData {
+  creditSheet: ActionCost[];
 }
 
 export default function EditDropPreviewPage() {
@@ -61,6 +70,23 @@ export default function EditDropPreviewPage() {
   const [createDrop] = useMutation<PatchDropData, PatchDropVars>(PatchDrop, {
     refetchQueries: [{ query: GetProjectDrops, variables: { project: project?.id } }],
   });
+
+  const creditBalanceQuery = useQuery<GetOrganizationCreditBalanceData, GetOrganizationBalanceVars>(
+    GetOrganizationCreditBalance,
+    {
+      variables: { organization: project?.organization?.id },
+    }
+  );
+  const creditBalance = creditBalanceQuery.data?.organization.credits?.balance as number;
+
+  const creditSheetQuery = useQuery<GetCreditSheetData>(GetCreditSheet);
+
+  const creditSheet = creditSheetQuery.data?.creditSheet;
+
+  const cost = creditSheet
+    ?.find((cost) => cost.action === Action.CreateDrop)
+    ?.blockchains?.find((blockchain) => blockchain.blockchain === detail?.blockchain)
+    ?.credits as number;
 
   if (!detail || !payment || !timing) {
     toast('Incomplete drops data. Check again.');
@@ -88,6 +114,14 @@ export default function EditDropPreviewPage() {
     );
   }
 
+  const createDropCredits = creditSheet
+    ?.find((actionCost: ActionCost) => actionCost.action === Action.CreateDrop)
+    ?.blockchains.find(
+      (blockchainCost: BlockchainCost) => blockchainCost.blockchain === detail?.blockchain
+    )?.credits;
+
+  const supply = parseInt(payment.supply.replaceAll(',', ''));
+
   const onSubmit = async () => {
     setSubmitting(true);
     let imageUrl = detail.image;
@@ -106,6 +140,7 @@ export default function EditDropPreviewPage() {
             description: detail.description,
             image: imageUrl as string,
             attributes: detail.attributes.map(({ traitType, value }) => ({ traitType, value })),
+            animationUrl: detail.includeAnimationUrl ? detail.animationUrl : undefined,
           },
           creators: payment.creators.map(({ address, share, verified }) => ({
             address,
@@ -130,71 +165,134 @@ export default function EditDropPreviewPage() {
   };
 
   return (
-    <Card className="max-w-md">
-      <img
-        src={detail.image instanceof File ? URL.createObjectURL(detail.image) : detail.image}
-        className="w-[340px] h-[340px] self-center object-cover"
-      />
-      <div className="flex items-center gap-2 mt-4">
-        <Typography.Header size={Size.H2}>{detail.name}</Typography.Header>
-        <Typography.Header size={Size.H2} className="text-gray-400">
-          - {payment.supply}
-        </Typography.Header>
-      </div>
-      <div className="flex flex-col mt-5">
-        {/* <div className="flex flex-col gap-2 bg-stone-800 rounded-md py-2 px-3">
-          <span className="text-gray-400 text-xs font-medium">Price</span>
-          <div className="flex items-end justify-between">
-            <span className="text-base text-primary font-medium">{payment.price} SOL</span>
+    <Card className="w-[906px]">
+      <div className="flex gap-8">
+        <div className="basis-1/3 flex flex-col gap-4 w-full">
+          <span className="text-sm text-gray-400">Main artwork</span>
+          <img
+            src={detail.image instanceof File ? URL.createObjectURL(detail.image) : detail.image}
+            className="w-[340px] h-[340px] self-center object-cover"
+          />
+          <div className="grid-cols-2 gap-2">
+            {detail.attributes.map((attribute: Attribute) => {
+              return (
+                <div
+                  key={attribute.traitType}
+                  className="flex flex-col gap-2 py-2 px-4 bg-stone-800"
+                >
+                  <span className="text-gray-400 text-sm">{attribute.traitType}</span>
+                  <span className="text-sm text-white">{attribute.value}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
+        <div className="basis-2/3 flex flex-col w-full">
+          <span className="text-sm text-gray-400">{detail.symbol}</span>
+          <Typography.Header size={Size.H2} className="mt-2">
+            {detail.name}
+          </Typography.Header>
 
-        <div className="flex flex-col gap-2 border-2 border-gray-100 rounded-md py-2 px-3 mt-4">
-          <span className="text-gray-600 text-xs font-medium">Estimated total value</span>
-          <div className="flex items-end justify-between">
-            <span className="text-base text-primary font-medium">
-              {round(parseInt(payment.supply) * parseInt(payment.price))} SOL
-            </span>
+          <div className="flex gap-4 justify-between">
+            <span className="text-sm text-gray-400">{detail.description}</span>
+            <div className="flex flex-col gap-2 py-2 px-4 bg-stone-800">
+              <span className="text-gray-400 text-sm">Supply</span>
+              <span className="text-sm text-white">
+                {payment.supply ? payment.supply : 'Unlimited'}
+              </span>
+            </div>
           </div>
-        </div> */}
 
-        <div className="flex gap-6 items-center">
-          <div className="w-full flex flex-col gap-2 bg-stone-800 rounded-md py-2 px-3 mt-4">
-            <span className="text-gray-400 text-xs font-medium">Start date and time</span>
-            <span className="text-white text-xs font-medium">
+          <hr className="w-full bg-stone-800 my-4 h-px border-0" />
+
+          <div className="flex flex-col gap-2 text-white text-sm w-full">
+            <div className="flex items-center justify-between gap-2">
+              <>Royalties</>
+              {payment.royalties}
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <>Royalties recipients</>
+              <div className="flex flex-col gap-2 justify-end">
+                {payment.creators.map((creator: CollectionCreatorInput) => {
+                  return (
+                    <div key={creator.address}>{`${creator.address} - ${creator.share}%`}</div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <>Starts</>
               {startDateTime
                 ? `${format(startDateTime, DateFormat.DATE_1)}, ${format(
                     startDateTime,
                     DateFormat.TIME_1
                   )}`
-                : `${format(new Date(), DateFormat.DATE_1)}, ${format(
-                    new Date(),
+                : 'Immediately'}
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <>Ends</>
+              {endDateTime
+                ? `${format(endDateTime, DateFormat.DATE_1)}, ${format(
+                    endDateTime,
                     DateFormat.TIME_1
-                  )}`}
-            </span>
+                  )}`
+                : 'Never'}
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <>External URL</>
+              {detail.externalUrl}
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <>Blockchain</>
+              {detail.blockchain}
+            </div>
           </div>
-          {endDateTime && (
-            <div className="w-full flex flex-col gap-2 bg-stone-800 rounded-md py-2 px-3 mt-4">
-              <span className="text-gray-400 text-xs font-medium">End date and time</span>
-              <span className="text-white text-xs font-medium">
-                {`${format(endDateTime, DateFormat.DATE_1)}, ${format(
-                  endDateTime,
-                  DateFormat.TIME_1
-                )}`}
-              </span>
+
+          <hr className="w-full bg-stone-800 my-4 h-px border-0" />
+
+          {payment.supply && creditBalance && createDropCredits && (
+            <div className="flex items-center gap-4 rounded-lg bg-stone-950 p-4">
+              <div className="flex items-center gap-2">
+                <Icon.Balance />
+                <div className="text-gray-400 text-sm font-medium">
+                  Based on estimated usage you will need about{' '}
+                  <span className="text-white">{createDropCredits * supply}</span> credits to create
+                  wallets and mint {payment.supply} NFTs. You currently have{' '}
+                  <span
+                    className={clsx({
+                      'text-red-500': createDropCredits * supply > creditBalance,
+                      'text-green-400': createDropCredits * supply <= creditBalance,
+                    })}
+                  >
+                    {creditBalance}
+                  </span>{' '}
+                  credits.
+                </div>
+              </div>
+              {createDropCredits * supply > creditBalance && (
+                <Link href="/credits/buy" className="flex-none">
+                  <Button>Buy credits</Button>
+                </Link>
+              )}
             </div>
           )}
-        </div>
-
-        <hr className="w-full bg-stone-800 border-0 h-px my-5" />
-
-        <div className="flex items-center justify-end gap-6">
-          <Button variant="secondary" disabled={submitting} onClick={back}>
-            Back
-          </Button>
-          <Button htmlType="submit" loading={submitting} disabled={submitting} onClick={onSubmit}>
-            Update drop
-          </Button>
+          <div className="flex items-center justify-between gap-4 rounded-lg bg-stone-950 p-4">
+            <span className="text-gray-400 text-sm font-medium">Cost to create drop</span>
+            <span className="text-white text-sm font-medium">{cost} credits</span>
+          </div>
+          <div className="flex items-center justify-end gap-6 mt-4">
+            <Button variant="secondary" disabled={submitting} onClick={back}>
+              Back
+            </Button>
+            <Button
+              htmlType="submit"
+              loading={submitting}
+              disabled={submitting || cost > creditBalance}
+              onClick={onSubmit}
+            >
+              {startDateTime ? 'Schedule drop' : 'Create drop'}
+            </Button>
+          </div>
         </div>
       </div>
     </Card>

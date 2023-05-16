@@ -12,7 +12,6 @@ export type DetailSettings = {
   symbol: string;
   blockchain: Blockchain;
   description: string;
-  artwork: File | string;
   image: File | string;
   animationUrl?: string;
   includeAnimationUrl?: boolean;
