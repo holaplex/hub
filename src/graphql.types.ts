@@ -67,6 +67,7 @@ export enum Action {
   CreateDrop = 'CREATE_DROP',
   CreateWallet = 'CREATE_WALLET',
   MintEdition = 'MINT_EDITION',
+  RetryDrop = 'RETRY_DROP',
   RetryMint = 'RETRY_MINT',
   TransferAsset = 'TRANSFER_ASSET'
 }

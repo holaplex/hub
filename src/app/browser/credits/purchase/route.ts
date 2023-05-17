@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     ],
     mode: 'payment',
     success_url: `${fqdn}/credits/purchases`,
-    cancel_url: `${fqdn}/credits/cost`,
+    cancel_url: `${fqdn}/credits/costs`,
     automatic_tax: { enabled: true },
     metadata: {
       organization_id: organization,

@@ -25,7 +25,7 @@ kratos:
         connection_uri: smtps://test:test@mailhog:1025/?skip_ssl_verify=true
     session:
       lifespan: 720h
-      cookie: 
+      cookie:
         domain: hub.127.0.0.1.nip.io
         name: hub_session
     selfservice:
@@ -40,10 +40,10 @@ kratos:
           after:
             oidc:
               hooks:
-              - hook: session
+                - hook: session
             password:
               hooks:
-              - hook: session
+                - hook: session
         error:
           ui_url: https://hub.127.0.0.1.nip.io:9080/account/error
 
@@ -71,7 +71,7 @@ kratos:
           lifespan: 10m
 
   identitySchemas:
-    "identity.default.schema.json": |-
+    'identity.default.schema.json': |-
       {
         "$id": "https://schemas.ory.sh/presets/kratos/quickstart/email-password/identity.schema.json",
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -112,6 +112,11 @@ kratos:
                     "type": "string"
                   }
                 }
+              },
+              "profile_image": {
+                "title": "Profile Image URL",
+                "type": "string",
+                "format": "uri"
               }
             },
             "required": [

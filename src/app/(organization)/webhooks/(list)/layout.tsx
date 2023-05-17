@@ -138,16 +138,15 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                   columns={[
                     columnHelper.accessor('description', {
                       header: () => <span>Name</span>,
-                      maxSize: 120,
                       cell: (info) => (
                         <span className="text-white text-xs font-medium">{info.getValue()}</span>
                       ),
                     }),
                     columnHelper.accessor('url', {
                       header: () => <span>URL</span>,
-                      maxSize: 250,
+                      size: 160,
                       cell: (info) => (
-                        <span className="text-white text-xs font-medium">{info.getValue()}</span>
+                        <span className="text-white text-xs font-medium truncate">{info.getValue()}</span>
                       ),
                     }),
                     columnHelper.display({

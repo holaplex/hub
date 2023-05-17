@@ -6,4 +6,5 @@ export const ACTION_LABEL = {
   [Action.RetryMint]: 'Retry Mint',
   [Action.TransferAsset]: 'Transfer Asset',
   [Action.CreateWallet]: 'Create Wallet',
+  [Action.RetryDrop]: 'Retry Drop',
 };

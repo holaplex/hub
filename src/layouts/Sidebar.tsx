@@ -173,7 +173,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
             {userQuery.data?.user.profileImage ? (
               <img
                 src={userQuery.data?.user.profileImage}
-                className="w-8 h-8 rounded-md"
+                className="w-8 h-8 rounded-full object-cover"
                 alt="photo"
               />
             ) : (
@@ -250,7 +250,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                         <div className="flex gap-2 items-center">
                           {affiliation.organization?.profileImageUrl ? (
                             <img
-                              className="w-8 h-8 rounded-md"
+                              className="w-8 h-8 rounded-md object-cover"
                               src={affiliation.organization.profileImageUrl}
                               alt="logo"
                             />

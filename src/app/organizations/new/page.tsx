@@ -71,8 +71,8 @@ export default function CreateOrganizationPage() {
             {...register('name', { required: true })}
             placeholder="e.g. Apple"
           />
-          <Form.Error message={error?.message} />
         </Form.Label>
+        <Form.Error message={error?.message} />
         <Form.Label name="Organization logo" className="text-xs text-white mt-5">
           <Controller
             name="file"
