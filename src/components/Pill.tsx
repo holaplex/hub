@@ -20,7 +20,7 @@ export function Pill({
   variant = 'default',
   show = true,
 }: PillProps): JSX.Element {
-  const [itemRef, { width }] = useElementSize<HTMLLIElement>();
+  const [itemRef, { width }] = useElementSize<HTMLDivElement>();
 
   useEffect(() => {
     if (width && onSize) {
@@ -29,10 +29,10 @@ export function Pill({
   }, [width, onSize]);
 
   return (
-    <li
+    <div
       ref={itemRef}
       className={clsx(
-        'pl-2 py-1 pr-1 items-center flex fle-row justify-between text-xs',
+        'pl-2 py-1 pr-1 items-center flex flex-row justify-between text-xs',
         show ? 'opacity-100' : 'opacity-0',
         {
           'pr-2': !onClear,
@@ -41,18 +41,18 @@ export function Pill({
         }
       )}
     >
-      {children}
+      <span className="truncate">{children}</span>
       {onClear && (
         <div onClick={onClear} className="ml-2 p-1 rounded-full hover:bg-stone-950 transition">
           <Icon.Close width={12} height={12} stroke="stroke-white" />
         </div>
       )}
-    </li>
+    </div>
   );
 }
 
 function PillList({ children }: { children: JSX.Element[] }): JSX.Element {
-  return <ul className="flex flex-wrap gap-2">{children}</ul>;
+  return <div className="flex flex-wrap gap-2">{children}</div>;
 }
 
 Pill.List = PillList;
@@ -65,7 +65,7 @@ function PillListCompact({
   className?: string;
 }): JSX.Element {
   const [sizes, setSize] = useState<{ [index: number]: number }>({});
-  const [listRef, { width }] = useElementSize<HTMLUListElement>();
+  const [listRef, { width }] = useElementSize<HTMLDivElement>();
 
   const [show, _total] = useMemo(() => {
     return compose(
@@ -85,8 +85,8 @@ function PillListCompact({
   const childCount = children.length;
 
   return (
-    <ul ref={listRef} className={clsx('relative flex flex-row gap-1', className)}>
-      <div className="flex gap-1 grow overflow-hidden">
+    <div className={clsx('relative flex flex-row gap-1', className)}>
+      <div className="flex gap-1 grow overflow-hidden" ref={listRef} >
         {Children.map(children, (child, index) =>
           cloneElement(child, {
             show: index < show,
@@ -110,7 +110,7 @@ function PillListCompact({
           elements={children.slice(show, childCount).map((child) => child)}
         />
       )}
-    </ul>
+    </div>
   );
 }
 

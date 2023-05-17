@@ -217,7 +217,7 @@ input:focus {
 }
 
 .popover-panel {
-  @apply w-screen max-w-[200px] rounded-md p-4 bg-stone-800 text-white;
+  @apply w-screen max-w-[200px] rounded-md p-4 bg-stone-800 text-white z-30;
 }
 
 .popover-elements {
