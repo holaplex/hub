@@ -71,7 +71,7 @@ input[type='time']::-webkit-calendar-picker-indicator {
 }
 
 .form-error {
-  @apply text-left text-sm text-red-500 p-4 bg-red-500/25 rounded-lg;
+  @apply text-left text-sm text-red-500 p-4 bg-red-500/25 rounded-lg mt-2;
 }
 
 .form-input-container,
@@ -225,7 +225,7 @@ input:focus {
 }
 
 .dragdrop-preview-image {
-  @apply w-40 h-40 aspect-square rounded-lg;
+  @apply w-40 h-40 aspect-square rounded-lg object-cover;
 }
 
 input[type='date']::-webkit-calendar-picker-indicator {
