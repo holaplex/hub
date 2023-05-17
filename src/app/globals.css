@@ -71,7 +71,7 @@ input[type='time']::-webkit-calendar-picker-indicator {
 }
 
 .form-error {
-  @apply text-left text-sm text-red-500;
+  @apply text-left text-sm text-red-500 p-4 bg-red-500/25 rounded-lg;
 }
 
 .form-input-container,

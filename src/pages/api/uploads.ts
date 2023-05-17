@@ -5,7 +5,6 @@ import { Writable } from 'node:stream';
 import { IncomingForm, File } from 'formidable';
 import { Blob } from 'nft.storage';
 import { nftStorage } from '../../modules/nftStorage';
-import { appConfig } from '../../app.config';
 
 export const config = {
   api: {
@@ -20,7 +19,7 @@ interface Upload {
 
 async function uploadBlob([name, blob]: [string, Blob]): Promise<Upload> {
   const cid = await nftStorage.storeBlob(blob);
-  const url = `${appConfig.server('ipfsGateway')}/${cid}`;
+  const url = `${process.env.IPFS_GATEWAY}/${cid}`;
 
   return { name, url };
 }

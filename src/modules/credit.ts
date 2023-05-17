@@ -8,7 +8,7 @@ export class CreditLookup {
     this.costs = costs;
   }
 
-  public cost(action: Action, blockchain: Blockchain): number {
+  public cost(action: Action, blockchain: Blockchain): number | null {
     const key = `${action}_${blockchain}`;
     if (this.cache.has(key)) {
       return this.cache.get(key) as number;
@@ -19,7 +19,7 @@ export class CreditLookup {
       ?.blockchains?.find((segment) => segment.blockchain === blockchain)?.credits;
 
     if (cost === undefined) {
-      throw new Error(`No cost found for action ${action} on blockchain ${blockchain}`);
+      return null;
     }
 
     this.cache.set(key, cost);

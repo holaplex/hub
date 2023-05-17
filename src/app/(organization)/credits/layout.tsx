@@ -4,13 +4,15 @@ import { usePathname } from 'next/navigation';
 import { cloneElement, useMemo } from 'react';
 import { Icon } from '../../../components/Icon';
 import Tabs from '../../../layouts/Tabs';
-import { GetOrganizationCreditAndDeductionTotals } from './../../../queries/credits.graphql';
+import {
+  GetOrganizationCreditAndDeductionTotals,
+  GetCreditSheet,
+} from './../../../queries/credits.graphql';
 import { GetOrganizationDrops } from './../../../queries/drop.graphql';
 import { useQuery } from '@apollo/client';
 import { useOrganization } from '../../../hooks/useOrganization';
 import { ActionCost, Organization, Project, Drop, Action } from '../../../graphql.types';
 import { ACTION_LABEL } from './constant';
-import Link from 'next/link';
 import clsx from 'clsx';
 import { CreditLookup } from '../../../modules/credit';
 
@@ -28,6 +30,9 @@ interface GetOrganizationDropsVars {
 
 interface GetOrganizationDropsData {
   organization: Organization;
+}
+
+interface GetCreditSheetData {
   creditSheet: ActionCost[];
 }
 
@@ -57,8 +62,10 @@ export default function CreditsLayout({
     }
   );
 
+  const creditSheetQuery = useQuery<GetCreditSheetData>(GetCreditSheet);
+
   const projects = dropsQuery.data?.organization.projects;
-  const creditSheet = dropsQuery.data?.creditSheet;
+  const creditSheet = creditSheetQuery.data?.creditSheet;
 
   const estimatedCost = useMemo(() => {
     const costLookup = new CreditLookup(creditSheet || []);
@@ -69,15 +76,19 @@ export default function CreditsLayout({
           result +
           (project.drops?.reduce((cost: number, drop: Drop) => {
             const toMint = (drop.collection.supply ?? 0) - drop.collection.totalMints;
-            const costToMint = costLookup.cost(Action.MintEdition, drop.collection.blockchain);
-            return cost + costToMint * toMint;
+            const costToMint = costLookup.cost(Action.MintEdition, drop.collection.blockchain) || 0;
+            const costCreateWallet =
+              costLookup.cost(Action.CreateWallet, drop.collection.blockchain) || 0;
+
+            return cost + (costToMint + costCreateWallet) * toMint;
           }, 0) ?? 0)
         );
       }, 0) || 0
     );
   }, [creditSheet, projects]);
 
-  const loading = creditAndDeductionsQuery.loading || dropsQuery.loading;
+  const loading =
+    creditAndDeductionsQuery.loading || dropsQuery.loading || creditSheetQuery.loading;
 
   return (
     <div className="h-full flex flex-col p-4">
@@ -118,9 +129,11 @@ export default function CreditsLayout({
             <div className="flex flex-col basis-1/3 gap-4 items-center justify-center p-6 bg-stone-900 rounded-lg">
               <span className="text-gray-400">Current credit balance</span>
               <span className="text-6xl font-semibold">{balance}</span>
-              <Link href="/credits/buy">
-                <Button icon={<Icon.Add />}>Buy more credits</Button>
-              </Link>
+              <form action="/browser/credits/purchase" method="POST">
+                <Button icon={<Icon.Add />} htmlType="submit">
+                  Buy more credits
+                </Button>
+              </form>
             </div>
             <div className="flex basis-2/3 gap-8 bg-stone-900 rounded-lg p-6">
               <div className="flex flex-col gap-4 basis-1/4">
@@ -149,8 +162,8 @@ export default function CreditsLayout({
                   ) : (
                     <span className="text-white">{estimatedCost}</span>
                   )}{' '}
-                  credits to mint all the NFTs available in your current active drops. You currently
-                  have{' '}
+                  credits to create wallets and mint all the NFTs available in your current active
+                  drops. You currently have{' '}
                   {loading || dropsQuery.loading ? (
                     <div className="rounded-full h-4 w-8 bg-stone-800 animate-pulse" />
                   ) : balance ? (
@@ -172,7 +185,6 @@ export default function CreditsLayout({
           </div>
         </>
       )}
-
       <Tabs.Page className="mt-8">
         <Tabs.Panel loading={loading}>
           <Tabs.Tab

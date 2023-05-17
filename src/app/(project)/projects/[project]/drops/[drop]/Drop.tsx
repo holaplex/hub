@@ -49,7 +49,6 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
       100
   );
 
-  const status = dropQuery.data?.project.drop?.status;
 
   const loading = dropQuery.loading;
   const wallet = dropQuery.data?.project.treasury?.wallets?.find((wallet) => {

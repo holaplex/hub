@@ -151,7 +151,7 @@ export default function NewWebhook() {
               </Form.Label>
             </div>
 
-            <hr className="w-full bg-divider my-4 h-px border-0" />
+            <hr className="w-full bg-stone-800 my-4 h-px border-0" />
 
             <span className="text-sm text-white font-medium">Events</span>
             <div className="grid grid-cols-2 mt-4 mx-2 gap-5 text-xs">
@@ -192,7 +192,7 @@ export default function NewWebhook() {
               </Form.Label>
             </div>
 
-            <hr className="w-full bg-divider my-4 h-px border-0" />
+            <hr className="w-full bg-stone-800 my-4 h-px border-0" />
 
             <div className="flex items-center justify-between">
               <Button

@@ -15,6 +15,8 @@
     "@holaplex/ui-library-react": "^0.18.0",
     "@ory/client": "^1.1.4",
     "@ory/integrations": "^1.1.0",
+    "@stripe/react-stripe-js": "^2.1.0",
+    "@stripe/stripe-js": "^1.52.1",
     "@tanstack/react-table": "^8.7.6",
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
@@ -33,6 +35,7 @@
     "react-hook-form": "^7.41.5",
     "react-toastify": "^9.1.1",
     "usehooks-ts": "^2.9.1",
+    "stripe": "^12.4.0",
     "zustand": "^4.3.2"
   },
   "devDependencies": {

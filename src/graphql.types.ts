@@ -11,7 +11,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   /**
-   * Implement the DateTime<Utc> scalar
+   * Implement the DateTime<FixedOffset> scalar
    *
    * The input/output is a string in RFC3339 format.
    */
@@ -65,6 +65,7 @@ export type AccessToken = {
 
 export enum Action {
   CreateDrop = 'CREATE_DROP',
+  CreateWallet = 'CREATE_WALLET',
   MintEdition = 'MINT_EDITION',
   RetryMint = 'RETRY_MINT',
   TransferAsset = 'TRANSFER_ASSET'
@@ -340,7 +341,7 @@ export type Credential = {
 export type CreditDeposit = {
   __typename?: 'CreditDeposit';
   cost: Scalars['Float'];
-  createdAt: Scalars['NaiveDateTime'];
+  createdAt: Scalars['DateTime'];
   credits: Scalars['Int'];
   id: Scalars['UUID'];
   initiatedBy: Scalars['UUID'];
@@ -1299,6 +1300,8 @@ export type User = {
   id: Scalars['UUID'];
   /** The last name of the user identity. */
   lastName: Scalars['String'];
+  /** The profile image associated with the user identity. */
+  profileImage?: Maybe<Scalars['String']>;
   /** The timestamp in UTC when the user identity was last updated. */
   updatedAt: Scalars['String'];
 };
