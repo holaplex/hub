@@ -17,7 +17,7 @@ export default function EmailSent({ params: { email, flow: flowId } }: EmailSent
   const { submit, register, handleSubmit, formState } = useRecoveryCode({ flow, email });
 
   return (
-    <Card className="w-[400px]">
+    <Card className="w-[416px]">
       <div className="flex flex-col w-full items-center">
         <Icon.EmailInCircle className="mb-6" />
         <Typography.Header size={Size.H2}>Check your email</Typography.Header>
@@ -32,11 +32,11 @@ export default function EmailSent({ params: { email, flow: flowId } }: EmailSent
           <Form.Input {...register('code', { required: true })} />
           <Form.Error message={formState.errors.code?.message} />
         </Form.Label>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 mt-5">
           <Button className="w-full" variant="secondary" onClick={() => router.back()}>
             Edit email
           </Button>
-          <Button htmlType="submit" variant="secondary" className="w-full mt-5">
+          <Button htmlType="submit" variant="secondary" className="w-full">
             Submit code
           </Button>
         </div>

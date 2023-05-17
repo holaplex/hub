@@ -3,13 +3,7 @@ import { Button, Form, Modal } from '@holaplex/ui-library-react';
 import Card from '../../../components/Card';
 import Typography, { Size } from '../../../components/Typography';
 import { useRouter } from 'next/navigation';
-import { User } from '../../../graphql.types';
-import { useQuery } from '@apollo/client';
 import { useSession } from '../../../hooks/useSession';
-import { GetUser } from '../../../../../queries/user.graphql';
-import { useForm } from 'react-hook-form';
-import { useRecoveryFlow } from '../../../hooks/useRecoveryFlow';
-import { useRecovery } from '../../../hooks/useRecovery';
 import { useRecoveryPassword } from '../../../hooks/useRecoveryPassword';
 import { useRecoveryPasswordFlow } from '../../../hooks/useRecoveryPasswordFlow';
 
@@ -33,7 +27,7 @@ export default function ResetPassword({ params: { flow: flowId, email } }: Reset
 
   return (
     <Modal open={true} setOpen={onClose}>
-      <Card className="w-[400px]">
+      <Card className="w-[422px]">
         {loading ? (
           <>
             <div className="bg-stone-800 animate-pulse h-6 w-24 rounded-md" />

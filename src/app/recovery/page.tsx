@@ -14,7 +14,7 @@ export default function Recovery() {
   const { submit, register, handleSubmit, formState } = useRecovery(flow);
 
   return (
-    <Card className="w-[400px]">
+    <Card className="w-[416px]">
       <Typography.Header size={Size.H2}>Forgot password</Typography.Header>
       <Typography.Header size={Size.H3}>
         Enter your email address to receive a recovery code.
@@ -48,7 +48,7 @@ export default function Recovery() {
             </Button>
             <Button
               htmlType="submit"
-              className="w-full"
+              className="shrink-0 w-auto"
               loading={formState.isSubmitting}
               disabled={formState.isSubmitting}
             >

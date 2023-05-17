@@ -2,18 +2,17 @@ import { useEffect, useState } from 'react';
 import { useOry } from './useOry';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { defaultTo } from 'ramda';
-import { RecoveryFlow } from '@ory/client';
-import { toast } from 'react-toastify';
+import { SettingsFlow } from '@ory/client';
 
 const defaultUndefined = defaultTo(undefined);
 
-interface RecoveryFlowContext {
-  flow?: RecoveryFlow;
+interface ProfileUpdateFlowContext {
+  flow?: SettingsFlow;
   loading: boolean;
 }
 
-export function useRecoveryFlow(): RecoveryFlowContext {
-  const [flow, setFlow] = useState<RecoveryFlow>();
+export function useProfileUpdateFlow(): ProfileUpdateFlowContext {
+  const [flow, setFlow] = useState<SettingsFlow>();
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
   const { ory } = useOry();
@@ -25,16 +24,9 @@ export function useRecoveryFlow(): RecoveryFlowContext {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await ory.createBrowserRecoveryFlow({ returnTo });
+        const { data } = await ory.createBrowserSettingsFlow({ returnTo });
         setFlow(data);
       } catch (err: any) {
-        const errorCode = err.response?.data.error?.id;
-
-        if (errorCode === 'session_already_available') {
-          toast.info('You are already logged in');
-
-          router.push('/projects');
-        }
       } finally {
         setLoading(false);
       }
