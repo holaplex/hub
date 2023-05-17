@@ -125,10 +125,6 @@ export default function NewDropDetailsPage() {
                   placeholder="URL to hosted video"
                 />
               </Form.Label>
-              <div className="text-sm font-medium text-blue-400 bg-blue-400/20 mt-4 p-4 rounded-lg">
-                Uploading video files is not currently supported. You can add a link to a hosted
-                video and it will be set on the metadata JSON of the NFTs.
-              </div>
             </>
           )}
 

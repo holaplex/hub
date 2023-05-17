@@ -76,8 +76,11 @@ export default function CreditsLayout({
           result +
           (project.drops?.reduce((cost: number, drop: Drop) => {
             const toMint = (drop.collection.supply ?? 0) - drop.collection.totalMints;
-            const costToMint = costLookup.cost(Action.MintEdition, drop.collection.blockchain);
-            return cost + costToMint * toMint;
+            const costToMint = costLookup.cost(Action.MintEdition, drop.collection.blockchain) || 0;
+            const costCreateWallet =
+              costLookup.cost(Action.CreateWallet, drop.collection.blockchain) || 0;
+
+            return cost + (costToMint + costCreateWallet) * toMint;
           }, 0) ?? 0)
         );
       }, 0) || 0
@@ -159,8 +162,8 @@ export default function CreditsLayout({
                   ) : (
                     <span className="text-white">{estimatedCost}</span>
                   )}{' '}
-                  credits to mint all the NFTs available in your current active drops. You currently
-                  have{' '}
+                  credits to create wallets and mint all the NFTs available in your current active
+                  drops. You currently have{' '}
                   {loading || dropsQuery.loading ? (
                     <div className="rounded-full h-4 w-8 bg-stone-800 animate-pulse" />
                   ) : balance ? (
