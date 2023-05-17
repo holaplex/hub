@@ -5,20 +5,12 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
-  ColumnMeta,
-  RowData,
 } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { WebhookStatus, TransactionStatus, MemberStatus, CredentialStatus } from './../types';
 import { CreationStatus, DropStatus } from '../graphql.types';
 import { Icon } from './Icon';
-
-declare module '@tanstack/table-core' {
-  interface ColumnMeta<TData extends RowData, TValue> {
-    align?: 'left' | 'center' | 'right' | 'justify' | 'char';
-  }
-}
 
 interface TableProps<T> {
   columns: ColumnDef<T, any>[];
@@ -42,70 +34,40 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
   });
   return (
     <div className={className}>
-      <table className="w-full rounded-md table-fixed bg-stone-900 drop-shadow-lg">
+      <table className="min-w-full rounded-md table-fixed bg-stone-900 drop-shadow-lg">
         <thead className="border-b border-stone-800">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header, i) => {
-                const size = header.column.getSize();
-                const style: React.CSSProperties = {};
-
-                if (size) {
-                  style.width = size;
-                }
-
-                header.column.columnDef.meta?.align;
-
-                return (
-                  <th
-                    key={header.id}
-                    className="p-6 text-xs font-medium text-gray-400"
-                    align={header.column.columnDef.meta?.align}
-                    style={style}
-                  >
-                    {header.isPlaceholder ? null : (
-                      <div
-                        {...{
-                          className: header.column.getCanSort()
-                            ? 'cursor-pointer select-none flex items-center gap-2'
-                            : '',
-                          onClick: header.column.getToggleSortingHandler(),
-                        }}
-                      >
-                        {flexRender(header.column.columnDef.header, header.getContext())}
-                        {{
-                          asc: <Icon.TableSortAsc />,
-                          desc: <Icon.TableSortDesc />,
-                        }[header.column.getIsSorted() as string] ??
-                          (header.column.getCanSort() ? <Icon.TableSort /> : null)}
-                      </div>
-                    )}
-                  </th>
-                );
-              })}
+              {headerGroup.headers.map((header) => (
+                <th key={header.id} className="p-6 text-xs font-medium text-gray-400">
+                  {header.isPlaceholder ? null : (
+                    <div
+                      {...{
+                        className: header.column.getCanSort()
+                          ? 'cursor-pointer select-none flex items-center gap-2'
+                          : '',
+                        onClick: header.column.getToggleSortingHandler(),
+                      }}
+                    >
+                      {flexRender(header.column.columnDef.header, header.getContext())}
+                      {{
+                        asc: <Icon.TableSortAsc />,
+                        desc: <Icon.TableSortDesc />,
+                      }[header.column.getIsSorted() as string] ??
+                        (header.column.getCanSort() ? <Icon.TableSort /> : null)}
+                    </div>
+                  )}
+                </th>
+              ))}
             </tr>
           ))}
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
-              {row.getVisibleCells().map((cell, i) => {
-                const size = cell.column.getSize();
-                const style: React.CSSProperties = {};
-
-                if (size) {
-                  style.width = size;
-                }
-
-                const align = cell.column.columnDef.meta?.align;
-
+              {row.getVisibleCells().map((cell) => {
                 return (
-                  <td
-                    key={cell.id}
-                    className="border-t border-stone-800 p-6"
-                    style={style}
-                    align={align}
-                  >
+                  <td key={cell.id} className="border-t border-stone-800 p-6">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 );
@@ -113,6 +75,19 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
             </tr>
           ))}
         </tbody>
+        <tfoot>
+          {table.getFooterGroups().map((footerGroup) => (
+            <tr key={footerGroup.id}>
+              {footerGroup.headers.map((header) => (
+                <th key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(header.column.columnDef.footer, header.getContext())}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </tfoot>
       </table>
     </div>
   );
@@ -138,9 +113,6 @@ function MemberPill({ status, className }: InviteStatusPillProps) {
     case MemberStatus.Revoked:
       label = 'Expired';
       break;
-    case MemberStatus.Inactive:
-      label = 'Inactive';
-      break;
   }
   return (
     <div
@@ -149,7 +121,6 @@ function MemberPill({ status, className }: InviteStatusPillProps) {
           status == MemberStatus.Owner || status === MemberStatus.Accepted,
         'bg-blue-400 bg-opacity-20 text-blue-400': status === MemberStatus.Sent,
         'bg-red-500 bg-opacity-20 text-red-500': status === MemberStatus.Revoked,
-        'bg-gray-600 bg-opacity-20 text-gray-600': status === MemberStatus.Inactive,
       })}
     >
       {label}
@@ -186,8 +157,6 @@ function DropStatusPill({ status, className }: DropStatusPillProps) {
       break;
     case DropStatus.Shutdown:
       label = 'Shutdown';
-    case DropStatus.Failed:
-      label = 'Failed';
   }
 
   return (
@@ -224,7 +193,6 @@ function PurchaseStatusPill({ status, className }: PurchaseStatusPillProps) {
       className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
         'bg-blue-400 bg-opacity-20 text-blue-400': status === CreationStatus.Pending,
         'bg-green-400 bg-opacity-20 text-green-400': status === CreationStatus.Created,
-        'bg-red-500 bg-opacity-20 text-red-500': status === CreationStatus.Failed,
       })}
     >
       {label}
