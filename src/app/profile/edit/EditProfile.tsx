@@ -1,9 +1,9 @@
 'use client';
 import { Button, Form, Modal } from '@holaplex/ui-library-react';
-import Card from '../../../../../components/Card';
-import Typography, { Size } from '../../../../../components/Typography';
+import Card from '../../../components/Card';
+import Typography, { Size } from '../../../components/Typography';
 import { useRouter } from 'next/navigation';
-import { Icon } from '../../../../../components/Icon';
+import { Icon } from '../../../components/Icon';
 import { Controller, useForm } from 'react-hook-form';
 import Dropzone from 'react-dropzone';
 import clsx from 'clsx';
@@ -14,13 +14,13 @@ interface EditProfileForm {
   profileImage: string | File | undefined;
 }
 
-export default function EditProfile({ member }: { member: string }) {
+export default function EditProfile() {
   const router = useRouter();
 
   const { control, register, formState, handleSubmit, setValue } = useForm<EditProfileForm>();
 
   const updatePassword = () => {
-    router.push(`/members/${member}/reset-password`);
+    router.push(`/profile/reset-password`);
   };
 
   const onClose = () => {

@@ -235,7 +235,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                   <Sidebar.Menu.Link
                     name="Edit profile"
                     icon={<Icon.Edit stroke="stroke-gray-400" />}
-                    href={`/members/${userQuery.data?.user.id}/edit`}
+                    href={`/profile/edit`}
                     active={false}
                   />
                 </div>

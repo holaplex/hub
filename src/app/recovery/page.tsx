@@ -4,10 +4,12 @@ import Link from '../../components/Link';
 import { ReactElement } from 'react';
 import Card from '../../components/Card';
 import Typography, { Size } from '../../components/Typography';
-import { useRecoveryFlow } from '../../hooks/userRecoveryFlow';
+import { useRecoveryFlow } from '../../hooks/useRecoveryFlow';
 import { Button, Form } from '@holaplex/ui-library-react';
+import { useRouter } from 'next/navigation';
 
 export default function Recovery() {
+  const router = useRouter();
   const { flow, loading } = useRecoveryFlow();
   const { submit, register, handleSubmit, formState } = useRecovery(flow);
 
@@ -15,7 +17,7 @@ export default function Recovery() {
     <Card className="w-[400px]">
       <Typography.Header size={Size.H2}>Forgot password</Typography.Header>
       <Typography.Header size={Size.H3}>
-        Enter your email address to receive a recovery link.
+        Enter your email address to receive a recovery code.
       </Typography.Header>
       {loading ? (
         <div className="flex flex-col gap-6 mt-3">
@@ -34,20 +36,27 @@ export default function Recovery() {
             />
             <Form.Error message={formState.errors.email?.message} />
           </Form.Label>
-
-          <Button
-            htmlType="submit"
-            className="w-full"
-            loading={formState.isSubmitting}
-            disabled={formState.isSubmitting}
-          >
-            Send recovery link
-          </Button>
+          <div className="flex items-center gap-4">
+            <Button
+              className="w-full"
+              loading={formState.isSubmitting}
+              disabled={formState.isSubmitting}
+              variant="secondary"
+              onClick={() => router.back()}
+            >
+              Cancel
+            </Button>
+            <Button
+              htmlType="submit"
+              className="w-full"
+              loading={formState.isSubmitting}
+              disabled={formState.isSubmitting}
+            >
+              Send recovery code
+            </Button>
+          </div>
         </Form>
       )}
-      <Link href="/login" className="mt-5 flex justify-center">
-        Return to sign in
-      </Link>
     </Card>
   );
 }

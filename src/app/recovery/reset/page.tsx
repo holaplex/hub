@@ -1,49 +1,40 @@
 'use client';
 import { Button, Form, Modal } from '@holaplex/ui-library-react';
-import Card from '../../../../../components/Card';
-import Typography, { Size } from '../../../../../components/Typography';
+import Card from '../../../components/Card';
+import Typography, { Size } from '../../../components/Typography';
 import { useRouter } from 'next/navigation';
-import { User } from '../../../../../graphql.types';
+import { User } from '../../../graphql.types';
 import { useQuery } from '@apollo/client';
-import { useSession } from '../../../../../hooks/useSession';
+import { useSession } from '../../../hooks/useSession';
 import { GetUser } from '../../../../../queries/user.graphql';
 import { useForm } from 'react-hook-form';
-import { useRecoveryFlow } from '../../../../../hooks/userRecoveryFlow';
-import { useRecovery } from '../../../../../hooks/useRecovery';
-
-interface GetUserData {
-  user: User;
-}
-interface GetUserVars {
-  user: string;
-}
+import { useRecoveryFlow } from '../../../hooks/useRecoveryFlow';
+import { useRecovery } from '../../../hooks/useRecovery';
+import { useRecoveryPassword } from '../../../hooks/useRecoveryPassword';
+import { useRecoveryPasswordFlow } from '../../../hooks/useRecoveryPasswordFlow';
 
 interface UpdatePasswordForm {
   password: string;
 }
 
-export default function ResetPassword({ member }: { member: string }) {
+interface ResetPasswordProps {
+  params: { flow: string; email: string };
+}
+
+export default function ResetPassword({ params: { flow: flowId, email } }: ResetPasswordProps) {
   const router = useRouter();
   const { session } = useSession();
-  // const { flow, loading } = useRecoveryFlow();
-  // const { submit, register, handleSubmit, formState } = useRecovery(flow);
-
-  const userQuery = useQuery<GetUserData, GetUserVars>(GetUser, {
-    variables: { user: session?.identity.id! },
-  });
-
-  const { register, formState, handleSubmit } = useForm<UpdatePasswordForm>();
+  const { flow, loading } = useRecoveryPasswordFlow({ flowId });
+  const { submit, register, handleSubmit, formState } = useRecoveryPassword(flow);
 
   const onClose = () => {
     router.back();
   };
 
-  const submit = () => {};
-
   return (
     <Modal open={true} setOpen={onClose}>
       <Card className="w-[400px]">
-        {userQuery.loading ? (
+        {loading ? (
           <>
             <div className="bg-stone-800 animate-pulse h-6 w-24 rounded-md" />
             <div className="bg-stone-800 animate-pulse h-4 w-56 rounded-md mt-5" />
@@ -61,9 +52,7 @@ export default function ResetPassword({ member }: { member: string }) {
             <Typography.Header size={Size.H2}>Reset password</Typography.Header>
 
             <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-              <span className="text-sm text-gray-400 mt-5">
-                Enter a new password for {userQuery.data?.user.email}
-              </span>
+              <span className="text-sm text-gray-400 mt-5">Enter a new password for {email}</span>
 
               <Form.Label name="Password" className="text-xs basis-1/2">
                 <Form.Input

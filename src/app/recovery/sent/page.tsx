@@ -1,13 +1,20 @@
 'use client';
-import { Button } from '@holaplex/ui-library-react';
+import { Button, Form } from '@holaplex/ui-library-react';
 import Card from './../../../components/Card';
 import { Icon } from './../../../components/Icon';
-import Link from './../../../components/Link';
 import Typography, { Size } from './../../../components/Typography';
-import { useRecoveryFlow } from '../../../hooks/userRecoveryFlow';
+import { useRouter } from 'next/navigation';
+import { useRecoveryCode } from '../../../hooks/useRecoveryCode';
+import { useRecoveryCodeFlow } from '../../../hooks/useRecoveryCodeFlow';
 
-export default function EmailSent() {
-  const { flow, loading } = useRecoveryFlow();
+interface EmailSentProps {
+  params: { flow: string; email: string };
+}
+
+export default function EmailSent({ params: { email, flow: flowId } }: EmailSentProps) {
+  const router = useRouter();
+  const { flow, loading } = useRecoveryCodeFlow({ flowId });
+  const { submit, register, handleSubmit, formState } = useRecoveryCode({ flow, email });
 
   return (
     <Card className="w-[400px]">
@@ -15,22 +22,25 @@ export default function EmailSent() {
         <Icon.EmailInCircle className="mb-6" />
         <Typography.Header size={Size.H2}>Check your email</Typography.Header>
         <Typography.Header size={Size.H3} className="mt-2 text-center">
-          We have sent email to name@example.com to recover your password. Please follow the link
-          provided to complete your password recovery.
+          We have sent email to {email} to recover your password. Please enter the code provided to
+          complete your password recovery.
         </Typography.Header>
       </div>
-      {loading ? (
-        <div className="mt-3 w-full h-[44px] rounded-md bg-stone-950 animate-pulse" />
-      ) : (
-        <a href="">
-          <Button htmlType="submit" variant="secondary" className="w-full mt-5">
-            Resend recovery link
+
+      <Form onSubmit={handleSubmit(submit)} className="flex flex-col gap-6 mt-3">
+        <Form.Label name="Enter code" className="text-xs">
+          <Form.Input {...register('code', { required: true })} />
+          <Form.Error message={formState.errors.code?.message} />
+        </Form.Label>
+        <div className="flex items-center gap-4">
+          <Button className="w-full" variant="secondary" onClick={() => router.back()}>
+            Edit email
           </Button>
-        </a>
-      )}
-      <Link href="/login" className="mt-5 flex justify-center">
-        Return to sign in
-      </Link>
+          <Button htmlType="submit" variant="secondary" className="w-full mt-5">
+            Submit code
+          </Button>
+        </div>
+      </Form>
     </Card>
   );
 }
