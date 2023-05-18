@@ -80,6 +80,7 @@ query GetDrop($project: UUID!, $drop: UUID!) {
           description
           symbol
           externalUrl
+          animationUrl
           attributes {
             id
             traitType

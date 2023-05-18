@@ -2,7 +2,7 @@ import { createStore, StoreApi } from 'zustand';
 import { CollectionCreatorInput, Blockchain } from '../graphql.types';
 import { createContext } from 'react';
 
-interface Attribute {
+export interface Attribute {
   traitType: string;
   value: string;
 }
@@ -13,6 +13,8 @@ export type DetailSettings = {
   blockchain: Blockchain;
   description: string;
   image: File | string;
+  animationUrl?: string;
+  includeAnimationUrl?: boolean;
   attributes: Attribute[];
   externalUrl: string;
 };

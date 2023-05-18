@@ -19,17 +19,17 @@ export async function POST(request: NextRequest) {
     line_items: [
       {
         price,
-        quantity: 100,
+        quantity: 500,
         adjustable_quantity: {
           enabled: true,
-          minimum: 100,
+          minimum: 500,
           maximum: 999999,
         },
       },
     ],
     mode: 'payment',
-    success_url: `${fqdn}/credits/purchased`,
-    cancel_url: `${fqdn}/credits/cost`,
+    success_url: `${fqdn}/credits/purchases`,
+    cancel_url: `${fqdn}/credits/costs`,
     automatic_tax: { enabled: true },
     metadata: {
       organization_id: organization,

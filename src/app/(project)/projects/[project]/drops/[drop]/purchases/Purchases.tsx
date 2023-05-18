@@ -88,6 +88,9 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
               }),
               loadingColumnHelper.display({
                 id: 'options',
+                meta: {
+                  align: 'right',
+                },
                 header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                 cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
               }),

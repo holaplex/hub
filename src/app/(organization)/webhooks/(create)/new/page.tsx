@@ -103,7 +103,7 @@ export default function NewWebhook() {
               <Controller
                 name="projects"
                 control={control}
-                rules={{ required: 'Please select atleast one project' }}
+                rules={{ required: 'Please select at least one project' }}
                 render={({ field: { value, onChange } }) => (
                   <Form.Select value={value} onChange={onChange} multiple>
                     <Form.Select.Button>
@@ -133,8 +133,8 @@ export default function NewWebhook() {
                   </Form.Select>
                 )}
               />
-              <Form.Error message={errors.projects?.message} />
             </Form.Label>
+            <Form.Error message={errors.projects?.message} />
             <div className="flex gap-6 mt-5">
               <Form.Label name="Name" className="text-xs mt-5">
                 <Form.Input
@@ -142,16 +142,15 @@ export default function NewWebhook() {
                   autoFocus
                   placeholder="e.g. Bored Ape Yatch Club"
                 />
-                <Form.Error message={errors.description?.message} />
               </Form.Label>
-
+              <Form.Error message={errors.description?.message} />
               <Form.Label name="Target URL" className="text-xs mt-5">
                 <Form.Input {...register('url', { required: 'Target URL is required' })} />
-                <Form.Error message={errors.url?.message} />
               </Form.Label>
+              <Form.Error message={errors.url?.message} />
             </div>
 
-            <hr className="w-full bg-divider my-4 h-px border-0" />
+            <hr className="w-full bg-stone-800 my-4 h-px border-0" />
 
             <span className="text-sm text-white font-medium">Events</span>
             <div className="grid grid-cols-2 mt-4 mx-2 gap-5 text-xs">
@@ -192,7 +191,7 @@ export default function NewWebhook() {
               </Form.Label>
             </div>
 
-            <hr className="w-full bg-divider my-4 h-px border-0" />
+            <hr className="w-full bg-stone-800 my-4 h-px border-0" />
 
             <div className="flex items-center justify-between">
               <Button

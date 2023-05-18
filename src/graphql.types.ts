@@ -11,7 +11,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   /**
-   * Implement the DateTime<Utc> scalar
+   * Implement the DateTime<FixedOffset> scalar
    *
    * The input/output is a string in RFC3339 format.
    */
@@ -65,7 +65,9 @@ export type AccessToken = {
 
 export enum Action {
   CreateDrop = 'CREATE_DROP',
+  CreateWallet = 'CREATE_WALLET',
   MintEdition = 'MINT_EDITION',
+  RetryDrop = 'RETRY_DROP',
   RetryMint = 'RETRY_MINT',
   TransferAsset = 'TRANSFER_ASSET'
 }
@@ -340,7 +342,7 @@ export type Credential = {
 export type CreditDeposit = {
   __typename?: 'CreditDeposit';
   cost: Scalars['Float'];
-  createdAt: Scalars['NaiveDateTime'];
+  createdAt: Scalars['DateTime'];
   credits: Scalars['Int'];
   id: Scalars['UUID'];
   initiatedBy: Scalars['UUID'];
@@ -739,7 +741,7 @@ export type Mutation = {
    */
   createCustomerWallet: CreateCustomerWalletPayload;
   /**
-   * This mutation creates a new NFT drop and its associated collection. The drop returns immediately with a creation status of CREATING. You can [set up a webhook](https://docs.holaplex.com/hub/For%20Developers/webhooks-overview) to receive a notification when the drop is ready to be minted.
+   * This mutation creates a new NFT drop and its associated collection. The drop returns immediately with a creation status of CREATING. You can [set up a webhook](https://docs.holaplex.dev/hub/For%20Developers/webhooks-overview) to receive a notification when the drop is ready to be minted.
    * Error
    * If the drop cannot be saved to the database or fails to be emitted for submission to the desired blockchain, the mutation will result in an error.
    */
@@ -800,7 +802,7 @@ export type Mutation = {
    */
   inviteMember: Invite;
   /**
-   * This mutation mints an NFT edition for a specific drop ID. The mint returns immediately with a creation status of CREATING. You can [set up a webhook](https://docs.holaplex.com/hub/For%20Developers/webhooks-overview) to receive a notification when the mint is accepted by the blockchain.
+   * This mutation mints an NFT edition for a specific drop ID. The mint returns immediately with a creation status of CREATING. You can [set up a webhook](https://docs.holaplex.dev/hub/For%20Developers/webhooks-overview) to receive a notification when the mint is accepted by the blockchain.
    * # Errors
    * If the mint cannot be saved to the database or fails to be emitted for submission to the desired blockchain, the mutation will result in an error.
    */
@@ -1299,6 +1301,8 @@ export type User = {
   id: Scalars['UUID'];
   /** The last name of the user identity. */
   lastName: Scalars['String'];
+  /** The profile image associated with the user identity. */
+  profileImage?: Maybe<Scalars['String']>;
   /** The timestamp in UTC when the user identity was last updated. */
   updatedAt: Scalars['String'];
 };

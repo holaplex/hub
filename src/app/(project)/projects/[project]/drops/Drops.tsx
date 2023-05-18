@@ -79,18 +79,7 @@ export default function Drops({ project }: DropsPageProps) {
                                 </div>
                               ),
                             }),
-                            loadingColumnHelper.display({
-                              id: 'createdAt',
-                              header: () => (
-                                <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
-                              ),
-                              cell: () => (
-                                <div className="flex flex-col gap-1">
-                                  <span className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />
-                                  <span className="rounded-full h-3 w-8 bg-stone-800 animate-pulse" />
-                                </div>
-                              ),
-                            }),
+
                             loadingColumnHelper.display({
                               id: 'startTime',
                               header: () => (
@@ -104,19 +93,16 @@ export default function Drops({ project }: DropsPageProps) {
                               ),
                             }),
                             loadingColumnHelper.display({
-                              id: 'endTime',
+                              id: 'supply',
                               header: () => (
                                 <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
-                                <div className="flex flex-col gap-1">
-                                  <span className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />
-                                  <span className="rounded-full h-3 w-8 bg-stone-800 animate-pulse" />
-                                </div>
+                                <div className="rounded-full h-3 w-28 bg-stone-800 animate-pulse" />
                               ),
                             }),
                             loadingColumnHelper.display({
-                              id: 'supply',
+                              id: 'status',
                               header: () => (
                                 <div className="rounded-full h-3 w-28 bg-stone-800 animate-pulse" />
                               ),
@@ -129,6 +115,9 @@ export default function Drops({ project }: DropsPageProps) {
                             }),
                             loadingColumnHelper.display({
                               id: 'options',
+                              meta: {
+                                align: 'right',
+                              },
                               header: () => (
                                 <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />
                               ),
@@ -250,30 +239,11 @@ export default function Drops({ project }: DropsPageProps) {
                                     },
                                   }
                                 ),
-                                columnHelper.accessor('createdAt', {
-                                  header: () => <span>Create date</span>,
-                                  cell: (info) => (
-                                    <div className="flex flex-col gap-1">
-                                      <span className="text-xs text-gray-400 font-medium">
-                                        {format(
-                                          convertLocalTime(info.getValue()),
-                                          DateFormat.DATE_1
-                                        )}
-                                      </span>
-                                      <span className="text-xs text-white">
-                                        {format(
-                                          convertLocalTime(info.getValue()),
-                                          DateFormat.TIME_1
-                                        )}
-                                      </span>
-                                    </div>
-                                  ),
-                                }),
                                 columnHelper.accessor(
                                   ({ startTime, createdAt }) => ({ startTime, createdAt }),
                                   {
                                     id: 'startTime',
-                                    header: () => <span>Mint start date</span>,
+                                    header: () => <span>Start date</span>,
                                     cell: (info) => {
                                       let start = info.getValue().startTime;
 
@@ -294,31 +264,6 @@ export default function Drops({ project }: DropsPageProps) {
                                     },
                                   }
                                 ),
-                                columnHelper.accessor('endTime', {
-                                  header: () => <span>Mint end date</span>,
-                                  cell: (info) => (
-                                    <div className="flex flex-col gap-1">
-                                      {info.getValue() ? (
-                                        <>
-                                          <span className="text-xs text-gray-400 font-medium">
-                                            {format(
-                                              convertLocalTime(info.getValue()),
-                                              DateFormat.DATE_1
-                                            )}
-                                          </span>
-                                          <span className="text-xs text-white">
-                                            {format(
-                                              convertLocalTime(info.getValue()),
-                                              DateFormat.TIME_1
-                                            )}
-                                          </span>
-                                        </>
-                                      ) : (
-                                        <span className="text-xs text-white font-medium">None</span>
-                                      )}
-                                    </div>
-                                  ),
-                                }),
                                 columnHelper.accessor(
                                   ({ collection, status }) => {
                                     if (!collection) {
@@ -332,7 +277,35 @@ export default function Drops({ project }: DropsPageProps) {
                                     };
                                   },
                                   {
-                                    id: 'counts',
+                                    id: 'supply',
+                                    header: () => <span>Supply</span>,
+                                    cell: (info) => {
+                                      const { supply, totalMints, status } = info.getValue();
+
+                                      return (
+                                        <div className="flex items-center text-white text-xs font-medium">
+                                          {supply
+                                            ? `${totalMints} / ${supply} minted`
+                                            : 'Unlimited'}
+                                        </div>
+                                      );
+                                    },
+                                  }
+                                ),
+                                columnHelper.accessor(
+                                  ({ collection, status }) => {
+                                    if (!collection) {
+                                      throw new Error('no collection');
+                                    }
+
+                                    return {
+                                      supply: collection?.supply,
+                                      totalMints: collection?.totalMints,
+                                      status,
+                                    };
+                                  },
+                                  {
+                                    id: 'status',
                                     header: () => <span>Status</span>,
                                     cell: (info) => {
                                       const { supply, totalMints, status } = info.getValue();
@@ -341,7 +314,7 @@ export default function Drops({ project }: DropsPageProps) {
 
                                       return (
                                         <div className="flex gap-2 items-center">
-                                          {supply && (
+                                          {supply ? (
                                             <span
                                               className="w-6 h-6 rounded-full flex items-center justify-center"
                                               style={{
@@ -350,6 +323,8 @@ export default function Drops({ project }: DropsPageProps) {
                                             >
                                               <span className="w-4 h-4 rounded-full flex items-center justify-center text-xs bg-stone-900" />
                                             </span>
+                                          ) : (
+                                            <span className="text-gray-400 text-xl">∞</span>
                                           )}
 
                                           <Table.DropStatusPill status={status as DropStatus} />
@@ -360,6 +335,9 @@ export default function Drops({ project }: DropsPageProps) {
                                 ),
                                 columnHelper.display({
                                   id: 'options',
+                                  meta: {
+                                    align: 'right',
+                                  },
                                   header: () => <></>,
                                   cell: (info) => {
                                     const drop = info.row.original;
