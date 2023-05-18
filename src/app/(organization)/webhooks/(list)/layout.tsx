@@ -138,22 +138,24 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                   columns={[
                     columnHelper.accessor('description', {
                       header: () => <span>Name</span>,
+                      size: 100,
                       cell: (info) => (
-                        <span className="text-white text-xs font-medium">{info.getValue()}</span>
+                        <span className="text-white text-xs inline-block font-medium truncate w-full">{info.getValue()}</span>
                       ),
                     }),
                     columnHelper.accessor('url', {
                       header: () => <span>URL</span>,
                       size: 160,
                       cell: (info) => (
-                        <span className="text-white text-xs font-medium truncate">{info.getValue()}</span>
+                        <span className="text-white text-xs inline-block font-medium truncate w-full">{info.getValue()}</span>
                       ),
                     }),
                     columnHelper.display({
                       id: 'events',
                       header: () => <span>Events</span>,
+                      size: 384,
                       cell: (info) => (
-                        <Pill.List.Compact className="w-96">
+                        <Pill.List.Compact>
                           {info.row.original.events.map((event) => {
                             return (
                               <Pill key={event} variant="info">
@@ -166,6 +168,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                     }),
                     columnHelper.accessor('createdAt', {
                       header: () => <span>Created date</span>,
+                      size: 136,
                       cell: (info) => (
                         <div className="flex flex-col">
                           <span className="text-gray-400 text-xs font-medium">
@@ -200,7 +203,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                           triggerButton={
                             <div
                               className={clsx(
-                                'px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min'
+                                'px-2 py-1 hover:rounded-md hover:bg-stone-800'
                               )}
                             >
                               <Icon.More />

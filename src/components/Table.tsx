@@ -34,40 +34,70 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
   });
   return (
     <div className={className}>
-      <table className="min-w-full rounded-md table-fixed bg-stone-900 drop-shadow-lg">
+      <table className="w-full rounded-md table-fixed bg-stone-900 drop-shadow-lg">
         <thead className="border-b border-stone-800">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id} className="p-6 text-xs font-medium text-gray-400">
-                  {header.isPlaceholder ? null : (
-                    <div
-                      {...{
-                        className: header.column.getCanSort()
-                          ? 'cursor-pointer select-none flex items-center gap-2'
-                          : '',
-                        onClick: header.column.getToggleSortingHandler(),
-                      }}
-                    >
-                      {flexRender(header.column.columnDef.header, header.getContext())}
-                      {{
-                        asc: <Icon.TableSortAsc />,
-                        desc: <Icon.TableSortDesc />,
-                      }[header.column.getIsSorted() as string] ??
-                        (header.column.getCanSort() ? <Icon.TableSort /> : null)}
-                    </div>
-                  )}
-                </th>
-              ))}
+              {headerGroup.headers.map((header, i) => {
+                const size = header.column.getSize();
+                const style: React.CSSProperties = {};
+
+                if (size) {
+                  style.width = size;
+                }
+
+                const isLast = i === columns.length - 1;
+
+                return (
+                  <th
+                    key={header.id}
+                    className="p-6 text-xs font-medium text-gray-400"
+                    align={isLast ? 'right' : undefined}
+                    style={style}
+                  >
+                    {header.isPlaceholder ? null : (
+                      <div
+                        {...{
+                          className: header.column.getCanSort()
+                            ? 'cursor-pointer select-none flex items-center gap-2'
+                            : '',
+                          onClick: header.column.getToggleSortingHandler(),
+                        }}
+                      >
+                        {flexRender(header.column.columnDef.header, header.getContext())}
+                        {{
+                          asc: <Icon.TableSortAsc />,
+                          desc: <Icon.TableSortDesc />,
+                        }[header.column.getIsSorted() as string] ??
+                          (header.column.getCanSort() ? <Icon.TableSort /> : null)}
+                      </div>
+                    )}
+                  </th>
+                );
+              })}
             </tr>
           ))}
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => {
+              {row.getVisibleCells().map((cell, i) => {
+                const size = cell.column.getSize();
+                const style: React.CSSProperties = {};
+
+                if (size) {
+                  style.width = size;
+                }
+
+                const isLast = i === columns.length - 1;
+
                 return (
-                  <td key={cell.id} className="border-t border-stone-800 p-6">
+                  <td
+                    key={cell.id}
+                    className="border-t border-stone-800 p-6"
+                    style={style}
+                    align={isLast ? 'right' : undefined}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 );
@@ -75,19 +105,6 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
             </tr>
           ))}
         </tbody>
-        <tfoot>
-          {table.getFooterGroups().map((footerGroup) => (
-            <tr key={footerGroup.id}>
-              {footerGroup.headers.map((header) => (
-                <th key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.footer, header.getContext())}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </tfoot>
       </table>
     </div>
   );
