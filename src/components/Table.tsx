@@ -5,12 +5,20 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
+  ColumnMeta,
+  RowData,
 } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { WebhookStatus, TransactionStatus, MemberStatus, CredentialStatus } from './../types';
 import { CreationStatus, DropStatus } from '../graphql.types';
 import { Icon } from './Icon';
+
+declare module '@tanstack/table-core' {
+  interface ColumnMeta<TData extends RowData, TValue> {
+    align?: 'left' | 'center' | 'right' | 'justify' | 'char';
+  }
+}
 
 interface TableProps<T> {
   columns: ColumnDef<T, any>[];
@@ -46,13 +54,13 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
                   style.width = size;
                 }
 
-                const isLast = i === columns.length - 1;
+                header.column.columnDef.meta?.align;
 
                 return (
                   <th
                     key={header.id}
                     className="p-6 text-xs font-medium text-gray-400"
-                    align={isLast ? 'right' : undefined}
+                    align={header.column.columnDef.meta?.align}
                     style={style}
                   >
                     {header.isPlaceholder ? null : (
@@ -89,14 +97,14 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
                   style.width = size;
                 }
 
-                const isLast = i === columns.length - 1;
+                const align = cell.column.columnDef.meta?.align;
 
                 return (
                   <td
                     key={cell.id}
                     className="border-t border-stone-800 p-6"
                     style={style}
-                    align={isLast ? 'right' : undefined}
+                    align={align}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
