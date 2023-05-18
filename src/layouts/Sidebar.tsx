@@ -170,7 +170,19 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
           }}
         >
           <h1 className="flex items-center gap-2 text-sm text-white font-medium">
-            <div className="w-8 h-8 bg-gray-800 rounded-full" />
+            {userQuery.data?.user.profileImage ? (
+              <img
+                src={userQuery.data?.user.profileImage}
+                className="w-8 h-8 rounded-full object-cover"
+                alt="photo"
+              />
+            ) : (
+              <div
+                className={clsx('w-8 h-8 bg-stone-800 rounded-full', {
+                  'animate-pulse': userQuery.loading,
+                })}
+              />
+            )}
             <span className="flex flex-col capitalize">
               {userQuery.loading ? (
                 <div className="h-4 w-20 bg-stone-800 rounded-full animate-pulse" />
@@ -238,7 +250,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                         <div className="flex gap-2 items-center">
                           {affiliation.organization?.profileImageUrl ? (
                             <img
-                              className="w-8 h-8 rounded-md"
+                              className="w-8 h-8 rounded-md object-cover"
                               src={affiliation.organization.profileImageUrl}
                               alt="logo"
                             />

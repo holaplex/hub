@@ -11,6 +11,7 @@ import { Organization, Webhook } from '../../../../graphql.types';
 import { useOrganization } from '../../../../hooks/useOrganization';
 import { DateFormat, formatDateString } from '../../../../modules/time';
 import { WebhookStatus, WebhookEvent } from '../../../../types';
+import { Pill } from '../../../../components/Pill';
 import { GetOrganizationWebhooks } from './../../../../queries/webhooks.graphql';
 
 interface GetOrganizationWebhooksData {
@@ -97,13 +98,6 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                   ),
                 }),
                 loadingColumnHelper.display({
-                  id: 'status',
-                  header: () => (
-                    <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
-                  ),
-                  cell: () => <div className="rounded-full h-4 w-16 bg-stone-800 animate-pulse" />,
-                }),
-                loadingColumnHelper.display({
                   id: 'options',
                   header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                   cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
@@ -150,26 +144,24 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                     }),
                     columnHelper.accessor('url', {
                       header: () => <span>URL</span>,
+                      size: 160,
                       cell: (info) => (
-                        <span className="text-white text-xs font-medium">{info.getValue()}</span>
+                        <span className="text-white text-xs font-medium truncate">{info.getValue()}</span>
                       ),
                     }),
                     columnHelper.display({
                       id: 'events',
                       header: () => <span>Events</span>,
                       cell: (info) => (
-                        <div className="flex gap-1">
+                        <Pill.List.Compact className="w-96">
                           {info.row.original.events.map((event) => {
                             return (
-                              <div
-                                key={event}
-                                className="rounded-full py-1 px-3 text-xs font-medium bg-cyan-200 text-cyan-600"
-                              >
+                              <Pill key={event} variant="info">
                                 {event}
-                              </div>
+                              </Pill>
                             );
                           })}
-                        </div>
+                        </Pill.List.Compact>
                       ),
                     }),
                     columnHelper.accessor('createdAt', {
@@ -189,6 +181,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                       header: () => (
                         <span className="flex text-xs text-gray-400 font-medium">Created by</span>
                       ),
+                      size: 160,
                       cell: (info) => (
                         <div className="flex flex-col">
                           <span className="text-xs text-white font-medium">
@@ -198,18 +191,10 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                         </div>
                       ),
                     }),
-                    // columnHelper.accessor((row) => row.status.toString(), {
-                    //   id: 'status',
-                    //   header: () => (
-                    //     <span className="flex text-xs text-gray-400 font-medium">Status</span>
-                    //   ),
-                    //   cell: (info) => (
-                    //     <Table.WebhookStatusPill status={info.getValue() as WebhookStatus} />
-                    //   ),
-                    // }),
                     columnHelper.display({
                       id: 'options',
                       header: () => <></>,
+                      size: 64,
                       cell: (info) => (
                         <PopoverBox
                           triggerButton={

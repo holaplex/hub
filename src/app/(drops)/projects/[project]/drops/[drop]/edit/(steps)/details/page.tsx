@@ -1,5 +1,5 @@
 'use client';
-import { Button, Form } from '@holaplex/ui-library-react';
+import { Button, Form, Placement } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import Dropzone from 'react-dropzone';
 import { Controller, useForm, useFieldArray } from 'react-hook-form';
@@ -31,9 +31,12 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
   const detail = useStore(store, (store) => store.detail);
   const setDetail = useStore(store, (store) => store.setDetail);
 
-  const { handleSubmit, register, control, setValue, formState } = useForm<DetailSettings>({
-    defaultValues: detail || {},
-  });
+  const { handleSubmit, register, control, setValue, formState, watch, setError, clearErrors } =
+    useForm<DetailSettings>({
+      defaultValues: detail || {},
+    });
+
+  const includeAnimationUrl = watch('includeAnimationUrl');
 
   const submit = (data: DetailSettings) => {
     setDetail(data);
@@ -52,7 +55,10 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
       <Card className="w-[492px]">
         <Typography.Header size={Size.H2}>Drop details</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-          <Form.Label name="Artwork" className="text-xs text-yellow-300 mt-5">
+          <Form.Label
+            name={includeAnimationUrl ? 'Cover image' : 'Main artwork'}
+            className="text-xs text-yellow-300 mt-5"
+          >
             <Controller
               name="image"
               control={control}
@@ -63,7 +69,15 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
                   multiple={false}
                   onDrop={([file], _reject, e) => {
                     e.preventDefault();
-                    setValue('image', file as unknown as File, { shouldValidate: true });
+                    clearErrors('image');
+                    if (file['type'].split('/')[0] !== 'image') {
+                      setError('image', {
+                        message:
+                          'Uploading video files is not currently supported. You can add a link to a hosted video by checking the "Include a video" checkbox below.',
+                      });
+                    } else {
+                      setValue('image', file as unknown as File, { shouldValidate: true });
+                    }
                   }}
                 >
                   {({ getRootProps, getInputProps, isDragActive, open }) => {
@@ -84,11 +98,11 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
                           <div className="flex flex-col gap-2 text-gray-400">
                             <p className="text-center">
                               Drag & drop file or{' '}
-                              <span className="text-yellow-300 cursor-pointer">Browse files</span>
+                              <span className="text-yellow-300 cursor-pointer">Browse files</span>{' '}
+                              to upload.
                               <br />
-                              Add artwork size based on a preview size.
                               <br />
-                              400x400 etc. Should be strict rectangular.
+                              JPEG, GIF and PNG supported. Must be under 10 MB.
                             </p>
                           </div>
                         )}
@@ -100,6 +114,22 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
             />
             <Form.Error message={formState.errors.image?.message} />
           </Form.Label>
+
+          <Form.Label name="Include a video" placement={Placement.Right} className="mt-5">
+            <Form.Checkbox {...register('includeAnimationUrl')} />
+          </Form.Label>
+
+          {includeAnimationUrl && (
+            <>
+              <Form.Label name="Video URL" className="text-xs mt-5 basis-3/4">
+                <Form.Input
+                  {...register('animationUrl')}
+                  autoFocus
+                  placeholder="URL to hosted video"
+                />
+              </Form.Label>
+            </>
+          )}
 
           <div className="flex items-center gap-6">
             <Form.Label name="Name" className="text-xs mt-5 basis-3/4">
@@ -159,7 +189,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
           <Form.Label name="External URL" className="text-xs mt-5">
             <Form.Input
               {...register('externalUrl')}
-              placeholder="Set an external url on the drop."
+              placeholder="Set an external url for the drop."
             />
             <Form.Error message="" />
           </Form.Label>
@@ -195,7 +225,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
           >
             Add attribute
           </Button>
-          <hr className="w-full bg-divider border-0 h-px my-5" />
+          <hr className="w-full bg-stone-800 border-0 h-px my-5" />
           <Button htmlType="submit" className="self-end">
             Next
           </Button>

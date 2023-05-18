@@ -14,13 +14,6 @@ query GetOrganizationDrops($organization: UUID!) {
       }
     }
   }
-  creditSheet {
-    action
-    blockchains {
-      blockchain
-      credits
-    }
-  }
 }
 
 query GetProjectDrops($project: UUID!) {
@@ -87,6 +80,7 @@ query GetDrop($project: UUID!, $drop: UUID!) {
           description
           symbol
           externalUrl
+          animationUrl
           attributes {
             id
             traitType

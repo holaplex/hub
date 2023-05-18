@@ -4,7 +4,10 @@ import { usePathname } from 'next/navigation';
 import { cloneElement, useMemo } from 'react';
 import { Icon } from '../../../components/Icon';
 import Tabs from '../../../layouts/Tabs';
-import { GetOrganizationCreditAndDeductionTotals } from './../../../queries/credits.graphql';
+import {
+  GetOrganizationCreditAndDeductionTotals,
+  GetCreditSheet,
+} from './../../../queries/credits.graphql';
 import { GetOrganizationDrops } from './../../../queries/drop.graphql';
 import { useQuery } from '@apollo/client';
 import { useOrganization } from '../../../hooks/useOrganization';
@@ -27,6 +30,9 @@ interface GetOrganizationDropsVars {
 
 interface GetOrganizationDropsData {
   organization: Organization;
+}
+
+interface GetCreditSheetData {
   creditSheet: ActionCost[];
 }
 
@@ -56,8 +62,10 @@ export default function CreditsLayout({
     }
   );
 
+  const creditSheetQuery = useQuery<GetCreditSheetData>(GetCreditSheet);
+
   const projects = dropsQuery.data?.organization.projects;
-  const creditSheet = dropsQuery.data?.creditSheet;
+  const creditSheet = creditSheetQuery.data?.creditSheet;
 
   const estimatedCost = useMemo(() => {
     const costLookup = new CreditLookup(creditSheet || []);
@@ -68,15 +76,19 @@ export default function CreditsLayout({
           result +
           (project.drops?.reduce((cost: number, drop: Drop) => {
             const toMint = (drop.collection.supply ?? 0) - drop.collection.totalMints;
-            const costToMint = costLookup.cost(Action.MintEdition, drop.collection.blockchain);
-            return cost + costToMint * toMint;
+            const costToMint = costLookup.cost(Action.MintEdition, drop.collection.blockchain) || 0;
+            const costCreateWallet =
+              costLookup.cost(Action.CreateWallet, drop.collection.blockchain) || 0;
+
+            return cost + (costToMint + costCreateWallet) * toMint;
           }, 0) ?? 0)
         );
       }, 0) || 0
     );
   }, [creditSheet, projects]);
 
-  const loading = creditAndDeductionsQuery.loading || dropsQuery.loading;
+  const loading =
+    creditAndDeductionsQuery.loading || dropsQuery.loading || creditSheetQuery.loading;
 
   return (
     <div className="h-full flex flex-col p-4">
@@ -150,8 +162,8 @@ export default function CreditsLayout({
                   ) : (
                     <span className="text-white">{estimatedCost}</span>
                   )}{' '}
-                  credits to mint all the NFTs available in your current active drops. You currently
-                  have{' '}
+                  credits to create wallets and mint all the NFTs available in your current active
+                  drops. You currently have{' '}
                   {loading || dropsQuery.loading ? (
                     <div className="rounded-full h-4 w-8 bg-stone-800 animate-pulse" />
                   ) : balance ? (
