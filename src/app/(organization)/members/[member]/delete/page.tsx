@@ -66,7 +66,7 @@ export default function MemberDeletePage({ params: { member } }: DeleteMemberPro
 
         <Form className="flex flex-col mt-5">
           <div className="flex items-start gap-2 rounded-md bg-stone-800 p-3">
-            <Icon.Info />
+            <Icon.Info stroke="stroke-white" />
             <span className="text-xs text-gray-400 font-medium">
               The member will be deprived of access to the project
             </span>
@@ -81,7 +81,7 @@ export default function MemberDeletePage({ params: { member } }: DeleteMemberPro
           >
             Delete member
           </Button>
-          <Button variant="tertiary" className="w-full mt-5" onClick={onClose} disabled={loading}>
+          <Button variant="secondary" className="w-full mt-5" onClick={onClose} disabled={loading}>
             Cancel
           </Button>
         </Form>

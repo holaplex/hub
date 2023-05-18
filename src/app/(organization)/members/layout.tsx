@@ -7,9 +7,11 @@ import { useMemo } from 'react';
 import { Icon } from '../../../components/Icon';
 import Table from '../../../components/Table';
 import Link from 'next/link';
-import { Organization, Maybe, Member } from '../../../graphql.types';
+import { Organization, Maybe, Member, Owner, User } from '../../../graphql.types';
 import { MemberStatus } from './../../../types';
+import { useSession } from './../../../hooks/useSession';
 import { useOrganization } from '../../../hooks/useOrganization';
+import { Session } from '@ory/client';
 import { GetOrganizationMembers } from './../../../queries/organization.graphql';
 import { DateFormat, formatDateString } from '../../../modules/time';
 import useClipboard from './../../../hooks/useClipboard';
@@ -31,7 +33,17 @@ interface GetOrganizationMembersVars {
   organization: string;
 }
 
-function ActionCell({ id, status }: { id: string; status: MemberStatus }): JSX.Element {
+function ActionCell({
+  id,
+  status,
+  owner,
+  session,
+}: {
+  id: string;
+  status: MemberStatus;
+  owner: Maybe<Owner> | undefined;
+  session: Session;
+}): JSX.Element {
   const { copied, copyText } = useClipboard(`${process.env.NEXT_PUBLIC_APP_FQDN}/invites/${id}`);
 
   if (status === MemberStatus.Owner) {
@@ -39,23 +51,30 @@ function ActionCell({ id, status }: { id: string; status: MemberStatus }): JSX.E
   }
 
   let elements: JSX.Element[] = [];
-  status === MemberStatus.Inactive &&
-    elements.push(
-      <Link
-        key="reactivate_member"
-        className="flex gap-2 items-center"
-        href={`/members/${id}/reactivate`}
-      >
-        <span>Reactivate member</span>
-      </Link>
-    );
-  status === MemberStatus.Accepted &&
-    elements.push(
-      <Link key="delete_member" className="flex gap-2 items-center" href={`/members/${id}/delete`}>
-        <Icon.Delete fill="#E52E2E" />
-        <span className="text-negative">Delete member</span>
-      </Link>
-    );
+  if (session?.identity.id === owner?.user.id) {
+    status === MemberStatus.Inactive &&
+      elements.push(
+        <Link
+          key="reactivate_member"
+          className="flex gap-2 items-center"
+          href={`/members/${id}/reactivate`}
+        >
+          <span>Reactivate member</span>
+        </Link>
+      );
+
+    status === MemberStatus.Accepted &&
+      elements.push(
+        <Link
+          key="delete_member"
+          className="flex gap-2 items-center"
+          href={`/members/${id}/delete`}
+        >
+          <Icon.Delete stroke="stroke-red-500" />
+          <span className="text-red-500">Deactivate member</span>
+        </Link>
+      );
+  }
 
   if (status === MemberStatus.Sent) {
     elements = [
@@ -86,6 +105,7 @@ function ActionCell({ id, status }: { id: string; status: MemberStatus }): JSX.E
 
 export default function MembersLayout({ children }: { children: React.ReactNode }) {
   const { organization } = useOrganization();
+  const { session } = useSession();
   const membersQuery = useQuery<GetOrganizationMembersData, GetOrganizationMembersVars>(
     GetOrganizationMembers,
     { variables: { organization: organization?.id } }
@@ -112,7 +132,6 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
       let associate = {
         id: member?.id || id,
         email: member?.user?.email || email,
-        user: member?.user,
         createdAt: member?.createdAt || createdAt,
         status: status as unknown as MemberStatus,
       } as Associate;
@@ -184,7 +203,14 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
     columnHelper.display({
       id: 'options',
       header: () => <></>,
-      cell: (info) => <ActionCell id={info.row.original.id} status={info.row.original.status} />,
+      cell: (info) => (
+        <ActionCell
+          id={info.row.original.id}
+          status={info.row.original.status}
+          owner={membersQuery.data?.organization.owner}
+          session={session}
+        />
+      ),
     }),
   ];
 

@@ -76,7 +76,7 @@ export default function ReactivateMemberPage({ params: { member } }: ReactivateM
           >
             Reactivate member
           </Button>
-          <Button variant="tertiary" className="w-full mt-5" onClick={onClose} disabled={loading}>
+          <Button variant="secondary" className="w-full mt-5" onClick={onClose} disabled={loading}>
             Cancel
           </Button>
         </Form>
