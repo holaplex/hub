@@ -75,7 +75,8 @@ input[type='time']::-webkit-calendar-picker-indicator {
 }
 
 .form-input-container,
-.form-input {
+.form-input,
+.form-textarea {
   @apply w-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400;
 }
 
@@ -83,7 +84,8 @@ input[type='time']::-webkit-calendar-picker-indicator {
   @apply flex flex-row items-center;
 }
 
-.form-input {
+.form-input,
+.form-textarea {
   @apply rounded-lg bg-stone-800 border border-stone-800 text-white;
 }
 

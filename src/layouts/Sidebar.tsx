@@ -280,7 +280,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                   </Link>
                   -
                   <Link href="/privacy-policy" target="_blank">
-                    Privacy Policy
+                    Privacy policy
                   </Link>
                 </span>
               </div>

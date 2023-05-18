@@ -148,25 +148,27 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                       cell: (info) => {
                         const projectId = info.row.original.id;
                         return (
-                          <PopoverBox
-                            triggerButton={
-                              <div className="px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min">
-                                <Icon.More />
-                              </div>
-                            }
-                            elements={[
-                              <Link
-                                key="edit_project"
-                                className="flex gap-2 items-center"
-                                href={`/projects/${projectId}/edit`}
-                              >
-                                <Icon.Edit stroke="stroke-gray-400" /> <span>Edit project</span>
-                              </Link>,
-                              <Copy key="copy_id" copyString={projectId}>
-                                <span>Copy project ID</span>
-                              </Copy>,
-                            ]}
-                          />
+                          <span>
+                            <PopoverBox
+                              triggerButton={
+                                <div className="px-2 py-1 hover:rounded-md hover:bg-stone-800 inline-block">
+                                  <Icon.More />
+                                </div>
+                              }
+                              elements={[
+                                <Link
+                                  key="edit_project"
+                                  className="flex gap-2 items-center"
+                                  href={`/projects/${projectId}/edit`}
+                                >
+                                  <Icon.Edit stroke="stroke-gray-400" /> <span>Edit project</span>
+                                </Link>,
+                                <Copy key="copy_id" copyString={projectId}>
+                                  <span>Copy project ID</span>
+                                </Copy>,
+                              ]}
+                            />
+                          </span>
                         );
                       },
                     }),
