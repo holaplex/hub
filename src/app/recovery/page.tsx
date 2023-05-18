@@ -1,7 +1,5 @@
 'use client';
 import { useRecovery } from '../../hooks/useRecovery';
-import Link from '../../components/Link';
-import { ReactElement } from 'react';
 import Card from '../../components/Card';
 import Typography, { Size } from '../../components/Typography';
 import { useRecoveryFlow } from '../../hooks/useRecoveryFlow';
@@ -16,16 +14,19 @@ export default function Recovery() {
   return (
     <Card className="w-[416px]">
       <Typography.Header size={Size.H2}>Forgot password</Typography.Header>
-      <Typography.Header size={Size.H3}>
+      <Typography.Header size={Size.H3} className="mt-4">
         Enter your email address to receive a recovery code.
       </Typography.Header>
       {loading ? (
-        <div className="flex flex-col gap-6 mt-3">
+        <div className="flex flex-col gap-6 mt-4">
           <div>
-            <div className="mb-1 w-20 h-4 rounded-md bg-stone-950 animate-pulse" />
-            <div className="mb-1 w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+            <div className="w-20 h-4 rounded-md bg-stone-950 animate-pulse" />
+            <div className="w-full h-10 mt-1 rounded-md bg-stone-950 animate-pulse" />
           </div>
-          <div className="mt-3 w-full h-[44px] rounded-md bg-stone-950 animate-pulse" />
+          <div className="flex gap-6 justify-between mt-5">
+            <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+            <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+          </div>
         </div>
       ) : (
         <Form onSubmit={handleSubmit(submit)} className="flex flex-col gap-6 mt-3">

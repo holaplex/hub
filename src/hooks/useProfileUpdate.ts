@@ -12,6 +12,7 @@ import {
   UseFormSetValue,
 } from 'react-hook-form';
 import { uploadFile } from '../modules/upload';
+import { toast } from 'react-toastify';
 
 interface ProfileUpdateForm {
   name: { first: string; last: string };
@@ -60,6 +61,8 @@ export function useProfileUpdate(flow: SettingsFlow | undefined): ProfileUpdateC
           method: 'profile',
         },
       });
+
+      toast.info('Profile updated successfully');
 
       router.back();
     } catch (err: any) {

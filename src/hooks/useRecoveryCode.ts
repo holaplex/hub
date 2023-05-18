@@ -15,12 +15,12 @@ interface RecoveryCodeContext {
   formState: FormState<RecoveryForm>;
 }
 
-interface RecoveryCodeInput {
+interface RecoveryCodeProps {
   flow: RecoveryFlow | undefined;
   email: string;
 }
 
-export function useRecoveryCode({ flow, email }: RecoveryCodeInput): RecoveryCodeContext {
+export function useRecoveryCode({ flow, email }: RecoveryCodeProps): RecoveryCodeContext {
   const router = useRouter();
   const { ory } = useOry();
 

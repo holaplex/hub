@@ -1,19 +1,17 @@
 'use client';
 import { Button, Form } from '@holaplex/ui-library-react';
-import Card from '../../../components/Card';
-import Typography, { Size } from '../../../components/Typography';
+import Card from '../../../../components/Card';
+import Typography, { Size } from '../../../../components/Typography';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useSession } from '../../../hooks/useSession';
-import { useRecoveryPassword } from '../../../hooks/useRecoveryPassword';
-import { useRecoveryPasswordFlow } from '../../../hooks/useRecoveryPasswordFlow';
+import { useRecoveryPassword } from '../../../../hooks/useRecoveryPassword';
+import { useRecoveryPasswordFlow } from '../../../../hooks/useRecoveryPasswordFlow';
+import { useUpdatePasswordFlow } from '../../../../hooks/useUpdatePasswordFlow';
+import { useUpdatePassword } from '../../../../hooks/useUpdatePassword';
 
 export default function ResetPassword() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const email = searchParams.get('email')!;
-  const flowId = searchParams.get('flowId')!;
-  const { flow, loading } = useRecoveryPasswordFlow({ flowId });
-  const { submit, register, handleSubmit, formState } = useRecoveryPassword(flow);
+  const { flow, loading } = useUpdatePasswordFlow();
+  const { submit, register, handleSubmit, formState } = useUpdatePassword(flow);
 
   const onClose = () => {
     router.back();
@@ -37,7 +35,7 @@ export default function ResetPassword() {
       ) : (
         <>
           <Typography.Header size={Size.H2}>Reset password</Typography.Header>
-          <div className="text-sm text-gray-400 mt-5">Enter a new password for {email}</div>
+          <div className="text-sm text-gray-400 mt-5">Enter a new password</div>
 
           <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
             <Form.Label name="Password" className="text-xs basis-1/2">

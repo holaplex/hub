@@ -35,7 +35,7 @@ export default function EditProfile() {
   const userData = userQuery.data?.user;
 
   const updatePassword = () => {
-    router.push(`/recovery`);
+    router.push('/profile/password/edit');
   };
 
   const onClose = () => {
@@ -62,22 +62,23 @@ export default function EditProfile() {
         {loading ? (
           <div className="flex flex-col gap-6 mt-3">
             <div>
-              <div className="mb-1 w-16 h-4 rounded-md bg-stone-950 animate-pulse" />
-              <div className="mb-1 w-full h-16 rounded-md bg-stone-950 animate-pulse" />
+              <div className="w-16 h-4 rounded-md bg-stone-950 animate-pulse" />
+              <div className="w-full h-20 mt-1 rounded-md bg-stone-950 animate-pulse" />
             </div>
-            <div className="flex gap-2">
-              <div>
-                <div className="mb-1 w-16 h-4 rounded-md bg-stone-950 animate-pulse" />
-                <div className="mb-1 w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+            <div className="flex gap-6 w-full">
+              <div className="w-full">
+                <div className="w-16 h-4 rounded-md bg-stone-950 animate-pulse" />
+                <div className="w-full h-10 mt-1 rounded-md bg-stone-950 animate-pulse" />
               </div>
-              <div>
-                <div className="mb-1 w-16 h-4 rounded-md bg-stone-950 animate-pulse" />
-                <div className="mb-1 w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+              <div className="w-full">
+                <div className="w-16 h-4 rounded-md bg-stone-950 animate-pulse" />
+                <div className="w-full h-10 mt-1 rounded-md bg-stone-950 animate-pulse" />
               </div>
             </div>
-            <div className="flex gap-2 justify-between">
-              <div className="mb-1 w-full h-10 rounded-md bg-stone-950 animate-pulse" />
-              <div className="mb-1 w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+            <div className="w-full h-10 mt-5 rounded-md bg-stone-950 animate-pulse" />
+            <div className="flex gap-6 justify-between mt-5">
+              <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
+              <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
             </div>
           </div>
         ) : (
@@ -109,7 +110,7 @@ export default function EditProfile() {
                           {value ? (
                             <Form.DragDrop.Preview value={value} />
                           ) : (
-                            <div className="flex flex-col gap-2" onClick={open}>
+                            <div className="flex flex-col gap-2">
                               <p>
                                 Drag & drop file or{' '}
                                 <span className="text-yellow-300">Browse files</span> to upload{' '}
@@ -147,21 +148,21 @@ export default function EditProfile() {
                 />
                 <Form.Error message={formState.errors.name?.last?.message} />
               </Form.Label>
+            </div>
 
-              <Button variant="secondary" className="w-full mt-5" onClick={updatePassword}>
-                Update password
+            <Button variant="secondary" className="w-full mt-5" onClick={updatePassword}>
+              Update password
+            </Button>
+
+            <hr className="w-full bg-stone-800 border-0 h-px my-5" />
+
+            <div className="flex items-center gap-6">
+              <Button variant="secondary" className="w-full basis-1/2" onClick={onClose}>
+                Cancel
               </Button>
-
-              <hr className="w-full bg-stone-800 border-0 h-px my-5" />
-
-              <div className="flex items-center gap-6">
-                <Button variant="secondary" className="w-full basis-1/2" onClick={onClose}>
-                  Cancel
-                </Button>
-                <Button htmlType="submit" className="w-full basis-1/2">
-                  Save changes
-                </Button>
-              </div>
+              <Button htmlType="submit" className="w-full basis-1/2">
+                Save changes
+              </Button>
             </div>
           </Form>
         )}

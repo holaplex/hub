@@ -35,7 +35,7 @@ export function useRecovery(flow: RecoveryFlow | undefined): RecoveryContext {
         updateRecoveryFlowBody: { ...values, csrf_token: csrfToken, method: 'code' },
       });
 
-      router.push('/recovery/sent?flow=' + data.id + '&email=' + values.email + '&method=code');
+      router.push('/recovery/code?flow=' + data.id + '&email=' + values.email + '&method=code');
     } catch (err: any) {
       const {
         response: {

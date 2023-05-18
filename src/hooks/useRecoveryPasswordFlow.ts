@@ -9,11 +9,11 @@ interface RecoveryFlowContext {
   loading: boolean;
 }
 
-interface RecoveryCodeFlowInput {
+interface RecoveryCodeFlowProps {
   flowId: string;
 }
 
-export function useRecoveryPasswordFlow({ flowId }: RecoveryCodeFlowInput): RecoveryFlowContext {
+export function useRecoveryPasswordFlow({ flowId }: RecoveryCodeFlowProps): RecoveryFlowContext {
   const [flow, setFlow] = useState<RecoveryFlow>();
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();

@@ -1,28 +1,33 @@
-import { RecoveryFlow, UiNodeInputAttributes } from '@ory/client';
+import {
+  RecoveryFlow,
+  SettingsFlow,
+  UiNodeInputAttributes,
+  UpdateSettingsFlowBody,
+} from '@ory/client';
 import { useRouter } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
-interface RecoveryForm {
+interface UpdatePasswordForm {
   password: string;
 }
 
-interface RecoveryCodeContext {
-  submit: (values: RecoveryForm) => Promise<void>;
-  register: UseFormRegister<RecoveryForm>;
-  handleSubmit: UseFormHandleSubmit<RecoveryForm>;
-  formState: FormState<RecoveryForm>;
+interface UpdatePasswordContext {
+  submit: (values: UpdatePasswordForm) => Promise<void>;
+  register: UseFormRegister<UpdatePasswordForm>;
+  handleSubmit: UseFormHandleSubmit<UpdatePasswordForm>;
+  formState: FormState<UpdatePasswordForm>;
 }
 
-export function useRecoveryPassword(flow: RecoveryFlow | undefined): RecoveryCodeContext {
+export function useUpdatePassword(flow: SettingsFlow | undefined): UpdatePasswordContext {
   const router = useRouter();
   const { ory } = useOry();
 
-  const { register, handleSubmit, formState, setError } = useForm<RecoveryForm>();
+  const { register, handleSubmit, formState, setError } = useForm<UpdatePasswordForm>();
 
-  const onSubmit = async (values: RecoveryForm): Promise<void> => {
+  const onSubmit = async (values: UpdatePasswordForm): Promise<void> => {
     if (!flow) {
       return;
     }
@@ -31,14 +36,14 @@ export function useRecoveryPassword(flow: RecoveryFlow | undefined): RecoveryCod
         extractFlowNode('csrf_token')(flow.ui.nodes).attributes as UiNodeInputAttributes
       ).value;
 
-      const { data } = await ory.updateRecoveryFlow({
+      const { data } = await ory.updateSettingsFlow({
         flow: flow.id,
-        updateRecoveryFlowBody: { ...values, csrf_token: csrfToken, method: 'code' },
+        updateSettingsFlowBody: { ...values, csrf_token: csrfToken, method: 'password' },
       });
 
       toast.info('Password updated successfully');
 
-      router.push('/login');
+      router.back();
     } catch (err: any) {
       const {
         response: {
