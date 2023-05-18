@@ -62,7 +62,7 @@ export default function MemberDeletePage({ params: { member } }: DeleteMemberPro
     <Modal open={true} setOpen={onClose}>
       <Card className="w-[400px]">
         <Typography.Header size={Size.H2}>Do you really want to delete {member}?</Typography.Header>
-        <Typography.Header size={Size.H3}>This action cannot be reversed.</Typography.Header>
+        <Typography.Header size={Size.H3}>This action can be reversed.</Typography.Header>
 
         <Form className="flex flex-col mt-5">
           <div className="flex items-start gap-2 rounded-md bg-stone-800 p-3">

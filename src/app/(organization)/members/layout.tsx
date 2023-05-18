@@ -68,7 +68,7 @@ function ActionCell({
         <Link
           key="delete_member"
           className="flex gap-2 items-center"
-          href={`/members/${id}/delete`}
+          href={`/members/${id}/deactivate`}
         >
           <Icon.Delete stroke="stroke-red-500" />
           <span className="text-red-500">Deactivate member</span>
