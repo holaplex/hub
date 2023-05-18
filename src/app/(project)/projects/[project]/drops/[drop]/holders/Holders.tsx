@@ -77,6 +77,9 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
               }),
               loadingColumnHelper.display({
                 id: 'options',
+                meta: {
+                  align: 'right',
+                },
                 header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                 cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
               }),
@@ -137,6 +140,9 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
             }),
             columnHelper.display({
               id: 'options',
+              meta: {
+                align: 'right',
+              },
               header: () => <></>,
               cell: (info) => {
                 const address = info.row.original.address;

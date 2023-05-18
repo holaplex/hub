@@ -72,6 +72,9 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                 }),
                 loadingColumnHelper.display({
                   id: 'options',
+                  meta: {
+                    align: 'right',
+                  },
                   header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                   cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                 }),
@@ -144,6 +147,9 @@ export default function OrganizationProjectsLayout({ children }: { children: Rea
                     }),
                     columnHelper.display({
                       id: 'options',
+                      meta: {
+                        align: 'right',
+                      },
                       header: () => <></>,
                       cell: (info) => {
                         const projectId = info.row.original.id;

@@ -168,6 +168,9 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
     }),
     columnHelper.display({
       id: 'options',
+      meta: {
+        align: 'right',
+      },
       header: () => <></>,
       cell: (info) => <ActionCell id={info.row.original.id} status={info.row.original.status} />,
     }),
@@ -216,6 +219,9 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
                 }),
                 loadingColumnHelper.display({
                   id: 'options',
+                  meta: {
+                    align: 'right',
+                  },
                   header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                   cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                 }),

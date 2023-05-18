@@ -99,6 +99,9 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                 }),
                 loadingColumnHelper.display({
                   id: 'options',
+                  meta: {
+                    align: 'right',
+                  },
                   header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                   cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                 }),
@@ -196,6 +199,9 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                     }),
                     columnHelper.display({
                       id: 'options',
+                      meta: {
+                        align: 'right',
+                      },
                       header: () => <></>,
                       size: 64,
                       cell: (info) => (
