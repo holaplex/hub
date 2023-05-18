@@ -1,8 +1,8 @@
 'use client';
 import { Button, Form } from '@holaplex/ui-library-react';
-import Card from './../../../components/Card';
-import { Icon } from './../../../components/Icon';
-import Typography, { Size } from './../../../components/Typography';
+import Card from '../../../components/Card';
+import { Icon } from '../../../components/Icon';
+import Typography, { Size } from '../../../components/Typography';
 import { useRouter } from 'next/navigation';
 import { useRecoveryCode } from '../../../hooks/useRecoveryCode';
 import { useRecoveryCodeFlow } from '../../../hooks/useRecoveryCodeFlow';
@@ -11,7 +11,7 @@ interface EmailSentProps {
   params: { flow: string; email: string };
 }
 
-export default function EmailSent({ params: { email, flow: flowId } }: EmailSentProps) {
+export default function RecoveryCode({ params: { email, flow: flowId } }: EmailSentProps) {
   const router = useRouter();
   const { flow, loading } = useRecoveryCodeFlow({ flowId });
   const { submit, register, handleSubmit, formState } = useRecoveryCode({ flow, email });
