@@ -61,13 +61,6 @@ export default function Mints({ loading, project, drop }: MintsProps) {
                   <span className="rounded-full h-3 w-24 inline-block bg-stone-800 animate-pulse" />
                 ),
               }),
-              // loadingColumnHelper.display({
-              //   id: 'spent',
-              //   header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
-              //   cell: () => (
-              //     <span className="rounded-full h-3 w-20 inline-block bg-stone-800 animate-pulse" />
-              //   ),
-              // }),
               loadingColumnHelper.display({
                 id: 'createdAt',
                 header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
@@ -126,17 +119,6 @@ export default function Mints({ loading, project, drop }: MintsProps) {
                 return <span className="text-xs text-white font-medium">{info.getValue()}</span>;
               },
             }),
-            // columnHelper.accessor('spent', {
-            //   header: () => <span>Spent</span>,
-            //   cell: (info) => {
-            //     return (
-            //       <div className="flex gap-1">
-            //         <span className="text-xs text-white font-medium">{info.getValue()}</span>
-            //         <span className="text-xs text-gray-400 font-medium">SOL</span>
-            //       </div>
-            //     );
-            //   },
-            // }),
             columnHelper.accessor('createdAt', {
               header: () => <span>Date</span>,
               cell: (info) => {

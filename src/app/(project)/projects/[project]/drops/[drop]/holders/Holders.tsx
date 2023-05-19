@@ -65,16 +65,6 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
                   </div>
                 ),
               }),
-              // loadingColumnHelper.display({
-              //   id: 'spent',
-              //   header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
-              //   cell: () => (
-              //     <div className="flex flex-row gap-2">
-              //       <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
-              //       <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
-              //     </div>
-              //   ),
-              // }),
               loadingColumnHelper.display({
                 id: 'options',
                 meta: {
@@ -110,19 +100,6 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
                 );
               },
             }),
-            // columnHelper.accessor('owns', {
-            //   id: 'spent',
-            //   header: () => <span>Spent</span>,
-            //   cell: (info) => {
-            //     const owns = info.getValue();
-            //     return (
-            //       <div className="flex gap-1 items-center">
-            //         {(owns * (holdersQuery.data?.project.drop?.price || 0)) as number}
-            //         <span className="text-xs text-gray-400">SOL</span>
-            //       </div>
-            //     );
-            //   },
-            // }),
             columnHelper.accessor('owns', {
               id: 'owns',
               header: () => <span>Owned Editions</span>,
