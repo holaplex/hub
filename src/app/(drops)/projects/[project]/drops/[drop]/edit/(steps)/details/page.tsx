@@ -180,7 +180,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
             />
           </Form.Label>
           <Form.Label name="Description" className="text-xs mt-5">
-            <Form.Input
+            <Form.TextArea
               {...register('description')}
               placeholder="Enter a description for the drop."
             />

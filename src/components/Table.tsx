@@ -5,12 +5,20 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
+  ColumnMeta,
+  RowData,
 } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { WebhookStatus, TransactionStatus, MemberStatus, CredentialStatus } from './../types';
 import { CreationStatus, DropStatus } from '../graphql.types';
 import { Icon } from './Icon';
+
+declare module '@tanstack/table-core' {
+  interface ColumnMeta<TData extends RowData, TValue> {
+    align?: 'left' | 'center' | 'right' | 'justify' | 'char';
+  }
+}
 
 interface TableProps<T> {
   columns: ColumnDef<T, any>[];
@@ -34,40 +42,70 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
   });
   return (
     <div className={className}>
-      <table className="min-w-full rounded-md table-fixed bg-stone-900 drop-shadow-lg">
+      <table className="w-full rounded-md table-fixed bg-stone-900 drop-shadow-lg">
         <thead className="border-b border-stone-800">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id} className="p-6 text-xs font-medium text-gray-400">
-                  {header.isPlaceholder ? null : (
-                    <div
-                      {...{
-                        className: header.column.getCanSort()
-                          ? 'cursor-pointer select-none flex items-center gap-2'
-                          : '',
-                        onClick: header.column.getToggleSortingHandler(),
-                      }}
-                    >
-                      {flexRender(header.column.columnDef.header, header.getContext())}
-                      {{
-                        asc: <Icon.TableSortAsc />,
-                        desc: <Icon.TableSortDesc />,
-                      }[header.column.getIsSorted() as string] ??
-                        (header.column.getCanSort() ? <Icon.TableSort /> : null)}
-                    </div>
-                  )}
-                </th>
-              ))}
+              {headerGroup.headers.map((header, i) => {
+                const size = header.column.getSize();
+                const style: React.CSSProperties = {};
+
+                if (size) {
+                  style.width = size;
+                }
+
+                header.column.columnDef.meta?.align;
+
+                return (
+                  <th
+                    key={header.id}
+                    className="p-6 text-xs font-medium text-gray-400"
+                    align={header.column.columnDef.meta?.align}
+                    style={style}
+                  >
+                    {header.isPlaceholder ? null : (
+                      <div
+                        {...{
+                          className: header.column.getCanSort()
+                            ? 'cursor-pointer select-none flex items-center gap-2'
+                            : '',
+                          onClick: header.column.getToggleSortingHandler(),
+                        }}
+                      >
+                        {flexRender(header.column.columnDef.header, header.getContext())}
+                        {{
+                          asc: <Icon.TableSortAsc />,
+                          desc: <Icon.TableSortDesc />,
+                        }[header.column.getIsSorted() as string] ??
+                          (header.column.getCanSort() ? <Icon.TableSort /> : null)}
+                      </div>
+                    )}
+                  </th>
+                );
+              })}
             </tr>
           ))}
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => {
+              {row.getVisibleCells().map((cell, i) => {
+                const size = cell.column.getSize();
+                const style: React.CSSProperties = {};
+
+                if (size) {
+                  style.width = size;
+                }
+
+                const align = cell.column.columnDef.meta?.align;
+
                 return (
-                  <td key={cell.id} className="border-t border-stone-800 p-6">
+                  <td
+                    key={cell.id}
+                    className="border-t border-stone-800 p-6"
+                    style={style}
+                    align={align}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 );
@@ -75,19 +113,6 @@ export default function Table<T>({ columns, data, className }: TableProps<T>) {
             </tr>
           ))}
         </tbody>
-        <tfoot>
-          {table.getFooterGroups().map((footerGroup) => (
-            <tr key={footerGroup.id}>
-              {footerGroup.headers.map((header) => (
-                <th key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.footer, header.getContext())}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </tfoot>
       </table>
     </div>
   );

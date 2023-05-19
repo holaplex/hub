@@ -115,6 +115,9 @@ export default function Drops({ project }: DropsPageProps) {
                             }),
                             loadingColumnHelper.display({
                               id: 'options',
+                              meta: {
+                                align: 'right',
+                              },
                               header: () => (
                                 <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />
                               ),
@@ -332,6 +335,9 @@ export default function Drops({ project }: DropsPageProps) {
                                 ),
                                 columnHelper.display({
                                   id: 'options',
+                                  meta: {
+                                    align: 'right',
+                                  },
                                   header: () => <></>,
                                   cell: (info) => {
                                     const drop = info.row.original;

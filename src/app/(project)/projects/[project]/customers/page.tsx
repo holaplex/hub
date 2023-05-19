@@ -81,11 +81,6 @@ export default function CustomersPage() {
                   </div>
                 ),
               }),
-              // loadingColumnHelper.display({
-              //   id: 'options',
-              //   header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
-              //   cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
-              // }),
             ]}
             data={new Array(4)}
           />
@@ -191,32 +186,6 @@ export default function CustomersPage() {
                       },
                     }
                   ),
-                  // columnHelper.display({
-                  //   id: 'options',
-                  //   header: () => <></>,
-                  //   cell: (info) => {
-                  //     const customer = info.row.original;
-                  //     return (
-                  //       <PopoverBox
-                  //         triggerButton={
-                  //           <div className="px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min">
-                  //             <Icon.More />
-                  //           </div>
-                  //         }
-                  //         elements={[
-                  //           <Link
-                  //             key="delete_project"
-                  //             className="flex gap-2 items-center"
-                  //             href={`/projects/${project?.id}/customers/${customer.id}/delete`}
-                  //           >
-                  //             <Icon.Delete stroke="stroke-red-500" />
-                  //             <span className="text-red-500">Remove</span>
-                  //           </Link>,
-                  //         ]}
-                  //       />
-                  //     );
-                  //   },
-                  // }),
                 ]}
                 data={customers}
               />
