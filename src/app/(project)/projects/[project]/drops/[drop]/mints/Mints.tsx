@@ -8,9 +8,8 @@ import { useQuery } from '@apollo/client';
 import Table from '../../../../../../../components/Table';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { formatDateString, DateFormat } from '../../../../../../../modules/time';
-import { Blockchain, CreationStatus, Project, Purchase } from '../../../../../../../graphql.types';
+import { Blockchain, Project, Purchase } from '../../../../../../../graphql.types';
 import { GetCollectionPurchases } from './../../../../../../../queries/purchase.graphql';
-import { useMemo } from 'react';
 
 interface MintsProps {
   loading?: boolean;
@@ -39,17 +38,6 @@ export default function Mints({ loading, project, drop }: MintsProps) {
   const blockchain = purchasesQuery.data?.project.drop?.collection.blockchain;
   const noPurchases = purchases.length === 0;
 
-  let blockchainIcon = useMemo(() => {
-    switch (blockchain) {
-      case Blockchain.Solana:
-        return <Icon.Crypto.Sol />;
-      case Blockchain.Polygon:
-        return <Icon.Crypto.Polygon />;
-      default:
-        return <></>;
-    }
-  }, [blockchain]);
-
   return (
     <div className="flex flex-col">
       {loading || purchasesQuery.loading ? (
@@ -60,8 +48,8 @@ export default function Mints({ loading, project, drop }: MintsProps) {
                 id: 'shortWallet',
                 header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
-                  <div className="flex flex-row gap-2 align-middle">
-                    <span className="rounded-full w-4 aspect-square bg-stone-800 animate-pulse" />
+                  <div className="flex flex-row gap-2">
+                    <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
                     <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
                   </div>
                 ),
@@ -105,32 +93,11 @@ export default function Mints({ loading, project, drop }: MintsProps) {
         </>
       ) : noPurchases ? (
         <div className="flex flex-col gap-2 items-center">
-          <Typography.Header size={Size.H2}>
-            You&apos;ve created a drop! Ok, what&apos;s next?
-          </Typography.Header>
-          <p className="text-gray-400 text-sm mt-6">
-            You can mint an edition from your drop directly to a wallet address by clicking the{' '}
-            <Link href={`/projects/${project}/drops/${drop}/mint`} className="text-yellow-300">
-              Mint edition
-            </Link>{' '}
-            button in the upper right hand corner.
-          </p>
-          <p className="text-gray-400 text-sm mt-4">
-            Or you can learn more about building a custom claim/buy page for your drop from our
-            <Link
-              href="https://docs.holaplex.com/hub/Guides/mint-page-deploy"
-              target="_blank"
-              className="text-yellow-300"
-            >
-              {' '}
-              documentation
-            </Link>{' '}
-            or by{' '}
-            <Link href="mailto:support@holaplex.com" className="text-yellow-300">
-              scheduling a call
-            </Link>{' '}
-            with our customer success team.
-          </p>
+          <Icon.Large.Clipboard />
+          <Typography.Header size={Size.H2}>No purchase history yet</Typography.Header>
+          <Typography.Paragraph className="text-gray-400">
+            Purchase history will appear after the first mint
+          </Typography.Paragraph>
         </div>
       ) : (
         <Table
@@ -139,11 +106,9 @@ export default function Mints({ loading, project, drop }: MintsProps) {
               header: () => <span>Wallet</span>,
               cell: (info) => {
                 return (
-                  <div className="flex gap-2 justify-middle">
-                    {blockchainIcon}
-                    <span className="text-xs text-white font-medium justify-middle">
-                      {info.getValue()}
-                    </span>
+                  <div className="flex gap-2">
+                    <Icon.Crypto.Sol />
+                    <span className="text-xs text-white font-medium">{info.getValue()}</span>
                   </div>
                 );
               },
@@ -176,43 +141,21 @@ export default function Mints({ loading, project, drop }: MintsProps) {
             columnHelper.display({
               id: 'moreOptions',
               header: () => <></>,
-              meta: {
-                align: 'right',
-              },
               cell: (info) => {
-                const purchase = info.row.original;
-                const transactionLink = purchase.transactionLink;
-                const status = purchase.status;
+                const txId = info.row.original.txSignature;
                 const options = [];
-                if (status === CreationStatus.Failed) {
+                txId &&
+                  blockchain === Blockchain.Solana &&
                   options.push(
                     <Link
-                      href={`/projects/${project}/drops/${drop}/mints/${purchase.mintId}/retry`}
-                      key="retry_mint"
-                      className="flex gap-2 items-center"
-                    >
-                      <span>Retry mint</span>
-                    </Link>
-                  );
-                }
-
-                if (transactionLink) {
-                  options.push(
-                    <Link
-                      href={transactionLink as string}
+                      href={`https://solscan.io/tx/${txId}`}
                       target="_blank"
-                      key="explorer"
+                      key="change_email"
                       className="flex gap-2 items-center"
                     >
-                      <Icon.ExternalLink /> <span>View on explorer</span>
+                      <Icon.ExternalLink /> <span>View on SolScan</span>
                     </Link>
                   );
-                }
-
-                if (options.length == 0) {
-                  return <></>;
-                }
-
                 return (
                   <PopoverBox
                     triggerButton={
