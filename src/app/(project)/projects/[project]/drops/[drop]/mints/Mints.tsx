@@ -7,11 +7,11 @@ import { Icon } from '../../../../../../../components/Icon';
 import { useQuery } from '@apollo/client';
 import Table from '../../../../../../../components/Table';
 import Typography, { Size } from '../../../../../../../components/Typography';
-import { formatDateString, DateFormat } from './../../../../../../../modules/time';
+import { formatDateString, DateFormat } from '../../../../../../../modules/time';
 import { Blockchain, Project, Purchase } from '../../../../../../../graphql.types';
 import { GetCollectionPurchases } from './../../../../../../../queries/purchase.graphql';
 
-interface PurchaseProps {
+interface MintsProps {
   loading?: boolean;
   project: string;
   drop: string;
@@ -26,7 +26,7 @@ interface GetPurchasesVars {
   drop: string;
 }
 
-export default function Purchases({ loading, project, drop }: PurchaseProps) {
+export default function Mints({ loading, project, drop }: MintsProps) {
   const columnHelper = createColumnHelper<Purchase>();
   const loadingColumnHelper = createColumnHelper<any>();
 
@@ -61,13 +61,13 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
                   <span className="rounded-full h-3 w-24 inline-block bg-stone-800 animate-pulse" />
                 ),
               }),
-              loadingColumnHelper.display({
-                id: 'spent',
-                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
-                cell: () => (
-                  <span className="rounded-full h-3 w-20 inline-block bg-stone-800 animate-pulse" />
-                ),
-              }),
+              // loadingColumnHelper.display({
+              //   id: 'spent',
+              //   header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
+              //   cell: () => (
+              //     <span className="rounded-full h-3 w-20 inline-block bg-stone-800 animate-pulse" />
+              //   ),
+              // }),
               loadingColumnHelper.display({
                 id: 'createdAt',
                 header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
@@ -126,17 +126,17 @@ export default function Purchases({ loading, project, drop }: PurchaseProps) {
                 return <span className="text-xs text-white font-medium">{info.getValue()}</span>;
               },
             }),
-            columnHelper.accessor('spent', {
-              header: () => <span>Wallet</span>,
-              cell: (info) => {
-                return (
-                  <div className="flex gap-1">
-                    <span className="text-xs text-white font-medium">{info.getValue()}</span>
-                    <span className="text-xs text-gray-400 font-medium">SOL</span>
-                  </div>
-                );
-              },
-            }),
+            // columnHelper.accessor('spent', {
+            //   header: () => <span>Spent</span>,
+            //   cell: (info) => {
+            //     return (
+            //       <div className="flex gap-1">
+            //         <span className="text-xs text-white font-medium">{info.getValue()}</span>
+            //         <span className="text-xs text-gray-400 font-medium">SOL</span>
+            //       </div>
+            //     );
+            //   },
+            // }),
             columnHelper.accessor('createdAt', {
               header: () => <span>Date</span>,
               cell: (info) => {

@@ -49,7 +49,6 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
       100
   );
 
-
   const loading = dropQuery.loading;
   const wallet = dropQuery.data?.project.treasury?.wallets?.find((wallet) => {
     switch (dropQuery.data?.project?.drop?.collection.blockchain) {
@@ -319,9 +318,9 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                   <Tabs.Page className="mt-8">
                     <Tabs.Panel loading={loading}>
                       <Tabs.Tab
-                        name="Purchase history"
-                        href={`/projects/${project}/drops/${drop}/purchases`}
-                        active={pathname === `/projects/${project}/drops/${drop}/purchases`}
+                        name="Mint history"
+                        href={`/projects/${project}/drops/${drop}/mints`}
+                        active={pathname === `/projects/${project}/drops/${drop}/mints`}
                       />
                       <Tabs.Tab
                         name="Current holders"
