@@ -57,12 +57,12 @@ export default function ReactivateMemberPage({ params: { member } }: ReactivateM
     <Modal open={true} setOpen={onClose}>
       <Card className="w-[400px]">
         <Typography.Header size={Size.H2}>
-          Do you really want to reactivate {member}?
+          Do you really want to reactivate the member?
         </Typography.Header>
 
         <Form className="flex flex-col mt-5">
-          <div className="flex items-start gap-2 rounded-md bg-gray-50 p-3">
-            <Icon.Info />
+          <div className="flex items-start gap-2 rounded-md bg-stone-800 p-3">
+            <Icon.Info stroke="stroke-gray-400" />
             <span className="text-xs text-gray-500 font-medium">
               The member will regain access to the project
             </span>

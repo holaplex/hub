@@ -61,13 +61,13 @@ export default function MemberDeletePage({ params: { member } }: DeleteMemberPro
   return (
     <Modal open={true} setOpen={onClose}>
       <Card className="w-[400px]">
-        <Typography.Header size={Size.H2}>Do you really want to delete {member}?</Typography.Header>
+        <Typography.Header size={Size.H2}>Do you really want to deactivate the member?</Typography.Header>
         <Typography.Header size={Size.H3}>This action can be reversed.</Typography.Header>
 
         <Form className="flex flex-col mt-5">
-          <div className="flex items-start gap-2 rounded-md bg-stone-800 p-3">
-            <Icon.Info stroke="stroke-white" />
-            <span className="text-xs text-gray-400 font-medium">
+          <div className="flex gap-2 rounded-md bg-stone-800 p-3">
+            <Icon.Info stroke="stroke-gray-400" />
+            <span className="text-xs text-gray-400 font-medium text-left">
               The member will be deprived of access to the project
             </span>
           </div>
@@ -79,7 +79,7 @@ export default function MemberDeletePage({ params: { member } }: DeleteMemberPro
             disabled={loading}
             loading={loading}
           >
-            Delete member
+            Deactivate member
           </Button>
           <Button variant="secondary" className="w-full mt-5" onClick={onClose} disabled={loading}>
             Cancel
