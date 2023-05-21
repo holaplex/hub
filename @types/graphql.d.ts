@@ -54,6 +54,16 @@ declare module '*/mint.graphql' {
   export default defaultDocument;
 }
 
+declare module '*/member.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const DeactivateMember: DocumentNode;
+export const ReactivateMember: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/organization.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
