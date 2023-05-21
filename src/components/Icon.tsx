@@ -1124,7 +1124,7 @@ function Info({
       height={height}
       viewBox="0 0 16 16"
       fill={fill}
-      className={className}
+      className={clsx(className, stroke)}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

@@ -25,6 +25,7 @@ export enum MemberStatus {
   Revoked = 'REVOKED',
   Sent = 'SENT',
   Owner = 'OWNER',
+  Inactive = 'INACTIVE',
 }
 
 export enum WebhookEvent {

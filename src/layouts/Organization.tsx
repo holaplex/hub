@@ -1,5 +1,5 @@
 'use client';
-import { useSelectedLayoutSegments } from 'next/navigation';
+import { useRouter, useSelectedLayoutSegments } from 'next/navigation';
 import { Icon } from '../components/Icon';
 import Sidebar from './Sidebar';
 import { OrganizationProvider } from '../providers/OrganizationProvider';
@@ -16,7 +16,7 @@ export default function Organization({
   hydrate?: OrganizationType;
 }): JSX.Element {
   const segments = useSelectedLayoutSegments();
-
+  const router = useRouter();
   return (
     <OrganizationProvider hydrate={hydrate}>
       {({ organization }) => {
