@@ -1,13 +1,16 @@
 'use client';
 import { Modal } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
-import NewProject from '../../../NewProject';
+import NewProject from '../../NewProject';
+import React from 'react';
 
 export default function NewProjectPage() {
   const router = useRouter();
-
+  const onClose = () => {
+    router.back();
+  };
   return (
-    <Modal open={true} setOpen={() => {}}>
+    <Modal open={true} setOpen={onClose}>
       <NewProject />
     </Modal>
   );

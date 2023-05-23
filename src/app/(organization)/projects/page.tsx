@@ -185,8 +185,6 @@ export default function OrganizationProjectsPage() {
           </>
         )}
       </div>
-
-      {children}
     </>
   );
 }

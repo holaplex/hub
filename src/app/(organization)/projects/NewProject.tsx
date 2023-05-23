@@ -57,7 +57,7 @@ export default function NewProject() {
   };
 
   return (
-    <div className="w-max mx-auto pt-20">
+    <div className="w-max mx-auto">
       <Card className="w-[400px]">
         <Typography.Header size={Size.H2} className="self-start">
           Create new project

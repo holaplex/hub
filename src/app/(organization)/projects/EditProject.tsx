@@ -7,20 +7,15 @@ import { useEffect } from 'react';
 import Dropzone from 'react-dropzone';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import Card from '../../../../../components/Card';
-import Divider from '../../../../../components/Divider';
-import Typography, { Size } from '../../../../../components/Typography';
-import {
-  EditProjectInput,
-  EditProjectPayload,
-  Project,
-  InputMaybe,
-} from '../../../../../graphql.types';
-import { useOrganization } from '../../../../../hooks/useOrganization';
-import { uploadFile } from '../../../../../modules/upload';
-import { GetProject } from '../../../../../queries/project.graphql';
-import { GetOrganizationProjects } from '../../../../../queries/organization.graphql';
-import { EditProject as EditProjectMutation } from './../../../../../mutations/project.graphql';
+import Card from '../../../components/Card';
+import Divider from '../../../components/Divider';
+import Typography, { Size } from '../../../components/Typography';
+import { EditProjectInput, EditProjectPayload, Project, InputMaybe } from '../../../graphql.types';
+import { useOrganization } from '../../../hooks/useOrganization';
+import { uploadFile } from '../../../modules/upload';
+import { GetProject } from '../../../queries/project.graphql';
+import { GetOrganizationProjects } from '../../../queries/organization.graphql';
+import { EditProject as EditProjectMutation } from '../../../mutations/project.graphql';
 
 interface GetProjectData {
   project: Project;
@@ -104,7 +99,7 @@ export default function EditProject({ project }: { project: string }) {
   }, [reset, projectData]);
 
   return (
-    <Modal open={true} setOpen={onClose}>
+    <div className="w-max mx-auto">
       <Card className="w-[400px]">
         {projectQuery.loading ? (
           <>
@@ -203,6 +198,6 @@ export default function EditProject({ project }: { project: string }) {
           </>
         )}
       </Card>
-    </Modal>
+    </div>
   );
 }
