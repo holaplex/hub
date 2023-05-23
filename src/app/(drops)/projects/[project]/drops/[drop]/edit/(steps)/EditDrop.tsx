@@ -66,15 +66,18 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
       break;
   }
 
+  const metadataJson = drop?.collection.metadataJson;
   const store = useDropFormState({
     detail: {
-      name: drop?.collection.metadataJson?.name as string,
-      description: drop?.collection.metadataJson?.description as string,
+      name: metadataJson?.name as string,
+      description: metadataJson?.description as string,
       blockchain: drop?.collection.blockchain as Blockchain,
-      symbol: drop?.collection.metadataJson?.symbol as string,
-      image: drop?.collection.metadataJson?.image as string,
-      attributes: drop?.collection.metadataJson?.attributes as MetadataJsonAttribute[],
-      externalUrl: drop?.collection.metadataJson?.externalUrl as string,
+      symbol: metadataJson?.symbol as string,
+      image: metadataJson?.image as string,
+      animationUrl: metadataJson?.animationUrl as string,
+      includeAnimationUrl: metadataJson?.animationUrl ? true : false,
+      attributes: (metadataJson?.attributes || []) as MetadataJsonAttribute[],
+      externalUrl: metadataJson?.externalUrl as string,
     },
     payment: {
       supply: drop?.collection.supply?.toString() as string,
@@ -103,7 +106,7 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
         <Navbar.Header>
           <Link
             href={`/projects/${project.id}/drops`}
-            className="flex items-center gap-4 px-5 cursor-pointer"
+            className="flex items-center gap-6 px-5 cursor-pointer"
           >
             <Icon.Close stroke="stroke-white" />
             <span className="flex items-center gap-2 text-sm font-medium">Close</span>

@@ -62,12 +62,21 @@ h3 {
   }
 }
 
+input[type='date']::-webkit-calendar-picker-indicator {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 24 24"><path fill="%23AAAAAA" d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>');
+}
+
+input[type='time']::-webkit-calendar-picker-indicator {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16px" height="16px"><circle cx="8" cy="8" r="7" stroke="%23AAAAAA" fill="none"/><path stroke="%23AAAAAA" stroke-linecap="round" d="M8,4.5v3.5l2.5,1.5"/></svg>');
+}
+
 .form-error {
-  @apply text-left text-sm text-red-500;
+  @apply text-left text-sm text-red-500 p-4 bg-red-500/25 rounded-lg mt-2;
 }
 
 .form-input-container,
-.form-input {
+.form-input,
+.form-textarea {
   @apply w-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400;
 }
 
@@ -75,7 +84,8 @@ h3 {
   @apply flex flex-row items-center;
 }
 
-.form-input {
+.form-input,
+.form-textarea {
   @apply rounded-lg bg-stone-800 border border-stone-800 text-white;
 }
 
@@ -160,6 +170,10 @@ input:focus {
   @apply text-white;
 }
 
+.modal-scrim {
+  @apply bg-stone-950 bg-opacity-40;
+}
+
 .form-select-button {
   @apply form-input text-left min-h-[42px];
 }
@@ -205,7 +219,7 @@ input:focus {
 }
 
 .popover-panel {
-  @apply w-screen max-w-[200px] rounded-md p-4 bg-stone-800 text-white;
+  @apply w-screen max-w-[200px] rounded-md p-4 bg-stone-800 text-white z-30;
 }
 
 .popover-elements {
@@ -213,7 +227,7 @@ input:focus {
 }
 
 .dragdrop-preview-image {
-  @apply w-40 h-40 aspect-square rounded-lg;
+  @apply w-40 h-40 aspect-square rounded-lg object-cover;
 }
 
 input[type='date']::-webkit-calendar-picker-indicator {

@@ -7,12 +7,13 @@ import { useMemo } from 'react';
 import { Icon } from '../../../components/Icon';
 import Table from '../../../components/Table';
 import Link from 'next/link';
-import { Organization, Maybe, Member } from '../../../graphql.types';
+import { Organization, Maybe, Member, Owner, User } from '../../../graphql.types';
 import { MemberStatus } from './../../../types';
+import { useSession } from './../../../hooks/useSession';
 import { useOrganization } from '../../../hooks/useOrganization';
+import { Session } from '@ory/client';
 import { GetOrganizationMembers } from './../../../queries/organization.graphql';
 import { DateFormat, formatDateString } from '../../../modules/time';
-import { appConfig } from './../../../app.config';
 import useClipboard from './../../../hooks/useClipboard';
 
 type Associate = {
@@ -32,19 +33,48 @@ interface GetOrganizationMembersVars {
   organization: string;
 }
 
-function ActionCell({ id, status }: { id: string; status: MemberStatus }): JSX.Element {
-  const { copied, copyText } = useClipboard(`${appConfig.client('fqdn')}/invites/${id}`);
+function ActionCell({
+  id,
+  status,
+  owner,
+  session,
+}: {
+  id: string;
+  status: MemberStatus;
+  owner: Maybe<Owner> | undefined;
+  session: Session;
+}): JSX.Element {
+  const { copied, copyText } = useClipboard(`${process.env.NEXT_PUBLIC_APP_FQDN}/invites/${id}`);
 
   if (status === MemberStatus.Owner) {
     return <div />;
   }
 
-  let elements: JSX.Element[] = [
-    // <Link key="delete_member" className="flex gap-2 items-center" href={`/members/${id}/delete`}>
-    //   <Icon.Delete stroke="stroke-red-500" />
-    //   <span className="text-red-500">Delete member</span>
-    // </Link>,
-  ];
+  let elements: JSX.Element[] = [];
+  if (session?.identity.id === owner?.user.id) {
+    status === MemberStatus.Inactive &&
+      elements.push(
+        <Link
+          key="reactivate_member"
+          className="flex gap-2 items-center"
+          href={`/members/${id}/reactivate`}
+        >
+          <span>Reactivate member</span>
+        </Link>
+      );
+
+    status === MemberStatus.Accepted &&
+      elements.push(
+        <Link
+          key="delete_member"
+          className="flex gap-2 items-center"
+          href={`/members/${id}/deactivate`}
+        >
+          <Icon.Delete stroke="stroke-red-500" />
+          <span className="text-red-500">Deactivate member</span>
+        </Link>
+      );
+  }
 
   if (status === MemberStatus.Sent) {
     elements = [
@@ -54,6 +84,10 @@ function ActionCell({ id, status }: { id: string; status: MemberStatus }): JSX.E
         Invite link
       </span>,
     ];
+  }
+
+  if (elements.length === 0) {
+    return <div />;
   }
 
   return (
@@ -71,6 +105,7 @@ function ActionCell({ id, status }: { id: string; status: MemberStatus }): JSX.E
 
 export default function MembersLayout({ children }: { children: React.ReactNode }) {
   const { organization } = useOrganization();
+  const { session } = useSession();
   const membersQuery = useQuery<GetOrganizationMembersData, GetOrganizationMembersVars>(
     GetOrganizationMembers,
     { variables: { organization: organization?.id } }
@@ -97,13 +132,15 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
       let associate = {
         id: member?.id || id,
         email: member?.user?.email || email,
-        user: member?.user,
         createdAt: member?.createdAt || createdAt,
         status: status as unknown as MemberStatus,
       } as Associate;
 
       if (member) {
         associate.fullName = `${member?.user?.firstName} ${member?.user?.lastName}`;
+        if (member.deactivatedAt) {
+          associate.status = MemberStatus.Inactive;
+        }
       }
 
       return associate;
@@ -165,14 +202,24 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
     }),
     columnHelper.display({
       id: 'options',
+      meta: {
+        align: 'right',
+      },
       header: () => <></>,
-      cell: (info) => <ActionCell id={info.row.original.id} status={info.row.original.status} />,
+      cell: (info) => (
+        <ActionCell
+          id={info.row.original.id}
+          status={info.row.original.status}
+          owner={membersQuery.data?.organization.owner}
+          session={session}
+        />
+      ),
     }),
   ];
 
   return (
     <>
-      <div className="h-full flex flex-col p-4">
+      <div className="h-full flex flex-col p-6">
         {loading ? (
           <>
             <div className="w-36 h-8 rounded-md bg-stone-900 animate-pulse" />
@@ -213,6 +260,9 @@ export default function MembersLayout({ children }: { children: React.ReactNode 
                 }),
                 loadingColumnHelper.display({
                   id: 'options',
+                  meta: {
+                    align: 'right',
+                  },
                   header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                   cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                 }),

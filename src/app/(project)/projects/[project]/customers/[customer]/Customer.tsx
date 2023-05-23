@@ -53,7 +53,7 @@ export default function Customer({ children, project, customer }: CustomerProps)
             <Link href={`/projects/${project}/customers`}>Customers</Link> /{' '}
             <span className="text-white">{customer}</span>
           </div>
-          <ul className="flex-row gap-4">
+          <ul className="flex-row gap-6">
             <li className="flex flex-col items-end gap-1">
               <span className="text-gray-400 font-medium text-xs">Registered</span>
               <span className="text-xs">

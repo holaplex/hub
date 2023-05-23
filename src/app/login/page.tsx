@@ -19,7 +19,7 @@ export default function Login() {
       <Typography.Header size={Size.H2}>Sign in</Typography.Header>
       <Typography.Header size={Size.H3}>Use your email to sign in.</Typography.Header>
       {loading ? (
-        <div className="flex flex-col gap-4 mt-3">
+        <div className="flex flex-col gap-6 mt-3">
           <div>
             <div className="mb-1 w-20 h-4 rounded-md bg-stone-800 animate-pulse" />
             <div className="mb-1 w-full h-10 rounded-md bg-stone-800 animate-pulse" />
@@ -65,6 +65,17 @@ export default function Login() {
           </Button>
         </Form>
       )}
+
+      <span className="flex-wrap text-gray-400 text-xs mt-4">
+        By signing in I have read and agreed to Holaplex Hub{' '}
+        <Link styled={false} href="/terms-of-service" target="_blank" className="underline">
+          Terms
+        </Link>{' '}
+        and{' '}
+        <Link styled={false} href="/privacy-policy" target="_blank" className="underline">
+          Privacy Policy
+        </Link>
+      </span>
 
       <Divider.Or className="my-4" />
 

@@ -1,3 +1,8 @@
+image:
+  repository: teawithfruit/mailhog
+  tag: v1
+  pullPolicy: IfNotPresent
+
 ingress:
   enabled: true
   ingressClassName: apisix

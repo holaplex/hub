@@ -9,6 +9,9 @@ import { StoreApi, useStore } from 'zustand';
 import { TimingSettings, DropFormState } from '../../../../../../../providers/DropFormProvider';
 import { useDropForm } from '../../../../../../../hooks/useDropForm';
 import { useProject } from '../../../../../../../hooks/useProject';
+import { format } from 'date-fns';
+import add from 'date-fns/add';
+import { DateFormat } from '../../../../../../../modules/time';
 
 export default function NewDropTimingPage() {
   const router = useRouter();
@@ -17,10 +20,16 @@ export default function NewDropTimingPage() {
 
   const timing = useStore(store, (store) => store.timing);
   const setTiming = useStore(store, (store) => store.setTiming);
+  const now = new Date();
+  const thirtyDays = add(now, { days: 30 });
   const { handleSubmit, register, watch } = useForm<TimingSettings>({
     defaultValues: timing || {
       selectStartDate: 'mintImmediately',
+      startDate: format(now, DateFormat.DATE_3),
+      startTime: format(now, DateFormat.TIME_2),
       selectEndDate: 'neverEnd',
+      endDate: format(thirtyDays, DateFormat.DATE_3),
+      endTime: format(thirtyDays, DateFormat.TIME_2),
     },
   });
 
@@ -38,7 +47,7 @@ export default function NewDropTimingPage() {
 
   return (
     <>
-      <Card className="w-[460px]">
+      <Card className="w-[364px]">
         <Typography.Header size={Size.H2}>Drop schedule</Typography.Header>
         <Typography.Header size={Size.H3} color={TextColor.Gray}>
           Scheduled in your current timezone
@@ -56,7 +65,7 @@ export default function NewDropTimingPage() {
             </Form.RadioGroup>
           </Form.Label>
           {selectStartDate === 'specifyStartDate' && (
-            <div className="flex gap-4 items-end mt-4">
+            <div className="flex gap-6 items-end mt-4">
               <Form.Input {...register('startDate')} type="date" className="basis-3/5" />
               <Form.Input {...register('startTime')} type="time" className="basis-2/5" />
             </div>
@@ -74,14 +83,14 @@ export default function NewDropTimingPage() {
             </Form.RadioGroup>
           </Form.Label>
           {selectEndDate === 'specifyEndDate' && (
-            <div className="flex gap-4 items-end mt-4">
+            <div className="flex gap-6 items-end mt-4">
               <Form.Input {...register('endDate')} type="date" className="basis-3/5" />
               <Form.Input {...register('endTime')} type="time" className="basis-2/5" />
             </div>
           )}
 
           <hr className="w-full bg-stone-800 border-0 h-px my-5" />
-          <div className="flex items-center justify-end gap-4">
+          <div className="flex items-center justify-end gap-6">
             <Button variant="secondary" onClick={back}>
               Back
             </Button>

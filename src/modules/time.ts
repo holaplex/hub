@@ -7,7 +7,7 @@ export enum DateFormat {
   TIME_1 = 'h:mm a',
   DATE_2 = 'MM/dd/yyyy h:mm a',
   DATE_3 = 'yyyy-MM-dd',
-  TIME_2 = 'hh:mm',
+  TIME_2 = 'HH:mm',
 }
 
 export function formatDateString(dateStr: string, formatStr: string): string {

@@ -32,7 +32,7 @@ export default function NewDrop({ children, project }: CreateDropProps): JSX.Ele
         <Navbar.Header>
           <Link
             href={`/projects/${project.id}/drops`}
-            className="flex items-center gap-4 px-5 cursor-pointer"
+            className="flex items-center gap-6 px-5 cursor-pointer"
           >
             <Icon.Close stroke="stroke-white" />
             <span className="flex items-center gap-2 text-sm font-medium">Close</span>

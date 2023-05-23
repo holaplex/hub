@@ -38,7 +38,7 @@ export default function TreasuryWallet({
           </span>
           <span className="text-gray-400 px-5">Blockchain: Solana</span>
         </div>
-        <div className="flex p-4 bg-white rounded-b-md">
+        <div className="flex p-6 bg-white rounded-b-md">
           <div className="flex basis-1/2 items-center justify-between">
             <div className="flex gap-2 items-center">
               <Icon.Crypto.Sol className="h-10 w-10" />

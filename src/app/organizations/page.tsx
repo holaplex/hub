@@ -76,7 +76,7 @@ export default function OrganizationsPage() {
                     alt="logo"
                   />
                 ) : (
-                  <div className="w-8 h-8 bg-gray-300 rounded-md" />
+                  <div className="w-8 h-8 bg-stone-800 rounded-md" />
                 )}
                 {affiliation.organization?.name}
               </div>

@@ -124,7 +124,7 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
   }, [reset, webhookData]);
 
   return (
-    <div className="h-full flex flex-col p-4">
+    <div className="h-full flex flex-col p-6">
       <div className="text-2xl font-medium text-gray-400">
         Webhooks / <span className="text-white">Edit Webhook</span>
       </div>
@@ -204,7 +204,7 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                 />
                 <Form.Error message={errors.projects?.message} />
               </Form.Label>
-              <div className="flex gap-4 mt-5">
+              <div className="flex gap-6 mt-5">
                 <Form.Label name="Name" className="text-xs mt-5">
                   <Form.Input
                     {...register('description', { required: 'Name is required' })}
@@ -220,7 +220,7 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                 </Form.Label>
               </div>
 
-              <hr className="w-full bg-divider my-4 h-px border-0" />
+              <hr className="w-full bg-stone-800 my-4 h-px border-0" />
 
               <span className="text-sm text-white font-medium">Events</span>
               <div className="grid grid-cols-2 mt-4 mx-2 gap-5 text-xs">
@@ -261,7 +261,7 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                 </Form.Label>
               </div>
 
-              <hr className="w-full bg-divider my-4 h-px border-0" />
+              <hr className="w-full bg-stone-800 my-4 h-px border-0" />
 
               <div className="flex items-center justify-between">
                 <Button

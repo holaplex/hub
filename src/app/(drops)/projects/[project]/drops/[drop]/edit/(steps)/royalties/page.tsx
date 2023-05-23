@@ -8,6 +8,10 @@ import {
   Blockchain,
   AssetType,
   CollectionCreatorInput,
+  Organization,
+  ActionCost,
+  Action,
+  BlockchainCost,
 } from './../../../../../../../../../graphql.types';
 import {
   PaymentSettings,
@@ -19,6 +23,25 @@ import { Icon } from './../../../../../../../../../components/Icon';
 import Typography, { Size } from '../../../../../../../../../components/Typography';
 import { useProject } from '../../../../../../../../../hooks/useProject';
 import { useDropForm } from '../../../../../../../../../hooks/useDropForm';
+import { useOrganization } from '../../../../../../../../../hooks/useOrganization';
+import { useQuery } from '@apollo/client';
+import {
+  GetCreditSheet,
+  GetOrganizationCreditBalance,
+} from '../../../../../../../../../queries/credits.graphql';
+import clsx from 'clsx';
+
+interface GetOrganizationBalanceVars {
+  organization: string;
+}
+
+interface GetOrganizationCreditBalanceData {
+  organization: Organization;
+}
+
+interface GetCreditSheetData {
+  creditSheet: ActionCost[];
+}
 
 export default function EditDropRoyaltiesPage() {
   const router = useRouter();
@@ -26,8 +49,20 @@ export default function EditDropRoyaltiesPage() {
   const store = useDropForm() as StoreApi<DropFormState>;
   const detail = useStore(store, (store) => store.detail);
   const payment = useStore(store, (store) => store.payment);
-
   const setPayment = useStore(store, (store) => store.setPayment);
+
+  const { organization } = useOrganization();
+  const creditBalanceQuery = useQuery<GetOrganizationCreditBalanceData, GetOrganizationBalanceVars>(
+    GetOrganizationCreditBalance,
+    {
+      variables: { organization: organization?.id },
+    }
+  );
+  const creditBalance = creditBalanceQuery.data?.organization.credits?.balance;
+
+  const creditSheetQuery = useQuery<GetCreditSheetData>(GetCreditSheet);
+
+  const creditSheet = creditSheetQuery.data?.creditSheet;
 
   const wallet = project?.treasury?.wallets?.find((wallet) => {
     switch (detail?.blockchain) {
@@ -48,6 +83,14 @@ export default function EditDropRoyaltiesPage() {
 
   const royaltiesDestination = watch('royaltiesDestination');
   const royaltiesShortcut = watch('royaltiesShortcut');
+  const creators = watch('creators');
+  const supply = parseInt(watch('supply').replaceAll(',', ''));
+
+  const createDropCredits = creditSheet
+    ?.find((actionCost: ActionCost) => actionCost.action === Action.CreateDrop)
+    ?.blockchains.find(
+      (blockchainCost: BlockchainCost) => blockchainCost.blockchain === detail?.blockchain
+    )?.credits;
 
   const submit = (data: PaymentSettings) => {
     if (data.royaltiesDestination === RoyaltiesDestination.ProjectTreasury) {
@@ -59,7 +102,10 @@ export default function EditDropRoyaltiesPage() {
     }
 
     data.creators = data.creators.map(({ address, share = 100 }) => {
-      const creator: CollectionCreatorInput = { address, share };
+      const creator: CollectionCreatorInput = {
+        address,
+        share: typeof share === 'string' ? parseInt(share) : share,
+      };
 
       if (address == wallet?.address) {
         creator.verified = true;
@@ -111,11 +157,7 @@ export default function EditDropRoyaltiesPage() {
       <Card className="w-[492px]">
         <Typography.Header size={Size.H2}>Supply</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-          <div className="flex gap-4">
-            <Form.Label name="Specify how many editions will be available" className="text-xs mt-5">
-              <Form.Input {...register('supply')} autoFocus placeholder="e.g. 10,000" />
-            </Form.Label>
-          </div>
+          {supply}
 
           <Typography.Header size={Size.H2} className="mt-6 mb-8">
             Royalties
@@ -233,7 +275,7 @@ export default function EditDropRoyaltiesPage() {
           {royaltiesDestination === RoyaltiesDestination.Creators && (
             <>
               {fields.map((field, index) => (
-                <div className="flex gap-4" key={field.id}>
+                <div className="flex gap-6" key={field.id}>
                   <Form.Label name="Wallet" className="text-xs mt-5 basis-3/4">
                     <Form.Input
                       {...register(`creators.${index}.address`, {
@@ -251,12 +293,14 @@ export default function EditDropRoyaltiesPage() {
                     />
                   </Form.Label>
 
-                  <div
-                    className="rounded-md bg-stone-800 hover:bg-stone-950 p-3 self-end cursor-pointer"
-                    onClick={() => remove(index)}
-                  >
-                    <Icon.Close stroke="stroke-white" />
-                  </div>
+                  {creators.length > 1 && (
+                    <div
+                      className="rounded-md bg-stone-900 hover:bg-stone-800 p-3 self-end cursor-pointer"
+                      onClick={() => remove(index)}
+                    >
+                      <Icon.Close stroke="stroke-white" />
+                    </div>
+                  )}
                 </div>
               ))}
               <Button
@@ -272,7 +316,7 @@ export default function EditDropRoyaltiesPage() {
 
           <hr className="w-full bg-stone-800 border-0 h-px my-5" />
 
-          <div className="flex items-center justify-end gap-4">
+          <div className="flex items-center justify-end gap-6">
             <Button variant="secondary" onClick={back}>
               Back
             </Button>

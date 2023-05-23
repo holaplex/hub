@@ -1,0 +1,47 @@
+query GetOrganizationCreditBalance($organization: UUID!) {
+  organization(id: $organization) {
+    id
+    credits {
+      balance
+    }
+  }
+}
+
+query GetOrganizationCreditAndDeductionTotals($organization: UUID!) {
+  organization(id: $organization) {
+    id
+    credits {
+      balance
+    }
+    deductionTotals {
+      action
+      spent
+    }
+  }
+}
+
+query GetOrganizationCreditDeposits($organization: UUID!) {
+  organization(id: $organization) {
+    id
+    credits {
+      deposits {
+        id
+        reason
+        credits
+        perCreditCost
+        cost
+        createdAt
+      }
+    }
+  }
+}
+
+query GetCreditSheet {
+  creditSheet {
+    action
+    blockchains {
+      blockchain
+      credits
+    }
+  }
+}

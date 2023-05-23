@@ -1,3 +1,21 @@
+query GetOrganizationDrops($organization: UUID!) {
+  organization(id: $organization) {
+    id
+    projects {
+      id
+      drops {
+        id
+        collection {
+          id
+          supply
+          totalMints
+          blockchain
+        }
+      }
+    }
+  }
+}
+
 query GetProjectDrops($project: UUID!) {
   project(id: $project) {
     id
@@ -61,6 +79,8 @@ query GetDrop($project: UUID!, $drop: UUID!) {
           image
           description
           symbol
+          externalUrl
+          animationUrl
           attributes {
             id
             traitType
@@ -87,5 +107,3 @@ query GetDropBasicDetail($project: UUID!, $drop: UUID!) {
     }
   }
 }
-
-
