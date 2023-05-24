@@ -22,7 +22,7 @@ kratos:
           url: file:///etc/config/identity.default.schema.json
     courier:
       smtp:
-        connection_uri: smtps://test:test@mailhog:1025/?skip_ssl_verify=true
+        connection_uri: smtp://mailhog:1025?skip_ssl_verify=true&disable_starttls=true
     session:
       lifespan: 720h
       cookie:
@@ -33,6 +33,8 @@ kratos:
         - http://hub.127.0.0.1.nip.io:9080
       methods:
         password:
+          enabled: true
+        code:
           enabled: true
       default_browser_return_url: http://hub.127.0.0.1.nip.io:9080
       flows:
@@ -45,29 +47,29 @@ kratos:
               hooks:
                 - hook: session
         error:
-          ui_url: https://hub.127.0.0.1.nip.io:9080/account/error
+          ui_url: http://hub.127.0.0.1.nip.io:9080/account/error
 
         settings:
           required_aal: highest_available
-          ui_url: https://hub.127.0.0.1.nip.io:9080/account/settings
+          ui_url: http://hub.127.0.0.1.nip.io:9080/account/settings
           privileged_session_max_age: 15m
 
         recovery:
           enabled: true
-          ui_url: https://hub.127.0.0.1.nip.io:9080/recovery
+          ui_url: http://hub.127.0.0.1.nip.io:9080/recovery
 
         verification:
           enabled: true
-          ui_url: https://hub.127.0.0.1.nip.io:9080/verification
+          ui_url: http://hub.127.0.0.1.nip.io:9080/verification
           after:
-            default_browser_return_url: https://hub.127.0.0.1.nip.io:9080
+            default_browser_return_url: http://hub.127.0.0.1.nip.io:9080
 
         logout:
           after:
-            default_browser_return_url: https://hub.127.0.0.1.nip.io:9080/login
+            default_browser_return_url: http://hub.127.0.0.1.nip.io:9080/login
 
         login:
-          ui_url: https://hub.127.0.0.1.nip.io:9080/login
+          ui_url: http://hub.127.0.0.1.nip.io:9080/login
           lifespan: 10m
 
   identitySchemas:
@@ -112,11 +114,6 @@ kratos:
                     "type": "string"
                   }
                 }
-              },
-              "profile_image": {
-                "title": "Profile Image URL",
-                "type": "string",
-                "format": "uri"
               }
             },
             "required": [
