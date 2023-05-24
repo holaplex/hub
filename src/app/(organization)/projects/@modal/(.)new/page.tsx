@@ -7,7 +7,7 @@ import React from 'react';
 export default function NewProjectPage() {
   const router = useRouter();
   const onClose = () => {
-    router.push('/projects');
+    router.back();
   };
   return (
     <Modal open={true} setOpen={onClose}>

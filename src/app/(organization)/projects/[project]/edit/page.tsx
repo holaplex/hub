@@ -8,7 +8,7 @@ export default function EditProjectPage({
   params: { project },
 }: EditProjectLayoutProps): React.ReactNode {
   return (
-    <div className="h-screen flex items-center justify-center">
+    <div className="w-max mx-auto pt-20">
       <EditProject project={project} />
     </div>
   );

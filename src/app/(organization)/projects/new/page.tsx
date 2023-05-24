@@ -4,7 +4,7 @@ import NewProject from '../NewProject';
 
 export default function NewProjectPage() {
   return (
-    <div className="h-screen flex items-center justify-center">
+    <div className="w-max mx-auto pt-20">
       <NewProject />
     </div>
   );
