@@ -13,7 +13,7 @@ export default function RecoveryCode() {
   const email = searchParams?.get('email')!;
   const flowId = searchParams?.get('flowId')!;
   const { flow, loading } = useRecoveryCodeFlow({ flowId });
-  const { submit, register, handleSubmit, formState } = useRecoveryCode({ flow, email });
+  const { submit, register, handleSubmit, formState } = useRecoveryCode({ flow });
 
   return (
     <Card className="w-[416px]">

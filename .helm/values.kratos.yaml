@@ -11,6 +11,18 @@ kratos:
       enabled: false
   config:
     dsn: postgres://kratos:kratos@kratos-db-postgresql:5432/kratos
+    log:
+      format: json
+      leak_sensitive_values: true
+    serve:
+      public:
+        base_url: http://hub.127.0.0.1.nip.io:9080/id
+        cors:
+          enabled: true
+      admin:
+        base_url: http://kratos-admin:80
+        request_log:
+          disable_for_health: true
     secrets:
       default:
         - dolore occaecat nostrud Ut
@@ -23,6 +35,8 @@ kratos:
     courier:
       smtp:
         connection_uri: smtp://mailhog:1025?skip_ssl_verify=true&disable_starttls=true
+        from_address: identity@holaplex.com
+        from_name: Holaplex Hub - Identity
     session:
       lifespan: 720h
       cookie:
@@ -31,12 +45,21 @@ kratos:
     selfservice:
       allowed_return_urls:
         - http://hub.127.0.0.1.nip.io:9080
+        - /projects
+        - /login
       methods:
+        link:
+          config:
+            lifespan: 15m
+            base_url: http://hub.127.0.0.1.nip.io:9080/id
+          enabled: true
         password:
           enabled: true
         code:
           enabled: true
-      default_browser_return_url: http://hub.127.0.0.1.nip.io:9080
+          config:
+            lifespan: 15m
+      default_browser_return_url: http://hub.127.0.0.1.nip.io:9080/projects
       flows:
         registration:
           after:
@@ -57,10 +80,16 @@ kratos:
         recovery:
           enabled: true
           ui_url: http://hub.127.0.0.1.nip.io:9080/recovery
-
+          lifespan: 15m
+          use: code
+          notify_unknown_recipients: false
+          after:
+            hooks:
+            - hook: revoke_active_sessions
         verification:
           enabled: true
           ui_url: http://hub.127.0.0.1.nip.io:9080/verification
+          use: link
           after:
             default_browser_return_url: http://hub.127.0.0.1.nip.io:9080
 
@@ -73,58 +102,58 @@ kratos:
           lifespan: 10m
 
   identitySchemas:
-    'identity.default.schema.json': |-
-      {
-        "$id": "https://schemas.ory.sh/presets/kratos/quickstart/email-password/identity.schema.json",
-        "$schema": "http://json-schema.org/draft-07/schema#",
-        "title": "Person",
-        "type": "object",
-        "properties": {
-          "traits": {
-            "type": "object",
-            "properties": {
-              "email": {
-                "type": "string",
-                "format": "email",
-                "title": "E-Mail",
-                "minLength": 3,
-                "ory.sh/kratos": {
-                  "credentials": {
-                    "password": {
-                      "identifier": true
+    identity.default.schema.json: |-
+        {
+          "$id": "https://schemas.ory.sh/presets/kratos/quickstart/email-password/identity.schema.json",
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "title": "Person",
+          "type": "object",
+          "properties": {
+            "traits": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "title": "E-Mail",
+                  "minLength": 3,
+                  "ory.sh/kratos": {
+                    "credentials": {
+                      "password": {
+                        "identifier": true
+                      }
+                    },
+                    "verification": {
+                      "via": "email"
+                    },
+                    "recovery": {
+                      "via": "email"
                     }
-                  },
-                  "verification": {
-                    "via": "email"
-                  },
-                  "recovery": {
-                    "via": "email"
                   }
+                },
+                "name": {
+                  "type": "object",
+                  "properties": {
+                    "first": {
+                      "title": "First Name",
+                      "type": "string"
+                    },
+                    "last": {
+                      "title": "Last Name",
+                      "type": "string"
+                    }
+                  }
+                },
+                "profile_image": {
+                  "title": "Profile Image URL",
+                  "type": "string",
+                  "format": "uri"
                 }
               },
-              "name": {
-                "type": "object",
-                "properties": {
-                  "first": {
-                    "title": "First Name",
-                    "type": "string"
-                  },
-                  "last": {
-                    "title": "Last Name",
-                    "type": "string"
-                  }
-                }
-              },
-              "profile_image": {
-                "title": "Profile Image URL",
-                "type": "string",
-                "format": "uri"
-              }
-            },
-            "required": [
-              "email"
-            ],
-            "additionalProperties": false
+              "required": [
+                "email"
+              ],
+              "additionalProperties": false
+            }
           }
         }
-      }
