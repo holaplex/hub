@@ -147,13 +147,15 @@ export default function Registration() {
       <Divider.Or className="my-4" />
 
       <Link href="/login">
-        <div className="flex items-center justify-center border rounded-lg border-stone-800 w-full my-1 py-4 ">
-          <span className="text-gray-400">Already have an account?</span>
-          <span className="flex items-center ml-1 text-yellow-300">
-            Sign in
-            <Icon.ArrowRight />
-          </span>
-        </div>
+      <Button icon={<Icon.LightBulb stroke="stroke-gray-400" />} block variant="secondary">
+          <div className="flex items-center my-1">
+            <span className="text-gray-400 font-medium">Already have an account?</span>
+            <span className="flex items-center ml-1 font-semibold justify-center">
+              Sign in
+              <Icon.ArrowRight stroke="stroke-yellow-300" />
+            </span>
+          </div>
+        </Button>
       </Link>
     </Card>
   );

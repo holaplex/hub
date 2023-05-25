@@ -1,4 +1,4 @@
-import EditProject from './EditProject';
+import EditProject from '../../EditProject';
 
 interface EditProjectLayoutProps {
   params: { project: string };
@@ -7,5 +7,9 @@ interface EditProjectLayoutProps {
 export default function EditProjectPage({
   params: { project },
 }: EditProjectLayoutProps): React.ReactNode {
-  return <EditProject project={project} />;
+  return (
+    <div className="w-max mx-auto pt-20">
+      <EditProject project={project} />
+    </div>
+  );
 }

@@ -1,31 +1,28 @@
 import { useEffect, useState } from 'react';
 import { useOry } from './useOry';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { defaultTo } from 'ramda';
+import { useRouter } from 'next/navigation';
 import { RecoveryFlow } from '@ory/client';
 import { toast } from 'react-toastify';
-
-const defaultUndefined = defaultTo(undefined);
 
 interface RecoveryFlowContext {
   flow?: RecoveryFlow;
   loading: boolean;
 }
 
-export function useRecoveryFlow(): RecoveryFlowContext {
+interface RecoveryCodeFlowProps {
+  flowId: string;
+}
+
+export function useRecoveryCodeFlow({ flowId }: RecoveryCodeFlowProps): RecoveryFlowContext {
   const [flow, setFlow] = useState<RecoveryFlow>();
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
   const { ory } = useOry();
 
-  const searchParams = useSearchParams();
-
-  let returnTo = defaultUndefined(searchParams?.get('return_to'));
-
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await ory.createBrowserRecoveryFlow({ returnTo });
+        const { data } = await ory.getRecoveryFlow({ id: flowId });
 
         setFlow(data);
       } catch (err: any) {
@@ -34,13 +31,13 @@ export function useRecoveryFlow(): RecoveryFlowContext {
         if (errorCode === 'session_already_available') {
           toast.info('You are already logged in');
 
-          router.push('/projects');
+          router.back();
         }
       } finally {
         setLoading(false);
       }
     })();
-  }, [router, returnTo, ory]);
+  }, [router, ory, flowId]);
 
   return {
     flow,

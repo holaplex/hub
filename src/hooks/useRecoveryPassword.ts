@@ -3,19 +3,20 @@ import { useRouter } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 interface RecoveryForm {
-  email: string;
+  password: string;
 }
 
-interface RecoveryContext {
+interface RecoveryCodeContext {
   submit: (values: RecoveryForm) => Promise<void>;
   register: UseFormRegister<RecoveryForm>;
   handleSubmit: UseFormHandleSubmit<RecoveryForm>;
   formState: FormState<RecoveryForm>;
 }
 
-export function useRecovery(flow: RecoveryFlow | undefined): RecoveryContext {
+export function useRecoveryPassword(flow: RecoveryFlow | undefined): RecoveryCodeContext {
   const router = useRouter();
   const { ory } = useOry();
 
@@ -35,7 +36,9 @@ export function useRecovery(flow: RecoveryFlow | undefined): RecoveryContext {
         updateRecoveryFlowBody: { ...values, csrf_token: csrfToken, method: 'code' },
       });
 
-      router.push('/recovery/code?flow=' + data.id + '&email=' + values.email + '&method=code');
+      toast.info('Password updated successfully');
+
+      router.push('/login');
     } catch (err: any) {
       const {
         response: {
@@ -44,10 +47,10 @@ export function useRecovery(flow: RecoveryFlow | undefined): RecoveryContext {
           },
         },
       } = err;
-      const emailErr = extractFlowNode('email')(nodes).messages[0]?.text;
+      const passwordErr = extractFlowNode('code')(nodes).messages[0]?.text;
 
-      if (emailErr) {
-        setError('email', { message: emailErr });
+      if (passwordErr) {
+        setError('password', { message: passwordErr });
       }
     }
   };

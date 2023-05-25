@@ -1124,7 +1124,7 @@ function Info({
       height={height}
       viewBox="0 0 16 16"
       fill={fill}
-      className={className}
+      className={clsx(className, stroke)}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
@@ -1788,7 +1788,7 @@ function EmailInCircle({ width = 96, height = 96, fill = 'none', className = '' 
       className={className}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect width="96" height="96" rx="48" fill="black" />
+      <rect width="96" height="96" rx="48" fill="#2B2B2B" />
       <path
         d="M46.25 45.2501L49.75 45.2499"
         stroke="white"

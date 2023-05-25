@@ -27,7 +27,7 @@ export default function Login() {
           <div>
             <div className="flex justify-between mb-1">
               <div className="w-14 h-4 rounded-md bg-stone-800 animate-pulse" />
-              <div className="w-28 h-4 rounded-md bg-stone-800 animate-pulse" />
+              {/* <div className="w-28 h-4 rounded-md bg-stone-800 animate-pulse" /> */}
             </div>
             <div className="mb-1 w-full h-10 rounded-md bg-stone-800 animate-pulse" />
           </div>
@@ -46,7 +46,7 @@ export default function Login() {
           <Form.Label
             name="Password"
             className="text-xs"
-            asideComponent={<Link href="/recovery">Forgot password?</Link>}
+            // asideComponent={<Link href="/recovery">Forgot password?</Link>}
           >
             <Form.Password
               {...register('password', { required: true })}
@@ -87,7 +87,7 @@ export default function Login() {
       >
         <Button icon={<Icon.LightBulb stroke="stroke-gray-400" />} block variant="secondary">
           <div className="flex items-center my-1">
-            <span className="text-gray-400 font-medium">Dont have an account?</span>
+            <span className="text-gray-400 font-medium">Do not have an account?</span>
             <span className="flex items-center ml-1 font-semibold">
               Create account
               <Icon.ArrowRight stroke="stroke-yellow-300" />

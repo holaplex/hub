@@ -5,17 +5,22 @@ import { useOry } from './useOry';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 
 interface RecoveryForm {
-  email: string;
+  code: string;
 }
 
-interface RecoveryContext {
+interface RecoveryCodeContext {
   submit: (values: RecoveryForm) => Promise<void>;
   register: UseFormRegister<RecoveryForm>;
   handleSubmit: UseFormHandleSubmit<RecoveryForm>;
   formState: FormState<RecoveryForm>;
 }
 
-export function useRecovery(flow: RecoveryFlow | undefined): RecoveryContext {
+interface RecoveryCodeProps {
+  flow: RecoveryFlow | undefined;
+  email: string;
+}
+
+export function useRecoveryCode({ flow, email }: RecoveryCodeProps): RecoveryCodeContext {
   const router = useRouter();
   const { ory } = useOry();
 
@@ -32,10 +37,10 @@ export function useRecovery(flow: RecoveryFlow | undefined): RecoveryContext {
 
       const { data } = await ory.updateRecoveryFlow({
         flow: flow.id,
-        updateRecoveryFlowBody: { ...values, csrf_token: csrfToken, method: 'code' },
+        updateRecoveryFlowBody: { ...values, email, csrf_token: csrfToken, method: 'code' },
       });
 
-      router.push('/recovery/code?flow=' + data.id + '&email=' + values.email + '&method=code');
+      router.push('/recovery/reset?flow=' + data.id + '&email=' + email);
     } catch (err: any) {
       const {
         response: {
@@ -44,10 +49,10 @@ export function useRecovery(flow: RecoveryFlow | undefined): RecoveryContext {
           },
         },
       } = err;
-      const emailErr = extractFlowNode('email')(nodes).messages[0]?.text;
+      const codeErr = extractFlowNode('code')(nodes).messages[0]?.text;
 
-      if (emailErr) {
-        setError('email', { message: emailErr });
+      if (codeErr) {
+        setError('code', { message: codeErr });
       }
     }
   };

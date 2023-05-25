@@ -1,0 +1,11 @@
+mutation DeactivateMember($input: DeactivateMemberInput!) {
+  deactivateMember(input: $input) {
+    id
+  }
+}
+
+mutation ReactivateMember($input: ReactivateMemberInput!) {
+  reactivateMember(input: $input) {
+    id
+  }
+}
