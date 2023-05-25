@@ -10,8 +10,8 @@ import { useRecoveryPasswordFlow } from '../../../hooks/useRecoveryPasswordFlow'
 export default function ResetPassword() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams.get('email')!;
-  const flowId = searchParams.get('flowId')!;
+  const email = searchParams?.get('email')!;
+  const flowId = searchParams?.get('flowId')!;
   const { flow, loading } = useRecoveryPasswordFlow({ flowId });
   const { submit, register, handleSubmit, formState } = useRecoveryPassword(flow);
 

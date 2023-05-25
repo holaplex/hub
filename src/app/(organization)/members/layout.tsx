@@ -42,7 +42,7 @@ function ActionCell({
   id: string;
   status: MemberStatus;
   owner: Maybe<Owner> | undefined;
-  session: Session;
+  session: Session | undefined;
 }): JSX.Element {
   const { copied, copyText } = useClipboard(`${process.env.NEXT_PUBLIC_APP_FQDN}/invites/${id}`);
 
@@ -51,7 +51,7 @@ function ActionCell({
   }
 
   let elements: JSX.Element[] = [];
-  if (session?.identity.id === owner?.user.id) {
+  if (session?.identity.id === owner?.user?.id) {
     status === MemberStatus.Inactive &&
       elements.push(
         <Link
