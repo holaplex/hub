@@ -10,8 +10,8 @@ import { useRecoveryCodeFlow } from '../../../hooks/useRecoveryCodeFlow';
 export default function RecoveryCode() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams.get('email')!;
-  const flowId = searchParams.get('flowId')!;
+  const email = searchParams?.get('email')!;
+  const flowId = searchParams?.get('flowId')!;
   const { flow, loading } = useRecoveryCodeFlow({ flowId });
   const { submit, register, handleSubmit, formState } = useRecoveryCode({ flow, email });
 
