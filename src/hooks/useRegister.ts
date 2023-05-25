@@ -110,7 +110,9 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
 
       const json: LoginResponse = await response.json();
 
-      router.push(json.redirect_path);
+      console.log('LoginResponse', json);
+
+      router.push(`/verification?email=${email}&return_to=${json.redirect_path}`);
     } catch (e: any) {
       toast.error(
         'Unable to forward you to an organization. Please select or create an organization.'
