@@ -24,7 +24,7 @@ import { GetProjectDrops } from './../../../../../../../queries/drop.graphql';
 import { Icon } from '../../../../../../../components/Icon';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
-import { ifElse, isNil, always } from 'ramda';
+import { ifElse, isNil, always, isEmpty } from 'ramda';
 import { uploadFile } from '../../../../../../../modules/upload';
 import { Attribute, DropFormState } from '../../../../../../../providers/DropFormProvider';
 import { useDropForm } from '../../../../../../../hooks/useDropForm';
@@ -144,8 +144,8 @@ export default function NewDropPreviewPage() {
             description: detail.description,
             image: imageUrl as string,
             attributes: detail.attributes,
-            externalUrl: detail.externalUrl,
-            animationUrl: detail.animationUrl,
+            externalUrl: when(isEmpty, always(null))(detail.externalUrl),
+            animationUrl: when(isEmpty, always(null))(detail.animationUrl),
           },
           creators: payment.creators,
           supply: parseInt(payment.supply.replaceAll(',', '')),
@@ -177,7 +177,11 @@ export default function NewDropPreviewPage() {
           {detail.includeAnimationUrl && detail.animationUrl && (
             <>
               <span className="text-sm text-gray-400">Main artwork</span>
-              <video src={detail.animationUrl} controls className="w-full aspect-video object-cover rounded-lg" />
+              <video
+                src={detail.animationUrl}
+                controls
+                className="w-full aspect-video object-cover rounded-lg"
+              />
             </>
           )}
           <span className="text-sm text-gray-400">

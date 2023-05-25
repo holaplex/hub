@@ -22,7 +22,7 @@ import { combineDateTime, maybeToUtc, DateFormat } from '../../../../../../../..
 import { useProject } from '../../../../../../../../../hooks/useProject';
 import { useState } from 'react';
 import { GetProjectDrops } from './../../../../../../../../../queries/drop.graphql';
-import { ifElse, isNil, always } from 'ramda';
+import { ifElse, isNil, always, isEmpty } from 'ramda';
 import { Attribute, DropFormState } from '../../../../../../../../../providers/DropFormProvider';
 import { useDropForm } from '../../../../../../../../../hooks/useDropForm';
 import {
@@ -141,7 +141,8 @@ export default function EditDropPreviewPage() {
             description: detail.description,
             image: imageUrl as string,
             attributes: detail.attributes.map(({ traitType, value }) => ({ traitType, value })),
-            animationUrl: detail.animationUrl,
+            externalUrl: when(isEmpty, always(null))(detail.externalUrl),
+            animationUrl: when(isEmpty, always(null))(detail.animationUrl),
           },
           creators: payment.creators.map(({ address, share, verified }) => ({
             address,
