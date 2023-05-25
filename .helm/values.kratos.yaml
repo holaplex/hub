@@ -74,7 +74,7 @@ kratos:
 
         settings:
           required_aal: highest_available
-          ui_url: http://hub.127.0.0.1.nip.io:9080/account/settings
+          ui_url: http://hub.127.0.0.1.nip.io:9080/profile/edit
           privileged_session_max_age: 15m
 
         recovery:
@@ -86,6 +86,7 @@ kratos:
           after:
             hooks:
             - hook: revoke_active_sessions
+            default_browser_return_url: http://hub.127.0.0.1.nip.io:9080/profile/edit
         verification:
           enabled: true
           ui_url: http://hub.127.0.0.1.nip.io:9080/verification
