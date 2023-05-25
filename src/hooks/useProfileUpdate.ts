@@ -13,6 +13,9 @@ import {
 } from 'react-hook-form';
 import { uploadFile } from '../modules/upload';
 import { toast } from 'react-toastify';
+import { useApolloClient } from '@apollo/client';
+import { GetUser } from './../queries/user.graphql';
+import { useSession } from './useSession';
 
 interface ProfileUpdateForm {
   name: { first: string; last: string };
@@ -33,6 +36,8 @@ interface ProfileUpdateContext {
 export function useProfileUpdate(flow: SettingsFlow | undefined): ProfileUpdateContext {
   const router = useRouter();
   const { ory } = useOry();
+  const client = useApolloClient();
+  const { session } = useSession();
 
   const { register, handleSubmit, formState, setError, setValue, control, reset } =
     useForm<ProfileUpdateForm>();
@@ -61,6 +66,23 @@ export function useProfileUpdate(flow: SettingsFlow | undefined): ProfileUpdateC
           method: 'profile',
         },
       });
+
+      client.cache.updateQuery(
+        {
+          query: GetUser,
+          variables: { user: session?.identity.id },
+        },
+        (data) => {
+          return {
+            user: {
+              ...data.user,
+              firstName: name.first,
+              lastName: name.last,
+              profileImageUrl,
+            },
+          };
+        }
+      );
 
       toast.info('Profile updated successfully');
 

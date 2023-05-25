@@ -13,6 +13,7 @@ import { useQuery } from '@apollo/client';
 import { useSession } from '../../../hooks/useSession';
 import { GetUser } from './../../../queries/user.graphql';
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 interface GetUserData {
   user: User;
@@ -34,10 +35,6 @@ export default function EditProfile() {
 
   const userData = userQuery.data?.user;
 
-  const updatePassword = () => {
-    router.push('/profile/password/edit');
-  };
-
   const onClose = () => {
     router.back();
   };
@@ -55,11 +52,10 @@ export default function EditProfile() {
   }, [reset, userData]);
 
   return (
-    <Modal open={true} setOpen={onClose}>
-      <Card className="w-[400px]">
-        <Typography.Header size={Size.H2}>Edit profile</Typography.Header>
-
-        {loading ? (
+    <Card className="w-[400px] m-auto">
+      {loading ? (
+        <>
+          <div className="bg-stone-950 animate-pulse h-6 w-28 rounded-md" />
           <div className="flex flex-col gap-6 mt-3">
             <div>
               <div className="w-16 h-4 rounded-md bg-stone-950 animate-pulse" />
@@ -75,13 +71,16 @@ export default function EditProfile() {
                 <div className="w-full h-10 mt-1 rounded-md bg-stone-950 animate-pulse" />
               </div>
             </div>
-            <div className="w-full h-10 mt-5 rounded-md bg-stone-950 animate-pulse" />
-            <div className="flex gap-6 justify-between mt-5">
+            {/* <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" /> */}
+            <div className="flex gap-6 justify-between mt-2">
               <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
               <div className="w-full h-10 rounded-md bg-stone-950 animate-pulse" />
             </div>
           </div>
-        ) : (
+        </>
+      ) : (
+        <>
+          <Typography.Header size={Size.H2}>Edit profile</Typography.Header>
           <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
             <Form.Label name="Profile picture" className="text-xs text-white">
               <Controller
@@ -150,23 +149,35 @@ export default function EditProfile() {
               </Form.Label>
             </div>
 
-            <Button variant="secondary" className="w-full mt-5" onClick={updatePassword}>
+            {/* <Link href="/profile/password/edit">
+          <Button variant="secondary" className="w-full mt-5" onClick={updatePassword} disabled={formState.isSubmitted}>
               Update password
             </Button>
+          </Link> */}
 
             <hr className="w-full bg-stone-800 border-0 h-px my-5" />
 
             <div className="flex items-center gap-6">
-              <Button variant="secondary" className="w-full basis-1/2" onClick={onClose}>
+              <Button
+                variant="secondary"
+                className="w-full basis-1/2"
+                onClick={onClose}
+                disabled={formState.isSubmitted}
+              >
                 Cancel
               </Button>
-              <Button htmlType="submit" className="w-full basis-1/2">
+              <Button
+                htmlType="submit"
+                className="w-full basis-1/2"
+                loading={formState.isSubmitted}
+                disabled={formState.isSubmitted}
+              >
                 Save changes
               </Button>
             </div>
           </Form>
-        )}
-      </Card>
-    </Modal>
+        </>
+      )}
+    </Card>
   );
 }

@@ -18,7 +18,7 @@ export default function ResetPassword() {
   };
 
   return (
-    <Card className="w-[422px]">
+    <Card className="w-[422px] m-auto">
       {loading ? (
         <>
           <div className="bg-stone-800 animate-pulse h-6 w-24 rounded-md" />
