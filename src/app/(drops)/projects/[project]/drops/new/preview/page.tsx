@@ -21,10 +21,9 @@ import { combineDateTime, maybeToUtc, DateFormat } from '../../../../../../../mo
 import { useProject } from '../../../../../../../hooks/useProject';
 import { useState } from 'react';
 import { GetProjectDrops } from './../../../../../../../queries/drop.graphql';
-import { Icon } from '../../../../../../../components/Icon';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
-import { ifElse, isNil, always, isEmpty } from 'ramda';
+import { ifElse, isNil, always, isEmpty, when } from 'ramda';
 import { uploadFile } from '../../../../../../../modules/upload';
 import { Attribute, DropFormState } from '../../../../../../../providers/DropFormProvider';
 import { useDropForm } from '../../../../../../../hooks/useDropForm';
@@ -144,8 +143,8 @@ export default function NewDropPreviewPage() {
             description: detail.description,
             image: imageUrl as string,
             attributes: detail.attributes,
-            externalUrl: when(isEmpty, always(null))(detail.externalUrl),
-            animationUrl: when(isEmpty, always(null))(detail.animationUrl),
+            externalUrl: when(isEmpty, always(null))(detail.externalUrl) as string | null,
+            animationUrl: when(isEmpty, always(null))(detail.animationUrl) as string | null,
           },
           creators: payment.creators,
           supply: parseInt(payment.supply.replaceAll(',', '')),
