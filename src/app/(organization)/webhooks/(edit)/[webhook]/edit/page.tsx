@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Card from '../../../../../../components/Card';
-import { Icon } from '../../../../../../components/Icon';
 import { Pill } from '../../../../../../components/Pill';
 import Typography, { Size } from '../../../../../../components/Typography';
 import {
