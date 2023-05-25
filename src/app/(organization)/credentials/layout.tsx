@@ -74,7 +74,8 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                   ),
                 }),
                 loadingColumnHelper.display({
-                  id: 'id',
+                  id: 'options',
+                  meta: { align: 'right' },
                   header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                   cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                 }),
@@ -144,7 +145,8 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                     }),
 
                     columnHelper.display({
-                      id: 'clientId',
+                      id: 'options',
+                      meta: { align: 'right' },
                       header: () => <></>,
                       cell: (info) => (
                         <PopoverBox
