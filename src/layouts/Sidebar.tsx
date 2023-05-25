@@ -37,7 +37,7 @@ function SidebarPanel({ children }: SidebarPanel) {
     <>
       <aside
         className={clsx(
-          'w-[200px] lg:w-[260px] fixed top-0 left-0 bottom-0 flex flex-col flex-shrink-0 bg-stone-900'
+          'w-[200px] lg:w-[260px] fixed top-0 left-0 bottom-0 flex flex-col flex-shrink-0 bg-stone-900 z-30'
         )}
       >
         {children}
