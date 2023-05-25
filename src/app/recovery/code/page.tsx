@@ -10,10 +10,10 @@ import { useRecoveryCodeFlow } from '../../../hooks/useRecoveryCodeFlow';
 export default function RecoveryCode() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams?.get('email')!;
-  const flowId = searchParams?.get('flow')!;
+  const email = searchParams.get('email')!;
+  const flowId = searchParams.get('flowId')!;
   const { flow, loading } = useRecoveryCodeFlow({ flowId });
-  const { submit, register, handleSubmit, formState } = useRecoveryCode({ flow });
+  const { submit, register, handleSubmit, formState } = useRecoveryCode({ flow, email });
 
   return (
     <Card className="w-[416px]">
@@ -48,20 +48,10 @@ export default function RecoveryCode() {
               <Form.Error message={formState.errors.code?.message} />
             </Form.Label>
             <div className="flex items-center gap-4 mt-5">
-              <Button
-                className="w-full"
-                variant="secondary"
-                onClick={() => router.back()}
-                disabled={formState.isSubmitting}
-              >
+              <Button className="w-full" variant="secondary" onClick={() => router.back()}>
                 Edit email
               </Button>
-              <Button
-                htmlType="submit"
-                className="w-full"
-                loading={formState.isSubmitting}
-                disabled={formState.isSubmitting}
-              >
+              <Button htmlType="submit" className="w-full">
                 Submit code
               </Button>
             </div>

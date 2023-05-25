@@ -40,6 +40,7 @@ export default function Recovery() {
           <div className="flex items-center gap-4">
             <Button
               className="w-full"
+              loading={formState.isSubmitting}
               disabled={formState.isSubmitting}
               variant="secondary"
               onClick={() => router.back()}

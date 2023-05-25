@@ -3,16 +3,17 @@ import { Button, Form } from '@holaplex/ui-library-react';
 import Card from '../../../components/Card';
 import Typography, { Size } from '../../../components/Typography';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useSession } from '../../../hooks/useSession';
 import { useRecoveryPassword } from '../../../hooks/useRecoveryPassword';
 import { useRecoveryPasswordFlow } from '../../../hooks/useRecoveryPasswordFlow';
 
 export default function ResetPassword() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams?.get('email')!;
-  const flowId = searchParams?.get('flow')!;
+  const email = searchParams.get('email')!;
+  const flowId = searchParams.get('flowId')!;
   const { flow, loading } = useRecoveryPasswordFlow({ flowId });
-  const { submit, register, handleSubmit, formState, watch } = useRecoveryPassword(flow);
+  const { submit, register, handleSubmit, formState } = useRecoveryPassword(flow);
 
   const onClose = () => {
     router.back();
@@ -39,7 +40,7 @@ export default function ResetPassword() {
           <div className="text-sm text-gray-400 mt-5">Enter a new password for {email}</div>
 
           <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-            <Form.Label name="Password" className="text-xs ">
+            <Form.Label name="Password" className="text-xs basis-1/2">
               <Form.Input
                 {...register('password', {
                   required: 'Please enter a new password.',
@@ -61,39 +62,13 @@ export default function ResetPassword() {
               at least 8 characters.
             </span>
 
-            <Form.Label name="Confirm Password" className="text-xs mt-5">
-              <Form.Input
-                {...register('confirmPassword', {
-                  required: 'Please re-enter the password.',
-                  validate: (value: string) => {
-                    if (watch('password') != value) {
-                      return 'Password and confirm password do not match.';
-                    }
-                  },
-                })}
-                type="password"
-                placeholder="Re-enter the password"
-              />
-              <Form.Error message={formState.errors.confirmPassword?.message} />
-            </Form.Label>
-
             <hr className="w-full bg-stone-800 border-0 h-px my-5" />
 
             <div className="flex items-center gap-6">
-              <Button
-                variant="secondary"
-                className="w-full"
-                onClick={onClose}
-                disabled={formState.isSubmitting}
-              >
+              <Button variant="secondary" className="w-full basis-1/2" onClick={onClose}>
                 Cancel
               </Button>
-              <Button
-                htmlType="submit"
-                className="shrink-0 w-auto"
-                loading={formState.isSubmitting}
-                disabled={formState.isSubmitting}
-              >
+              <Button htmlType="submit" className="w-full basis-1/2">
                 Update password
               </Button>
             </div>

@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useOry } from './useOry';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { RecoveryFlow, SettingsFlow } from '@ory/client';
+import { useRouter } from 'next/navigation';
+import { RecoveryFlow } from '@ory/client';
 import { toast } from 'react-toastify';
-import { defaultTo } from 'ramda';
 
 interface RecoveryFlowContext {
-  flow?: SettingsFlow;
+  flow?: RecoveryFlow;
   loading: boolean;
 }
 
@@ -14,22 +13,18 @@ interface RecoveryCodeFlowProps {
   flowId: string;
 }
 
-const defaultUndefined = defaultTo(undefined);
-
 export function useRecoveryPasswordFlow({ flowId }: RecoveryCodeFlowProps): RecoveryFlowContext {
-  const [flow, setFlow] = useState<SettingsFlow>();
+  const [flow, setFlow] = useState<RecoveryFlow>();
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
   const { ory } = useOry();
-  const searchParams = useSearchParams();
-
-  let returnTo = defaultUndefined(searchParams?.get('return_to'));
 
   useEffect(() => {
     (async () => {
       try {
-        const result = await ory.createBrowserSettingsFlow({ returnTo });
-        setFlow(result.data);
+        const { data } = await ory.getRecoveryFlow({ id: flowId });
+
+        setFlow(data);
       } catch (err: any) {
         const errorCode = err.response?.data.error?.id;
 
@@ -42,7 +37,7 @@ export function useRecoveryPasswordFlow({ flowId }: RecoveryCodeFlowProps): Reco
         setLoading(false);
       }
     })();
-  }, [router, ory, returnTo]);
+  }, [router, ory, flowId]);
 
   return {
     flow,

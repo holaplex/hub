@@ -3,7 +3,6 @@ import { useRouter } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
 interface RecoveryForm {
   code: string;
@@ -18,9 +17,10 @@ interface RecoveryCodeContext {
 
 interface RecoveryCodeProps {
   flow: RecoveryFlow | undefined;
+  email: string;
 }
 
-export function useRecoveryCode({ flow }: RecoveryCodeProps): RecoveryCodeContext {
+export function useRecoveryCode({ flow, email }: RecoveryCodeProps): RecoveryCodeContext {
   const router = useRouter();
   const { ory } = useOry();
 
@@ -35,28 +35,24 @@ export function useRecoveryCode({ flow }: RecoveryCodeProps): RecoveryCodeContex
         extractFlowNode('csrf_token')(flow.ui.nodes).attributes as UiNodeInputAttributes
       ).value;
 
-      const result = await ory.updateRecoveryFlow({
+      const { data } = await ory.updateRecoveryFlow({
         flow: flow.id,
-        updateRecoveryFlowBody: { code: values.code.trim(), csrf_token: csrfToken, method: 'code' },
+        updateRecoveryFlowBody: { ...values, email, csrf_token: csrfToken, method: 'code' },
       });
 
-      if (result.data.ui != undefined) {
-        const codeErr = result.data?.ui?.messages?.[0]?.text;
-        if (codeErr) {
-          setError('code', { message: codeErr });
-          toast.error(codeErr);
-        }
-      }
+      router.push('/recovery/reset?flow=' + data.id + '&email=' + email);
     } catch (err: any) {
-      if (err?.response?.status === 422) {
-        const redirectUrl = err?.response?.data?.redirect_browser_to;
-        if (redirectUrl) {
-          router.push(`/recovery/reset?flow=${flow.id}`);
-        } else {
-          toast.error('No redirect URL found in error response');
-        }
-      } else {
-        toast.error(err?.response?.data?.error.message);
+      const {
+        response: {
+          data: {
+            ui: { nodes },
+          },
+        },
+      } = err;
+      const codeErr = extractFlowNode('code')(nodes).messages[0]?.text;
+
+      if (codeErr) {
+        setError('code', { message: codeErr });
       }
     }
   };

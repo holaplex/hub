@@ -114,6 +114,11 @@ kratos:
                     "type": "string"
                   }
                 }
+              },
+              "profile_image": {
+                "title": "Profile Image URL",
+                "type": "string",
+                "format": "uri"
               }
             },
             "required": [

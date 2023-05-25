@@ -22,9 +22,9 @@ export function useRecoveryCodeFlow({ flowId }: RecoveryCodeFlowProps): Recovery
   useEffect(() => {
     (async () => {
       try {
-        const result = await ory.getRecoveryFlow({ id: flowId });
+        const { data } = await ory.getRecoveryFlow({ id: flowId });
 
-        setFlow(result.data);
+        setFlow(data);
       } catch (err: any) {
         const errorCode = err.response?.data.error?.id;
 
