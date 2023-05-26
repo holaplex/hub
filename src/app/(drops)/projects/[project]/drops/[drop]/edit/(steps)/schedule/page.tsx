@@ -31,33 +31,6 @@ export default function EditDropTimingPage() {
   const selectEndDate = watch('selectEndDate');
 
   const submit = (data: TimingSettings) => {
-    let startDateTime: Date | null = null;
-    if (data.selectStartDate === 'specifyStartDate' && data.startTime && data.startDate) {
-      const [startTimeHrs, startTimeMins] = data.startTime.split(':');
-      startDateTime = combineDateTime(
-        new Date(data.startDate),
-        parseInt(startTimeHrs),
-        parseInt(startTimeMins)
-      );
-    }
-
-    let endDateTime: Date | null;
-    if (data.selectEndDate === 'specifyEndDate' && data.endDate && data.endTime) {
-      const [endTimeHrs, endTimeMins] = data.endTime.split(':');
-      endDateTime = combineDateTime(
-        new Date(data.endDate),
-        parseInt(endTimeHrs),
-        parseInt(endTimeMins)
-      );
-
-      if (startDateTime && endDateTime < startDateTime) {
-        setError('selectEndDate', {
-          message: 'End date/time cannot be before start date/time.',
-        });
-        return;
-      }
-    }
-
     setTiming(data);
     router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/preview`);
   };
@@ -134,9 +107,13 @@ export default function EditDropTimingPage() {
             <div className="flex flex-col gap-1">
               <Form.Input
                 {...register('endDate', {
-                  validate: (value, { selectEndDate }) => {
-                    if (selectEndDate === 'specifyEndDate' && !value) {
-                      return 'Please select an end date.';
+                  validate: (value, { selectEndDate, startDate }) => {
+                    if (selectEndDate === 'specifyEndDate') {
+                      if (!value) {
+                        return 'Please select an end date.';
+                      } else if (startDate && startDate > value) {
+                        return 'End date cannot be before start date.';
+                      }
                     }
                   },
                 })}
@@ -148,17 +125,37 @@ export default function EditDropTimingPage() {
             <div className="flex flex-col gap-1">
               <Form.Input
                 {...register('endTime', {
-                  validate: (value, { selectEndDate }) => {
-                    if (selectEndDate === 'specifyEndDate' && !value) {
-                      return 'Please select an end time.';
+                  validate: (value, { selectEndDate, startDate, startTime, endDate }) => {
+                    if (selectEndDate === 'specifyEndDate') {
+                      if (!value) {
+                        return 'Please select an end time.';
+                      } else if (startDate && startTime && endDate) {
+                        const [startTimeHrs, startTimeMins] = startTime.split(':');
+                        const startDateTime = combineDateTime(
+                          new Date(startDate),
+                          parseInt(startTimeHrs),
+                          parseInt(startTimeMins)
+                        );
+
+                        const [endTimeHrs, endTimeMins] = value.split(':');
+                        const endDateTime = combineDateTime(
+                          new Date(endDate),
+                          parseInt(endTimeHrs),
+                          parseInt(endTimeMins)
+                        );
+
+                        if (endDateTime < startDateTime) {
+                          return 'End date/time cannot be before start date/time.';
+                        }
+                      }
                     }
                   },
                 })}
                 type="time"
                 className="basis-2/5"
               />
+              <Form.Error message={formState.errors.endTime?.message} />
             </div>
-            <Form.Error message={formState.errors.endTime?.message} />
           </div>
         )}
         <Form.Error message={formState.errors.selectEndDate?.message} />

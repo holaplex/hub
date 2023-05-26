@@ -149,9 +149,13 @@ export default function NewDropTimingPage() {
               <div className="flex flex-col gap-1">
                 <Form.Input
                   {...register('endDate', {
-                    validate: (value, { selectEndDate }) => {
-                      if (selectEndDate === 'specifyEndDate' && !value) {
-                        return 'Please select an end date.';
+                    validate: (value, { selectEndDate, startDate }) => {
+                      if (selectEndDate === 'specifyEndDate') {
+                        if (!value) {
+                          return 'Please select an end date.';
+                        } else if (startDate && startDate > value) {
+                          return 'End date cannot be before start date.';
+                        }
                       }
                     },
                   })}
@@ -164,9 +168,29 @@ export default function NewDropTimingPage() {
               <div className="flex flex-col gap-1">
                 <Form.Input
                   {...register('endTime', {
-                    validate: (value, { selectEndDate }) => {
-                      if (selectEndDate === 'specifyEndDate' && !value) {
-                        return 'Please select an end time.';
+                    validate: (value, { selectEndDate, startDate, startTime, endDate }) => {
+                      if (selectEndDate === 'specifyEndDate') {
+                        if (!value) {
+                          return 'Please select an end time.';
+                        } else if (startDate && startTime && endDate) {
+                          const [startTimeHrs, startTimeMins] = startTime.split(':');
+                          const startDateTime = combineDateTime(
+                            new Date(startDate),
+                            parseInt(startTimeHrs),
+                            parseInt(startTimeMins)
+                          );
+
+                          const [endTimeHrs, endTimeMins] = value.split(':');
+                          const endDateTime = combineDateTime(
+                            new Date(endDate),
+                            parseInt(endTimeHrs),
+                            parseInt(endTimeMins)
+                          );
+
+                          if (endDateTime < startDateTime) {
+                            return 'End date/time cannot be before start date/time.';
+                          }
+                        }
                       }
                     },
                   })}
