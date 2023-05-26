@@ -65,10 +65,20 @@ export default function ResetPassword() {
             <hr className="w-full bg-stone-800 border-0 h-px my-5" />
 
             <div className="flex items-center gap-6">
-              <Button variant="secondary" className="w-full basis-1/2" onClick={onClose}>
+              <Button
+                variant="secondary"
+                className="w-full"
+                onClick={onClose}
+                disabled={formState.isSubmitting}
+              >
                 Cancel
               </Button>
-              <Button htmlType="submit" className="w-full basis-1/2">
+              <Button
+                htmlType="submit"
+                className="shrink-0 w-auto"
+                loading={formState.isSubmitting}
+                disabled={formState.isSubmitting}
+              >
                 Update password
               </Button>
             </div>

@@ -1,4 +1,4 @@
-import { RecoveryFlow, UiNodeInputAttributes } from '@ory/client';
+import { SettingsFlow, UiNodeInputAttributes } from '@ory/client';
 import { useRouter } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
@@ -16,7 +16,7 @@ interface RecoveryCodeContext {
   formState: FormState<RecoveryForm>;
 }
 
-export function useRecoveryPassword(flow: RecoveryFlow | undefined): RecoveryCodeContext {
+export function useRecoveryPassword(flow: SettingsFlow | undefined): RecoveryCodeContext {
   const router = useRouter();
   const { ory } = useOry();
 
@@ -31,14 +31,13 @@ export function useRecoveryPassword(flow: RecoveryFlow | undefined): RecoveryCod
         extractFlowNode('csrf_token')(flow.ui.nodes).attributes as UiNodeInputAttributes
       ).value;
 
-      const { data } = await ory.updateRecoveryFlow({
+      const result = await ory.updateSettingsFlow({
         flow: flow.id,
-        updateRecoveryFlowBody: { ...values, csrf_token: csrfToken, method: 'code' },
+        updateSettingsFlowBody: { ...values, csrf_token: csrfToken, method: 'password' },
       });
-
       toast.info('Password updated successfully');
 
-      router.push('/login');
+      router.push('/projects');
     } catch (err: any) {
       const {
         response: {

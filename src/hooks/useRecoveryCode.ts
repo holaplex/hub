@@ -50,13 +50,12 @@ export function useRecoveryCode({ flow }: RecoveryCodeProps): RecoveryCodeContex
       if (err?.response?.status === 422) {
         const redirectUrl = err?.response?.data?.redirect_browser_to;
         if (redirectUrl) {
-          router.push(redirectUrl);
+          router.push(`/recovery/reset?flow=${flow.id}`);
         } else {
           toast.error('No redirect URL found in error response');
         }
       } else {
         toast.error(err?.response?.data?.error.message);
-        console.error(err);
       }
     }
   };
