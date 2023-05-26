@@ -37,40 +37,6 @@ export default function NewDropTimingPage() {
   const selectEndDate = watch('selectEndDate');
 
   const submit = (data: TimingSettings) => {
-    let startDateTime: Date = new Date();
-    if (data.selectStartDate === 'specifyStartDate' && data.startTime && data.startDate) {
-      const [startTimeHrs, startTimeMins] = data.startTime.split(':');
-      startDateTime = combineDateTime(
-        new Date(data.startDate),
-        parseInt(startTimeHrs),
-        parseInt(startTimeMins)
-      );
-
-      if (startDateTime < new Date()) {
-        setError('selectStartDate', {
-          message: 'Start date/time cannot be before current date/time.',
-        });
-        return;
-      }
-    }
-
-    let endDateTime: Date | null;
-    if (data.selectEndDate === 'specifyEndDate' && data.endDate && data.endTime) {
-      const [endTimeHrs, endTimeMins] = data.endTime.split(':');
-      endDateTime = combineDateTime(
-        new Date(data.endDate),
-        parseInt(endTimeHrs),
-        parseInt(endTimeMins)
-      );
-
-      if (endDateTime < startDateTime) {
-        setError('selectEndDate', {
-          message: 'End date/time cannot be before start date/time.',
-        });
-        return;
-      }
-    }
-
     setTiming(data);
     router.push(`/projects/${project?.id}/drops/new/preview`);
   };
