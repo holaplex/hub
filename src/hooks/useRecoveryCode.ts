@@ -34,13 +34,13 @@ export function useRecoveryCode({ flow }: RecoveryCodeProps): RecoveryCodeContex
         extractFlowNode('csrf_token')(flow.ui.nodes).attributes as UiNodeInputAttributes
       ).value;
 
-      const { data } = await ory.updateRecoveryFlow({
+      const result = await ory.updateRecoveryFlow({
         flow: flow.id,
         updateRecoveryFlowBody: { code: values.code.trim(), csrf_token: csrfToken, method: 'code' },
       });
 
-      if (data.ui != undefined ) {
-        const codeErr = data?.ui?.messages?.[0]?.text;
+      if (result.data.ui != undefined) {
+        const codeErr = result.data?.ui?.messages?.[0]?.text;
         if (codeErr) {
           setError('code', { message: codeErr });
           toast.error(codeErr);
@@ -48,14 +48,14 @@ export function useRecoveryCode({ flow }: RecoveryCodeProps): RecoveryCodeContex
       }
     } catch (err: any) {
       if (err?.response?.status === 422) {
-        console.info(err);
         const redirectUrl = err?.response?.data?.redirect_browser_to;
         if (redirectUrl) {
           router.push(redirectUrl);
         } else {
-          console.error('No redirect URL found in error response');
+          toast.error('No redirect URL found in error response');
         }
       } else {
+        toast.error(err?.response?.data?.error.message);
         console.error(err);
       }
     }

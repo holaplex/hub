@@ -11,7 +11,7 @@ export default function ResetPassword() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams?.get('email')!;
-  const flowId = searchParams?.get('flowId')!;
+  const flowId = searchParams?.get('flow')!;
   const { flow, loading } = useRecoveryPasswordFlow({ flowId });
   const { submit, register, handleSubmit, formState } = useRecoveryPassword(flow);
 
