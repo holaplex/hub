@@ -71,7 +71,6 @@ export default function ResetPassword() {
                     }
                   },
                 })}
-                autoFocus
                 type="password"
                 placeholder="Re-enter the password"
               />
