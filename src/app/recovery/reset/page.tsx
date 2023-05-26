@@ -3,7 +3,6 @@ import { Button, Form } from '@holaplex/ui-library-react';
 import Card from '../../../components/Card';
 import Typography, { Size } from '../../../components/Typography';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useSession } from '../../../hooks/useSession';
 import { useRecoveryPassword } from '../../../hooks/useRecoveryPassword';
 import { useRecoveryPasswordFlow } from '../../../hooks/useRecoveryPasswordFlow';
 
@@ -13,7 +12,7 @@ export default function ResetPassword() {
   const email = searchParams?.get('email')!;
   const flowId = searchParams?.get('flow')!;
   const { flow, loading } = useRecoveryPasswordFlow({ flowId });
-  const { submit, register, handleSubmit, formState } = useRecoveryPassword(flow);
+  const { submit, register, handleSubmit, formState, watch } = useRecoveryPassword(flow);
 
   const onClose = () => {
     router.back();
@@ -40,7 +39,7 @@ export default function ResetPassword() {
           <div className="text-sm text-gray-400 mt-5">Enter a new password for {email}</div>
 
           <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-            <Form.Label name="Password" className="text-xs basis-1/2">
+            <Form.Label name="Password" className="text-xs ">
               <Form.Input
                 {...register('password', {
                   required: 'Please enter a new password.',
@@ -61,6 +60,23 @@ export default function ResetPassword() {
               Include at least one capital letter, lowercase letter, number, special symbol and be
               at least 8 characters.
             </span>
+
+            <Form.Label name="Confirm Password" className="text-xs mt-5">
+              <Form.Input
+                {...register('confirmPassword', {
+                  required: 'Please re-enter the password.',
+                  validate: (value: string) => {
+                    if (watch('password') != value) {
+                      return 'Password and confirm password do not match.';
+                    }
+                  },
+                })}
+                autoFocus
+                type="password"
+                placeholder="Re-enter the password"
+              />
+              <Form.Error message={formState.errors.confirmPassword?.message} />
+            </Form.Label>
 
             <hr className="w-full bg-stone-800 border-0 h-px my-5" />
 

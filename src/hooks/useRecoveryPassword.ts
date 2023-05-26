@@ -2,11 +2,18 @@ import { SettingsFlow, UiNodeInputAttributes } from '@ory/client';
 import { useRouter } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
-import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
+import {
+  FormState,
+  useForm,
+  UseFormHandleSubmit,
+  UseFormRegister,
+  UseFormWatch,
+} from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 interface RecoveryForm {
   password: string;
+  confirmPassword: string;
 }
 
 interface RecoveryCodeContext {
@@ -14,13 +21,14 @@ interface RecoveryCodeContext {
   register: UseFormRegister<RecoveryForm>;
   handleSubmit: UseFormHandleSubmit<RecoveryForm>;
   formState: FormState<RecoveryForm>;
+  watch: UseFormWatch<RecoveryForm>;
 }
 
 export function useRecoveryPassword(flow: SettingsFlow | undefined): RecoveryCodeContext {
   const router = useRouter();
   const { ory } = useOry();
 
-  const { register, handleSubmit, formState, setError } = useForm<RecoveryForm>();
+  const { register, handleSubmit, formState, setError, watch } = useForm<RecoveryForm>();
 
   const onSubmit = async (values: RecoveryForm): Promise<void> => {
     if (!flow) {
@@ -33,7 +41,11 @@ export function useRecoveryPassword(flow: SettingsFlow | undefined): RecoveryCod
 
       const result = await ory.updateSettingsFlow({
         flow: flow.id,
-        updateSettingsFlowBody: { ...values, csrf_token: csrfToken, method: 'password' },
+        updateSettingsFlowBody: {
+          password: values.password,
+          csrf_token: csrfToken,
+          method: 'password',
+        },
       });
       toast.info('Password updated successfully');
 
@@ -59,5 +71,6 @@ export function useRecoveryPassword(flow: SettingsFlow | undefined): RecoveryCod
     register,
     handleSubmit,
     formState,
+    watch,
   };
 }
