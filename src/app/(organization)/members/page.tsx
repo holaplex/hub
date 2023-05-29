@@ -1,13 +1,13 @@
 'use client';
 import { Button, PopoverBox } from '@holaplex/ui-library-react';
-import { createColumnHelper, ColumnDef } from '@tanstack/react-table';
+import { createColumnHelper } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { useQuery } from '@apollo/client';
 import { useMemo } from 'react';
 import { Icon } from '../../../components/Icon';
 import Table from '../../../components/Table';
 import Link from 'next/link';
-import { Organization, Maybe, Member, Owner, User } from '../../../graphql.types';
+import { Organization, Maybe, Member, Owner } from '../../../graphql.types';
 import { MemberStatus } from './../../../types';
 import { useSession } from './../../../hooks/useSession';
 import { useOrganization } from '../../../hooks/useOrganization';
