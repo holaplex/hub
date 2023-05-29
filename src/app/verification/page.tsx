@@ -9,12 +9,10 @@ import { useEmailVerifyFlow } from '../../hooks/useEmailVerifyFlow';
 
 export default function EmailConfirm() {
   const router = useRouter();
-
   const searchParams = useSearchParams();
-  const email = searchParams.get('email')!;
 
-  const { loading, flow } = useEmailVerifyFlow();
-  const { submit, handleSubmit, register, formState } = useEmailVerify({ flow, email });
+  const { loading, flow } = useEmailVerifyFlow({ flowId: searchParams?.get('flow')! });
+  const { submit, handleSubmit, register, formState } = useEmailVerify({ flow });
 
   return (
     <Card className="w-[400px]">
@@ -40,8 +38,8 @@ export default function EmailConfirm() {
             <Icon.EmailInCircle className="mb-6" />
             <Typography.Header size={Size.H2}>Confirm your email</Typography.Header>
             <Typography.Header size={Size.H3} className="mt-2 text-center">
-              We’ve sent a code to {email} to confirm your email address. Please enter the code sent
-              to complete your registration.
+              We’ve sent a code to your registered email address to confirm your email address.
+              Please enter the code sent to complete your registration.
             </Typography.Header>
           </div>
           <Form onSubmit={handleSubmit(submit)} className="flex flex-col gap-6 mt-3">
@@ -49,19 +47,10 @@ export default function EmailConfirm() {
               <Form.Input {...register('code', { required: true })} />
               <Form.Error message={formState.errors.code?.message} />
             </Form.Label>
-            <div className="flex items-center gap-4 mt-5">
-              <Button
-                className="w-full"
-                variant="secondary"
-                onClick={() => router.push('/projects')}
-                disabled={loading}
-              >
-                Skip
-              </Button>
-              <Button htmlType="submit" className="w-full" loading={loading} disabled={loading}>
-                Submit code
-              </Button>
-            </div>
+
+            <Button htmlType="submit" className="w-full mt-5" loading={loading} disabled={loading}>
+              Submit code
+            </Button>
           </Form>
         </>
       )}

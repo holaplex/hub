@@ -3,6 +3,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 interface EmailVerifyForm {
   code: string;
@@ -17,10 +18,9 @@ interface EmailVerifyContext {
 
 interface EmailVerifyProps {
   flow: VerificationFlow | undefined;
-  email: string;
 }
 
-export function useEmailVerify({ flow, email }: EmailVerifyProps): EmailVerifyContext {
+export function useEmailVerify({ flow }: EmailVerifyProps): EmailVerifyContext {
   const router = useRouter();
   const { ory } = useOry();
   const search = useSearchParams();
@@ -38,10 +38,10 @@ export function useEmailVerify({ flow, email }: EmailVerifyProps): EmailVerifyCo
 
       const result = await ory.updateVerificationFlow({
         flow: flow.id,
-        updateVerificationFlowBody: { ...values, email, csrf_token: csrfToken, method: 'code' },
+        updateVerificationFlowBody: { ...values, csrf_token: csrfToken, method: 'code' },
       });
 
-      console.log('verify email result', result);
+      toast.info('You’ve successfully confirmed your email address');
 
       if (search?.has('return_to')) {
         router.push(search.get('return_to') as string);

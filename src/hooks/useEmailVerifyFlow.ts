@@ -12,7 +12,11 @@ interface EmailVerifyFlowContext {
   loading: boolean;
 }
 
-export function useEmailVerifyFlow(): EmailVerifyFlowContext {
+interface EmailVerifyFlowProps {
+  flowId: string;
+}
+
+export function useEmailVerifyFlow({ flowId }: EmailVerifyFlowProps): EmailVerifyFlowContext {
   const [flow, setFlow] = useState<VerificationFlow>();
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
@@ -20,12 +24,10 @@ export function useEmailVerifyFlow(): EmailVerifyFlowContext {
 
   const searchParams = useSearchParams();
 
-  let returnTo = defaultUndefined(searchParams?.get('return_to'));
-
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await ory.createBrowserVerificationFlow({ returnTo });
+        const { data } = await ory.getVerificationFlow({ id: flowId });
         setFlow(data);
       } catch (err: any) {
         toast.error(err.response?.data.error?.message);
@@ -33,7 +35,7 @@ export function useEmailVerifyFlow(): EmailVerifyFlowContext {
         setLoading(false);
       }
     })();
-  }, [router, returnTo, ory]);
+  }, [router, ory, flowId]);
 
   return {
     flow,

@@ -110,8 +110,6 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
 
       const json: LoginResponse = await response.json();
 
-      console.log('LoginResponse', json);
-
       router.push(`/verification?email=${email}&return_to=${json.redirect_path}`);
     } catch (e: any) {
       toast.error(
