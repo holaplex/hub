@@ -223,7 +223,12 @@ export default function NewDropDetailsPage() {
             Add attribute
           </Button>
           <hr className="w-full bg-stone-800 border-0 h-px my-5" />
-          <Button htmlType="submit" className="self-end">
+          <Button
+            htmlType="submit"
+            className="self-end"
+            loading={formState.isSubmitting}
+            disabled={formState.isSubmitting}
+          >
             Next
           </Button>
         </Form>
