@@ -9,6 +9,10 @@ interface EmailVerifyForm {
   code: string;
 }
 
+interface LoginResponse {
+  redirect_path: string;
+}
+
 interface EmailVerifyContext {
   submit: (values: EmailVerifyForm) => Promise<void>;
   register: UseFormRegister<EmailVerifyForm>;
@@ -48,7 +52,22 @@ export function useEmailVerify({ flow }: EmailVerifyProps): EmailVerifyContext {
         return;
       }
 
-      router.push('/projects');
+      try {
+        const response = await fetch('/browser/login', {
+          method: 'POST',
+          credentials: 'same-origin',
+        });
+
+        const json: LoginResponse = await response.json();
+
+        router.push(json.redirect_path);
+      } catch (e: any) {
+        toast.error(
+          'Unable to forward you to an organization. Please select or create an organization.'
+        );
+
+        router.push('/organizations');
+      }
     } catch (err: any) {
       const {
         response: {

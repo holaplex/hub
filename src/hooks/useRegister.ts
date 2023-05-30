@@ -14,10 +14,6 @@ import {
 } from 'react-hook-form';
 import { uploadFile } from '../modules/upload';
 
-interface LoginResponse {
-  redirect_path: string;
-}
-
 interface RegistrationForm {
   email: string;
   password: string;
@@ -100,23 +96,6 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
     if (search?.has('return_to')) {
       router.push(search.get('return_to') as string);
       return;
-    }
-
-    try {
-      const response = await fetch('/browser/login', {
-        method: 'POST',
-        credentials: 'same-origin',
-      });
-
-      const json: LoginResponse = await response.json();
-
-      router.push(`/verification?email=${email}&return_to=${json.redirect_path}`);
-    } catch (e: any) {
-      toast.error(
-        'Unable to forward you to an organization. Please select or create an organization.'
-      );
-
-      router.push('/organizations');
     }
   };
 
