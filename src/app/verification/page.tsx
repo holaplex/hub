@@ -11,9 +11,8 @@ export default function EmailConfirm() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const { loading, flow } = useEmailVerifyFlow({ email: searchParams?.get('email')! });
+  const { loading, flow, updateFlow, cooldown } = useEmailVerifyFlow({ email: searchParams?.get('email')!, code: searchParams?.get('code')! });
   const { submit, handleSubmit, register, formState } = useEmailVerify({ flow });
-
   return (
     <Card className="w-[400px]">
       {loading ? (
@@ -47,7 +46,9 @@ export default function EmailConfirm() {
               <Form.Input {...register('code', { required: true })} />
               <Form.Error message={formState.errors.code?.message} />
             </Form.Label>
-
+           <Button htmlType="button" className="w-full mt-5" onClick={updateFlow} disabled={cooldown || loading}>
+              {cooldown ? `You can request a new code after ${cooldown} seconds` : 'Resend confirmation code'}
+            </Button>
             <Button htmlType="submit" className="w-full mt-5" loading={loading} disabled={loading}>
               Submit code
             </Button>

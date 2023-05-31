@@ -42,31 +42,38 @@ export function useEmailVerify({ flow }: EmailVerifyProps): EmailVerifyContext {
 
       const result = await ory.updateVerificationFlow({
         flow: flow.id,
-        updateVerificationFlowBody: { ...values, csrf_token: csrfToken, method: 'code' },
+        updateVerificationFlowBody: { code: values.code.trim(), csrf_token: csrfToken, method: 'code' },
       });
 
-      toast.info('You’ve successfully confirmed your email address');
+      if (result.data.ui != undefined) {
+        let msgType = result.data?.ui?.messages?.[0]?.type;
+        let msgText = result.data?.ui?.messages?.[0]?.text;
+        if (msgType === "error") {
+          toast.error(msgText);
+        } else {
+          toast.info(msgText);
+          router.push('/organizations/new');
+        }
+      } else {
+        try {
+          if (search?.has('return_to')) {
+            router.push(search.get('return_to') as string);
+            return;
+          }
+          const response = await fetch('/browser/login', {
+            method: 'POST',
+            credentials: 'same-origin',
+          });
 
-      if (search?.has('return_to')) {
-        router.push(search.get('return_to') as string);
-        return;
-      }
+          const json: LoginResponse = await response.json();
 
-      try {
-        const response = await fetch('/browser/login', {
-          method: 'POST',
-          credentials: 'same-origin',
-        });
-
-        const json: LoginResponse = await response.json();
-
-        router.push(json.redirect_path);
-      } catch (e: any) {
+          router.push(json.redirect_path);
+        }  catch (e: any) {
         toast.error(
           'Unable to forward you to an organization. Please select or create an organization.'
         );
 
-        router.push('/organizations');
+      }
       }
     } catch (err: any) {
       const {
