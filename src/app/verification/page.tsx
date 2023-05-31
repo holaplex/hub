@@ -47,7 +47,7 @@ export default function EmailConfirm() {
               <Form.Error message={formState.errors.code?.message} />
             </Form.Label>
            <Button htmlType="button" className="w-full mt-5" onClick={updateFlow} disabled={cooldown || loading}>
-              {cooldown ? `You can request a new code after ${cooldown} seconds` : 'Resend confirmation code'}
+              {cooldown ? `Request a new code after ${cooldown} seconds` : 'Resend confirmation code'}
             </Button>
             <Button htmlType="submit" className="w-full mt-5" loading={loading} disabled={loading}>
               Submit code
