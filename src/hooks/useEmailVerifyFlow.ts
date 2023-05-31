@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useOry } from './useOry';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { defaultTo } from 'ramda';
@@ -15,18 +15,23 @@ interface EmailVerifyFlowContext {
 
 interface EmailVerifyFlowProps {
   email: string;
+  code: string;
 }
 
 export function useEmailVerifyFlow({ email }: EmailVerifyFlowProps): EmailVerifyFlowContext {
   const [flow, setFlow] = useState<VerificationFlow>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const { ory } = useOry();
 
   const searchParams = useSearchParams();
   let returnTo = defaultUndefined(searchParams?.get('return_to'));
-  useEffect(() => {
-    (async () => {
+  const lastUpdate = useRef<number | null>(null);
+  const [cooldown, setCooldown] = useState<number>(0);
+  const updateFlow = useCallback(async () => {
+      if (cooldown != 0) {
+      return;
+      }
       try {
         const result = await ory.createBrowserVerificationFlow({ returnTo });
 
@@ -34,22 +39,39 @@ export function useEmailVerifyFlow({ email }: EmailVerifyFlowProps): EmailVerify
           extractFlowNode('csrf_token')(result.data.ui.nodes).attributes as UiNodeInputAttributes
         ).value;
 
-        const { data } = await ory.updateRecoveryFlow({
+        const { data } = await ory.updateVerificationFlow({
           flow: result.data.id,
-          updateRecoveryFlowBody: { email, csrf_token: csrfToken, method: 'code' },
+          updateVerificationFlowBody: { email, csrf_token: csrfToken, method: 'code' },
         });
 
         setFlow(data);
+        lastUpdate.current = Date.now();
+        setCooldown(30)
       } catch (err: any) {
         toast.error(err.response?.data.error?.message);
       } finally {
-        setLoading(false);
-      }
-    })();
+      setLoading(false);
+    }
   }, [router, ory, returnTo, email]);
 
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+    if (cooldown) {
+      intervalId = setInterval(() => {
+        setCooldown(prev => prev && prev > 1 ? prev - 1 : null);
+      }, 1000);
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    }
+  }, [cooldown]);
   return {
     flow,
     loading,
+    updateFlow,
+    cooldown,
   };
 }
