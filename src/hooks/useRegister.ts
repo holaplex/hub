@@ -97,6 +97,8 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
       router.push(search.get('return_to') as string);
       return;
     }
+
+    router.push(`/verification?email=${email}`);
   };
 
   return {

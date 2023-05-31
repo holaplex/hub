@@ -11,7 +11,7 @@ export default function EmailConfirm() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const { loading, flow } = useEmailVerifyFlow({ flowId: searchParams?.get('flow')! });
+  const { loading, flow } = useEmailVerifyFlow({ email: searchParams?.get('email')! });
   const { submit, handleSubmit, register, formState } = useEmailVerify({ flow });
 
   return (
