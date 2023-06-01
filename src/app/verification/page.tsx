@@ -1,6 +1,6 @@
 'use client';
 import { Button, Form } from '@holaplex/ui-library-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Card from '../../components/Card';
 import { Icon } from '../../components/Icon';
 import Typography, { Size } from '../../components/Typography';
@@ -8,10 +8,10 @@ import { useEmailVerify } from '../../hooks/useEmailVerify';
 import { useEmailVerifyFlow } from '../../hooks/useEmailVerifyFlow';
 
 export default function EmailConfirm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
-
-  const { loading, flow, updateFlow, cooldown } = useEmailVerifyFlow({ email: searchParams?.get('email')!, code: searchParams?.get('code')! });
+  const { loading, flow, updateFlow, cooldown } = useEmailVerifyFlow({
+    email: searchParams?.get('email')!,
+  });
   const { submit, handleSubmit, register, formState } = useEmailVerify({ flow });
   return (
     <Card className="w-[400px]">
@@ -46,8 +46,15 @@ export default function EmailConfirm() {
               <Form.Input {...register('code', { required: true })} />
               <Form.Error message={formState.errors.code?.message} />
             </Form.Label>
-           <Button htmlType="button" className="w-full mt-5" onClick={updateFlow} disabled={cooldown || loading}>
-              {cooldown ? `Request a new code after ${cooldown} seconds` : 'Resend confirmation code'}
+            <Button
+              htmlType="button"
+              className="w-full mt-5"
+              onClick={updateFlow}
+              disabled={cooldown > 0 || loading}
+            >
+              {cooldown
+                ? `Request a new code after ${cooldown} seconds`
+                : 'Resend confirmation code'}
             </Button>
             <Button htmlType="submit" className="w-full mt-5" loading={loading} disabled={loading}>
               Submit code
