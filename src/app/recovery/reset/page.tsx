@@ -74,8 +74,8 @@ export default function ResetPassword() {
                 type="password"
                 placeholder="Re-enter the password"
               />
-              <Form.Error message={formState.errors.confirmPassword?.message} />
             </Form.Label>
+            <Form.Error message={formState.errors.confirmPassword?.message} />
 
             <hr className="w-full bg-stone-800 border-0 h-px my-5" />
 

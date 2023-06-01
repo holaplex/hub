@@ -11,7 +11,7 @@ import { Organization, Maybe, Member, Owner, User } from '../../../graphql.types
 import { MemberStatus } from './../../../types';
 import { useSession } from './../../../hooks/useSession';
 import { useOrganization } from '../../../hooks/useOrganization';
-import { Session } from '@ory/client';
+import { Session } from '@ory/kratos-client';
 import { GetOrganizationMembers } from './../../../queries/organization.graphql';
 import { DateFormat, formatDateString } from '../../../modules/time';
 import useClipboard from './../../../hooks/useClipboard';

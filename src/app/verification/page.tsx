@@ -37,29 +37,24 @@ export default function EmailConfirm() {
             <Icon.EmailInCircle className="mb-6" />
             <Typography.Header size={Size.H2}>Confirm your email</Typography.Header>
             <Typography.Header size={Size.H3} className="mt-2 text-center">
-              We’ve sent a code to your registered email address to confirm your email address.
+              We have sent a code to your registered email address to confirm your email address.
               Please enter the code sent to complete your registration.
             </Typography.Header>
           </div>
           <Form onSubmit={handleSubmit(submit)} className="flex flex-col gap-6 mt-3">
             <Form.Label name="Enter code" className="text-xs mt-5">
               <Form.Input {...register('code', { required: true })} />
-              <Form.Error message={formState.errors.code?.message} />
             </Form.Label>
-
-            <Button
-              htmlType="submit"
-              className="w-full mt-5"
-              loading={formState.isSubmitting}
-              disabled={formState.isSubmitting}
-            >
+            <Form.Error message={formState.errors.code?.message} />
+            <Button htmlType="submit" className="w-full mt-5" loading={loading} disabled={loading}>
               Submit code
             </Button>
             <Button
-              className="w-full mt-5"
-              onClick={updateFlow}
+              htmlType="button"
               variant="secondary"
-              disabled={cooldown > 0 || formState.isSubmitting}
+              className="w-full mt-2"
+              onClick={updateFlow}
+              disabled={cooldown > 0 || loading}
             >
               {cooldown
                 ? `Request a new code after ${cooldown} seconds`

@@ -52,8 +52,8 @@ export default function ResetPassword() {
                 type="password"
                 placeholder="Enter a new password"
               />
-              <Form.Error message={formState.errors.password?.message} />
             </Form.Label>
+            <Form.Error message={formState.errors.password?.message} />
 
             <span className="text-xs text-gray-400 mt-5">
               Include at least one capital letter, lowercase letter, number, special symbol and be

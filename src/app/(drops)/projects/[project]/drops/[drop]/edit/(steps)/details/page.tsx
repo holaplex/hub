@@ -112,8 +112,8 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
                 </Dropzone>
               )}
             />
-            <Form.Error message={formState.errors.image?.message} />
           </Form.Label>
+          <Form.Error message={formState.errors.image?.message} />
 
           <Form.Label name="Include a video" placement={Placement.Right} className="mt-5">
             <Form.Checkbox {...register('includeAnimationUrl')} />
@@ -141,8 +141,8 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
                 autoFocus
                 placeholder="e.g. Bored Ape Yatch Club"
               />
-              <Form.Error message={formState.errors.name?.message} />
             </Form.Label>
+            <Form.Error message={formState.errors.name?.message} />
             <Form.Label name="Symbol" className="text-xs mt-5 basis-1/4">
               <Form.Input
                 {...register('symbol', {
@@ -151,8 +151,8 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
                 })}
                 placeholder="e.g. BAYC"
               />
-              <Form.Error message={formState.errors.symbol?.message} />
             </Form.Label>
+            <Form.Error message={formState.errors.symbol?.message} />
           </div>
 
           <Form.Label name="Blockchain" className="text-xs mt-5">
@@ -173,25 +173,23 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
                         </Form.Select.Option>
                       ))}
                     </Form.Select.Options>
-                    <Form.Error message={formState.errors.blockchain?.message} />
                   </Form.Select>
                 );
               }}
             />
           </Form.Label>
+          <Form.Error message={formState.errors.blockchain?.message} />
           <Form.Label name="Description" className="text-xs mt-5">
             <Form.TextArea
               {...register('description')}
               placeholder="Enter a description for the drop."
             />
-            <Form.Error message="" />
           </Form.Label>
           <Form.Label name="External URL" className="text-xs mt-5">
             <Form.Input
               {...register('externalUrl')}
               placeholder="Set an external url for the drop."
             />
-            <Form.Error message="" />
           </Form.Label>
           <Form.Label name="Attribute" className="text-xs mt-5">
             {fields.map((field, index) => (

@@ -201,8 +201,8 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                     </Form.Select>
                   )}
                 />
-                <Form.Error message={errors.projects?.message} />
               </Form.Label>
+              <Form.Error message={errors.projects?.message} />
               <div className="flex gap-6 mt-5">
                 <Form.Label name="Name" className="text-xs mt-5">
                   <Form.Input
@@ -210,13 +210,13 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                     autoFocus
                     placeholder="e.g. Bored Ape Yatch Club"
                   />
-                  <Form.Error message={errors.description?.message} />
                 </Form.Label>
+                <Form.Error message={errors.description?.message} />
 
                 <Form.Label name="Target URL" className="text-xs mt-5">
                   <Form.Input {...register('url', { required: 'Target URL is required' })} />
-                  <Form.Error message={errors.url?.message} />
                 </Form.Label>
+                <Form.Error message={errors.url?.message} />
               </div>
 
               <hr className="w-full bg-stone-800 my-4 h-px border-0" />

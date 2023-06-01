@@ -95,24 +95,24 @@ export default function Registration() {
               placeholder="e.g. John"
               className=""
             />
-            <Form.Error message={formState.errors.name?.first?.message} />
           </Form.Label>
+          <Form.Error message={formState.errors.name?.first?.message} />
           <Form.Label name="Last name" className="text-xs">
             <Form.Input
               {...register('name.last', { required: true })}
               placeholder="e.g. Doe"
               className=""
             />
-            <Form.Error message={formState.errors.name?.last?.message} />
           </Form.Label>
+          <Form.Error message={formState.errors.name?.last?.message} />
           <Form.Label name="Email address" className="text-xs">
             <Form.Input
               {...register('email', { required: true })}
               placeholder="e.g. name@example.com"
               className=""
             />
-            <Form.Error message={formState.errors.email?.message} />
           </Form.Label>
+          <Form.Error message={formState.errors.email?.message} />
           <Form.Label name="Password" className="text-xs">
             <Form.Password
               {...register('password', { required: true })}
@@ -120,8 +120,8 @@ export default function Registration() {
               showPasswordIcon={<Icon.ShowPassword />}
               hidePasswordIcon={<Icon.HidePassword />}
             />
-            <Form.Error message={formState.errors.password?.message} />
           </Form.Label>
+          <Form.Error message={formState.errors.password?.message} />
           <Button
             htmlType="submit"
             className="w-full"

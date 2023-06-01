@@ -32,11 +32,9 @@ export default function TransferFundsProject() {
             <span className="text-gray-400">Balance:</span>
             <span className="text-white">0.456 SOL</span>
           </div>
-          <Form.Error message="" />
           <Form.Label name="To wallet address" className="text-xs text-white mt-5">
             <Form.Input />
           </Form.Label>
-          <Form.Error message="" />
 
           <Button htmlType="submit" className="w-full mt-5">
             Transfer

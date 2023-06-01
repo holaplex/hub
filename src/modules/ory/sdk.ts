@@ -1,4 +1,4 @@
-import { Configuration, ConfigurationParameters, FrontendApi } from '@ory/client';
+import { Configuration, ConfigurationParameters, FrontendApi } from '@ory/kratos-client';
 
 export function ory(config: ConfigurationParameters) {
   return new FrontendApi(new Configuration(config));
