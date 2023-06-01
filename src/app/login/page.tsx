@@ -27,7 +27,7 @@ export default function Login() {
           <div>
             <div className="flex justify-between mb-1">
               <div className="w-14 h-4 rounded-md bg-stone-800 animate-pulse" />
-              <div className="w-28 h-4 rounded-md bg-stone-800 animate-pulse" />
+              {/* <div className="w-28 h-4 rounded-md bg-stone-800 animate-pulse" /> */}
             </div>
             <div className="mb-1 w-full h-10 rounded-md bg-stone-800 animate-pulse" />
           </div>

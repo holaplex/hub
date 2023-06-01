@@ -23,6 +23,7 @@ interface RecoveryCodeProps {
 export function useRecoveryCode({ flow }: RecoveryCodeProps): RecoveryCodeContext {
   const router = useRouter();
   const { ory } = useOry();
+
   const { register, handleSubmit, formState, setError } = useForm<RecoveryForm>();
 
   const onSubmit = async (values: RecoveryForm): Promise<void> => {
