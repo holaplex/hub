@@ -135,8 +135,8 @@ export default function EditProfile() {
                   })}
                   autoFocus
                 />
-                <Form.Error message={formState.errors.name?.first?.message} />
               </Form.Label>
+              <Form.Error message={formState.errors.name?.first?.message} />
 
               <Form.Label name="Last name" className="text-xs basis-1/2">
                 <Form.Input
@@ -145,8 +145,8 @@ export default function EditProfile() {
                     maxLength: 36,
                   })}
                 />
-                <Form.Error message={formState.errors.name?.last?.message} />
               </Form.Label>
+              <Form.Error message={formState.errors.name?.last?.message} />
             </div>
 
             {/* <Link href="/profile/password/edit">

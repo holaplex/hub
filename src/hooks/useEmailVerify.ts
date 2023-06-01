@@ -1,4 +1,4 @@
-import { UiNodeInputAttributes, VerificationFlow } from '@ory/client';
+import { UiNodeInputAttributes, VerificationFlow } from '@ory/kratos-client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
@@ -31,7 +31,7 @@ export function useEmailVerify({ flow }: EmailVerifyProps): EmailVerifyContext {
 
   const { register, handleSubmit, formState, setError } = useForm<EmailVerifyForm>();
 
-  const onSubmit = async (values: EmailVerifyForm): Promise<void> => {
+  const onSubmit = async ({ code }: EmailVerifyForm): Promise<void> => {
     if (!flow) {
       return;
     }
@@ -42,38 +42,29 @@ export function useEmailVerify({ flow }: EmailVerifyProps): EmailVerifyContext {
 
       const result = await ory.updateVerificationFlow({
         flow: flow.id,
-        updateVerificationFlowBody: { code: values.code.trim(), csrf_token: csrfToken, method: 'code' },
+        updateVerificationFlowBody: { code, csrf_token: csrfToken, method: 'code' },
       });
 
-      if (result.data.ui != undefined) {
-        let msgType = result.data?.ui?.messages?.[0]?.type;
-        let msgText = result.data?.ui?.messages?.[0]?.text;
-        if (msgType === "error") {
-          toast.error(msgText);
-        } else {
-          toast.info(msgText);
-          router.push('/organizations/new');
+      try {
+        if (search?.has('return_to')) {
+          router.push(search.get('return_to') as string);
+          return;
         }
-      } else {
-        try {
-          if (search?.has('return_to')) {
-            router.push(search.get('return_to') as string);
-            return;
-          }
-          const response = await fetch('/browser/login', {
-            method: 'POST',
-            credentials: 'same-origin',
-          });
 
-          const json: LoginResponse = await response.json();
+        const response = await fetch('/browser/login', {
+          method: 'POST',
+          credentials: 'same-origin',
+        });
 
-          router.push(json.redirect_path);
-        }  catch (e: any) {
+        const json: LoginResponse = await response.json();
+
+        router.push(json.redirect_path);
+      } catch (e: any) {
         toast.error(
           'Unable to forward you to an organization. Please select or create an organization.'
         );
 
-      }
+        router.push('/organizations');
       }
     } catch (err: any) {
       const {

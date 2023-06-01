@@ -45,8 +45,8 @@ export default function RecoveryCode() {
           <Form onSubmit={handleSubmit(submit)} className="flex flex-col gap-6 mt-3">
             <Form.Label name="Enter code" className="text-xs mt-5">
               <Form.Input {...register('code', { required: true })} />
-              <Form.Error message={formState.errors.code?.message} />
             </Form.Label>
+            <Form.Error message={formState.errors.code?.message} />
             <div className="flex items-center gap-4 mt-5">
               <Button className="w-full" variant="secondary" onClick={() => router.back()}>
                 Edit email

@@ -73,8 +73,8 @@ export default function NewProject() {
               placeholder="e.g. Apple events"
               {...register('name', { required: true })}
             />
-            <Form.Error message={formState.errors.name?.message} />
           </Form.Label>
+          <Form.Error message={formState.errors.name?.message} />
           <Form.Label name="Project logo" className="text-xs text-white mt-5">
             <Controller
               name="file"

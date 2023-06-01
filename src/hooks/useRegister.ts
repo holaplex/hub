@@ -1,4 +1,4 @@
-import { RegistrationFlow, UiNodeInputAttributes, UiText } from '@ory/client';
+import { RegistrationFlow, UiNodeInputAttributes, UiText } from '@ory/kratos-client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
@@ -93,12 +93,15 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
       return;
     }
 
+    let afterLoginPath = `/verification?email=${encodeURIComponent(email)}`;
+
     if (search?.has('return_to')) {
-      router.push(search.get('return_to') as string);
-      return;
+      afterLoginPath = `${afterLoginPath}&return_to=${encodeURIComponent(
+        search.get('return_to')!
+      )}`;
     }
 
-    router.push(`/verification?email=${email}`);
+    router.push(afterLoginPath);
   };
 
   return {

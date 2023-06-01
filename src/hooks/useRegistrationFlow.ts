@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { defaultTo } from 'ramda';
 import { useOry } from './useOry';
-import { RegistrationFlow } from '@ory/client';
+import { RegistrationFlow } from '@ory/kratos-client';
 import { toast } from 'react-toastify';
 
 const defaultUndefined = defaultTo(undefined);
@@ -10,6 +10,10 @@ const defaultUndefined = defaultTo(undefined);
 interface RegistrationFlowContext {
   flow?: RegistrationFlow;
   loading: boolean;
+}
+
+interface LoginResponse {
+  redirect_path: string;
 }
 
 export function useRegistrationFlow(): RegistrationFlowContext {
@@ -32,9 +36,22 @@ export function useRegistrationFlow(): RegistrationFlowContext {
         const errorCode = err.response?.data.error?.id;
 
         if (errorCode === 'session_already_available') {
-          toast.info('You are already logged in');
-
-          router.push('/projects');
+          try {
+            const response = await fetch('/browser/login', {
+              method: 'POST',
+              credentials: 'same-origin',
+            });
+      
+            const json: LoginResponse = await response.json();
+      
+            router.push(json.redirect_path);
+          } catch (e: any) {
+            toast.error(
+              'Unable to forward you to an organization. Please select or create an organization.'
+            );
+      
+            router.push('/organizations');
+          }
         }
       } finally {
         setLoading(false);

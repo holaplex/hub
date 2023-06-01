@@ -1,4 +1,4 @@
-import { LoginFlow, UiNodeInputAttributes } from '@ory/client';
+import { LoginFlow, UiNodeInputAttributes } from '@ory/kratos-client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';

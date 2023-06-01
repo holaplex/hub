@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useOry } from './useOry';
 import { useSearchParams } from 'next/navigation';
 import { defaultTo } from 'ramda';
-import { UiNodeInputAttributes, VerificationFlow } from '@ory/client';
+import { UiNodeInputAttributes, VerificationFlow } from '@ory/kratos-client';
 import { toast } from 'react-toastify';
 import { extractFlowNode } from '../modules/ory';
 
