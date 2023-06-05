@@ -5,10 +5,11 @@ import Typography, { Size } from '../../../components/Typography';
 import { useRouter } from 'next/navigation';
 import { Icon } from '../../../components/Icon';
 import { Member, DeactivateMemberInput } from '../../../graphql.types';
-import { useMutation } from '@apollo/client';
+import { ApolloError, useMutation } from '@apollo/client';
 import { DeactivateMember as DeactivateMemberMutation } from '../../../mutations/member.graphql';
 import { GetOrganizationMembers } from '../../../queries/organization.graphql';
 import { useOrganization } from '../../../hooks/useOrganization';
+import { toast } from 'react-toastify';
 
 interface DeactivateMemberData {
   deleteMember: Member;
@@ -27,7 +28,7 @@ export default function DeactivateMember({ member }: DeactivateMemberProps) {
   const router = useRouter();
 
   const onClose = () => {
-    router.push('/members');
+    router.back();
   };
 
   const [deleteMember, { loading }] = useMutation<DeactivateMemberData, DeactivateMemberVars>(
@@ -52,8 +53,11 @@ export default function DeactivateMember({ member }: DeactivateMemberProps) {
           id: member,
         },
       },
+      onError: (error: ApolloError) => {
+        toast.error(error.message);
+      },
       onCompleted: () => {
-        router.push('/members');
+        router.back();
       },
     });
   };
