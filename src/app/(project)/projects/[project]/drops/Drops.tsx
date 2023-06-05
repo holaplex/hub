@@ -54,28 +54,26 @@ export default function Drops({ project }: DropsPageProps) {
                             loadingColumnHelper.display({
                               id: 'name',
                               header: () => (
-                                <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />
-                                  <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
-                                </div>
+                                <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />
                                   <span className="rounded-md h-8 w-8 bg-stone-800 animate-pulse" />
-                                  <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
+                                  <div className="flex flex-col gap-1">
+                                    <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
+                                    <span className="rounded-full h-4 w-12 bg-stone-800 animate-pulse" />
+                                  </div>
                                 </div>
                               ),
                             }),
                             loadingColumnHelper.display({
                               id: 'price',
                               header: () => (
-                                <div className="rounded-full h-3 w-28 bg-stone-800 animate-pulse" />
+                                <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex gap-2 items-center">
-                                  <span className="rounded-full h-3 w-11 bg-stone-800 animate-pulse" />
-                                  <span className="rounded-full h-3 w-4 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-full h-4 w-14 bg-stone-800 animate-pulse" />
                                 </div>
                               ),
                             }),
@@ -104,11 +102,11 @@ export default function Drops({ project }: DropsPageProps) {
                             loadingColumnHelper.display({
                               id: 'status',
                               header: () => (
-                                <div className="rounded-full h-3 w-28 bg-stone-800 animate-pulse" />
+                                <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="flex gap-2 items-center">
-                                  <span className="rounded-full w-8 h-8 bg-stone-800 animate-pulse" />
+                                  <span className="rounded-full w-6 h-6 bg-stone-800 animate-pulse" />
                                   <span className="rounded-full h-6 w-20 bg-stone-800 animate-pulse" />
                                 </div>
                               ),
@@ -119,7 +117,7 @@ export default function Drops({ project }: DropsPageProps) {
                                 align: 'right',
                               },
                               header: () => (
-                                <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />
+                                <div className="rounded-full h-4 w-8 bg-stone-800 animate-pulse" />
                               ),
                               cell: () => (
                                 <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />

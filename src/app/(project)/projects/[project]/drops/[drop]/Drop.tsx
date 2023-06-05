@@ -147,7 +147,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                         </div>
                         {dropQuery.data?.project.drop?.status !== DropStatus.Shutdown && (
                           <div className="flex items-center gap-2">
-                            <Link href={`/projects/${project}/drops/${drop}/edit/details`}>
+                            <Link href={`/projects/${project}/drops/${drop}/edit`}>
                               <Button
                                 icon={<Icon.Edit stroke="stroke-yellow-300" />}
                                 variant="secondary"
