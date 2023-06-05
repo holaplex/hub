@@ -1,5 +1,5 @@
 'use client';
-import { useMutation, useQuery } from '@apollo/client';
+import { ApolloError, useMutation, useQuery } from '@apollo/client';
 import { Button, Form, Modal } from '@holaplex/ui-library-react';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
@@ -51,7 +51,7 @@ export default function EditProject({ project }: { project: string }) {
   const projectData = projectQuery.data?.project;
 
   const onClose = () => {
-    router.push('/projects');
+    router.back();
   };
 
   const [editProject, editProjectResult] = useMutation<EditProjectData, EditProjectVars>(
@@ -82,9 +82,12 @@ export default function EditProject({ project }: { project: string }) {
           profileImageUrl: profileImageUrl as InputMaybe<string>,
         },
       },
+      onError: (error: ApolloError) => {
+        toast.error(error.message);
+      },
       onCompleted: () => {
         toast.success('Your project was successfully updated.');
-        router.push('/projects');
+        router.back();
       },
     });
   };

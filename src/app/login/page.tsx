@@ -46,7 +46,7 @@ export default function Login() {
           <Form.Label
             name="Password"
             className="text-xs"
-            // asideComponent={<Link href="/recovery">Forgot password?</Link>}
+            asideComponent={<Link href="/recovery">Forgot password?</Link>}
           >
             <Form.Password
               {...register('password', { required: true })}

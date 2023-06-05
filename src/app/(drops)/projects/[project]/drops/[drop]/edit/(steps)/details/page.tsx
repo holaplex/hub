@@ -221,12 +221,18 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
           <Button
             className="mt-4 self-start"
             variant="secondary"
+            disabled={formState.isSubmitting}
             onClick={() => append({ traitType: '', value: '' })}
           >
             Add attribute
           </Button>
           <hr className="w-full bg-stone-800 border-0 h-px my-5" />
-          <Button htmlType="submit" className="self-end">
+          <Button
+            loading={formState.isSubmitting}
+            disabled={formState.isSubmitting}
+            htmlType="submit"
+            className="self-end"
+          >
             Next
           </Button>
         </Form>

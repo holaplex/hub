@@ -122,7 +122,7 @@ deploy:
         repo: https://k8s.ory.sh/helm/charts
         remoteChart: kratos
         valuesFiles:
-          - .helm/values.kratos.yaml 
+          - .helm/values.kratos.yaml
       - name: hydra
         repo: https://k8s.ory.sh/helm/charts
         remoteChart: hydra
@@ -172,7 +172,7 @@ deploy:
           - .helm/secrets.credentials.yaml
       - name: federated-router
         remoteChart: oci://ghcr.io/apollographql/helm-charts/router
-        version: 1.14.0
+        version: 1.19.0
         valuesFiles:
           - .helm/values.router.yaml
           - .helm/secrets.router.yaml

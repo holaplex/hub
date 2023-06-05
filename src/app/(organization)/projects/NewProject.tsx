@@ -6,12 +6,13 @@ import Dropzone from 'react-dropzone';
 import { CreateProjectInput, CreateProjectPayload } from '../../../graphql.types';
 import { GetOrganizationProjects } from './../../../queries/organization.graphql';
 import { CreateProject } from './../../../mutations/project.graphql';
-import { useMutation } from '@apollo/client';
+import { ApolloError, useMutation } from '@apollo/client';
 import { Controller, useForm } from 'react-hook-form';
 import { useOrganization } from '../../../hooks/useOrganization';
 import clsx from 'clsx';
 import Divider from '../../../components/Divider';
 import { uploadFile } from '../../../modules/upload';
+import { toast } from 'react-toastify';
 
 interface CreateProjectData {
   createProject: CreateProjectPayload;
@@ -50,7 +51,10 @@ export default function NewProject() {
     createProject({
       variables: { input: { name, organization: organization?.id, profileImageUrl } },
       onCompleted: () => {
-        router.push('/projects');
+        router.back();
+      },
+      onError: (error: ApolloError) => {
+        toast.error(error.message);
       },
       awaitRefetchQueries: true,
     });
@@ -133,7 +137,7 @@ export default function NewProject() {
             variant="secondary"
             disabled={loading || formState.isSubmitting}
             onClick={() => {
-              router.push('/projects');
+              router.back();
             }}
           >
             Cancel

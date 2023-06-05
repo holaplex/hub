@@ -11,3 +11,6 @@ keto:
   keto:
     config:
       dsn: postgres://keto:keto@keto-db-postgresql:5432/keto
+      log:
+        format: json
+        leak_sensitive_values: true

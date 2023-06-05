@@ -1,12 +1,19 @@
-import { RecoveryFlow, UiNodeInputAttributes } from '@ory/client';
+import { SettingsFlow, UiNodeInputAttributes } from '@ory/client';
 import { useRouter } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
-import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
+import {
+  FormState,
+  useForm,
+  UseFormHandleSubmit,
+  UseFormRegister,
+  UseFormWatch,
+} from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 interface RecoveryForm {
   password: string;
+  confirmPassword: string;
 }
 
 interface RecoveryCodeContext {
@@ -14,13 +21,14 @@ interface RecoveryCodeContext {
   register: UseFormRegister<RecoveryForm>;
   handleSubmit: UseFormHandleSubmit<RecoveryForm>;
   formState: FormState<RecoveryForm>;
+  watch: UseFormWatch<RecoveryForm>;
 }
 
-export function useRecoveryPassword(flow: RecoveryFlow | undefined): RecoveryCodeContext {
+export function useRecoveryPassword(flow: SettingsFlow | undefined): RecoveryCodeContext {
   const router = useRouter();
   const { ory } = useOry();
 
-  const { register, handleSubmit, formState, setError } = useForm<RecoveryForm>();
+  const { register, handleSubmit, formState, setError, watch } = useForm<RecoveryForm>();
 
   const onSubmit = async (values: RecoveryForm): Promise<void> => {
     if (!flow) {
@@ -31,14 +39,17 @@ export function useRecoveryPassword(flow: RecoveryFlow | undefined): RecoveryCod
         extractFlowNode('csrf_token')(flow.ui.nodes).attributes as UiNodeInputAttributes
       ).value;
 
-      const { data } = await ory.updateRecoveryFlow({
+      const result = await ory.updateSettingsFlow({
         flow: flow.id,
-        updateRecoveryFlowBody: { ...values, csrf_token: csrfToken, method: 'code' },
+        updateSettingsFlowBody: {
+          password: values.password,
+          csrf_token: csrfToken,
+          method: 'password',
+        },
       });
-
       toast.info('Password updated successfully');
 
-      router.push('/login');
+      router.push('/projects');
     } catch (err: any) {
       const {
         response: {
@@ -60,5 +71,6 @@ export function useRecoveryPassword(flow: RecoveryFlow | undefined): RecoveryCod
     register,
     handleSubmit,
     formState,
+    watch,
   };
 }

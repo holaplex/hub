@@ -354,10 +354,16 @@ export default function NewDropRoyaltiesPage() {
           <hr className="w-full bg-stone-800 border-0 h-px my-5" />
 
           <div className="flex items-center justify-end gap-6">
-            <Button variant="secondary" onClick={back}>
+            <Button variant="secondary" onClick={back} disabled={formState.isSubmitting}>
               Back
             </Button>
-            <Button htmlType="submit">Next</Button>
+            <Button
+              htmlType="submit"
+              loading={formState.isSubmitting}
+              disabled={formState.isSubmitting}
+            >
+              Next
+            </Button>
           </div>
         </Form>
       </Card>

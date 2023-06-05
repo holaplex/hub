@@ -1,4 +1,4 @@
-export default function MembersLayout({
+export default function DropsLayout({
   children,
   modal,
 }: {
