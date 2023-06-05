@@ -5,10 +5,11 @@ import Typography, { Size } from '../../../components/Typography';
 import { InviteMember as InviteMemberMutation } from './../../../mutations/invite.graphql';
 import { useRouter } from 'next/navigation';
 import { GetOrganizationMembers } from './../../../queries/organization.graphql';
-import { useMutation } from '@apollo/client';
+import { ApolloError, useMutation } from '@apollo/client';
 import { Invite } from '../../../graphql.types';
 import { useForm } from 'react-hook-form';
 import { useOrganization } from '../../../hooks/useOrganization';
+import { toast } from 'react-toastify';
 
 interface InviteMemberForm {
   email: string;
@@ -28,8 +29,7 @@ export default function InviteMember() {
     if (loading) {
       return;
     }
-
-    router.push('/members');
+    router.back();
   };
 
   const onSubmit = ({ email }: InviteMemberForm) => {
@@ -39,6 +39,9 @@ export default function InviteMember() {
           email,
           organization: organization?.id,
         },
+      },
+      onError: (error: ApolloError) => {
+        toast.error(error.message);
       },
       onCompleted: () => {
         router.push('/members');
