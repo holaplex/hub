@@ -44,7 +44,7 @@ export default function InviteMember() {
         toast.error(error.message);
       },
       onCompleted: () => {
-        router.push('/members');
+        router.back();
       },
     });
   };
