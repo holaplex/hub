@@ -1,6 +1,7 @@
-import { useLazyQuery, useMutation } from '@apollo/client';
+import { ApolloError, useLazyQuery, useMutation } from '@apollo/client';
 import { Button, Modal } from '@holaplex/ui-library-react';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import {
   PauseDropInput,
   PauseDropPayload,
@@ -83,6 +84,9 @@ function Pause({ children }: PauseProps): JSX.Element {
       onCompleted: () => {
         setOpen(false);
       },
+      onError: (error: ApolloError) => {
+        toast.error(error.message);
+      },
     });
   };
 
@@ -122,6 +126,7 @@ function Pause({ children }: PauseProps): JSX.Element {
                   variant="failure"
                   onClick={onPause}
                   disabled={loading}
+                  loading={loading}
                 >
                   Pause mint
                 </Button>
@@ -198,6 +203,9 @@ function Resume({ children }: ResumeProps): JSX.Element {
       onCompleted: () => {
         setOpen(false);
       },
+      onError: (error: ApolloError) => {
+        toast.error(error.message);
+      },
     });
   };
 
@@ -236,6 +244,7 @@ function Resume({ children }: ResumeProps): JSX.Element {
                   className="w-full mt-5"
                   variant="failure"
                   onClick={onResume}
+                  loading={loading}
                   disabled={loading}
                 >
                   Resume mint
@@ -313,6 +322,9 @@ function Shutdown({ children }: ShutdownProps): JSX.Element {
       onCompleted: () => {
         setOpen(false);
       },
+      onError: (error: ApolloError) => {
+        toast.error(error.message);
+      },
     });
   };
 
@@ -351,6 +363,7 @@ function Shutdown({ children }: ShutdownProps): JSX.Element {
                   className="w-full mt-5"
                   variant="failure"
                   onClick={onShutdown}
+                  loading={loading}
                   disabled={loading}
                 >
                   Shut-down mint
