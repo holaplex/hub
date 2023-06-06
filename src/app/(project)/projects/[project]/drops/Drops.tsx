@@ -359,7 +359,7 @@ export default function Drops({ project }: DropsPageProps) {
                                       actions.push(
                                         <div
                                           key="resume_mint"
-                                          onClick={() => resume(drop.id, drop.projectId)}
+                                          onClick={() => resume(drop.id, project)}
                                           className="flex gap-2 items-center"
                                         >
                                           <Icon.Pause stroke="stroke-gray-400" />{' '}
@@ -370,7 +370,7 @@ export default function Drops({ project }: DropsPageProps) {
                                       actions.push(
                                         <div
                                           key="pause_mint"
-                                          onClick={() => pause(drop.id, drop.projectId)}
+                                          onClick={() => pause(drop.id, project)}
                                           className="flex gap-2 items-center"
                                         >
                                           <Icon.Pause stroke="stroke-gray-400" />{' '}
@@ -383,7 +383,7 @@ export default function Drops({ project }: DropsPageProps) {
                                       actions.push(
                                         <div
                                           key="shutdown_mint"
-                                          onClick={() => shutdown(drop.id, drop.projectId)}
+                                          onClick={() => shutdown(drop.id, project)}
                                           className="flex gap-2 items-center"
                                         >
                                           <Icon.Close stroke="stroke-gray-400" />{' '}
