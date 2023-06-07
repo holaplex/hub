@@ -28,7 +28,7 @@ export default function ReactivateMember({ member }: ReactivateMemberProps) {
   const router = useRouter();
 
   const onClose = () => {
-    router.back();
+    router.push('/members');
   };
 
   const [reactivateMember, { loading }] = useMutation<ReactivateMemberData, ReactivateMemberVars>(
@@ -52,7 +52,7 @@ export default function ReactivateMember({ member }: ReactivateMemberProps) {
         toast.error(error.message);
       },
       onCompleted: () => {
-        router.back();
+        router.push('/members');
       },
     });
   };

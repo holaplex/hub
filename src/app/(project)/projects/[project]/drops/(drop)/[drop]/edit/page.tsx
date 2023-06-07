@@ -8,7 +8,7 @@ interface EditDropProps {
 
 export default function EditDropPage({ params: { drop, project } }: EditDropProps) {
   return (
-    <div className="w-max mx-auto pt-20">
+    <div className="h-screen flex items-center justify-center">
       <EditDrop drop={drop} project={project} />
     </div>
   );

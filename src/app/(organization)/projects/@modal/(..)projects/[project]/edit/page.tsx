@@ -11,7 +11,7 @@ interface EditProjectPageProps {
 export default function EditProjectPage({ params: { project } }: EditProjectPageProps) {
   const router = useRouter();
   const onClose = () => {
-    router.back();
+    router.push('/projects');
   };
   return (
     <Modal open={true} setOpen={onClose}>

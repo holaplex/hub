@@ -51,7 +51,7 @@ export default function EditProject({ project }: { project: string }) {
   const projectData = projectQuery.data?.project;
 
   const onClose = () => {
-    router.back();
+    router.push('/projects');
   };
 
   const [editProject, editProjectResult] = useMutation<EditProjectData, EditProjectVars>(
@@ -87,7 +87,7 @@ export default function EditProject({ project }: { project: string }) {
       },
       onCompleted: () => {
         toast.success('Your project was successfully updated.');
-        router.back();
+        router.push('/projects');
       },
     });
   };

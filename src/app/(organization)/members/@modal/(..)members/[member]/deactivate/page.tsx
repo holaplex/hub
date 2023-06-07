@@ -11,7 +11,7 @@ interface DeactivateMemberPageProps {
 export default function DeactivateMemberPage({ params: { member } }: DeactivateMemberPageProps) {
   const router = useRouter();
   const onClose = () => {
-    router.back();
+    router.push('/members');
   };
   return (
     <Modal open={true} setOpen={onClose}>
