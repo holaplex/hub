@@ -7,7 +7,7 @@ import InviteMember from '../../InviteMember';
 export default function NewProjectPage() {
   const router = useRouter();
   const onClose = () => {
-    router.back();
+    router.push('/members');
   };
   return (
     <Modal open={true} setOpen={onClose}>

@@ -29,7 +29,7 @@ export default function InviteMember() {
     if (loading) {
       return;
     }
-    router.back();
+    router.push('/members');
   };
 
   const onSubmit = ({ email }: InviteMemberForm) => {
@@ -44,7 +44,7 @@ export default function InviteMember() {
         toast.error(error.message);
       },
       onCompleted: () => {
-        router.back();
+        router.push('/members');
       },
     });
   };

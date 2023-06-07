@@ -28,7 +28,7 @@ export default function DeactivateMember({ member }: DeactivateMemberProps) {
   const router = useRouter();
 
   const onClose = () => {
-    router.back();
+    router.push('/members');
   };
 
   const [deleteMember, { loading }] = useMutation<DeactivateMemberData, DeactivateMemberVars>(
@@ -57,7 +57,7 @@ export default function DeactivateMember({ member }: DeactivateMemberProps) {
         toast.error(error.message);
       },
       onCompleted: () => {
-        router.back();
+        router.push('/members');
       },
     });
   };

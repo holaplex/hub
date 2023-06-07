@@ -11,7 +11,7 @@ interface ReactivateMemberPageProps {
 export default function ReactivateMemberPage({ params: { member } }: ReactivateMemberPageProps) {
   const router = useRouter();
   const onClose = () => {
-    router.back();
+    router.push('/members');
   };
   return (
     <Modal open={true} setOpen={onClose}>

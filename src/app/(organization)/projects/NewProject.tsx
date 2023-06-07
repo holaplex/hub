@@ -51,7 +51,7 @@ export default function NewProject() {
     createProject({
       variables: { input: { name, organization: organization?.id, profileImageUrl } },
       onCompleted: () => {
-        router.back();
+        router.push('/projects');
       },
       onError: (error: ApolloError) => {
         toast.error(error.message);
@@ -137,7 +137,7 @@ export default function NewProject() {
             variant="secondary"
             disabled={loading || formState.isSubmitting}
             onClick={() => {
-              router.back();
+              router.push('/projects');
             }}
           >
             Cancel
