@@ -6,7 +6,6 @@ migrate:
     pullPolicy: Always
 
 environment:
-  port: '80'
   oryBaseUrl: http://hydra-admin
   kafkaUsername: admin
   kafkaSsl: false
