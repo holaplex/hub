@@ -1,0 +1,9 @@
+mutation MintEdition($input: MintDropInput!) {
+  mintEdition(input: $input) {
+    collectionMint {
+      id
+      address
+      owner
+    }
+  }
+}

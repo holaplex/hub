@@ -48,6 +48,16 @@ export const ReactivateMember: DocumentNode;
 }
     
 
+declare module '*/mint.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const MintEdition: DocumentNode;
+export const GetCollectionMints: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/organization.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -121,15 +131,6 @@ declare module '*/holder.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const GetCollectionHolders: DocumentNode;
-
-  export default defaultDocument;
-}
-    
-
-declare module '*/mint.graphql' {
-  import { DocumentNode } from 'graphql';
-  const defaultDocument: DocumentNode;
-  export const GetCollectionMints: DocumentNode;
 
   export default defaultDocument;
 }
