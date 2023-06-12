@@ -42,9 +42,11 @@ export default function Help({ drop, project }: HelpProps) {
           with our customer success team.
         </p>
         <hr className="w-full bg-stone-800 border-0 h-px my-6" />
-        <Button className="flex justify-end" onClick={onClose}>
-          Done
-        </Button>
+        <div className="flex w-full justify-end">
+          <Button onClick={onClose} className="flex justify-end">
+            Done
+          </Button>
+        </div>
       </div>
     </Card>
   );
