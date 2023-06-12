@@ -1,18 +1,17 @@
 import { Button, Form } from '@holaplex/ui-library-react';
-import Card from '../../../components/Card';
-import Typography, { Size } from '../../../components/Typography';
+import Card from '../../../../../components/Card';
+import Typography, { Size } from '../../../../../components/Typography';
 import { useRouter } from 'next/navigation';
 import Dropzone from 'react-dropzone';
-import { CreateProjectInput, CreateProjectPayload } from '../../../graphql.types';
+import { CreateProjectInput, CreateProjectPayload } from '../../../../../graphql.types';
 import { GetOrganizationProjects } from './../../../queries/organization.graphql';
 import { CreateProject } from './../../../mutations/project.graphql';
-import { ApolloError, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { Controller, useForm } from 'react-hook-form';
-import { useOrganization } from '../../../hooks/useOrganization';
+import { useOrganization } from '../../../../../hooks/useOrganization';
 import clsx from 'clsx';
-import Divider from '../../../components/Divider';
-import { uploadFile } from '../../../modules/upload';
-import { toast } from 'react-toastify';
+import Divider from '../../../../../components/Divider';
+import { uploadFile } from '../../../../../modules/upload';
 
 interface CreateProjectData {
   createProject: CreateProjectPayload;
@@ -51,13 +50,7 @@ export default function NewProject() {
     createProject({
       variables: { input: { name, organization: organization?.id, profileImageUrl } },
       onCompleted: () => {
-        router.back();
-      },
-      onError: (error: ApolloError) => {
-        toast.error(error.message);
-      },
-      onError: (error: ApolloError) => {
-        toast.error(error.message);
+        router.push('/projects');
       },
       awaitRefetchQueries: true,
     });
@@ -80,8 +73,8 @@ export default function NewProject() {
               placeholder="e.g. Apple events"
               {...register('name', { required: true })}
             />
-            <Form.Error message={formState.errors.name?.message} />
           </Form.Label>
+          <Form.Error message={formState.errors.name?.message} />
           <Form.Label name="Project logo" className="text-xs text-white mt-5">
             <Controller
               name="file"
@@ -140,7 +133,8 @@ export default function NewProject() {
             variant="secondary"
             disabled={loading || formState.isSubmitting}
             onClick={() => {
-              router.back();
+              debugger;
+              router.push('/projects');
             }}
           >
             Cancel
