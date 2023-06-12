@@ -11,6 +11,10 @@ interface HelpProps {
 }
 
 export default function Help({ drop, project }: HelpProps) {
+  const router = useRouter();
+  const onClose = () => {
+    router.back();
+  };
   return (
     <Card className="w-[530px]">
       <Typography.Header size={Size.H2}>
@@ -19,25 +23,28 @@ export default function Help({ drop, project }: HelpProps) {
 
       <div className="mt-5">
         <p className="text-gray-400 text-sm text-left">
-          You can mint an edition from your drop directly to a wallet address by clicking the Mint
-          edition button in the upper right hand corner.
+          You can mint an edition from your drop directly to a wallet address by clicking the{' '}
+          <Link href={`/projects/${project}/drops/${drop}/mint`} className="text-yellow-300">
+            Mint edition
+          </Link>{' '}
+          button in the upper right hand corner.
         </p>
         <p className="text-gray-400 text-sm text-left mt-4">
           Or you can learn more about building a custom claim/buy page for your drop from our
-          documentation or by scheduling a call with our customer success team.
+          <Link href="" className="text-yellow-300">
+            {' '}
+            documentation
+          </Link>{' '}
+          or by{' '}
+          <Link href="" className="text-yellow-300">
+            scheduling a call
+          </Link>{' '}
+          with our customer success team.
         </p>
-
-        <div className="flex gap-2 mt-14 items-center justify-end">
-          <Link href="">
-            <Button variant="secondary">View documentation</Button>
-          </Link>
-          <Link href="">
-            <Button variant="secondary">Schedule call</Button>
-          </Link>
-          <Link href="">
-            <Button>Mint editions</Button>
-          </Link>
-        </div>
+        <hr className="w-full bg-stone-800 border-0 h-px my-6" />
+        <Button className="flex justify-end" onClick={onClose}>
+          Done
+        </Button>
       </div>
     </Card>
   );

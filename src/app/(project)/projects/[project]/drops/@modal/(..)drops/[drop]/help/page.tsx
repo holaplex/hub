@@ -11,8 +11,7 @@ interface HelpPageProps {
 export default function HelpPage({ params: { drop, project } }: HelpPageProps) {
   const router = useRouter();
   const onClose = () => {
-    //router.back();
-    router.push(`/projects/${project}/drops/${drop}/holders`);
+    router.back();
   };
   return (
     <Modal open={true} setOpen={onClose}>
