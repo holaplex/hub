@@ -21,6 +21,127 @@ function CryptoIcon() {
 }
 Icon.Crypto = CryptoIcon;
 
+function Edit2({
+  width = 20,
+  height = 20,
+  className = '',
+  stroke = 'stroke-stone-950',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 20 20"
+      className={clsx('fill-none', className, stroke)}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M4.41091 13.0162L13.0159 4.41123C13.3409 4.08623 13.8684 4.08623 14.1934 4.41123L15.5901 5.8079C15.9151 6.1329 15.9151 6.6604 15.5901 6.9854L6.98425 15.5896C6.82841 15.7462 6.61675 15.8337 6.39591 15.8337H4.16675V13.6046C4.16675 13.3837 4.25425 13.1721 4.41091 13.0162Z"
+        stroke={stroke}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M11.4583 5.96655L14.0333 8.54155"
+        stroke="#F6F8FA"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Edit2 = Edit2;
+
+function Play({ width = 16, height = 18, className = '', stroke = 'stroke-stone-950' }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 14 16"
+      className={clsx('fill-none', className, stroke)}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1.75 1.25L12.25 8L1.75 14.75V1.25Z"
+        stroke={stroke}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Play = Play;
+
+function Cross({
+  width = 18,
+  height = 18,
+  className = '',
+  stroke = 'stroke-stone-950',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 18 18"
+      className={clsx('fill-none', className, stroke)}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M13.5 4.5L4.5 13.5"
+        stroke={stroke}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M4.5 4.5L13.5 13.5"
+        stroke={stroke}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Cross = Cross;
+
+function Pause2({
+  width = 18,
+  height = 18,
+  className = '',
+  stroke = 'stroke-stone-950',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 18 18"
+      className={clsx('fill-none', className, stroke)}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M7.5 3H4.5V15H7.5V3Z"
+        stroke={stroke}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M13.5 3H10.5V15H13.5V3Z"
+        stroke={stroke}
+        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Pause2 = Pause2;
+
 function HubLogo({
   width = 44,
   height = 10,

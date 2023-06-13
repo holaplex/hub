@@ -93,11 +93,28 @@ export default function Mints({ loading, project, drop }: MintsProps) {
         </>
       ) : noPurchases ? (
         <div className="flex flex-col gap-2 items-center">
-          <Icon.Large.Clipboard />
-          <Typography.Header size={Size.H2}>No purchase history yet</Typography.Header>
-          <Typography.Paragraph className="text-gray-400">
-            Purchase history will appear after the first mint
-          </Typography.Paragraph>
+          <Typography.Header size={Size.H2}>
+            You&apos;ve created a drop! Ok, what&apos;s next?
+          </Typography.Header>
+          <p className="text-gray-400 text-sm mt-6">
+            You can mint an edition from your drop directly to a wallet address by clicking the{' '}
+            <Link href={`/projects/${project}/drops/${drop}/mint`} className="text-yellow-300">
+              Mint edition
+            </Link>{' '}
+            button in the upper right hand corner.
+          </p>
+          <p className="text-gray-400 text-sm mt-4">
+            Or you can learn more about building a custom claim/buy page for your drop from our
+            <Link href="" className="text-yellow-300">
+              {' '}
+              documentation
+            </Link>{' '}
+            or by{' '}
+            <Link href="" className="text-yellow-300">
+              scheduling a call
+            </Link>{' '}
+            with our customer success team.
+          </p>
         </div>
       ) : (
         <Table
