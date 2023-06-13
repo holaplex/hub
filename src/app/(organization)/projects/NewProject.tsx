@@ -51,10 +51,7 @@ export default function NewProject() {
     createProject({
       variables: { input: { name, organization: organization?.id, profileImageUrl } },
       onCompleted: () => {
-        router.back();
-      },
-      onError: (error: ApolloError) => {
-        toast.error(error.message);
+        router.push('/projects');
       },
       onError: (error: ApolloError) => {
         toast.error(error.message);
