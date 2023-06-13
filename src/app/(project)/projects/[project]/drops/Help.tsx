@@ -36,7 +36,7 @@ export default function Help({ drop, project }: HelpProps) {
             documentation
           </Link>{' '}
           or by{' '}
-          <Link href="" className="text-yellow-300">
+          <Link href="mailto:support@holaplex.com" className="text-yellow-300">
             scheduling a call
           </Link>{' '}
           with our customer success team.

@@ -10,7 +10,7 @@ import { MintEdition as MintEditionMutation } from '../../../../../mutations/min
 import {
   Action,
   ActionCost,
-  BlockchainCost,
+  Blockchain,
   MintDropInput,
   Organization,
   Project,
@@ -24,6 +24,8 @@ import { useOrganization } from '../../../../../hooks/useOrganization';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { Icon } from '../../../../../components/Icon';
+import { CreditLookup } from '../../../../../modules/credit';
+import { useMemo } from 'react';
 interface MintEditionVars {
   input: MintDropInput;
 }
@@ -88,11 +90,12 @@ export default function MintEdition({ project, drop }: MintEditionProps) {
 
   const blockchain = dropQuery.data?.project.drop?.collection.blockchain;
 
-  const mintEditionCredits = creditSheet
-    ?.find((actionCost: ActionCost) => actionCost.action === Action.MintEdition)
-    ?.blockchains.find(
-      (blockchainCost: BlockchainCost) => blockchainCost.blockchain === blockchain
-    )?.credits;
+  const mintEditionCredits = useMemo(() => {
+    const creditLookup = new CreditLookup(creditSheet || []);
+    const mintEditionCredits = creditLookup.cost(Action.MintEdition, blockchain as Blockchain) || 0;
+
+    return mintEditionCredits;
+  }, [creditSheet, blockchain]);
 
   const onClose = () => {
     router.back();
@@ -110,7 +113,7 @@ export default function MintEdition({ project, drop }: MintEditionProps) {
         },
       },
       onError: (error: ApolloError) => {
-        toast.error(`Failed to mint edition. Here's the reason -  ${error.message}`);
+        toast.error(error.message);
       },
       onCompleted: () => {
         toast.success('Edition minted successfully to the wallet.');
