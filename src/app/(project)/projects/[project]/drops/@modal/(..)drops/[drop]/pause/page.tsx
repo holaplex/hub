@@ -2,20 +2,22 @@
 import { Modal } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import MintEdition from '../../../../MintEdition';
+import PauseDrop from '../../../../PauseDrop';
 
-interface MintPageProps {
+interface PausePageProps {
   params: { drop: string; project: string };
 }
 
-export default function MintPage({ params: { drop, project } }: MintPageProps) {
+export default function PausePage({ params: { drop, project } }: PausePageProps) {
   const router = useRouter();
+
   const onClose = () => {
     router.back();
   };
+
   return (
     <Modal open={true} setOpen={onClose}>
-      <MintEdition drop={drop} project={project} />
+      <PauseDrop drop={drop} project={project} />
     </Modal>
   );
 }

@@ -4,10 +4,11 @@ migrate:
 
 image:
   pullPolicy: Always
-  tag: "latest"
+  # Temp solution, set it to 'latest' later
+  tag: '0.4.0'
 
 environment:
-  kafkaBrokers: "hub-eventbus-cluster-0.hub-eventbus-cluster.default.svc.cluster.local:9093"
+  kafkaBrokers: 'hub-eventbus-cluster-0.hub-eventbus-cluster.default.svc.cluster.local:9093'
   kafkaSsl: false
   kafkaUsername: admin
   fireblocksSupportedAssetIds: SOL_TEST

@@ -2,11 +2,11 @@
 
 import MintEdition from '../../../MintEdition';
 
-interface HelpPageProps {
+interface MintPageProps {
   params: { drop: string; project: string };
 }
 
-export default function MintPage({ params: { drop, project } }: HelpPageProps) {
+export default function MintPage({ params: { drop, project } }: MintPageProps) {
   return (
     <div className="h-screen flex items-center justify-center">
       <MintEdition drop={drop} project={project} />
