@@ -138,9 +138,8 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
             <div className="flex items-center gap-2">
               <Link href={`/projects/${project}/drops/${drop}/edit`}>
                 <Button
-                  icon={<Icon.Edit2 stroke="stroke-yellow-300" />}
+                  icon={<Icon.Edit2 stroke="stroke-yellow-300" className="my-1" />}
                   variant="secondary"
-                  className="py-1"
                 />
               </Link>
               <Link href={`/projects/${project}/drops/${drop}/help`}>

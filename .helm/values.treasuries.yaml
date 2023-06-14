@@ -4,8 +4,7 @@ migrate:
 
 image:
   pullPolicy: Always
-  # Temp solution, set it to 'latest' later
-  tag: '0.4.0'
+  tag: 'latest'
 
 environment:
   kafkaBrokers: 'hub-eventbus-cluster-0.hub-eventbus-cluster.default.svc.cluster.local:9093'

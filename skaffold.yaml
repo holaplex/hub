@@ -59,8 +59,8 @@ deploy:
         remoteChart: hub-ui
         setValueTemplates:
           fullnameOverride: hub-ui
-          image.repository: "{{ .IMAGE_REPO_hub_ui }}"
-          image.tag: "{{ .IMAGE_TAG_hub_ui }}"
+          image.repository: '{{ .IMAGE_REPO_hub_ui }}'
+          image.tag: '{{ .IMAGE_TAG_hub_ui }}'
         valuesFiles:
           - .helm/secrets.ui.yaml
       - name: kratos-db
@@ -153,6 +153,8 @@ deploy:
           - .helm/values.webhooks.yaml
           - .helm/secrets.webhooks.yaml
       - name: hub-nfts
+        # TODO: Remove version
+        version: 0.5.0
         remoteChart: hub-nfts
         repo: https://charts.holaplex.com
         valuesFiles:
@@ -177,6 +179,8 @@ deploy:
           - .helm/values.router.yaml
           - .helm/secrets.router.yaml
       - name: hub-treasuries
+        # TODO: Remove version
+        version: 0.4.0
         remoteChart: hub-treasuries
         repo: https://charts.holaplex.com
         valuesFiles:
