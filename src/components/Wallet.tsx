@@ -15,7 +15,7 @@ interface WalletCardProps {
 }
 
 function WalletCard({ wallet, className }: WalletCardProps) {
-  const { copied, copyText } = useClipboard(wallet.address);
+  const { copied, copyText } = useClipboard(wallet.address as string);
 
   let icon: React.ReactNode;
 
@@ -37,7 +37,7 @@ function WalletCard({ wallet, className }: WalletCardProps) {
         className="flex gap-2 text-xs font-medium items-center mt-2 cursor-pointer"
         onClick={copyText}
       >
-        <div>{shorten(wallet.address)}</div>
+        {wallet.address && <div>{shorten(wallet.address)}</div>}
         {copied ? <Icon.Check /> : <Icon.Copy />}
       </div>
     </Card>

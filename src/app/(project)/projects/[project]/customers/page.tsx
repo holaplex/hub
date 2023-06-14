@@ -174,7 +174,7 @@ export default function CustomersPage() {
                                     </div>
                                   }
                                   elements={[
-                                    <Copy key="copy_id" copyString={wallet.address}>
+                                    <Copy key="copy_id" copyString={wallet.address as string}>
                                       <span>Copy Wallet Address</span>
                                     </Copy>,
                                   ]}
