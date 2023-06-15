@@ -136,11 +136,11 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
               <span>{dropQuery.data?.project?.drop?.collection?.metadataJson?.name}</span>
             </div>
             <div className="flex items-center gap-2">
-              <Link href={`/projects/${project}/drops/${drop}/edit`}>
-                <Button
-                  icon={<Icon.Edit2 stroke="stroke-yellow-300" className="my-1" />}
-                  variant="secondary"
-                />
+              <Link
+                href={`/projects/${project}/drops/${drop}/edit`}
+                className="border-2 border-yellow-300 rounded-md p-2"
+              >
+                <Icon.Edit2 stroke="stroke-yellow-300" />
               </Link>
               <Link href={`/projects/${project}/drops/${drop}/help`}>
                 <Button variant="secondary">?</Button>
