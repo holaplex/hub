@@ -172,14 +172,18 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                 <div className="w-full text-xs font-medium">
                   <div className="flex items-center justify-between">
                     <span className="text-white">
-                      {`Status: ${dropQuery.data?.project?.drop?.status} -  ${dropQuery.data?.project?.drop?.collection?.totalMints}/
-                                  ${dropQuery.data?.project?.drop?.collection?.supply}`}
+                      Status: {dropQuery.data?.project?.drop?.status} -
+                       {dropQuery.data?.project?.drop?.collection?.totalMints}
+                      {dropQuery.data?.project?.drop?.collection?.supply &&
+                        ` / ${dropQuery.data?.project?.drop?.collection?.supply}`}
                       <span className="text-gray-500"> - minted</span>
                     </span>
                     {inTheFuture(startTime) ? (
                       <span className="text-gray-400">{daysUntil(startTime)} to start</span>
                     ) : (
-                      <span>{`${percent}%`}</span>
+                      dropQuery.data?.project?.drop?.collection?.supply && (
+                        <span>{`${percent}%`}</span>
+                      )
                     )}
                   </div>
                   <div className="w-full rounded-full h-[12px] bg-stone-800 mt-1 relative overflow-hidden">
@@ -245,7 +249,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                 <div className="basis-1/2 h-full flex flex-col px-4 gap-2 text-sm">
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-gray-400">Royalties</span>
-                    <span>{dropData?.collection.sellerFeeBasisPoints}</span>
+                    <span>{dropData?.collection.royalties}</span>
                   </div>
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-gray-400">Royalties recipients</span>

@@ -222,6 +222,7 @@ function PurchaseStatusPill({ status, className }: PurchaseStatusPillProps) {
       className={clsx('rounded-full py-1 px-3 text-xs font-medium max-w-min', className, {
         'bg-blue-400 bg-opacity-20 text-blue-400': status === CreationStatus.Pending,
         'bg-green-400 bg-opacity-20 text-green-400': status === CreationStatus.Created,
+        'bg-red-500 bg-opacity-20 text-red-500': status === CreationStatus.Failed,
       })}
     >
       {label}

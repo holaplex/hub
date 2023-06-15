@@ -79,6 +79,9 @@ export default function MintEdition({ project, drop }: MintEditionProps) {
         { query: GetCollectionHolders, variables: { project, drop } },
         { query: GetCollectionPurchases, variables: { project, drop } },
       ],
+      onCompleted: () => {
+        router.back();
+      }
     }
   );
 
