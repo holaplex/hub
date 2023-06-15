@@ -20,6 +20,8 @@ import {
   GetOrganizationCreditBalance,
 } from '../../../../../queries/credits.graphql';
 import { GetDrop } from '../../../../../queries/drop.graphql';
+import { GetCollectionHolders } from '../../../../../queries/holder.graphql';
+import { GetCollectionPurchases } from '../../../../../queries/purchase.graphql';
 import { useOrganization } from '../../../../../hooks/useOrganization';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -71,7 +73,13 @@ export default function MintEdition({ project, drop }: MintEditionProps) {
   const { register, handleSubmit, formState, setError } = useForm<MintEditionForm>();
 
   const [mintEdition, mintEditionResult] = useMutation<MintEditionData, MintEditionVars>(
-    MintEditionMutation
+    MintEditionMutation,
+    {
+      refetchQueries: [
+        { query: GetCollectionHolders, variables: { project, drop } },
+        { query: GetCollectionPurchases, variables: { project, drop } },
+      ],
+    }
   );
 
   const dropQuery = useQuery<GetDropsData, GetDropVars>(GetDrop, { variables: { project, drop } });

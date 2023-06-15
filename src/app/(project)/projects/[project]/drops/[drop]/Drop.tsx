@@ -199,27 +199,32 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                   </div>
                   <div></div>
                 </div>
+
                 {dropQuery.data?.project?.drop?.status === DropStatus.Paused && (
-                  <Link href={`/projects/${project}/drops/${drop}/resume`}>
-                    <span className="border border-yellow-300 rounded-lg p-2 cursor-pointer">
-                      <Icon.Play stroke="stroke-yellow-300" />
-                    </span>
+                  <Link
+                    href={`/projects/${project}/drops/${drop}/resume`}
+                    className="border border-yellow-300 rounded-lg p-2 cursor-pointer"
+                  >
+                    <Icon.Play stroke="stroke-yellow-300" />
                   </Link>
                 )}
+
                 {dropQuery.data?.project?.drop?.status === DropStatus.Minting && (
-                  <Link href={`/projects/${project}/drops/${drop}/pause`}>
-                    <span className="border border-yellow-300 rounded-lg p-2 cursor-pointer">
-                      <Icon.Pause2 stroke="stroke-yellow-300" />
-                    </span>
+                  <Link
+                    href={`/projects/${project}/drops/${drop}/pause`}
+                    className="border border-yellow-300 rounded-lg p-2 cursor-pointer"
+                  >
+                    <Icon.Pause2 stroke="stroke-yellow-300" />
                   </Link>
                 )}
                 {(dropQuery.data?.project?.drop?.status === DropStatus.Minting ||
                   dropQuery.data?.project?.drop?.status === DropStatus.Paused ||
                   dropQuery.data?.project?.drop?.status === DropStatus.Scheduled) && (
-                  <Link href={`/projects/${project}/drops/${drop}/shutdown`}>
-                    <span className="border border-yellow-300 rounded-lg p-2 cursor-pointer">
-                      <Icon.Cross stroke="stroke-yellow-300" />
-                    </span>
+                  <Link
+                    href={`/projects/${project}/drops/${drop}/shutdown`}
+                    className="border border-yellow-300 rounded-lg p-2 cursor-pointer"
+                  >
+                    <Icon.Cross stroke="stroke-yellow-300" />
                   </Link>
                 )}
               </div>

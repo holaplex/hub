@@ -31,7 +31,11 @@ export default function Help({ drop, project }: HelpProps) {
         </p>
         <p className="text-gray-400 text-sm text-left mt-4">
           Or you can learn more about building a custom claim/buy page for your drop from our
-          <Link href="" className="text-yellow-300">
+          <Link
+            href="https://docs.holaplex.com/hub/Guides/mint-page-deploy"
+            target="_blank"
+            className="text-yellow-300"
+          >
             {' '}
             documentation
           </Link>{' '}
