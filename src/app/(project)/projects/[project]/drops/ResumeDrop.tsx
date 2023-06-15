@@ -65,6 +65,7 @@ export default function ResumeDrop({ drop, project }: ResumeDropProps) {
       },
       onCompleted: () => {
         toast.info('Drop resumed successfully.');
+        router.back();
       },
       onError: (error: ApolloError) => {
         toast.error(error.message);
@@ -105,7 +106,6 @@ export default function ResumeDrop({ drop, project }: ResumeDropProps) {
               <Button
                 htmlType="submit"
                 className="w-full mt-5"
-                variant="failure"
                 onClick={onResume}
                 loading={loading}
                 disabled={loading}

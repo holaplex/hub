@@ -67,6 +67,7 @@ export default function ShutdownDrop({ drop, project }: ShutdownDropProps) {
       },
       onCompleted: () => {
         toast.info('Drop shutdown successfully.');
+        router.back();
       },
       onError: (error: ApolloError) => {
         toast.error(error.message);

@@ -60,18 +60,6 @@ export default function Drops({ project }: DropsPageProps) {
                   ),
                 }),
                 loadingColumnHelper.display({
-                  id: 'price',
-                  header: () => (
-                    <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
-                  ),
-                  cell: () => (
-                    <div className="flex gap-2 items-center">
-                      <span className="rounded-full h-4 w-14 bg-stone-800 animate-pulse" />
-                    </div>
-                  ),
-                }),
-
-                loadingColumnHelper.display({
                   id: 'startTime',
                   header: () => (
                     <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
@@ -171,7 +159,7 @@ export default function Drops({ project }: DropsPageProps) {
                             <Link
                               href={`/projects/${dropsQuery.data?.project.id}/drops/${
                                 info.getValue().id
-                              }/holders`}
+                              }/mints`}
                               className="flex flex-col gap-1"
                             >
                               <span className="text-xs text-white font-medium">
@@ -183,35 +171,6 @@ export default function Drops({ project }: DropsPageProps) {
                             </Link>
                           </div>
                         ),
-                      }
-                    ),
-                    columnHelper.accessor(
-                      ({ price, collection }) => {
-                        if (!collection) {
-                          throw new Error('no collection');
-                        }
-
-                        return {
-                          blockchain: collection.blockchain,
-                          price,
-                        };
-                      },
-                      {
-                        id: 'price',
-                        header: () => <span>Price</span>,
-                        cell: (info) => {
-                          const price = info.getValue().price;
-                          return (
-                            <div className="flex gap-1">
-                              <span className="text-xs text-white font-medium">
-                                {price === 0 ? 'FREE' : price}
-                              </span>
-                              {price > 0 && (
-                                <span className="text-xs text-gray-400 font-medium">Lamports</span>
-                              )}
-                            </div>
-                          );
-                        },
                       }
                     ),
                     columnHelper.accessor(
