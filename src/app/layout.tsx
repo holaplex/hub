@@ -16,6 +16,8 @@ const client = ory(serverConfig);
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const cookStore = cookies();
   let session: Session | undefined = undefined;
+  const showCookieConsentBanner = process.env.NEXT_PUBLIC_COOKIE_CONSENT_BANNER;
+  const termlyId = process.env.NEXT_PUBLIC_TERMLY_ID;
 
   try {
     const { data } = await client.toSession({
@@ -29,11 +31,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en">
       <body>
         <App session={session}>{children}</App>
-        <Script
-          src="https://app.termly.io/embed.min.js"
-          type="text/javascript"
-          id="3362071e-cc38-4ecf-94ac-218c102a1617"
-        />
+        {showCookieConsentBanner && (
+          <Script src="https://app.termly.io/embed.min.js" type="text/javascript" id={termlyId} />
+        )}
       </body>
     </html>
   );
