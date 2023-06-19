@@ -19,7 +19,7 @@ const BLOCKCHAIN_LABELS = {
   [Blockchain.Polygon]: 'Polygon',
 };
 
-const BLOCKCHAIN_OPTIONS = [Blockchain.Solana];
+const BLOCKCHAIN_OPTIONS = [Blockchain.Solana, Blockchain.Polygon];
 
 export default function NewDropDetailsPage() {
   const router = useRouter();

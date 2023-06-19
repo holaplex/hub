@@ -48,7 +48,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
     name: 'attributes',
   });
 
-  const BLOCKCHAIN_OPTIONS = [Blockchain.Solana];
+  const BLOCKCHAIN_OPTIONS = [Blockchain.Solana, Blockchain.Polygon];
 
   return (
     <>

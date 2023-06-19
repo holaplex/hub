@@ -34,6 +34,9 @@ function MintCard({ mint, className }: MintCardProps) {
     case Blockchain.Solana:
       icon = <Icon.Crypto.Sol />;
       break;
+    case Blockchain.Polygon:
+      icon = <Icon.Crypto.Polygon />;
+      break;
   }
 
   return (

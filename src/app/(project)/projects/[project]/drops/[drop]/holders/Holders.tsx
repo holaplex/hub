@@ -125,17 +125,31 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
                 const address = info.row.original.address;
                 const options = [];
 
-                if (holdersQuery.data?.project.drop?.collection.blockchain === Blockchain.Solana) {
-                  options.push(
-                    <Link
-                      href={`https://solscan.io/account/${address}`}
-                      target="_blank"
-                      key="change_email"
-                      className="flex gap-2 items-center"
-                    >
-                      <Icon.ExternalLink /> <span>View on SolScan</span>
-                    </Link>
-                  );
+                switch (holdersQuery.data?.project.drop?.collection.blockchain) {
+                  case Blockchain.Solana:
+                    options.push(
+                      <Link
+                        href={`https://solscan.io/account/${address}`}
+                        target="_blank"
+                        key="solana"
+                        className="flex gap-2 items-center"
+                      >
+                        <Icon.ExternalLink /> <span>View on SolScan</span>
+                      </Link>
+                    );
+                    break;
+                  case Blockchain.Polygon:
+                    options.push(
+                      <Link
+                        href={`https://polygonscan.com/address/${address}`}
+                        target="_blank"
+                        key="polygon"
+                        className="flex gap-2 items-center"
+                      >
+                        <Icon.ExternalLink /> <span>View on Polygonscan</span>
+                      </Link>
+                    );
+                    break;
                 }
 
                 return (

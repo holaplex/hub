@@ -165,18 +165,34 @@ export default function Mints({ loading, project, drop }: MintsProps) {
               cell: (info) => {
                 const txId = info.row.original.txSignature;
                 const options = [];
-                txId &&
-                  blockchain === Blockchain.Solana &&
-                  options.push(
-                    <Link
-                      href={`https://solscan.io/tx/${txId}`}
-                      target="_blank"
-                      key="change_email"
-                      className="flex gap-2 items-center"
-                    >
-                      <Icon.ExternalLink /> <span>View on SolScan</span>
-                    </Link>
-                  );
+                if (txId) {
+                  switch (blockchain) {
+                    case Blockchain.Solana:
+                      options.push(
+                        <Link
+                          href={`https://solscan.io/tx/${txId}`}
+                          target="_blank"
+                          key="solana"
+                          className="flex gap-2 items-center"
+                        >
+                          <Icon.ExternalLink /> <span>View on SolScan</span>
+                        </Link>
+                      );
+                      break;
+                    case Blockchain.Polygon:
+                      options.push(
+                        <Link
+                          href={`https://polygonscan.com/tx/${txId}`}
+                          target="_blank"
+                          key="polygon"
+                          className="flex gap-2 items-center"
+                        >
+                          <Icon.ExternalLink /> <span>View on Polygonscan</span>
+                        </Link>
+                      );
+                      break;
+                  }
+                }
                 return (
                   <PopoverBox
                     triggerButton={

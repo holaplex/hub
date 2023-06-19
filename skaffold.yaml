@@ -154,7 +154,7 @@ deploy:
           - .helm/secrets.webhooks.yaml
       - name: hub-nfts
         # TODO: Remove version
-        version: 0.5.0
+        # version: 0.5.0
         remoteChart: hub-nfts
         repo: https://charts.holaplex.com
         valuesFiles:
@@ -180,7 +180,7 @@ deploy:
           - .helm/secrets.router.yaml
       - name: hub-treasuries
         # TODO: Remove version
-        version: 0.4.0
+        # version: 0.4.0
         remoteChart: hub-treasuries
         repo: https://charts.holaplex.com
         valuesFiles:

@@ -162,6 +162,8 @@ export default function NewDropRoyaltiesPage() {
     },
   });
 
+  console.log('creditbalance', creditBalance, expectedCreditCost);
+
   return (
     <>
       <Card className="w-[492px]">

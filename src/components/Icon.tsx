@@ -752,6 +752,31 @@ function Sol({ width = 20, height = 20, fill = 'fill-white', className = '' }: I
 }
 CryptoIcon.Sol = Sol;
 
+function Polygon({ width = 12, height = 18, fill = 'fill-white', className = '' }: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 12 18"
+      className={clsx(fill, className)}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M5.99825 0L0 9.16693L5.99825 12.4326V6.65578V0Z" fill="white" />
+      <path
+        d="M5.99825 0L5.8672 0.410163V12.3121L5.99825 12.4326L11.9965 9.16693L5.99825 0Z"
+        fill="white"
+      />
+      <path
+        d="M5.99819 13.4787L5.92436 13.5616V17.8014L5.99819 18L12 10.2147L5.99819 13.4787Z"
+        fill="white"
+      />
+      <path d="M5.99819 18V13.4787L0 10.2146L5.99819 18Z" fill="white" />
+    </svg>
+  );
+}
+CryptoIcon.Polygon = Polygon;
+
 function ExternalLink({
   width = 20,
   height = 20,
