@@ -24,7 +24,7 @@ skaffold.yaml
 
 ### Start the Kubernetes cluster
 
-Change memory and CPU assignment
+Change memory and CPU assignment accordingly.
 
 ```bash
 minikube start --network-plugin=cni --cni=calico --memory 7951 --cpus 6
