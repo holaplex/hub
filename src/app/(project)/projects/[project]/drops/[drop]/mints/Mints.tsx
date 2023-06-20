@@ -10,7 +10,6 @@ import Typography, { Size } from '../../../../../../../components/Typography';
 import { formatDateString, DateFormat } from '../../../../../../../modules/time';
 import { Blockchain, Project, Purchase } from '../../../../../../../graphql.types';
 import { GetCollectionPurchases } from './../../../../../../../queries/purchase.graphql';
-import { ExploreLink } from '../../../../../../../modules/exploreLink';
 import { useMemo } from 'react';
 
 interface MintsProps {
@@ -176,14 +175,13 @@ export default function Mints({ loading, project, drop }: MintsProps) {
               id: 'moreOptions',
               header: () => <></>,
               cell: (info) => {
-                const txId = info.row.original.txSignature;
+                const transactionLink = info.row.original.transactionLink;
                 const options = [];
-                const exploreLink = new ExploreLink(blockchain as Blockchain);
 
-                if (txId) {
+                if (transactionLink) {
                   options.push(
                     <Link
-                      href={exploreLink.getTxLink(txId) as string}
+                      href={transactionLink as string}
                       target="_blank"
                       key="explorer"
                       className="flex gap-2 items-center"

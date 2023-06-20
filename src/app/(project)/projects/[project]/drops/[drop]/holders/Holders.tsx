@@ -9,7 +9,6 @@ import { Holder, Project, Blockchain } from '../../../../../../../graphql.types'
 import { GetCollectionHolders } from './../../../../../../../queries/holder.graphql';
 import { useQuery } from '@apollo/client';
 import Typography, { Size } from '../../../../../../../components/Typography';
-import { ExploreLink } from '../../../../../../../modules/exploreLink';
 import { useMemo } from 'react';
 
 interface HoldersProps {
@@ -136,14 +135,12 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
               },
               header: () => <></>,
               cell: (info) => {
-                const address = info.row.original.address;
+                const exploreLink = info.row.original.exploreLink;
                 const options = [];
-                const exploreLink = new ExploreLink(
-                  holdersQuery.data?.project.drop?.collection.blockchain as Blockchain
-                );
+
                 options.push(
                   <Link
-                    href={exploreLink.getAccountLink(address) as string}
+                    href={exploreLink as string}
                     target="_blank"
                     key="explorer"
                     className="flex gap-2 items-center"
