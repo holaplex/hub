@@ -10,4 +10,7 @@ environment:
   kafkaBrokers: 'hub-eventbus-cluster-0.hub-eventbus-cluster.default.svc.cluster.local:9093'
   kafkaSsl: false
   kafkaUsername: admin
-  fireblocksSupportedAssetIds: SOL_TEST
+  fireblocksSupportedAssetIds: "SOL,MATIC"
+  fireblocksTestMode: "true"
+  fireblocksTreasuryVaultId: "6"
+  fireblocksWhitelistedContractWalletId: "3b2af19a-d5d7-47c7-9372-9e8e20cb8462"

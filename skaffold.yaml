@@ -83,6 +83,11 @@ deploy:
         remoteChart: postgresql
         valuesFiles:
           - .helm/values.nfts.postgresql.yaml
+      - name: hub-nfts-solana-db
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: postgresql
+        valuesFiles:
+          - .helm/values.nfts-solana.postgresql.yaml
       - name: hydra-db
         repo: https://charts.bitnami.com/bitnami
         remoteChart: postgresql
@@ -152,9 +157,13 @@ deploy:
         valuesFiles:
           - .helm/values.webhooks.yaml
           - .helm/secrets.webhooks.yaml
+      - name: hub-nfts-solana
+        remoteChart: hub-nfts-solana
+        repo: https://charts.holaplex.com
+        valuesFiles:
+          - .helm/values.nfts-solana.yaml
+          - .helm/secrets.nfts-solana.yaml
       - name: hub-nfts
-        # TODO: Remove version
-        # version: 0.5.0
         remoteChart: hub-nfts
         repo: https://charts.holaplex.com
         valuesFiles:
@@ -179,8 +188,6 @@ deploy:
           - .helm/values.router.yaml
           - .helm/secrets.router.yaml
       - name: hub-treasuries
-        # TODO: Remove version
-        # version: 0.4.0
         remoteChart: hub-treasuries
         repo: https://charts.holaplex.com
         valuesFiles:
