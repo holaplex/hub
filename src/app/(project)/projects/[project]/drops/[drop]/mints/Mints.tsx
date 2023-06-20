@@ -11,6 +11,7 @@ import { formatDateString, DateFormat } from '../../../../../../../modules/time'
 import { Blockchain, Project, Purchase } from '../../../../../../../graphql.types';
 import { GetCollectionPurchases } from './../../../../../../../queries/purchase.graphql';
 import { ExploreLink } from '../../../../../../../modules/exploreLink';
+import { useMemo } from 'react';
 
 interface MintsProps {
   loading?: boolean;
@@ -38,6 +39,17 @@ export default function Mints({ loading, project, drop }: MintsProps) {
   const purchases = purchasesQuery.data?.project.drop?.collection.purchases || [];
   const blockchain = purchasesQuery.data?.project.drop?.collection.blockchain;
   const noPurchases = purchases.length === 0;
+
+  let blockchainIcon = useMemo(() => {
+    switch (blockchain) {
+      case Blockchain.Solana:
+        return <Icon.Crypto.Sol />;
+      case Blockchain.Polygon:
+        return <Icon.Crypto.Polygon />;
+      default:
+        return <></>;
+    }
+  }, [blockchain]);
 
   return (
     <div className="flex flex-col">
@@ -129,7 +141,7 @@ export default function Mints({ loading, project, drop }: MintsProps) {
               cell: (info) => {
                 return (
                   <div className="flex gap-2">
-                    <Icon.Crypto.Sol />
+                    {blockchainIcon}
                     <span className="text-xs text-white font-medium">{info.getValue()}</span>
                   </div>
                 );

@@ -163,6 +163,10 @@ export default function CustomersPage() {
                                 case AssetType.SolTest:
                                 case AssetType.Sol:
                                   icon = <Icon.Crypto.Sol />;
+                                  break;
+                                case AssetType.Matic:
+                                case AssetType.MaticTest:
+                                  icon = <Icon.Crypto.Polygon />;
                               }
 
                               return (

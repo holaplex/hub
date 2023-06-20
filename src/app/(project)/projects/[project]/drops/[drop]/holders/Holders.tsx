@@ -10,6 +10,7 @@ import { GetCollectionHolders } from './../../../../../../../queries/holder.grap
 import { useQuery } from '@apollo/client';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { ExploreLink } from '../../../../../../../modules/exploreLink';
+import { useMemo } from 'react';
 
 interface HoldersProps {
   project: string;
@@ -39,6 +40,18 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
 
   const holders = holdersQuery.data?.project.drop?.collection.holders || [];
   const noHolders = holders.length === 0;
+  const blockchain = holdersQuery.data?.project.drop?.collection.blockchain;
+
+  let blockchainIcon = useMemo(() => {
+    switch (blockchain) {
+      case Blockchain.Solana:
+        return <Icon.Crypto.Sol />;
+      case Blockchain.Polygon:
+        return <Icon.Crypto.Polygon />;
+      default:
+        return <></>;
+    }
+  }, [blockchain]);
 
   return (
     <div className="flex flex-col">
@@ -95,7 +108,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
                 const address = info.getValue();
                 return (
                   <div className="flex gap-2">
-                    <Icon.Crypto.Sol />
+                    {blockchainIcon}
                     <span className="text-xs text-white font-medium">{address}</span>
                   </div>
                 );
