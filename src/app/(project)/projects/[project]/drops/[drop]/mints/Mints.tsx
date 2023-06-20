@@ -10,6 +10,7 @@ import Typography, { Size } from '../../../../../../../components/Typography';
 import { formatDateString, DateFormat } from '../../../../../../../modules/time';
 import { Blockchain, Project, Purchase } from '../../../../../../../graphql.types';
 import { GetCollectionPurchases } from './../../../../../../../queries/purchase.graphql';
+import { ExploreLink } from '../../../../../../../modules/exploreLink';
 
 interface MintsProps {
   loading?: boolean;
@@ -165,33 +166,19 @@ export default function Mints({ loading, project, drop }: MintsProps) {
               cell: (info) => {
                 const txId = info.row.original.txSignature;
                 const options = [];
+                const exploreLink = new ExploreLink(blockchain as Blockchain);
+
                 if (txId) {
-                  switch (blockchain) {
-                    case Blockchain.Solana:
-                      options.push(
-                        <Link
-                          href={`https://solscan.io/tx/${txId}`}
-                          target="_blank"
-                          key="solana"
-                          className="flex gap-2 items-center"
-                        >
-                          <Icon.ExternalLink /> <span>View on SolScan</span>
-                        </Link>
-                      );
-                      break;
-                    case Blockchain.Polygon:
-                      options.push(
-                        <Link
-                          href={`https://polygonscan.com/tx/${txId}`}
-                          target="_blank"
-                          key="polygon"
-                          className="flex gap-2 items-center"
-                        >
-                          <Icon.ExternalLink /> <span>View on Polygonscan</span>
-                        </Link>
-                      );
-                      break;
-                  }
+                  options.push(
+                    <Link
+                      href={exploreLink.getTxLink(txId) as string}
+                      target="_blank"
+                      key="explorer"
+                      className="flex gap-2 items-center"
+                    >
+                      <Icon.ExternalLink /> <span>View on explorer</span>
+                    </Link>
+                  );
                 }
                 return (
                   <PopoverBox

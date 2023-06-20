@@ -276,23 +276,31 @@ export default function EditDropRoyaltiesPage() {
             <>
               {fields.map((field, index) => (
                 <div className="flex gap-6" key={field.id}>
-                  <Form.Label name="Wallet" className="text-xs mt-5 basis-3/4">
-                    <Form.Input
-                      {...register(`creators.${index}.address`, {
-                        required: 'Wallet address required',
-                      })}
-                      placeholder="Paste royalty wallet address"
+                  <div className="mt-5 basis-3/4 self-baseline">
+                    <Form.Label name="Wallet" className="text-xs">
+                      <Form.Input
+                        {...register(`creators.${index}.address`, {
+                          required: 'Please enter a wallet address',
+                        })}
+                        placeholder="Paste royalty wallet address"
+                      />
+                    </Form.Label>
+                    <Form.Error
+                      message={
+                        formState.errors.creators
+                          ? formState.errors.creators[index]?.address?.message
+                          : ''
+                      }
                     />
-                  </Form.Label>
+                  </div>
 
-                  <Form.Label name="Royalties" className="text-xs mt-5 basis-1/4">
+                  <Form.Label name="Royalties" className="text-xs mt-5 basis-1/4 self-baseline">
                     <Form.Input
                       {...register(`creators.${index}.share`)}
                       type="number"
                       placeholder="e.g. 10%"
                     />
                   </Form.Label>
-
                   {creators.length > 1 && (
                     <div
                       className="rounded-md bg-stone-900 hover:bg-stone-800 p-3 self-end cursor-pointer"
@@ -303,13 +311,15 @@ export default function EditDropRoyaltiesPage() {
                   )}
                 </div>
               ))}
-              <Button
-                className="mt-4 self-start"
-                variant="secondary"
-                onClick={() => append({ address: '', share: Number() })}
-              >
-                Add wallet
-              </Button>
+              {detail?.blockchain !== Blockchain.Polygon && (
+                <Button
+                  className="mt-4 self-start"
+                  variant="secondary"
+                  onClick={() => append({ address: '', share: Number() })}
+                >
+                  Add wallet
+                </Button>
+              )}
               <Form.Error message={formState.errors.creators?.root?.message} />
             </>
           )}

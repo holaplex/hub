@@ -9,6 +9,7 @@ import { Holder, Project, Blockchain } from '../../../../../../../graphql.types'
 import { GetCollectionHolders } from './../../../../../../../queries/holder.graphql';
 import { useQuery } from '@apollo/client';
 import Typography, { Size } from '../../../../../../../components/Typography';
+import { ExploreLink } from '../../../../../../../modules/exploreLink';
 
 interface HoldersProps {
   project: string;
@@ -124,33 +125,19 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
               cell: (info) => {
                 const address = info.row.original.address;
                 const options = [];
-
-                switch (holdersQuery.data?.project.drop?.collection.blockchain) {
-                  case Blockchain.Solana:
-                    options.push(
-                      <Link
-                        href={`https://solscan.io/account/${address}`}
-                        target="_blank"
-                        key="solana"
-                        className="flex gap-2 items-center"
-                      >
-                        <Icon.ExternalLink /> <span>View on SolScan</span>
-                      </Link>
-                    );
-                    break;
-                  case Blockchain.Polygon:
-                    options.push(
-                      <Link
-                        href={`https://polygonscan.com/address/${address}`}
-                        target="_blank"
-                        key="polygon"
-                        className="flex gap-2 items-center"
-                      >
-                        <Icon.ExternalLink /> <span>View on Polygonscan</span>
-                      </Link>
-                    );
-                    break;
-                }
+                const exploreLink = new ExploreLink(
+                  holdersQuery.data?.project.drop?.collection.blockchain as Blockchain
+                );
+                options.push(
+                  <Link
+                    href={exploreLink.getAccountLink(address) as string}
+                    target="_blank"
+                    key="explorer"
+                    className="flex gap-2 items-center"
+                  >
+                    <Icon.ExternalLink /> <span>View on explorer</span>
+                  </Link>
+                );
 
                 return (
                   <PopoverBox
