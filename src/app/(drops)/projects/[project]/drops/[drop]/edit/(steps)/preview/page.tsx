@@ -321,7 +321,7 @@ export default function EditDropPreviewPage() {
               disabled={submitting || cost > creditBalance}
               onClick={onSubmit}
             >
-              {startDateTime ? 'Schedule drop' : 'Create drop'}
+              Update drop
             </Button>
           </div>
         </div>
