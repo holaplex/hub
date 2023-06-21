@@ -232,7 +232,7 @@ function Alert({ width = 20, height = 20, className = '' }: IconProps) {
 }
 Icon.Alert = Alert;
 
-function EthLarge({ width = 28, height = 42, fill = '#AAAAAA', className = '' }: IconProps) {
+function PolygonLarge({ width = 28, height = 42, fill = '#AAAAAA', className = '' }: IconProps) {
   return (
     <svg
       width={width}
@@ -255,7 +255,7 @@ function EthLarge({ width = 28, height = 42, fill = '#AAAAAA', className = '' }:
     </svg>
   );
 }
-LargeIcon.Eth = EthLarge;
+LargeIcon.PolygonLarge = PolygonLarge;
 
 function SolanaLarge({ width = 38, height = 38, fill = '#AAAAAA', className = '' }: IconProps) {
   return (
