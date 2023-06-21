@@ -58,7 +58,7 @@ export default function TreasuryWallets({ children, project }: TreasuryLayoutPro
             <div className="h-full flex-1 flex flex-col items-center justify-center">
               <Icon.Large.Treasury />
               <span className="mt-2 text-gray-400 text-sm">Click button below to add wallet</span>
-              <Link href={`/projects/${project}/treasuries/new`} className="mt-8">
+              <Link href={`/projects/${project}/treasury/new`} className="mt-8">
                 <Button icon={<Icon.AddWallet />}>Add wallet</Button>
               </Link>
             </div>
