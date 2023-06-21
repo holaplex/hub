@@ -12,6 +12,7 @@ extend type CollectionCreator {
 
 extend type Holder {
   shortAddress: String!
+  exploreLink: String
 }
 
 extend type CollectionMint {
@@ -22,4 +23,5 @@ extend type CollectionMint {
 extend type Purchase {
   shortWallet: String!
   shortTx: String!
+  transactionLink: String
 }
