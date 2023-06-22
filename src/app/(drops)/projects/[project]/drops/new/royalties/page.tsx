@@ -168,9 +168,25 @@ export default function NewDropRoyaltiesPage() {
         <Typography.Header size={Size.H2}>Supply</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
           <div className="flex flex-col gap-2">
-            <Form.Label name="Specify how many editions will be available" className="text-xs mt-5">
-              <Form.Input {...register('supply')} autoFocus placeholder="e.g. 10,000" />
-            </Form.Label>
+            <div className="mt-5">
+              <Form.Label name="Specify how many editions will be available" className="text-xs">
+                <Form.Input
+                  {...register('supply', {
+                    validate: (value) => {
+                      if (
+                        detail?.blockchain === Blockchain.Polygon &&
+                        value.replaceAll(',', '').length === 0
+                      ) {
+                        return 'Supply cannot be empty.';
+                      }
+                    },
+                  })}
+                  autoFocus
+                  placeholder="e.g. 10,000"
+                />
+              </Form.Label>
+              <Form.Error message={formState.errors.supply?.message} />
+            </div>
             {creditBalance && expectedCreditCost && (
               <div className="flex items-center gap-4 rounded-lg bg-stone-950 p-4">
                 <div className="flex items-center gap-2 shrink">
