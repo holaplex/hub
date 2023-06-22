@@ -10,16 +10,9 @@ import { Blockchain } from '../../../../../../../graphql.types';
 import { useProject } from '../../../../../../../hooks/useProject';
 import clsx from 'clsx';
 import { StoreApi, useStore } from 'zustand';
-import { DropFormState, DetailSettings } from '../../../../../../../providers/DropFormProvider';
+import { DropFormState, DetailSettings, blockchainOptions } from '../../../../../../../providers/DropFormProvider';
 import { useDropForm } from '../../../../../../../hooks/useDropForm';
 
-const BLOCKCHAIN_LABELS = {
-  [Blockchain.Solana]: 'Solana',
-  [Blockchain.Ethereum]: 'Ethereum',
-  [Blockchain.Polygon]: 'Polygon',
-};
-
-const BLOCKCHAIN_OPTIONS = [Blockchain.Solana, Blockchain.Polygon];
 
 export default function NewDropDetailsPage() {
   const router = useRouter();
@@ -31,7 +24,10 @@ export default function NewDropDetailsPage() {
   const { handleSubmit, register, control, setValue, formState, watch, setError, clearErrors } =
     useForm<DetailSettings>({
       defaultValues: detail || {
-        blockchain: Blockchain.Solana,
+        blockchain: {
+          id: Blockchain.Solana,
+          name: 'Solana',
+        },
       },
     });
 
@@ -137,7 +133,7 @@ export default function NewDropDetailsPage() {
                   {...register('name', {
                     required: 'Please enter a name.',
                     validate: (value, { blockchain }) => {
-                      if (blockchain === Blockchain.Solana && value.length > 32) {
+                      if (blockchain.id === Blockchain.Solana && value.length > 32) {
                         return 'Name length exceeded the limit of 32.';
                       }
                     },
@@ -154,7 +150,7 @@ export default function NewDropDetailsPage() {
                   {...register('symbol', {
                     required: 'Symbol required.',
                     validate: (value, { blockchain }) => {
-                      if (blockchain === Blockchain.Solana && value.length > 10) {
+                      if (blockchain.id === Blockchain.Solana && value.length > 10) {
                         return 'Symbol length exceeded the limit of 10.';
                       }
                     },
@@ -175,12 +171,12 @@ export default function NewDropDetailsPage() {
                   return (
                     <Form.Select value={value} onChange={onChange}>
                       <Form.Select.Button placeholder="Select blockchain">
-                        {BLOCKCHAIN_LABELS[value]}
+                        {value.name}
                       </Form.Select.Button>
                       <Form.Select.Options>
-                        {BLOCKCHAIN_OPTIONS.map((i) => (
-                          <Form.Select.Option value={i} key={i}>
-                            <>{BLOCKCHAIN_LABELS[i]}</>
+                        {blockchainOptions.map((i) => (
+                          <Form.Select.Option value={i} key={i.id}>
+                            <>{i.name}</>
                           </Form.Select.Option>
                         ))}
                       </Form.Select.Options>
@@ -194,16 +190,14 @@ export default function NewDropDetailsPage() {
           <Form.Label name="Description" className="text-xs mt-5">
             <Form.TextArea
               {...register('description')}
-              placeholder="Enter a description for the drop."
+              placeholder="Enter a description for the drop"
             />
-            <Form.Error message="" />
           </Form.Label>
           <Form.Label name="External URL" className="text-xs mt-5">
             <Form.Input
               {...register('externalUrl')}
-              placeholder="Set an external url for the drop."
+              placeholder="Set an external url for the drop"
             />
-            <Form.Error message="" />
           </Form.Label>
           <Form.Label name="Attribute" className="text-xs mt-5">
             {fields.map((field, index) => (

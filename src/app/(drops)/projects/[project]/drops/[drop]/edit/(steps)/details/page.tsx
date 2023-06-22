@@ -14,15 +14,10 @@ import { StoreApi, useStore } from 'zustand';
 import {
   DetailSettings,
   DropFormState,
+  blockchainOptions,
 } from '../../../../../../../../../providers/DropFormProvider';
 
 interface EditDropDetailsPageProps {}
-
-const BLOCKCHAIN_LABELS = {
-  [Blockchain.Solana]: 'Solana',
-  [Blockchain.Ethereum]: 'Ethereum',
-  [Blockchain.Polygon]: 'Polygon',
-};
 
 export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
   const router = useRouter();
@@ -47,8 +42,6 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
     control,
     name: 'attributes',
   });
-
-  const BLOCKCHAIN_OPTIONS = [Blockchain.Solana, Blockchain.Polygon];
 
   return (
     <>
@@ -140,7 +133,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
                   {...register('name', {
                     required: 'Please enter a name.',
                     validate: (value, { blockchain }) => {
-                      if (blockchain === Blockchain.Solana && value.length > 32) {
+                      if (blockchain.id === Blockchain.Solana && value.length > 32) {
                         return 'Name length exceeded the limit of 32.';
                       }
                     },
@@ -157,7 +150,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
                   {...register('symbol', {
                     required: 'Symbol required.',
                     validate: (value, { blockchain }) => {
-                      if (blockchain === Blockchain.Solana && value.length > 10) {
+                      if (blockchain.id === Blockchain.Solana && value.length > 10) {
                         return 'Symbol length exceeded the limit of 10.';
                       }
                     },
@@ -168,45 +161,21 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
               <Form.Error message={formState.errors.symbol?.message} />
             </div>
           </div>
-          <div className="mt-5">
-            <Form.Label name="Blockchain" className="text-xs">
-              <Controller
-                name="blockchain"
-                control={control}
-                rules={{ required: 'Please select a blockchain.' }}
-                render={({ field: { value, onChange } }) => {
-                  return (
-                    <Form.Select value={value} onChange={onChange}>
-                      <Form.Select.Button placeholder="Select blockchain">
-                        {BLOCKCHAIN_LABELS[value]}
-                      </Form.Select.Button>
-                      <Form.Select.Options>
-                        {BLOCKCHAIN_OPTIONS.map((i) => (
-                          <Form.Select.Option value={i} key={i}>
-                            <>{BLOCKCHAIN_LABELS[i]}</>
-                          </Form.Select.Option>
-                        ))}
-                      </Form.Select.Options>
-                    </Form.Select>
-                  );
-                }}
-              />
-            </Form.Label>
-            <Form.Error message={formState.errors.blockchain?.message} />
+          <div className="mt-5 flex flex-col gap-1">
+            <span className="form-label-text text-xs">Blockchain</span>
+            <span>{detail?.blockchain.name}</span>
           </div>
           <Form.Label name="Description" className="text-xs mt-5">
             <Form.TextArea
               {...register('description')}
               placeholder="Enter a description for the drop."
             />
-            <Form.Error message="" />
           </Form.Label>
           <Form.Label name="External URL" className="text-xs mt-5">
             <Form.Input
               {...register('externalUrl')}
               placeholder="Set an external url for the drop."
             />
-            <Form.Error message="" />
           </Form.Label>
           <Form.Label name="Attribute" className="text-xs mt-5">
             {fields.map((field, index) => (

@@ -65,13 +65,13 @@ export default function NewDropRoyaltiesPage() {
   const creditSheet = creditSheetQuery.data?.creditSheet;
 
   const wallet = project?.treasury?.wallets?.find((wallet) => {
-    switch (detail?.blockchain) {
+    switch (detail?.blockchain.id) {
       case Blockchain.Solana:
-        return wallet.assetId === AssetType.SolTest || wallet.assetId === AssetType.Sol;
+        return wallet.assetId === AssetType.Sol;
       case Blockchain.Polygon:
-        return wallet.assetId === AssetType.MaticTest || wallet.assetId === AssetType.Matic;
+        return wallet.assetId === AssetType.Matic;
       case Blockchain.Ethereum:
-        return wallet.assetId === AssetType.EthTest || wallet.assetId === AssetType.Eth;
+        return wallet.assetId === AssetType.Eth;
     }
   });
 
@@ -91,9 +91,9 @@ export default function NewDropRoyaltiesPage() {
   const expectedCreditCost = useMemo(() => {
     const creditLookup = new CreditLookup(creditSheet || []);
     const createDropCredits =
-      creditLookup.cost(Action.MintEdition, detail?.blockchain as Blockchain) || 0;
+      creditLookup.cost(Action.MintEdition, detail?.blockchain.id as Blockchain) || 0;
     const createWalletCredits =
-      creditLookup.cost(Action.CreateWallet, detail?.blockchain as Blockchain) || 0;
+      creditLookup.cost(Action.CreateWallet, detail?.blockchain.id as Blockchain) || 0;
 
     if (!supply) {
       return undefined;
@@ -138,7 +138,7 @@ export default function NewDropRoyaltiesPage() {
     rules: {
       required: true,
       validate: (creators) => {
-        switch (detail?.blockchain) {
+        switch (detail?.blockchain.id) {
           case Blockchain.Solana:
             if (creators.length > 5) {
               return 'Can only set up to 5 creators.';
@@ -174,7 +174,7 @@ export default function NewDropRoyaltiesPage() {
                   {...register('supply', {
                     validate: (value) => {
                       if (
-                        detail?.blockchain === Blockchain.Polygon &&
+                        detail?.blockchain.id === Blockchain.Polygon &&
                         value.replaceAll(',', '').length === 0
                       ) {
                         return 'Supply cannot be empty.';
@@ -367,7 +367,7 @@ export default function NewDropRoyaltiesPage() {
                   )}
                 </div>
               ))}
-              {detail?.blockchain !== Blockchain.Polygon && (
+              {detail?.blockchain.id === Blockchain.Solana && (
                 <Button
                   className="mt-4 self-start"
                   variant="secondary"

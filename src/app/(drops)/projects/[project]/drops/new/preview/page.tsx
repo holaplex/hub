@@ -78,13 +78,13 @@ export default function NewDropPreviewPage() {
 
   const cost = creditSheet
     ?.find((cost) => cost.action === Action.CreateDrop)
-    ?.blockchains?.find((blockchain) => blockchain.blockchain === detail?.blockchain)
+    ?.blockchains?.find((blockchain) => blockchain.blockchain === detail?.blockchain.id)
     ?.credits as number;
 
   const createDropCredits = creditSheet
     ?.find((actionCost: ActionCost) => actionCost.action === Action.CreateDrop)
     ?.blockchains.find(
-      (blockchainCost: BlockchainCost) => blockchainCost.blockchain === detail?.blockchain
+      (blockchainCost: BlockchainCost) => blockchainCost.blockchain === detail?.blockchain.id
     )?.credits;
 
   const back = () => {
@@ -136,7 +136,7 @@ export default function NewDropPreviewPage() {
       variables: {
         input: {
           project: project?.id,
-          blockchain: detail.blockchain,
+          blockchain: detail.blockchain.id,
           metadataJson: {
             name: detail.name,
             symbol: detail.symbol,
@@ -269,7 +269,7 @@ export default function NewDropPreviewPage() {
             )}
             <div className="flex items-center justify-between gap-2">
               <span>Blockchain</span>
-              <span>{detail.blockchain}</span>
+              <span>{detail.blockchain.name}</span>
             </div>
           </div>
 

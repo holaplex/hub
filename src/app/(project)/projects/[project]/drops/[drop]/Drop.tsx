@@ -57,11 +57,11 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
   const wallet = dropQuery.data?.project.treasury?.wallets?.find((wallet) => {
     switch (dropQuery.data?.project?.drop?.collection.blockchain) {
       case Blockchain.Solana:
-        return wallet.assetId === AssetType.SolTest || wallet.assetId === AssetType.Sol;
+        return wallet.assetId === AssetType.Sol;
       case Blockchain.Polygon:
-        return wallet.assetId === AssetType.MaticTest || wallet.assetId === AssetType.Matic;
+        return wallet.assetId === AssetType.Matic;
       case Blockchain.Ethereum:
-        return wallet.assetId === AssetType.EthTest || wallet.assetId === AssetType.Eth;
+        return wallet.assetId === AssetType.Eth;
     }
   });
   const startTime = dropData?.startTime || dropData?.createdAt;

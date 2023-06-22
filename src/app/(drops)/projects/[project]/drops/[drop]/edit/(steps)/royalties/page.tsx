@@ -29,7 +29,6 @@ import {
   GetCreditSheet,
   GetOrganizationCreditBalance,
 } from '../../../../../../../../../queries/credits.graphql';
-import clsx from 'clsx';
 
 interface GetOrganizationBalanceVars {
   organization: string;
@@ -51,27 +50,14 @@ export default function EditDropRoyaltiesPage() {
   const payment = useStore(store, (store) => store.payment);
   const setPayment = useStore(store, (store) => store.setPayment);
 
-  const { organization } = useOrganization();
-  const creditBalanceQuery = useQuery<GetOrganizationCreditBalanceData, GetOrganizationBalanceVars>(
-    GetOrganizationCreditBalance,
-    {
-      variables: { organization: organization?.id },
-    }
-  );
-  const creditBalance = creditBalanceQuery.data?.organization.credits?.balance;
-
-  const creditSheetQuery = useQuery<GetCreditSheetData>(GetCreditSheet);
-
-  const creditSheet = creditSheetQuery.data?.creditSheet;
-
   const wallet = project?.treasury?.wallets?.find((wallet) => {
-    switch (detail?.blockchain) {
+    switch (detail?.blockchain.id) {
       case Blockchain.Solana:
-        return wallet.assetId === AssetType.SolTest || wallet.assetId === AssetType.Sol;
+        return wallet.assetId === AssetType.Sol;
       case Blockchain.Polygon:
-        return wallet.assetId === AssetType.MaticTest || wallet.assetId === AssetType.Matic;
+        return wallet.assetId === AssetType.Matic;
       case Blockchain.Ethereum:
-        return wallet.assetId === AssetType.EthTest || wallet.assetId === AssetType.Eth;
+        return wallet.assetId === AssetType.Eth;
     }
   });
 
@@ -86,11 +72,6 @@ export default function EditDropRoyaltiesPage() {
   const creators = watch('creators');
   const supply = parseInt(watch('supply').replaceAll(',', ''));
 
-  const createDropCredits = creditSheet
-    ?.find((actionCost: ActionCost) => actionCost.action === Action.CreateDrop)
-    ?.blockchains.find(
-      (blockchainCost: BlockchainCost) => blockchainCost.blockchain === detail?.blockchain
-    )?.credits;
 
   const submit = (data: PaymentSettings) => {
     if (data.royaltiesDestination === RoyaltiesDestination.ProjectTreasury) {
@@ -128,7 +109,7 @@ export default function EditDropRoyaltiesPage() {
     rules: {
       required: true,
       validate: (creators) => {
-        switch (detail?.blockchain) {
+        switch (detail?.blockchain.id) {
           case Blockchain.Solana:
             if (creators.length > 5) {
               return 'Can only set up to 5 creators.';
@@ -311,7 +292,7 @@ export default function EditDropRoyaltiesPage() {
                   )}
                 </div>
               ))}
-              {detail?.blockchain !== Blockchain.Polygon && (
+              {detail?.blockchain.id === Blockchain.Solana && (
                 <Button
                   className="mt-4 self-start"
                   variant="secondary"

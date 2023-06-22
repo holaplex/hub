@@ -160,12 +160,10 @@ export default function CustomersPage() {
                               let icon: React.ReactNode;
 
                               switch (wallet.assetId) {
-                                case AssetType.SolTest:
                                 case AssetType.Sol:
                                   icon = <Icon.Crypto.Sol />;
                                   break;
                                 case AssetType.Matic:
-                                case AssetType.MaticTest:
                                   icon = <Icon.Crypto.Polygon />;
                               }
 
