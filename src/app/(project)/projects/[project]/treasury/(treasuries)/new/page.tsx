@@ -10,7 +10,7 @@ export default function MemberDeletePage() {
   const { project } = useProject();
 
   const onClose = () => {
-    router.push(`/projects/${project?.id}/treasuries`);
+    router.push(`/projects/${project?.id}/treasury`);
   };
 
   return (

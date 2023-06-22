@@ -10,6 +10,7 @@ import Typography, { Size } from '../../../../../../../components/Typography';
 import { formatDateString, DateFormat } from '../../../../../../../modules/time';
 import { Blockchain, Project, Purchase } from '../../../../../../../graphql.types';
 import { GetCollectionPurchases } from './../../../../../../../queries/purchase.graphql';
+import { useMemo } from 'react';
 
 interface MintsProps {
   loading?: boolean;
@@ -37,6 +38,17 @@ export default function Mints({ loading, project, drop }: MintsProps) {
   const purchases = purchasesQuery.data?.project.drop?.collection.purchases || [];
   const blockchain = purchasesQuery.data?.project.drop?.collection.blockchain;
   const noPurchases = purchases.length === 0;
+
+  let blockchainIcon = useMemo(() => {
+    switch (blockchain) {
+      case Blockchain.Solana:
+        return <Icon.Crypto.Sol />;
+      case Blockchain.Polygon:
+        return <Icon.Crypto.Polygon />;
+      default:
+        return <></>;
+    }
+  }, [blockchain]);
 
   return (
     <div className="flex flex-col">
@@ -128,7 +140,7 @@ export default function Mints({ loading, project, drop }: MintsProps) {
               cell: (info) => {
                 return (
                   <div className="flex gap-2">
-                    <Icon.Crypto.Sol />
+                    {blockchainIcon}
                     <span className="text-xs text-white font-medium">{info.getValue()}</span>
                   </div>
                 );
@@ -163,20 +175,21 @@ export default function Mints({ loading, project, drop }: MintsProps) {
               id: 'moreOptions',
               header: () => <></>,
               cell: (info) => {
-                const txId = info.row.original.txSignature;
+                const transactionLink = info.row.original.transactionLink;
                 const options = [];
-                txId &&
-                  blockchain === Blockchain.Solana &&
+
+                if (transactionLink) {
                   options.push(
                     <Link
-                      href={`https://solscan.io/tx/${txId}`}
+                      href={transactionLink as string}
                       target="_blank"
-                      key="change_email"
+                      key="explorer"
                       className="flex gap-2 items-center"
                     >
-                      <Icon.ExternalLink /> <span>View on SolScan</span>
+                      <Icon.ExternalLink /> <span>View on explorer</span>
                     </Link>
                   );
+                }
                 return (
                   <PopoverBox
                     triggerButton={

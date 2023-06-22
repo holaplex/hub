@@ -123,7 +123,11 @@ export type BlockchainCost = {
 
 export type Collection = {
   __typename?: 'Collection';
-  /** The blockchain address of the collection used to view it in blockchain explorers. */
+  /**
+   * The blockchain address of the collection used to view it in blockchain explorers.
+   * On Solana this is the mint address.
+   * On EVM chains it is the concatenation of the contract address and the token id `{contractAddress}:{tokenId}`.
+   */
   address?: Maybe<Scalars['String']>;
   /** The blockchain of the collection. */
   blockchain: Blockchain;
@@ -182,8 +186,12 @@ export type CollectionCreatorInput = {
 /** Represents a single NFT minted from a collection. */
 export type CollectionMint = {
   __typename?: 'CollectionMint';
-  /** The wallet address of the NFT. */
-  address: Scalars['String'];
+  /**
+   * The address of the NFT
+   * On Solana this is the mint address.
+   * On EVM chains it is the concatenation of the contract address and the token id `{contractAddress}:{tokenId}`.
+   */
+  address?: Maybe<Scalars['String']>;
   /** The collection the NFT was minted from. */
   collection?: Maybe<Collection>;
   /** The ID of the collection the NFT was minted from. */
@@ -575,8 +583,9 @@ export type Holder = {
   address: Scalars['String'];
   /** The collection ID that the holder owns. */
   collectionId: Scalars['UUID'];
+  exploreLink?: Maybe<Scalars['String']>;
   /** The specific mints from the collection that the holder owns. */
-  mints: Array<Scalars['String']>;
+  mints: Array<Scalars['UUID']>;
   /** The number of NFTs that the holder owns in the collection. */
   owns: Scalars['Int'];
   shortAddress: Scalars['String'];
@@ -1240,6 +1249,7 @@ export type Purchase = {
   spent: Scalars['Int'];
   /** The status of the creation of the NFT. */
   status: CreationStatus;
+  transactionLink?: Maybe<Scalars['String']>;
   /** The signature of the transaction, if any. */
   txSignature?: Maybe<Scalars['String']>;
   /** The wallet address of the buyer. */

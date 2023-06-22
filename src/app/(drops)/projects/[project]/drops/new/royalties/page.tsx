@@ -65,13 +65,13 @@ export default function NewDropRoyaltiesPage() {
   const creditSheet = creditSheetQuery.data?.creditSheet;
 
   const wallet = project?.treasury?.wallets?.find((wallet) => {
-    switch (detail?.blockchain) {
+    switch (detail?.blockchain.id) {
       case Blockchain.Solana:
-        return wallet.assetId === AssetType.SolTest || wallet.assetId === AssetType.Sol;
+        return wallet.assetId === AssetType.Sol;
       case Blockchain.Polygon:
-        return wallet.assetId === AssetType.MaticTest || wallet.assetId === AssetType.Matic;
+        return wallet.assetId === AssetType.Matic;
       case Blockchain.Ethereum:
-        return wallet.assetId === AssetType.EthTest || wallet.assetId === AssetType.Eth;
+        return wallet.assetId === AssetType.Eth;
     }
   });
 
@@ -91,9 +91,9 @@ export default function NewDropRoyaltiesPage() {
   const expectedCreditCost = useMemo(() => {
     const creditLookup = new CreditLookup(creditSheet || []);
     const createDropCredits =
-      creditLookup.cost(Action.MintEdition, detail?.blockchain as Blockchain) || 0;
+      creditLookup.cost(Action.MintEdition, detail?.blockchain.id as Blockchain) || 0;
     const createWalletCredits =
-      creditLookup.cost(Action.CreateWallet, detail?.blockchain as Blockchain) || 0;
+      creditLookup.cost(Action.CreateWallet, detail?.blockchain.id as Blockchain) || 0;
 
     if (!supply) {
       return undefined;
@@ -138,7 +138,7 @@ export default function NewDropRoyaltiesPage() {
     rules: {
       required: true,
       validate: (creators) => {
-        switch (detail?.blockchain) {
+        switch (detail?.blockchain.id) {
           case Blockchain.Solana:
             if (creators.length > 5) {
               return 'Can only set up to 5 creators.';
@@ -168,9 +168,25 @@ export default function NewDropRoyaltiesPage() {
         <Typography.Header size={Size.H2}>Supply</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
           <div className="flex flex-col gap-2">
-            <Form.Label name="Specify how many editions will be available" className="text-xs mt-5">
-              <Form.Input {...register('supply')} autoFocus placeholder="e.g. 10,000" />
-            </Form.Label>
+            <div className="mt-5">
+              <Form.Label name="Specify how many editions will be available" className="text-xs">
+                <Form.Input
+                  {...register('supply', {
+                    validate: (value) => {
+                      if (
+                        detail?.blockchain.id === Blockchain.Polygon &&
+                        value.replaceAll(',', '').length === 0
+                      ) {
+                        return 'Supply cannot be empty.';
+                      }
+                    },
+                  })}
+                  autoFocus
+                  placeholder="e.g. 10,000"
+                />
+              </Form.Label>
+              <Form.Error message={formState.errors.supply?.message} />
+            </div>
             {creditBalance && expectedCreditCost && (
               <div className="flex items-center gap-4 rounded-lg bg-stone-950 p-4">
                 <div className="flex items-center gap-2 shrink">
@@ -316,14 +332,25 @@ export default function NewDropRoyaltiesPage() {
             <>
               {fields.map((field, index) => (
                 <div className="flex gap-6" key={field.id}>
-                  <Form.Label name="Wallet" className="text-xs mt-5 basis-3/4">
-                    <Form.Input
-                      {...register(`creators.${index}.address`)}
-                      placeholder="Paste royalty wallet address"
+                  <div className="mt-5 basis-3/4 self-baseline">
+                    <Form.Label name="Wallet" className="text-xs">
+                      <Form.Input
+                        {...register(`creators.${index}.address`, {
+                          required: 'Please enter a wallet address',
+                        })}
+                        placeholder="Paste royalty wallet address"
+                      />
+                    </Form.Label>
+                    <Form.Error
+                      message={
+                        formState.errors.creators
+                          ? formState.errors.creators[index]?.address?.message
+                          : ''
+                      }
                     />
-                  </Form.Label>
+                  </div>
 
-                  <Form.Label name="Royalties" className="text-xs mt-5 basis-1/4">
+                  <Form.Label name="Royalties" className="text-xs mt-5 basis-1/4 self-baseline">
                     <Form.Input
                       {...register(`creators.${index}.share`)}
                       type="number"
@@ -340,13 +367,15 @@ export default function NewDropRoyaltiesPage() {
                   )}
                 </div>
               ))}
-              <Button
-                className="mt-4 self-start"
-                variant="secondary"
-                onClick={() => append({ address: '', share: Number() })}
-              >
-                Add wallet
-              </Button>
+              {detail?.blockchain.id === Blockchain.Solana && (
+                <Button
+                  className="mt-4 self-start"
+                  variant="secondary"
+                  onClick={() => append({ address: '', share: Number() })}
+                >
+                  Add wallet
+                </Button>
+              )}
               <Form.Error message={formState.errors.creators?.root?.message} />
             </>
           )}

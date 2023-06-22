@@ -25,10 +25,6 @@ import { GetProjectDrops } from './../../../../../../../../../queries/drop.graph
 import { ifElse, isNil, always, isEmpty, when } from 'ramda';
 import { Attribute, DropFormState } from '../../../../../../../../../providers/DropFormProvider';
 import { useDropForm } from '../../../../../../../../../hooks/useDropForm';
-import {
-  GetCreditSheet,
-  GetOrganizationCreditBalance,
-} from '../../../../../../../../../queries/credits.graphql';
 import { uploadFile } from '../../../../../../../../../modules/upload';
 import Link from 'next/link';
 import clsx from 'clsx';
@@ -72,23 +68,6 @@ export default function EditDropPreviewPage() {
     refetchQueries: [{ query: GetProjectDrops, variables: { project: project?.id } }],
   });
 
-  const creditBalanceQuery = useQuery<GetOrganizationCreditBalanceData, GetOrganizationBalanceVars>(
-    GetOrganizationCreditBalance,
-    {
-      variables: { organization: project?.organization?.id },
-    }
-  );
-  const creditBalance = creditBalanceQuery.data?.organization.credits?.balance as number;
-
-  const creditSheetQuery = useQuery<GetCreditSheetData>(GetCreditSheet);
-
-  const creditSheet = creditSheetQuery.data?.creditSheet;
-
-  const cost = creditSheet
-    ?.find((cost) => cost.action === Action.CreateDrop)
-    ?.blockchains?.find((blockchain) => blockchain.blockchain === detail?.blockchain)
-    ?.credits as number;
-
   if (!detail || !payment || !timing) {
     toast('Incomplete drops data. Check again.');
     router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/details`);
@@ -114,14 +93,6 @@ export default function EditDropPreviewPage() {
       parseInt(endTimeMins)
     );
   }
-
-  const createDropCredits = creditSheet
-    ?.find((actionCost: ActionCost) => actionCost.action === Action.CreateDrop)
-    ?.blockchains.find(
-      (blockchainCost: BlockchainCost) => blockchainCost.blockchain === detail?.blockchain
-    )?.credits;
-
-  const supply = parseInt(payment.supply.replaceAll(',', ''));
 
   const onSubmit = async () => {
     setSubmitting(true);
@@ -270,40 +241,11 @@ export default function EditDropPreviewPage() {
             )}
             <div className="flex items-center justify-between gap-2">
               <span>Blockchain</span>
-              <span>{detail.blockchain}</span>
+              <span>{detail.blockchain.name}</span>
             </div>
           </div>
 
           <hr className="w-full bg-stone-800 my-4 h-px border-0" />
-
-          {payment.supply && creditBalance && createDropCredits && (
-            <div className="flex items-center gap-4 rounded-lg bg-stone-950 p-4">
-              <div className="text-gray-400 text-sm font-medium">
-                Based on estimated usage you will need about{' '}
-                <span className="text-white">{createDropCredits * supply}</span> credits to create
-                wallets and mint {payment.supply} NFTs. You currently have{' '}
-                <span
-                  className={clsx({
-                    'text-red-500': createDropCredits * supply > creditBalance,
-                    'text-green-400': createDropCredits * supply <= creditBalance,
-                  })}
-                >
-                  {creditBalance}
-                </span>{' '}
-                credits.
-              </div>
-
-              {createDropCredits * supply > creditBalance && (
-                <Link href="/credits/buy" className="flex-none">
-                  <Button>Buy credits</Button>
-                </Link>
-              )}
-            </div>
-          )}
-          <div className="flex items-center justify-between gap-4 rounded-lg bg-stone-950 p-4 mt-4">
-            <span className="text-gray-400 text-sm font-medium">Cost to create drop</span>
-            <span className="text-white text-sm font-medium">{cost} credits</span>
-          </div>
 
           {error && (
             <div className="text-sm font-medium text-red-500 bg-red-500/25 p-4 my-5 rounded-lg">
@@ -318,10 +260,10 @@ export default function EditDropPreviewPage() {
             <Button
               htmlType="submit"
               loading={submitting}
-              disabled={submitting || cost > creditBalance}
+              disabled={submitting}
               onClick={onSubmit}
             >
-              Update drop
+              {startDateTime ? 'Schedule drop' : 'Update drop'}
             </Button>
           </div>
         </div>

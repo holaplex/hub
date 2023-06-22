@@ -1,6 +1,7 @@
 import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { ReadFieldFunction } from '@apollo/client/cache/core/types/common';
 import typeDefs from './../local.graphql';
+import { Blockchain } from './graphql.types';
 import { shorten } from './modules/wallet';
 
 function asShortAddress(_: any, { readField }: { readField: ReadFieldFunction }): string {
@@ -35,6 +36,55 @@ function asRoyalties(_: any, { readField }: { readField: ReadFieldFunction }): s
   return `${(sellerFeeBasisPoints as number) / 100}%`;
 }
 
+function asExploreLink(
+  _: any,
+  {
+    readField,
+    cache,
+    toReference,
+  }: { readField: ReadFieldFunction; cache: InMemoryCache; toReference: any }
+): string | null {
+  const collectionRef = toReference(
+    cache.identify({ __typename: 'Collection', id: readField('blockchain') })
+  );
+  const blockchain = readField('blockchain', collectionRef);
+
+  const addressToken: string | undefined = readField('address');
+  const address = addressToken?.split(':')[0];
+  switch (blockchain) {
+    case Blockchain.Solana:
+      return `https://solscan.io/account/${address}`;
+    case Blockchain.Polygon:
+      return `https://polygonscan.com/address/${address}`;
+    default:
+      return null;
+  }
+}
+
+function astransactionLink(
+  _: any,
+  {
+    readField,
+    cache,
+    toReference,
+  }: { readField: ReadFieldFunction; cache: InMemoryCache; toReference: any }
+): string | null {
+  const collectionRef = toReference(
+    cache.identify({ __typename: 'Collection', id: readField('blockchain') })
+  );
+  const blockchain = readField('blockchain', collectionRef);
+
+  const tx: string | undefined = readField('txSignature');
+  switch (blockchain) {
+    case Blockchain.Solana:
+      return `https://solscan.io/tx/${tx}`;
+    case Blockchain.Polygon:
+      return `https://polygonscan.com/tx/${tx}`;
+    default:
+      return null;
+  }
+}
+
 export function apollo(uri: string, session?: string): ApolloClient<NormalizedCacheObject> {
   let headers: Record<string, string> = {};
 
@@ -67,12 +117,14 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
         Holder: {
           fields: {
             shortAddress: asShortAddress,
+            exploreLink: asExploreLink,
           },
         },
         Purchase: {
           fields: {
             shortWallet: asShortWallet,
             shortTx: asShortTx,
+            transactionLink: astransactionLink,
           },
         },
         CollectionMint: {
