@@ -81,7 +81,7 @@ export default function MintEdition({ project, drop }: MintEditionProps) {
       ],
       onCompleted: () => {
         router.back();
-      }
+      },
     }
   );
 
@@ -128,7 +128,7 @@ export default function MintEdition({ project, drop }: MintEditionProps) {
       },
       onCompleted: () => {
         toast.success('Edition minted successfully to the wallet.');
-        router.push(`/projects/${project}/drops/${drop}/mints`);
+        router.back();
       },
     });
   };
