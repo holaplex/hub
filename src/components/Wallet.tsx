@@ -25,7 +25,7 @@ function WalletCard({ wallet, className }: WalletCardProps) {
       break;
 
     case AssetType.Matic:
-      icon = <Icon.Large.PolygonLarge />;
+      icon = <Icon.Large.Polygon />;
       break;
   }
   return (
