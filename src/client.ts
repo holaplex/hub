@@ -1,7 +1,7 @@
-import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
-import { ReadFieldFunction } from '@apollo/client/cache/core/types/common';
+import { ApolloClient, InMemoryCache, NormalizedCacheObject, Reference } from '@apollo/client';
+import { ReadFieldFunction, ToReferenceFunction } from '@apollo/client/cache/core/types/common';
 import typeDefs from './../local.graphql';
-import { Blockchain } from './graphql.types';
+import { Blockchain, Collection } from './graphql.types';
 import { shorten } from './modules/wallet';
 
 function asShortAddress(_: any, { readField }: { readField: ReadFieldFunction }): string {
@@ -42,15 +42,21 @@ function asExploreLink(
     readField,
     cache,
     toReference,
-  }: { readField: ReadFieldFunction; cache: InMemoryCache; toReference: any }
+  }: { readField: ReadFieldFunction; cache: InMemoryCache; toReference: ToReferenceFunction }
 ): string | null {
-  const collectionRef = toReference(
-    cache.identify({ __typename: 'Collection', id: readField('blockchain') })
-  );
+  const collectionIdentifier = cache.identify({
+    __typename: 'Collection',
+    id: readField('collectionId'),
+  }) as string;
+  const collectionRef = toReference(collectionIdentifier);
   const blockchain = readField('blockchain', collectionRef);
 
-  const addressToken: string | undefined = readField('address');
-  const address = addressToken?.split(':')[0];
+  const address: string | undefined = readField('address');
+
+  if (!address) {
+    return null;
+  }
+
   switch (blockchain) {
     case Blockchain.Solana:
       return `https://solscan.io/account/${address}`;
@@ -61,20 +67,26 @@ function asExploreLink(
   }
 }
 
-function astransactionLink(
+function asTransactionLink(
   _: any,
   {
     readField,
     cache,
     toReference,
-  }: { readField: ReadFieldFunction; cache: InMemoryCache; toReference: any }
+  }: { readField: ReadFieldFunction; cache: InMemoryCache; toReference: ToReferenceFunction }
 ): string | null {
-  const collectionRef = toReference(
-    cache.identify({ __typename: 'Collection', id: readField('blockchain') })
+  const dropRef = toReference(
+    cache.identify({ __typename: 'Drop', id: readField('dropId') }) as string
   );
-  const blockchain = readField('blockchain', collectionRef);
+  const collectionRef = readField('collection', dropRef) as Reference;
+  const blockchain = readField('blockchain', collectionRef) 
 
   const tx: string | undefined = readField('txSignature');
+
+  if (!tx) {
+    return null;
+  }
+
   switch (blockchain) {
     case Blockchain.Solana:
       return `https://solscan.io/tx/${tx}`;
@@ -124,7 +136,7 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
           fields: {
             shortWallet: asShortWallet,
             shortTx: asShortTx,
-            transactionLink: astransactionLink,
+            transactionLink: asTransactionLink,
           },
         },
         CollectionMint: {
