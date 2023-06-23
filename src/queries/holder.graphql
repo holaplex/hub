@@ -11,6 +11,7 @@ query GetCollectionHolders($project: UUID!, $drop: UUID!) {
         holders {
           address
           owns
+          collectionId
           shortAddress @client
           exploreLink @client
         }
