@@ -42,7 +42,6 @@ interface GetDropsData {
 }
 
 export default function Drop({ children, project, drop }: DropProps): JSX.Element {
-  const router = useRouter();
   const pathname = usePathname();
 
   const dropQuery = useQuery<GetDropsData, GetDropVars>(GetDrop, { variables: { project, drop } });
@@ -54,18 +53,8 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
 
   const loading = dropQuery.loading;
   const dropData = dropQuery.data?.project?.drop;
-  const wallet = dropQuery.data?.project.treasury?.wallets?.find((wallet) => {
-    switch (dropQuery.data?.project?.drop?.collection.blockchain) {
-      case Blockchain.Solana:
-        return wallet.assetId === AssetType.Sol;
-      case Blockchain.Polygon:
-        return wallet.assetId === AssetType.Matic;
-      case Blockchain.Ethereum:
-        return wallet.assetId === AssetType.Eth;
-    }
-  });
   const startTime = dropData?.startTime || dropData?.createdAt;
-  const endTime = dropData?.endTime;
+  
 
   return (
     <div className="flex flex-col px-6 py-6">
@@ -172,10 +161,12 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                 <div className="w-full text-xs font-medium">
                   <div className="flex items-center justify-between">
                     <span className="text-white">
-                      Status: {dropQuery.data?.project?.drop?.status} -
-                       {dropQuery.data?.project?.drop?.collection?.totalMints}
-                      {dropQuery.data?.project?.drop?.collection?.supply &&
-                        ` / ${dropQuery.data?.project?.drop?.collection?.supply}`}
+                      {`Status: ${dropQuery.data?.project?.drop?.status} - ${
+                        dropQuery.data?.project?.drop?.collection?.totalMints
+                      } ${
+                        dropQuery.data?.project?.drop?.collection?.supply &&
+                        ` / ${dropQuery.data?.project?.drop?.collection?.supply}`
+                      }`}
                       <span className="text-gray-500"> - minted</span>
                     </span>
                     {inTheFuture(startTime) ? (
@@ -288,7 +279,13 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                   {dropData?.collection.metadataJson?.externalUrl && (
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-gray-400">External URL</span>
-                      <span>{dropData?.collection.metadataJson?.externalUrl}</span>
+                      <a
+                        rel="nofollow"
+                        href={dropData?.collection.metadataJson?.externalUrl as string}
+                        target="_blank"
+                      >
+                        {dropData?.collection.metadataJson?.externalUrl}
+                      </a>
                     </div>
                   )}
                 </div>

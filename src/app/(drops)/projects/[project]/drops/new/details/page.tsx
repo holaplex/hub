@@ -10,9 +10,12 @@ import { Blockchain } from '../../../../../../../graphql.types';
 import { useProject } from '../../../../../../../hooks/useProject';
 import clsx from 'clsx';
 import { StoreApi, useStore } from 'zustand';
-import { DropFormState, DetailSettings, blockchainOptions } from '../../../../../../../providers/DropFormProvider';
+import {
+  DropFormState,
+  DetailSettings,
+  blockchainOptions,
+} from '../../../../../../../providers/DropFormProvider';
 import { useDropForm } from '../../../../../../../hooks/useDropForm';
-
 
 export default function NewDropDetailsPage() {
   const router = useRouter();
@@ -169,7 +172,10 @@ export default function NewDropDetailsPage() {
                 rules={{ required: 'Please select a blockchain.' }}
                 render={({ field: { value, onChange } }) => {
                   return (
-                    <Form.Select value={value} onChange={onChange}>
+                    <Form.Select
+                      value={value}
+                      onChange={onChange}
+                    >
                       <Form.Select.Button placeholder="Select blockchain">
                         {value.name}
                       </Form.Select.Button>

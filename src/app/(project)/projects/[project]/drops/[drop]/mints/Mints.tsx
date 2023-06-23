@@ -60,8 +60,8 @@ export default function Mints({ loading, project, drop }: MintsProps) {
                 id: 'shortWallet',
                 header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
-                  <div className="flex flex-row gap-2">
-                    <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
+                  <div className="flex flex-row gap-2 align-middle">
+                    <span className="rounded-full w-4 aspect-square bg-stone-800 animate-pulse" />
                     <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
                   </div>
                 ),
@@ -139,9 +139,9 @@ export default function Mints({ loading, project, drop }: MintsProps) {
               header: () => <span>Wallet</span>,
               cell: (info) => {
                 return (
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 justify-middle">
                     {blockchainIcon}
-                    <span className="text-xs text-white font-medium">{info.getValue()}</span>
+                    <span className="text-xs text-white font-medium justify-middle">{info.getValue()}</span>
                   </div>
                 );
               },
@@ -174,6 +174,9 @@ export default function Mints({ loading, project, drop }: MintsProps) {
             columnHelper.display({
               id: 'moreOptions',
               header: () => <></>,
+              meta: {
+                align: 'right',
+              },
               cell: (info) => {
                 const transactionLink = info.row.original.transactionLink;
                 const options = [];
