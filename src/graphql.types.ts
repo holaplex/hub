@@ -135,6 +135,7 @@ export type Collection = {
   creationStatus: CreationStatus;
   /** The list of attributed creators for the collection. */
   creators?: Maybe<Array<CollectionCreator>>;
+  exploreLink?: Maybe<Scalars['String']>;
   /** The list of current holders of NFTs from the collection. */
   holders?: Maybe<Array<Holder>>;
   /** The unique identifier for the collection. */
@@ -152,12 +153,15 @@ export type Collection = {
   royalties: Scalars['String'];
   /** The royalties assigned to mints belonging to the collection expressed in basis points. */
   sellerFeeBasisPoints: Scalars['Int'];
+  shortAddress?: Maybe<Scalars['String']>;
+  shortTx?: Maybe<Scalars['String']>;
   /** The transaction signature of the collection. */
   signature?: Maybe<Scalars['String']>;
   /** The total supply of the collection. Setting to `null` implies unlimited minting. */
   supply?: Maybe<Scalars['Int']>;
   /** The current number of NFTs minted from the collection. */
   totalMints: Scalars['Int'];
+  transactionLink?: Maybe<Scalars['String']>;
 };
 
 export type CollectionCreator = {

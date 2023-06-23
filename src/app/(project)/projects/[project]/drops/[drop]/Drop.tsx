@@ -1,10 +1,10 @@
 'use client';
 
-import { Button } from '@holaplex/ui-library-react';
-import { Icon } from './../../../../../../components/Icon';
+import { Button, PopoverBox } from '@holaplex/ui-library-react';
+import { useMemo } from 'react';
 import Tabs from './../../../../../../layouts/Tabs';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { GetDrop } from './../../../../../../queries/drop.graphql';
 import { DateFormat, daysUntil, inTheFuture } from './../../../../../../modules/time';
 import { useQuery } from '@apollo/client';
@@ -16,6 +16,7 @@ import {
   MetadataJsonAttribute,
   Project,
 } from '../../../../../../graphql.types';
+import { Icon } from './../../../../../../components/Icon';
 import clsx from 'clsx';
 import { cloneElement } from 'react';
 import Typography, { Size } from '../../../../../../components/Typography';
@@ -54,7 +55,17 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
   const loading = dropQuery.loading;
   const dropData = dropQuery.data?.project?.drop;
   const startTime = dropData?.startTime || dropData?.createdAt;
-  
+
+  let blockchainIcon = useMemo(() => {
+    switch (dropData?.collection.blockchain) {
+      case Blockchain.Solana:
+        return <Icon.Crypto.Sol className="cursor-pointer" />;
+      case Blockchain.Polygon:
+        return <Icon.Crypto.Polygon className="cursor-pointer" />;
+      default:
+        return <></>;
+    }
+  }, [dropData?.collection.blockchain]);
 
   return (
     <div className="flex flex-col px-6 py-6">
@@ -239,6 +250,39 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
 
                 <div className="basis-1/2 h-full flex flex-col px-4 gap-2 text-sm">
                   <div className="flex items-center justify-between gap-2">
+                    <span className="text-gray-400">Blockchain</span>
+                    <PopoverBox
+                      triggerButton={blockchainIcon}
+                      elements={[<span key="blockchain">{dropData?.collection.blockchain}</span>]}
+                    />
+                  </div>
+                  {dropData?.collection.address && (
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-gray-400">Address</span>
+                      <a
+                        target="_blank"
+                        rel="nofollow"
+                        className="hover:underline hover:opacity-80"
+                        href={dropData?.collection.exploreLink as string}
+                      >
+                        {dropData?.collection.shortAddress}
+                      </a>
+                    </div>
+                  )}
+                  {dropData?.collection.signature && (
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-gray-400">Transaction</span>
+                      <a
+                        target="_blank"
+                        rel="nofollow"
+                        className="hover:underline hover:opacity-80"
+                        href={dropData?.collection.transactionLink as string}
+                      >
+                        {dropData?.collection.shortTx}
+                      </a>
+                    </div>
+                  )}
+                  <div className="flex items-center justify-between gap-2">
                     <span className="text-gray-400">Royalties</span>
                     <span>{dropData?.collection.royalties}</span>
                   </div>
@@ -283,6 +327,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                         rel="nofollow"
                         href={dropData?.collection.metadataJson?.externalUrl as string}
                         target="_blank"
+                        className="hover:underline hover:opacity-80"
                       >
                         {dropData?.collection.metadataJson?.externalUrl}
                       </a>

@@ -10,6 +10,25 @@ function asShortAddress(_: any, { readField }: { readField: ReadFieldFunction })
   return shorten(address as string);
 }
 
+function asShortCollectionAddress(_: any, { readField }: { readField: ReadFieldFunction }): string | null {
+  const address: string | undefined = readField('address');
+  const blockchain: Blockchain | undefined = readField('blockchain');
+
+  if (!address) {
+    return null;
+  }
+
+  switch (blockchain) {
+    case Blockchain.Solana:
+      return shorten(address as string);
+    case Blockchain.Polygon:
+      const [contractAddress, tokenId] = address.split(':');
+      return `${shorten(contractAddress as string)}:${tokenId}`;
+    default:
+      return null;
+  }
+}
+
 function asShortWallet(_: any, { readField }: { readField: ReadFieldFunction }): string {
   const address: string | undefined = readField('wallet');
 
@@ -30,13 +49,23 @@ function asShortTx(_: any, { readField }: { readField: ReadFieldFunction }): str
   return '';
 }
 
+function asShortSignature(_: any, { readField }: { readField: ReadFieldFunction }): string {
+  const signature: string | undefined = readField('signature');
+
+  if (signature) {
+    return shorten(signature as string);
+  }
+
+  return '';
+}
+
 function asRoyalties(_: any, { readField }: { readField: ReadFieldFunction }): string {
   const sellerFeeBasisPoints: number | undefined = readField('sellerFeeBasisPoints');
 
   return `${(sellerFeeBasisPoints as number) / 100}%`;
 }
 
-function asExploreLink(
+function asHolderExplorerLink(
   _: any,
   {
     readField,
@@ -67,7 +96,51 @@ function asExploreLink(
   }
 }
 
-function asTransactionLink(
+function asCollectionExplorerLink(
+  _: any,
+  { readField }: { readField: ReadFieldFunction }
+): string | null {
+  const address: string | undefined = readField('address');
+  const blockchain = readField('blockchain');
+
+  if (!address) {
+    return null;
+  }
+
+  switch (blockchain) {
+    case Blockchain.Solana:
+      return `https://solscan.io/account/${address}`;
+    case Blockchain.Polygon:
+      const [contractAddress, tokenId] = address.split(':');
+
+      return `https://polygonscan.com/token/${contractAddress}?a=${tokenId}`;
+    default:
+      return null;
+  }
+}
+
+function asCollectionTransactionLink(
+  _: any,
+  { readField }: { readField: ReadFieldFunction }
+): string | null {
+  const blockchain = readField('blockchain');
+  const tx: string | undefined = readField('signature');
+
+  if (!tx) {
+    return null;
+  }
+
+  switch (blockchain) {
+    case Blockchain.Solana:
+      return `https://solscan.io/tx/${tx}`;
+    case Blockchain.Polygon:
+      return `https://polygonscan.com/tx/${tx}`;
+    default:
+      return null;
+  }
+}
+
+function asPurchaseTransactionLink(
   _: any,
   {
     readField,
@@ -79,7 +152,7 @@ function asTransactionLink(
     cache.identify({ __typename: 'Drop', id: readField('dropId') }) as string
   );
   const collectionRef = readField('collection', dropRef) as Reference;
-  const blockchain = readField('blockchain', collectionRef) 
+  const blockchain = readField('blockchain', collectionRef);
 
   const tx: string | undefined = readField('txSignature');
 
@@ -119,6 +192,10 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
         Collection: {
           fields: {
             royalties: asRoyalties,
+            shortAddress: asShortCollectionAddress,
+            exploreLink: asCollectionExplorerLink,
+            transactionLink: asCollectionTransactionLink,
+            shortTx: asShortSignature,
           },
         },
         CollectionCreator: {
@@ -129,14 +206,14 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
         Holder: {
           fields: {
             shortAddress: asShortAddress,
-            exploreLink: asExploreLink,
+            exploreLink: asHolderExplorerLink,
           },
         },
         Purchase: {
           fields: {
             shortWallet: asShortWallet,
             shortTx: asShortTx,
-            transactionLink: asTransactionLink,
+            transactionLink: asPurchaseTransactionLink,
           },
         },
         CollectionMint: {
