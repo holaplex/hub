@@ -193,6 +193,11 @@ export default function Mints({ loading, project, drop }: MintsProps) {
                     </Link>
                   );
                 }
+
+                if (options.length == 0) {
+                  return <></>
+                }
+
                 return (
                   <PopoverBox
                     triggerButton={

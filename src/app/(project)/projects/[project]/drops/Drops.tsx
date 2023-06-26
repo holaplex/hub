@@ -9,7 +9,7 @@ import { GetProjectDrops } from './../../../../../queries/drop.graphql';
 import { Icon } from '../../../../../components/Icon';
 import Table from '../../../../../components/Table';
 import { DateFormat, convertLocalTime } from '../../../../../modules/time';
-import { Project, Drop as DropType, DropStatus } from '../../../../../graphql.types';
+import { Project, Drop as DropType, DropStatus, Blockchain } from '../../../../../graphql.types';
 import Copy from '../../../../../components/Copy';
 
 interface DropsPageProps {
@@ -56,6 +56,17 @@ export default function Drops({ project }: DropsPageProps) {
                         <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                         <span className="rounded-full h-4 w-12 bg-stone-800 animate-pulse" />
                       </div>
+                    </div>
+                  ),
+                }),
+                loadingColumnHelper.display({
+                  id: 'blockchain',
+                  header: () => (
+                    <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
+                  ),
+                  cell: () => (
+                    <div className="flex flex-col gap-1">
+                      <span className="rounded-full h-6 w-6 bg-stone-800 animate-pulse" />
                     </div>
                   ),
                 }),
@@ -173,6 +184,22 @@ export default function Drops({ project }: DropsPageProps) {
                         ),
                       }
                     ),
+                    columnHelper.accessor(({ collection }) => collection?.blockchain, {
+                      id: 'blockchain',
+                      header: () => <span>Blockchain</span>,
+                      cell: (info) => {
+                        const blockchain = info.getValue();
+
+                        return (
+                          <PopoverBox
+                            triggerButton={
+                              <Icon.Crypto blockchain={blockchain} className="cursor-pointer" />
+                            }
+                            elements={[<span key="blockchain">{blockchain}</span>]}
+                          />
+                        );
+                      },
+                    }),
                     columnHelper.accessor(
                       ({ startTime, createdAt }) => ({ startTime, createdAt }),
                       {
