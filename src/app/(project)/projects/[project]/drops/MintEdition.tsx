@@ -11,6 +11,7 @@ import {
   Action,
   ActionCost,
   Blockchain,
+  DropStatus,
   MintDropInput,
   Organization,
   Project,
@@ -197,7 +198,13 @@ export default function MintEdition({ project, drop }: MintEditionProps) {
                 <Button variant="secondary" onClick={onClose} disabled={onSubmitLoading}>
                   Cancel
                 </Button>
-                <Button htmlType="submit" disabled={onSubmitLoading} loading={onSubmitLoading}>
+                <Button
+                  htmlType="submit"
+                  disabled={
+                    onSubmitLoading || dropQuery.data?.project.drop?.status !== DropStatus.Minting
+                  }
+                  loading={onSubmitLoading}
+                >
                   Mint edition
                 </Button>
               </div>

@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { Blockchain } from '../graphql.types';
 
 export interface IconProps {
   className?: string;
@@ -16,9 +17,22 @@ function LargeIcon() {
 }
 Icon.Large = LargeIcon;
 
-function CryptoIcon() {
-  return <div></div>;
+interface CryptoIconProps {
+  blockchain: Blockchain;
+  className?: string;
 }
+
+function CryptoIcon({ blockchain, className }: CryptoIconProps) {
+  switch (blockchain) {
+    case Blockchain.Solana:
+      return <Sol className={className} />;
+    case Blockchain.Polygon:
+      return <Polygon className={className} />;
+    default:
+      return <></>;
+  }
+}
+
 Icon.Crypto = CryptoIcon;
 
 function Edit2({
@@ -750,12 +764,12 @@ function Webhook({
 }
 Icon.Webhook = Webhook;
 
-function Sol({ width = 20, height = 20, fill = 'fill-white', className = '' }: IconProps) {
+function Sol({ width = 24, height = 24, fill = 'fill-white', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
-      viewBox="0 0 20 20"
+      viewBox="0 0 24 24"
       className={clsx(fill, className)}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -771,12 +785,12 @@ function Sol({ width = 20, height = 20, fill = 'fill-white', className = '' }: I
 }
 CryptoIcon.Sol = Sol;
 
-function Polygon({ width = 16, height = 14, fill = 'fill-white', className = '' }: IconProps) {
+function Polygon({ width = 24, height = 22, fill = 'fill-white', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
-      viewBox="0 0 16 14"
+      viewBox="0 0 24 22"
       className={clsx(fill, className)}
       fill={fill}
       xmlns="http://www.w3.org/2000/svg"

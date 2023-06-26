@@ -22,6 +22,7 @@ import { cloneElement } from 'react';
 import Typography, { Size } from '../../../../../../components/Typography';
 import { shorten } from '../../../../../../modules/wallet';
 import { format } from 'util';
+import { useRouter } from 'next/navigation';
 
 type Drop = {
   name: string;
@@ -44,6 +45,7 @@ interface GetDropsData {
 
 export default function Drop({ children, project, drop }: DropProps): JSX.Element {
   const pathname = usePathname();
+  const router = useRouter();
 
   const dropQuery = useQuery<GetDropsData, GetDropVars>(GetDrop, { variables: { project, drop } });
   const percent = Math.ceil(
@@ -145,8 +147,13 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
               <Link href={`/projects/${project}/drops/${drop}/help`}>
                 <Button variant="secondary">?</Button>
               </Link>
-              <Link href={`/projects/${project}/drops/${drop}/mint`}>
-                <Button>Mint edition</Button>
+              <Link  href={`/projects/${project}/drops/${drop}/mint`}>
+                <Button
+                disabled={dropQuery?.data?.project?.drop?.status !== DropStatus.Minting}
+                onClick={() => {
+                  router.push(`/projects/${project}/drops/${drop}/mint`)
+                }}
+                >Mint edition</Button>
               </Link>
             </div>
           </div>
@@ -192,7 +199,8 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                     <div
                       className={clsx('top-0 bottom-0 left-0 absolute rounded-r-full', {
                         'bg-green-400':
-                          dropQuery.data?.project?.drop?.status === DropStatus.Minting,
+                          dropQuery.data?.project?.drop?.status === DropStatus.Minting ||
+                          dropQuery.data?.project?.drop?.status === DropStatus.Minted,
                         'bg-red-500':
                           dropQuery.data?.project?.drop?.status === DropStatus.Shutdown ||
                           dropQuery.data?.project?.drop?.status === DropStatus.Expired,

@@ -31,6 +31,7 @@ query GetProjectDrops($project: UUID!) {
         id
         supply
         totalMints
+        blockchain
         metadataJson {
           id
           name

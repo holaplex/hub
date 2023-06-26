@@ -1,4 +1,5 @@
 'use client';
+import { useMemo } from 'react';
 import { Button } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
@@ -11,7 +12,7 @@ import {
   ActionCost,
   Action,
   CollectionCreatorInput,
-  BlockchainCost,
+  Blockchain,
 } from '../../../../../../../graphql.types';
 import { StoreApi, useStore } from 'zustand';
 import { ApolloError, useMutation } from '@apollo/client';
@@ -27,6 +28,7 @@ import { ifElse, isNil, always, isEmpty, when } from 'ramda';
 import { uploadFile } from '../../../../../../../modules/upload';
 import { Attribute, DropFormState } from '../../../../../../../providers/DropFormProvider';
 import { useDropForm } from '../../../../../../../hooks/useDropForm';
+import { CreditLookup } from '../../../../../../../modules/credit';
 import {
   GetCreditSheet,
   GetOrganizationCreditBalance,
@@ -76,16 +78,27 @@ export default function NewDropPreviewPage() {
 
   const creditSheet = creditSheetQuery.data?.creditSheet;
 
-  const cost = creditSheet
-    ?.find((cost) => cost.action === Action.CreateDrop)
-    ?.blockchains?.find((blockchain) => blockchain.blockchain === detail?.blockchain.id)
-    ?.credits as number;
+  const creditLookup = useMemo(() => {
+    return new CreditLookup(creditSheet || []);
+  }, [creditSheet]);
 
-  const createDropCredits = creditSheet
-    ?.find((actionCost: ActionCost) => actionCost.action === Action.CreateDrop)
-    ?.blockchains.find(
-      (blockchainCost: BlockchainCost) => blockchainCost.blockchain === detail?.blockchain.id
-    )?.credits;
+  const cost = creditLookup.cost(Action.CreateDrop, detail?.blockchain.id as Blockchain);
+
+  const expectedCreditCost = useMemo(() => {
+    const supply = payment?.supply.replaceAll(',', '');
+
+    if (!supply) {
+      return undefined;
+    }
+
+    const amount = parseInt(supply);
+    const mintDropCredits =
+      creditLookup.cost(Action.MintEdition, detail?.blockchain.id as Blockchain) || 0;
+    const createWalletCredits =
+      creditLookup.cost(Action.CreateWallet, detail?.blockchain.id as Blockchain) || 0;
+
+    return (mintDropCredits + createWalletCredits) * amount;
+  }, [creditLookup, detail?.blockchain, payment?.supply]);
 
   const back = () => {
     router.push(`/projects/${project?.id}/drops/new/schedule`);
@@ -275,16 +288,16 @@ export default function NewDropPreviewPage() {
 
           <hr className="w-full bg-stone-800 my-4 h-px border-0" />
 
-          {payment.supply && creditBalance && createDropCredits && (
+          {payment.supply && creditBalance && expectedCreditCost && (
             <div className="flex items-center gap-4 rounded-lg bg-stone-950 p-4">
               <div className="text-gray-400 text-sm font-medium">
                 Based on estimated usage you will need about{' '}
-                <span className="text-white">{createDropCredits * supply}</span> credits to create
-                wallets and mint {payment.supply} NFTs. You currently have{' '}
+                <span className="text-white">{expectedCreditCost}</span> credits to create wallets
+                and mint {payment.supply} NFTs. You currently have{' '}
                 <span
                   className={clsx({
-                    'text-red-500': createDropCredits * supply > creditBalance,
-                    'text-green-400': createDropCredits * supply <= creditBalance,
+                    'text-red-500': expectedCreditCost > creditBalance,
+                    'text-green-400': expectedCreditCost <= creditBalance,
                   })}
                 >
                   {creditBalance}
@@ -292,7 +305,7 @@ export default function NewDropPreviewPage() {
                 credits.
               </div>
 
-              {createDropCredits * supply > creditBalance && (
+              {expectedCreditCost > creditBalance && (
                 <Link href="/credits/buy" className="flex-none">
                   <Button>Buy credits</Button>
                 </Link>
@@ -317,7 +330,7 @@ export default function NewDropPreviewPage() {
             <Button
               htmlType="submit"
               loading={submitting}
-              disabled={submitting || cost > creditBalance}
+              disabled={submitting || cost as number > creditBalance}
               onClick={onSubmit}
             >
               {startDateTime ? 'Schedule drop' : 'Create drop'}

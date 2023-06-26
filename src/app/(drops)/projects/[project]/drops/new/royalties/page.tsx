@@ -11,7 +11,6 @@ import {
   Organization,
   ActionCost,
   Action,
-  BlockchainCost,
 } from '../../../../../../../graphql.types';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { useProject } from '../../../../../../../hooks/useProject';
@@ -90,7 +89,7 @@ export default function NewDropRoyaltiesPage() {
 
   const expectedCreditCost = useMemo(() => {
     const creditLookup = new CreditLookup(creditSheet || []);
-    const createDropCredits =
+    const mintDropCredits =
       creditLookup.cost(Action.MintEdition, detail?.blockchain.id as Blockchain) || 0;
     const createWalletCredits =
       creditLookup.cost(Action.CreateWallet, detail?.blockchain.id as Blockchain) || 0;
@@ -99,7 +98,7 @@ export default function NewDropRoyaltiesPage() {
       return undefined;
     }
 
-    return (createDropCredits + createWalletCredits) * supply;
+    return (mintDropCredits + createWalletCredits) * supply;
   }, [creditSheet, detail?.blockchain, supply]);
 
   const submit = (data: PaymentSettings) => {
