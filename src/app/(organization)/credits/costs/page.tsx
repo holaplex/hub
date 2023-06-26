@@ -70,6 +70,12 @@ export default function CostPage() {
                 return <span className="text-white font-semibold">{info.getValue()}</span>;
               },
             }),
+            columnHelper.accessor('POLYGON', {
+              header: () => <div className="text-gray-400">Polygon</div>,
+              cell: (info) => {
+                return <span className="text-white font-semibold">{info.getValue()}</span>;
+              },
+            }),
           ]}
           data={data}
         />

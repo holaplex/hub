@@ -151,6 +151,8 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                 <Button
                 disabled={dropQuery?.data?.project?.drop?.status !== DropStatus.Minting}
                 onClick={() => {
+                  if (dropQuery?.data?.project?.drop?.status !== DropStatus.Minting) return
+                  
                   router.push(`/projects/${project}/drops/${drop}/mint`)
                 }}
                 >Mint edition</Button>

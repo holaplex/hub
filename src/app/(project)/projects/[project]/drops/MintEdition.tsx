@@ -117,6 +117,8 @@ export default function MintEdition({ project, drop }: MintEditionProps) {
   const onSubmitLoading = mintEditionResult.loading || formState.isSubmitting;
 
   const submit = async ({ recipient }: MintEditionForm) => {
+    if (dropQuery?.data?.project?.drop?.status !== DropStatus.Minting) return
+    
     mintEdition({
       variables: {
         input: {
