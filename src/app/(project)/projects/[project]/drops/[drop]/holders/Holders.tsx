@@ -9,6 +9,7 @@ import { Holder, Project, Blockchain } from '../../../../../../../graphql.types'
 import { GetCollectionHolders } from './../../../../../../../queries/holder.graphql';
 import { useQuery } from '@apollo/client';
 import Typography, { Size } from '../../../../../../../components/Typography';
+import { useMemo } from 'react';
 
 interface HoldersProps {
   project: string;
@@ -38,6 +39,18 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
 
   const holders = holdersQuery.data?.project.drop?.collection.holders || [];
   const noHolders = holders.length === 0;
+  const blockchain = holdersQuery.data?.project.drop?.collection.blockchain;
+
+  let blockchainIcon = useMemo(() => {
+    switch (blockchain) {
+      case Blockchain.Solana:
+        return <Icon.Crypto.Sol />;
+      case Blockchain.Polygon:
+        return <Icon.Crypto.Polygon />;
+      default:
+        return <></>;
+    }
+  }, [blockchain]);
 
   return (
     <div className="flex flex-col">
@@ -94,7 +107,7 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
                 const address = info.getValue();
                 return (
                   <div className="flex gap-2">
-                    <Icon.Crypto.Sol />
+                    {blockchainIcon}
                     <span className="text-xs text-white font-medium">{address}</span>
                   </div>
                 );
@@ -122,21 +135,19 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
               },
               header: () => <></>,
               cell: (info) => {
-                const address = info.row.original.address;
+                const exploreLink = info.row.original.exploreLink;
                 const options = [];
 
-                if (holdersQuery.data?.project.drop?.collection.blockchain === Blockchain.Solana) {
-                  options.push(
-                    <Link
-                      href={`https://solscan.io/account/${address}`}
-                      target="_blank"
-                      key="change_email"
-                      className="flex gap-2 items-center"
-                    >
-                      <Icon.ExternalLink /> <span>View on SolScan</span>
-                    </Link>
-                  );
-                }
+                options.push(
+                  <Link
+                    href={exploreLink as string}
+                    target="_blank"
+                    key="explorer"
+                    className="flex gap-2 items-center"
+                  >
+                    <Icon.ExternalLink /> <span>View on explorer</span>
+                  </Link>
+                );
 
                 return (
                   <PopoverBox

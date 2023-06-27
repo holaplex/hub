@@ -26,6 +26,12 @@ interface CreateDropProps {
   project: Project;
 }
 
+const blockchainLabel = {
+  [Blockchain.Solana]: 'Solana',
+  [Blockchain.Polygon]: 'Polygon',
+  [Blockchain.Ethereum]: 'Ethereum',
+};
+
 const isComplete = pipe(isNil, not);
 
 export default function EditDrop({ children, project }: CreateDropProps): JSX.Element {
@@ -36,11 +42,11 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
   const wallet = project?.treasury?.wallets?.find((wallet) => {
     switch (drop?.collection.blockchain) {
       case Blockchain.Solana:
-        return wallet.assetId === AssetType.SolTest || wallet.assetId === AssetType.Sol;
+        return wallet.assetId === AssetType.Sol;
       case Blockchain.Polygon:
-        return wallet.assetId === AssetType.MaticTest || wallet.assetId === AssetType.Matic;
+        return wallet.assetId === AssetType.Matic;
       case Blockchain.Ethereum:
-        return wallet.assetId === AssetType.EthTest || wallet.assetId === AssetType.Eth;
+        return wallet.assetId === AssetType.Eth;
     }
   });
 
@@ -71,7 +77,10 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
     detail: {
       name: metadataJson?.name as string,
       description: metadataJson?.description as string,
-      blockchain: drop?.collection.blockchain as Blockchain,
+      blockchain: {
+        id: drop?.collection.blockchain as Blockchain,
+        name: blockchainLabel[drop?.collection.blockchain as Blockchain],
+      },
       symbol: metadataJson?.symbol as string,
       image: metadataJson?.image as string,
       animationUrl: metadataJson?.animationUrl as string,

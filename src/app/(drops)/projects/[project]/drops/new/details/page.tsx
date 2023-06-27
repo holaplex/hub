@@ -10,16 +10,12 @@ import { Blockchain } from '../../../../../../../graphql.types';
 import { useProject } from '../../../../../../../hooks/useProject';
 import clsx from 'clsx';
 import { StoreApi, useStore } from 'zustand';
-import { DropFormState, DetailSettings } from '../../../../../../../providers/DropFormProvider';
+import {
+  DropFormState,
+  DetailSettings,
+  blockchainOptions,
+} from '../../../../../../../providers/DropFormProvider';
 import { useDropForm } from '../../../../../../../hooks/useDropForm';
-
-const BLOCKCHAIN_LABELS = {
-  [Blockchain.Solana]: 'Solana',
-  [Blockchain.Ethereum]: 'Ethereum',
-  [Blockchain.Polygon]: 'Polygon',
-};
-
-const BLOCKCHAIN_OPTIONS = [Blockchain.Solana];
 
 export default function NewDropDetailsPage() {
   const router = useRouter();
@@ -31,7 +27,10 @@ export default function NewDropDetailsPage() {
   const { handleSubmit, register, control, setValue, formState, watch, setError, clearErrors } =
     useForm<DetailSettings>({
       defaultValues: detail || {
-        blockchain: Blockchain.Solana,
+        blockchain: {
+          id: Blockchain.Solana,
+          name: 'Solana',
+        },
       },
     });
 
@@ -52,65 +51,67 @@ export default function NewDropDetailsPage() {
       <Card className="w-[492px]">
         <Typography.Header size={Size.H2}>Drop details</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-          <Form.Label
-            name={includeAnimationUrl ? 'Cover image' : 'Main artwork'}
-            className="text-xs text-yellow-300 mt-5"
-          >
-            <Controller
-              name="image"
-              control={control}
-              rules={{ required: 'Please upload an image.' }}
-              render={({ field: { value, onBlur } }) => (
-                <Dropzone
-                  noClick
-                  multiple={false}
-                  onDrop={([file], _reject, e) => {
-                    e.preventDefault();
-                    clearErrors('image');
-                    if (file['type'].split('/')[0] !== 'image') {
-                      setError('image', {
-                        message:
-                          'Uploading video files is not currently supported. You can add a link to a hosted video by checking the "Include a video" checkbox below.',
-                      });
-                    } else {
-                      setValue('image', file as unknown as File, { shouldValidate: true });
-                    }
-                  }}
-                >
-                  {({ getRootProps, getInputProps, isDragActive, open }) => {
-                    return (
-                      <div
-                        {...getRootProps()}
-                        className={clsx(
-                          'flex items-center justify-center border border-dashed border-stone-800 cursor-pointer rounded-md p-6 text-center text-gray-500',
-                          {
-                            'bg-stone-800': isDragActive,
-                          }
-                        )}
-                      >
-                        <input {...getInputProps({ onBlur })} />
-                        {value ? (
-                          <Form.DragDrop.Preview value={value} />
-                        ) : (
-                          <div className="flex flex-col gap-2 text-gray-400">
-                            <p className="text-center">
-                              Drag & drop file or{' '}
-                              <span className="text-yellow-300 cursor-pointer">Browse files</span>{' '}
-                              to upload.
-                              <br />
-                              <br />
-                              JPEG, GIF and PNG supported. Must be under 10 MB.
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  }}
-                </Dropzone>
-              )}
-            />
+          <div className="mt-5">
+            <Form.Label
+              name={includeAnimationUrl ? 'Cover image' : 'Main artwork'}
+              className="text-xs text-yellow-300"
+            >
+              <Controller
+                name="image"
+                control={control}
+                rules={{ required: 'Please upload an image.' }}
+                render={({ field: { value, onBlur } }) => (
+                  <Dropzone
+                    noClick
+                    multiple={false}
+                    onDrop={([file], _reject, e) => {
+                      e.preventDefault();
+                      clearErrors('image');
+                      if (file['type'].split('/')[0] !== 'image') {
+                        setError('image', {
+                          message:
+                            'Uploading video files is not currently supported. You can add a link to a hosted video by checking the "Include a video" checkbox below.',
+                        });
+                      } else {
+                        setValue('image', file as unknown as File, { shouldValidate: true });
+                      }
+                    }}
+                  >
+                    {({ getRootProps, getInputProps, isDragActive, open }) => {
+                      return (
+                        <div
+                          {...getRootProps()}
+                          className={clsx(
+                            'flex items-center justify-center border border-dashed border-stone-800 cursor-pointer rounded-md p-6 text-center text-gray-500',
+                            {
+                              'bg-stone-800': isDragActive,
+                            }
+                          )}
+                        >
+                          <input {...getInputProps({ onBlur })} />
+                          {value ? (
+                            <Form.DragDrop.Preview value={value} />
+                          ) : (
+                            <div className="flex flex-col gap-2 text-gray-400">
+                              <p className="text-center">
+                                Drag & drop file or{' '}
+                                <span className="text-yellow-300 cursor-pointer">Browse files</span>{' '}
+                                to upload.
+                                <br />
+                                <br />
+                                JPEG, GIF and PNG supported. Must be under 10 MB.
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    }}
+                  </Dropzone>
+                )}
+              />
+            </Form.Label>
             <Form.Error message={formState.errors.image?.message} />
-          </Form.Label>
+          </div>
 
           <Form.Label name="Include a video" placement={Placement.Right} className="mt-5">
             <Form.Checkbox {...register('includeAnimationUrl')} />
@@ -129,66 +130,80 @@ export default function NewDropDetailsPage() {
           )}
 
           <div className="flex items-center gap-6">
-            <Form.Label name="Name" className="text-xs mt-5 basis-3/4">
-              <Form.Input
-                {...register('name', {
-                  required: 'Please enter a name.',
-                  maxLength: 32,
-                })}
-                autoFocus
-                placeholder="e.g. Bored Ape Yatch Club"
-              />
+            <div className="mt-5 basis-3/4 self-baseline">
+              <Form.Label name="Name" className="text-xs">
+                <Form.Input
+                  {...register('name', {
+                    required: 'Please enter a name.',
+                    validate: (value, { blockchain }) => {
+                      if (blockchain.id === Blockchain.Solana && value.length > 32) {
+                        return 'Name length exceeded the limit of 32.';
+                      }
+                    },
+                  })}
+                  autoFocus
+                  placeholder="e.g. Bored Ape Yatch Club"
+                />
+              </Form.Label>
               <Form.Error message={formState.errors.name?.message} />
-            </Form.Label>
-            <Form.Label name="Symbol" className="text-xs mt-5 basis-1/4">
-              <Form.Input
-                {...register('symbol', {
-                  required: 'Symbol required.',
-                  maxLength: 10,
-                })}
-                placeholder="e.g. BAYC"
-              />
+            </div>
+            <div className="mt-5 basis-1/4 self-baseline">
+              <Form.Label name="Symbol" className="text-xs">
+                <Form.Input
+                  {...register('symbol', {
+                    required: 'Symbol required.',
+                    validate: (value, { blockchain }) => {
+                      if (blockchain.id === Blockchain.Solana && value.length > 10) {
+                        return 'Symbol length exceeded the limit of 10.';
+                      }
+                    },
+                  })}
+                  placeholder="e.g. BAYC"
+                />
+              </Form.Label>
               <Form.Error message={formState.errors.symbol?.message} />
-            </Form.Label>
+            </div>
           </div>
-
-          <Form.Label name="Blockchain" className="text-xs mt-5">
-            <Controller
-              name="blockchain"
-              control={control}
-              rules={{ required: 'Please select a blockchain.' }}
-              render={({ field: { value, onChange } }) => {
-                return (
-                  <Form.Select value={value} onChange={onChange}>
-                    <Form.Select.Button placeholder="Select blockchain">
-                      {BLOCKCHAIN_LABELS[value]}
-                    </Form.Select.Button>
-                    <Form.Select.Options>
-                      {BLOCKCHAIN_OPTIONS.map((i) => (
-                        <Form.Select.Option value={i} key={i}>
-                          <>{BLOCKCHAIN_LABELS[i]}</>
-                        </Form.Select.Option>
-                      ))}
-                    </Form.Select.Options>
-                    <Form.Error message={formState.errors.blockchain?.message} />
-                  </Form.Select>
-                );
-              }}
-            />
-          </Form.Label>
+          <div className="mt-5">
+            <Form.Label name="Blockchain" className="text-xs">
+              <Controller
+                name="blockchain"
+                control={control}
+                rules={{ required: 'Please select a blockchain.' }}
+                render={({ field: { value, onChange } }) => {
+                  return (
+                    <Form.Select
+                      value={value}
+                      onChange={onChange}
+                    >
+                      <Form.Select.Button placeholder="Select blockchain">
+                        {value.name}
+                      </Form.Select.Button>
+                      <Form.Select.Options>
+                        {blockchainOptions.map((i) => (
+                          <Form.Select.Option value={i} key={i.id}>
+                            <>{i.name}</>
+                          </Form.Select.Option>
+                        ))}
+                      </Form.Select.Options>
+                    </Form.Select>
+                  );
+                }}
+              />
+            </Form.Label>
+            <Form.Error message={formState.errors.blockchain?.message} />
+          </div>
           <Form.Label name="Description" className="text-xs mt-5">
             <Form.TextArea
               {...register('description')}
-              placeholder="Enter a description for the drop."
+              placeholder="Enter a description for the drop"
             />
-            <Form.Error message="" />
           </Form.Label>
           <Form.Label name="External URL" className="text-xs mt-5">
             <Form.Input
               {...register('externalUrl')}
-              placeholder="Set an external url for the drop."
+              placeholder="Set an external url for the drop"
             />
-            <Form.Error message="" />
           </Form.Label>
           <Form.Label name="Attribute" className="text-xs mt-5">
             {fields.map((field, index) => (

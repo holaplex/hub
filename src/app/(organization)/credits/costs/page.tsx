@@ -52,6 +52,11 @@ export default function CostPage() {
               header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
               cell: () => <div className="rounded-full h-4 w-8 bg-stone-800 animate-pulse" />,
             }),
+            loadingColumnHelper.display({
+              id: 'POLYGON',
+              header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
+              cell: () => <div className="rounded-full h-4 w-8 bg-stone-800 animate-pulse" />,
+            }),
           ]}
           data={new Array(4)}
         />
@@ -66,6 +71,12 @@ export default function CostPage() {
             }),
             columnHelper.accessor('SOLANA', {
               header: () => <div className="text-gray-400">Solana</div>,
+              cell: (info) => {
+                return <span className="text-white font-semibold">{info.getValue()}</span>;
+              },
+            }),
+            columnHelper.accessor('POLYGON', {
+              header: () => <div className="text-gray-400">Polygon</div>,
               cell: (info) => {
                 return <span className="text-white font-semibold">{info.getValue()}</span>;
               },

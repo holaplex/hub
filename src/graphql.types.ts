@@ -123,7 +123,11 @@ export type BlockchainCost = {
 
 export type Collection = {
   __typename?: 'Collection';
-  /** The blockchain address of the collection used to view it in blockchain explorers. */
+  /**
+   * The blockchain address of the collection used to view it in blockchain explorers.
+   * On Solana this is the mint address.
+   * On EVM chains it is the concatenation of the contract address and the token id `{contractAddress}:{tokenId}`.
+   */
   address?: Maybe<Scalars['String']>;
   /** The blockchain of the collection. */
   blockchain: Blockchain;
@@ -131,6 +135,7 @@ export type Collection = {
   creationStatus: CreationStatus;
   /** The list of attributed creators for the collection. */
   creators?: Maybe<Array<CollectionCreator>>;
+  exploreLink?: Maybe<Scalars['String']>;
   /** The list of current holders of NFTs from the collection. */
   holders?: Maybe<Array<Holder>>;
   /** The unique identifier for the collection. */
@@ -148,12 +153,15 @@ export type Collection = {
   royalties: Scalars['String'];
   /** The royalties assigned to mints belonging to the collection expressed in basis points. */
   sellerFeeBasisPoints: Scalars['Int'];
+  shortAddress?: Maybe<Scalars['String']>;
+  shortTx?: Maybe<Scalars['String']>;
   /** The transaction signature of the collection. */
   signature?: Maybe<Scalars['String']>;
   /** The total supply of the collection. Setting to `null` implies unlimited minting. */
   supply?: Maybe<Scalars['Int']>;
   /** The current number of NFTs minted from the collection. */
   totalMints: Scalars['Int'];
+  transactionLink?: Maybe<Scalars['String']>;
 };
 
 export type CollectionCreator = {
@@ -182,8 +190,12 @@ export type CollectionCreatorInput = {
 /** Represents a single NFT minted from a collection. */
 export type CollectionMint = {
   __typename?: 'CollectionMint';
-  /** The wallet address of the NFT. */
-  address: Scalars['String'];
+  /**
+   * The address of the NFT
+   * On Solana this is the mint address.
+   * On EVM chains it is the concatenation of the contract address and the token id `{contractAddress}:{tokenId}`.
+   */
+  address?: Maybe<Scalars['String']>;
   /** The collection the NFT was minted from. */
   collection?: Maybe<Collection>;
   /** The ID of the collection the NFT was minted from. */
@@ -575,8 +587,9 @@ export type Holder = {
   address: Scalars['String'];
   /** The collection ID that the holder owns. */
   collectionId: Scalars['UUID'];
+  exploreLink?: Maybe<Scalars['String']>;
   /** The specific mints from the collection that the holder owns. */
-  mints: Array<Scalars['String']>;
+  mints: Array<Scalars['UUID']>;
   /** The number of NFTs that the holder owns in the collection. */
   owns: Scalars['Int'];
   shortAddress: Scalars['String'];
@@ -1240,6 +1253,7 @@ export type Purchase = {
   spent: Scalars['Int'];
   /** The status of the creation of the NFT. */
   status: CreationStatus;
+  transactionLink?: Maybe<Scalars['String']>;
   /** The signature of the transaction, if any. */
   txSignature?: Maybe<Scalars['String']>;
   /** The wallet address of the buyer. */

@@ -186,6 +186,8 @@ function DropStatusPill({ status, className }: DropStatusPillProps) {
       break;
     case DropStatus.Shutdown:
       label = 'Shutdown';
+    case DropStatus.Failed:
+      label = 'Failed';
   }
 
   return (

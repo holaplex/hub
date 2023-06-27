@@ -10,7 +10,10 @@ export interface Attribute {
 export type DetailSettings = {
   name: string;
   symbol: string;
-  blockchain: Blockchain;
+  blockchain: {
+    id: Blockchain;
+    name: string;
+  };
   description: string;
   image: File | string;
   animationUrl?: string;
@@ -18,6 +21,17 @@ export type DetailSettings = {
   attributes: Attribute[];
   externalUrl: string;
 };
+
+export const blockchainOptions = [
+  {
+    id: Blockchain.Solana,
+    name: 'Solana',
+  },
+  {
+    id: Blockchain.Polygon,
+    name: 'Polygon',
+  },
+];
 
 export enum RoyaltiesShortcut {
   Zero = '0%',

@@ -13,9 +13,11 @@ query GetCollectionPurchases($project: UUID!, $drop: UUID!) {
           wallet
           shortWallet @client
           shortTx @client
+          transactionLink @client
           txSignature
           status
           createdAt
+          dropId
           spent
         }
       }

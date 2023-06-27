@@ -11,6 +11,7 @@ import {
   Action,
   ActionCost,
   Blockchain,
+  DropStatus,
   MintDropInput,
   Organization,
   Project,
@@ -81,7 +82,7 @@ export default function MintEdition({ project, drop }: MintEditionProps) {
       ],
       onCompleted: () => {
         router.back();
-      }
+      },
     }
   );
 
@@ -116,6 +117,8 @@ export default function MintEdition({ project, drop }: MintEditionProps) {
   const onSubmitLoading = mintEditionResult.loading || formState.isSubmitting;
 
   const submit = async ({ recipient }: MintEditionForm) => {
+    if (dropQuery?.data?.project?.drop?.status !== DropStatus.Minting) return
+    
     mintEdition({
       variables: {
         input: {
@@ -128,7 +131,7 @@ export default function MintEdition({ project, drop }: MintEditionProps) {
       },
       onCompleted: () => {
         toast.success('Edition minted successfully to the wallet.');
-        router.push(`/projects/${project}/drops/${drop}/mints`);
+        router.back();
       },
     });
   };
@@ -197,7 +200,13 @@ export default function MintEdition({ project, drop }: MintEditionProps) {
                 <Button variant="secondary" onClick={onClose} disabled={onSubmitLoading}>
                   Cancel
                 </Button>
-                <Button htmlType="submit" disabled={onSubmitLoading} loading={onSubmitLoading}>
+                <Button
+                  htmlType="submit"
+                  disabled={
+                    onSubmitLoading || dropQuery.data?.project.drop?.status !== DropStatus.Minting
+                  }
+                  loading={onSubmitLoading}
+                >
                   Mint edition
                 </Button>
               </div>

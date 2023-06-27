@@ -10,6 +10,7 @@ import Typography, { Size } from '../../../../../../../components/Typography';
 import { formatDateString, DateFormat } from '../../../../../../../modules/time';
 import { Blockchain, Project, Purchase } from '../../../../../../../graphql.types';
 import { GetCollectionPurchases } from './../../../../../../../queries/purchase.graphql';
+import { useMemo } from 'react';
 
 interface MintsProps {
   loading?: boolean;
@@ -38,6 +39,17 @@ export default function Mints({ loading, project, drop }: MintsProps) {
   const blockchain = purchasesQuery.data?.project.drop?.collection.blockchain;
   const noPurchases = purchases.length === 0;
 
+  let blockchainIcon = useMemo(() => {
+    switch (blockchain) {
+      case Blockchain.Solana:
+        return <Icon.Crypto.Sol />;
+      case Blockchain.Polygon:
+        return <Icon.Crypto.Polygon />;
+      default:
+        return <></>;
+    }
+  }, [blockchain]);
+
   return (
     <div className="flex flex-col">
       {loading || purchasesQuery.loading ? (
@@ -48,8 +60,8 @@ export default function Mints({ loading, project, drop }: MintsProps) {
                 id: 'shortWallet',
                 header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
-                  <div className="flex flex-row gap-2">
-                    <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
+                  <div className="flex flex-row gap-2 align-middle">
+                    <span className="rounded-full w-4 aspect-square bg-stone-800 animate-pulse" />
                     <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
                   </div>
                 ),
@@ -127,9 +139,9 @@ export default function Mints({ loading, project, drop }: MintsProps) {
               header: () => <span>Wallet</span>,
               cell: (info) => {
                 return (
-                  <div className="flex gap-2">
-                    <Icon.Crypto.Sol />
-                    <span className="text-xs text-white font-medium">{info.getValue()}</span>
+                  <div className="flex gap-2 justify-middle">
+                    {blockchainIcon}
+                    <span className="text-xs text-white font-medium justify-middle">{info.getValue()}</span>
                   </div>
                 );
               },
@@ -162,21 +174,30 @@ export default function Mints({ loading, project, drop }: MintsProps) {
             columnHelper.display({
               id: 'moreOptions',
               header: () => <></>,
+              meta: {
+                align: 'right',
+              },
               cell: (info) => {
-                const txId = info.row.original.txSignature;
+                const transactionLink = info.row.original.transactionLink;
                 const options = [];
-                txId &&
-                  blockchain === Blockchain.Solana &&
+
+                if (transactionLink) {
                   options.push(
                     <Link
-                      href={`https://solscan.io/tx/${txId}`}
+                      href={transactionLink as string}
                       target="_blank"
-                      key="change_email"
+                      key="explorer"
                       className="flex gap-2 items-center"
                     >
-                      <Icon.ExternalLink /> <span>View on SolScan</span>
+                      <Icon.ExternalLink /> <span>View on explorer</span>
                     </Link>
                   );
+                }
+
+                if (options.length == 0) {
+                  return <></>
+                }
+
                 return (
                   <PopoverBox
                     triggerButton={

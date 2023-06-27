@@ -1,10 +1,10 @@
 'use client';
 
-import { Button } from '@holaplex/ui-library-react';
-import { Icon } from './../../../../../../components/Icon';
+import { Button, PopoverBox } from '@holaplex/ui-library-react';
+import { useMemo } from 'react';
 import Tabs from './../../../../../../layouts/Tabs';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { GetDrop } from './../../../../../../queries/drop.graphql';
 import { DateFormat, daysUntil, inTheFuture } from './../../../../../../modules/time';
 import { useQuery } from '@apollo/client';
@@ -16,11 +16,13 @@ import {
   MetadataJsonAttribute,
   Project,
 } from '../../../../../../graphql.types';
+import { Icon } from './../../../../../../components/Icon';
 import clsx from 'clsx';
 import { cloneElement } from 'react';
 import Typography, { Size } from '../../../../../../components/Typography';
 import { shorten } from '../../../../../../modules/wallet';
 import { format } from 'util';
+import { useRouter } from 'next/navigation';
 
 type Drop = {
   name: string;
@@ -42,8 +44,8 @@ interface GetDropsData {
 }
 
 export default function Drop({ children, project, drop }: DropProps): JSX.Element {
-  const router = useRouter();
   const pathname = usePathname();
+  const router = useRouter();
 
   const dropQuery = useQuery<GetDropsData, GetDropVars>(GetDrop, { variables: { project, drop } });
   const percent = Math.ceil(
@@ -54,18 +56,18 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
 
   const loading = dropQuery.loading;
   const dropData = dropQuery.data?.project?.drop;
-  const wallet = dropQuery.data?.project.treasury?.wallets?.find((wallet) => {
-    switch (dropQuery.data?.project?.drop?.collection.blockchain) {
-      case Blockchain.Solana:
-        return wallet.assetId === AssetType.SolTest || wallet.assetId === AssetType.Sol;
-      case Blockchain.Polygon:
-        return wallet.assetId === AssetType.MaticTest || wallet.assetId === AssetType.Matic;
-      case Blockchain.Ethereum:
-        return wallet.assetId === AssetType.EthTest || wallet.assetId === AssetType.Eth;
-    }
-  });
   const startTime = dropData?.startTime || dropData?.createdAt;
-  const endTime = dropData?.endTime;
+
+  let blockchainIcon = useMemo(() => {
+    switch (dropData?.collection.blockchain) {
+      case Blockchain.Solana:
+        return <Icon.Crypto.Sol className="cursor-pointer" />;
+      case Blockchain.Polygon:
+        return <Icon.Crypto.Polygon className="cursor-pointer" />;
+      default:
+        return <></>;
+    }
+  }, [dropData?.collection.blockchain]);
 
   return (
     <div className="flex flex-col px-6 py-6">
@@ -145,8 +147,15 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
               <Link href={`/projects/${project}/drops/${drop}/help`}>
                 <Button variant="secondary">?</Button>
               </Link>
-              <Link href={`/projects/${project}/drops/${drop}/mint`}>
-                <Button>Mint edition</Button>
+              <Link  href={`/projects/${project}/drops/${drop}/mint`}>
+                <Button
+                disabled={dropQuery?.data?.project?.drop?.status !== DropStatus.Minting}
+                onClick={() => {
+                  if (dropQuery?.data?.project?.drop?.status !== DropStatus.Minting) return
+                  
+                  router.push(`/projects/${project}/drops/${drop}/mint`)
+                }}
+                >Mint edition</Button>
               </Link>
             </div>
           </div>
@@ -172,10 +181,12 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                 <div className="w-full text-xs font-medium">
                   <div className="flex items-center justify-between">
                     <span className="text-white">
-                      Status: {dropQuery.data?.project?.drop?.status} -
-                       {dropQuery.data?.project?.drop?.collection?.totalMints}
-                      {dropQuery.data?.project?.drop?.collection?.supply &&
-                        ` / ${dropQuery.data?.project?.drop?.collection?.supply}`}
+                      {`Status: ${dropQuery.data?.project?.drop?.status} - ${
+                        dropQuery.data?.project?.drop?.collection?.totalMints
+                      } ${
+                        dropQuery.data?.project?.drop?.collection?.supply &&
+                        ` / ${dropQuery.data?.project?.drop?.collection?.supply}`
+                      }`}
                       <span className="text-gray-500"> - minted</span>
                     </span>
                     {inTheFuture(startTime) ? (
@@ -190,7 +201,8 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                     <div
                       className={clsx('top-0 bottom-0 left-0 absolute rounded-r-full', {
                         'bg-green-400':
-                          dropQuery.data?.project?.drop?.status === DropStatus.Minting,
+                          dropQuery.data?.project?.drop?.status === DropStatus.Minting ||
+                          dropQuery.data?.project?.drop?.status === DropStatus.Minted,
                         'bg-red-500':
                           dropQuery.data?.project?.drop?.status === DropStatus.Shutdown ||
                           dropQuery.data?.project?.drop?.status === DropStatus.Expired,
@@ -248,6 +260,39 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
 
                 <div className="basis-1/2 h-full flex flex-col px-4 gap-2 text-sm">
                   <div className="flex items-center justify-between gap-2">
+                    <span className="text-gray-400">Blockchain</span>
+                    <PopoverBox
+                      triggerButton={blockchainIcon}
+                      elements={[<span key="blockchain">{dropData?.collection.blockchain}</span>]}
+                    />
+                  </div>
+                  {dropData?.collection.address && (
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-gray-400">Address</span>
+                      <a
+                        target="_blank"
+                        rel="nofollow"
+                        className="hover:underline hover:opacity-80"
+                        href={dropData?.collection.exploreLink as string}
+                      >
+                        {dropData?.collection.shortAddress}
+                      </a>
+                    </div>
+                  )}
+                  {dropData?.collection.signature && (
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-gray-400">Transaction</span>
+                      <a
+                        target="_blank"
+                        rel="nofollow"
+                        className="hover:underline hover:opacity-80"
+                        href={dropData?.collection.transactionLink as string}
+                      >
+                        {dropData?.collection.shortTx}
+                      </a>
+                    </div>
+                  )}
+                  <div className="flex items-center justify-between gap-2">
                     <span className="text-gray-400">Royalties</span>
                     <span>{dropData?.collection.royalties}</span>
                   </div>
@@ -288,7 +333,14 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                   {dropData?.collection.metadataJson?.externalUrl && (
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-gray-400">External URL</span>
-                      <span>{dropData?.collection.metadataJson?.externalUrl}</span>
+                      <a
+                        rel="nofollow"
+                        href={dropData?.collection.metadataJson?.externalUrl as string}
+                        target="_blank"
+                        className="hover:underline hover:opacity-80"
+                      >
+                        {dropData?.collection.metadataJson?.externalUrl}
+                      </a>
                     </div>
                   )}
                 </div>

@@ -21,12 +21,11 @@ function WalletCard({ wallet, className }: WalletCardProps) {
 
   switch (wallet.assetId) {
     case AssetType.Sol:
-    case AssetType.SolTest:
       icon = <Icon.Large.Solana />;
       break;
-    case AssetType.Eth:
-    case AssetType.EthTest:
-      icon = <Icon.Large.Eth />;
+
+    case AssetType.Matic:
+      icon = <Icon.Large.Polygon />;
       break;
   }
   return (

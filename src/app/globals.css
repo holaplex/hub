@@ -134,7 +134,7 @@ input:focus {
 }
 
 .button-variant-primary {
-  @apply text-stone-950 bg-yellow-300 hover:bg-yellow-500 disabled:opacity-70 transition rounded-lg;
+  @apply text-stone-950 bg-yellow-300 hover:bg-yellow-500 disabled:opacity-70 disabled:bg-yellow-500 disabled:cursor-default transition rounded-lg;
 }
 
 .button-variant-secondary {
