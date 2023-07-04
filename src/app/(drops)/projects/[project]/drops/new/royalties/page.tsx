@@ -354,6 +354,7 @@ export default function NewDropRoyaltiesPage() {
                       {...register(`creators.${index}.share`)}
                       type="number"
                       placeholder="e.g. 10%"
+                      disabled={detail?.blockchain.id === Blockchain.Polygon}
                     />
                   </Form.Label>
                   {creators.length > 1 && (
