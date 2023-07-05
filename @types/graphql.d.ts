@@ -18,6 +18,7 @@ export const PatchDrop: DocumentNode;
 export const PauseDrop: DocumentNode;
 export const ResumeDrop: DocumentNode;
 export const ShutdownDrop: DocumentNode;
+export const RetryDrop: DocumentNode;
 export const GetOrganizationDrops: DocumentNode;
 export const GetProjectDrops: DocumentNode;
 export const GetDrop: DocumentNode;

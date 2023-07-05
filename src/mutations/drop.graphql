@@ -77,3 +77,13 @@ mutation ShutdownDrop($input: ShutdownDropInput!) {
     }
   }
 }
+
+mutation RetryDrop($input: RetryDropInput!) {
+  retryDrop(input: $input) {
+    drop {
+      id
+      createdAt
+      status
+    }
+  }
+}

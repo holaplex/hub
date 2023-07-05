@@ -326,7 +326,7 @@ export default function Drops({ project }: DropsPageProps) {
                               <Icon.Pause stroke="stroke-gray-400" /> <span>Resume mint</span>
                             </Link>
                           );
-                        } else {
+                        } else if (drop.status === DropStatus.Minting) {
                           actions.push(
                             <Link
                               key="pause_mint"
@@ -336,9 +336,7 @@ export default function Drops({ project }: DropsPageProps) {
                               <Icon.Pause stroke="stroke-gray-400" /> <span>Pause mint</span>
                             </Link>
                           );
-                        }
 
-                        if (drop.status === DropStatus.Minting) {
                           actions.push(
                             <Link
                               key="shutdown_mint"
@@ -346,6 +344,16 @@ export default function Drops({ project }: DropsPageProps) {
                               className="flex gap-2 items-center"
                             >
                               <Icon.Close stroke="stroke-gray-400" /> <span>Shut-down mint</span>
+                            </Link>
+                          );
+                        } else if (drop.status === DropStatus.Failed) {
+                          actions.push(
+                            <Link
+                              key="retry"
+                              href={`/projects/${project}/drops/${drop.id}/retry`}
+                              className="flex gap-2 items-center"
+                            >
+                              <span>Retry drop</span>
                             </Link>
                           );
                         }
