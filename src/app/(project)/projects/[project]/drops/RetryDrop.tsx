@@ -80,7 +80,7 @@ export default function RetryDrop({ drop, project }: RetryDropProps) {
   return (
     <div className="w-max mx-auto">
       <Card className="w-[400px]">
-        <Typography.Header size={Size.H2}>Shut-down mint</Typography.Header>
+        <Typography.Header size={Size.H2}>Retry drop</Typography.Header>
         {dropQuery.loading ? (
           <>
             <div className="mt-2 flex flex-col gap-1">
@@ -106,7 +106,6 @@ export default function RetryDrop({ drop, project }: RetryDropProps) {
               <Button
                 htmlType="submit"
                 className="w-full mt-5"
-                variant="failure"
                 onClick={onRetry}
                 loading={loading}
                 disabled={loading}
