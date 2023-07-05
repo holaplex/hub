@@ -64,6 +64,8 @@ jobs:
           file: ./Dockerfile
           build-args: |
             APP_FQDN=${{ steps.vars.outputs.fqdn }}
+            COOKIE_CONSENT_BANNER=true
+            TERMLY_ID=${{ vars.TERMLY_ID }}
           push: true
           provenance: false
           platforms: linux/${{ matrix.arch }}

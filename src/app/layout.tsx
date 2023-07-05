@@ -32,7 +32,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <App session={session}>{children}</App>
         {showCookieConsentBanner && (
-          <Script src="https://app.termly.io/embed.min.js" type="text/javascript" id={termlyId} />
+          <Script
+            src="https://app.termly.io/embed.min.js"
+            type="text/javascript"
+            data-auto-block="on"
+            data-website-uuid={termlyId}
+          />
         )}
       </body>
     </html>
