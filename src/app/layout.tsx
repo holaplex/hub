@@ -13,11 +13,13 @@ export const metadata = {
 
 const client = ory(serverConfig);
 
+const showCookieConsentBanner = process.env.NEXT_PUBLIC_COOKIE_CONSENT_BANNER === 'true';
+const termlyId = process.env.NEXT_PUBLIC_TERMLY_ID;
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const cookStore = cookies();
   let session: Session | undefined = undefined;
-  const showCookieConsentBanner = process.env.NEXT_PUBLIC_COOKIE_CONSENT_BANNER;
-  const termlyId = process.env.NEXT_PUBLIC_TERMLY_ID;
+
 
   try {
     const { data } = await client.toSession({
