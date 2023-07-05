@@ -64,7 +64,7 @@ export default function ResumeDrop({ drop, project }: ResumeDropProps) {
         }
       },
       onCompleted: () => {
-        toast.info('Drop resumed successfully.');
+        toast.success('Drop resumed successfully.');
         router.back();
       },
       onError: (error: ApolloError) => {

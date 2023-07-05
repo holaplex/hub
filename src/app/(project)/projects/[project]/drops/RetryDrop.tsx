@@ -7,6 +7,7 @@ import Card from '../../../../../components/Card';
 import Typography, { Size } from '../../../../../components/Typography';
 import { CreateDropPayload, Project, RetryDropInput } from '../../../../../graphql.types';
 import { RetryDrop as RetryDropMutation } from './../../../../../mutations/drop.graphql';
+import { GetProjectDrops } from './../../../../../queries/drop.graphql';
 import { useRouter } from 'next/navigation';
 
 interface GetDropData {
@@ -46,29 +47,14 @@ export default function RetryDrop({ drop, project }: RetryDropProps) {
           drop: dropQuery.data?.project.drop?.id,
         },
       },
-      update(cache, { data }) {
-        const drop = data?.retryDrop?.drop;
-
-        if (drop) {
-          cache.modify({
-            id: cache.identify(drop),
-            fields: {
-              createdAt() {
-                return drop.createdAt;
-              },
-              status() {
-                return drop.status;
-              },
-            },
-          });
-        }
-      },
+      refetchQueries: [{ query: GetProjectDrops, variables: { project } }],
       onCompleted: () => {
-        toast.info('Drop created successfully.');
+        toast.success('Retrying to create the drop.');
         router.back();
       },
       onError: (error: ApolloError) => {
         toast.error(error.message);
+        router.back();
       },
     });
   };
@@ -100,6 +86,10 @@ export default function RetryDrop({ drop, project }: RetryDropProps) {
                 {dropQuery.data?.project.drop?.collection.metadataJson?.name}
               </span>{' '}
               drop?
+              <p>
+                Retrying the drop will not charge your account any credits. If the drop continues to
+                fail please reach out to <a href="mailto:support@holaplex.com">support</a>.
+              </p>
             </Typography.Header>
 
             <div className="flex flex-col gap-2 mt-4">
