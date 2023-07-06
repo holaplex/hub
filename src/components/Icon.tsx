@@ -32,8 +32,52 @@ function CryptoIcon({ blockchain, className }: CryptoIconProps) {
       return <></>;
   }
 }
-
 Icon.Crypto = CryptoIcon;
+
+function Collections({
+  width = 20,
+  height = 20,
+  className = '',
+  stroke = 'stroke-stone-950',
+}: IconProps) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 20 20"
+      className={clsx('fill-none', stroke, className)}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M9.1 17.5C9.14244 17.2243 9.16472 16.9457 9.16667 16.6667V16.6667C9.16667 13.445 6.55499 10.8334 3.33333 10.8334C3.05433 10.8359 2.77586 10.8582 2.5 10.9"
+        stroke="#AAAAAA"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M2.5 8.42597V14.9074C2.5 16.3393 3.66074 17.5 5.09259 17.5H11.5741C13.0059 17.5 14.1667 16.3393 14.1667 14.9074V8.42597C14.1667 6.99412 13.0059 5.83337 11.5741 5.83337H5.09259C3.66074 5.83337 2.5 6.99412 2.5 8.42597Z"
+        stroke="#AAAAAA"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M5.83325 5.83333V5C5.83325 3.61929 6.95254 2.5 8.33325 2.5H14.9999C16.3806 2.5 17.4999 3.61929 17.4999 5V11.6667C17.4999 13.0474 16.3806 14.1667 14.9999 14.1667H14.1666"
+        stroke="#AAAAAA"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M10.3872 9.55387L10.3872 9.55379C10.4035 9.53755 10.4299 9.53757 10.4461 9.55385C10.4624 9.57012 10.4624 9.59649 10.4461 9.61276C10.4299 9.62902 10.4035 9.62903 10.3872 9.61277C10.3709 9.59652 10.3709 9.57015 10.3872 9.55387"
+        stroke="#AAAAAA"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+Icon.Collections = Collections;
 
 function Edit2({
   width = 20,
