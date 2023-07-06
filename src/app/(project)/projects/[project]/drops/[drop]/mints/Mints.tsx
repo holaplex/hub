@@ -180,6 +180,7 @@ export default function Mints({ loading, project, drop }: MintsProps) {
                 align: 'right',
               },
               cell: (info) => {
+
                 const purchase = info.row.original;
                 const transactionLink = purchase.transactionLink;
                 const status = purchase.status;
