@@ -8,7 +8,7 @@ import { useQuery } from '@apollo/client';
 import Table from '../../../../../../../components/Table';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { formatDateString, DateFormat } from '../../../../../../../modules/time';
-import { Blockchain, Project, Purchase } from '../../../../../../../graphql.types';
+import { Blockchain, CreationStatus, Project, Purchase } from '../../../../../../../graphql.types';
 import { GetCollectionPurchases } from './../../../../../../../queries/purchase.graphql';
 import { useMemo } from 'react';
 
@@ -141,7 +141,9 @@ export default function Mints({ loading, project, drop }: MintsProps) {
                 return (
                   <div className="flex gap-2 justify-middle">
                     {blockchainIcon}
-                    <span className="text-xs text-white font-medium justify-middle">{info.getValue()}</span>
+                    <span className="text-xs text-white font-medium justify-middle">
+                      {info.getValue()}
+                    </span>
                   </div>
                 );
               },
@@ -178,8 +180,21 @@ export default function Mints({ loading, project, drop }: MintsProps) {
                 align: 'right',
               },
               cell: (info) => {
-                const transactionLink = info.row.original.transactionLink;
+                const purchase = info.row.original;
+                const transactionLink = purchase.transactionLink;
+                const status = purchase.status;
                 const options = [];
+                if (status === CreationStatus.Failed) {
+                  options.push(
+                    <Link
+                      href={`/projects/${project}/drops/${drop}/mints/${purchase.mintId}/retry`}
+                      key="retry_mint"
+                      className="flex gap-2 items-center"
+                    >
+                      <span>Retry mint</span>
+                    </Link>
+                  );
+                }
 
                 if (transactionLink) {
                   options.push(
@@ -195,7 +210,7 @@ export default function Mints({ loading, project, drop }: MintsProps) {
                 }
 
                 if (options.length == 0) {
-                  return <></>
+                  return <></>;
                 }
 
                 return (
