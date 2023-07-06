@@ -64,7 +64,7 @@ export default function PauseDrop({ drop, project }: PauseDropProps) {
         }
       },
       onCompleted: () => {
-        toast.info('Drop paused successfully.');
+        toast.success('Drop paused successfully.');
         router.back();
       },
       onError: (error: ApolloError) => {

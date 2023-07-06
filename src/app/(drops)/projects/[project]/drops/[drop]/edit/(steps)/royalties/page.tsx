@@ -72,7 +72,6 @@ export default function EditDropRoyaltiesPage() {
   const creators = watch('creators');
   const supply = parseInt(watch('supply').replaceAll(',', ''));
 
-
   const submit = (data: PaymentSettings) => {
     if (data.royaltiesDestination === RoyaltiesDestination.ProjectTreasury) {
       data.creators = [{ address: wallet?.address as string, share: 100 }];
@@ -280,6 +279,7 @@ export default function EditDropRoyaltiesPage() {
                       {...register(`creators.${index}.share`)}
                       type="number"
                       placeholder="e.g. 10%"
+                      disabled={detail?.blockchain.id === Blockchain.Polygon}
                     />
                   </Form.Label>
                   {creators.length > 1 && (

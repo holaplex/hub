@@ -5,8 +5,9 @@ import { GetDropBasicDetail } from './../../../../../queries/drop.graphql';
 import { toast } from 'react-toastify';
 import Card from '../../../../../components/Card';
 import Typography, { Size } from '../../../../../components/Typography';
-import { Project, ResumeDropInput, ResumeDropPayload } from '../../../../../graphql.types';
-import { ResumeDrop as ResumeDropMutation } from './../../../../../mutations/drop.graphql';
+import { CreateDropPayload, Project, RetryDropInput } from '../../../../../graphql.types';
+import { RetryDrop as RetryDropMutation } from './../../../../../mutations/drop.graphql';
+import { GetProjectDrops } from './../../../../../queries/drop.graphql';
 import { useRouter } from 'next/navigation';
 
 interface GetDropData {
@@ -18,57 +19,42 @@ interface GetDropVars {
   project: string;
 }
 
-interface ResumeDropData {
-  resumeDrop: ResumeDropPayload;
+interface RetryDropData {
+  retryDrop: CreateDropPayload;
 }
 
-interface ResumeDropVars {
-  input: ResumeDropInput;
+interface RetryDropVars {
+  input: RetryDropInput;
 }
 
-interface ResumeDropProps {
+interface RetryDropProps {
   drop: string;
   project: string;
 }
 
-export default function ResumeDrop({ drop, project }: ResumeDropProps) {
+export default function RetryDrop({ drop, project }: RetryDropProps) {
   const router = useRouter();
 
   const dropQuery = useQuery<GetDropData, GetDropVars>(GetDropBasicDetail, {
     variables: { drop, project },
   });
-  const [resumeDrop, { loading }] = useMutation<ResumeDropData, ResumeDropVars>(ResumeDropMutation);
+  const [retryDrop, { loading }] = useMutation<RetryDropData, RetryDropVars>(RetryDropMutation);
 
-  const onResume = () => {
-    resumeDrop({
+  const onRetry = () => {
+    retryDrop({
       variables: {
         input: {
           drop: dropQuery.data?.project.drop?.id,
         },
       },
-      update(cache, { data }) {
-        const drop = data?.resumeDrop.drop;
-
-        if (drop) {
-          cache.modify({
-            id: cache.identify(drop),
-            fields: {
-              pausedAt() {
-                return drop.pausedAt;
-              },
-              status() {
-                return drop.status;
-              },
-            },
-          });
-        }
-      },
+      refetchQueries: [{ query: GetProjectDrops, variables: { project } }],
       onCompleted: () => {
-        toast.success('Drop resumed successfully.');
+        toast.success('Retrying to create the drop.');
         router.back();
       },
       onError: (error: ApolloError) => {
         toast.error(error.message);
+        router.back();
       },
     });
   };
@@ -80,7 +66,7 @@ export default function ResumeDrop({ drop, project }: ResumeDropProps) {
   return (
     <div className="w-max mx-auto">
       <Card className="w-[400px]">
-        <Typography.Header size={Size.H2}>Resume mint</Typography.Header>
+        <Typography.Header size={Size.H2}>Retry drop</Typography.Header>
         {dropQuery.loading ? (
           <>
             <div className="mt-2 flex flex-col gap-1">
@@ -95,22 +81,26 @@ export default function ResumeDrop({ drop, project }: ResumeDropProps) {
         ) : (
           <>
             <Typography.Header size={Size.H3} className="mt-2">
-              Are you sure you want to resume{' '}
+              Are you sure you want to retry creating{' '}
               <span className="text-white font-medium">
                 {dropQuery.data?.project.drop?.collection.metadataJson?.name}
               </span>{' '}
-              drop and continue sales?
+              drop?
+              <p>
+                Retrying the drop will not charge your account any credits. If the drop continues to
+                fail please reach out to <a href="mailto:support@holaplex.com">support</a>.
+              </p>
             </Typography.Header>
 
             <div className="flex flex-col gap-2 mt-4">
               <Button
                 htmlType="submit"
                 className="w-full mt-5"
-                onClick={onResume}
+                onClick={onRetry}
                 loading={loading}
                 disabled={loading}
               >
-                Resume mint
+                Retry
               </Button>
               <Button variant="secondary" className="w-full" onClick={onClose} disabled={loading}>
                 Cancel

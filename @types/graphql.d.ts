@@ -18,6 +18,7 @@ export const PatchDrop: DocumentNode;
 export const PauseDrop: DocumentNode;
 export const ResumeDrop: DocumentNode;
 export const ShutdownDrop: DocumentNode;
+export const RetryDrop: DocumentNode;
 export const GetOrganizationDrops: DocumentNode;
 export const GetProjectDrops: DocumentNode;
 export const GetDrop: DocumentNode;
@@ -52,6 +53,7 @@ declare module '*/mint.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const MintEdition: DocumentNode;
+export const RetryMint: DocumentNode;
 export const GetCollectionMints: DocumentNode;
 
   export default defaultDocument;
