@@ -21,10 +21,10 @@ interface RetryMintVars {
 interface RetryMintProps {
   drop: string;
   project: string;
-  mintId: string;
+  mint: string;
 }
 
-export default function RetryMint({ drop, project, mintId }: RetryMintProps) {
+export default function RetryMint({ drop, project, mint }: RetryMintProps) {
   const router = useRouter();
 
   const [retryMint, { loading }] = useMutation<RetryMintData, RetryMintVars>(RetryMintMutation);
@@ -33,7 +33,7 @@ export default function RetryMint({ drop, project, mintId }: RetryMintProps) {
     retryMint({
       variables: {
         input: {
-          id: mintId,
+          id: mint,
         },
       },
       refetchQueries: [{ query: GetCollectionPurchases, variables: { project, drop } }],
