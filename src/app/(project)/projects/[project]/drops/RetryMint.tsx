@@ -7,7 +7,6 @@ import Card from '../../../../../components/Card';
 import Typography, { Size } from '../../../../../components/Typography';
 import { RetryMintInput, RetryMintPayload } from '../../../../../graphql.types';
 import { RetryMint as RetryMintMutation } from './../../../../../mutations/mint.graphql';
-import { GetProjectDrops } from './../../../../../queries/drop.graphql';
 import { useRouter } from 'next/navigation';
 
 interface RetryMintData {
