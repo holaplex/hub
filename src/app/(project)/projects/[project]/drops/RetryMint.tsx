@@ -7,7 +7,7 @@ import Card from '../../../../../components/Card';
 import Typography, { Size } from '../../../../../components/Typography';
 import { RetryMintInput, RetryMintPayload } from '../../../../../graphql.types';
 import { RetryMint as RetryMintMutation } from './../../../../../mutations/mint.graphql';
-import { GetProjectDrops } from './../../../../../queries/drop.graphql';
+
 import { useRouter } from 'next/navigation';
 
 interface RetryMintData {
@@ -21,10 +21,10 @@ interface RetryMintVars {
 interface RetryMintProps {
   drop: string;
   project: string;
-  mintId: string;
+  mint: string;
 }
 
-export default function RetryMint({ drop, project, mintId }: RetryMintProps) {
+export default function RetryMint({ drop, project, mint }: RetryMintProps) {
   const router = useRouter();
 
   const [retryMint, { loading }] = useMutation<RetryMintData, RetryMintVars>(RetryMintMutation);
@@ -33,7 +33,7 @@ export default function RetryMint({ drop, project, mintId }: RetryMintProps) {
     retryMint({
       variables: {
         input: {
-          id: mintId,
+          id: mint,
         },
       },
       refetchQueries: [{ query: GetCollectionPurchases, variables: { project, drop } }],

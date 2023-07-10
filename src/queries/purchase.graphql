@@ -11,6 +11,7 @@ query GetCollectionPurchases($project: UUID!, $drop: UUID!) {
         purchases {
           id
           wallet
+          mintId
           shortWallet @client
           shortTx @client
           transactionLink @client
