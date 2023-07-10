@@ -2,7 +2,7 @@
 import { Modal } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import RetryMint from '../../../../../RetryMint';
+import RetryMint from '../../../../../../RetryMint';
 
 interface RetryMintPageProps {
   params: { drop: string; project: string; mint: string };
