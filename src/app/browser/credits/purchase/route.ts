@@ -9,7 +9,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
 const price = process.env.STRIPE_PRICE_ID;
 const fqdn = process.env.NEXT_PUBLIC_APP_FQDN;
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
   const headers = request.headers;
   const cookies = request.cookies;
   const userId = headers.get('x-user-id');
