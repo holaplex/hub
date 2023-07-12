@@ -129,7 +129,7 @@ export default function CreditsLayout({
             <div className="flex flex-col basis-1/3 gap-4 items-center justify-center p-6 bg-stone-900 rounded-lg">
               <span className="text-gray-400">Current credit balance</span>
               <span className="text-6xl font-semibold">{balance}</span>
-              <form action="/browser/credits/purchase" method="GET">
+              <form action="/api/credits/purchase" method="POST">
                 <Button icon={<Icon.Add />} htmlType="submit">
                   Buy more credits
                 </Button>
