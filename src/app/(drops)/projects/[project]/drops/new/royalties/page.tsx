@@ -206,7 +206,7 @@ export default function NewDropRoyaltiesPage() {
                   </div>
                 </div>
                 {expectedCreditCost > creditBalance && (
-                  <form action="/browser/credits/purchase" method="POST" className="shrink-0">
+                  <form action="/browser/credits/purchase" method="GET" className="shrink-0">
                     <Button htmlType="submit">Buy credits</Button>
                   </form>
                 )}
