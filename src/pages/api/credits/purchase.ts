@@ -33,8 +33,8 @@ export default async function handler(request: NextApiRequest, response: NextApi
         cancel_url: `${fqdn}/credits/costs`,
         automatic_tax: { enabled: true },
         metadata: {
-          organization_id: organization,
-          user_id: userId,
+          organization_id: organization as string,
+          user_id: userId as string,
         },
       });
 
