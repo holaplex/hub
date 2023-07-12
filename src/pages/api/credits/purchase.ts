@@ -11,10 +11,10 @@ const fqdn = process.env.NEXT_PUBLIC_APP_FQDN;
 export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   if (request.method === 'POST') {
     try {
-      const headers: any = request.headers;
-      const cookies: any = request.cookies;
-      const userId = headers.get('x-user-id');
-      const organization = cookies.get('_hub_org')?.value as string;
+      const headers = request.headers;
+      const cookies = request.cookies;
+      const userId = headers['x-user-id'];
+      const organization = cookies['_hub_org'];
 
       const session = await stripe.checkout.sessions.create({
         line_items: [
