@@ -6,7 +6,7 @@ import { Icon } from '../../../../../components/Icon';
 import Table from '../../../../../components/Table';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
-import { GetProjectCollections } from './../../../queries/collections.graphql';
+import { GetProjectCollections } from './../../../../../queries/collections.graphql';
 import { Collection, Project } from '../../../../../graphql.types';
 import { DateFormat, formatDateString } from '../../../../../modules/time';
 import Copy from '../../../../../components/Copy';
@@ -65,7 +65,7 @@ export default function ProjectCollectionsPage() {
                     </div>
                   ),
                   cell: () => (
-                    <div>
+                    <div className="flex items-center">
                       <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                     </div>
                   ),
@@ -73,12 +73,12 @@ export default function ProjectCollectionsPage() {
                 loadingColumnHelper.display({
                   id: 'type',
                   header: () => (
-                    <div className="flex gap-2 items-center">
+                    <div className="flex items-center">
                       <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                     </div>
                   ),
                   cell: () => (
-                    <div>
+                    <div className="flex items-center">
                       <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                     </div>
                   ),
