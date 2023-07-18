@@ -7,3 +7,13 @@ mutation MintEdition($input: MintDropInput!) {
     }
   }
 }
+
+mutation RetryMint($input: RetryMintInput!) {
+  retryMint(input: $input) {
+    collectionMint {
+      id
+      address
+      owner
+    }
+  }
+}

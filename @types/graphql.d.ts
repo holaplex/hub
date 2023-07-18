@@ -53,6 +53,7 @@ declare module '*/mint.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const MintEdition: DocumentNode;
+export const RetryMint: DocumentNode;
 export const GetCollectionMints: DocumentNode;
 
   export default defaultDocument;
