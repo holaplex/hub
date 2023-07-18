@@ -6,32 +6,32 @@ import { Icon } from '../../../../../components/Icon';
 import Table from '../../../../../components/Table';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
-import { GetOrganizationProjects } from './../../../queries/organization.graphql';
-import { Organization, Project } from '../../../../../graphql.types';
-import { useOrganization } from '../../../../../hooks/useOrganization';
+import { GetProjectCollections } from './../../../queries/collections.graphql';
+import { Collection, Project } from '../../../../../graphql.types';
 import { DateFormat, formatDateString } from '../../../../../modules/time';
 import Copy from '../../../../../components/Copy';
+import { useProject } from '../../../../../hooks/useProject';
 
-interface GetProjectsData {
-  organization: Organization;
+interface GetCollectionsData {
+  project: Project;
 }
 
-interface GetProjectsVars {
-  organization: string;
+interface GetCollectionsVars {
+  project: string;
 }
-export default function OrganizationCollectionsPage() {
-  const { organization } = useOrganization();
+export default function ProjectCollectionsPage() {
+  const { project } = useProject();
 
-  const projectsQuery = useQuery<GetProjectsData, GetProjectsVars>(GetOrganizationProjects, {
-    variables: { organization: organization?.id },
+  const collectionsQuery = useQuery<GetCollectionsData, GetCollectionsVars>(GetProjectCollections, {
+    variables: { project: project?.id },
   });
 
-  const projects = projectsQuery.data?.organization.projects || [];
-  const noProjects = projects.length === 0;
-  const columnHelper = createColumnHelper<Project>();
+  const collections = collectionsQuery.data?.project.collections || [];
+  const noCollections = collections.length === 0;
+  const columnHelper = createColumnHelper<Collection>();
   const loadingColumnHelper = createColumnHelper<any>();
 
-  const loading = projectsQuery.loading;
+  const loading = collectionsQuery.loading;
 
   return (
     <>
@@ -53,6 +53,32 @@ export default function OrganizationCollectionsPage() {
                   cell: () => (
                     <div className="flex gap-2 items-center">
                       <span className="rounded-md h-8 w-8 bg-stone-800 animate-pulse" />
+                      <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
+                    </div>
+                  ),
+                }),
+                loadingColumnHelper.display({
+                  id: 'nfts',
+                  header: () => (
+                    <div className="flex gap-2 items-center">
+                      <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
+                    </div>
+                  ),
+                  cell: () => (
+                    <div>
+                      <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
+                    </div>
+                  ),
+                }),
+                loadingColumnHelper.display({
+                  id: 'type',
+                  header: () => (
+                    <div className="flex gap-2 items-center">
+                      <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
+                    </div>
+                  ),
+                  cell: () => (
+                    <div>
                       <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                     </div>
                   ),
@@ -83,19 +109,11 @@ export default function OrganizationCollectionsPage() {
           </>
         ) : (
           <>
-            <h1 className="text-2xl text-white font-medium">Projects</h1>
-            {noProjects ? (
+            <h1 className="text-2xl text-white font-medium">Collections</h1>
+            {noCollections ? (
               <div className="h-full flex-1 flex flex-col items-center justify-center">
                 <Icon.Large.CreateProject />
                 <span className="mt-6 text-xl font-semibold">No collections created yet</span>
-                <span className="mt-2 text-gray-400 text-sm">
-                  Click button below to get started.
-                </span>
-                <Link href="/collections/new">
-                  <Button icon={<Icon.CreateProject />} className="mt-8">
-                    Create new collection
-                  </Button>
-                </Link>
               </div>
             ) : (
               <div className="mt-4 flex flex-col">
@@ -108,17 +126,18 @@ export default function OrganizationCollectionsPage() {
                   className="mt-4"
                   columns={[
                     // @ts-ignore
-                    columnHelper.accessor('name', {
+                    columnHelper.accessor('metadataJson.name', {
                       header: () => <span>Collection Name</span>,
                       cell: (info) => {
-                        const profileImage = info.row.original.profileImageUrl;
+                        const collection = info.row.original;
+                        const image = collection.metadataJson?.image;
                         return (
                           <Link
                             href={`/collections/${info.row.original.id}/nfts`}
                             className="flex gap-2 items-center"
                           >
-                            {profileImage ? (
-                              <img className="w-8 h-8 rounded-md" src={profileImage} alt="logo" />
+                            {image ? (
+                              <img className="w-8 h-8 rounded-md" src={image} alt="logo" />
                             ) : (
                               <div className="w-8 h-8 bg-stone-800 rounded-md" />
                             )}
@@ -126,6 +145,24 @@ export default function OrganizationCollectionsPage() {
                               {info.getValue()}
                             </span>
                           </Link>
+                        );
+                      },
+                    }),
+                    columnHelper.accessor('totalMints', {
+                      header: () => <span>NFTs</span>,
+                      cell: (info) => {
+                        return (
+                          <div className="text-white text-xs font-medium">{info.getValue()}</div>
+                        );
+                      },
+                    }),
+                    columnHelper.accessor('drop', {
+                      header: () => <span>Type</span>,
+                      cell: (info) => {
+                        return (
+                          <div className="text-white text-xs font-medium">
+                            {info.getValue() ? 'Drop' : 'Open'}
+                          </div>
                         );
                       },
                     }),
@@ -179,7 +216,7 @@ export default function OrganizationCollectionsPage() {
                       },
                     }),
                   ]}
-                  data={projects}
+                  data={collections}
                 />
               </div>
             )}

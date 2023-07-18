@@ -8,8 +8,8 @@ mutation MintEdition($input: MintDropInput!) {
   }
 }
 
-mutation RetryMint($input: RetryMintInput!) {
-  retryMint(input: $input) {
+mutation RetryMintEdition($input: RetryMintEditionInput!) {
+  retryMintEdition(input: $input) {
     collectionMint {
       id
       address

@@ -1,0 +1,19 @@
+query GetProjectCollections($project: UUID!) {
+  project(id: $project) {
+    id
+    collections {
+      id
+      blockchain
+      createdAt
+      totalMints
+      metadataJson {
+        id
+        name
+        image
+      }
+      drop {
+        id
+      }
+    }
+  }
+}
