@@ -17,3 +17,63 @@ query GetProjectCollections($project: UUID!) {
     }
   }
 }
+
+query GetProjectCollection($project: UUID!, $collection: UUID!) {
+  project(id: $project) {
+    id
+    collection(id: $collection) {
+      id
+      blockchain
+      createdAt
+      totalMints
+      createdById
+      metadataJson {
+        id
+        name
+        image
+        description
+        symbol
+      }
+      drop {
+        id
+      }
+    }
+  }
+}
+
+query GetProjectCollectionMints($project: UUID!, $collection: UUID!) {
+  project(id: $project) {
+    id
+    collection(id: $collection) {
+      id
+      mints {
+        id
+        owner
+        createdAt
+        metadataJson {
+          id
+          name
+          image
+        }
+      }
+    }
+  }
+}
+
+query GetProjectCollectionHolders($project: UUID!, $collection: UUID!) {
+  project(id: $project) {
+    id
+    collection(id: $collection) {
+      id
+      totalMints
+      blockchain
+      holders {
+        address
+        owns
+        collectionId
+        shortAddress @client
+        exploreLink @client
+      }
+    }
+  }
+}

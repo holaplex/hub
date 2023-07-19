@@ -133,7 +133,7 @@ export default function ProjectCollectionsPage() {
                         const image = collection.metadataJson?.image;
                         return (
                           <Link
-                            href={`/collections/${info.row.original.id}/nfts`}
+                            href={`/projects/${project?.id}/collections/${info.row.original.id}/nfts`}
                             className="flex gap-2 items-center"
                           >
                             {image ? (
@@ -198,14 +198,6 @@ export default function ProjectCollectionsPage() {
                                 </div>
                               }
                               elements={[
-                                <Link
-                                  key="edit_collection"
-                                  className="flex gap-2 items-center"
-                                  href={`/collections/${collectionId}/edit`}
-                                >
-                                  <Icon.Edit stroke="stroke-gray-400" />{' '}
-                                  <span>Edit collection</span>
-                                </Link>,
                                 <Copy key="copy_id" copyString={collectionId}>
                                   <span>Copy collection ID</span>
                                 </Copy>,

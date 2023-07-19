@@ -99,6 +99,9 @@ declare module '*/collections.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const GetProjectCollections: DocumentNode;
+export const GetProjectCollection: DocumentNode;
+export const GetProjectCollectionMints: DocumentNode;
+export const GetProjectCollectionHolders: DocumentNode;
 
   export default defaultDocument;
 }
