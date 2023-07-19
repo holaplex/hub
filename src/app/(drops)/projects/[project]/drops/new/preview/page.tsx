@@ -16,7 +16,7 @@ import {
 } from '../../../../../../../graphql.types';
 import { StoreApi, useStore } from 'zustand';
 import { ApolloError, useMutation } from '@apollo/client';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { CreateDrop } from './../../../../../../../mutations/drop.graphql';
 import { combineDateTime, maybeToUtc, DateFormat } from '../../../../../../../modules/time';
 import { useProject } from '../../../../../../../hooks/useProject';
@@ -119,7 +119,7 @@ export default function NewDropPreviewPage() {
   if (timing.selectStartDate === 'specifyStartDate' && timing.startTime && timing.startDate) {
     const [startTimeHrs, startTimeMins] = timing.startTime.split(':');
     startDateTime = combineDateTime(
-      new Date(timing.startDate),
+      parseISO(timing.startDate),
       parseInt(startTimeHrs),
       parseInt(startTimeMins)
     );
@@ -129,7 +129,7 @@ export default function NewDropPreviewPage() {
   if (timing.selectEndDate === 'specifyEndDate' && timing.endTime && timing.endDate) {
     const [endTimeHrs, endTimeMins] = timing.endTime.split(':');
     endDateTime = combineDateTime(
-      new Date(timing.endDate),
+      parseISO(timing.endDate),
       parseInt(endTimeHrs),
       parseInt(endTimeMins)
     );
