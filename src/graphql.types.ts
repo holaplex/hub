@@ -208,6 +208,7 @@ export type CollectionMint = {
   shortAddress: Scalars['String'];
   /** The transaction signature associated with the NFT. */
   signature?: Maybe<Scalars['String']>;
+  transactionLink?: Maybe<Scalars['String']>;
 };
 
 export type CreateCollectionInput = {

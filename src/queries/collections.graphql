@@ -50,6 +50,7 @@ query GetProjectCollectionMints($project: UUID!, $collection: UUID!) {
         id
         owner
         createdAt
+        transactionLink @client
         metadataJson {
           id
           name

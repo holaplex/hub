@@ -113,7 +113,6 @@ export default function ProjectCollectionsPage() {
             <h1 className="text-2xl text-white font-medium">Collections</h1>
             {noCollections ? (
               <div className="h-full flex-1 flex flex-col items-center justify-center">
-                <Icon.Large.CreateProject />
                 <span className="mt-6 text-xl font-semibold">No collections created yet</span>
               </div>
             ) : (

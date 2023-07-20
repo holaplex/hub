@@ -152,10 +152,6 @@ export default function Collection({
                     {format(convertLocalTime(collectionData?.createdAt), DateFormat.DATE_2)}
                   </span>
                 </div>
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-gray-400">Authority</span>
-                  <span>{shorten(collectionData?.createdById)}</span>
-                </div>
               </div>
             </div>
           </div>

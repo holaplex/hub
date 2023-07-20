@@ -7,6 +7,10 @@ import { CollectionMint, Project } from '../../../../../../../graphql.types';
 import { GetProjectCollectionMints } from './../../../../../../../queries/collections.graphql';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { format } from 'date-fns';
+import Link from 'next/link';
+import { Icon } from '../../../../../../../components/Icon';
+import { PopoverBox } from '@holaplex/ui-library-react';
+import clsx from 'clsx';
 
 interface NftsProps {
   loading?: boolean;
@@ -130,7 +134,38 @@ export default function Nfts({ loading, project, collection }: NftsProps) {
                 align: 'right',
               },
               cell: (info) => {
-                return <></>;
+                const nft = info.row.original;
+                const transactionLink = nft.transactionLink;
+                const options = [];
+
+                if (transactionLink) {
+                  options.push(
+                    <Link
+                      href={transactionLink as string}
+                      target="_blank"
+                      key="explorer"
+                      className="flex gap-2 items-center"
+                    >
+                      <Icon.ExternalLink /> <span>View on explorer</span>
+                    </Link>
+                  );
+                }
+                if (options.length == 0) {
+                  return <></>;
+                }
+
+                return (
+                  <PopoverBox
+                    triggerButton={
+                      <div
+                        className={clsx('px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min')}
+                      >
+                        <Icon.More />
+                      </div>
+                    }
+                    elements={options}
+                  />
+                );
               },
             }),
           ]}

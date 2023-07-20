@@ -22,6 +22,7 @@ extend type Holder {
 extend type CollectionMint {
   ownerShortAddress: String!
   shortAddress: String!
+  transactionLink: String
 }
 
 extend type Purchase {
