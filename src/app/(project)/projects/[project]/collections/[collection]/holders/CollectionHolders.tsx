@@ -14,7 +14,6 @@ import { useMemo } from 'react';
 interface HoldersProps {
   project: string;
   collection: string;
-  loading?: boolean;
 }
 
 interface GetCollectionHoldersData {
@@ -54,7 +53,7 @@ export default function CollectionHolders({ project, collection, loading }: Hold
 
   return (
     <div className="flex flex-col">
-      {holdersQuery.loading || loading ? (
+      {holdersQuery.loading ? (
         <>
           <Table
             columns={[
