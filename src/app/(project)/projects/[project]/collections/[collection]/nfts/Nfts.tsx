@@ -5,6 +5,7 @@ import Table from '../../../../../../../components/Table';
 import { formatDateString, DateFormat } from '../../../../../../../modules/time';
 import { CollectionMint, Project } from '../../../../../../../graphql.types';
 import { GetProjectCollectionMints } from './../../../../../../../queries/collections.graphql';
+import Typography, { Size } from '../../../../../../../components/Typography';
 
 interface NftsProps {
   loading?: boolean;
@@ -29,8 +30,6 @@ export default function Nfts({ loading, project, collection }: NftsProps) {
     variables: { project, collection },
   });
 
-  console.log('nftsquery', nftsQuery);
-
   const nfts = nftsQuery.data?.project?.collection?.mints || [];
   const noNfts = nfts.length === 0;
 
@@ -44,9 +43,9 @@ export default function Nfts({ loading, project, collection }: NftsProps) {
                 id: 'name',
                 header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
-                  <div className="flex flex-row gap-2 align-middle">
-                    <span className="rounded-full w-4 aspect-square bg-stone-800 animate-pulse" />
-                    <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
+                  <div className="flex gap-2 items-center">
+                    <span className="rounded-md h-8 w-8 bg-stone-800 animate-pulse" />
+                    <span className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
                   </div>
                 ),
               }),
@@ -78,6 +77,10 @@ export default function Nfts({ loading, project, collection }: NftsProps) {
             data={new Array(4)}
           />
         </>
+      ) : noNfts ? (
+        <div className="flex flex-col gap-2 items-center">
+          <Typography.Header size={Size.H2}>No nfts minted yet</Typography.Header>
+        </div>
       ) : (
         <Table
           columns={[

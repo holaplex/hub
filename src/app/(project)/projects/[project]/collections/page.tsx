@@ -117,11 +117,6 @@ export default function ProjectCollectionsPage() {
               </div>
             ) : (
               <div className="mt-4 flex flex-col">
-                <Link href="/collections/new" className="self-end">
-                  <Button icon={<Icon.Add />} className="self-end">
-                    Collection
-                  </Button>
-                </Link>
                 <Table
                   className="mt-4"
                   columns={[

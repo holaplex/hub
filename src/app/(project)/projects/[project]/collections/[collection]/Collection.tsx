@@ -1,21 +1,18 @@
 'use client';
 
-import { Button, PopoverBox } from '@holaplex/ui-library-react';
+import { PopoverBox } from '@holaplex/ui-library-react';
 import { useMemo } from 'react';
 import Tabs from '../../../../../../layouts/Tabs';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { GetProjectCollection } from './../../../../../../queries/collections.graphql';
-import { DateFormat } from '../../../../../../modules/time';
+import { DateFormat, formatDateString } from '../../../../../../modules/time';
 import { useQuery } from '@apollo/client';
 import { Blockchain, DropStatus, Project } from '../../../../../../graphql.types';
 import { Icon } from '../../../../../../components/Icon';
-import clsx from 'clsx';
 import { cloneElement } from 'react';
 import Typography, { Size } from '../../../../../../components/Typography';
 import { shorten } from '../../../../../../modules/wallet';
-import { format } from 'util';
-import { useRouter } from 'next/navigation';
 
 interface CollectionProps {
   project: string;
@@ -38,7 +35,6 @@ export default function Collection({
   collection,
 }: CollectionProps): JSX.Element {
   const pathname = usePathname();
-  const router = useRouter();
 
   const collectionQuery = useQuery<GetCollectionData, GetCollectionVars>(GetProjectCollection, {
     variables: { project, collection },
@@ -69,20 +65,17 @@ export default function Collection({
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 mt-8">
+          <div className="min-w-full mt-8">
             <div className="flex p-6 bg-stone-900 rounded-lg">
-              <div className="basis-1/2 h-full flex flex-col border-r border-r-stone-800 pr-4">
-                <div className="h-4 w-8 bg-stone-800 animate-pulse rounded-full mb-2" />
-                <span className="h-10 w-32 bg-stone-800 animate-pulse rounded-lg mb-1" />
-                <div className="h-4 w-full bg-stone-800 animate-pulse rounded-full mt-4" />
-                <div className="h-4 w-full bg-stone-800 animate-pulse rounded-full mt-2" />
-                <div className="h-4 w-full bg-stone-800 animate-pulse rounded-full mt-2" />
-                <div className="h-4 w-full bg-stone-800 animate-pulse rounded-full mt-2" />
-                <div className="h-4 w-full bg-stone-800 animate-pulse rounded-full mt-2" />
+              <div className="basis-1/2 min-h-full flex border-r border-r-stone-800 pr-4 gap-4">
+                <span className="h-[80px] w-[80px] bg-stone-800 animate-pulse rounded-lg" />
+                <div className="flex flex-col gap-2 min-w-max">
+                  <div className="h-6 w-64 bg-stone-800 animate-pulse rounded-full" />
+                  <div className="h-4 w-full bg-stone-800 animate-pulse rounded-full" />
+                  <div className="h-4 w-full bg-stone-800 animate-pulse rounded-full" />
+                </div>
               </div>
               <div className="basis-1/2 h-full flex flex-col px-4 justify-between">
-                <div className="h-4 w-full bg-stone-800 animate-pulse rounded-full mt-2" />
-                <div className="h-4 w-full bg-stone-800 animate-pulse rounded-full mt-2" />
                 <div className="h-4 w-full bg-stone-800 animate-pulse rounded-full mt-2" />
                 <div className="h-4 w-full bg-stone-800 animate-pulse rounded-full mt-2" />
                 <div className="h-4 w-full bg-stone-800 animate-pulse rounded-full mt-2" />
@@ -105,51 +98,63 @@ export default function Collection({
           </div>
 
           {/* MAIN */}
-          <div className="mt-8 flex flex-col md:flex-row gap-6">
-            <div className="flex flex-col">
-              <div className="flex p-6 bg-stone-900 rounded-lg mt-6">
-                <div className="basis-1/2 h-full flex border-r border-r-stone-800 pr-4 gap-4">
-                  <img
-                    src={collectionData?.metadataJson?.image as string}
-                    className="w-[80px] aspect-square rounded-lg object-cover"
-                  />
-                  <div className="flex flex-col">
-                    <Typography.Header size={Size.H2} className="mt-2">
-                      {collectionData?.metadataJson?.name as string}
-                    </Typography.Header>
-                    <span className="text-sm text-gray-400 mt-2">
-                      {collectionData?.metadataJson?.description}
-                    </span>
-                  </div>
+          <div className="mt-8 min-w-full">
+            <div className="flex p-6 bg-stone-900 rounded-lg mt-6">
+              <div className="basis-1/2 min-h-full flex border-r border-r-stone-800 pr-4 gap-4">
+                <img
+                  src={collectionData?.metadataJson?.image as string}
+                  className="w-[80px] h-[80px] aspect-square rounded-lg object-cover"
+                />
+                <div className="flex flex-col gap-2">
+                  <Typography.Header size={Size.H2}>
+                    {collectionData?.metadataJson?.name as string}
+                  </Typography.Header>
+                  <span className="text-sm text-gray-400">
+                    {collectionData?.metadataJson?.description}
+                  </span>
                 </div>
+              </div>
 
-                <div className="basis-1/2 h-full flex flex-col px-4 gap-2 text-sm">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-gray-400">Blockchain</span>
-                    <PopoverBox
-                      triggerButton={blockchainIcon}
-                      elements={[<span key="blockchain">{collectionData?.blockchain}</span>]}
-                    />
-                  </div>
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-gray-400">Type</span>
-                    <span>{collectionData?.drop ? 'Drop' : 'Open'}</span>
-                  </div>
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-gray-400">Symbol</span>
-                    <span>{collectionData?.metadataJson?.symbol}</span>
-                  </div>
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-gray-400">Created</span>
-                    <span>
-                      `${format(collectionData?.createdAt, DateFormat.DATE_1)}, $
-                      {format(collectionData?.createdAt, DateFormat.TIME_1)}`
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-gray-400">Authority</span>
-                    <span>{collectionData?.createdById}</span>
-                  </div>
+              <div className="basis-1/2 h-full flex flex-col px-4 gap-2 text-sm">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-gray-400">Blockchain</span>
+                  <PopoverBox
+                    triggerButton={blockchainIcon}
+                    elements={[<span key="blockchain">{collectionData?.blockchain}</span>]}
+                  />
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-gray-400">Type</span>
+                  <span>
+                    {collectionData?.drop ? (
+                      <span>
+                        Drop{' '}
+                        <Link
+                          href={`/projects/${project}/drops/${collectionData.drop.id}/mints`}
+                          className="text-yellow-300"
+                        >
+                          view
+                        </Link>
+                      </span>
+                    ) : (
+                      'Open'
+                    )}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-gray-400">Symbol</span>
+                  <span>{collectionData?.metadataJson?.symbol}</span>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-gray-400">Created</span>
+                  <span>
+                    `${formatDateString(collectionData?.createdAt, DateFormat.DATE_1)}, $
+                    {formatDateString(collectionData?.createdAt, DateFormat.TIME_1)}`
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-gray-400">Authority</span>
+                  <span>{shorten(collectionData?.createdById)}</span>
                 </div>
               </div>
             </div>
