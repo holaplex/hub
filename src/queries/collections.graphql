@@ -46,10 +46,12 @@ query GetProjectCollectionMints($project: UUID!, $collection: UUID!) {
     id
     collection(id: $collection) {
       id
+      blockchain
       mints {
         id
         owner
         createdAt
+        signature
         transactionLink @client
         metadataJson {
           id
