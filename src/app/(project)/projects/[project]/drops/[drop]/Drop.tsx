@@ -6,7 +6,13 @@ import Tabs from './../../../../../../layouts/Tabs';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { GetDrop } from './../../../../../../queries/drop.graphql';
-import { DateFormat, daysUntil, inTheFuture } from './../../../../../../modules/time';
+import { format } from 'date-fns';
+import {
+  DateFormat,
+  daysUntil,
+  inTheFuture,
+  convertLocalTime,
+} from './../../../../../../modules/time';
 import { useQuery } from '@apollo/client';
 import {
   AssetType,
@@ -21,7 +27,6 @@ import clsx from 'clsx';
 import { cloneElement } from 'react';
 import Typography, { Size } from '../../../../../../components/Typography';
 import { shorten } from '../../../../../../modules/wallet';
-import { format } from 'util';
 import { useRouter } from 'next/navigation';
 
 type Drop = {
@@ -152,7 +157,6 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                   disabled={dropQuery?.data?.project?.drop?.status !== DropStatus.Minting}
                   onClick={() => {
                     if (dropQuery?.data?.project?.drop?.status !== DropStatus.Minting) return;
-
                     router.push(`/projects/${project}/drops/${drop}/mint`);
                   }}
                 >
@@ -314,10 +318,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                     <span className="text-gray-400">Starts</span>
                     <span>
                       {dropData?.startTime
-                        ? `${format(dropData?.startTime, DateFormat.DATE_1)}, ${format(
-                            dropData?.startTime,
-                            DateFormat.TIME_1
-                          )}`
+                        ? `${format(convertLocalTime(dropData?.startTime), DateFormat.DATE_2)}`
                         : 'Immediately'}
                     </span>
                   </div>
@@ -325,10 +326,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                     <span className="text-gray-400">Ends</span>
                     <span>
                       {dropData?.endTime
-                        ? `${format(dropData?.endTime, DateFormat.DATE_1)}, ${format(
-                            dropData?.endTime,
-                            DateFormat.TIME_1
-                          )}`
+                        ? `${format(convertLocalTime(dropData?.endTime), DateFormat.DATE_2)}`
                         : 'Never'}
                     </span>
                   </div>
