@@ -13,7 +13,6 @@ import { PopoverBox } from '@holaplex/ui-library-react';
 import clsx from 'clsx';
 
 interface NftsProps {
-  loading?: boolean;
   project: string;
   collection: string;
 }
@@ -27,7 +26,7 @@ interface GetNftsVars {
   collection: string;
 }
 
-export default function Nfts({ loading, project, collection }: NftsProps) {
+export default function Nfts({ project, collection }: NftsProps) {
   const columnHelper = createColumnHelper<CollectionMint>();
   const loadingColumnHelper = createColumnHelper<any>();
 
@@ -40,7 +39,7 @@ export default function Nfts({ loading, project, collection }: NftsProps) {
 
   return (
     <div className="flex flex-col">
-      {loading || nftsQuery.loading ? (
+      {nftsQuery.loading ? (
         <>
           <Table
             columns={[
