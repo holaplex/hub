@@ -82,6 +82,12 @@ export default function Project({
                     active={segments[0] === 'drops'}
                   />
                   <Sidebar.Menu.Link
+                    name="Collections"
+                    icon={<Icon.Collections stroke="stroke-gray-400" />}
+                    href={`/projects/${project.id}/collections`}
+                    active={segments[0] === 'collections'}
+                  />
+                  <Sidebar.Menu.Link
                     name="Customers"
                     icon={<Icon.Customers stroke="stroke-gray-400" />}
                     href={`/projects/${project.id}/customers`}

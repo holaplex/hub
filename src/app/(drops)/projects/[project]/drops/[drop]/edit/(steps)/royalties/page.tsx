@@ -4,15 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useForm, useFieldArray } from 'react-hook-form';
 import Card from './../../../../../../../../../components/Card';
 import { StoreApi, useStore } from 'zustand';
-import {
-  Blockchain,
-  AssetType,
-  CollectionCreatorInput,
-  Organization,
-  ActionCost,
-  Action,
-  BlockchainCost,
-} from './../../../../../../../../../graphql.types';
+import { Blockchain, AssetType, CreatorInput } from './../../../../../../../../../graphql.types';
 import {
   PaymentSettings,
   DropFormState,
@@ -23,24 +15,6 @@ import { Icon } from './../../../../../../../../../components/Icon';
 import Typography, { Size } from '../../../../../../../../../components/Typography';
 import { useProject } from '../../../../../../../../../hooks/useProject';
 import { useDropForm } from '../../../../../../../../../hooks/useDropForm';
-import { useOrganization } from '../../../../../../../../../hooks/useOrganization';
-import { useQuery } from '@apollo/client';
-import {
-  GetCreditSheet,
-  GetOrganizationCreditBalance,
-} from '../../../../../../../../../queries/credits.graphql';
-
-interface GetOrganizationBalanceVars {
-  organization: string;
-}
-
-interface GetOrganizationCreditBalanceData {
-  organization: Organization;
-}
-
-interface GetCreditSheetData {
-  creditSheet: ActionCost[];
-}
 
 export default function EditDropRoyaltiesPage() {
   const router = useRouter();
@@ -82,7 +56,7 @@ export default function EditDropRoyaltiesPage() {
     }
 
     data.creators = data.creators.map(({ address, share = 100 }) => {
-      const creator: CollectionCreatorInput = {
+      const creator: CreatorInput = {
         address,
         share: typeof share === 'string' ? parseInt(share) : share,
       };
@@ -122,7 +96,7 @@ export default function EditDropRoyaltiesPage() {
         }
 
         const total = creators.reduce(
-          (acc: number, creator: CollectionCreatorInput) =>
+          (acc: number, creator: CreatorInput) =>
             acc + parseInt(creator.share as unknown as string),
           0
         );

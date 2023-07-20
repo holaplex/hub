@@ -7,10 +7,10 @@ import Card from '../../../../../../../components/Card';
 import {
   Blockchain,
   AssetType,
-  CollectionCreatorInput,
   Organization,
   ActionCost,
   Action,
+  CreatorInput,
 } from '../../../../../../../graphql.types';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { useProject } from '../../../../../../../hooks/useProject';
@@ -111,7 +111,7 @@ export default function NewDropRoyaltiesPage() {
     }
 
     data.creators = data.creators.map(({ address, share = 100 }) => {
-      const creator: CollectionCreatorInput = {
+      const creator: CreatorInput = {
         address,
         share: typeof share === 'string' ? parseInt(share) : share,
       };
@@ -151,7 +151,7 @@ export default function NewDropRoyaltiesPage() {
         }
 
         const total = creators.reduce(
-          (acc: number, creator: CollectionCreatorInput) =>
+          (acc: number, creator: CreatorInput) =>
             acc + parseInt(creator.share as unknown as string),
           0
         );

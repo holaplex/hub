@@ -10,7 +10,10 @@ function asShortAddress(_: any, { readField }: { readField: ReadFieldFunction })
   return shorten(address as string);
 }
 
-function asShortCollectionAddress(_: any, { readField }: { readField: ReadFieldFunction }): string | null {
+function asShortCollectionAddress(
+  _: any,
+  { readField }: { readField: ReadFieldFunction }
+): string | null {
   const address: string | undefined = readField('address');
   const blockchain: Blockchain | undefined = readField('blockchain');
 
@@ -170,6 +173,35 @@ function asPurchaseTransactionLink(
   }
 }
 
+function asMintTransactionLink(
+  _: any,
+  {
+    readField,
+    cache,
+    toReference,
+  }: { readField: ReadFieldFunction; cache: InMemoryCache; toReference: ToReferenceFunction }
+): string | null {
+  const collectionRef = toReference(
+    cache.identify({ __typename: 'Collection', id: readField('collectionId') }) as string
+  );
+  const blockchain = readField('blockchain', collectionRef);
+
+  const tx: string | undefined = readField('signature');
+
+  if (!tx) {
+    return null;
+  }
+
+  switch (blockchain) {
+    case Blockchain.Solana:
+      return `https://solscan.io/tx/${tx}`;
+    case Blockchain.Polygon:
+      return `https://polygonscan.com/tx/${tx}`;
+    default:
+      return null;
+  }
+}
+
 export function apollo(uri: string, session?: string): ApolloClient<NormalizedCacheObject> {
   let headers: Record<string, string> = {};
 
@@ -220,6 +252,7 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
           fields: {
             ownerShortAddress: asShortAddress,
             shortAddress: asShortAddress,
+            transactionLink: asMintTransactionLink,
           },
         },
       },
