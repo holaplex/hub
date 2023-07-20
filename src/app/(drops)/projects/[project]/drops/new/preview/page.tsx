@@ -11,8 +11,8 @@ import {
   Organization,
   ActionCost,
   Action,
-  CollectionCreatorInput,
   Blockchain,
+  CreatorInput,
 } from '../../../../../../../graphql.types';
 import { StoreApi, useStore } from 'zustand';
 import { ApolloError, useMutation } from '@apollo/client';
@@ -243,7 +243,7 @@ export default function NewDropPreviewPage() {
             <div className="flex items-center justify-between gap-2">
               <span>Royalties recipients</span>
               <div className="flex flex-col gap-2 justify-end">
-                {payment.creators.map((creator: CollectionCreatorInput) => {
+                {payment.creators.map((creator: CreatorInput) => {
                   return (
                     <div key={creator.address}>{`${shorten(creator.address)} - ${
                       creator.share
@@ -330,7 +330,7 @@ export default function NewDropPreviewPage() {
             <Button
               htmlType="submit"
               loading={submitting}
-              disabled={submitting || cost as number > creditBalance}
+              disabled={submitting || (cost as number) > creditBalance}
               onClick={onSubmit}
             >
               {startDateTime ? 'Schedule drop' : 'Create drop'}

@@ -5,10 +5,8 @@ import { toast } from 'react-toastify';
 import Card from '../../../../../../../../../components/Card';
 import Typography, { Size } from '../../../../../../../../../components/Typography';
 import {
-  Action,
   ActionCost,
-  BlockchainCost,
-  CollectionCreatorInput,
+  CreatorInput,
   Organization,
   PatchDropInput,
   PatchDropPayload,
@@ -202,7 +200,7 @@ export default function EditDropPreviewPage() {
             <div className="flex items-center justify-between gap-2">
               <span>Royalties recipients</span>
               <div className="flex flex-col gap-2 justify-end">
-                {payment.creators.map((creator: CollectionCreatorInput) => {
+                {payment.creators.map((creator: CreatorInput) => {
                   return (
                     <div key={creator.address}>{`${shorten(creator.address)} - ${
                       creator.share
@@ -257,12 +255,7 @@ export default function EditDropPreviewPage() {
             <Button variant="secondary" disabled={submitting} onClick={back}>
               Back
             </Button>
-            <Button
-              htmlType="submit"
-              loading={submitting}
-              disabled={submitting}
-              onClick={onSubmit}
-            >
+            <Button htmlType="submit" loading={submitting} disabled={submitting} onClick={onSubmit}>
               {startDateTime ? 'Schedule drop' : 'Update drop'}
             </Button>
           </div>

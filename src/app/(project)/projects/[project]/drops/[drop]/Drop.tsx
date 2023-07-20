@@ -11,7 +11,7 @@ import { useQuery } from '@apollo/client';
 import {
   AssetType,
   Blockchain,
-  CollectionCreatorInput,
+  CreatorInput,
   DropStatus,
   MetadataJsonAttribute,
   Project,
@@ -147,15 +147,17 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
               <Link href={`/projects/${project}/drops/${drop}/help`}>
                 <Button variant="secondary">?</Button>
               </Link>
-              <Link  href={`/projects/${project}/drops/${drop}/mint`}>
+              <Link href={`/projects/${project}/drops/${drop}/mint`}>
                 <Button
-                disabled={dropQuery?.data?.project?.drop?.status !== DropStatus.Minting}
-                onClick={() => {
-                  if (dropQuery?.data?.project?.drop?.status !== DropStatus.Minting) return
-                  
-                  router.push(`/projects/${project}/drops/${drop}/mint`)
-                }}
-                >Mint edition</Button>
+                  disabled={dropQuery?.data?.project?.drop?.status !== DropStatus.Minting}
+                  onClick={() => {
+                    if (dropQuery?.data?.project?.drop?.status !== DropStatus.Minting) return;
+
+                    router.push(`/projects/${project}/drops/${drop}/mint`);
+                  }}
+                >
+                  Mint edition
+                </Button>
               </Link>
             </div>
           </div>
@@ -299,7 +301,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-gray-400">Royalties recipients</span>
                     <div className="flex flex-col gap-2 justify-end">
-                      {dropData?.collection.creators?.map((creator: CollectionCreatorInput) => {
+                      {dropData?.collection.creators?.map((creator: CreatorInput) => {
                         return (
                           <div key={creator.address} className="text-right">{`${shorten(
                             creator.address
