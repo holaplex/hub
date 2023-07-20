@@ -148,8 +148,8 @@ export default function Collection({
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-gray-400">Created</span>
                   <span>
-                    `${formatDateString(collectionData?.createdAt, DateFormat.DATE_1)}, $
-                    {formatDateString(collectionData?.createdAt, DateFormat.TIME_1)}`
+                    {formatDateString(collectionData?.createdAt, DateFormat.DATE_1)}{' '}
+                    {formatDateString(collectionData?.createdAt, DateFormat.TIME_1)}
                   </span>
                 </div>
                 <div className="flex items-center justify-between gap-2">
