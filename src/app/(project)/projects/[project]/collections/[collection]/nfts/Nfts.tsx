@@ -2,10 +2,11 @@
 import { createColumnHelper } from '@tanstack/react-table';
 import { useQuery } from '@apollo/client';
 import Table from '../../../../../../../components/Table';
-import { formatDateString, DateFormat } from '../../../../../../../modules/time';
+import { DateFormat, convertLocalTime } from '../../../../../../../modules/time';
 import { CollectionMint, Project } from '../../../../../../../graphql.types';
 import { GetProjectCollectionMints } from './../../../../../../../queries/collections.graphql';
 import Typography, { Size } from '../../../../../../../components/Typography';
+import { format } from 'date-fns';
 
 interface NftsProps {
   loading?: boolean;
@@ -113,10 +114,10 @@ export default function Nfts({ loading, project, collection }: NftsProps) {
                 return (
                   <div className="flex flex-col gap-1 text-xs">
                     <span className="text-white font-medium">
-                      {formatDateString(info.getValue(), DateFormat.DATE_1)}
+                      {format(convertLocalTime(info.getValue()), DateFormat.DATE_1)}
                     </span>
                     <span className="text-gray-400">
-                      {formatDateString(info.getValue(), DateFormat.TIME_1)}
+                      {format(convertLocalTime(info.getValue()), DateFormat.TIME_1)}
                     </span>
                   </div>
                 );

@@ -6,13 +6,14 @@ import Tabs from '../../../../../../layouts/Tabs';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { GetProjectCollection } from './../../../../../../queries/collections.graphql';
-import { DateFormat, formatDateString } from '../../../../../../modules/time';
+import { convertLocalTime, DateFormat } from '../../../../../../modules/time';
 import { useQuery } from '@apollo/client';
-import { Blockchain, DropStatus, Project } from '../../../../../../graphql.types';
+import { Blockchain, Project } from '../../../../../../graphql.types';
 import { Icon } from '../../../../../../components/Icon';
 import { cloneElement } from 'react';
 import Typography, { Size } from '../../../../../../components/Typography';
 import { shorten } from '../../../../../../modules/wallet';
+import { format } from 'date-fns';
 
 interface CollectionProps {
   project: string;
@@ -148,8 +149,7 @@ export default function Collection({
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-gray-400">Created</span>
                   <span>
-                    {formatDateString(collectionData?.createdAt, DateFormat.DATE_1)}{' '}
-                    {formatDateString(collectionData?.createdAt, DateFormat.TIME_1)}
+                    {format(convertLocalTime(collectionData?.createdAt), DateFormat.DATE_2)}
                   </span>
                 </div>
                 <div className="flex items-center justify-between gap-2">

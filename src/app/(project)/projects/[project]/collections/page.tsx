@@ -1,5 +1,5 @@
 'use client';
-import { Button, PopoverBox } from '@holaplex/ui-library-react';
+import { PopoverBox } from '@holaplex/ui-library-react';
 import { createColumnHelper } from '@tanstack/react-table';
 import React from 'react';
 import { Icon } from '../../../../../components/Icon';
@@ -8,9 +8,10 @@ import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import { GetProjectCollections } from './../../../../../queries/collections.graphql';
 import { Collection, Project } from '../../../../../graphql.types';
-import { DateFormat, formatDateString } from '../../../../../modules/time';
+import { convertLocalTime, DateFormat } from '../../../../../modules/time';
 import Copy from '../../../../../components/Copy';
 import { useProject } from '../../../../../hooks/useProject';
+import { format } from 'date-fns';
 
 interface GetCollectionsData {
   project: Project;
@@ -167,10 +168,10 @@ export default function ProjectCollectionsPage() {
                         return (
                           <div className="flex flex-col">
                             <span className="text-gray-400 text-xs font-medium">
-                              {formatDateString(info.getValue(), DateFormat.DATE_1)}
+                              {format(convertLocalTime(info.getValue()), DateFormat.DATE_1)}
                             </span>
                             <span className="text-white text-xs">
-                              {formatDateString(info.getValue(), DateFormat.TIME_1)}
+                              {format(convertLocalTime(info.getValue()), DateFormat.TIME_1)}
                             </span>
                           </div>
                         );
