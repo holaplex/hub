@@ -49,7 +49,7 @@ query GetProjectCollectionMints($project: UUID!, $collection: UUID!) {
       blockchain
       mints {
         id
-        owner
+        collectionId
         createdAt
         signature
         transactionLink @client
