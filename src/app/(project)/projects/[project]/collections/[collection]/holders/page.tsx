@@ -1,9 +1,11 @@
 import Holders from './CollectionHolders';
 
 interface HoldersPageProps {
-  params: { project: string; drop: string };
+  params: { project: string; collection: string };
 }
 
-export default function CollectionHoldersPage({ params: { project, drop } }: HoldersPageProps) {
-  return <Holders project={project} collection={drop} />;
+export default function CollectionHoldersPage({
+  params: { project, collection },
+}: HoldersPageProps) {
+  return <Holders project={project} collection={collection} />;
 }

@@ -143,14 +143,18 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                       header: () => <span>Name</span>,
                       size: 100,
                       cell: (info) => (
-                        <span className="text-white text-xs inline-block font-medium truncate w-full">{info.getValue()}</span>
+                        <span className="text-white text-xs inline-block font-medium truncate w-full">
+                          {info.getValue()}
+                        </span>
                       ),
                     }),
                     columnHelper.accessor('url', {
                       header: () => <span>URL</span>,
                       size: 160,
                       cell: (info) => (
-                        <span className="text-white text-xs inline-block font-medium truncate w-full">{info.getValue()}</span>
+                        <span className="text-white text-xs inline-block font-medium truncate w-full">
+                          {info.getValue()}
+                        </span>
                       ),
                     }),
                     columnHelper.display({
@@ -207,11 +211,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                       cell: (info) => (
                         <PopoverBox
                           triggerButton={
-                            <div
-                              className={clsx(
-                                'px-2 py-1 hover:rounded-md hover:bg-stone-800'
-                              )}
-                            >
+                            <div className={clsx('px-2 py-1 hover:rounded-md hover:bg-stone-800')}>
                               <Icon.More />
                             </div>
                           }

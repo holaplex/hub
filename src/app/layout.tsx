@@ -20,7 +20,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const cookStore = cookies();
   let session: Session | undefined = undefined;
 
-
   try {
     const { data } = await client.toSession({
       cookie: `hub_session=${cookStore.get('hub_session')?.value}`,

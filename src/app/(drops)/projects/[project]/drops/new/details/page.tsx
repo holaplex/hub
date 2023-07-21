@@ -172,10 +172,7 @@ export default function NewDropDetailsPage() {
                 rules={{ required: 'Please select a blockchain.' }}
                 render={({ field: { value, onChange } }) => {
                   return (
-                    <Form.Select
-                      value={value}
-                      onChange={onChange}
-                    >
+                    <Form.Select value={value} onChange={onChange}>
                       <Form.Select.Button placeholder="Select blockchain">
                         {value.name}
                       </Form.Select.Button>

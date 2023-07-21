@@ -55,7 +55,7 @@ export default function Nfts({ loading, project, collection }: NftsProps) {
                 ),
               }),
               loadingColumnHelper.display({
-                id: 'currentHolder',
+                id: 'ownerShortAddress',
                 header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
                   <span className="rounded-full h-3 w-24 inline-block bg-stone-800 animate-pulse" />
@@ -89,15 +89,16 @@ export default function Nfts({ loading, project, collection }: NftsProps) {
       ) : (
         <Table
           columns={[
+            // @ts-ignore
             columnHelper.accessor('metadataJson.name', {
               header: () => <span>NFT name</span>,
               cell: (info) => {
                 const collectionMint = info.row.original;
                 return (
-                  <div className="flex gap-2 justify-middle">
+                  <div className="flex gap-2 items-center">
                     <img
                       src={collectionMint?.metadataJson?.image as string}
-                      className="w-full aspect-square rounded-lg object-cover"
+                      className="aspect-square rounded-lg object-cover w-8 h-8"
                     />
                     <span className="text-xs text-white font-medium justify-middle">
                       {info.getValue()}
@@ -106,7 +107,7 @@ export default function Nfts({ loading, project, collection }: NftsProps) {
                 );
               },
             }),
-            columnHelper.accessor('createdBy', {
+            columnHelper.accessor('ownerShortAddress', {
               header: () => <span>Current holder</span>,
               cell: (info) => {
                 return <span className="text-xs text-white font-medium">{info.getValue()}</span>;

@@ -1042,7 +1042,13 @@ export default function TermsOfServicePage() {
         <p id="6514075a-df95-4f48-8562-83881b50ec28" className="italic">
           Email:
         </p>
-        <a id="ff2e74cc-1ac7-41d5-ba16-df7bee54de64" href="mailto:support@holaplex.com" className="underline">support@holaplex.com</a>
+        <a
+          id="ff2e74cc-1ac7-41d5-ba16-df7bee54de64"
+          href="mailto:support@holaplex.com"
+          className="underline"
+        >
+          support@holaplex.com
+        </a>
       </div>
     </article>
   );

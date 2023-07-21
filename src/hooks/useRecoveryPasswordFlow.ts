@@ -30,7 +30,6 @@ export function useRecoveryPasswordFlow({ flowId }: RecoveryCodeFlowProps): Reco
       try {
         const result = await ory.createBrowserSettingsFlow({ returnTo });
         setFlow(result.data);
-
       } catch (err: any) {
         const errorCode = err.response?.data.error?.id;
 

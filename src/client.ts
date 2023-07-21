@@ -32,6 +32,16 @@ function asShortCollectionAddress(
   }
 }
 
+function asShortOwner(_: any, { readField }: { readField: ReadFieldFunction }): string {
+  const address: string | undefined = readField('owner');
+
+  if (address) {
+    return shorten(address as string);
+  }
+
+  return '';
+}
+
 function asShortWallet(_: any, { readField }: { readField: ReadFieldFunction }): string {
   const address: string | undefined = readField('wallet');
 
@@ -250,7 +260,7 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
         },
         CollectionMint: {
           fields: {
-            ownerShortAddress: asShortAddress,
+            ownerShortAddress: asShortOwner,
             shortAddress: asShortAddress,
             transactionLink: asMintTransactionLink,
           },

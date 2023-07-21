@@ -23,7 +23,7 @@ export class CreditLookup {
     }
 
     this.cache.set(key, cost);
-    
+
     return cost;
   }
 }

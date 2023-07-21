@@ -161,7 +161,7 @@ export default function Collection({
       <Tabs.Page className="mt-8">
         <Tabs.Panel loading={loading}>
           <Tabs.Tab
-            name="NFTs"
+            name={`${collectionData?.totalMints} NFTs`}
             href={`/projects/${project}/collections/${collection}/nfts`}
             active={pathname === `/projects/${project}/collections/${collection}/nfts`}
           />
