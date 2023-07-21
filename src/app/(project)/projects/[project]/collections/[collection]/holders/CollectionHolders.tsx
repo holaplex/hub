@@ -115,7 +115,7 @@ export default function CollectionHolders({ project, collection, loading }: Hold
             }),
             columnHelper.accessor('owns', {
               id: 'owns',
-              header: () => <span>Owned Editions</span>,
+              header: () => <span>Owned</span>,
               cell: (info) => {
                 const owns = info.getValue();
                 const share = Math.ceil(
