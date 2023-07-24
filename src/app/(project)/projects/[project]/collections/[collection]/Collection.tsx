@@ -119,10 +119,10 @@ export default function Collection({
               <div className="basis-1/2 h-full flex flex-col px-4 gap-2 text-sm">
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-gray-400">Blockchain</span>
-                  <PopoverBox
-                    triggerButton={blockchainIcon}
-                    elements={[<span key="blockchain">{collectionData?.blockchain}</span>]}
-                  />
+                  <div className="text-white flex gap-1">
+                    {blockchainIcon}
+                    {collectionData?.blockchain}
+                  </div>
                 </div>
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-gray-400">Type</span>
