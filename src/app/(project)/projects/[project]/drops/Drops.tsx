@@ -311,7 +311,7 @@ export default function Drops({ project }: DropsPageProps) {
                             className="flex gap-2 items-center"
                             href={`/projects/${project}/drops/${info.row.original.id}/edit`}
                           >
-                            <Icon.Edit stroke="stroke-gray-400" />
+                            <Icon.Edit stroke="stroke-gray-400" width={20} height={20} />
                             <span>Edit drop</span>
                           </Link>,
                         ];
@@ -323,7 +323,8 @@ export default function Drops({ project }: DropsPageProps) {
                               href={`/projects/${project}/drops/${drop.id}/resume`}
                               className="flex gap-2 items-center"
                             >
-                              <Icon.Pause stroke="stroke-gray-400" /> <span>Resume mint</span>
+                              <Icon.Pause stroke="stroke-gray-400" width={20} height={20} />{' '}
+                              <span>Resume mint</span>
                             </Link>
                           );
                         } else if (drop.status === DropStatus.Minting) {
@@ -333,7 +334,8 @@ export default function Drops({ project }: DropsPageProps) {
                               href={`/projects/${project}/drops/${drop.id}/pause`}
                               className="flex gap-2 items-center"
                             >
-                              <Icon.Pause stroke="stroke-gray-400" /> <span>Pause mint</span>
+                              <Icon.Pause stroke="stroke-gray-400" width={20} height={20} />{' '}
+                              <span>Pause mint</span>
                             </Link>
                           );
 
@@ -343,7 +345,8 @@ export default function Drops({ project }: DropsPageProps) {
                               href={`/projects/${project}/drops/${drop.id}/shutdown`}
                               className="flex gap-2 items-center"
                             >
-                              <Icon.Close stroke="stroke-gray-400" /> <span>Shut-down mint</span>
+                              <Icon.Close stroke="stroke-gray-400" width={20} height={20} />{' '}
+                              <span>Shut-down mint</span>
                             </Link>
                           );
                         } else if (drop.status === DropStatus.Failed) {

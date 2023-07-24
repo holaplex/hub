@@ -4,7 +4,6 @@ import { Icon } from '../components/Icon';
 import Sidebar from './Sidebar';
 import { OrganizationProvider } from '../providers/OrganizationProvider';
 import { Organization as OrganizationType } from '../graphql.types';
-import Image from 'next/image';
 import { PopoverBox } from '@holaplex/ui-library-react';
 import Copy from '../components/Copy';
 
@@ -57,37 +56,37 @@ export default function Organization({
               <Sidebar.Menu>
                 <Sidebar.Menu.Link
                   name="Projects"
-                  icon={<Icon.Projects stroke="stroke-gray-400" />}
+                  icon={<Icon.Projects stroke="stroke-gray-400" width={20} height={20} />}
                   href="/projects"
                   active={segments[0] === 'projects'}
                 />
                 <Sidebar.Menu.Link
                   name="Members"
-                  icon={<Icon.Members stroke="stroke-gray-400" />}
+                  icon={<Icon.Members stroke="stroke-gray-400" width={20} height={20} />}
                   href="/members"
                   active={segments[0] === 'members'}
                 />
                 <Sidebar.Menu.Link
                   name="Webhooks"
-                  icon={<Icon.Webhook stroke="stroke-gray-400" />}
+                  icon={<Icon.Webhook stroke="stroke-gray-400" width={20} height={20} />}
                   href="/webhooks"
                   active={segments[0] === 'webhooks'}
                 />
                 <Sidebar.Menu.Link
                   name="Credentials"
-                  icon={<Icon.Credentials stroke="stroke-gray-400" />}
+                  icon={<Icon.Credentials stroke="stroke-gray-400" width={20} height={20} />}
                   href="/credentials"
                   active={segments[0] === 'credentials'}
                 />
                 <Sidebar.Menu.Link
                   name="Credits"
-                  icon={<Icon.Balance stroke="stroke-gray-400" />}
+                  icon={<Icon.Balance stroke="stroke-gray-400" width={20} height={20} />}
                   href="/credits/costs"
                   active={segments[0] === 'credits'}
                 />
                 <Sidebar.Menu.Link
                   name="Settings"
-                  icon={<Icon.Settings stroke="stroke-gray-400" />}
+                  icon={<Icon.Settings stroke="stroke-gray-400" width={20} height={20} />}
                   href="/settings"
                   active={segments[0] === 'settings'}
                 />

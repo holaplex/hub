@@ -228,14 +228,15 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                               className="flex gap-2 items-center"
                               href={`/webhooks/${info.row.original.id}/edit`}
                             >
-                              <Icon.Edit stroke="stroke-gray-400" /> <span>Edit</span>
+                              <Icon.Edit stroke="stroke-gray-400" width={20} height={20} />{' '}
+                              <span>Edit</span>
                             </Link>,
                             <Link
                               key="delete"
                               className="flex gap-2 items-center"
                               href={`/webhooks/${info.row.original.id}/delete`}
                             >
-                              <Icon.Delete stroke="stroke-red-500" />
+                              <Icon.Delete stroke="stroke-red-500" width={20} height={20} />
                               <span className="text-red-500">Delete</span>
                             </Link>,
                           ]}
