@@ -204,7 +204,7 @@ export default function Mints({ loading, project, drop }: MintsProps) {
                       key="explorer"
                       className="flex gap-2 items-center"
                     >
-                      <Icon.ExternalLink /> <span>View on explorer</span>
+                      <Icon.ExternalLink width={20} height={20} /> <span>View on explorer</span>
                     </Link>
                   );
                 }

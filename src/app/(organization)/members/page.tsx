@@ -70,7 +70,7 @@ function ActionCell({
           className="flex gap-2 items-center"
           href={`/members/${id}/deactivate`}
         >
-          <Icon.Delete stroke="stroke-red-500" />
+          <Icon.Delete stroke="stroke-red-500" width={20} height={20} />
           <span className="text-red-500">Deactivate member</span>
         </Link>
       );
@@ -80,7 +80,7 @@ function ActionCell({
     elements = [
       ...elements,
       <span key="copy" className="flex flex-row gap-2" onClick={copyText}>
-        {copied ? <Icon.Check /> : <Icon.Copy />}
+        {copied ? <Icon.Check width={20} height={20} /> : <Icon.Copy width={20} height={20} />}
         Invite link
       </span>,
     ];
