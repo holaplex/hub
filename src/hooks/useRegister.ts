@@ -73,7 +73,6 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
       });
 
       setSession(response.data.session);
-      console.log(response.data);
     } catch (err: any) {
       const {
         response: {
@@ -108,7 +107,7 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
       continueWith = response.data.continue_with[0] as ContinueWithVerificationUi;
     }
     let flowId = continueWith?.flow.id;
-    let afterLoginPath = `/verification?flow=${flowId}&email=${email}`;
+    let afterLoginPath = `/verification?flow=${flowId}&email=${encodeURIComponent(email)}`;
 
     if (search?.has('return_to')) {
       afterLoginPath = `${afterLoginPath}&return_to=${encodeURIComponent(

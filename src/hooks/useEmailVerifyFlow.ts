@@ -38,7 +38,6 @@ export function useEmailVerifyFlow({ email }: EmailVerifyFlowProps): EmailVerify
 
           setFlow(res.data);
 
-          console.log(`got flow id: ${flowId}`);
         } else {
           res = await ory.createBrowserVerificationFlow({ returnTo });
           flowId = res.data.id;
@@ -77,7 +76,6 @@ export function useEmailVerifyFlow({ email }: EmailVerifyFlowProps): EmailVerify
         flow: flow.id,
         updateVerificationFlowBody: { email, csrf_token: csrfToken, method: 'code' },
       });
-      console.log(flow.id);
       setFlow(data);
       setCooldown(30);
     } catch (err: any) {

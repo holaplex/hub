@@ -33,7 +33,6 @@ export function useEmailVerify({ flow }: EmailVerifyProps): EmailVerifyContext {
 
   const onSubmit = async ({ code }: EmailVerifyForm): Promise<void> => {
     if (!flow) {
-      console.log('flow not found');
       return;
     }
     try {
