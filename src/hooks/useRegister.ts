@@ -1,4 +1,9 @@
-import { RegistrationFlow, UiNodeInputAttributes, UiText } from '@ory/kratos-client';
+import {
+  RegistrationFlow,
+  UiNodeInputAttributes,
+  ContinueWithVerificationUi,
+  UiText,
+} from '@ory/kratos-client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
@@ -40,6 +45,7 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
     useForm<RegistrationForm>();
 
   const onSubmit = async ({ email, password, name, file }: RegistrationForm): Promise<void> => {
+    let response;
     if (!flow) {
       return;
     }
@@ -55,7 +61,7 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
         profileImage = url;
       }
 
-      const response = await ory.updateRegistrationFlow({
+      response = await ory.updateRegistrationFlow({
         flow: flow.id,
 
         updateRegistrationFlowBody: {
@@ -67,6 +73,7 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
       });
 
       setSession(response.data.session);
+      console.log(response.data);
     } catch (err: any) {
       const {
         response: {
@@ -92,8 +99,16 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
       }
       return;
     }
-
-    let afterLoginPath = `/verification?email=${encodeURIComponent(email)}`;
+    let continueWith;
+    if (
+      response?.data.continue_with &&
+      'action' in response.data.continue_with[0] &&
+      'flow' in response.data.continue_with[0]
+    ) {
+      continueWith = response.data.continue_with[0] as ContinueWithVerificationUi;
+    }
+    let flowId = continueWith?.flow.id;
+    let afterLoginPath = `/verification?flow=${flowId}&email=${email}`;
 
     if (search?.has('return_to')) {
       afterLoginPath = `${afterLoginPath}&return_to=${encodeURIComponent(

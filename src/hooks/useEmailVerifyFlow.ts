@@ -30,18 +30,31 @@ export function useEmailVerifyFlow({ email }: EmailVerifyFlowProps): EmailVerify
   useEffect(() => {
     (async () => {
       try {
-        const result = await ory.createBrowserVerificationFlow({ returnTo });
+        let flowId;
+        let res;
+        if (searchParams?.has('flow')) {
+          flowId = searchParams.get('flow')!;
+          res = await ory.getVerificationFlow({ id: flowId });
 
-        const csrfToken = (
-          extractFlowNode('csrf_token')(result.data.ui.nodes).attributes as UiNodeInputAttributes
-        ).value;
+          setFlow(res.data);
 
-        const { data } = await ory.updateVerificationFlow({
-          flow: result.data.id,
-          updateVerificationFlowBody: { email, csrf_token: csrfToken, method: 'code' },
-        });
+          console.log(`got flow id: ${flowId}`);
+        } else {
+          res = await ory.createBrowserVerificationFlow({ returnTo });
+          flowId = res.data.id;
+          const csrfToken = (
+            extractFlowNode('csrf_token')(res.data.ui.nodes).attributes as UiNodeInputAttributes
+          ).value;
 
-        setFlow(data);
+          const { data } = await ory.updateVerificationFlow({
+            flow: flowId,
+            updateVerificationFlowBody: { email, csrf_token: csrfToken, method: 'code' },
+          });
+
+          setFlow(data);
+        }
+
+        setLoading(false);
         setCooldown(30);
       } catch (err: any) {
         toast.error(err.response?.data.error?.message);
@@ -49,7 +62,7 @@ export function useEmailVerifyFlow({ email }: EmailVerifyFlowProps): EmailVerify
         setLoading(false);
       }
     })();
-  }, [returnTo, email, ory]);
+  }, [returnTo, email, searchParams, ory]);
 
   const updateFlow = useCallback(async () => {
     if (cooldown > 0 || !flow) {
@@ -64,7 +77,7 @@ export function useEmailVerifyFlow({ email }: EmailVerifyFlowProps): EmailVerify
         flow: flow.id,
         updateVerificationFlowBody: { email, csrf_token: csrfToken, method: 'code' },
       });
-
+      console.log(flow.id);
       setFlow(data);
       setCooldown(30);
     } catch (err: any) {

@@ -33,6 +33,7 @@ export function useEmailVerify({ flow }: EmailVerifyProps): EmailVerifyContext {
 
   const onSubmit = async ({ code }: EmailVerifyForm): Promise<void> => {
     if (!flow) {
+      console.log('flow not found');
       return;
     }
     try {
@@ -40,10 +41,18 @@ export function useEmailVerify({ flow }: EmailVerifyProps): EmailVerifyContext {
         extractFlowNode('csrf_token')(flow.ui.nodes).attributes as UiNodeInputAttributes
       ).value;
 
-      const result = await ory.updateVerificationFlow({
+      const response = await ory.updateVerificationFlow({
         flow: flow.id,
-        updateVerificationFlowBody: { code, csrf_token: csrfToken, method: 'code' },
+        updateVerificationFlowBody: { code: code.trim(), csrf_token: csrfToken, method: 'code' },
       });
+
+      if (
+        response?.data.ui.messages &&
+        response.data.ui.messages.length > 0 &&
+        response.data.ui.messages[0].type === 'success'
+      ) {
+        toast.success(response.data.ui.messages[0].text);
+      }
 
       try {
         if (search?.has('return_to')) {
@@ -60,7 +69,7 @@ export function useEmailVerify({ flow }: EmailVerifyProps): EmailVerifyContext {
 
         router.push(json.redirect_path);
       } catch (e: any) {
-        toast.error(
+        toast.warn(
           'Unable to forward you to an organization. Please select or create an organization.'
         );
 
