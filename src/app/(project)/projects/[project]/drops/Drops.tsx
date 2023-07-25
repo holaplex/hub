@@ -326,36 +326,62 @@ export default function Drops({ project }: DropsPageProps) {
                                           ) : (
                                             <span className="text-gray-400 text-xl">∞</span>
                                           )}
+                                          
+                        let actions: JSX.Element[] = [
+                          <Link
+                            key="edit_drop"
+                            className="flex gap-2 items-center"
+                            href={`/projects/${project}/drops/${info.row.original.id}/edit`}
+                          >
+                            <Icon.Edit stroke="stroke-gray-400" width={20} height={20} />
+                            <span>Edit drop</span>
+                          </Link>,
+                        ];
 
-                                          <Table.DropStatusPill status={status as DropStatus} />
-                                        </div>
-                                      );
-                                    },
-                                  }
-                                ),
-                                columnHelper.display({
-                                  id: 'options',
-                                  meta: {
-                                    align: 'right',
-                                  },
-                                  header: () => <></>,
-                                  cell: (info) => {
-                                    const drop = info.row.original;
+                        if (drop.status === DropStatus.Paused) {
+                          actions.push(
+                            <Link
+                              key="resume_mint"
+                              href={`/projects/${project}/drops/${drop.id}/resume`}
+                              className="flex gap-2 items-center"
+                            >
+                              <Icon.Pause stroke="stroke-gray-400" width={20} height={20} />{' '}
+                              <span>Resume mint</span>
+                            </Link>
+                          );
+                        } else if (drop.status === DropStatus.Minting) {
+                          actions.push(
+                            <Link
+                              key="pause_mint"
+                              href={`/projects/${project}/drops/${drop.id}/pause`}
+                              className="flex gap-2 items-center"
+                            >
+                              <Icon.Pause stroke="stroke-gray-400" width={20} height={20} />{' '}
+                              <span>Pause mint</span>
+                            </Link>
+                          );
 
-                                    if (drop.status === DropStatus.Shutdown) {
-                                      return <div />;
-                                    }
-
-                                    let actions: JSX.Element[] = [
-                                      <Link
-                                        key="edit_drop"
-                                        className="flex gap-2 items-center"
-                                        href={`/projects/${project}/drops/${info.row.original.id}/edit`}
-                                      >
-                                        <Icon.Edit stroke="stroke-gray-400" />
-                                        <span>Edit drop</span>
-                                      </Link>,
-                                    ];
+                          actions.push(
+                            <Link
+                              key="shutdown_mint"
+                              href={`/projects/${project}/drops/${drop.id}/shutdown`}
+                              className="flex gap-2 items-center"
+                            >
+                              <Icon.Close stroke="stroke-gray-400" width={20} height={20} />{' '}
+                              <span>Shut-down mint</span>
+                            </Link>
+                          );
+                        } else if (drop.status === DropStatus.Failed) {
+                          actions.push(
+                            <Link
+                              key="retry"
+                              href={`/projects/${project}/drops/${drop.id}/retry`}
+                              className="flex gap-2 items-center"
+                            >
+                              <span>Retry drop</span>
+                            </Link>
+                          );
+                        }
 
                                     if (drop.status === DropStatus.Paused) {
                                       actions.push(

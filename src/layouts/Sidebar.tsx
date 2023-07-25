@@ -218,7 +218,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                 /> */}
                   <Sidebar.Menu.Link
                     name="Help"
-                    icon={<Icon.HelpHeadphones stroke="stroke-gray-400" />}
+                    icon={<Icon.HelpHeadphones stroke="stroke-gray-400" width={20} height={20} />}
                     href="https://docs.holaplex.com"
                     active={false}
                     target="_blank"
@@ -228,13 +228,13 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                     className="flex gap-6 w-full px-4 py-3 items-center text-gray-400 rounded-lg hover:bg-stone-800 cursor-pointer"
                     onClick={() => logout()}
                   >
-                    <Icon.Logout stroke="stroke-gray-400" />
+                    <Icon.Logout stroke="stroke-gray-400" width={20} height={20} />
                     <span className="text-sm text-white">Logout</span>
                   </div>
 
                   <Sidebar.Menu.Link
                     name="Edit profile"
-                    icon={<Icon.Edit stroke="stroke-gray-400" />}
+                    icon={<Icon.Edit stroke="stroke-gray-400" width={20} height={20} />}
                     href={`/profile/edit`}
                     active={false}
                   />
@@ -262,7 +262,7 @@ function SidebarFooter({ organization, children, className }: SidebarFooterProps
                               alt="logo"
                             />
                           ) : (
-                            <div className="w-8 h-8 bg-stone-800 rounded-md" />
+                            <div className="w-8 h-8 bg-stone-950 rounded-md" />
                           )}
                           <span className="text-gray-400 font-medium text-sm">
                             {affiliation.organization?.name}

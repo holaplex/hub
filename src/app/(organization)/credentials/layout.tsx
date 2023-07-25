@@ -162,7 +162,7 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                               className="flex gap-2 items-center"
                               href={`/credentials/${info.row.original.clientId}/delete`}
                             >
-                              <Icon.Delete stroke="stroke-red-500" />
+                              <Icon.Delete stroke="stroke-red-500" width={20} height={20} />
                               <span className="text-red-500">Delete</span>
                             </Link>,
                           ]}
