@@ -1,4 +1,4 @@
-import { RegistrationFlow, UiNodeInputAttributes, UiText } from '@ory/client';
+import { RegistrationFlow, UiNodeInputAttributes, ContinueWithVerificationUi, UiText } from '@ory/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
@@ -97,7 +97,7 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
       }
       return;
     }
-    const continueWith = response?.data.continue_with?.[0];
+    const continueWith = response?.data.continue_with?.[0] as ContinueWithVerificationUi;
     let flowId = continueWith?.flow?.id;
     let afterLoginPath;
     if (flowId) {
