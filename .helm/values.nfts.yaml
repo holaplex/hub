@@ -7,8 +7,6 @@ migrate:
   image:
     pullPolicy: Always
 
-creditSheetName: hub-credits-credit-sheet
-
 environment:
   kafkaUsername: admin
   kafkaSsl: false

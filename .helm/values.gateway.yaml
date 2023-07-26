@@ -1,12 +1,12 @@
 hubNamespace: default
 domain: 127.0.0.1.nip.io
 port: 9080
-sessionCookieName: "hub_session"
+sessionCookieName: 'hub_session'
 forceVerification: false
 verificationUri: 'http://hub.127.0.0.1.nip.io:9080/verification'
 apisix:
   configurationSnippet:
     httpStart: |
-       proxy_read_timeout 300;
-       proxy_connect_timeout 300;
-       proxy_send_timeout 300;
+      proxy_read_timeout 300;
+      proxy_connect_timeout 300;
+      proxy_send_timeout 300;

@@ -2,4 +2,4 @@ image:
   pullPolicy: Always
 
 environment:
-  kratosAdminEndpoint: "http://kratos-admin"
+  kratosAdminEndpoint: 'http://kratos-admin'

@@ -45,6 +45,7 @@ kratos:
     selfservice:
       allowed_return_urls:
         - http://hub.127.0.0.1.nip.io:9080
+        - /organizations
         - /projects
         - /login
       methods:
@@ -59,14 +60,17 @@ kratos:
           enabled: true
           config:
             lifespan: 15m
-      default_browser_return_url: http://hub.127.0.0.1.nip.io:9080/projects
+      default_browser_return_url: http://hub.127.0.0.1.nip.io:9080/organizations
       flows:
         registration:
+          lifespan: 10m
+          ui_url: http://127.0.0.1:4455/registration
           after:
-            oidc:
+            password:
               hooks:
                 - hook: session
-            password:
+                - hook: show_verification_ui
+            oidc:
               hooks:
                 - hook: session
         error:
@@ -87,12 +91,13 @@ kratos:
             hooks:
               - hook: revoke_active_sessions
             default_browser_return_url: http://hub.127.0.0.1.nip.io:9080/recovery/reset
+
         verification:
           enabled: true
           ui_url: http://hub.127.0.0.1.nip.io:9080/verification
           use: code
           after:
-            default_browser_return_url: http://hub.127.0.0.1.nip.io:9080
+            default_browser_return_url: http://hub.127.0.0.1.nip.io:9080/login
 
         logout:
           after:
@@ -100,10 +105,13 @@ kratos:
 
         login:
           ui_url: http://hub.127.0.0.1.nip.io:9080/login
+          after:
+            hooks:
+              - hook: require_verified_address
           lifespan: 10m
 
   identitySchemas:
-    identity.default.schema.json: |-
+    'identity.default.schema.json': |-
       {
         "$id": "https://schemas.ory.sh/presets/kratos/quickstart/email-password/identity.schema.json",
         "$schema": "http://json-schema.org/draft-07/schema#",
