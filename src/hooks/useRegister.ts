@@ -1,4 +1,4 @@
-import { RegistrationFlow, UiNodeInputAttributes, UiText } from '@ory/client';
+import { RegistrationFlow, UiNodeInputAttributes, UiText} from '@ory/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
@@ -44,6 +44,8 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
     useForm<RegistrationForm>();
 
   const onSubmit = async ({ email, password, name, file }: RegistrationForm): Promise<void> => {
+
+    let response;
     if (!flow) {
       return;
     }
@@ -59,7 +61,7 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
         profileImage = url;
       }
 
-      const response = await ory.updateRegistrationFlow({
+      response = await ory.updateRegistrationFlow({
         flow: flow.id,
 
         updateRegistrationFlowBody: {
@@ -96,28 +98,18 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
       }
       return;
     }
-
+  const continueWith = response?.data.continue_with?.[0];
+  let flowId = continueWith?.flow?.id;
+  let afterLoginPath;
+  if (flowId) {
+  afterLoginPath = `/verification?flow=${flowId}&email=${encodeURIComponent(email)}`;
+  }
     if (search?.has('return_to')) {
-      router.push(search.get('return_to') as string);
-      return;
+      afterLoginPath = `${afterLoginPath}&return_to=${encodeURIComponent(
+        search.get('return_to')!
+      )}`;
     }
-
-    try {
-      const response = await fetch('/browser/login', {
-        method: 'POST',
-        credentials: 'same-origin',
-      });
-
-      const json: LoginResponse = await response.json();
-
-      router.push(json.redirect_path);
-    } catch (e: any) {
-      toast.error(
-        'Unable to forward you to an organization. Please select or create an organization.'
-      );
-
-      router.push('/organizations');
-    }
+    router.push(afterLoginPath || '/login');
   };
 
   return {
