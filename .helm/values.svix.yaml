@@ -1,10 +1,10 @@
 image:
   repository: mpwsh/svix-server
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: 'latest'
 
 environment:
-  logLevel: "info"
-  queueType: "redis"
+  logLevel: 'info'
+  queueType: 'redis'
   waitForServices: true
-  redisDsn: "redis://svix-redis-master:6379"
+  redisDsn: 'redis://svix-redis-master:6379'

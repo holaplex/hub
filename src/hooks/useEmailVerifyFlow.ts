@@ -37,7 +37,6 @@ export function useEmailVerifyFlow({ email }: EmailVerifyFlowProps): EmailVerify
           res = await ory.getVerificationFlow({ id: flowId });
 
           setFlow(res.data);
-
         } else {
           res = await ory.createBrowserVerificationFlow({ returnTo });
           flowId = res.data.id;
@@ -45,7 +44,7 @@ export function useEmailVerifyFlow({ email }: EmailVerifyFlowProps): EmailVerify
             extractFlowNode('csrf_token')(res.data.ui.nodes).attributes as UiNodeInputAttributes
           ).value;
 
-         res = await ory.updateVerificationFlow({
+          res = await ory.updateVerificationFlow({
             flow: flowId,
             updateVerificationFlowBody: { email, csrf_token: csrfToken, method: 'code' },
           });
@@ -54,7 +53,7 @@ export function useEmailVerifyFlow({ email }: EmailVerifyFlowProps): EmailVerify
         }
         const [message] = res.data.ui.messages ?? [];
 
-        if (message?.type === 'info'){
+        if (message?.type === 'info') {
           if (message?.id === 1080003) {
             toast.info('Verification email sent');
           } else {

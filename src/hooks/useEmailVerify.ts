@@ -41,12 +41,13 @@ export function useEmailVerify({ flow }: EmailVerifyProps): EmailVerifyContext {
       ).value;
 
       const response = await ory.updateVerificationFlow({
-      flow: flow.id,
-      updateVerificationFlowBody: {
-        code: code.trim(),
-        csrf_token: csrfToken,
-        method: 'code'
-      }});
+        flow: flow.id,
+        updateVerificationFlowBody: {
+          code: code.trim(),
+          csrf_token: csrfToken,
+          method: 'code',
+        },
+      });
 
       const [message] = response?.data.ui.messages ?? [];
 
@@ -62,9 +63,8 @@ export function useEmailVerify({ flow }: EmailVerifyProps): EmailVerifyContext {
           router.push(search.get('return_to') as string);
           return;
         } else {
-          router.push('/organizations')
+          router.push('/organizations');
         }
-
 
         const response = await fetch('/browser/login', {
           method: 'POST',

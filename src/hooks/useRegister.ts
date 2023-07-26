@@ -1,4 +1,4 @@
-import { RegistrationFlow, UiNodeInputAttributes, UiText} from '@ory/client';
+import { RegistrationFlow, UiNodeInputAttributes, UiText } from '@ory/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
@@ -44,7 +44,6 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
     useForm<RegistrationForm>();
 
   const onSubmit = async ({ email, password, name, file }: RegistrationForm): Promise<void> => {
-
     let response;
     if (!flow) {
       return;
@@ -98,12 +97,12 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
       }
       return;
     }
-  const continueWith = response?.data.continue_with?.[0];
-  let flowId = continueWith?.flow?.id;
-  let afterLoginPath;
-  if (flowId) {
-  afterLoginPath = `/verification?flow=${flowId}&email=${encodeURIComponent(email)}`;
-  }
+    const continueWith = response?.data.continue_with?.[0];
+    let flowId = continueWith?.flow?.id;
+    let afterLoginPath;
+    if (flowId) {
+      afterLoginPath = `/verification?flow=${flowId}&email=${encodeURIComponent(email)}`;
+    }
     if (search?.has('return_to')) {
       afterLoginPath = `${afterLoginPath}&return_to=${encodeURIComponent(
         search.get('return_to')!

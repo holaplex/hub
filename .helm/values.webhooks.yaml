@@ -16,13 +16,13 @@ svix:
   image:
     repository: mpwsh/svix-server
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: 'latest'
 
   environment:
-    logLevel: "info"
-    queueType: "redis"
+    logLevel: 'info'
+    queueType: 'redis'
     waitForServices: true
-    redisDsn: "redis://hub-webhooks-redis-master:6379"
+    redisDsn: 'redis://hub-webhooks-redis-master:6379'
 
   redis:
     enabled: true

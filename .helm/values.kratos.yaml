@@ -68,8 +68,8 @@ kratos:
           after:
             password:
               hooks:
-              - hook: session
-              - hook: show_verification_ui
+                - hook: session
+                - hook: show_verification_ui
             oidc:
               hooks:
                 - hook: session
@@ -107,7 +107,7 @@ kratos:
           ui_url: http://hub.127.0.0.1.nip.io:9080/login
           after:
             hooks:
-            - hook: require_verified_address
+              - hook: require_verified_address
           lifespan: 10m
 
   identitySchemas:
