@@ -69,7 +69,6 @@ kratos:
             password:
               hooks:
                 - hook: session
-                - hook: show_verification_ui
             oidc:
               hooks:
                 - hook: session
