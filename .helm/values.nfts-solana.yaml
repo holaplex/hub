@@ -10,3 +10,6 @@ environment:
   kafkaSsl: false
   kafkaBrokers: 'hub-eventbus-cluster-0.hub-eventbus-cluster.default.svc.cluster.local:9093'
   solanaTreasuryWalletAddress: AanwMJstX3UXn5WmcBhPxLkVbRh7UodebxcvQmvADNpr
+  treeDelegate: AanwMJstX3UXn5WmcBhPxLkVbRh7UodebxcvQmvADNpr
+  treeAuthority: DsbqD4qwPiUFExmv3FApkMBGEM1zibLzVdqXz64kqDtf
+  merkleTree: 6VZjoyzcMMNMKcH2Exy1NJHDxyRMwW92YhTiaTJbHj6f

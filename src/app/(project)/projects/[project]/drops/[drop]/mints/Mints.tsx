@@ -8,7 +8,7 @@ import { useQuery } from '@apollo/client';
 import Table from '../../../../../../../components/Table';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { formatDateString, DateFormat } from '../../../../../../../modules/time';
-import { Blockchain, CreationStatus, Project, Purchase } from '../../../../../../../graphql.types';
+import { Blockchain, CreationStatus, Project, MintHistory } from '../../../../../../../graphql.types';
 import { GetCollectionPurchases } from './../../../../../../../queries/purchase.graphql';
 import { useMemo } from 'react';
 
@@ -28,7 +28,7 @@ interface GetPurchasesVars {
 }
 
 export default function Mints({ loading, project, drop }: MintsProps) {
-  const columnHelper = createColumnHelper<Purchase>();
+  const columnHelper = createColumnHelper<MintHistory>();
   const loadingColumnHelper = createColumnHelper<any>();
 
   const purchasesQuery = useQuery<GetPurchasesData, GetPurchasesVars>(GetCollectionPurchases, {

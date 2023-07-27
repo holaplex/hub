@@ -251,7 +251,7 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
             exploreLink: asHolderExplorerLink,
           },
         },
-        Purchase: {
+        MintHistory: {
           fields: {
             shortWallet: asShortWallet,
             shortTx: asShortTx,
