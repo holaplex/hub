@@ -18,8 +18,6 @@ query GetCollectionPurchases($project: UUID!, $drop: UUID!) {
           txSignature
           status
           createdAt
-          dropId
-          spent
         }
       }
     }
