@@ -62,6 +62,13 @@ export default function Nfts({ loading, project, collection }: NftsProps) {
                 ),
               }),
               loadingColumnHelper.display({
+                id: 'compressed',
+                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
+                cell: () => (
+                  <span className="rounded-full h-3 w-24 inline-block bg-stone-800 animate-pulse" />
+                ),
+              }),
+              loadingColumnHelper.display({
                 id: 'minted',
                 header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
@@ -111,6 +118,16 @@ export default function Nfts({ loading, project, collection }: NftsProps) {
               header: () => <span>Current holder</span>,
               cell: (info) => {
                 return <span className="text-xs text-white font-medium">{info.getValue()}</span>;
+              },
+            }),
+            columnHelper.accessor('compressed', {
+              header: () => <span>Type</span>,
+              cell: (info) => {
+                return (
+                  <span className="text-xs text-white font-medium">
+                    {info.getValue() ? 'Compressed' : 'Standard'}
+                  </span>
+                );
               },
             }),
             columnHelper.accessor('createdAt', {

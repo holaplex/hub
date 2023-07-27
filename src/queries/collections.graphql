@@ -55,6 +55,7 @@ query GetProjectCollectionMints($project: UUID!, $collection: UUID!) {
         signature
         collectionId
         transactionLink @client
+        compressed
         metadataJson {
           id
           name
