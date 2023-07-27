@@ -161,10 +161,9 @@ function asPurchaseTransactionLink(
     toReference,
   }: { readField: ReadFieldFunction; cache: InMemoryCache; toReference: ToReferenceFunction }
 ): string | null {
-  const dropRef = toReference(
-    cache.identify({ __typename: 'Drop', id: readField('dropId') }) as string
+  const collectionRef = toReference(
+    cache.identify({ __typename: 'Collection', id: readField('collectionId') }) as string
   );
-  const collectionRef = readField('collection', dropRef) as Reference;
   const blockchain = readField('blockchain', collectionRef);
 
   const tx: string | undefined = readField('txSignature');
