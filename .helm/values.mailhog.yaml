@@ -7,7 +7,7 @@ ingress:
   enabled: true
   ingressClassName: apisix
   annotations:
-    k8s.apisix.apache.org/enable-websocket: "true"
+    k8s.apisix.apache.org/enable-websocket: 'true'
   hosts:
     - host: mail.127.0.0.1.nip.io
       paths:

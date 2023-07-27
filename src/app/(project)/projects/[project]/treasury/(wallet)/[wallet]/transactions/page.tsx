@@ -168,7 +168,7 @@ export default function TransactionsPage() {
                     key="change_email"
                     className="flex gap-2 items-center"
                   >
-                    <Icon.ExternalLink /> <span>View on SolScan</span>
+                    <Icon.ExternalLink width={20} height={20} /> <span>View on SolScan</span>
                   </Link>,
                 ]}
               />

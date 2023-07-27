@@ -7,7 +7,7 @@ import { useStore } from 'zustand';
 import { pipe, isNil, not } from 'ramda';
 import { ProjectProvider } from '../../../../../../../../providers/ProjectProvider';
 import {
-  CollectionCreatorInput,
+  CollectionCreator,
   Project,
   Blockchain,
   MetadataJsonAttribute,
@@ -90,7 +90,7 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
     },
     payment: {
       supply: drop?.collection.supply?.toString() as string,
-      creators: drop?.collection.creators as CollectionCreatorInput[],
+      creators: drop?.collection.creators as CollectionCreator[],
       royaltiesDestination: defaultRoyaltiesDestination,
       royaltiesShortcut: defaultRoyaltiesShortcut,
       royalties,

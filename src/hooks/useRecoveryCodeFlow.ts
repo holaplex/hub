@@ -25,7 +25,6 @@ export function useRecoveryCodeFlow({ flowId }: RecoveryCodeFlowProps): Recovery
         const result = await ory.getRecoveryFlow({ id: flowId });
 
         setFlow(result.data);
-
       } catch (err: any) {
         const errorCode = err.response?.data.error?.id;
 

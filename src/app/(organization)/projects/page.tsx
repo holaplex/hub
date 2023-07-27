@@ -166,7 +166,8 @@ export default function OrganizationProjectsPage() {
                                   className="flex gap-2 items-center"
                                   href={`/projects/${projectId}/edit`}
                                 >
-                                  <Icon.Edit stroke="stroke-gray-400" /> <span>Edit project</span>
+                                  <Icon.Edit stroke="stroke-gray-400" width={20} height={20} />
+                                  <span>Edit project</span>
                                 </Link>,
                                 <Copy key="copy_id" copyString={projectId}>
                                   <span>Copy project ID</span>

@@ -254,9 +254,22 @@ export default function EditWebhookPage({ params: { webhook } }: EditWebhookProp
                 <Form.Label name="Drop created" placement={Placement.Right}>
                   <Form.Checkbox {...register('events')} id="DROP_CREATED" value="DROP_CREATED" />
                 </Form.Label>
-
                 <Form.Label name="Drop minted" placement={Placement.Right}>
                   <Form.Checkbox {...register('events')} id="DROP_MINTED" value="DROP_MINTED" />
+                </Form.Label>
+                <Form.Label name="Collection created" placement={Placement.Right}>
+                  <Form.Checkbox
+                    {...register('events')}
+                    id="COLLECTION_CREATED"
+                    value="COLLECTION_CREATED"
+                  />
+                </Form.Label>
+                <Form.Label name="Minted to collection" placement={Placement.Right}>
+                  <Form.Checkbox
+                    {...register('events')}
+                    id="MINTED_TO_COLLECTION"
+                    value="MINTED_TO_COLLECTION"
+                  />
                 </Form.Label>
               </div>
 

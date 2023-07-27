@@ -53,7 +53,7 @@ declare module '*/mint.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const MintEdition: DocumentNode;
-export const RetryMint: DocumentNode;
+export const RetryMintEdition: DocumentNode;
 export const GetCollectionMints: DocumentNode;
 
   export default defaultDocument;
@@ -90,6 +90,18 @@ declare module '*/webhook.graphql' {
   export const CreateWebhook: DocumentNode;
 export const DeleteWebhook: DocumentNode;
 export const EditWebhook: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/collections.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const GetProjectCollections: DocumentNode;
+export const GetProjectCollection: DocumentNode;
+export const GetProjectCollectionMints: DocumentNode;
+export const GetProjectCollectionHolders: DocumentNode;
 
   export default defaultDocument;
 }

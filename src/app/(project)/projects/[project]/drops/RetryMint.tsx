@@ -1,21 +1,21 @@
 'use client';
-import { ApolloError, useMutation, useQuery } from '@apollo/client';
+import { ApolloError, useMutation } from '@apollo/client';
 import { Button } from '@holaplex/ui-library-react';
 import { GetCollectionPurchases } from './../../../../../queries/purchase.graphql';
 import { toast } from 'react-toastify';
 import Card from '../../../../../components/Card';
 import Typography, { Size } from '../../../../../components/Typography';
-import { RetryMintInput, RetryMintPayload } from '../../../../../graphql.types';
-import { RetryMint as RetryMintMutation } from './../../../../../mutations/mint.graphql';
+import { RetryMintEditionInput, RetryMintEditionPayload } from '../../../../../graphql.types';
+import { RetryMintEdition as RetryMintMutation } from './../../../../../mutations/mint.graphql';
 
 import { useRouter } from 'next/navigation';
 
 interface RetryMintData {
-  retryMint: RetryMintPayload;
+  retryMint: RetryMintEditionPayload;
 }
 
 interface RetryMintVars {
-  input: RetryMintInput;
+  input: RetryMintEditionInput;
 }
 
 interface RetryMintProps {

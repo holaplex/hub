@@ -10,7 +10,10 @@ function asShortAddress(_: any, { readField }: { readField: ReadFieldFunction })
   return shorten(address as string);
 }
 
-function asShortCollectionAddress(_: any, { readField }: { readField: ReadFieldFunction }): string | null {
+function asShortCollectionAddress(
+  _: any,
+  { readField }: { readField: ReadFieldFunction }
+): string | null {
   const address: string | undefined = readField('address');
   const blockchain: Blockchain | undefined = readField('blockchain');
 
@@ -27,6 +30,16 @@ function asShortCollectionAddress(_: any, { readField }: { readField: ReadFieldF
     default:
       return null;
   }
+}
+
+function asShortOwner(_: any, { readField }: { readField: ReadFieldFunction }): string {
+  const address: string | undefined = readField('owner');
+
+  if (address) {
+    return shorten(address as string);
+  }
+
+  return '';
 }
 
 function asShortWallet(_: any, { readField }: { readField: ReadFieldFunction }): string {
@@ -148,13 +161,41 @@ function asPurchaseTransactionLink(
     toReference,
   }: { readField: ReadFieldFunction; cache: InMemoryCache; toReference: ToReferenceFunction }
 ): string | null {
-  const dropRef = toReference(
-    cache.identify({ __typename: 'Drop', id: readField('dropId') }) as string
+  const collectionRef = toReference(
+    cache.identify({ __typename: 'Collection', id: readField('collectionId') }) as string
   );
-  const collectionRef = readField('collection', dropRef) as Reference;
   const blockchain = readField('blockchain', collectionRef);
 
   const tx: string | undefined = readField('txSignature');
+
+  if (!tx) {
+    return null;
+  }
+
+  switch (blockchain) {
+    case Blockchain.Solana:
+      return `https://solscan.io/tx/${tx}`;
+    case Blockchain.Polygon:
+      return `https://polygonscan.com/tx/${tx}`;
+    default:
+      return null;
+  }
+}
+
+function asMintTransactionLink(
+  _: any,
+  {
+    readField,
+    cache,
+    toReference,
+  }: { readField: ReadFieldFunction; cache: InMemoryCache; toReference: ToReferenceFunction }
+): string | null {
+  const collectionRef = toReference(
+    cache.identify({ __typename: 'Collection', id: readField('collectionId') }) as string
+  );
+  const blockchain = readField('blockchain', collectionRef);
+
+  const tx: string | undefined = readField('signature');
 
   if (!tx) {
     return null;
@@ -209,7 +250,7 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
             exploreLink: asHolderExplorerLink,
           },
         },
-        Purchase: {
+        MintHistory: {
           fields: {
             shortWallet: asShortWallet,
             shortTx: asShortTx,
@@ -218,8 +259,9 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
         },
         CollectionMint: {
           fields: {
-            ownerShortAddress: asShortAddress,
+            ownerShortAddress: asShortOwner,
             shortAddress: asShortAddress,
+            transactionLink: asMintTransactionLink,
           },
         },
       },

@@ -1,5 +1,5 @@
 import { createStore, StoreApi } from 'zustand';
-import { CollectionCreatorInput, Blockchain } from '../graphql.types';
+import { Blockchain, CollectionCreator, CreatorInput } from '../graphql.types';
 import { createContext } from 'react';
 
 export interface Attribute {
@@ -49,7 +49,7 @@ export enum RoyaltiesDestination {
 export type PaymentSettings = {
   supply: string;
   royaltiesDestination: RoyaltiesDestination;
-  creators: CollectionCreatorInput[];
+  creators: CreatorInput[];
   royaltiesShortcut: RoyaltiesShortcut;
   royalties?: string;
 };

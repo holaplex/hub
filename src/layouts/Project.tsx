@@ -67,7 +67,8 @@ export default function Project({
                             className="flex gap-2 items-center"
                             href={`/projects/${project.id}/edit`}
                           >
-                            <Icon.Edit stroke="stroke-gray-400" /> <span>Edit project</span>
+                            <Icon.Edit stroke="stroke-gray-400" width={20} height={20} />{' '}
+                            <span>Edit project</span>
                           </Link>,
                         ]}
                       />
@@ -77,19 +78,25 @@ export default function Project({
                 <Sidebar.Menu>
                   <Sidebar.Menu.Link
                     name="Drops"
-                    icon={<Icon.ManageNfts stroke="stroke-gray-400" />}
+                    icon={<Icon.ManageNfts stroke="stroke-gray-400" width={20} height={20} />}
                     href={`/projects/${project.id}/drops`}
                     active={segments[0] === 'drops'}
                   />
                   <Sidebar.Menu.Link
+                    name="Collections"
+                    icon={<Icon.Collections stroke="stroke-gray-400" width={20} height={20} />}
+                    href={`/projects/${project.id}/collections`}
+                    active={segments[0] === 'collections'}
+                  />
+                  <Sidebar.Menu.Link
                     name="Customers"
-                    icon={<Icon.Customers stroke="stroke-gray-400" />}
+                    icon={<Icon.Customers stroke="stroke-gray-400" width={20} height={20} />}
                     href={`/projects/${project.id}/customers`}
                     active={segments[0] === 'customers'}
                   />
                   <Sidebar.Menu.Link
                     name="Treasury"
-                    icon={<Icon.Treasury stroke="stroke-gray-400" />}
+                    icon={<Icon.Treasury stroke="stroke-gray-400" width={20} height={20} />}
                     href={`/projects/${project.id}/treasury`}
                     active={segments[0] === 'treasury'}
                   />

@@ -22,9 +22,10 @@ extend type Holder {
 extend type CollectionMint {
   ownerShortAddress: String!
   shortAddress: String!
+  transactionLink: String
 }
 
-extend type Purchase {
+extend type MintHistory {
   shortWallet: String!
   shortTx: String!
   transactionLink: String

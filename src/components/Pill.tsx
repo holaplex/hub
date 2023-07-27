@@ -86,7 +86,7 @@ function PillListCompact({
 
   return (
     <div className={clsx('relative flex flex-row gap-1', className)}>
-      <div className="flex gap-1 grow overflow-hidden" ref={listRef} >
+      <div className="flex gap-1 grow overflow-hidden" ref={listRef}>
         {Children.map(children, (child, index) =>
           cloneElement(child, {
             show: index < show,

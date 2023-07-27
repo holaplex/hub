@@ -147,7 +147,7 @@ export default function Registration() {
       <Divider.Or className="my-4" />
 
       <Link href="/login">
-      <Button icon={<Icon.LightBulb stroke="stroke-gray-400" />} block variant="secondary">
+        <Button icon={<Icon.LightBulb stroke="stroke-gray-400" />} block variant="secondary">
           <div className="flex items-center my-1">
             <span className="text-gray-400 font-medium">Already have an account?</span>
             <span className="flex items-center ml-1 font-semibold justify-center">
