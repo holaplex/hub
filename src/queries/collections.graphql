@@ -4,6 +4,7 @@ query GetProjectCollections($project: UUID!) {
     collections {
       id
       blockchain
+      creationStatus
       createdAt
       totalMints
       metadataJson {
@@ -50,6 +51,7 @@ query GetProjectCollectionMints($project: UUID!, $collection: UUID!) {
       mints {
         id
         owner
+        creationStatus
         ownerShortAddress @client
         createdAt
         signature

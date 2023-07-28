@@ -211,12 +211,12 @@ function DropStatusPill({ status, className }: DropStatusPillProps) {
 }
 Table.DropStatusPill = DropStatusPill;
 
-interface PurchaseStatusPillProps {
+interface CreationStatusPillProps {
   status: CreationStatus;
   className?: string;
 }
 
-function PurchaseStatusPill({ status, className }: PurchaseStatusPillProps) {
+function CreationStatusPill({ status, className }: CreationStatusPillProps) {
   let label = status.toString();
 
   return (
@@ -231,7 +231,7 @@ function PurchaseStatusPill({ status, className }: PurchaseStatusPillProps) {
     </div>
   );
 }
-Table.PurchaseStatusPill = PurchaseStatusPill;
+Table.CreationStatusPill = CreationStatusPill;
 
 interface WebhookStatusProps {
   status: WebhookStatus;

@@ -3,7 +3,7 @@ import { createColumnHelper } from '@tanstack/react-table';
 import { useQuery } from '@apollo/client';
 import Table from '../../../../../../../components/Table';
 import { DateFormat, convertLocalTime } from '../../../../../../../modules/time';
-import { CollectionMint, Project } from '../../../../../../../graphql.types';
+import { CollectionMint, CreationStatus, Project } from '../../../../../../../graphql.types';
 import { GetProjectCollectionMints } from './../../../../../../../queries/collections.graphql';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { format } from 'date-fns';
@@ -78,6 +78,11 @@ export default function Nfts({ loading, project, collection }: NftsProps) {
                 ),
               }),
               loadingColumnHelper.display({
+                id: 'creationStatus',
+                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
+                cell: () => <div className="rounded-full h-6 w-20 bg-stone-800 animate-pulse" />,
+              }),
+              loadingColumnHelper.display({
                 id: 'options',
                 meta: {
                   align: 'right',
@@ -141,6 +146,17 @@ export default function Nfts({ loading, project, collection }: NftsProps) {
                     <span className="text-gray-400">
                       {format(convertLocalTime(info.getValue()), DateFormat.TIME_1)}
                     </span>
+                  </div>
+                );
+              },
+            }),
+            columnHelper.accessor('creationStatus', {
+              id: 'creationStatus',
+              header: () => <span>Status</span>,
+              cell: (info) => {
+                return (
+                  <div className="flex gap-2 items-center">
+                    <Table.CreationStatusPill status={info.getValue() as CreationStatus} />
                   </div>
                 );
               },
