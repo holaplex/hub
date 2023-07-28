@@ -7,7 +7,7 @@ import Table from '../../../../../components/Table';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import { GetProjectCollections } from './../../../../../queries/collections.graphql';
-import { Collection, Project } from '../../../../../graphql.types';
+import { Collection, CreationStatus, Project } from '../../../../../graphql.types';
 import { convertLocalTime, DateFormat } from '../../../../../modules/time';
 import Copy from '../../../../../components/Copy';
 import { useProject } from '../../../../../hooks/useProject';
@@ -97,6 +97,13 @@ export default function ProjectCollectionsPage() {
                   ),
                 }),
                 loadingColumnHelper.display({
+                  id: 'creationStatus',
+                  header: () => (
+                    <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
+                  ),
+                  cell: () => <div className="rounded-full h-6 w-20 bg-stone-800 animate-pulse" />,
+                }),
+                loadingColumnHelper.display({
                   id: 'options',
                   meta: {
                     align: 'right',
@@ -172,6 +179,17 @@ export default function ProjectCollectionsPage() {
                             <span className="text-white text-xs">
                               {format(convertLocalTime(info.getValue()), DateFormat.TIME_1)}
                             </span>
+                          </div>
+                        );
+                      },
+                    }),
+                    columnHelper.accessor('creationStatus', {
+                      id: 'creationStatus',
+                      header: () => <span>Status</span>,
+                      cell: (info) => {
+                        return (
+                          <div className="flex gap-2 items-center">
+                            <Table.CreationStatusPill status={info.getValue() as CreationStatus} />
                           </div>
                         );
                       },
