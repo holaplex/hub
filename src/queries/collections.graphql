@@ -25,6 +25,7 @@ query GetProjectCollection($project: UUID!, $collection: UUID!) {
     collection(id: $collection) {
       id
       blockchain
+      creationStatus
       createdAt
       totalMints
       createdById
