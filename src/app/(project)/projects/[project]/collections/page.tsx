@@ -188,7 +188,7 @@ export default function ProjectCollectionsPage() {
                       header: () => <span>Status</span>,
                       cell: (info) => {
                         return (
-                          <div className="flex gap-2 items-center">
+                          <div>
                             <Table.CreationStatusPill status={info.getValue() as CreationStatus} />
                           </div>
                         );
