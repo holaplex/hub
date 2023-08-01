@@ -145,7 +145,7 @@ export default function Collection({
                         </Link>
                       </span>
                     ) : (
-                      'Open'
+                      'API'
                     )}
                   </span>
                 </div>
