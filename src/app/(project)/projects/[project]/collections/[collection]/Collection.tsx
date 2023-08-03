@@ -8,12 +8,13 @@ import { usePathname } from 'next/navigation';
 import { GetProjectCollection } from './../../../../../../queries/collections.graphql';
 import { convertLocalTime, DateFormat } from '../../../../../../modules/time';
 import { useQuery } from '@apollo/client';
-import { Blockchain, Project } from '../../../../../../graphql.types';
+import { Blockchain, CreationStatus, Project } from '../../../../../../graphql.types';
 import { Icon } from '../../../../../../components/Icon';
 import { cloneElement } from 'react';
 import Typography, { Size } from '../../../../../../components/Typography';
 import { shorten } from '../../../../../../modules/wallet';
 import { format } from 'date-fns';
+import Table from '../../../../../../components/Table';
 
 interface CollectionProps {
   project: string;
@@ -118,6 +119,12 @@ export default function Collection({
 
               <div className="basis-1/2 h-full flex flex-col px-4 gap-2 text-sm">
                 <div className="flex items-center justify-between gap-2">
+                  <span className="text-gray-400">Status</span>
+                  <Table.CreationStatusPill
+                    status={collectionData?.creationStatus as CreationStatus}
+                  />
+                </div>
+                <div className="flex items-center justify-between gap-2">
                   <span className="text-gray-400">Blockchain</span>
                   <div className="text-white flex gap-1">
                     {blockchainIcon}
@@ -125,7 +132,7 @@ export default function Collection({
                   </div>
                 </div>
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-gray-400">Type</span>
+                  <span className="text-gray-400">Created using</span>
                   <span>
                     {collectionData?.drop ? (
                       <span>
@@ -138,7 +145,7 @@ export default function Collection({
                         </Link>
                       </span>
                     ) : (
-                      'Open'
+                      'API'
                     )}
                   </span>
                 </div>

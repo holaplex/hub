@@ -67,9 +67,13 @@ export enum Action {
   CreateDrop = 'CREATE_DROP',
   CreateWallet = 'CREATE_WALLET',
   MintEdition = 'MINT_EDITION',
+  Mint = 'MINT',
   RetryDrop = 'RETRY_DROP',
   RetryMint = 'RETRY_MINT',
-  TransferAsset = 'TRANSFER_ASSET'
+  TransferAsset = 'TRANSFER_ASSET',
+  CreateCollection = 'CREATE_COLLECTION',
+  MintCompressed = 'MINT_COMPRESSED',
+  RetryCollection = 'RETRY_COLLECTION'
 }
 
 /** Represents the cost of performing a certain action on different blockchains */

@@ -171,7 +171,7 @@ export default function Mints({ loading, project, drop }: MintsProps) {
             }),
             columnHelper.accessor('status', {
               header: () => <span>Status</span>,
-              cell: (info) => <Table.PurchaseStatusPill status={info.getValue()} />,
+              cell: (info) => <Table.CreationStatusPill status={info.getValue()} />,
             }),
             columnHelper.display({
               id: 'moreOptions',
