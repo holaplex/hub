@@ -8,12 +8,7 @@ import { useQuery } from '@apollo/client';
 import Table from '../../../../../../../components/Table';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { formatDateString, DateFormat } from '../../../../../../../modules/time';
-import {
-  Blockchain,
-  CreationStatus,
-  Project,
-  MintHistory,
-} from '../../../../../../../graphql.types';
+import { Blockchain, CreationStatus, Project, MintHistory } from '../../../../../../../graphql.types';
 import { GetCollectionPurchases } from './../../../../../../../queries/purchase.graphql';
 import { useMemo } from 'react';
 
