@@ -47,12 +47,36 @@ h3 {
 
 /* UI Library specific */
 
+@layer components {
+  [type='checkbox']:checked {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='%231A1A1D' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+  }
+
+  [type='radio']:checked {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='%231A1A1D' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+  }
+
+  [type='checkbox'],
+  [type='radio'] {
+    @apply focus:ring-0 focus:ring-offset-0;
+  }
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 24 24"><path fill="%23AAAAAA" d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>');
+}
+
+input[type='time']::-webkit-calendar-picker-indicator {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16px" height="16px"><circle cx="8" cy="8" r="7" stroke="%23AAAAAA" fill="none"/><path stroke="%23AAAAAA" stroke-linecap="round" d="M8,4.5v3.5l2.5,1.5"/></svg>');
+}
+
 .form-error {
-  @apply text-left text-sm text-red-500;
+  @apply text-left text-sm text-red-500 p-4 bg-red-500/25 rounded-lg mt-2;
 }
 
 .form-input-container,
-.form-input {
+.form-input,
+.form-textarea {
   @apply w-full focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400;
 }
 
@@ -60,7 +84,8 @@ h3 {
   @apply flex flex-row items-center;
 }
 
-.form-input {
+.form-input,
+.form-textarea {
   @apply rounded-lg bg-stone-800 border border-stone-800 text-white;
 }
 
@@ -77,7 +102,7 @@ h3 {
 }
 
 .form-checkbox {
-  @apply text-yellow-300 rounded bg-stone-800 border-none focus:ring-yellow-300;
+  @apply text-yellow-300 rounded bg-stone-800 border-none;
 }
 
 .form-checkbox-label {
@@ -109,7 +134,7 @@ input:focus {
 }
 
 .button-variant-primary {
-  @apply text-stone-950 bg-yellow-300 hover:bg-yellow-500 disabled:opacity-70 transition rounded-lg;
+  @apply text-stone-950 bg-yellow-300 hover:bg-yellow-500 disabled:opacity-70 disabled:bg-yellow-500 disabled:cursor-default transition rounded-lg;
 }
 
 .button-variant-secondary {
@@ -137,16 +162,16 @@ input:focus {
   @apply border-stone-950 border-r-transparent;
 }
 
-.table-header-text {
-  @apply text-xs text-gray-400 font-medium;
-}
-
 .modal-close {
   @apply top-8 right-8 rounded-full bg-stone-800 p-2 hover:opacity-70;
 }
 
 .modal-close-icon {
   @apply text-white;
+}
+
+.modal-scrim {
+  @apply bg-stone-950 bg-opacity-40;
 }
 
 .form-select-button {
@@ -186,7 +211,7 @@ input:focus {
 }
 
 .form-radio {
-  @apply w-4 h-4 text-yellow-300 bg-stone-800 border-none focus:ring-yellow-300 cursor-pointer ring-offset-0;
+  @apply w-4 h-4 text-yellow-300 bg-stone-800 border-none cursor-pointer;
 }
 
 .form-radio-custombox {
@@ -194,7 +219,7 @@ input:focus {
 }
 
 .popover-panel {
-  @apply w-screen max-w-[200px] rounded-md p-4 bg-stone-800 text-white;
+  @apply w-screen max-w-[200px] rounded-md p-4 bg-stone-800 text-white z-30;
 }
 
 .popover-elements {
@@ -202,7 +227,7 @@ input:focus {
 }
 
 .dragdrop-preview-image {
-  @apply w-40 h-40 object-cover;
+  @apply w-40 h-40 aspect-square rounded-lg object-cover;
 }
 
 input[type='date']::-webkit-calendar-picker-indicator {

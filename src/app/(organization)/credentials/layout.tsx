@@ -34,7 +34,7 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
 
   return (
     <>
-      <div className="h-full flex flex-col p-4">
+      <div className="h-full flex flex-col p-6">
         {credentialsQuery.loading ? (
           <>
             <div className="w-36 h-8 rounded-md bg-stone-900 animate-pulse" />
@@ -74,7 +74,8 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                   ),
                 }),
                 loadingColumnHelper.display({
-                  id: 'id',
+                  id: 'options',
+                  meta: { align: 'right' },
                   header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                   cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                 }),
@@ -109,28 +110,20 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                   className="mt-4"
                   columns={[
                     columnHelper.accessor('name', {
-                      header: () => (
-                        <div className="flex gap-2">
-                          <span className="text-xs text-gray-400 font-medium">Name</span>
-                        </div>
-                      ),
+                      header: () => <span>Name</span>,
                       cell: (info) => (
-                        <span className="text-xs text-white font-medium">{info.getValue()}</span>
+                        <span className="text-white text-xs font-medium">{info.getValue()}</span>
                       ),
                     }),
 
                     columnHelper.accessor('createdAt', {
-                      header: () => (
-                        <span className="flex text-xs text-gray-400 font-medium self-start">
-                          Created date
-                        </span>
-                      ),
+                      header: () => <span>Created date</span>,
                       cell: (info) => (
                         <div className="flex flex-col">
-                          <span className="text-xs text-white font-medium">
+                          <span className="text-gray-400 text-xs font-medium">
                             {formatDateString(info.getValue(), DateFormat.DATE_1)}
                           </span>
-                          <span className="text-xs text-gray-400">
+                          <span className="text-white text-xs">
                             {formatDateString(info.getValue(), DateFormat.TIME_1)}
                           </span>
                         </div>
@@ -138,24 +131,23 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                     }),
 
                     columnHelper.accessor('createdBy', {
-                      header: () => (
-                        <span className="flex text-xs text-gray-400 font-medium self-start">
-                          Created by
-                        </span>
-                      ),
+                      header: () => <span>Created by</span>,
                       cell: (info) => (
                         <div className="flex flex-col">
-                          <span className="text-xs text-white font-medium">
+                          <span className="text-white text-xs font-medium">
                             {`${info.getValue().firstName} ${info.getValue().lastName}`}
                           </span>
-                          <span className="text-xs text-gray-400">{info.getValue().email}</span>
+                          <span className="text-gray-400 text-xs font-medium">
+                            {info.getValue().email}
+                          </span>
                         </div>
                       ),
                     }),
 
                     columnHelper.display({
-                      id: 'clientId',
-                      header: () => <Icon.TableAction />,
+                      id: 'options',
+                      meta: { align: 'right' },
+                      header: () => <></>,
                       cell: (info) => (
                         <PopoverBox
                           popperPlacement="auto"
@@ -170,7 +162,7 @@ export default function ProjectsPage({ children }: { children: React.ReactNode }
                               className="flex gap-2 items-center"
                               href={`/credentials/${info.row.original.clientId}/delete`}
                             >
-                              <Icon.Delete stroke="stroke-red-500" />
+                              <Icon.Delete stroke="stroke-red-500" width={20} height={20} />
                               <span className="text-red-500">Delete</span>
                             </Link>,
                           ]}

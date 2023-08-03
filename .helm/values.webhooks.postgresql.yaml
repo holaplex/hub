@@ -1,0 +1,4 @@
+auth:
+  username: webhooks
+  password: webhooks
+  database: webhooks

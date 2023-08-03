@@ -9,6 +9,7 @@ import { Holder, Project, Blockchain } from '../../../../../../../graphql.types'
 import { GetCollectionHolders } from './../../../../../../../queries/holder.graphql';
 import { useQuery } from '@apollo/client';
 import Typography, { Size } from '../../../../../../../components/Typography';
+import { useMemo } from 'react';
 
 interface HoldersProps {
   project: string;
@@ -38,6 +39,18 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
 
   const holders = holdersQuery.data?.project.drop?.collection.holders || [];
   const noHolders = holders.length === 0;
+  const blockchain = holdersQuery.data?.project.drop?.collection.blockchain;
+
+  let blockchainIcon = useMemo(() => {
+    switch (blockchain) {
+      case Blockchain.Solana:
+        return <Icon.Crypto.Sol />;
+      case Blockchain.Polygon:
+        return <Icon.Crypto.Polygon />;
+      default:
+        return <></>;
+    }
+  }, [blockchain]);
 
   return (
     <div className="flex flex-col">
@@ -66,17 +79,10 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
                 ),
               }),
               loadingColumnHelper.display({
-                id: 'spent',
-                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
-                cell: () => (
-                  <div className="flex flex-row gap-2">
-                    <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
-                    <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
-                  </div>
-                ),
-              }),
-              loadingColumnHelper.display({
                 id: 'options',
+                meta: {
+                  align: 'right',
+                },
                 header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                 cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
               }),
@@ -96,45 +102,20 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
         <Table
           columns={[
             columnHelper.accessor('shortAddress', {
-              header: () => (
-                <div className="flex gap-2">
-                  <span className="text-xs text-gray-400 font-medium">Wallet</span>
-                </div>
-              ),
+              header: () => <span>Wallet</span>,
               cell: (info) => {
                 const address = info.getValue();
                 return (
                   <div className="flex gap-2">
-                    <Icon.Crypto.Sol />
+                    {blockchainIcon}
                     <span className="text-xs text-white font-medium">{address}</span>
                   </div>
                 );
               },
             }),
             columnHelper.accessor('owns', {
-              id: 'spent',
-              header: () => (
-                <div className="flex gap-2">
-                  <span className="text-xs text-gray-400 font-medium">Spent</span>
-                </div>
-              ),
-              cell: (info) => {
-                const owns = info.getValue();
-                return (
-                  <div className="flex gap-1 items-center">
-                    {(owns * (holdersQuery.data?.project.drop?.price || 0)) as number}
-                    <span className="text-xs text-gray-400">SOL</span>
-                  </div>
-                );
-              },
-            }),
-            columnHelper.accessor('owns', {
               id: 'owns',
-              header: () => (
-                <div className="flex gap-2">
-                  <span className="text-xs text-gray-400 font-medium">Owned Editions</span>
-                </div>
-              ),
+              header: () => <span>Owned Editions</span>,
               cell: (info) => {
                 const owns = info.getValue();
                 const share = Math.ceil(
@@ -149,23 +130,24 @@ export default function Holders({ project, drop, loading }: HoldersProps) {
             }),
             columnHelper.display({
               id: 'options',
-              header: () => <Icon.TableAction />,
+              meta: {
+                align: 'right',
+              },
+              header: () => <></>,
               cell: (info) => {
-                const address = info.row.original.address;
+                const exploreLink = info.row.original.exploreLink;
                 const options = [];
 
-                if (holdersQuery.data?.project.drop?.collection.blockchain === Blockchain.Solana) {
-                  options.push(
-                    <Link
-                      href={`https://solscan.io/account/${address}`}
-                      target="_blank"
-                      key="change_email"
-                      className="flex gap-2 items-center"
-                    >
-                      <Icon.ExternalLink /> <span>View on SolScan</span>
-                    </Link>
-                  );
-                }
+                options.push(
+                  <Link
+                    href={exploreLink as string}
+                    target="_blank"
+                    key="explorer"
+                    className="flex gap-2 items-center"
+                  >
+                    <Icon.ExternalLink width={20} height={20} /> <span>View on explorer</span>
+                  </Link>
+                );
 
                 return (
                   <PopoverBox

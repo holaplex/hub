@@ -4,6 +4,10 @@ extend type Wallet {
 
 extend type Collection {
   royalties: String!
+  transactionLink: String
+  exploreLink: String
+  shortAddress: String
+  shortTx: String
 }
 
 extend type CollectionCreator {
@@ -12,14 +16,17 @@ extend type CollectionCreator {
 
 extend type Holder {
   shortAddress: String!
+  exploreLink: String
 }
 
 extend type CollectionMint {
   ownerShortAddress: String!
   shortAddress: String!
+  transactionLink: String
 }
 
-extend type Purchase {
+extend type MintHistory {
   shortWallet: String!
   shortTx: String!
+  transactionLink: String
 }

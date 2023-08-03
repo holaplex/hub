@@ -9,6 +9,9 @@ import { StoreApi, useStore } from 'zustand';
 import { TimingSettings, DropFormState } from '../../../../../../../providers/DropFormProvider';
 import { useDropForm } from '../../../../../../../hooks/useDropForm';
 import { useProject } from '../../../../../../../hooks/useProject';
+import { format } from 'date-fns';
+import add from 'date-fns/add';
+import { combineDateTime, DateFormat } from '../../../../../../../modules/time';
 
 export default function NewDropTimingPage() {
   const router = useRouter();
@@ -17,10 +20,16 @@ export default function NewDropTimingPage() {
 
   const timing = useStore(store, (store) => store.timing);
   const setTiming = useStore(store, (store) => store.setTiming);
-  const { handleSubmit, register, watch } = useForm<TimingSettings>({
+  const now = new Date();
+  const thirtyDays = add(now, { days: 30 });
+  const { handleSubmit, register, watch, formState, setError } = useForm<TimingSettings>({
     defaultValues: timing || {
       selectStartDate: 'mintImmediately',
+      startDate: format(now, DateFormat.DATE_3),
+      startTime: format(now, DateFormat.TIME_2),
       selectEndDate: 'neverEnd',
+      endDate: format(thirtyDays, DateFormat.DATE_3),
+      endTime: format(thirtyDays, DateFormat.TIME_2),
     },
   });
 
@@ -38,14 +47,14 @@ export default function NewDropTimingPage() {
 
   return (
     <>
-      <Card className="w-[460px]">
+      <Card className="w-[364px]">
         <Typography.Header size={Size.H2}>Drop schedule</Typography.Header>
         <Typography.Header size={Size.H3} color={TextColor.Gray}>
           Scheduled in your current timezone
         </Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
           {/* Start Date */}
-          <Form.Label name="Start date/time">
+          <Form.Label name="Start date/time" className="text-xs">
             <Form.RadioGroup>
               <Form.Label name="Start immediately" placement={Placement.Right}>
                 <Form.RadioGroup.Radio {...register('selectStartDate')} value="mintImmediately" />
@@ -56,14 +65,42 @@ export default function NewDropTimingPage() {
             </Form.RadioGroup>
           </Form.Label>
           {selectStartDate === 'specifyStartDate' && (
-            <div className="flex gap-4 items-end mt-4">
-              <Form.Input {...register('startDate')} type="date" className="basis-3/5" />
-              <Form.Input {...register('startTime')} type="time" className="basis-2/5" />
+            <div className="flex gap-6 items-start mt-4">
+              <div className="flex flex-col gap-1">
+                <Form.Input
+                  {...register('startDate', {
+                    validate: (value, { selectStartDate }) => {
+                      if (selectStartDate === 'specifyStartDate' && !value) {
+                        return 'Please select a start date.';
+                      }
+                    },
+                  })}
+                  type="date"
+                  min={new Date().toISOString().slice(0, 10)}
+                  className="basis-3/5"
+                />
+                <Form.Error message={formState.errors.startDate?.message} />
+              </div>
+              <div className="flex flex-col gap-1">
+                <Form.Input
+                  {...register('startTime', {
+                    validate: (value, { selectStartDate }) => {
+                      if (selectStartDate === 'specifyStartDate' && !value) {
+                        return 'Please select a start time.';
+                      }
+                    },
+                  })}
+                  type="time"
+                  className="basis-2/5"
+                />
+                <Form.Error message={formState.errors.startTime?.message} />
+              </div>
             </div>
           )}
+          <Form.Error message={formState.errors.selectStartDate?.message} />
 
           {/* End Date */}
-          <Form.Label name="End date/time" className="mt-8">
+          <Form.Label name="End date/time" className="mt-8 text-xs">
             <Form.RadioGroup>
               <Form.Label name="Never end" placement={Placement.Right}>
                 <Form.RadioGroup.Radio {...register('selectEndDate')} value="neverEnd" />
@@ -74,18 +111,77 @@ export default function NewDropTimingPage() {
             </Form.RadioGroup>
           </Form.Label>
           {selectEndDate === 'specifyEndDate' && (
-            <div className="flex gap-4 items-end mt-4">
-              <Form.Input {...register('endDate')} type="date" className="basis-3/5" />
-              <Form.Input {...register('endTime')} type="time" className="basis-2/5" />
+            <div className="flex gap-6 mt-4 items-start">
+              <div className="flex flex-col gap-1">
+                <Form.Input
+                  {...register('endDate', {
+                    validate: (value, { selectEndDate, startDate }) => {
+                      if (selectEndDate === 'specifyEndDate') {
+                        if (!value) {
+                          return 'Please select an end date.';
+                        } else if (startDate && startDate > value) {
+                          return 'End date cannot be before start date.';
+                        }
+                      }
+                    },
+                  })}
+                  type="date"
+                  min={new Date().toISOString().slice(0, 10)}
+                  className="basis-3/5"
+                />
+                <Form.Error message={formState.errors.endDate?.message} />
+              </div>
+              <div className="flex flex-col gap-1">
+                <Form.Input
+                  {...register('endTime', {
+                    validate: (value, { selectEndDate, startDate, startTime, endDate }) => {
+                      if (selectEndDate === 'specifyEndDate') {
+                        if (!value) {
+                          return 'Please select an end time.';
+                        } else if (startDate && startTime && endDate) {
+                          const [startTimeHrs, startTimeMins] = startTime.split(':');
+                          const startDateTime = combineDateTime(
+                            new Date(startDate),
+                            parseInt(startTimeHrs),
+                            parseInt(startTimeMins)
+                          );
+
+                          const [endTimeHrs, endTimeMins] = value.split(':');
+                          const endDateTime = combineDateTime(
+                            new Date(endDate),
+                            parseInt(endTimeHrs),
+                            parseInt(endTimeMins)
+                          );
+
+                          if (endDateTime < startDateTime) {
+                            return 'End date/time cannot be before start date/time.';
+                          }
+                        }
+                      }
+                    },
+                  })}
+                  type="time"
+                  className="basis-2/5"
+                />
+
+                <Form.Error message={formState.errors.endTime?.message} />
+              </div>
             </div>
           )}
+          <Form.Error message={formState.errors.selectEndDate?.message} />
 
           <hr className="w-full bg-stone-800 border-0 h-px my-5" />
-          <div className="flex items-center justify-end gap-4">
-            <Button variant="secondary" onClick={back}>
+          <div className="flex items-center justify-end gap-6">
+            <Button variant="secondary" onClick={back} disabled={formState.isSubmitting}>
               Back
             </Button>
-            <Button htmlType="submit">Next</Button>
+            <Button
+              htmlType="submit"
+              loading={formState.isSubmitting}
+              disabled={formState.isSubmitting}
+            >
+              Next
+            </Button>
           </div>
         </Form>
       </Card>

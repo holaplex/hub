@@ -7,7 +7,7 @@ import { useStore } from 'zustand';
 import { pipe, isNil, not } from 'ramda';
 import { ProjectProvider } from '../../../../../../../../providers/ProjectProvider';
 import {
-  CollectionCreatorInput,
+  CollectionCreator,
   Project,
   Blockchain,
   MetadataJsonAttribute,
@@ -26,6 +26,12 @@ interface CreateDropProps {
   project: Project;
 }
 
+const blockchainLabel = {
+  [Blockchain.Solana]: 'Solana',
+  [Blockchain.Polygon]: 'Polygon',
+  [Blockchain.Ethereum]: 'Ethereum',
+};
+
 const isComplete = pipe(isNil, not);
 
 export default function EditDrop({ children, project }: CreateDropProps): JSX.Element {
@@ -36,11 +42,11 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
   const wallet = project?.treasury?.wallets?.find((wallet) => {
     switch (drop?.collection.blockchain) {
       case Blockchain.Solana:
-        return wallet.assetId === AssetType.SolTest || wallet.assetId === AssetType.Sol;
+        return wallet.assetId === AssetType.Sol;
       case Blockchain.Polygon:
-        return wallet.assetId === AssetType.MaticTest || wallet.assetId === AssetType.Matic;
+        return wallet.assetId === AssetType.Matic;
       case Blockchain.Ethereum:
-        return wallet.assetId === AssetType.EthTest || wallet.assetId === AssetType.Eth;
+        return wallet.assetId === AssetType.Eth;
     }
   });
 
@@ -66,19 +72,25 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
       break;
   }
 
+  const metadataJson = drop?.collection.metadataJson;
   const store = useDropFormState({
     detail: {
-      name: drop?.collection.metadataJson?.name as string,
-      description: drop?.collection.metadataJson?.description as string,
-      blockchain: drop?.collection.blockchain as Blockchain,
-      symbol: drop?.collection.metadataJson?.symbol as string,
-      image: drop?.collection.metadataJson?.image as string,
-      attributes: drop?.collection.metadataJson?.attributes as MetadataJsonAttribute[],
-      externalUrl: drop?.collection.metadataJson?.externalUrl as string,
+      name: metadataJson?.name as string,
+      description: metadataJson?.description as string,
+      blockchain: {
+        id: drop?.collection.blockchain as Blockchain,
+        name: blockchainLabel[drop?.collection.blockchain as Blockchain],
+      },
+      symbol: metadataJson?.symbol as string,
+      image: metadataJson?.image as string,
+      animationUrl: metadataJson?.animationUrl as string,
+      includeAnimationUrl: metadataJson?.animationUrl ? true : false,
+      attributes: (metadataJson?.attributes || []) as MetadataJsonAttribute[],
+      externalUrl: metadataJson?.externalUrl as string,
     },
     payment: {
       supply: drop?.collection.supply?.toString() as string,
-      creators: drop?.collection.creators as CollectionCreatorInput[],
+      creators: drop?.collection.creators as CollectionCreator[],
       royaltiesDestination: defaultRoyaltiesDestination,
       royaltiesShortcut: defaultRoyaltiesShortcut,
       royalties,
@@ -103,7 +115,7 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
         <Navbar.Header>
           <Link
             href={`/projects/${project.id}/drops`}
-            className="flex items-center gap-4 px-5 cursor-pointer"
+            className="flex items-center gap-6 px-5 cursor-pointer"
           >
             <Icon.Close stroke="stroke-white" />
             <span className="flex items-center gap-2 text-sm font-medium">Close</span>

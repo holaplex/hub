@@ -71,8 +71,8 @@ export default function CreateOrganizationPage() {
             {...register('name', { required: true })}
             placeholder="e.g. Apple"
           />
-          <Form.Error message={error?.message} />
         </Form.Label>
+        <Form.Error message={error?.message} />
         <Form.Label name="Organization logo" className="text-xs text-white mt-5">
           <Controller
             name="file"
@@ -127,10 +127,6 @@ export default function CreateOrganizationPage() {
           Create
         </Button>
       </Form>
-      <span className="flex-wrap text-gray-400 text-xs mt-2">
-        By pressing &quot;Create an aсcount&quot;, I agree to Holaplex{' '}
-        <Link href="">Terms of Use</Link> and <Link href="">Privacy Policy.</Link>
-      </span>
     </Card>
   );
 }

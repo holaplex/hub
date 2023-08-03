@@ -15,18 +15,17 @@ interface WalletCardProps {
 }
 
 function WalletCard({ wallet, className }: WalletCardProps) {
-  const { copied, copyText } = useClipboard(wallet.address);
+  const { copied, copyText } = useClipboard(wallet.address as string);
 
   let icon: React.ReactNode;
 
   switch (wallet.assetId) {
     case AssetType.Sol:
-    case AssetType.SolTest:
       icon = <Icon.Large.Solana />;
       break;
-    case AssetType.Eth:
-    case AssetType.EthTest:
-      icon = <Icon.Large.Eth />;
+
+    case AssetType.Matic:
+      icon = <Icon.Large.Polygon />;
       break;
   }
   return (
@@ -37,7 +36,7 @@ function WalletCard({ wallet, className }: WalletCardProps) {
         className="flex gap-2 text-xs font-medium items-center mt-2 cursor-pointer"
         onClick={copyText}
       >
-        <div>{shorten(wallet.address)}</div>
+        {wallet.address && <div>{shorten(wallet.address)}</div>}
         {copied ? <Icon.Check /> : <Icon.Copy />}
       </div>
     </Card>

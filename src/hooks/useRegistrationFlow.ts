@@ -12,6 +12,10 @@ interface RegistrationFlowContext {
   loading: boolean;
 }
 
+interface LoginResponse {
+  redirect_path: string;
+}
+
 export function useRegistrationFlow(): RegistrationFlowContext {
   const [flow, setFlow] = useState<RegistrationFlow>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -32,9 +36,22 @@ export function useRegistrationFlow(): RegistrationFlowContext {
         const errorCode = err.response?.data.error?.id;
 
         if (errorCode === 'session_already_available') {
-          toast.info('You are already logged in');
+          try {
+            const response = await fetch('/browser/login', {
+              method: 'POST',
+              credentials: 'same-origin',
+            });
 
-          router.push('/projects');
+            const json: LoginResponse = await response.json();
+
+            router.push(json.redirect_path);
+          } catch (e: any) {
+            toast.error(
+              'Unable to forward you to an organization. Please select or create an organization.'
+            );
+
+            router.push('/organizations');
+          }
         }
       } finally {
         setLoading(false);

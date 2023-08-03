@@ -33,7 +33,7 @@ export default function Nfts({ children, project, customer }: NftsProps) {
     <>
       <div className="h-full flex flex-col flex-1">
         {mintsQuery.loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {Array.from(Array(6)).map((_, index) => (
               <Mint.Skeleton key={index} />
             ))}
@@ -48,7 +48,7 @@ export default function Nfts({ children, project, customer }: NftsProps) {
                 <span className="mt-2 text-gray-400 text-sm">
                   Click button below to understand how to mint NFTs.
                 </span>
-                <a href="https://docs.holaplex.dev/hub/Guides/minting-drops">
+                <a href="https://docs.holaplex.com/hub/Guides/minting-drops" target="_blank">
                   <Button
                     icon={<Icon.Help stroke="stroke-yellow-300" />}
                     variant="secondary"
@@ -59,7 +59,7 @@ export default function Nfts({ children, project, customer }: NftsProps) {
                 </a>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {mints.map((mint) => (
                   <Mint.Card mint={mint} key={mint.id} />
                 ))}

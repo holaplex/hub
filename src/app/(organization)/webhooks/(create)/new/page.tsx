@@ -87,7 +87,7 @@ export default function NewWebhook() {
   );
 
   return (
-    <div className="h-full flex flex-col p-4">
+    <div className="h-full flex flex-col p-6">
       <div className="text-2xl font-medium">
         <span className="text-gray-400">Webhooks / </span>
         <span>Add Webhook</span>
@@ -103,7 +103,7 @@ export default function NewWebhook() {
               <Controller
                 name="projects"
                 control={control}
-                rules={{ required: 'Please select atleast one project' }}
+                rules={{ required: 'Please select at least one project' }}
                 render={({ field: { value, onChange } }) => (
                   <Form.Select value={value} onChange={onChange} multiple>
                     <Form.Select.Button>
@@ -133,25 +133,24 @@ export default function NewWebhook() {
                   </Form.Select>
                 )}
               />
-              <Form.Error message={errors.projects?.message} />
             </Form.Label>
-            <div className="flex gap-4 mt-5">
+            <Form.Error message={errors.projects?.message} />
+            <div className="flex gap-6 mt-5">
               <Form.Label name="Name" className="text-xs mt-5">
                 <Form.Input
                   {...register('description', { required: 'Name is required' })}
                   autoFocus
                   placeholder="e.g. Bored Ape Yatch Club"
                 />
-                <Form.Error message={errors.description?.message} />
               </Form.Label>
-
+              <Form.Error message={errors.description?.message} />
               <Form.Label name="Target URL" className="text-xs mt-5">
                 <Form.Input {...register('url', { required: 'Target URL is required' })} />
-                <Form.Error message={errors.url?.message} />
               </Form.Label>
+              <Form.Error message={errors.url?.message} />
             </div>
 
-            <hr className="w-full bg-divider my-4 h-px border-0" />
+            <hr className="w-full bg-stone-800 my-4 h-px border-0" />
 
             <span className="text-sm text-white font-medium">Events</span>
             <div className="grid grid-cols-2 mt-4 mx-2 gap-5 text-xs">
@@ -190,9 +189,15 @@ export default function NewWebhook() {
               <Form.Label name="Drop minted" placement={Placement.Right}>
                 <Form.Checkbox {...register('events')} id="DROP_MINTED" value="DROP_MINTED" />
               </Form.Label>
+              <Form.Label name="Collection created" placement={Placement.Right}>
+                <Form.Checkbox {...register('events')} id="COLLECTION_CREATED" value="COLLECTION_CREATED" />
+              </Form.Label>
+              <Form.Label name="Minted to collection" placement={Placement.Right}>
+                <Form.Checkbox {...register('events')} id="MINTED_TO_COLLECTION" value="MINTED_TO_COLLECTION" />
+              </Form.Label>
             </div>
 
-            <hr className="w-full bg-divider my-4 h-px border-0" />
+            <hr className="w-full bg-stone-800 my-4 h-px border-0" />
 
             <div className="flex items-center justify-between">
               <Button

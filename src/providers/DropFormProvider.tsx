@@ -1,8 +1,8 @@
 import { createStore, StoreApi } from 'zustand';
-import { CollectionCreatorInput, Blockchain } from '../graphql.types';
+import { Blockchain, CollectionCreator, CreatorInput } from '../graphql.types';
 import { createContext } from 'react';
 
-interface Attribute {
+export interface Attribute {
   traitType: string;
   value: string;
 }
@@ -10,12 +10,28 @@ interface Attribute {
 export type DetailSettings = {
   name: string;
   symbol: string;
-  blockchain: Blockchain;
+  blockchain: {
+    id: Blockchain;
+    name: string;
+  };
   description: string;
   image: File | string;
+  animationUrl?: string;
+  includeAnimationUrl?: boolean;
   attributes: Attribute[];
   externalUrl: string;
 };
+
+export const blockchainOptions = [
+  {
+    id: Blockchain.Solana,
+    name: 'Solana',
+  },
+  {
+    id: Blockchain.Polygon,
+    name: 'Polygon',
+  },
+];
 
 export enum RoyaltiesShortcut {
   Zero = '0%',
@@ -33,15 +49,15 @@ export enum RoyaltiesDestination {
 export type PaymentSettings = {
   supply: string;
   royaltiesDestination: RoyaltiesDestination;
-  creators: CollectionCreatorInput[];
+  creators: CreatorInput[];
   royaltiesShortcut: RoyaltiesShortcut;
   royalties?: string;
 };
 
 export type TimingSettings = {
-  startDate?: Date;
+  startDate?: string;
   startTime?: string;
-  endDate?: Date;
+  endDate?: string;
   endTime?: string;
   selectStartDate: string;
   selectEndDate: string;

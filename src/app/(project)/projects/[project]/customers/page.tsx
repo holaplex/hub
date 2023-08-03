@@ -7,9 +7,10 @@ import Table from './../../../../../components/Table';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import { GetProjectCustomers } from './../../../../../queries/customer.graphql';
-import { AssetType, Customer, Project } from './../../../../../graphql.types';
+import { AssetType, Customer, Project, Wallet } from './../../../../../graphql.types';
 import { useProject } from '../../../../../hooks/useProject';
 import { DateFormat, formatDateString } from './../../../../../modules/time';
+import Copy from '../../../../../components/Copy';
 
 interface GetProjectCustomersData {
   project: Pick<Project, 'customers'>;
@@ -38,7 +39,7 @@ export default function CustomersPage() {
   const loading = projectsQuery.loading;
 
   return (
-    <div className="h-full flex flex-col p-4">
+    <div className="h-full flex flex-col p-6">
       {loading ? (
         <>
           <div className="w-36 h-8 rounded-md bg-stone-900 animate-pulse" />
@@ -80,11 +81,6 @@ export default function CustomersPage() {
                   </div>
                 ),
               }),
-              loadingColumnHelper.display({
-                id: 'options',
-                header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
-                cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
-              }),
             ]}
             data={new Array(4)}
           />
@@ -99,7 +95,10 @@ export default function CustomersPage() {
               <span className="mt-2 text-gray-400 text-sm">
                 Click button below to understand how to integrate customers.
               </span>
-              <a href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet">
+              <a
+                href="https://docs.holaplex.com/hub/Guides/creating-a-customer-wallet"
+                target="_blank"
+              >
                 <Button icon={<Icon.Help stroke="stroke-stone-950" />} className="mt-8">
                   How to integrate
                 </Button>
@@ -108,8 +107,9 @@ export default function CustomersPage() {
           ) : (
             <div className="mt-4 flex flex-col">
               <a
-                href="https://docs.holaplex.dev/hub/Guides/creating-a-customer-wallet"
+                href="https://docs.holaplex.com/hub/Guides/creating-a-customer-wallet"
                 className="self-end"
+                target="_blank"
               >
                 <Button icon={<Icon.Help stroke="stroke-stone-950" />} className="self-end">
                   How to integrate
@@ -121,7 +121,7 @@ export default function CustomersPage() {
                   columnHelper.accessor('id', {
                     header: () => (
                       <div className="flex gap-2">
-                        <span className="text-xs text-gray-400 font-medium">Customer ID</span>
+                        <span>Customer ID</span>
                       </div>
                     ),
                     cell: (info) => (
@@ -134,18 +134,14 @@ export default function CustomersPage() {
                     ),
                   }),
                   columnHelper.accessor('createdAt', {
-                    header: () => (
-                      <span className="flex text-xs text-gray-400 font-medium self-start">
-                        Registered
-                      </span>
-                    ),
+                    header: () => <span>Registered</span>,
                     cell: (info) => {
                       return (
                         <div className="flex flex-col">
-                          <span className="text-xs text-white font-medium">
+                          <span className="text-xs text-gray-400 font-medium">
                             {formatDateString(info.getValue(), DateFormat.DATE_1)}
                           </span>
-                          <span className="text-xs text-gray-400">
+                          <span className="text-xs text-white">
                             {formatDateString(info.getValue(), DateFormat.TIME_1)}
                           </span>
                         </div>
@@ -153,56 +149,45 @@ export default function CustomersPage() {
                     },
                   }),
                   columnHelper.accessor(
-                    ({ treasury }) => treasury?.wallets?.map((wallet) => wallet.assetId),
+                    ({ treasury }) => treasury?.wallets?.map((wallet) => wallet),
                     {
                       id: 'wallets',
-                      header: () => (
-                        <span className="flex text-xs text-gray-400 font-medium self-start">
-                          Wallets
-                        </span>
-                      ),
+                      header: () => <span>Wallets</span>,
                       cell: (info) => {
                         return (
                           <div className="flex flex-row gap-1">
-                            {info.getValue().map((assetId: AssetType) => {
+                            {info.getValue().map((wallet: Wallet) => {
                               let icon: React.ReactNode;
 
-                              switch (assetId) {
-                                case AssetType.SolTest:
+                              switch (wallet.assetId) {
                                 case AssetType.Sol:
                                   icon = <Icon.Crypto.Sol />;
+                                  break;
+                                case AssetType.Matic:
+                                  icon = <Icon.Crypto.Polygon />;
                               }
 
-                              return icon;
+                              return (
+                                <PopoverBox
+                                  key={wallet.address}
+                                  triggerButton={
+                                    <div className="px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min">
+                                      {icon}
+                                    </div>
+                                  }
+                                  elements={[
+                                    <Copy key="copy_id" copyString={wallet.address as string}>
+                                      <span>Copy Wallet Address</span>
+                                    </Copy>,
+                                  ]}
+                                />
+                              );
                             })}
                           </div>
                         );
                       },
                     }
                   ),
-                  columnHelper.display({
-                    id: 'options',
-                    header: () => <Icon.TableAction />,
-                    cell: (info) => (
-                      <PopoverBox
-                        triggerButton={
-                          <div className="px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min">
-                            <Icon.More />
-                          </div>
-                        }
-                        elements={[
-                          <Link
-                            key="delete_project"
-                            className="flex gap-2 items-center"
-                            href={`/projects/${project?.id}/customers/${info.getValue()}/delete`}
-                          >
-                            <Icon.Delete stroke="stroke-red-500" />
-                            <span className="text-red-500">Remove</span>
-                          </Link>,
-                        ]}
-                      />
-                    ),
-                  }),
                 ]}
                 data={customers}
               />

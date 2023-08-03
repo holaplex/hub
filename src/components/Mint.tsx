@@ -34,13 +34,16 @@ function MintCard({ mint, className }: MintCardProps) {
     case Blockchain.Solana:
       icon = <Icon.Crypto.Sol />;
       break;
+    case Blockchain.Polygon:
+      icon = <Icon.Crypto.Polygon />;
+      break;
   }
 
   return (
     <Card key={mint.id} className={className}>
       <img
         className="rounded-md w-full aspect-square object-cover"
-        src={mint?.collection?.metadataJson?.image}
+        src={mint?.collection?.metadataJson?.image as string}
         alt={`${mint?.collection?.metadataJson?.name} image`}
       />
 

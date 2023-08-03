@@ -1,5 +1,6 @@
 query GetUserAffiliations($user: UUID!) {
   user(id: $user) {
+    id
     affiliations {
       __typename
       ... on Owner {
@@ -25,5 +26,7 @@ query GetUser($user: UUID!) {
     id
     firstName
     lastName
+    profileImage
+    email
   }
 }

@@ -12,7 +12,8 @@ export default function Copy({ className, copyString, children }: CopyProps) {
   const { copied, copyText } = useClipboard(copyString);
   return (
     <div className={clsx('flex gap-2 items-center z-20', className)} onClick={copyText}>
-      {copied ? <Icon.Check /> : <Icon.Copy />} {children}
+      {copied ? <Icon.Check width={20} height={20} /> : <Icon.Copy width={20} height={20} />}{' '}
+      {children}
     </div>
   );
 }

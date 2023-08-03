@@ -135,17 +135,13 @@ export default function TransactionsPage() {
 
           columnHelper.accessor((row) => row.status.toString(), {
             id: 'status',
-            header: () => <span className="flex text-xs text-gray-400 font-medium">Status</span>,
+            header: () => <span>Status</span>,
             cell: (info) => (
               <Table.TransactionStatusPill status={info.getValue() as TransactionStatus} />
             ),
           }),
           columnHelper.accessor('date', {
-            header: () => (
-              <div className="flex gap-2">
-                <span className="text-xs text-gray-400 font-medium">Date</span>
-              </div>
-            ),
+            header: () => <span>Date</span>,
             cell: (info) => {
               return (
                 <div className="flex flex-col gap-1 text-xs">
@@ -157,7 +153,7 @@ export default function TransactionsPage() {
           }),
           columnHelper.display({
             id: 'moreOptions',
-            header: () => <Icon.TableAction />,
+            header: () => <></>,
             cell: () => (
               <PopoverBox
                 triggerButton={
@@ -172,7 +168,7 @@ export default function TransactionsPage() {
                     key="change_email"
                     className="flex gap-2 items-center"
                   >
-                    <Icon.ExternalLink /> <span>View on SolScan</span>
+                    <Icon.ExternalLink width={20} height={20} /> <span>View on SolScan</span>
                   </Link>,
                 ]}
               />

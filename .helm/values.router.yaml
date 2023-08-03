@@ -1,0 +1,22 @@
+managedFederation:
+  graphRef: hub-dev@stage
+
+extraEnvVars:
+  - name: APOLLO_ROUTER_LOG
+    value: debug
+
+containerPorts:
+  http: 4000
+
+router:
+  configuration:
+    include_subgraph_errors:
+      all: true
+    supergraph:
+      listen: 0.0.0.0:4000
+      introspection: true
+    headers:
+      all:
+        request:
+          - propagate:
+              matching: .*

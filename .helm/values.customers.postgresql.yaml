@@ -1,0 +1,4 @@
+auth:
+  username: customers
+  password: customers
+  database: customers

@@ -11,6 +11,7 @@ import { Organization, Webhook } from '../../../../graphql.types';
 import { useOrganization } from '../../../../hooks/useOrganization';
 import { DateFormat, formatDateString } from '../../../../modules/time';
 import { WebhookStatus, WebhookEvent } from '../../../../types';
+import { Pill } from '../../../../components/Pill';
 import { GetOrganizationWebhooks } from './../../../../queries/webhooks.graphql';
 
 interface GetOrganizationWebhooksData {
@@ -38,7 +39,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
 
   return (
     <>
-      <div className="h-full flex flex-col p-4">
+      <div className="h-full flex flex-col p-6">
         {webhooksQuery.loading ? (
           <>
             <div className="w-36 h-8 rounded-md bg-stone-900 animate-pulse" />
@@ -97,14 +98,10 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                   ),
                 }),
                 loadingColumnHelper.display({
-                  id: 'status',
-                  header: () => (
-                    <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
-                  ),
-                  cell: () => <div className="rounded-full h-4 w-16 bg-stone-800 animate-pulse" />,
-                }),
-                loadingColumnHelper.display({
                   id: 'options',
+                  meta: {
+                    align: 'right',
+                  },
                   header: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                   cell: () => <div className="rounded-full h-4 w-4 bg-stone-800 animate-pulse" />,
                 }),
@@ -143,45 +140,48 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                   className="mt-4"
                   columns={[
                     columnHelper.accessor('description', {
-                      header: () => <span className="text-xs text-gray-400 font-medium">Name</span>,
+                      header: () => <span>Name</span>,
+                      size: 100,
                       cell: (info) => (
-                        <span className="text-xs text-white font-medium">{info.getValue()}</span>
+                        <span className="text-white text-xs inline-block font-medium truncate w-full">
+                          {info.getValue()}
+                        </span>
                       ),
                     }),
                     columnHelper.accessor('url', {
-                      header: () => <span className="text-xs text-gray-400 font-medium">URL</span>,
-                      cell: (info) => <span className="text-xs text-white">{info.getValue()}</span>,
+                      header: () => <span>URL</span>,
+                      size: 160,
+                      cell: (info) => (
+                        <span className="text-white text-xs inline-block font-medium truncate w-full">
+                          {info.getValue()}
+                        </span>
+                      ),
                     }),
                     columnHelper.display({
                       id: 'events',
-                      header: () => (
-                        <span className="flex text-xs text-gray-400 font-medium">Events</span>
-                      ),
+                      header: () => <span>Events</span>,
+                      size: 384,
                       cell: (info) => (
-                        <div className="flex gap-1">
+                        <Pill.List.Compact>
                           {info.row.original.events.map((event) => {
                             return (
-                              <div
-                                key={event}
-                                className="rounded-full py-1 px-3 text-xs font-medium bg-cyan-200 text-cyan-600"
-                              >
+                              <Pill key={event} variant="info">
                                 {event}
-                              </div>
+                              </Pill>
                             );
                           })}
-                        </div>
+                        </Pill.List.Compact>
                       ),
                     }),
                     columnHelper.accessor('createdAt', {
-                      header: () => (
-                        <span className="flex text-xs text-gray-400 font-medium">Created date</span>
-                      ),
+                      header: () => <span>Created date</span>,
+                      size: 136,
                       cell: (info) => (
                         <div className="flex flex-col">
-                          <span className="text-xs text-white font-medium">
+                          <span className="text-gray-400 text-xs font-medium">
                             {formatDateString(info.getValue(), DateFormat.DATE_1)}
                           </span>
-                          <span className="text-xs text-gray-400">
+                          <span className="text-xs text-white">
                             {formatDateString(info.getValue(), DateFormat.TIME_1)}
                           </span>
                         </div>
@@ -191,6 +191,7 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                       header: () => (
                         <span className="flex text-xs text-gray-400 font-medium">Created by</span>
                       ),
+                      size: 160,
                       cell: (info) => (
                         <div className="flex flex-col">
                           <span className="text-xs text-white font-medium">
@@ -200,26 +201,17 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                         </div>
                       ),
                     }),
-                    // columnHelper.accessor((row) => row.status.toString(), {
-                    //   id: 'status',
-                    //   header: () => (
-                    //     <span className="flex text-xs text-gray-400 font-medium">Status</span>
-                    //   ),
-                    //   cell: (info) => (
-                    //     <Table.WebhookStatusPill status={info.getValue() as WebhookStatus} />
-                    //   ),
-                    // }),
                     columnHelper.display({
                       id: 'options',
-                      header: () => <Icon.TableAction />,
+                      meta: {
+                        align: 'right',
+                      },
+                      header: () => <></>,
+                      size: 64,
                       cell: (info) => (
                         <PopoverBox
                           triggerButton={
-                            <div
-                              className={clsx(
-                                'px-2 py-1 hover:rounded-md hover:bg-stone-800 max-w-min'
-                              )}
-                            >
+                            <div className={clsx('px-2 py-1 hover:rounded-md hover:bg-stone-800')}>
                               <Icon.More />
                             </div>
                           }
@@ -236,14 +228,15 @@ export default function WebhooksPage({ children }: { children: React.ReactNode }
                               className="flex gap-2 items-center"
                               href={`/webhooks/${info.row.original.id}/edit`}
                             >
-                              <Icon.Edit stroke="stroke-gray-400" /> <span>Edit</span>
+                              <Icon.Edit stroke="stroke-gray-400" width={20} height={20} />{' '}
+                              <span>Edit</span>
                             </Link>,
                             <Link
                               key="delete"
                               className="flex gap-2 items-center"
                               href={`/webhooks/${info.row.original.id}/delete`}
                             >
-                              <Icon.Delete stroke="stroke-red-500" />
+                              <Icon.Delete stroke="stroke-red-500" width={20} height={20} />
                               <span className="text-red-500">Delete</span>
                             </Link>,
                           ]}

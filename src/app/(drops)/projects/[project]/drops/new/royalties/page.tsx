@@ -1,9 +1,17 @@
 'use client';
 import { Button, Form, Placement } from '@holaplex/ui-library-react';
+import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
 import Card from '../../../../../../../components/Card';
-import { Blockchain, AssetType, CollectionCreatorInput } from '../../../../../../../graphql.types';
+import {
+  Blockchain,
+  AssetType,
+  Organization,
+  ActionCost,
+  Action,
+  CreatorInput,
+} from '../../../../../../../graphql.types';
 import Typography, { Size } from '../../../../../../../components/Typography';
 import { useProject } from '../../../../../../../hooks/useProject';
 import { StoreApi, useStore } from 'zustand';
@@ -15,6 +23,25 @@ import {
 } from '../../../../../../../providers/DropFormProvider';
 import { Icon } from './../../../../../../../components/Icon';
 import { useDropForm } from '../../../../../../../hooks/useDropForm';
+import { useQuery } from '@apollo/client';
+import {
+  GetCreditSheet,
+  GetOrganizationCreditBalance,
+} from '../../../../../../../queries/credits.graphql';
+import clsx from 'clsx';
+import { CreditLookup } from '../../../../../../../modules/credit';
+
+interface GetOrganizationBalanceVars {
+  organization: string;
+}
+
+interface GetOrganizationCreditBalanceData {
+  organization: Organization;
+}
+
+interface GetCreditSheetData {
+  creditSheet: ActionCost[];
+}
 
 export default function NewDropRoyaltiesPage() {
   const router = useRouter();
@@ -24,14 +51,26 @@ export default function NewDropRoyaltiesPage() {
   const payment = useStore(store, (store) => store.payment);
   const setPayment = useStore(store, (store) => store.setPayment);
 
+  const creditBalanceQuery = useQuery<GetOrganizationCreditBalanceData, GetOrganizationBalanceVars>(
+    GetOrganizationCreditBalance,
+    {
+      variables: { organization: project?.organization?.id },
+    }
+  );
+  const creditBalance = creditBalanceQuery.data?.organization.credits?.balance;
+
+  const creditSheetQuery = useQuery<GetCreditSheetData>(GetCreditSheet);
+
+  const creditSheet = creditSheetQuery.data?.creditSheet;
+
   const wallet = project?.treasury?.wallets?.find((wallet) => {
-    switch (detail?.blockchain) {
+    switch (detail?.blockchain.id) {
       case Blockchain.Solana:
-        return wallet.assetId === AssetType.SolTest || wallet.assetId === AssetType.Sol;
+        return wallet.assetId === AssetType.Sol;
       case Blockchain.Polygon:
-        return wallet.assetId === AssetType.MaticTest || wallet.assetId === AssetType.Matic;
+        return wallet.assetId === AssetType.Matic;
       case Blockchain.Ethereum:
-        return wallet.assetId === AssetType.EthTest || wallet.assetId === AssetType.Eth;
+        return wallet.assetId === AssetType.Eth;
     }
   });
 
@@ -45,6 +84,22 @@ export default function NewDropRoyaltiesPage() {
 
   const royaltiesDestination = watch('royaltiesDestination');
   const royaltiesShortcut = watch('royaltiesShortcut');
+  const creators = watch('creators');
+  const supply = parseInt(watch('supply')?.replaceAll(',', '')) || false;
+
+  const expectedCreditCost = useMemo(() => {
+    const creditLookup = new CreditLookup(creditSheet || []);
+    const mintDropCredits =
+      creditLookup.cost(Action.MintEdition, detail?.blockchain.id as Blockchain) || 0;
+    const createWalletCredits =
+      creditLookup.cost(Action.CreateWallet, detail?.blockchain.id as Blockchain) || 0;
+
+    if (!supply) {
+      return undefined;
+    }
+
+    return (mintDropCredits + createWalletCredits) * supply;
+  }, [creditSheet, detail?.blockchain, supply]);
 
   const submit = (data: PaymentSettings) => {
     if (data.royaltiesDestination === RoyaltiesDestination.ProjectTreasury) {
@@ -56,9 +111,12 @@ export default function NewDropRoyaltiesPage() {
     }
 
     data.creators = data.creators.map(({ address, share = 100 }) => {
-      const creator: CollectionCreatorInput = { address, share };
+      const creator: CreatorInput = {
+        address,
+        share: typeof share === 'string' ? parseInt(share) : share,
+      };
 
-      if (address == wallet?.address) {
+      if (address === wallet?.address) {
         creator.verified = true;
       }
 
@@ -79,7 +137,7 @@ export default function NewDropRoyaltiesPage() {
     rules: {
       required: true,
       validate: (creators) => {
-        switch (detail?.blockchain) {
+        switch (detail?.blockchain.id) {
           case Blockchain.Solana:
             if (creators.length > 5) {
               return 'Can only set up to 5 creators.';
@@ -93,7 +151,7 @@ export default function NewDropRoyaltiesPage() {
         }
 
         const total = creators.reduce(
-          (acc: number, creator: CollectionCreatorInput) =>
+          (acc: number, creator: CreatorInput) =>
             acc + parseInt(creator.share as unknown as string),
           0
         );
@@ -108,17 +166,59 @@ export default function NewDropRoyaltiesPage() {
       <Card className="w-[492px]">
         <Typography.Header size={Size.H2}>Supply</Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-          <div className="flex gap-4">
-            <Form.Label name="Specify how many editions will be available" className="text-xs mt-5">
-              <Form.Input {...register('supply')} autoFocus placeholder="e.g. 10,000" />
-            </Form.Label>
+          <div className="flex flex-col gap-2">
+            <div className="mt-5">
+              <Form.Label name="Specify how many editions will be available" className="text-xs">
+                <Form.Input
+                  {...register('supply', {
+                    validate: (value) => {
+                      if (
+                        detail?.blockchain.id === Blockchain.Polygon &&
+                        value.replaceAll(',', '').length === 0
+                      ) {
+                        return 'Supply cannot be empty.';
+                      }
+                    },
+                  })}
+                  autoFocus
+                  placeholder="e.g. 10,000"
+                />
+              </Form.Label>
+              <Form.Error message={formState.errors.supply?.message} />
+            </div>
+            {creditBalance && expectedCreditCost && (
+              <div className="flex items-center gap-4 rounded-lg bg-stone-950 p-4">
+                <div className="flex items-center gap-2 shrink">
+                  <Icon.Balance />
+                  <div className="text-gray-400 text-xs font-medium shrink">
+                    You will need <span className="text-white">{expectedCreditCost}</span> credits
+                    to mint {supply} NFTs with each NFT minted to a unique generated wallet. You
+                    currently have{' '}
+                    <span
+                      className={clsx({
+                        'text-red-500': expectedCreditCost > creditBalance,
+                        'text-green-400': expectedCreditCost <= creditBalance,
+                      })}
+                    >
+                      {creditBalance}
+                    </span>{' '}
+                    credits.
+                  </div>
+                </div>
+                {expectedCreditCost > creditBalance && (
+                  <form action="/api/credits/purchase" method="POST" className="shrink-0">
+                    <Button htmlType="submit">Buy credits</Button>
+                  </form>
+                )}
+              </div>
+            )}
           </div>
 
           <Typography.Header size={Size.H2} className="mt-6 mb-8">
             Royalties
           </Typography.Header>
 
-          <Form.Label name="Royalty percentage">
+          <Form.Label name="Royalty percentage" className="text-xs">
             <Form.RadioGroup>
               <Form.Label
                 name="0%"
@@ -210,7 +310,7 @@ export default function NewDropRoyaltiesPage() {
               <Form.Error message={formState.errors.royalties?.message} />
             </>
           )}
-          <Form.Label name="Destination for royalties received" className="mt-8">
+          <Form.Label name="Destination for royalties received" className="mt-8 text-xs">
             <Form.RadioGroup>
               <Form.Label name="Use project treasury" placement={Placement.Right}>
                 <Form.RadioGroup.Radio
@@ -230,48 +330,69 @@ export default function NewDropRoyaltiesPage() {
           {royaltiesDestination === RoyaltiesDestination.Creators && (
             <>
               {fields.map((field, index) => (
-                <div className="flex gap-4" key={field.id}>
-                  <Form.Label name="Wallet" className="text-xs mt-5 basis-3/4">
-                    <Form.Input
-                      {...register(`creators.${index}.address`)}
-                      placeholder="Paste royalty wallet address"
+                <div className="flex gap-6" key={field.id}>
+                  <div className="mt-5 basis-3/4 self-baseline">
+                    <Form.Label name="Wallet" className="text-xs">
+                      <Form.Input
+                        {...register(`creators.${index}.address`, {
+                          required: 'Please enter a wallet address',
+                        })}
+                        placeholder="Paste royalty wallet address"
+                      />
+                    </Form.Label>
+                    <Form.Error
+                      message={
+                        formState.errors.creators
+                          ? formState.errors.creators[index]?.address?.message
+                          : ''
+                      }
                     />
-                  </Form.Label>
+                  </div>
 
-                  <Form.Label name="Royalties" className="text-xs mt-5 basis-1/4">
+                  <Form.Label name="Royalties" className="text-xs mt-5 basis-1/4 self-baseline">
                     <Form.Input
                       {...register(`creators.${index}.share`)}
                       type="number"
                       placeholder="e.g. 10%"
+                      disabled={detail?.blockchain.id === Blockchain.Polygon}
                     />
                   </Form.Label>
-
-                  <div
-                    className="rounded-md bg-stone-800 hover:bg-stone-950 p-3 self-end cursor-pointer"
-                    onClick={() => remove(index)}
-                  >
-                    <Icon.Close stroke="stroke-white" />
-                  </div>
+                  {creators.length > 1 && (
+                    <div
+                      className="rounded-md bg-stone-900 hover:bg-stone-800 p-3 self-end cursor-pointer"
+                      onClick={() => remove(index)}
+                    >
+                      <Icon.Close stroke="stroke-white" />
+                    </div>
+                  )}
                 </div>
               ))}
-              <Button
-                className="mt-4 self-start"
-                variant="secondary"
-                onClick={() => append({ address: '', share: Number() })}
-              >
-                Add wallet
-              </Button>
+              {detail?.blockchain.id === Blockchain.Solana && (
+                <Button
+                  className="mt-4 self-start"
+                  variant="secondary"
+                  onClick={() => append({ address: '', share: Number() })}
+                >
+                  Add wallet
+                </Button>
+              )}
               <Form.Error message={formState.errors.creators?.root?.message} />
             </>
           )}
 
           <hr className="w-full bg-stone-800 border-0 h-px my-5" />
 
-          <div className="flex items-center justify-end gap-4">
-            <Button variant="secondary" onClick={back}>
+          <div className="flex items-center justify-end gap-6">
+            <Button variant="secondary" onClick={back} disabled={formState.isSubmitting}>
               Back
             </Button>
-            <Button htmlType="submit">Next</Button>
+            <Button
+              htmlType="submit"
+              loading={formState.isSubmitting}
+              disabled={formState.isSubmitting}
+            >
+              Next
+            </Button>
           </div>
         </Form>
       </Card>

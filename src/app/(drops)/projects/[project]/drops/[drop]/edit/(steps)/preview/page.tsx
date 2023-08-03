@@ -4,9 +4,15 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import Card from '../../../../../../../../../components/Card';
 import Typography, { Size } from '../../../../../../../../../components/Typography';
-import { PatchDropInput, PatchDropPayload } from '../../../../../../../../../graphql.types';
+import {
+  ActionCost,
+  CreatorInput,
+  Organization,
+  PatchDropInput,
+  PatchDropPayload,
+} from '../../../../../../../../../graphql.types';
 import { StoreApi, useStore } from 'zustand';
-import { useMutation } from '@apollo/client';
+import { ApolloError, useMutation, useQuery } from '@apollo/client';
 import { format } from 'date-fns';
 import { File } from 'nft.storage';
 import { PatchDrop } from './../../../../../../../../../mutations/drop.graphql';
@@ -14,9 +20,13 @@ import { combineDateTime, maybeToUtc, DateFormat } from '../../../../../../../..
 import { useProject } from '../../../../../../../../../hooks/useProject';
 import { useState } from 'react';
 import { GetProjectDrops } from './../../../../../../../../../queries/drop.graphql';
-import { ifElse, isNil, always } from 'ramda';
-import { DropFormState } from '../../../../../../../../../providers/DropFormProvider';
+import { ifElse, isNil, always, isEmpty, when } from 'ramda';
+import { Attribute, DropFormState } from '../../../../../../../../../providers/DropFormProvider';
 import { useDropForm } from '../../../../../../../../../hooks/useDropForm';
+import { uploadFile } from '../../../../../../../../../modules/upload';
+import Link from 'next/link';
+import clsx from 'clsx';
+import { shorten } from '../../../../../../../../../modules/wallet';
 
 interface PatchDropData {
   createProject: PatchDropPayload;
@@ -26,23 +36,16 @@ interface PatchDropVars {
   input: PatchDropInput;
 }
 
-const LAMPORTS_PER_SOL = 1_000_000_000;
+interface GetOrganizationBalanceVars {
+  organization: string;
+}
 
-async function uploadFile(file: File): Promise<{ url: string; name: string }> {
-  const body = new FormData();
-  body.append(file.name, file, file.name);
+interface GetOrganizationCreditBalanceData {
+  organization: Organization;
+}
 
-  try {
-    const response = await fetch('/api/uploads', {
-      method: 'POST',
-      body,
-    });
-    const json = await response.json();
-    return json[0];
-  } catch (e: any) {
-    console.error('Could not upload file', e);
-    throw new Error(e);
-  }
+interface GetCreditSheetData {
+  creditSheet: ActionCost[];
 }
 
 export default function EditDropPreviewPage() {
@@ -53,12 +56,13 @@ export default function EditDropPreviewPage() {
   const detail = useStore(store, (store) => store.detail);
   const payment = useStore(store, (store) => store.payment);
   const timing = useStore(store, (store) => store.timing);
+  const [error, setError] = useState<string>();
 
   const back = () => {
     router.push(`/projects/${project?.id}/drops/${project?.drop?.id}/edit/schedule`);
   };
 
-  const [createDrop] = useMutation<PatchDropData, PatchDropVars>(PatchDrop, {
+  const [patchDrop] = useMutation<PatchDropData, PatchDropVars>(PatchDrop, {
     refetchQueries: [{ query: GetProjectDrops, variables: { project: project?.id } }],
   });
 
@@ -96,7 +100,7 @@ export default function EditDropPreviewPage() {
       imageUrl = image;
     }
 
-    createDrop({
+    patchDrop({
       variables: {
         input: {
           id: project?.drop?.id,
@@ -106,8 +110,14 @@ export default function EditDropPreviewPage() {
             description: detail.description,
             image: imageUrl as string,
             attributes: detail.attributes.map(({ traitType, value }) => ({ traitType, value })),
+            externalUrl: when(isEmpty, always(null))(detail.externalUrl) as string | null,
+            animationUrl: when(isEmpty, always(null))(detail.animationUrl) as string | null,
           },
-          creators: payment.creators,
+          creators: payment.creators.map(({ address, share, verified }) => ({
+            address,
+            share,
+            verified,
+          })),
           price: 0,
           sellerFeeBasisPoints: ifElse(
             isNil,
@@ -122,75 +132,133 @@ export default function EditDropPreviewPage() {
         setSubmitting(false);
         router.push(`/projects/${project?.id}/drops`);
       },
+      onError: (error: ApolloError) => {
+        setSubmitting(false);
+        setError(error.message);
+      },
     });
   };
 
   return (
-    <Card className="w-[372px]">
-      <img
-        src={detail.image instanceof File ? URL.createObjectURL(detail.image) : detail.image}
-        className="w-[340px] h-[340px] self-center object-cover"
-      />
-      <div className="flex items-center gap-2 mt-4">
-        <Typography.Header size={Size.H2}>{detail.name}</Typography.Header>
-        <Typography.Header size={Size.H2} className="text-gray-400">
-          - {payment.supply}
-        </Typography.Header>
-      </div>
-      <div className="flex flex-col mt-5">
-        {/* <div className="flex flex-col gap-2 bg-stone-800 rounded-md py-2 px-3">
-          <span className="text-gray-400 text-xs font-medium">Price</span>
-          <div className="flex items-end justify-between">
-            <span className="text-base text-primary font-medium">{payment.price} SOL</span>
+    <Card className="w-[906px]">
+      <div className="flex gap-8">
+        <div className="basis-1/3 flex flex-col gap-4 w-full">
+          {detail.includeAnimationUrl && detail.animationUrl && (
+            <>
+              <span className="text-sm text-gray-400">Main artwork</span>
+              <video
+                src={detail.animationUrl}
+                controls
+                className="w-full aspect-video object-cover rounded-lg"
+              />
+            </>
+          )}
+          <span className="text-sm text-gray-400">
+            {detail.includeAnimationUrl && detail.animationUrl ? 'Cover image' : 'Main artwork'}
+          </span>
+          <img
+            className="w-full self-center object-contain rounded-lg"
+            src={detail.image instanceof File ? URL.createObjectURL(detail.image) : detail.image}
+          />
+          <div className="grid grid-cols-2 gap-2">
+            {detail.attributes.map((attribute: Attribute) => {
+              return (
+                <div
+                  key={attribute.traitType}
+                  className="flex flex-col gap-2 py-2 px-4 bg-stone-800 rounded-lg col-span-1"
+                >
+                  <span className="text-gray-400 text-sm">{attribute.traitType}</span>
+                  <span className="text-sm text-white">{attribute.value}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
+        <div className="basis-2/3 flex flex-col w-full">
+          <span className="text-sm text-gray-400">{detail.symbol}</span>
+          <Typography.Header size={Size.H2} className="mt-2">
+            {detail.name}
+          </Typography.Header>
 
-        <div className="flex flex-col gap-2 border-2 border-gray-100 rounded-md py-2 px-3 mt-4">
-          <span className="text-gray-600 text-xs font-medium">Estimated total value</span>
-          <div className="flex items-end justify-between">
-            <span className="text-base text-primary font-medium">
-              {round(parseInt(payment.supply) * parseInt(payment.price))} SOL
-            </span>
-          </div>
-        </div> */}
-
-        <div className="flex gap-4 items-center">
-          <div className="w-full flex flex-col gap-2 bg-stone-800 rounded-md py-2 px-3 mt-4">
-            <span className="text-gray-400 text-xs font-medium">Start date and time</span>
-            <span className="text-yellow-300 text-xs font-medium">
-              {startDateTime
-                ? `${format(startDateTime, DateFormat.DATE_1)}, ${format(
-                    startDateTime,
-                    DateFormat.TIME_1
-                  )}`
-                : `${format(new Date(), DateFormat.DATE_1)}, ${format(
-                    new Date(),
-                    DateFormat.TIME_1
-                  )}`}
-            </span>
-          </div>
-          {endDateTime && (
-            <div className="w-full flex flex-col gap-2 bg-stone-800 rounded-md py-2 px-3 mt-4">
-              <span className="text-gray-400 text-xs font-medium">End date and time</span>
-              <span className="text-yellow-300 text-xs font-medium">
-                {`${format(endDateTime, DateFormat.DATE_1)}, ${format(
-                  endDateTime,
-                  DateFormat.TIME_1
-                )}`}
+          <div className="flex gap-4 justify-between">
+            <span className="text-sm text-gray-400">{detail.description}</span>
+            <div className="flex flex-col gap-2 py-2 px-4 bg-stone-800 rounded-lg">
+              <span className="text-gray-400 text-sm">Supply</span>
+              <span className="text-sm text-white">
+                {payment.supply ? payment.supply : 'Unlimited'}
               </span>
             </div>
+          </div>
+
+          <hr className="w-full bg-stone-800 my-4 h-px border-0" />
+
+          <div className="flex flex-col gap-2 text-white text-sm w-full">
+            <div className="flex items-center justify-between gap-2">
+              <span>Royalties</span>
+              <span>{payment.royalties}</span>
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <span>Royalties recipients</span>
+              <div className="flex flex-col gap-2 justify-end">
+                {payment.creators.map((creator: CreatorInput) => {
+                  return (
+                    <div key={creator.address}>{`${shorten(creator.address)} - ${
+                      creator.share
+                    }%`}</div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <span>Starts</span>
+              <span>
+                {startDateTime
+                  ? `${format(startDateTime, DateFormat.DATE_1)}, ${format(
+                      startDateTime,
+                      DateFormat.TIME_1
+                    )}`
+                  : 'Immediately'}
+              </span>
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <span>Ends</span>
+              <span>
+                {endDateTime
+                  ? `${format(endDateTime, DateFormat.DATE_1)}, ${format(
+                      endDateTime,
+                      DateFormat.TIME_1
+                    )}`
+                  : 'Never'}
+              </span>
+            </div>
+            {detail.externalUrl && (
+              <div className="flex items-center justify-between gap-2">
+                <span>External URL</span>
+                <span>{detail.externalUrl}</span>
+              </div>
+            )}
+            <div className="flex items-center justify-between gap-2">
+              <span>Blockchain</span>
+              <span>{detail.blockchain.name}</span>
+            </div>
+          </div>
+
+          <hr className="w-full bg-stone-800 my-4 h-px border-0" />
+
+          {error && (
+            <div className="text-sm font-medium text-red-500 bg-red-500/25 p-4 my-5 rounded-lg">
+              {error}
+            </div>
           )}
-        </div>
 
-        <hr className="w-full bg-stone-800 border-0 h-px my-5" />
-
-        <div className="flex items-center justify-end gap-4">
-          <Button variant="secondary" disabled={submitting} onClick={back}>
-            Back
-          </Button>
-          <Button htmlType="submit" loading={submitting} disabled={submitting} onClick={onSubmit}>
-            Update drop
-          </Button>
+          <div className="flex items-center justify-end gap-6 mt-4">
+            <Button variant="secondary" disabled={submitting} onClick={back}>
+              Back
+            </Button>
+            <Button htmlType="submit" loading={submitting} disabled={submitting} onClick={onSubmit}>
+              {startDateTime ? 'Schedule drop' : 'Update drop'}
+            </Button>
+          </div>
         </div>
       </div>
     </Card>

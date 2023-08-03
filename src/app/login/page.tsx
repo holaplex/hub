@@ -19,7 +19,7 @@ export default function Login() {
       <Typography.Header size={Size.H2}>Sign in</Typography.Header>
       <Typography.Header size={Size.H3}>Use your email to sign in.</Typography.Header>
       {loading ? (
-        <div className="flex flex-col gap-4 mt-3">
+        <div className="flex flex-col gap-6 mt-3">
           <div>
             <div className="mb-1 w-20 h-4 rounded-md bg-stone-800 animate-pulse" />
             <div className="mb-1 w-full h-10 rounded-md bg-stone-800 animate-pulse" />
@@ -27,7 +27,7 @@ export default function Login() {
           <div>
             <div className="flex justify-between mb-1">
               <div className="w-14 h-4 rounded-md bg-stone-800 animate-pulse" />
-              <div className="w-28 h-4 rounded-md bg-stone-800 animate-pulse" />
+              {/* <div className="w-28 h-4 rounded-md bg-stone-800 animate-pulse" /> */}
             </div>
             <div className="mb-1 w-full h-10 rounded-md bg-stone-800 animate-pulse" />
           </div>
@@ -66,6 +66,17 @@ export default function Login() {
         </Form>
       )}
 
+      <span className="flex-wrap text-gray-400 text-xs mt-4">
+        By signing in I have read and agreed to Holaplex Hub{' '}
+        <Link styled={false} href="/terms-of-service" target="_blank" className="underline">
+          Terms
+        </Link>{' '}
+        and{' '}
+        <Link styled={false} href="/privacy-policy" target="_blank" className="underline">
+          Privacy Policy
+        </Link>
+      </span>
+
       <Divider.Or className="my-4" />
 
       <Link
@@ -76,7 +87,7 @@ export default function Login() {
       >
         <Button icon={<Icon.LightBulb stroke="stroke-gray-400" />} block variant="secondary">
           <div className="flex items-center my-1">
-            <span className="text-gray-400 font-medium">Dont have an account?</span>
+            <span className="text-gray-400 font-medium">Do not have an account?</span>
             <span className="flex items-center ml-1 font-semibold">
               Create account
               <Icon.ArrowRight stroke="stroke-yellow-300" />

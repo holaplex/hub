@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { CollectionCreatorInput, Blockchain } from '../graphql.types';
+import { Blockchain, CreatorInput } from '../graphql.types';
 
 interface Attribute {
   traitType: string;
@@ -19,7 +19,7 @@ export type StepOneData = {
 export type StepTwoData = {
   supply: string;
   treasuryAllRoyalties: boolean;
-  creators: CollectionCreatorInput[];
+  creators: CreatorInput[];
   royalties?: string;
 };
 

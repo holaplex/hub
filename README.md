@@ -8,17 +8,26 @@ The Hub development environment runs within a local Kubernetes cluster using [sk
 
 ### Dependencies
 
-- [Docker for Desktop](https://docs.docker.com/desktop/)
+- [Docker](https://docs.docker.com/desktop/) (Can be other container or VM Manager, like QEMU, VirtualBox or Podman)
+- [Minikube](https://minikube.sigs.k8s.io/docs/start/)
 - [Skaffold](https://skaffold.dev/)
 
 ### Instructions
 
-There are some secrets required for the API. Reach out to a fellow engineer to to get the secrets files. They should be placed in the root of the project and follow the pattern of secret.{service}.yaml.
+There are some secrets required for the API. Reach out to a fellow engineer to to get the secrets files. They should be placed in the [.helm](./.helm) directory of the project and follow the pattern of secret.{service}.yaml.
 
 ```
 /src
 skaffold.yaml
-secrets.*.yaml
+/.helm/secrets.*.yaml
+```
+
+### Start the Kubernetes cluster
+
+Change memory and CPU assignment accordingly.
+
+```bash
+minikube start --network-plugin=cni --cni=calico --memory 7951 --cpus 6
 ```
 
 ### Deploy

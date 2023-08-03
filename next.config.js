@@ -5,7 +5,6 @@ const nextConfig = {
   output: 'standalone',
   experimental: {
     appDir: true,
-    enableUndici: true,
     swcFileReading: false,
   },
   reactStrictMode: true,
