@@ -1,20 +1,17 @@
 'use client';
-
-import { PopoverBox } from '@holaplex/ui-library-react';
 import { useMemo } from 'react';
-import Tabs from '../../../../../../layouts/Tabs';
+import Tabs from '../../../../../../../layouts/Tabs';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { GetProjectCollection } from './../../../../../../queries/collections.graphql';
-import { convertLocalTime, DateFormat } from '../../../../../../modules/time';
+import { GetProjectCollection } from './../../../../../../../queries/collections.graphql';
+import { convertLocalTime, DateFormat } from '../../../../../../../modules/time';
 import { useQuery } from '@apollo/client';
-import { Blockchain, CreationStatus, Project } from '../../../../../../graphql.types';
-import { Icon } from '../../../../../../components/Icon';
+import { Blockchain, CreationStatus, Project } from '../../../../../../../graphql.types';
+import { Icon } from '../../../../../../../components/Icon';
 import { cloneElement } from 'react';
-import Typography, { Size } from '../../../../../../components/Typography';
-import { shorten } from '../../../../../../modules/wallet';
+import Typography, { Size } from '../../../../../../../components/Typography';
 import { format } from 'date-fns';
-import Table from '../../../../../../components/Table';
+import Table from '../../../../../../../components/Table';
 
 interface CollectionProps {
   project: string;

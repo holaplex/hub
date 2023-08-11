@@ -20,3 +20,26 @@ query GetCollectionMints($project: UUID!, $drop: UUID!) {
     }
   }
 }
+
+query GetCollectionMint($project: UUID!, $drop: UUID!, $mint: UUID!) {
+  project(id: $project) {
+    id
+    drop(id: $drop) {
+      id
+      collection {
+        id
+        sellerFeeBasisPoints
+        mint(id: $mint) {
+          owner
+          sellerFeeBasisPoints
+          ownerShortAddress @client
+          address
+          shortAddress @client
+          creationStatus
+          createdAt
+          collectionId
+        }
+      }
+    }
+  }
+}

@@ -4,6 +4,7 @@ import { Icon } from './Icon';
 import { Blockchain } from '../graphql.types';
 import { convertLocalTime, DateFormat } from '../modules/time';
 import Card from './Card';
+import Link from 'next/link';
 
 function Mint() {
   return <div />;
