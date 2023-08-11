@@ -20,10 +20,10 @@ export default async function handler(request: NextApiRequest, response: NextApi
         line_items: [
           {
             price,
-            quantity: 500,
+            quantity: 10000,
             adjustable_quantity: {
               enabled: true,
-              minimum: 500,
+              minimum: 10000,
               maximum: 999999,
             },
           },
