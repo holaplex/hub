@@ -1,6 +1,7 @@
 'use client';
 import { Button, Form, Placement } from '@holaplex/ui-library-react';
 import { useRouter } from 'next/navigation';
+import { always, when, isNil } from 'ramda';
 import { useForm, useFieldArray } from 'react-hook-form';
 import Card from './../../../../../../../../../components/Card';
 import { StoreApi, useStore } from 'zustand';
@@ -44,7 +45,7 @@ export default function EditDropRoyaltiesPage() {
   const royaltiesDestination = watch('royaltiesDestination');
   const royaltiesShortcut = watch('royaltiesShortcut');
   const creators = watch('creators');
-  const supply = parseInt(watch('supply').replaceAll(',', ''));
+  const supply = when(isNil, always('Unlimited'))(watch('supply'));
 
   const submit = (data: PaymentSettings) => {
     if (data.royaltiesDestination === RoyaltiesDestination.ProjectTreasury) {

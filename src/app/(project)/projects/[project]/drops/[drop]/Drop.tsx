@@ -189,10 +189,11 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                     <span className="text-white">
                       {`Status: ${dropQuery.data?.project?.drop?.status} - ${
                         dropQuery.data?.project?.drop?.collection?.totalMints
-                      } ${
-                        dropQuery.data?.project?.drop?.collection?.supply &&
-                        ` / ${dropQuery.data?.project?.drop?.collection?.supply}`
-                      }`}
+                      } ${` / ${
+                        dropQuery.data?.project?.drop?.collection?.supply
+                          ? dropQuery.data?.project?.drop?.collection?.supply
+                          : '∞'
+                      }`}`}
                       <span className="text-gray-500"> - minted</span>
                     </span>
                     {inTheFuture(startTime) ? (
@@ -203,22 +204,25 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                       )
                     )}
                   </div>
-                  <div className="w-full rounded-full h-[12px] bg-stone-800 mt-1 relative overflow-hidden">
-                    <div
-                      className={clsx('top-0 bottom-0 left-0 absolute rounded-r-full', {
-                        'bg-green-400':
-                          dropQuery.data?.project?.drop?.status === DropStatus.Minting ||
-                          dropQuery.data?.project?.drop?.status === DropStatus.Minted,
-                        'bg-red-500':
-                          dropQuery.data?.project?.drop?.status === DropStatus.Shutdown ||
-                          dropQuery.data?.project?.drop?.status === DropStatus.Expired,
-                        'bg-yellow-400':
-                          dropQuery.data?.project?.drop?.status === DropStatus.Paused ||
-                          dropQuery.data?.project?.drop?.status === DropStatus.Scheduled,
-                      })}
-                      style={{ width: `${percent}%` }}
-                    />
-                  </div>
+                  {dropQuery.data?.project?.drop?.collection?.supply && (
+                    <div className="w-full rounded-full h-[12px] bg-stone-800 mt-1 relative overflow-hidden">
+                      <div
+                        className={clsx('top-0 bottom-0 left-0 absolute rounded-r-full', {
+                          'bg-green-400':
+                            dropQuery.data?.project?.drop?.status === DropStatus.Minting ||
+                            dropQuery.data?.project?.drop?.status === DropStatus.Minted,
+                          'bg-red-500':
+                            dropQuery.data?.project?.drop?.status === DropStatus.Shutdown ||
+                            dropQuery.data?.project?.drop?.status === DropStatus.Expired,
+                          'bg-yellow-400':
+                            dropQuery.data?.project?.drop?.status === DropStatus.Paused ||
+                            dropQuery.data?.project?.drop?.status === DropStatus.Scheduled,
+                        })}
+                        style={{ width: `${percent}%` }}
+                      />
+                    </div>
+                  )}
+
                   <div></div>
                 </div>
 
