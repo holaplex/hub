@@ -157,6 +157,7 @@ export default function Drops({ project }: DropsPageProps) {
                           id,
                         };
                       },
+                      // @ts-ignore
                       {
                         id: 'name',
                         header: () => <span>Drop name</span>,

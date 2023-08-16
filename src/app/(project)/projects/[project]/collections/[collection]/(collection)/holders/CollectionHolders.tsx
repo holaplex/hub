@@ -3,12 +3,12 @@ import { PopoverBox } from '@holaplex/ui-library-react';
 import { createColumnHelper } from '@tanstack/react-table';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { Icon } from '../../../../../../../components/Icon';
-import Table from '../../../../../../../components/Table';
-import { Blockchain, Holder, Project } from '../../../../../../../graphql.types';
-import { GetProjectCollectionHolders } from './../../../../../../../queries/collections.graphql';
+import { Icon } from '../../../../../../../../components/Icon';
+import Table from '../../../../../../../../components/Table';
+import { Blockchain, Holder, Project } from '../../../../../../../../graphql.types';
+import { GetProjectCollectionHolders } from '../../../../../../../../queries/collections.graphql';
 import { useQuery } from '@apollo/client';
-import Typography, { Size } from '../../../../../../../components/Typography';
+import Typography, { Size } from '../../../../../../../../components/Typography';
 import { useMemo } from 'react';
 
 interface HoldersProps {

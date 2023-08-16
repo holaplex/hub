@@ -22,7 +22,6 @@ COPY src src
 FROM builder as development
 ARG APP_FQDN
 
-
 ENV NEXT_PUBLIC_APP_FQDN $APP_FQDN
 ENV NODE_ENV "development"
 ENV PORT 3000

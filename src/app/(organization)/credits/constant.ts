@@ -11,4 +11,5 @@ export const ACTION_LABEL = {
   [Action.CreateCollection]: 'Create Collection',
   [Action.MintCompressed]: 'Mint Compressed',
   [Action.RetryCollection]: 'Retry Collection',
+  [Action.UpdateMint]: 'Update Mint',
 };

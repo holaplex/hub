@@ -4,16 +4,19 @@ import typeDefs from './../local.graphql';
 import { Blockchain, Collection } from './graphql.types';
 import { shorten } from './modules/wallet';
 
-function asShortAddress(_: any, { readField }: { readField: ReadFieldFunction }): string {
-  const address: string | undefined = readField('address');
+function asShortAddress(field: string = 'address') {
+  return function (_: any, { readField }: { readField: ReadFieldFunction }): string {
+    const address: string | undefined = readField(field);
 
-  return shorten(address as string);
+    return shorten(address as string);
+  };
 }
 
 function asShortCollectionAddress(
   _: any,
   { readField }: { readField: ReadFieldFunction }
 ): string | null {
+  debugger;
   const address: string | undefined = readField('address');
   const blockchain: Blockchain | undefined = readField('blockchain');
 
@@ -32,44 +35,16 @@ function asShortCollectionAddress(
   }
 }
 
-function asShortOwner(_: any, { readField }: { readField: ReadFieldFunction }): string {
-  const address: string | undefined = readField('owner');
+function asShortSignature(field: string = 'signature') {
+  return function (_: any, { readField }: { readField: ReadFieldFunction }): string {
+    const signature: string | undefined = readField(field);
 
-  if (address) {
-    return shorten(address as string);
-  }
+    if (signature) {
+      return shorten(signature as string);
+    }
 
-  return '';
-}
-
-function asShortWallet(_: any, { readField }: { readField: ReadFieldFunction }): string {
-  const address: string | undefined = readField('wallet');
-
-  if (address) {
-    return shorten(address as string);
-  }
-
-  return '';
-}
-
-function asShortTx(_: any, { readField }: { readField: ReadFieldFunction }): string {
-  const address: string | undefined = readField('txSignature');
-
-  if (address) {
-    return shorten(address as string);
-  }
-
-  return '';
-}
-
-function asShortSignature(_: any, { readField }: { readField: ReadFieldFunction }): string {
-  const signature: string | undefined = readField('signature');
-
-  if (signature) {
-    return shorten(signature as string);
-  }
-
-  return '';
+    return '';
+  };
 }
 
 function asRoyalties(_: any, { readField }: { readField: ReadFieldFunction }): string {
@@ -79,6 +54,68 @@ function asRoyalties(_: any, { readField }: { readField: ReadFieldFunction }): s
 }
 
 function asHolderExplorerLink(
+  _: any,
+  {
+    readField,
+    cache,
+    toReference,
+  }: { readField: ReadFieldFunction; cache: InMemoryCache; toReference: ToReferenceFunction }
+): string | null {
+  const collectionIdentifier = cache.identify({
+    __typename: 'Collection',
+    id: readField('collectionId'),
+  }) as string;
+  const collectionRef = toReference(collectionIdentifier);
+  const blockchain = readField('blockchain', collectionRef);
+
+  const address: string | undefined = readField('address');
+
+  if (!address) {
+    return null;
+  }
+
+  switch (blockchain) {
+    case Blockchain.Solana:
+      return `https://solscan.io/account/${address}`;
+    case Blockchain.Polygon:
+      return `https://polygonscan.com/address/${address}`;
+    default:
+      return null;
+  }
+}
+
+function asOwnerExplorerLink(
+  _: any,
+  {
+    readField,
+    cache,
+    toReference,
+  }: { readField: ReadFieldFunction; cache: InMemoryCache; toReference: ToReferenceFunction }
+): string | null {
+  const collectionIdentifier = cache.identify({
+    __typename: 'Collection',
+    id: readField('collectionId'),
+  }) as string;
+  const collectionRef = toReference(collectionIdentifier);
+  const blockchain = readField('blockchain', collectionRef);
+
+  const address: string | undefined = readField('owner');
+
+  if (!address) {
+    return null;
+  }
+
+  switch (blockchain) {
+    case Blockchain.Solana:
+      return `https://solscan.io/account/${address}`;
+    case Blockchain.Polygon:
+      return `https://polygonscan.com/address/${address}`;
+    default:
+      return null;
+  }
+}
+
+function asAddressExplorerLink(
   _: any,
   {
     readField,
@@ -182,6 +219,41 @@ function asPurchaseTransactionLink(
   }
 }
 
+function asMintChildTransactionLink(mintField: string, signatureField: string) {
+  return function (
+    _: any,
+    {
+      readField,
+      cache,
+      toReference,
+    }: { readField: ReadFieldFunction; cache: InMemoryCache; toReference: ToReferenceFunction }
+  ): string | null {
+    const mintRef = toReference(
+      cache.identify({ __typename: 'CollectionMint', id: readField(mintField) }) as string
+    );
+    const collectionId = readField('collectionId', mintRef);
+    const collectionRef = toReference(
+      cache.identify({ __typename: 'Collection', id: collectionId }) as string
+    );
+    const blockchain = readField('blockchain', collectionRef);
+
+    const tx: string | undefined = readField(signatureField);
+
+    if (!tx) {
+      return null;
+    }
+
+    switch (blockchain) {
+      case Blockchain.Solana:
+        return `https://solscan.io/tx/${tx}`;
+      case Blockchain.Polygon:
+        return `https://polygonscan.com/tx/${tx}`;
+      default:
+        return null;
+    }
+  };
+}
+
 function asMintTransactionLink(
   _: any,
   {
@@ -227,7 +299,7 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
         },
         Wallet: {
           fields: {
-            shortAddress: asShortAddress,
+            shortAddress: asShortAddress(),
           },
         },
         Collection: {
@@ -241,27 +313,50 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
         },
         CollectionCreator: {
           fields: {
-            shortAddress: asShortAddress,
+            shortAddress: asShortAddress(),
+          },
+        },
+        MintCreator: {
+          fields: {
+            shortAddress: asShortAddress(),
           },
         },
         Holder: {
           fields: {
-            shortAddress: asShortAddress,
+            shortAddress: asShortAddress(),
             exploreLink: asHolderExplorerLink,
           },
         },
         MintHistory: {
           fields: {
-            shortWallet: asShortWallet,
-            shortTx: asShortTx,
+            shortWallet: asShortAddress('wallet'),
+            shortTx: asShortSignature(),
             transactionLink: asPurchaseTransactionLink,
           },
         },
         CollectionMint: {
           fields: {
-            ownerShortAddress: asShortOwner,
-            shortAddress: asShortAddress,
+            ownerShortAddress: asShortAddress('owner'),
+            shortAddress: asShortAddress(),
             transactionLink: asMintTransactionLink,
+            exploreLink: asAddressExplorerLink,
+            royalties: asRoyalties,
+            shortTx: asShortSignature(),
+            ownerExplorerLink: asOwnerExplorerLink,
+          },
+        },
+        NftTransfer: {
+          fields: {
+            shortSender: asShortAddress('sender'),
+            shortRecipient: asShortAddress('recipient'),
+            shortTx: asShortSignature('txSignature'),
+            transactionLink: asMintChildTransactionLink('collectionMintId', 'txSignature'),
+          },
+        },
+        UpdateHistory: {
+          fields: {
+            shortTx: asShortSignature('txnSignature'),
+            transactionLink: asMintChildTransactionLink('mintId', 'txnSignature'),
           },
         },
       },

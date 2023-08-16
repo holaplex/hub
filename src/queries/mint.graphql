@@ -20,3 +20,101 @@ query GetCollectionMints($project: UUID!, $drop: UUID!) {
     }
   }
 }
+
+query GetCollectionMint($mint: UUID!) {
+  mint(id: $mint) {
+    id
+    owner
+    sellerFeeBasisPoints
+    ownerShortAddress @client
+    ownerExplorerLink @client
+    address
+    shortAddress @client
+    creationStatus
+    createdAt
+    collectionId
+    royalties @client
+    exploreLink @client
+    shortTx @client
+    transactionLink @client
+    signature
+    creators {
+      address
+      shortAddress @client
+      share
+      verified
+    }
+    mintHistory {
+      id
+      wallet
+      createdAt
+      signature
+      shortWallet @client
+    }
+    collection {
+      id
+      blockchain
+      address
+      metadataJson {
+        id
+        name
+      }
+    }
+    sellerFeeBasisPoints
+    metadataJson {
+      id
+      name
+      description
+      image
+      animationUrl
+      symbol
+      attributes {
+        id
+        traitType
+        value
+      }
+    }
+  }
+}
+
+query GetCollectionMintTransfers($mint: UUID!) {
+  mint(id: $mint) {
+    id
+    collectionId
+    collection {
+      id
+      blockchain
+    }
+    transferHistories {
+      id
+      sender
+      shortSender @client
+      recipient
+      shortRecipient @client
+      createdAt
+      txSignature
+      shortTx @client
+      collectionMintId
+      transactionLink @client
+    }
+  }
+}
+
+query GetCollectionMintUpdates($mint: UUID!) {
+  mint(id: $mint) {
+    id
+    collectionId
+    collection {
+      id
+      blockchain
+    }
+    updateHistories {
+      id
+      mintId
+      createdAt
+      txnSignature
+      status
+      shortTx @client
+    }
+  }
+}
