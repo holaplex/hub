@@ -3,43 +3,53 @@ import { PopoverBox } from '@holaplex/ui-library-react';
 import { createColumnHelper } from '@tanstack/react-table';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { Icon } from '../../../../../../../../components/Icon';
-import Table from '../../../../../../../../components/Table';
-import { Blockchain, Holder, Project } from '../../../../../../../../graphql.types';
-import { GetProjectCollectionHolders } from '../../../../../../../../queries/collections.graphql';
+import { Icon } from './../../../../../../../../../../components/Icon';
+import Table from './../../../../../../../../../../components/Table';
+import {
+  Blockchain,
+  Maybe,
+  CollectionMint,
+  UpdateHistory,
+  CreationStatus,
+} from './../../../../../../../../../../graphql.types';
+import { formatDateString, DateFormat } from '../../../../../../../../../../modules/time';
+import { GetCollectionMintUpdates } from './../../../../../../../../../../queries/mint.graphql';
 import { useQuery } from '@apollo/client';
-import Typography, { Size } from '../../../../../../../../components/Typography';
+import Typography, { Size } from './../../../../../../../../../../components/Typography';
 import { useMemo } from 'react';
 
-interface HoldersProps {
+interface CollectionNftTransfersProps {
   project: string;
   collection: string;
+  mint: string;
   loading?: boolean;
 }
 
-interface GetCollectionHoldersData {
-  project: Pick<Project, 'collection'>;
+interface GetCollectionNftUpdatesData {
+  mint: Maybe<CollectionMint>;
 }
 
-interface GetCollectionHoldersVars {
-  project: string;
-  collection: string;
+interface GetCollectionNftUpdatesVars {
+  mint: string;
 }
 
-export default function CollectionHolders({ project, collection, loading }: HoldersProps) {
-  const columnHelper = createColumnHelper<Holder>();
+export default function CollectionNftTransfers({
+  mint,
+  loading,
+}: CollectionNftTransfersProps) {
+  const columnHelper = createColumnHelper<UpdateHistory>();
   const loadingColumnHelper = createColumnHelper<any>();
 
-  const holdersQuery = useQuery<GetCollectionHoldersData, GetCollectionHoldersVars>(
-    GetProjectCollectionHolders,
+  const updatesQuery = useQuery<GetCollectionNftUpdatesData, GetCollectionNftUpdatesVars>(
+    GetCollectionMintUpdates,
     {
-      variables: { project, collection },
+      variables: { mint },
     }
   );
 
-  const holders = holdersQuery.data?.project?.collection?.holders || [];
-  const noHolders = holders.length === 0;
-  const blockchain = holdersQuery.data?.project?.collection?.blockchain;
+  const updateHistories = updatesQuery.data?.mint?.updateHistories || [];
+  const noUpdateHistories = updateHistories.length === 0;
+  const blockchain = updatesQuery.data?.mint?.collection?.blockchain;
 
   let blockchainIcon = useMemo(() => {
     switch (blockchain) {
@@ -54,29 +64,35 @@ export default function CollectionHolders({ project, collection, loading }: Hold
 
   return (
     <div className="flex flex-col">
-      {holdersQuery.loading || loading ? (
+      {updatesQuery.loading || loading ? (
         <>
           <Table
             columns={[
               loadingColumnHelper.display({
-                id: 'address',
+                id: 'signature',
                 header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-row gap-2">
-                    <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
                     <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
                   </div>
                 ),
               }),
               loadingColumnHelper.display({
-                id: 'owns',
-                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
+                id: 'when',
+                header: () => (
+                  <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />
+                ),
                 cell: () => (
-                  <div className="flex flex-row gap-2">
-                    <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
-                    <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
+                  <div className="flex flex-col gap-1">
+                    <span className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />
+                    <span className="rounded-full h-3 w-8 bg-stone-800 animate-pulse" />
                   </div>
                 ),
+              }),
+              loadingColumnHelper.display({
+                id: 'status',
+                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
+                cell: () => <div className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />,
               }),
               loadingColumnHelper.display({
                 id: 'options',
@@ -90,43 +106,50 @@ export default function CollectionHolders({ project, collection, loading }: Hold
             data={new Array(4)}
           />
         </>
-      ) : noHolders ? (
+      ) : noUpdateHistories ? (
         <div className="flex flex-col gap-2 items-center">
-          <Icon.Large.CreateCustomers />
-          <Typography.Header size={Size.H2}>No holders yet</Typography.Header>
+          <Typography.Header size={Size.H2}>No updates yet</Typography.Header>
           <Typography.Paragraph className="text-gray-400">
-            The current holder holders information will appear after the first mint
+            This NFT has not been updated yet.
           </Typography.Paragraph>
         </div>
       ) : (
         <Table
           columns={[
-            columnHelper.accessor('shortAddress', {
-              header: () => <span>Wallet</span>,
+            columnHelper.accessor('shortTx', {
+              header: () => <span>Signature</span>,
               cell: (info) => {
-                const address = info.getValue();
+                const signature = info.getValue();
                 return (
                   <div className="flex gap-2">
                     {blockchainIcon}
-                    <span className="text-xs text-white font-medium">{address}</span>
+                    <span className="text-xs text-white font-medium">{signature}</span>
                   </div>
                 );
               },
             }),
-            columnHelper.accessor('owns', {
+            columnHelper.accessor('createdAt', {
               id: 'owns',
-              header: () => <span>Owned</span>,
+              header: () => <span>When</span>,
               cell: (info) => {
-                const owns = info.getValue();
-                const share = Math.ceil(
-                  (owns / (holdersQuery.data?.project?.collection?.totalMints || 0)) * 100
-                );
+                const createdAt = info.getValue();
                 return (
                   <div className="flex gap-1 items-center">
-                    {owns} / <span className="text-xs text-gray-400">{share}%</span>
+                    <span className="text-gray-400 text-xs font-medium">
+                      {formatDateString(createdAt, DateFormat.DATE_1)}
+                    </span>
+                    <span className="text-white text-xs">
+                      {formatDateString(createdAt, DateFormat.TIME_1)}
+                    </span>
                   </div>
                 );
               },
+            }),
+            columnHelper.accessor('status', {
+              header: () => <span>Status</span>,
+              cell: (info) => (
+                <Table.CreationStatusPill status={info.getValue() as CreationStatus} />
+              ),
             }),
             columnHelper.display({
               id: 'options',
@@ -135,7 +158,7 @@ export default function CollectionHolders({ project, collection, loading }: Hold
               },
               header: () => <></>,
               cell: (info) => {
-                const exploreLink = info.row.original.exploreLink;
+                const exploreLink = info.row.original.transactionLink;
                 const options = [];
 
                 options.push(
@@ -164,7 +187,7 @@ export default function CollectionHolders({ project, collection, loading }: Hold
               },
             }),
           ]}
-          data={holders}
+          data={updateHistories}
         />
       )}
     </div>

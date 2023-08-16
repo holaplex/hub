@@ -51,28 +51,28 @@ function Collections({
       <path
         d="M9.1 17.5C9.14244 17.2243 9.16472 16.9457 9.16667 16.6667V16.6667C9.16667 13.445 6.55499 10.8334 3.33333 10.8334C3.05433 10.8359 2.77586 10.8582 2.5 10.9"
         stroke="#AAAAAA"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M2.5 8.42597V14.9074C2.5 16.3393 3.66074 17.5 5.09259 17.5H11.5741C13.0059 17.5 14.1667 16.3393 14.1667 14.9074V8.42597C14.1667 6.99412 13.0059 5.83337 11.5741 5.83337H5.09259C3.66074 5.83337 2.5 6.99412 2.5 8.42597Z"
         stroke="#AAAAAA"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M5.83325 5.83333V5C5.83325 3.61929 6.95254 2.5 8.33325 2.5H14.9999C16.3806 2.5 17.4999 3.61929 17.4999 5V11.6667C17.4999 13.0474 16.3806 14.1667 14.9999 14.1667H14.1666"
         stroke="#AAAAAA"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M10.3872 9.55387L10.3872 9.55379C10.4035 9.53755 10.4299 9.53757 10.4461 9.55385C10.4624 9.57012 10.4624 9.59649 10.4461 9.61276C10.4299 9.62902 10.4035 9.62903 10.3872 9.61277C10.3709 9.59652 10.3709 9.57015 10.3872 9.55387"
         stroke="#AAAAAA"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -94,8 +94,8 @@ function Edit2({
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M4.41091 13.0162L13.0159 4.41123C13.3409 4.08623 13.8684 4.08623 14.1934 4.41123L15.5901 5.8079C15.9151 6.1329 15.9151 6.6604 15.5901 6.9854L6.98425 15.5896C6.82841 15.7462 6.61675 15.8337 6.39591 15.8337H4.16675V13.6046C4.16675 13.3837 4.25425 13.1721 4.41091 13.0162Z"
         stroke={stroke}
         strokeWidth="2"
@@ -422,8 +422,8 @@ function Royalties({
         strokeLinejoin="round"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M6.66667 5.83333C8.96785 5.83333 10.8333 5.08714 10.8333 4.16667C10.8333 3.24619 8.96785 2.5 6.66667 2.5C4.36548 2.5 2.5 3.24619 2.5 4.16667C2.5 5.08714 4.36548 5.83333 6.66667 5.83333Z"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -1104,8 +1104,8 @@ function Resume({ width = 16, height = 16, className = '' }: IconProps) {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M15.5 8V8C15.5 12.1425 12.1425 15.5 8 15.5V15.5C3.8575 15.5 0.5 12.1425 0.5 8V8C0.5 3.8575 3.8575 0.5 8 0.5V0.5C12.1425 0.5 15.5 3.8575 15.5 8Z"
         strokeLinecap="round"
         strokeLinejoin="round"

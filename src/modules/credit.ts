@@ -1,8 +1,8 @@
-import { ActionCost, Action, Blockchain } from '../graphql.types';
+import { ActionCost, Action, Blockchain, Maybe } from '../graphql.types';
 
 export class CreditLookup {
   private costs: ActionCost[];
-  private cache: Map<string, number> = new Map();
+  private cache: Map<string, Maybe<number> | undefined> = new Map();
 
   constructor(costs: ActionCost[]) {
     this.costs = costs;

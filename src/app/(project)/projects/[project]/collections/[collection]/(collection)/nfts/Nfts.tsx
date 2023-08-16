@@ -109,7 +109,7 @@ export default function Nfts({ loading, project, collection }: NftsProps) {
                 return (
                   <Link
                     className="flex gap-2 items-center"
-                    href={`/projects/${project}/collections/${collection}/nfts/${collectionMint.id}`}
+                    href={`/projects/${project}/collections/${collection}/nfts/${collectionMint.id}/transfers`}
                   >
                     <img
                       src={collectionMint?.metadataJson?.image as string}
