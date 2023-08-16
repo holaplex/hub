@@ -1,0 +1,26 @@
+environment:
+  logLevel: "debug"
+  kafkaUsername: admin
+  kafkaSsl: false
+  kafkaBrokers: 'hub-eventbus-cluster-0.hub-eventbus-cluster.default.svc.cluster.local:9093'
+  cubeBaseUrl: http://hub-analytics-cube
+
+cube:
+  enabled: true
+  config:
+    devMode: true
+
+  datasources:
+    default:
+      type: postgres
+      host: hub-analytics-db-postgresql
+      name: analytics
+      user: analytics
+
+  ingress:
+    enabled: true
+    ingressClassName: apisix
+    hostname: cube.127.0.0.1.nip.io
+    path: /
+    pathType: Prefix
+    tls: false

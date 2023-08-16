@@ -1,0 +1,4 @@
+auth:
+  username: analytics
+  password: analytics
+  database: analytics
