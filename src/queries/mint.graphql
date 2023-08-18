@@ -26,6 +26,8 @@ query GetCollectionMint($mint: UUID!) {
     id
     owner
     sellerFeeBasisPoints
+    compressed
+    editable @client
     ownerShortAddress @client
     ownerExplorerLink @client
     address
@@ -38,6 +40,7 @@ query GetCollectionMint($mint: UUID!) {
     shortTx @client
     transactionLink @client
     signature
+    edition
     creators {
       address
       shortAddress @client
@@ -59,7 +62,6 @@ query GetCollectionMint($mint: UUID!) {
         name
       }
     }
-    sellerFeeBasisPoints
     metadataJson {
       id
       name
@@ -114,6 +116,7 @@ query GetCollectionMintUpdates($mint: UUID!) {
       txnSignature
       status
       shortTx @client
+      transactionLink @client
     }
   }
 }

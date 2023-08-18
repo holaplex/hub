@@ -1,11 +1,11 @@
 'use client';
 
 import { useMemo } from 'react';
-import Tabs from './../../../../../../../../../layouts/Tabs';
+import Tabs from './../../../../../../../../../../layouts/Tabs';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { GetCollectionMint } from './../../../../../../../../../queries/mint.graphql';
-import { DateFormat, formatDateString } from './../../../../../../../../../modules/time';
+import { GetCollectionMint } from './../../../../../../../../../../queries/mint.graphql';
+import { DateFormat, formatDateString } from './../../../../../../../../../../modules/time';
 import { useQuery } from '@apollo/client';
 import {
   Blockchain,
@@ -14,12 +14,12 @@ import {
   Maybe,
   MetadataJsonAttribute,
   MintCreator,
-} from '../../../../../../../../../graphql.types';
-import { Icon } from './../../../../../../../../../components/Icon';
+} from '../../../../../../../../../../graphql.types';
+import { Icon } from './../../../../../../../../../../components/Icon';
 import { cloneElement } from 'react';
-import Typography, { Size } from '../../../../../../../../../components/Typography';
-import { useRouter } from 'next/navigation';
-import Table from '../../../../../../../../../components/Table';
+import Typography, { Size } from '../../../../../../../../../../components/Typography';
+import { Button } from '@holaplex/ui-library-react';
+import Table from '../../../../../../../../../../components/Table';
 
 interface CollectionNftProps {
   project: string;
@@ -128,6 +128,15 @@ export default function CollectionNft({
               </Link>
               <span>{collectionMintData?.metadataJson?.name}</span>
             </div>
+            {collectionMintData?.editable && (
+              <div className="flex items-center gap-2">
+                <Link href={`/projects/${project}/collections/${collection}/nfts/${nft}/edit`}>
+                  <Button variant="secondary" icon={<Icon.Edit2 stroke="stroke-yellow-300" />}>
+                    Edit
+                  </Button> 
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* MAIN */}
@@ -241,7 +250,10 @@ export default function CollectionNft({
                     <div className="flex flex-col gap-2 justify-end">
                       {collectionMintData?.creators?.map((creator: MintCreator) => {
                         return (
-                          <div key={creator.address} className="text-right">{`${creator.shortAddress} - ${creator.share}%`}</div>
+                          <div
+                            key={creator.address}
+                            className="text-right"
+                          >{`${creator.shortAddress} - ${creator.share}%`}</div>
                         );
                       })}
                     </div>

@@ -135,8 +135,6 @@ export default function NewDropPreviewPage() {
     );
   }
 
-  const supply = parseInt(payment.supply.replaceAll(',', ''));
-
   const onSubmit = async () => {
     setSubmitting(true);
     let imageUrl = detail.image;
