@@ -4,9 +4,13 @@ import typeDefs from './../local.graphql';
 import { Blockchain, Collection } from './graphql.types';
 import { shorten } from './modules/wallet';
 
-function asShortAddress(field: string = 'address') {
-  return function (_: any, { readField }: { readField: ReadFieldFunction }): string {
+function asShortAddress(field: string) {
+  return function (obj: any, { readField }: { readField: ReadFieldFunction }): string | null {
     const address: string | undefined = readField(field);
+
+    if (!address) {
+      return null;
+    }
 
     return shorten(address as string);
   };
@@ -16,7 +20,6 @@ function asShortCollectionAddress(
   _: any,
   { readField }: { readField: ReadFieldFunction }
 ): string | null {
-  debugger;
   const address: string | undefined = readField('address');
   const blockchain: Blockchain | undefined = readField('blockchain');
 
@@ -36,15 +39,25 @@ function asShortCollectionAddress(
 }
 
 function asShortSignature(field: string = 'signature') {
-  return function (_: any, { readField }: { readField: ReadFieldFunction }): string {
+  return function (_: any, { readField }: { readField: ReadFieldFunction }): string | null {
     const signature: string | undefined = readField(field);
 
     if (signature) {
       return shorten(signature as string);
     }
 
-    return '';
+    return null;
   };
+}
+
+function asEditableCollectionMint(
+  _: any,
+  { readField }: { readField: ReadFieldFunction }
+): boolean | null {
+  const compressed: boolean | undefined = readField('compressed');
+  const edition: number | undefined = readField('edition');
+
+  return !compressed && edition === -1;
 }
 
 function asRoyalties(_: any, { readField }: { readField: ReadFieldFunction }): string {
@@ -299,7 +312,7 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
         },
         Wallet: {
           fields: {
-            shortAddress: asShortAddress(),
+            shortAddress: asShortAddress('address'),
           },
         },
         Collection: {
@@ -313,17 +326,17 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
         },
         CollectionCreator: {
           fields: {
-            shortAddress: asShortAddress(),
+            shortAddress: asShortAddress('address'),
           },
         },
         MintCreator: {
           fields: {
-            shortAddress: asShortAddress(),
+            shortAddress: asShortAddress('address'),
           },
         },
         Holder: {
           fields: {
-            shortAddress: asShortAddress(),
+            shortAddress: asShortAddress('address'),
             exploreLink: asHolderExplorerLink,
           },
         },
@@ -337,12 +350,13 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
         CollectionMint: {
           fields: {
             ownerShortAddress: asShortAddress('owner'),
-            shortAddress: asShortAddress(),
+            shortAddress: asShortAddress('address'),
             transactionLink: asMintTransactionLink,
             exploreLink: asAddressExplorerLink,
             royalties: asRoyalties,
             shortTx: asShortSignature(),
             ownerExplorerLink: asOwnerExplorerLink,
+            editable: asEditableCollectionMint,
           },
         },
         NftTransfer: {

@@ -24,7 +24,7 @@
     "eslint": "8.31.0",
     "formidable": "^3.2.5",
     "graphql": "^16.6.0",
-    "next": "^13.4.8",
+    "next": "^13.4.16",
     "next-plugin-graphql": "^0.0.2",
     "nft.storage": "^7.0.0",
     "ramda": "^0.28.0",

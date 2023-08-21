@@ -17,3 +17,30 @@ mutation RetryMintEdition($input: RetryMintEditionInput!) {
     }
   }
 }
+
+mutation UpdateCollectionMint($input: UpdateMintInput!) {
+  updateMint(input: $input) {
+    collectionMint {
+      id
+      sellerFeeBasisPoints
+      creators {
+        address
+        share
+        verified
+      }
+      metadataJson {
+        id
+        name
+        description
+        image
+        animationUrl
+        symbol
+        attributes {
+          id
+          traitType
+          value
+        }
+      }
+    }
+  }
+}

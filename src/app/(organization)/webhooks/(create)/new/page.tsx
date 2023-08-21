@@ -190,10 +190,18 @@ export default function NewWebhook() {
                 <Form.Checkbox {...register('events')} id="DROP_MINTED" value="DROP_MINTED" />
               </Form.Label>
               <Form.Label name="Collection created" placement={Placement.Right}>
-                <Form.Checkbox {...register('events')} id="COLLECTION_CREATED" value="COLLECTION_CREATED" />
+                <Form.Checkbox
+                  {...register('events')}
+                  id="COLLECTION_CREATED"
+                  value="COLLECTION_CREATED"
+                />
               </Form.Label>
               <Form.Label name="Minted to collection" placement={Placement.Right}>
-                <Form.Checkbox {...register('events')} id="MINTED_TO_COLLECTION" value="MINTED_TO_COLLECTION" />
+                <Form.Checkbox
+                  {...register('events')}
+                  id="MINTED_TO_COLLECTION"
+                  value="MINTED_TO_COLLECTION"
+                />
               </Form.Label>
             </div>
 

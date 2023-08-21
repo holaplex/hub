@@ -14,7 +14,6 @@ import { StoreApi, useStore } from 'zustand';
 import {
   DetailSettings,
   DropFormState,
-  blockchainOptions,
 } from '../../../../../../../../../providers/DropFormProvider';
 
 interface EditDropDetailsPageProps {}

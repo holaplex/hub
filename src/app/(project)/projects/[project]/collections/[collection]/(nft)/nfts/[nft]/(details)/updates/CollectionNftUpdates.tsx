@@ -3,20 +3,19 @@ import { PopoverBox } from '@holaplex/ui-library-react';
 import { createColumnHelper } from '@tanstack/react-table';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { Icon } from './../../../../../../../../../../components/Icon';
-import Table from './../../../../../../../../../../components/Table';
+import { Icon } from './../../../../../../../../../../../components/Icon';
+import Table from './../../../../../../../../../../../components/Table';
 import {
-  Holder,
-  Project,
   Blockchain,
   Maybe,
   CollectionMint,
-  NftTransfer,
-} from './../../../../../../../../../../graphql.types';
-import { formatDateString, DateFormat } from '../../../../../../../../../../modules/time';
-import { GetCollectionMintTransfers } from './../../../../../../../../../../queries/mint.graphql';
+  UpdateHistory,
+  CreationStatus,
+} from './../../../../../../../../../../../graphql.types';
+import { formatDateString, DateFormat } from './../../../../../../../../../../../modules/time';
+import { GetCollectionMintUpdates } from './../../../../../../../../../../../queries/mint.graphql';
 import { useQuery } from '@apollo/client';
-import Typography, { Size } from './../../../../../../../../../../components/Typography';
+import Typography, { Size } from './../../../../../../../../../../../components/Typography';
 import { useMemo } from 'react';
 
 interface CollectionNftTransfersProps {
@@ -26,33 +25,28 @@ interface CollectionNftTransfersProps {
   loading?: boolean;
 }
 
-interface GetCollectionNftTransfersData {
+interface GetCollectionNftUpdatesData {
   mint: Maybe<CollectionMint>;
 }
 
-interface GetCollectionNftTransfersVars {
+interface GetCollectionNftUpdatesVars {
   mint: string;
 }
 
-export default function CollectionNftTransfers({
-  project,
-  collection,
-  mint,
-  loading,
-}: CollectionNftTransfersProps) {
-  const columnHelper = createColumnHelper<NftTransfer>();
+export default function CollectionNftTransfers({ mint, loading }: CollectionNftTransfersProps) {
+  const columnHelper = createColumnHelper<UpdateHistory>();
   const loadingColumnHelper = createColumnHelper<any>();
 
-  const transferQuery = useQuery<GetCollectionNftTransfersData, GetCollectionNftTransfersVars>(
-    GetCollectionMintTransfers,
+  const updatesQuery = useQuery<GetCollectionNftUpdatesData, GetCollectionNftUpdatesVars>(
+    GetCollectionMintUpdates,
     {
       variables: { mint },
     }
   );
 
-  const transferHistories = transferQuery.data?.mint?.transferHistories || [];
-  const noTransferHistories = transferHistories.length === 0;
-  const blockchain = transferQuery.data?.mint?.collection?.blockchain;
+  const updateHistories = updatesQuery.data?.mint?.updateHistories || [];
+  const noUpdateHistories = updateHistories.length === 0;
+  const blockchain = updatesQuery.data?.mint?.collection?.blockchain;
 
   let blockchainIcon = useMemo(() => {
     switch (blockchain) {
@@ -67,39 +61,33 @@ export default function CollectionNftTransfers({
 
   return (
     <div className="flex flex-col">
-      {transferQuery.loading || loading ? (
+      {updatesQuery.loading || loading ? (
         <>
           <Table
             columns={[
               loadingColumnHelper.display({
-                id: 'sender',
+                id: 'signature',
                 header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-row gap-2">
-                    <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
                     <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
                   </div>
                 ),
               }),
               loadingColumnHelper.display({
-                id: 'receiver',
+                id: 'when',
                 header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
-                cell: () => (
-                  <div className="flex flex-row gap-2">
-                    <span className="rounded-full w-2 aspect-square  bg-stone-800 animate-pulse" />
-                    <span className="rounded-full h-3 w-24 bg-stone-800 animate-pulse" />
-                  </div>
-                ),
-              }),
-              loadingColumnHelper.display({
-                id: 'createdAt',
-                header: () => <div className="rounded-full h-4 w-20 bg-stone-800 animate-pulse" />,
                 cell: () => (
                   <div className="flex flex-col gap-1">
-                    <div className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />
-                    <div className="rounded-full h-3 w-8 bg-stone-800 animate-pulse" />
+                    <span className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />
+                    <span className="rounded-full h-3 w-8 bg-stone-800 animate-pulse" />
                   </div>
                 ),
+              }),
+              loadingColumnHelper.display({
+                id: 'status',
+                header: () => <div className="rounded-full h-4 w-28 bg-stone-800 animate-pulse" />,
+                cell: () => <div className="rounded-full h-3 w-16 bg-stone-800 animate-pulse" />,
               }),
               loadingColumnHelper.display({
                 id: 'options',
@@ -113,47 +101,35 @@ export default function CollectionNftTransfers({
             data={new Array(4)}
           />
         </>
-      ) : noTransferHistories ? (
+      ) : noUpdateHistories ? (
         <div className="flex flex-col gap-2 items-center">
-          <Typography.Header size={Size.H2}>No transfers yet</Typography.Header>
+          <Typography.Header size={Size.H2}>No updates yet</Typography.Header>
           <Typography.Paragraph className="text-gray-400">
-            This NFT has not been transferred yet.
+            This NFT has not been updated yet.
           </Typography.Paragraph>
         </div>
       ) : (
         <Table
           columns={[
-            columnHelper.accessor('shortSender', {
-              header: () => <span>Sender</span>,
+            columnHelper.accessor('shortTx', {
+              header: () => <span>Signature</span>,
               cell: (info) => {
-                const sender = info.getValue();
+                const signature = info.getValue();
                 return (
                   <div className="flex gap-2">
                     {blockchainIcon}
-                    <span className="text-xs text-white font-medium">{sender}</span>
-                  </div>
-                );
-              },
-            }),
-            columnHelper.accessor('shortRecipient', {
-              header: () => <span>Recipient</span>,
-              cell: (info) => {
-                const recipient = info.getValue();
-                return (
-                  <div className="flex gap-2">
-                    {blockchainIcon}
-                    <span className="text-xs text-white font-medium">{recipient}</span>
+                    <span className="text-xs text-white font-medium">{signature}</span>
                   </div>
                 );
               },
             }),
             columnHelper.accessor('createdAt', {
-              id: 'when',
+              id: 'owns',
               header: () => <span>When</span>,
               cell: (info) => {
                 const createdAt = info.getValue();
                 return (
-                  <div className="flex gap-1 items-center">
+                  <div className="flex flex-col gap-1">
                     <span className="text-gray-400 text-xs font-medium">
                       {formatDateString(createdAt, DateFormat.DATE_1)}
                     </span>
@@ -163,6 +139,12 @@ export default function CollectionNftTransfers({
                   </div>
                 );
               },
+            }),
+            columnHelper.accessor('status', {
+              header: () => <span>Status</span>,
+              cell: (info) => (
+                <Table.CreationStatusPill status={info.getValue() as CreationStatus} />
+              ),
             }),
             columnHelper.display({
               id: 'options',
@@ -200,7 +182,7 @@ export default function CollectionNftTransfers({
               },
             }),
           ]}
-          data={transferHistories}
+          data={updateHistories}
         />
       )}
     </div>
