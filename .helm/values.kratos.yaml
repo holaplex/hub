@@ -92,7 +92,7 @@ kratos:
             default_browser_return_url: http://hub.127.0.0.1.nip.io:9080/recovery/reset
 
         verification:
-          enabled: true
+          enabled: false
           ui_url: http://hub.127.0.0.1.nip.io:9080/verification
           use: code
           after:
@@ -104,9 +104,6 @@ kratos:
 
         login:
           ui_url: http://hub.127.0.0.1.nip.io:9080/login
-          after:
-            hooks:
-              - hook: require_verified_address
           lifespan: 10m
 
   identitySchemas:
