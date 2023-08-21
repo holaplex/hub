@@ -151,6 +151,12 @@ deploy:
         valuesFiles:
           - .helm/values.identities.yaml
           - .helm/secrets.identities.yaml
+      - name: hub-analytics
+        remoteChart: hub-analytics
+        repo: https://charts.holaplex.com
+        valuesFiles:
+          - .helm/values.analytics.yaml
+          - .helm/secrets.analytics.yaml
       - name: hub-orgs
         remoteChart: hub-orgs
         repo: https://charts.holaplex.com
@@ -199,9 +205,3 @@ deploy:
         valuesFiles:
           - .helm/values.treasuries.yaml
           - .helm/secrets.treasuries.yaml
-      - name: hub-analytics
-        remoteChart: hub-treasuries
-        repo: https://charts.holaplex.com
-        valuesFiles:
-          - .helm/values.analytics.yaml
-          - .helm/secrets.analytics.yaml

@@ -1,14 +1,23 @@
+image:
+  pullPolicy: Always
+
+migrate:
+  image:
+    pullPolicy: Always
+
 environment:
-  logLevel: "debug"
+  logLevel: info
   kafkaUsername: admin
   kafkaSsl: false
   kafkaBrokers: 'hub-eventbus-cluster-0.hub-eventbus-cluster.default.svc.cluster.local:9093'
-  cubeBaseUrl: http://hub-analytics-cube
+  cubeBaseUrl: http://hub-analytics-cube/cubejs-api
 
 cube:
   enabled: true
   config:
     devMode: true
+    apiPort: 80
+    logLevel: info
 
   datasources:
     default:
