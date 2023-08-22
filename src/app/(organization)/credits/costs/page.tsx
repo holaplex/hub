@@ -72,13 +72,17 @@ export default function CostPage() {
             columnHelper.accessor('SOLANA', {
               header: () => <div className="text-gray-400">Solana</div>,
               cell: (info) => {
-                return <span className="text-white font-semibold">{info.getValue()}</span>;
+                const value = info.getValue();
+                const cost = typeof value === 'number' ? value : 'N/A ';
+                return <span className="text-white font-semibold">{cost}</span>;
               },
             }),
             columnHelper.accessor('POLYGON', {
               header: () => <div className="text-gray-400">Polygon</div>,
               cell: (info) => {
-                return <span className="text-white font-semibold">{info.getValue()}</span>;
+                const value = info.getValue();
+                const cost = typeof value === 'number' ? value : 'N/A ';
+                return <span className="text-white font-semibold">{cost}</span>;
               },
             }),
           ]}

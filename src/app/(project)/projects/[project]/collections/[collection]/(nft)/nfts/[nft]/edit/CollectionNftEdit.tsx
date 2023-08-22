@@ -1,6 +1,9 @@
 'use client';
 
-import { GetCollectionMint } from './../../../../../../../../../../queries/mint.graphql';
+import {
+  GetCollectionMint,
+  GetCollectionMintUpdates,
+} from './../../../../../../../../../../queries/mint.graphql';
 import { UpdateCollectionMint } from './../../../../../../../../../../mutations/mint.graphql';
 import { useEffect } from 'react';
 import {
@@ -9,7 +12,6 @@ import {
   UpdateMintInput,
   Blockchain,
   CreatorInput,
-  Project,
   AssetType,
 } from '../../../../../../../../../../graphql.types';
 import Card from '../../../../../../../../../../components/Card';
@@ -20,7 +22,7 @@ import {
 } from '../../../../../../../../../../providers/DropFormProvider';
 import { uploadFile } from '../../../../../../../../../../modules/upload';
 import { useRouter } from 'next/navigation';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery, ApolloError } from '@apollo/client';
 import { Form, Placement, Button } from '@holaplex/ui-library-react';
 import Typography, { Size } from '../../../../../../../../../../components/Typography';
 import Dropzone from 'react-dropzone';
@@ -125,38 +127,48 @@ export default function CollectionNftEdit({
       return creator;
     });
 
-    edit({
-      variables: {
-        input: {
-          id: mint,
-          creators,
-          sellerFeeBasisPoints: ifElse(
-            isNil,
-            always(null),
-            (royalties) => parseFloat(royalties.split('%')[0]) * 100
-          )(royalties),
-          metadataJson: {
-            attributes,
-            description,
-            externalUrl,
-            name,
-            image: imageUrl as string,
-            animationUrl: when(isEmpty, always(null))(animationUrl) as string | null,
-            symbol,
+    try {
+      await edit({
+        variables: {
+          input: {
+            id: mint,
+            creators,
+            sellerFeeBasisPoints: ifElse(
+              isNil,
+              always(null),
+              (royalties) => parseFloat(royalties.split('%')[0]) * 100
+            )(royalties),
+            metadataJson: {
+              attributes,
+              description,
+              externalUrl,
+              name,
+              image: imageUrl as string,
+              animationUrl: when(isEmpty, always(null))(animationUrl) as string | null,
+              symbol,
+            },
           },
         },
-      },
-      onCompleted: () => {
-        router.push(`/projects/${project}/collections/${collection}/nfts/${mint}/transfers`);
-        toast.success('NFT is updating. See the update history for status.');
-      },
-      refetchQueries: [
-        {
-          query: GetCollectionMint,
-          variables: { mint },
+        onError: (error: ApolloError) => {
+          toast.error(error.message);
         },
-      ],
-    });
+        refetchQueries: [
+          {
+            query: GetCollectionMint,
+            variables: { mint },
+          },
+          {
+            query: GetCollectionMintUpdates,
+            variables: { mint },
+          },
+        ],
+      });
+
+      toast.success('NFT is updating. See the update history for status.');
+    } catch {
+    } finally {
+      router.push(`/projects/${project}/collections/${collection}/nfts/${mint}/updates`);
+    }
   };
   const {
     handleSubmit,
