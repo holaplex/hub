@@ -133,7 +133,7 @@ export default function CollectionNft({
                 <Link href={`/projects/${project}/collections/${collection}/nfts/${nft}/edit`}>
                   <Button variant="secondary" icon={<Icon.Edit2 stroke="stroke-yellow-300" />}>
                     Edit
-                  </Button> 
+                  </Button>
                 </Link>
               </div>
             )}
@@ -195,26 +195,31 @@ export default function CollectionNft({
                       {collectionMintData?.ownerShortAddress}
                     </a>
                   </div>
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-gray-400">Minted at</span>
-                    <span className="flex flex-row gap-1">
-                      {formatDateString(
-                        collectionMintData?.mintHistory?.createdAt as string,
-                        DateFormat.DATE_1
-                      )}{' '}
-                      -{' '}
-                      {formatDateString(
-                        collectionMintData?.mintHistory?.createdAt as string,
-                        DateFormat.TIME_1
-                      )}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-gray-400">Minted by</span>
-                    <span className="flex flex-row gap-1">
-                      {collectionMintData?.mintHistory?.shortWallet}
-                    </span>
-                  </div>
+                  {collectionMintData?.mintHistory && (
+                    <>
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-gray-400">Minted at</span>
+                        <span className="flex flex-row gap-1">
+                          {formatDateString(
+                            collectionMintData?.mintHistory?.createdAt as string,
+                            DateFormat.DATE_1
+                          )}{' '}
+                          -{' '}
+                          {formatDateString(
+                            collectionMintData?.mintHistory?.createdAt as string,
+                            DateFormat.TIME_1
+                          )}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-gray-400">Minted by</span>
+                        <span className="flex flex-row gap-1">
+                          {collectionMintData?.mintHistory?.shortWallet}
+                        </span>
+                      </div>
+                    </>
+                  )}
+
                   {collectionMintData?.address && (
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-gray-400">Token ID</span>
