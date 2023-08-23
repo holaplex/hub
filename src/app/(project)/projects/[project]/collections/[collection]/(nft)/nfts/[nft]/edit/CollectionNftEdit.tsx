@@ -141,7 +141,7 @@ export default function CollectionNftEdit({
             metadataJson: {
               attributes,
               description,
-              externalUrl,
+              externalUrl: when(isEmpty, always(null))(externalUrl) as string | null,
               name,
               image: imageUrl as string,
               animationUrl: when(isEmpty, always(null))(animationUrl) as string | null,
