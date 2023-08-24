@@ -321,7 +321,7 @@ export function apollo(uri: string, session?: string): ApolloClient<NormalizedCa
             shortAddress: asShortCollectionAddress,
             exploreLink: asCollectionExplorerLink,
             transactionLink: asCollectionTransactionLink,
-            shortTx: asShortSignature,
+            shortTx: asShortSignature(),
           },
         },
         CollectionCreator: {
