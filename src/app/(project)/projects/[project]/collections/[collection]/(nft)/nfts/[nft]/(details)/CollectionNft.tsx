@@ -121,7 +121,7 @@ export default function CollectionNft({
                 Collections /
               </Link>{' '}
               <Link
-                href={`/projects/${project}/collections/${collection}`}
+                href={`/projects/${project}/collections/${collection}/nfts`}
                 className="text-gray-400"
               >
                 {collectionMintData?.collection?.metadataJson?.name} /
