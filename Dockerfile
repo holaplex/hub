@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci
 
-FROM node:16-alpine AS builder
+FROM node:20-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY tsconfig.json .
@@ -21,7 +21,6 @@ COPY src src
 
 FROM builder as development
 ARG APP_FQDN
-
 
 ENV NEXT_PUBLIC_APP_FQDN $APP_FQDN
 ENV NODE_ENV "development"

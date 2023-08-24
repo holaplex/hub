@@ -12,7 +12,7 @@ export enum DateFormat {
 
 export function formatDateString(dateStr: string, formatStr: string): string {
   const dateToFormat = new Date(dateStr);
-  return format(dateToFormat, formatStr);
+  return format(convertLocalTime(dateToFormat), formatStr);
 }
 
 export function daysUntil(dateStr: string): string {

@@ -3,12 +3,12 @@ import { useQuery } from '@apollo/client';
 import { createColumnHelper } from '@tanstack/react-table';
 import Spreadsheet from './../../../../components/Spreadsheet';
 import { GetCreditSheet } from './../../../../queries/credits.graphql';
-import { ActionCost } from './../../../../graphql.types';
+import { ActionCost, BlockchainCost, Maybe } from './../../../../graphql.types';
 import { ACTION_LABEL } from './../constant';
 
 interface CreditLineItem {
   action: string;
-  [key: string]: number | string;
+  [key: string]: Maybe<number> | undefined | string;
 }
 
 interface GetCreditSheetData {
@@ -24,7 +24,7 @@ export default function CostPage() {
   const data: CreditLineItem[] =
     creditSheet?.map((sheet: ActionCost) => {
       const creditCost = sheet.blockchains.reduce(
-        (creditLineItem: CreditLineItem, blockchain: { blockchain: string; credits: number }) => {
+        (creditLineItem: CreditLineItem, blockchain: BlockchainCost) => {
           creditLineItem[blockchain.blockchain] = blockchain.credits;
           return creditLineItem;
         },
@@ -72,13 +72,17 @@ export default function CostPage() {
             columnHelper.accessor('SOLANA', {
               header: () => <div className="text-gray-400">Solana</div>,
               cell: (info) => {
-                return <span className="text-white font-semibold">{info.getValue()}</span>;
+                const value = info.getValue();
+                const cost = typeof value === 'number' ? value : 'N/A ';
+                return <span className="text-white font-semibold">{cost}</span>;
               },
             }),
             columnHelper.accessor('POLYGON', {
               header: () => <div className="text-gray-400">Polygon</div>,
               cell: (info) => {
-                return <span className="text-white font-semibold">{info.getValue()}</span>;
+                const value = info.getValue();
+                const cost = typeof value === 'number' ? value : 'N/A ';
+                return <span className="text-white font-semibold">{cost}</span>;
               },
             }),
           ]}

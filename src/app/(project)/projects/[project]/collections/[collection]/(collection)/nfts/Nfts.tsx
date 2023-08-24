@@ -1,14 +1,14 @@
 'use client';
 import { createColumnHelper } from '@tanstack/react-table';
 import { useQuery } from '@apollo/client';
-import Table from '../../../../../../../components/Table';
-import { DateFormat, convertLocalTime } from '../../../../../../../modules/time';
-import { CollectionMint, CreationStatus, Project } from '../../../../../../../graphql.types';
-import { GetProjectCollectionMints } from './../../../../../../../queries/collections.graphql';
-import Typography, { Size } from '../../../../../../../components/Typography';
+import Table from '../../../../../../../../components/Table';
+import { DateFormat, convertLocalTime } from '../../../../../../../../modules/time';
+import { CollectionMint, CreationStatus, Project } from '../../../../../../../../graphql.types';
+import { GetProjectCollectionMints } from './../../../../../../../../queries/collections.graphql';
+import Typography, { Size } from '../../../../../../../../components/Typography';
 import { format } from 'date-fns';
 import Link from 'next/link';
-import { Icon } from '../../../../../../../components/Icon';
+import { Icon } from '../../../../../../../../components/Icon';
 import { PopoverBox } from '@holaplex/ui-library-react';
 import clsx from 'clsx';
 
@@ -107,7 +107,10 @@ export default function Nfts({ loading, project, collection }: NftsProps) {
               cell: (info) => {
                 const collectionMint = info.row.original;
                 return (
-                  <div className="flex gap-2 items-center">
+                  <Link
+                    className="flex gap-2 items-center"
+                    href={`/projects/${project}/collections/${collection}/nfts/${collectionMint.id}/transfers`}
+                  >
                     <img
                       src={collectionMint?.metadataJson?.image as string}
                       className="aspect-square rounded-lg object-cover w-8 h-8"
@@ -115,7 +118,7 @@ export default function Nfts({ loading, project, collection }: NftsProps) {
                     <span className="text-xs text-white font-medium justify-middle">
                       {info.getValue()}
                     </span>
-                  </div>
+                  </Link>
                 );
               },
             }),

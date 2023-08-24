@@ -1,4 +1,9 @@
-import { RegistrationFlow, UiNodeInputAttributes, ContinueWithVerificationUi, UiText } from '@ory/client';
+import {
+  RegistrationFlow,
+  UiNodeInputAttributes,
+  ContinueWithVerificationUi,
+  UiText,
+} from '@ory/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';

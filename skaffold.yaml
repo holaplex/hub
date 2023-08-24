@@ -22,6 +22,7 @@ build:
             dest: .
           - src: 'src/mutations/*.graphql'
             dest: .
+
 portForward:
   - resourceType: service
     resourceName: apisix-gateway
@@ -118,6 +119,11 @@ deploy:
         remoteChart: postgresql
         valuesFiles:
           - .helm/values.treasuries.postgresql.yaml
+      - name: hub-analytics-db
+        repo: https://charts.bitnami.com/bitnami
+        remoteChart: postgresql
+        valuesFiles:
+          - .helm/values.analytics.postgresql.yaml
       - name: mailhog
         repo: https://codecentric.github.io/helm-charts
         remoteChart: mailhog
@@ -145,6 +151,12 @@ deploy:
         valuesFiles:
           - .helm/values.identities.yaml
           - .helm/secrets.identities.yaml
+      - name: hub-analytics
+        remoteChart: hub-analytics
+        repo: https://charts.holaplex.com
+        valuesFiles:
+          - .helm/values.analytics.yaml
+          - .helm/secrets.analytics.yaml
       - name: hub-orgs
         remoteChart: hub-orgs
         repo: https://charts.holaplex.com

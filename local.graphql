@@ -14,6 +14,10 @@ extend type CollectionCreator {
   shortAddress: String!
 }
 
+extend type MintCreator {
+  shortAddress: String!
+}
+
 extend type Holder {
   shortAddress: String!
   exploreLink: String
@@ -21,12 +25,29 @@ extend type Holder {
 
 extend type CollectionMint {
   ownerShortAddress: String!
+  ownerExplorerLink: String
   shortAddress: String!
   transactionLink: String
+  shortTx: String!
+  royalties: String!
+  exploreLink: String
+  editable: Boolean!
 }
 
 extend type MintHistory {
   shortWallet: String!
-  shortTx: String!
+  shortTx: String
   transactionLink: String
+}
+
+extend type UpdateHistory {
+  shortTx: String
+  transactionLink: String
+}
+
+extend type NftTransfer {
+  shortSender: String!
+  shortRecipient: String!
+  transactionLink: String
+  shortTx: String
 }
