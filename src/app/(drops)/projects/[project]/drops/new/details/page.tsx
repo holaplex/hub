@@ -245,6 +245,12 @@ export default function NewDropDetailsPage() {
           </Button>
         </Form>
       </Card>
+      <p className="mt-4 text-gray-400">
+        Looking for compression?{' '}
+        <a className="text-yellow-300 font-semibold hover:underline hover:text-yellow-400 transition cursor-pointer" href="https://docs.holaplex.com/hub/Guides/cnfts/" target="_blank">
+          Learn more
+        </a>
+      </p>
     </>
   );
 }
