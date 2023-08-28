@@ -131,7 +131,11 @@ export default function CollectionNft({
             {collectionMintData?.editable && (
               <div className="flex items-center gap-2">
                 <Link href={`/projects/${project}/collections/${collection}/nfts/${nft}/edit`}>
-                  <Button variant="secondary" icon={<Icon.Edit2 stroke="stroke-yellow-300" />}>
+                  <Button
+                    variant="secondary"
+                    className="group"
+                    icon={<Icon.Edit2 stroke="stroke-yellow-300" />}
+                  >
                     Edit
                   </Button>
                 </Link>

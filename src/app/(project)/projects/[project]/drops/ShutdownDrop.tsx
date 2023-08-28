@@ -8,6 +8,7 @@ import Typography, { Size } from '../../../../../components/Typography';
 import { Project, ShutdownDropInput, ShutdownDropPayload } from '../../../../../graphql.types';
 import { ShutdownDrop as ShutdownDropMutation } from './../../../../../mutations/drop.graphql';
 import { useRouter } from 'next/navigation';
+import { T } from 'ramda';
 
 interface GetDropData {
   project: Project;
@@ -96,13 +97,17 @@ export default function ShutdownDrop({ drop, project }: ShutdownDropProps) {
           </>
         ) : (
           <>
-            <Typography.Header size={Size.H3} className="mt-2">
+            <Typography.Paragraph className="mt-2 text-left text-gray-400">
               Are you sure you want to shut-down{' '}
               <span className="text-white font-medium">
                 {dropQuery.data?.project.drop?.collection.metadataJson?.name}
               </span>{' '}
               minting?
-            </Typography.Header>
+            </Typography.Paragraph>
+            <Typography.Paragraph className="mt-2 text-left text-gray-400">
+              <span className="font-semibold">This action can not be undone.</span> If you want to mint more NFTs in the future, instead
+              pause the drop and resume it later.
+            </Typography.Paragraph>
 
             <div className="flex flex-col gap-2 mt-4">
               <Button

@@ -15,7 +15,6 @@ import {
 } from './../../../../../../modules/time';
 import { useQuery } from '@apollo/client';
 import {
-  AssetType,
   Blockchain,
   CreatorInput,
   DropStatus,
@@ -66,9 +65,9 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
   let blockchainIcon = useMemo(() => {
     switch (dropData?.collection.blockchain) {
       case Blockchain.Solana:
-        return <Icon.Crypto.Sol className="cursor-pointer" />;
+        return <Icon.Crypto.Sol />;
       case Blockchain.Polygon:
-        return <Icon.Crypto.Polygon className="cursor-pointer" />;
+        return <Icon.Crypto.Polygon />;
       default:
         return <></>;
     }
@@ -145,9 +144,9 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
             <div className="flex items-center gap-2">
               <Link
                 href={`/projects/${project}/drops/${drop}/edit`}
-                className="border-2 border-yellow-300 rounded-md p-2"
+                className="border-2 border-yellow-300 rounded-md p-2 group hover:border-yellow-500"
               >
-                <Icon.Edit2 stroke="stroke-yellow-300" />
+                <Icon.Edit2 stroke="stroke-yellow-300" className="group-hover:stroke-yellow-500" />
               </Link>
               <Link href={`/projects/${project}/drops/${drop}/help`}>
                 <Button variant="secondary">?</Button>
@@ -229,18 +228,18 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                 {dropQuery.data?.project?.drop?.status === DropStatus.Paused && (
                   <Link
                     href={`/projects/${project}/drops/${drop}/resume`}
-                    className="border border-yellow-300 rounded-lg p-2 cursor-pointer"
+                    className="border border-yellow-300 rounded-lg p-2 cursor-pointer group hover:border-yellow-500"
                   >
-                    <Icon.Play stroke="stroke-yellow-300" />
+                    <Icon.Play stroke="stroke-yellow-300" className="group-hover:stroke-yellow-500" />
                   </Link>
                 )}
 
                 {dropQuery.data?.project?.drop?.status === DropStatus.Minting && (
                   <Link
                     href={`/projects/${project}/drops/${drop}/pause`}
-                    className="border border-yellow-300 rounded-lg p-2 cursor-pointer"
+                    className="border border-yellow-300 rounded-lg p-2 cursor-pointer group hover:border-yellow-500"
                   >
-                    <Icon.Pause2 stroke="stroke-yellow-300" />
+                    <Icon.Pause2 stroke="stroke-yellow-300" className="group-hover:stroke-yellow-500" />
                   </Link>
                 )}
                 {(dropQuery.data?.project?.drop?.status === DropStatus.Minting ||
@@ -248,9 +247,9 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                   dropQuery.data?.project?.drop?.status === DropStatus.Scheduled) && (
                   <Link
                     href={`/projects/${project}/drops/${drop}/shutdown`}
-                    className="border border-yellow-300 rounded-lg p-2 cursor-pointer"
+                    className="border border-yellow-300 rounded-lg p-2 cursor-pointer group hover:border-yellow-500"
                   >
-                    <Icon.Cross stroke="stroke-yellow-300" />
+                    <Icon.Cross stroke="stroke-yellow-300 group-hover:stroke-yellow-500" />
                   </Link>
                 )}
               </div>
@@ -271,10 +270,9 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                 <div className="basis-1/2 h-full flex flex-col px-4 gap-2 text-sm">
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-gray-400">Blockchain</span>
-                    <PopoverBox
-                      triggerButton={blockchainIcon}
-                      elements={[<span key="blockchain">{dropData?.collection.blockchain}</span>]}
-                    />
+                    <span className="flex align-middle">
+                      {blockchainIcon} {dropData?.collection.blockchain}
+                    </span>
                   </div>
                   {dropData?.collection.address && (
                     <div className="flex items-center justify-between gap-2">

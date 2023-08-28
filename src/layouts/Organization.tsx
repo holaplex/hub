@@ -90,6 +90,13 @@ export default function Organization({
                   href="/settings"
                   active={segments[0] === 'settings'}
                 />
+                <Sidebar.Menu.Link
+                  name="Getting started"
+                  icon={<Icon.LightBulb stroke="stroke-gray-400" width={20} height={20} />}
+                  href="https://www.holaplex.com/getting-started"
+                  target="_blank"
+                  active={false}
+                />
               </Sidebar.Menu>
               <Sidebar.Footer organization={organization} />
             </Sidebar.Panel>
