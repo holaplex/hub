@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.4",
+    "@bugsnag/js": "^7.20.2",
+    "@bugsnag/plugin-react": "^7.19.0",
     "@holaplex/ui-library-react": "^0.19.0",
     "@ory/client": "^1.1.41",
     "@ory/integrations": "^1.1.0",

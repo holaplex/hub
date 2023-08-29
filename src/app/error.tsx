@@ -5,8 +5,10 @@ import Image from 'next/image';
 import { Icon } from '../components/Icon';
 import { Button } from '@holaplex/ui-library-react';
 import Typography from '../components/Typography';
+import Bugsnag from '@bugsnag/js';
 
 export default function AppError({ error, reset }: { error: Error; reset: () => void }) {
+  Bugsnag.notify(error, (event) => {});
   return (
     <main className="w-full flex justify-center align-middle flex-col h-screen">
       <Card className="flex flex-col gap-6 w-96 mx-auto justify-center items-center text-center">
