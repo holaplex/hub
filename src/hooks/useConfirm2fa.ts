@@ -10,31 +10,30 @@ import { toast } from 'react-toastify';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 import { useSession } from './useSession';
 
-interface LoginForm {
-  identifier: string;
-  password: string;
+interface TwoFactorConfirmForm {
+  totp_code: string;
 }
 
 interface LoginResponse {
   redirect_path: string;
 }
 
-interface LoginContext {
-  submit: (values: LoginForm) => Promise<void>;
-  register: UseFormRegister<LoginForm>;
-  handleSubmit: UseFormHandleSubmit<LoginForm>;
-  formState: FormState<LoginForm>;
+interface Confirm2faContext {
+  submit: (values: TwoFactorConfirmForm) => Promise<void>;
+  register: UseFormRegister<TwoFactorConfirmForm>;
+  handleSubmit: UseFormHandleSubmit<TwoFactorConfirmForm>;
+  formState: FormState<TwoFactorConfirmForm>;
 }
 
-export function useLogin(flow: LoginFlow | undefined): LoginContext {
+export function useConfirm2fa(flow: LoginFlow | undefined): Confirm2faContext {
   const router = useRouter();
   const { setSession } = useSession();
   const search = useSearchParams();
   const { ory } = useOry();
 
-  const { register, handleSubmit, formState, setError } = useForm<LoginForm>();
+  const { register, handleSubmit, formState } = useForm<TwoFactorConfirmForm>();
 
-  const onSubmit = async (values: LoginForm): Promise<void> => {
+  const onSubmit = async ({ totp_code }: TwoFactorConfirmForm): Promise<void> => {
     if (!flow) {
       return;
     }
@@ -48,23 +47,10 @@ export function useLogin(flow: LoginFlow | undefined): LoginContext {
         flow: flow.id,
         updateLoginFlowBody: {
           csrf_token: csrfToken,
-          method: SessionAuthenticationMethodMethodEnum.Password,
-          ...values,
+          method: SessionAuthenticationMethodMethodEnum.Totp,
+          totp_code,
         },
       });
-
-      try {
-        await ory.toSession();
-      } catch (err: any) {
-        if (err.response.data.error.id === 'session_aal2_required') {
-          router.push(
-            `/login?aal=aal2${
-              search?.has('return_to') ? `&return_to=${search.get('return_to')}` : ''
-            }`
-          );
-          return;
-        }
-      }
 
       setSession(response.data.session);
     } catch (err: any) {

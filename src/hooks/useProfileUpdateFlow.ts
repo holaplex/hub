@@ -25,6 +25,7 @@ export function useProfileUpdateFlow(): ProfileUpdateFlowContext {
     (async () => {
       try {
         const { data } = await ory.createBrowserSettingsFlow({ returnTo });
+        debugger;
         setFlow(data);
       } catch (err: any) {
       } finally {

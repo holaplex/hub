@@ -13,6 +13,7 @@ import { useQuery } from '@apollo/client';
 import { useSession } from '../../../hooks/useSession';
 import { GetUser } from './../../../queries/user.graphql';
 import { useEffect } from 'react';
+import { extractFlowNode } from '../../../modules/ory';
 import Link from 'next/link';
 
 interface GetUserData {
@@ -46,7 +47,6 @@ export default function EditProfile() {
       reset({
         name: { first: userData.firstName, last: userData.lastName },
         file: userData?.profileImage as string | undefined,
-        email: userData.email,
       });
     }
   }, [reset, userData]);
@@ -154,6 +154,21 @@ export default function EditProfile() {
               Update password
             </Button>
           </Link> */}
+            {session?.authenticator_assurance_level === 'aal2' ? (
+              <Button variant="failure" className="w-full mt-5" disabled={formState.isSubmitted}>
+                Unlink 2FA
+              </Button>
+            ) : (
+              <Link href="/profile/2fa">
+                <Button
+                  variant="secondary"
+                  className="w-full mt-5"
+                  disabled={formState.isSubmitted}
+                >
+                  Setup 2FA
+                </Button>
+              </Link>
+            )}
 
             <hr className="w-full bg-stone-800 border-0 h-px my-5" />
 
@@ -162,15 +177,15 @@ export default function EditProfile() {
                 variant="secondary"
                 className="w-full basis-1/2"
                 onClick={onClose}
-                disabled={formState.isSubmitted}
+                disabled={formState.isSubmitting}
               >
                 Cancel
               </Button>
               <Button
                 htmlType="submit"
                 className="w-full basis-1/2"
-                loading={formState.isSubmitted}
-                disabled={formState.isSubmitted}
+                loading={formState.isSubmitting}
+                disabled={formState.isSubmitting}
               >
                 Save changes
               </Button>

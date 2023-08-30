@@ -19,7 +19,6 @@ import { useSession } from './useSession';
 
 interface ProfileUpdateForm {
   name: { first: string; last: string };
-  email: string;
   file?: string | File | undefined;
 }
 
@@ -42,7 +41,7 @@ export function useProfileUpdate(flow: SettingsFlow | undefined): ProfileUpdateC
   const { register, handleSubmit, formState, setError, setValue, control, reset } =
     useForm<ProfileUpdateForm>();
 
-  const onSubmit = async ({ email, name, file }: ProfileUpdateForm): Promise<void> => {
+  const onSubmit = async ({ name, file }: ProfileUpdateForm): Promise<void> => {
     if (!flow) {
       return;
     }
@@ -61,7 +60,11 @@ export function useProfileUpdate(flow: SettingsFlow | undefined): ProfileUpdateC
       await ory.updateSettingsFlow({
         flow: flow.id,
         updateSettingsFlowBody: {
-          traits: { email, name, profile_image: profileImageUrl },
+          traits: {
+            email: session?.identity.traits.email,
+            name,
+            profile_image: profileImageUrl,
+          },
           csrf_token: csrfToken,
           method: 'profile',
         },
@@ -84,9 +87,9 @@ export function useProfileUpdate(flow: SettingsFlow | undefined): ProfileUpdateC
         }
       );
 
-      toast.info('Profile updated successfully');
+      toast.success('Profile updated successfully');
 
-      router.back();
+      router.push(`/projects`);
     } catch (err: any) {
       const {
         response: {
@@ -96,13 +99,10 @@ export function useProfileUpdate(flow: SettingsFlow | undefined): ProfileUpdateC
         },
       } = err;
       const nameErr = extractFlowNode('name')(nodes).messages[0]?.text;
-      const emailErr = extractFlowNode('email')(nodes).messages[0]?.text;
       const profileImageErr = extractFlowNode('profile_image')(nodes).messages[0]?.text;
 
       if (nameErr) {
         setError('name', { message: nameErr });
-      } else if (emailErr) {
-        setError('email', { message: emailErr });
       } else if (profileImageErr) {
         setError('file', { message: profileImageErr });
       }
