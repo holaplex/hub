@@ -272,8 +272,6 @@ export default function Drops({ project }: DropsPageProps) {
 
                           const percent = Math.ceil((totalMints / supply) * 100);
 
-                          console.log(status)
-
                           return (
                             <div className="flex gap-2 items-center">
                               {supply ? (

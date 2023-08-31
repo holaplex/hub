@@ -17,6 +17,7 @@ import { useApolloClient } from '@apollo/client';
 import { GetUser } from './../queries/user.graphql';
 import { useSession } from './useSession';
 import { useProfileUpdateFlow, ProfileUpdateFlowContext } from './useProfileUpdateFlow';
+import { useLogout } from './useLogout';
 
 interface Unlink2faForm {}
 
@@ -36,6 +37,7 @@ export function useProfileUnlink2fa(): ProfileUpdateContext {
   const router = useRouter();
   const { ory } = useOry();
   const { setSession } = useSession();
+  const { logout } = useLogout();
   const flow = flowContext.flow;
 
   const { register, handleSubmit, formState, setError, setValue, control, reset } =
@@ -59,18 +61,11 @@ export function useProfileUnlink2fa(): ProfileUpdateContext {
         },
       });
 
-      try {
-        const sessionResponse = await ory.toSession();
+      toast.success(
+        '2FA was unlinked successfully. Remember to remove the authenticator app. You must log back in to continue.'
+      );
 
-        setSession(sessionResponse.data);
-      } catch (e: any) {
-        toast.error('Failed to refresh session.');
-        return;
-      }
-
-      toast.success('2FA was unlinked successfully. Remember to remove the authenticator app.');
-
-      router.push(`/projects`);
+      logout();
     } catch (err: any) {
       const message = err.response.data.ui.messages[0].text;
       toast.error(message);

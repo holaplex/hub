@@ -41,7 +41,6 @@ export default function Invite({ invite }: InviteProps) {
     variables: { invite },
   });
 
-  console.log('data', inviteQuery.data);
   const [acceptInvite, { loading }] = useMutation<AcceptInputData, AcceptInviteVars>(AcceptInvite);
   const onClick = () => {
     acceptInvite({
