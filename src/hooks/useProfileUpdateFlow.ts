@@ -6,7 +6,7 @@ import { SettingsFlow } from '@ory/client';
 
 const defaultUndefined = defaultTo(undefined);
 
-interface ProfileUpdateFlowContext {
+export interface ProfileUpdateFlowContext {
   flow?: SettingsFlow;
   loading: boolean;
 }

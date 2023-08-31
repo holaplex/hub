@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useOry } from './useOry';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { defaultTo } from 'ramda';
-import { LoginFlow } from '@ory/client';
+import { AuthenticatorAssuranceLevel, LoginFlow } from '@ory/client';
 import { toast } from 'react-toastify';
 
 interface LoginResponse {
@@ -16,7 +16,9 @@ interface LoginFlowContext {
   loading: boolean;
 }
 
-export function useLoginFlow(): LoginFlowContext {
+export function useLoginFlow(
+  aal: AuthenticatorAssuranceLevel = AuthenticatorAssuranceLevel.Aal1
+): LoginFlowContext {
   const [flow, setFlow] = useState<LoginFlow>();
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
@@ -29,7 +31,7 @@ export function useLoginFlow(): LoginFlowContext {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await ory.createBrowserLoginFlow({ returnTo });
+        const { data } = await ory.createBrowserLoginFlow({ returnTo, aal, refresh: true });
 
         setFlow(data);
       } catch (err: any) {

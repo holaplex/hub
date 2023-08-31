@@ -13,8 +13,10 @@ import { useQuery } from '@apollo/client';
 import { useSession } from '../../../hooks/useSession';
 import { GetUser } from './../../../queries/user.graphql';
 import { useEffect } from 'react';
-import { extractFlowNode } from '../../../modules/ory';
 import Link from 'next/link';
+import { useProfileUnlink2fa } from '../../../hooks/useProfileUnlink2fa';
+import Divider from '../../../components/Divider';
+import { AuthenticatorAssuranceLevel } from '@ory/client';
 
 interface GetUserData {
   user: User;
@@ -26,9 +28,9 @@ interface GetUserVars {
 export default function EditProfile() {
   const { session } = useSession();
   const router = useRouter();
-  const { flow, loading: flowLoading } = useProfileUpdateFlow();
-  const { submit, register, handleSubmit, formState, setValue, control, reset } =
-    useProfileUpdate(flow);
+  const unlink2fa = useProfileUnlink2fa();
+  const { submit, register, handleSubmit, formState, setValue, control, reset, flowContext } =
+    useProfileUpdate();
 
   const userQuery = useQuery<GetUserData, GetUserVars>(GetUser, {
     variables: { user: session?.identity.id! },
@@ -40,7 +42,7 @@ export default function EditProfile() {
     router.back();
   };
 
-  const loading = userQuery.loading || flowLoading;
+  const loading = userQuery.loading || flowContext.loading || unlink2fa.flowContext.loading;
 
   useEffect(() => {
     if (userData) {
@@ -81,7 +83,7 @@ export default function EditProfile() {
       ) : (
         <>
           <Typography.Header size={Size.H2}>Edit profile</Typography.Header>
-          <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
+          <Form className="flex flex-col mt-5 gap-6" onSubmit={handleSubmit(submit)}>
             <Form.Label name="Profile picture" className="text-xs text-white">
               <Controller
                 name="file"
@@ -126,7 +128,7 @@ export default function EditProfile() {
               />
             </Form.Label>
 
-            <div className="flex items-center gap-6 mt-5">
+            <div className="flex items-center gap-6">
               <Form.Label name="First name" className="text-xs basis-1/2">
                 <Form.Input
                   {...register('name.first', {
@@ -150,34 +152,17 @@ export default function EditProfile() {
             </div>
 
             {/* <Link href="/profile/password/edit">
-          <Button variant="secondary" className="w-full mt-5" onClick={updatePassword} disabled={formState.isSubmitted}>
+          <Button variant="secondary" className="w-full mt-5" onClick={updatePassword} disabled={formState.isSubmitting}>
               Update password
             </Button>
           </Link> */}
-            {session?.authenticator_assurance_level === 'aal2' ? (
-              <Button variant="failure" className="w-full mt-5" disabled={formState.isSubmitted}>
-                Unlink 2FA
-              </Button>
-            ) : (
-              <Link href="/profile/2fa">
-                <Button
-                  variant="secondary"
-                  className="w-full mt-5"
-                  disabled={formState.isSubmitted}
-                >
-                  Setup 2FA
-                </Button>
-              </Link>
-            )}
-
-            <hr className="w-full bg-stone-800 border-0 h-px my-5" />
 
             <div className="flex items-center gap-6">
               <Button
                 variant="secondary"
                 className="w-full basis-1/2"
                 onClick={onClose}
-                disabled={formState.isSubmitting}
+                disabled={formState.isSubmitting || unlink2fa.formState.isSubmitting}
               >
                 Cancel
               </Button>
@@ -185,12 +170,32 @@ export default function EditProfile() {
                 htmlType="submit"
                 className="w-full basis-1/2"
                 loading={formState.isSubmitting}
-                disabled={formState.isSubmitting}
+                disabled={formState.isSubmitting || unlink2fa.formState.isSubmitting}
               >
                 Save changes
               </Button>
             </div>
           </Form>
+          <Divider.Or className="my-6" />
+          {session?.authenticator_assurance_level === AuthenticatorAssuranceLevel.Aal2 ? (
+            <Form onSubmit={unlink2fa.handleSubmit(unlink2fa.submit)}>
+              <Button
+                variant="failure"
+                className="w-full"
+                htmlType="submit"
+                loading={unlink2fa.formState.isSubmitting}
+                disabled={formState.isSubmitting || unlink2fa.formState.isSubmitting}
+              >
+                Unlink 2FA
+              </Button>
+            </Form>
+          ) : (
+            <Link href="/profile/2fa">
+              <Button variant="secondary" className="w-full" disabled={formState.isSubmitting}>
+                Setup 2FA
+              </Button>
+            </Link>
+          )}
         </>
       )}
     </Card>

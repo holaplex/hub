@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import { useApolloClient } from '@apollo/client';
 import { GetUser } from './../queries/user.graphql';
 import { useSession } from './useSession';
+import { useProfileUpdateFlow, ProfileUpdateFlowContext } from './useProfileUpdateFlow';
 
 interface ProfileUpdateForm {
   name: { first: string; last: string };
@@ -30,14 +31,17 @@ interface ProfileUpdateContext {
   setValue: UseFormSetValue<ProfileUpdateForm>;
   control: Control<ProfileUpdateForm, any>;
   reset: UseFormReset<ProfileUpdateForm>;
+  flowContext: ProfileUpdateFlowContext;
 }
 
-export function useProfileUpdate(flow: SettingsFlow | undefined): ProfileUpdateContext {
+export function useProfileUpdate(): ProfileUpdateContext {
+  const flowContext = useProfileUpdateFlow();
   const router = useRouter();
   const { ory } = useOry();
   const client = useApolloClient();
   const { session } = useSession();
 
+  const flow = flowContext.flow;
   const { register, handleSubmit, formState, setError, setValue, control, reset } =
     useForm<ProfileUpdateForm>();
 
@@ -117,5 +121,6 @@ export function useProfileUpdate(flow: SettingsFlow | undefined): ProfileUpdateC
     setValue,
     control,
     reset,
+    flowContext
   };
 }
