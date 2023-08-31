@@ -26,7 +26,6 @@ export default function MemberDeletePage() {
               <div
                 className="text-white font-semibold text-xs cursor-pointer"
                 onClick={() => {
-                  console.log('Max clicked');
                 }}
               >
                 MAX

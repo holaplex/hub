@@ -8,7 +8,7 @@ import { Session } from '@ory/client';
 import Script from 'next/script';
 
 export const metadata = {
-  title: 'Holaplex Hub',
+  title: 'Holaplex HUB',
 };
 
 const client = ory(serverConfig);

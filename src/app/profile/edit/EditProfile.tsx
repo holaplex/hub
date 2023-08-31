@@ -14,6 +14,11 @@ import { useSession } from '../../../hooks/useSession';
 import { GetUser } from './../../../queries/user.graphql';
 import { useEffect } from 'react';
 import Link from 'next/link';
+import { useProfileUnlink2fa } from '../../../hooks/useProfileUnlink2fa';
+import { use2faRecovery } from '../../../hooks/use2faRecovery';
+import Divider from '../../../components/Divider';
+import { AuthenticatorAssuranceLevel, UiNodeTextAttributes } from '@ory/client';
+import { extractFlowNodeAttribute } from '../../../modules/ory';
 
 interface GetUserData {
   user: User;
@@ -22,16 +27,22 @@ interface GetUserVars {
   user: string;
 }
 
+const extractLookupSecretCodes = extractFlowNodeAttribute('lookup_secret_codes');
+
 export default function EditProfile() {
   const { session } = useSession();
   const router = useRouter();
-  const { flow, loading: flowLoading } = useProfileUpdateFlow();
-  const { submit, register, handleSubmit, formState, setValue, control, reset } =
-    useProfileUpdate(flow);
+  const unlink2fa = useProfileUnlink2fa();
+  const regenerate2fa = use2faRecovery();
+  const { submit, register, handleSubmit, formState, setValue, control, reset, flowContext } =
+    useProfileUpdate();
 
   const userQuery = useQuery<GetUserData, GetUserVars>(GetUser, {
     variables: { user: session?.identity.id! },
   });
+  const lookupSecretsCodes = extractLookupSecretCodes(
+    regenerate2fa.flowContext?.flow?.ui.nodes || []
+  )?.attributes as UiNodeTextAttributes;
 
   const userData = userQuery.data?.user;
 
@@ -39,14 +50,17 @@ export default function EditProfile() {
     router.back();
   };
 
-  const loading = userQuery.loading || flowLoading;
+  const loading =
+    userQuery.loading ||
+    flowContext.loading ||
+    unlink2fa.flowContext.loading ||
+    regenerate2fa.flowContext.loading;
 
   useEffect(() => {
     if (userData) {
       reset({
         name: { first: userData.firstName, last: userData.lastName },
         file: userData?.profileImage as string | undefined,
-        email: userData.email,
       });
     }
   }, [reset, userData]);
@@ -81,7 +95,7 @@ export default function EditProfile() {
       ) : (
         <>
           <Typography.Header size={Size.H2}>Edit profile</Typography.Header>
-          <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
+          <Form className="flex flex-col mt-5 gap-6" onSubmit={handleSubmit(submit)}>
             <Form.Label name="Profile picture" className="text-xs text-white">
               <Controller
                 name="file"
@@ -126,7 +140,7 @@ export default function EditProfile() {
               />
             </Form.Label>
 
-            <div className="flex items-center gap-6 mt-5">
+            <div className="flex items-center gap-6">
               <Form.Label name="First name" className="text-xs basis-1/2">
                 <Form.Input
                   {...register('name.first', {
@@ -150,32 +164,114 @@ export default function EditProfile() {
             </div>
 
             {/* <Link href="/profile/password/edit">
-          <Button variant="secondary" className="w-full mt-5" onClick={updatePassword} disabled={formState.isSubmitted}>
+          <Button variant="secondary" className="w-full mt-5" onClick={updatePassword} disabled={formState.isSubmitting}>
               Update password
             </Button>
           </Link> */}
-
-            <hr className="w-full bg-stone-800 border-0 h-px my-5" />
 
             <div className="flex items-center gap-6">
               <Button
                 variant="secondary"
                 className="w-full basis-1/2"
                 onClick={onClose}
-                disabled={formState.isSubmitted}
+                disabled={
+                  formState.isSubmitting ||
+                  unlink2fa.formState.isSubmitting ||
+                  regenerate2fa.formState.isSubmitting
+                }
               >
                 Cancel
               </Button>
               <Button
                 htmlType="submit"
                 className="w-full basis-1/2"
-                loading={formState.isSubmitted}
-                disabled={formState.isSubmitted}
+                loading={formState.isSubmitting}
+                disabled={
+                  formState.isSubmitting ||
+                  unlink2fa.formState.isSubmitting ||
+                  regenerate2fa.formState.isSubmitting
+                }
               >
                 Save changes
               </Button>
             </div>
           </Form>
+          <Divider.Or className="my-6" />
+
+          {session?.authenticator_assurance_level === AuthenticatorAssuranceLevel.Aal2 ? (
+            <>
+              <Form onSubmit={regenerate2fa.handleSubmit(regenerate2fa.submit)}>
+                <Form.Label
+                  name="2FA backup code"
+                  className="text-xs"
+                  asideComponent={
+                    lookupSecretsCodes?.text?.text ? (
+                      <Link
+                        href="/projects"
+                        className="text-yellow-300 transition hover:underline hover:text-yellow-500 cursor-pointer"
+                      >
+                        Exit
+                      </Link>
+                    ) : (
+                      <></>
+                    )
+                  }
+                >
+                  {lookupSecretsCodes?.text?.text ? (
+                    <div className="bg-gray-800 rounded-lg flex flex-col justify-center align-middle w-full py-8 px-2 mb-6">
+                      <span className="grid grid-cols-3 gap-6 text-gray-400 text-xs text-center">
+                        {lookupSecretsCodes.text.text.split(', ').map((code) => {
+                          return <pre key={code}>{code}</pre>;
+                        })}
+                      </span>
+                      <button
+                        type="submit"
+                        className="text-yellow-300 text-sm w-full mt-4 hover:underline hover:text-yellow-500 cursor-pointer transition"
+                      >
+                        Regenerate new code
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="bg-gray-800 rounded-lg flex flex-row justify-center align-middle text-yellow-300 text-sm w-full py-8 mb-6 hover:opacity-80 transition cursor-pointer"
+                    >
+                      View backup code
+                    </button>
+                  )}
+                </Form.Label>
+              </Form>
+              <Form onSubmit={unlink2fa.handleSubmit(unlink2fa.submit)}>
+                <Button
+                  variant="failure"
+                  className="w-full"
+                  htmlType="submit"
+                  loading={unlink2fa.formState.isSubmitting}
+                  disabled={
+                    formState.isSubmitting ||
+                    unlink2fa.formState.isSubmitting ||
+                    regenerate2fa.formState.isSubmitting
+                  }
+                >
+                  Unlink 2FA
+                </Button>
+              </Form>
+            </>
+          ) : (
+            <Link href="/profile/2fa">
+              <Button
+                variant="secondary"
+                className="w-full"
+                disabled={
+                  formState.isSubmitting ||
+                  regenerate2fa.formState.isSubmitting ||
+                  unlink2fa.formState.isSubmitting
+                }
+              >
+                Setup 2FA
+              </Button>
+            </Link>
+          )}
         </>
       )}
     </Card>

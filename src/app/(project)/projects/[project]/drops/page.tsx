@@ -1,7 +1,7 @@
 import Drops from './Drops';
 
 export const metadata = {
-  title: 'Holaplex Hub | Project | Drops',
+  title: 'Holaplex HUB | Project | Drops',
 };
 
 interface DropsPageProps {

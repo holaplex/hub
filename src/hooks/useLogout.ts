@@ -13,7 +13,7 @@ export function useLogout(): LogoutContext {
   const { ory } = useOry();
 
   const logout = useCallback(() => {
-    ory
+    return ory
       .createBrowserLogoutFlow()
       .then(({ data }) => {
         return ory.updateLogoutFlow({ token: data.logout_token });
