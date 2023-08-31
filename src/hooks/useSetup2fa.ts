@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 import { useSession } from './useSession';
 
 interface TwoFactorAuthenticationSetupFrom {
-  verification: string;
+  totp_code: string;
 }
 
 interface TwoFactorAuthenticationSetupContext {
@@ -36,7 +36,7 @@ export function useSetup2fa(flow: SettingsFlow | undefined): TwoFactorAuthentica
   const { register, handleSubmit, formState, setError, setValue, control, reset } =
     useForm<TwoFactorAuthenticationSetupFrom>();
 
-  const onSubmit = async ({ verification }: TwoFactorAuthenticationSetupFrom): Promise<void> => {
+  const onSubmit = async ({ totp_code }: TwoFactorAuthenticationSetupFrom): Promise<void> => {
     if (!flow) {
       return;
     }
@@ -48,7 +48,7 @@ export function useSetup2fa(flow: SettingsFlow | undefined): TwoFactorAuthentica
       await ory.updateSettingsFlow({
         flow: flow.id,
         updateSettingsFlowBody: {
-          totp_code: verification,
+          totp_code,
           csrf_token: csrfToken,
           method: 'totp',
         },
@@ -74,10 +74,10 @@ export function useSetup2fa(flow: SettingsFlow | undefined): TwoFactorAuthentica
           },
         },
       } = err;
-      const verificationErr = extractFlowNode('verification')(nodes).messages[0]?.text;
+      const verificationErr = extractFlowNode('totp_code')(nodes).messages[0]?.text;
 
       if (verificationErr) {
-        setError('verification', { message: verificationErr });
+        setError('totp_code', { message: verificationErr });
       }
     }
   };

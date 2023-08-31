@@ -11,37 +11,33 @@ import {
   UseFormReset,
   UseFormSetValue,
 } from 'react-hook-form';
-import { uploadFile } from '../modules/upload';
 import { toast } from 'react-toastify';
 import { useApolloClient } from '@apollo/client';
-import { GetUser } from './../queries/user.graphql';
 import { useSession } from './useSession';
 import { useProfileUpdateFlow, ProfileUpdateFlowContext } from './useProfileUpdateFlow';
 
-interface Unlink2faForm {}
+interface Recover2faRecoveryForm {}
 
 interface ProfileUpdateContext {
-  submit: (values: Unlink2faForm) => Promise<void>;
-  register: UseFormRegister<Unlink2faForm>;
-  handleSubmit: UseFormHandleSubmit<Unlink2faForm>;
-  formState: FormState<Unlink2faForm>;
-  setValue: UseFormSetValue<Unlink2faForm>;
-  control: Control<Unlink2faForm, any>;
-  reset: UseFormReset<Unlink2faForm>;
+  submit: (values: Recover2faRecoveryForm) => Promise<void>;
+  register: UseFormRegister<Recover2faRecoveryForm>;
+  handleSubmit: UseFormHandleSubmit<Recover2faRecoveryForm>;
+  formState: FormState<Recover2faRecoveryForm>;
+  setValue: UseFormSetValue<Recover2faRecoveryForm>;
+  control: Control<Recover2faRecoveryForm, any>;
+  reset: UseFormReset<Recover2faRecoveryForm>;
   flowContext: ProfileUpdateFlowContext;
 }
 
-export function useProfileUnlink2fa(): ProfileUpdateContext {
+export function use2faRecovery(): ProfileUpdateContext {
   const flowContext = useProfileUpdateFlow();
-  const router = useRouter();
   const { ory } = useOry();
-  const { setSession } = useSession();
+
   const flow = flowContext.flow;
-
   const { register, handleSubmit, formState, setError, setValue, control, reset } =
-    useForm<Unlink2faForm>();
+    useForm<Recover2faRecoveryForm>();
 
-  const onSubmit = async ({}: Unlink2faForm): Promise<void> => {
+  const onSubmit = async (): Promise<void> => {
     if (!flow) {
       return;
     }
@@ -50,30 +46,30 @@ export function useProfileUnlink2fa(): ProfileUpdateContext {
         extractFlowNode('csrf_token')(flow.ui.nodes).attributes as UiNodeInputAttributes
       ).value;
 
-      await ory.updateSettingsFlow({
+      const response = await ory.updateSettingsFlow({
         flow: flow.id,
         updateSettingsFlowBody: {
-          totp_unlink: true,
+          lookup_secret_regenerate: true,
           csrf_token: csrfToken,
-          method: 'unlink_2fa',
+          method: 'lookup',
         },
       });
 
-      try {
-        const sessionResponse = await ory.toSession();
+      flowContext.setFlow(response.data);
 
-        setSession(sessionResponse.data);
-      } catch (e: any) {
-        toast.error('Failed to refresh session.');
-        return;
-      }
-
-      toast.success('2FA was unlinked successfully. Remember to remove the authenticator app.');
-
-      router.push(`/projects`);
+      toast.success('2FA recovery codes regenerated');
     } catch (err: any) {
-      const message = err.response.data.ui.messages[0].text;
-      toast.error(message);
+      const {
+        response: {
+          data: {
+            ui: { nodes },
+          },
+        },
+      } = err;
+      const lookupSecretRegenerateErr = extractFlowNode('lookup_secret_regenerate')(nodes)
+        .messages[0]?.text;
+
+      toast.error(lookupSecretRegenerateErr);
     }
   };
 

@@ -70,7 +70,7 @@ export default function Login() {
       )}
 
       <span className="flex-wrap text-gray-400 text-xs mt-4">
-        By signing in I have read and agreed to Holaplex Hub{' '}
+        By signing in I have read and agreed to Holaplex HUB{' '}
         <Link styled={false} href="/terms-of-service" target="_blank" className="underline">
           Terms
         </Link>{' '}
