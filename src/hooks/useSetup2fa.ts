@@ -12,7 +12,7 @@ import {
   UseFormSetValue,
 } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { useSession } from './useSession';
+import { useLogout } from './useLogout';
 
 interface TwoFactorAuthenticationSetupFrom {
   totp_code: string;
@@ -29,9 +29,8 @@ interface TwoFactorAuthenticationSetupContext {
 }
 
 export function useSetup2fa(flow: SettingsFlow | undefined): TwoFactorAuthenticationSetupContext {
-  const { session, setSession } = useSession();
-  const router = useRouter();
   const { ory } = useOry();
+  const { logout } = useLogout();
 
   const { register, handleSubmit, formState, setError, setValue, control, reset } =
     useForm<TwoFactorAuthenticationSetupFrom>();
@@ -54,19 +53,11 @@ export function useSetup2fa(flow: SettingsFlow | undefined): TwoFactorAuthentica
         },
       });
 
-      try {
-        const sessionResponse = await ory.toSession();
+      toast.info('2FA setup complete. Please login again to continue.');
 
-        setSession(sessionResponse.data);
-      } catch (e: any) {
-        toast.error('Failed to refresh session.');
-        return;
-      }
-
-      toast.info('2FA setup complete.');
-
-      router.push(`/profile/edit`);
+      logout();
     } catch (err: any) {
+      console.error(err);
       const {
         response: {
           data: {

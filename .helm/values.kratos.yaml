@@ -10,6 +10,7 @@ kratos:
     public:
       enabled: false
   config:
+    version: v1.0.0
     dsn: postgres://kratos:kratos@kratos-db-postgresql:5432/kratos
     log:
       format: json

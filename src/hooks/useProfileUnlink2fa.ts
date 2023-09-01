@@ -67,6 +67,7 @@ export function useProfileUnlink2fa(): ProfileUpdateContext {
 
       logout();
     } catch (err: any) {
+      console.error(err);
       const message = err.response.data.ui.messages[0].text;
       toast.error(message);
     }
