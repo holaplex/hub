@@ -17,8 +17,12 @@ import Link from 'next/link';
 import { useProfileUnlink2fa } from '../../../hooks/useProfileUnlink2fa';
 import { use2faRecovery } from '../../../hooks/use2faRecovery';
 import Divider from '../../../components/Divider';
-import { AuthenticatorAssuranceLevel, UiNodeTextAttributes } from '@ory/client';
-import { extractFlowNodeAttribute } from '../../../modules/ory';
+import {
+  AuthenticatorAssuranceLevel,
+  UiNodeInputAttributes,
+  UiNodeTextAttributes,
+} from '@ory/client';
+import { extractFlowNode, extractFlowNodeAttribute } from '../../../modules/ory';
 
 interface GetUserData {
   user: User;
@@ -28,6 +32,7 @@ interface GetUserVars {
 }
 
 const extractLookupSecretCodes = extractFlowNodeAttribute('lookup_secret_codes');
+const extractTotpUnlink = extractFlowNode('totp_unlink');
 
 export default function EditProfile() {
   const { session } = useSession();
@@ -43,6 +48,8 @@ export default function EditProfile() {
   const lookupSecretsCodes = extractLookupSecretCodes(
     regenerate2fa.flowContext?.flow?.ui.nodes || []
   )?.attributes as UiNodeTextAttributes;
+  const totpUnlink = extractTotpUnlink(unlink2fa.flowContext?.flow?.ui.nodes || [])
+    ?.attributes as UiNodeInputAttributes;
 
   const userData = userQuery.data?.user;
 
@@ -198,7 +205,7 @@ export default function EditProfile() {
           </Form>
           <Divider.Or className="my-6" />
 
-          {session?.authenticator_assurance_level === AuthenticatorAssuranceLevel.Aal2 ? (
+          {totpUnlink ? (
             <>
               <Form onSubmit={regenerate2fa.handleSubmit(regenerate2fa.submit)}>
                 <Form.Label
