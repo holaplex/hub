@@ -3,6 +3,7 @@ import { ory, serverConfig } from '../../../modules/ory';
 import { Session } from '@ory/client';
 import { redirect } from 'next/navigation';
 import { isSessionExpired } from '../../../modules/session';
+import Setup2fa from '../2fa/Setup2fa';
 
 import { cookies } from 'next/headers';
 
@@ -24,5 +25,5 @@ export default async function EditProfilePage(): Promise<JSX.Element> {
     return redirect('/login?return_to=/profile/edit');
   }
 
-  return <EditProfile />;
+  return <Setup2fa />;
 }
