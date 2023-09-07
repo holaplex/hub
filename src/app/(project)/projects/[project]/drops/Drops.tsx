@@ -123,7 +123,7 @@ export default function Drops({ project }: DropsPageProps) {
                 <span className="mt-2 text-gray-400 text-sm">
                   Click button below to mint your first drop
                 </span>
-                <Link href={`/projects/${dropsQuery.data?.project.id}/drops/new/details`}>
+                <Link href={`/projects/${dropsQuery.data?.project.id}/drops/new/type`}>
                   <Button icon={<Icon.Add stroke="stroke-stone-950" />} className="mt-8">
                     Create drop
                   </Button>
@@ -132,7 +132,7 @@ export default function Drops({ project }: DropsPageProps) {
             ) : (
               <div className="mt-4 flex flex-col">
                 <Link
-                  href={`/projects/${dropsQuery.data?.project.id}/drops/new/details`}
+                  href={`/projects/${dropsQuery.data?.project.id}/drops/new/type`}
                   className="self-end"
                 >
                   <Button icon={<Icon.Add stroke="stroke-stone-950" />} variant="primary">
@@ -192,12 +192,10 @@ export default function Drops({ project }: DropsPageProps) {
                         const blockchain = info.getValue();
 
                         return (
-                          <PopoverBox
-                            triggerButton={
-                              <Icon.Crypto blockchain={blockchain} className="cursor-pointer" />
-                            }
-                            elements={[<span key="blockchain">{blockchain}</span>]}
-                          />
+                          <div className="flex align-middle gap-2">
+                            <Icon.Crypto blockchain={blockchain} />
+                            {blockchain}
+                          </div>
                         );
                       },
                     }),

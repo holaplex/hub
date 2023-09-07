@@ -10,10 +10,6 @@ export interface Attribute {
 export type DetailSettings = {
   name: string;
   symbol: string;
-  blockchain: {
-    id: Blockchain;
-    name: string;
-  };
   description: string;
   image: File | string;
   animationUrl?: string;
@@ -41,13 +37,17 @@ export enum RoyaltiesShortcut {
   Custom = 'custom',
 }
 
+export enum DropType {
+  Open = 'OPEN',
+  Edition = 'EDITION',
+}
+
 export enum RoyaltiesDestination {
   ProjectTreasury = 'projectTreasury',
   Creators = 'creators',
 }
 
 export type PaymentSettings = {
-  supply: string;
   royaltiesDestination: RoyaltiesDestination;
   creators: CreatorInput[];
   royaltiesShortcut: RoyaltiesShortcut;
@@ -63,13 +63,24 @@ export type TimingSettings = {
   selectEndDate: string;
 };
 
+export type TypeSettings = {
+  supply: string;
+  type: DropType;
+  blockchain: {
+    id: Blockchain;
+    name: string;
+  };
+};
+
 export interface DropFormProps {
   detail?: DetailSettings;
   payment?: PaymentSettings;
   timing?: TimingSettings;
+  type?: TypeSettings;
 }
 
 export interface DropFormState extends DropFormProps {
+  setType: (type: TypeSettings) => void;
   setPayment: (payment: PaymentSettings) => void;
   setTiming: (timing: TimingSettings) => void;
   setDetail: (detail: DetailSettings) => void;
@@ -83,6 +94,7 @@ export const createDropFormState = (initProps: Partial<DropFormProps>) => {
     setPayment: (payment) => set((state) => ({ ...state, payment })),
     setTiming: (timing) => set((state) => ({ ...state, timing })),
     setDetail: (detail) => set((state) => ({ ...state, detail })),
+    setType: (type) => set((state) => ({ ...state, type })),
   }));
 };
 
