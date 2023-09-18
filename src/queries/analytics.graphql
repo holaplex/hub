@@ -1,0 +1,18 @@
+query GetProjectAnalytics($project: UUID!) {
+  project(id: $project) {
+    id
+    analytics {
+      mints {
+        count
+        timestamp
+      }
+      mintByCollectionPie: mints {
+        count
+      }
+      customers {
+        count
+        timestamp
+      }
+    }
+  }
+}

@@ -100,6 +100,12 @@ export default function Project({
                     href={`/projects/${project.id}/treasury`}
                     active={segments[0] === 'treasury'}
                   />
+                  <Sidebar.Menu.Link
+                    name="Analytics"
+                    icon={<Icon.Chart stroke="stroke-gray-400" width={20} height={20} />}
+                    href={`/projects/${project.id}/analytics`}
+                    active={segments[0] === 'analytics'}
+                  />
                 </Sidebar.Menu>
                 <Sidebar.Footer organization={organization} />
               </Sidebar.Panel>

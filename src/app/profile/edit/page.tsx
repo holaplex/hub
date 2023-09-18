@@ -25,5 +25,5 @@ export default async function EditProfilePage(): Promise<JSX.Element> {
     return redirect('/login?return_to=/profile/edit');
   }
 
-  return <Setup2fa />;
+  return <EditProfile />;
 }
