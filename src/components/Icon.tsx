@@ -1287,6 +1287,34 @@ function Treasury({
 }
 Icon.Treasury = Treasury;
 
+function Chart({
+  width = 20,
+  height = 20,
+  fill = 'none',
+  stroke = 'stroke-stone-950',
+  className = '',
+}: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
+      className={clsx(className, stroke)}
+      fill="none"
+    >
+      <path
+        d="M18.3333 10H15L12.5 17.5L7.5 2.5L5 10H1.66667"
+        stroke="#AAAAAA"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+Icon.Chart = Chart;
+
 function CreateNft({
   width = 96,
   height = 96,

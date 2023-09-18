@@ -13,6 +13,8 @@
   "dependencies": {
     "@apollo/client": "^3.7.4",
     "@holaplex/ui-library-react": "^0.19.0",
+    "@nivo/bar": "^0.83.0",
+    "@nivo/pie": "^0.83.0",
     "@ory/client": "^1.1.41",
     "@ory/integrations": "^1.1.0",
     "@stripe/react-stripe-js": "^2.1.0",
