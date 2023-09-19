@@ -105,8 +105,8 @@ export default function ShutdownDrop({ drop, project }: ShutdownDropProps) {
               minting?
             </Typography.Paragraph>
             <Typography.Paragraph className="mt-2 text-left text-gray-400">
-              <span className="font-semibold">This action can not be undone.</span> If you want to mint more NFTs in the future, instead
-              pause the drop and resume it later.
+              <span className="font-semibold">This action can not be undone.</span> If you want to
+              mint more NFTs in the future, instead pause the drop and resume it later.
             </Typography.Paragraph>
 
             <div className="flex flex-col gap-2 mt-4">

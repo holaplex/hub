@@ -34,7 +34,7 @@ export default function Login() {
               <div className="mb-1 w-full h-10 rounded-md bg-stone-800 animate-pulse" />
             </div>
             <div className="mt-3 w-full h-[44px] rounded-md bg-stone-800 animate-pulse" />
-            </>
+          </>
         ) : (
           <Form
             onSubmit={confirm2fa.handleSubmit(confirm2fa.submit)}
@@ -45,7 +45,7 @@ export default function Login() {
                 {...confirm2fa.register('totp_code', {
                   required: true,
                   minLength: 6,
-                  maxLength: 6,
+                  maxLength: 8,
                 })}
                 autoFocus
                 placeholder="Enter your code"

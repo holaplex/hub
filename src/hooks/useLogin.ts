@@ -58,9 +58,7 @@ export function useLogin(flow: LoginFlow | undefined): LoginContext {
       } catch (err: any) {
         if (err.response.data.error.id === 'session_aal2_required') {
           router.push(
-            `/login/2fa${
-              search?.has('return_to') ? `?return_to=${search.get('return_to')}` : ''
-            }`
+            `/login/2fa${search?.has('return_to') ? `?return_to=${search.get('return_to')}` : ''}`
           );
           return;
         }

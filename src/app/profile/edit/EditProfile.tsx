@@ -204,25 +204,12 @@ export default function EditProfile() {
             </div>
           </Form>
           <Divider.Or className="my-6" />
-
           {totpUnlink ? (
             <>
               <Form onSubmit={regenerate2fa.handleSubmit(regenerate2fa.submit)}>
                 <Form.Label
-                  name="2FA backup code"
+                  name="2FA backup codes"
                   className="text-xs"
-                  asideComponent={
-                    lookupSecretsCodes?.text?.text ? (
-                      <Link
-                        href="/projects"
-                        className="text-yellow-300 transition hover:underline hover:text-yellow-500 cursor-pointer"
-                      >
-                        Exit
-                      </Link>
-                    ) : (
-                      <></>
-                    )
-                  }
                 >
                   {lookupSecretsCodes?.text?.text ? (
                     <div className="bg-gray-800 rounded-lg flex flex-col justify-center align-middle w-full py-8 px-2 mb-6">
@@ -235,7 +222,7 @@ export default function EditProfile() {
                         type="submit"
                         className="text-yellow-300 text-sm w-full mt-4 hover:underline hover:text-yellow-500 cursor-pointer transition"
                       >
-                        Regenerate new code
+                        Regenerate codes
                       </button>
                     </div>
                   ) : (
@@ -243,7 +230,7 @@ export default function EditProfile() {
                       type="submit"
                       className="bg-gray-800 rounded-lg flex flex-row justify-center align-middle text-yellow-300 text-sm w-full py-8 mb-6 hover:opacity-80 transition cursor-pointer"
                     >
-                      View backup code
+                      Generate new backup recovery codes
                     </button>
                   )}
                 </Form.Label>

@@ -23,11 +23,7 @@ export default function MemberDeletePage() {
             name="Amount"
             className="text-xs text-white mt-5"
             asideComponent={
-              <div
-                className="text-white font-semibold text-xs cursor-pointer"
-                onClick={() => {
-                }}
-              >
+              <div className="text-white font-semibold text-xs cursor-pointer" onClick={() => {}}>
                 MAX
               </div>
             }
