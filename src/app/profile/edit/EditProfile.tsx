@@ -169,13 +169,11 @@ export default function EditProfile() {
                 <Form.Error message={formState.errors.name?.last?.message} />
               </Form.Label>
             </div>
-
             {/* <Link href="/profile/password/edit">
           <Button variant="secondary" className="w-full mt-5" onClick={updatePassword} disabled={formState.isSubmitting}>
               Update password
             </Button>
           </Link> */}
-
             <div className="flex items-center gap-6">
               <Button
                 variant="secondary"
@@ -207,10 +205,7 @@ export default function EditProfile() {
           {totpUnlink ? (
             <>
               <Form onSubmit={regenerate2fa.handleSubmit(regenerate2fa.submit)}>
-                <Form.Label
-                  name="2FA backup codes"
-                  className="text-xs"
-                >
+                <Form.Label name="2FA backup codes" className="text-xs">
                   {lookupSecretsCodes?.text?.text ? (
                     <div className="bg-gray-800 rounded-lg flex flex-col justify-center align-middle w-full py-8 px-2 mb-6">
                       <span className="grid grid-cols-3 gap-6 text-gray-400 text-xs text-center">
