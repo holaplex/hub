@@ -15,7 +15,7 @@ import { GetUser } from './../../../queries/user.graphql';
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { useProfileUnlink2fa } from '../../../hooks/useProfileUnlink2fa';
-import { use2faRecovery } from '../../../hooks/use2faRecovery';
+import { confirmRecoveryCodes, use2faRecovery } from '../../../hooks/use2faRecovery';
 import Divider from '../../../components/Divider';
 import {
   AuthenticatorAssuranceLevel,
@@ -33,12 +33,14 @@ interface GetUserVars {
 
 const extractLookupSecretCodes = extractFlowNodeAttribute('lookup_secret_codes');
 const extractTotpUnlink = extractFlowNode('totp_unlink');
+const extractConfirmCodes = extractFlowNode('lookup_secret_confirm');
 
 export default function EditProfile() {
   const { session } = useSession();
   const router = useRouter();
   const unlink2fa = useProfileUnlink2fa();
   const regenerate2fa = use2faRecovery();
+  const confirm2faCodes = confirmRecoveryCodes();
   const { submit, register, handleSubmit, formState, setValue, control, reset, flowContext } =
     useProfileUpdate();
 
@@ -50,6 +52,9 @@ export default function EditProfile() {
   )?.attributes as UiNodeTextAttributes;
   const totpUnlink = extractTotpUnlink(unlink2fa.flowContext?.flow?.ui.nodes || [])
     ?.attributes as UiNodeInputAttributes;
+  const lookupSecretsConfirm = extractConfirmCodes(
+    confirm2faCodes.flowContext?.flow?.ui.nodes || []
+  )?.attributes as UiNodeInputAttributes;
 
   const userData = userQuery.data?.user;
 
@@ -213,12 +218,6 @@ export default function EditProfile() {
                           return <pre key={code}>{code}</pre>;
                         })}
                       </span>
-                      <button
-                        type="submit"
-                        className="text-yellow-300 text-sm w-full mt-4 hover:underline hover:text-yellow-500 cursor-pointer transition"
-                      >
-                        Regenerate codes
-                      </button>
                     </div>
                   ) : (
                     <button
@@ -230,16 +229,37 @@ export default function EditProfile() {
                   )}
                 </Form.Label>
               </Form>
+              {regenerate2fa ? (
+                <>
+                  <Form onSubmit={confirm2faCodes.handleSubmit(confirm2faCodes.submit)}>
+                    <Button
+                      variant="primary"
+                      className="w-full"
+                      htmlType="submit"
+                      loading={confirm2faCodes.formState.isSubmitting}
+                      disabled={
+                        formState.isSubmitting ||
+                        unlink2fa.formState.isSubmitting ||
+                        regenerate2fa.formState.isSubmitting ||
+                        confirm2faCodes.formState.isSubmitting
+                      }
+                    >
+                      Confirm backup codes
+                    </Button>
+                  </Form>
+                </>
+              ) : undefined}
               <Form onSubmit={unlink2fa.handleSubmit(unlink2fa.submit)}>
                 <Button
                   variant="failure"
                   className="w-full"
                   htmlType="submit"
-                  loading={unlink2fa.formState.isSubmitting}
+                  loading={confirm2faCodes.formState.isSubmitting}
                   disabled={
                     formState.isSubmitting ||
                     unlink2fa.formState.isSubmitting ||
-                    regenerate2fa.formState.isSubmitting
+                    regenerate2fa.formState.isSubmitting ||
+                    confirm2faCodes.formState.isSubmitting
                   }
                 >
                   Unlink 2FA

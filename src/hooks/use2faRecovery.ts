@@ -84,3 +84,59 @@ export function use2faRecovery(): ProfileUpdateContext {
     flowContext,
   };
 }
+
+export function confirmRecoveryCodes(): ProfileUpdateContext {
+  const flowContext = useProfileUpdateFlow();
+  const { ory } = useOry();
+
+  const flow = flowContext.flow;
+  const { register, handleSubmit, formState, setError, setValue, control, reset } =
+    useForm<Recover2faRecoveryForm>();
+
+  const onSubmit = async (): Promise<void> => {
+    if (!flow) {
+      return;
+    }
+    try {
+      const csrfToken = (
+        extractFlowNode('csrf_token')(flow.ui.nodes).attributes as UiNodeInputAttributes
+      ).value;
+
+      const response = await ory.updateSettingsFlow({
+        flow: flow.id,
+        updateSettingsFlowBody: {
+          lookup_secret_confirm: true,
+          csrf_token: csrfToken,
+          method: 'lookup',
+        },
+      });
+
+      flowContext.setFlow(response.data);
+
+      toast.success('2FA recovery codes confirmed');
+    } catch (err: any) {
+      const {
+        response: {
+          data: {
+            ui: { nodes },
+          },
+        },
+      } = err;
+      const lookupSecretRegenerateErr =
+        extractFlowNode('lookup_secret_confirm')(nodes).messages[0]?.text;
+
+      toast.error(lookupSecretRegenerateErr);
+    }
+  };
+
+  return {
+    submit: onSubmit,
+    register,
+    handleSubmit,
+    formState,
+    setValue,
+    control,
+    reset,
+    flowContext,
+  };
+}
