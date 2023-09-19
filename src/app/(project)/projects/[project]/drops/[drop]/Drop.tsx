@@ -230,7 +230,10 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                     href={`/projects/${project}/drops/${drop}/resume`}
                     className="border border-yellow-300 rounded-lg p-2 cursor-pointer group hover:border-yellow-500"
                   >
-                    <Icon.Play stroke="stroke-yellow-300" className="group-hover:stroke-yellow-500" />
+                    <Icon.Play
+                      stroke="stroke-yellow-300"
+                      className="group-hover:stroke-yellow-500"
+                    />
                   </Link>
                 )}
 
@@ -239,7 +242,10 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                     href={`/projects/${project}/drops/${drop}/pause`}
                     className="border border-yellow-300 rounded-lg p-2 cursor-pointer group hover:border-yellow-500"
                   >
-                    <Icon.Pause2 stroke="stroke-yellow-300" className="group-hover:stroke-yellow-500" />
+                    <Icon.Pause2
+                      stroke="stroke-yellow-300"
+                      className="group-hover:stroke-yellow-500"
+                    />
                   </Link>
                 )}
                 {(dropQuery.data?.project?.drop?.status === DropStatus.Minting ||
