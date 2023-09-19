@@ -2,3 +2,8 @@ auth:
   username: hydra
   password: hydra
   database: hydra
+primary:
+ resources:
+    requests:
+      cpu: 125m
+      memory: 128Mi

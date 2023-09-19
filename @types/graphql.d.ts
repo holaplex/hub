@@ -21,6 +21,7 @@ declare module '*/drop.graphql' {
   export const GetProjectDrops: DocumentNode;
   export const GetDrop: DocumentNode;
   export const GetDropBasicDetail: DocumentNode;
+  export const GetDropQueuedMints: DocumentNode;
 
   export default defaultDocument;
 }
@@ -48,6 +49,8 @@ declare module '*/mint.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const MintEdition: DocumentNode;
+  export const MintRandomQueuedToDrop: DocumentNode;
+  export const MintQueued: DocumentNode;
   export const RetryMintEdition: DocumentNode;
   export const UpdateCollectionMint: DocumentNode;
   export const GetCollectionMints: DocumentNode;

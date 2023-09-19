@@ -12,4 +12,5 @@ export const ACTION_LABEL = {
   [Action.MintCompressed]: 'Mint Compressed',
   [Action.RetryCollection]: 'Retry Collection',
   [Action.UpdateMint]: 'Update Mint',
+  [Action.SwitchCollection]: 'Switch Collection',
 };

@@ -2,3 +2,8 @@ auth:
   username: orgs
   password: orgs
   database: orgs
+primary:
+ resources:
+    requests:
+      cpu: 125m
+      memory: 128Mi

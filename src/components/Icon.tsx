@@ -808,12 +808,12 @@ function Webhook({
 }
 Icon.Webhook = Webhook;
 
-function Sol({ width = 24, height = 24, fill = 'fill-white', className = '' }: IconProps) {
+function Sol({ width = 20, height = 16, fill = 'fill-white', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
-      viewBox="0 0 24 24"
+      viewBox={`0 0 ${width} ${height}`}
       className={clsx(fill, className)}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -834,7 +834,7 @@ function Polygon({ width = 24, height = 22, fill = 'fill-white', className = '' 
     <svg
       width={width}
       height={height}
-      viewBox="0 0 24 22"
+      viewBox={` 0 0 ${width} ${height}`}
       className={clsx(fill, className)}
       fill={fill}
       xmlns="http://www.w3.org/2000/svg"

@@ -2,3 +2,8 @@ auth:
   username: keto
   password: keto
   database: keto
+primary:
+ resources:
+    requests:
+      cpu: 125m
+      memory: 128Mi

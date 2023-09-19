@@ -1,18 +1,10 @@
 'use client';
 import { Button, Form, Placement } from '@holaplex/ui-library-react';
-import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useFieldArray, useForm } from 'react-hook-form';
 import Card from '../../../../../../../components/Card';
-import {
-  Blockchain,
-  AssetType,
-  Organization,
-  ActionCost,
-  Action,
-  CreatorInput,
-} from '../../../../../../../graphql.types';
-import Typography, { Size } from '../../../../../../../components/Typography';
+import { Blockchain, AssetType, CreatorInput } from '../../../../../../../graphql.types';
+import Typography, { Size, TextColor } from '../../../../../../../components/Typography';
 import { useProject } from '../../../../../../../hooks/useProject';
 import { StoreApi, useStore } from 'zustand';
 import {
@@ -20,51 +12,21 @@ import {
   DropFormState,
   RoyaltiesShortcut,
   RoyaltiesDestination,
+  DropType,
 } from '../../../../../../../providers/DropFormProvider';
 import { Icon } from './../../../../../../../components/Icon';
 import { useDropForm } from '../../../../../../../hooks/useDropForm';
-import { useQuery } from '@apollo/client';
-import {
-  GetCreditSheet,
-  GetOrganizationCreditBalance,
-} from '../../../../../../../queries/credits.graphql';
-import clsx from 'clsx';
-import { CreditLookup } from '../../../../../../../modules/credit';
-
-interface GetOrganizationBalanceVars {
-  organization: string;
-}
-
-interface GetOrganizationCreditBalanceData {
-  organization: Organization;
-}
-
-interface GetCreditSheetData {
-  creditSheet: ActionCost[];
-}
 
 export default function NewDropRoyaltiesPage() {
   const router = useRouter();
   const { project } = useProject();
   const store = useDropForm() as StoreApi<DropFormState>;
-  const detail = useStore(store, (store) => store.detail);
   const payment = useStore(store, (store) => store.payment);
+  const type = useStore(store, (store) => store.type);
   const setPayment = useStore(store, (store) => store.setPayment);
 
-  const creditBalanceQuery = useQuery<GetOrganizationCreditBalanceData, GetOrganizationBalanceVars>(
-    GetOrganizationCreditBalance,
-    {
-      variables: { organization: project?.organization?.id },
-    }
-  );
-  const creditBalance = creditBalanceQuery.data?.organization.credits?.balance;
-
-  const creditSheetQuery = useQuery<GetCreditSheetData>(GetCreditSheet);
-
-  const creditSheet = creditSheetQuery.data?.creditSheet;
-
   const wallet = project?.treasury?.wallets?.find((wallet) => {
-    switch (detail?.blockchain.id) {
+    switch (type?.blockchain.id) {
       case Blockchain.Solana:
         return wallet.assetId === AssetType.Sol;
       case Blockchain.Polygon:
@@ -85,21 +47,6 @@ export default function NewDropRoyaltiesPage() {
   const royaltiesDestination = watch('royaltiesDestination');
   const royaltiesShortcut = watch('royaltiesShortcut');
   const creators = watch('creators');
-  const supply = parseInt(watch('supply')?.replaceAll(',', '')) || false;
-
-  const expectedCreditCost = useMemo(() => {
-    const creditLookup = new CreditLookup(creditSheet || []);
-    const mintDropCredits =
-      creditLookup.cost(Action.MintEdition, detail?.blockchain.id as Blockchain) || 0;
-    const createWalletCredits =
-      creditLookup.cost(Action.CreateWallet, detail?.blockchain.id as Blockchain) || 0;
-
-    if (!supply) {
-      return undefined;
-    }
-
-    return (mintDropCredits + createWalletCredits) * supply;
-  }, [creditSheet, detail?.blockchain, supply]);
 
   const submit = (data: PaymentSettings) => {
     if (data.royaltiesDestination === RoyaltiesDestination.ProjectTreasury) {
@@ -137,7 +84,7 @@ export default function NewDropRoyaltiesPage() {
     rules: {
       required: true,
       validate: (creators) => {
-        switch (detail?.blockchain.id) {
+        switch (type?.blockchain.id) {
           case Blockchain.Solana:
             if (creators.length > 5) {
               return 'Can only set up to 5 creators.';
@@ -164,60 +111,30 @@ export default function NewDropRoyaltiesPage() {
   return (
     <>
       <Card className="w-[492px]">
-        <Typography.Header size={Size.H2}>Supply</Typography.Header>
+        <Typography.Header size={Size.H2}>Royalties</Typography.Header>
+
+        <Typography.Paragraph className="text-sm mt-2" color={TextColor.Gray}>
+          {type?.type === DropType.Open ? (
+            <>
+              All the NFTs in this drop will use the royalties structure you set here by default.
+              You can set different rules for royalties for each or any NFT in this drop by
+              including them in the metadata files for the individual NFTs.{' '}
+              <a
+                href="#"
+                className="text-yellow-300 hover:underline hover:text-yellow-500 transition"
+              >
+                Learn how
+              </a>{' '}
+              to do this.
+            </>
+          ) : (
+            <>
+              Set rules for how much is set aside for royalties on any sales of the NFTs in this
+              drop. You can split the royalties between up to 3 wallets.
+            </>
+          )}
+        </Typography.Paragraph>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
-          <div className="flex flex-col gap-2">
-            <div className="mt-5">
-              <Form.Label name="Specify how many editions will be available" className="text-xs">
-                <Form.Input
-                  {...register('supply', {
-                    validate: (value) => {
-                      if (
-                        detail?.blockchain.id === Blockchain.Polygon &&
-                        value.replaceAll(',', '').length === 0
-                      ) {
-                        return 'Supply cannot be empty.';
-                      }
-                    },
-                  })}
-                  autoFocus
-                  placeholder="e.g. 10,000"
-                />
-              </Form.Label>
-              <Form.Error message={formState.errors.supply?.message} />
-            </div>
-            {creditBalance && expectedCreditCost && (
-              <div className="flex items-center gap-4 rounded-lg bg-stone-950 p-4">
-                <div className="flex items-center gap-2 shrink">
-                  <Icon.Balance />
-                  <div className="text-gray-400 text-xs font-medium shrink">
-                    You will need <span className="text-white">{expectedCreditCost}</span> credits
-                    to mint {supply} NFTs with each NFT minted to a unique generated wallet. You
-                    currently have{' '}
-                    <span
-                      className={clsx({
-                        'text-red-500': expectedCreditCost > creditBalance,
-                        'text-green-400': expectedCreditCost <= creditBalance,
-                      })}
-                    >
-                      {creditBalance}
-                    </span>{' '}
-                    credits.
-                  </div>
-                </div>
-                {expectedCreditCost > creditBalance && (
-                  <form action="/api/credits/purchase" method="POST" className="shrink-0">
-                    <Button htmlType="submit">Buy credits</Button>
-                  </form>
-                )}
-              </div>
-            )}
-          </div>
-
-          <Typography.Header size={Size.H2} className="mt-6 mb-8">
-            Royalties
-          </Typography.Header>
-
           <Form.Label name="Royalty percentage" className="text-xs">
             <Form.RadioGroup>
               <Form.Label
@@ -354,7 +271,7 @@ export default function NewDropRoyaltiesPage() {
                       {...register(`creators.${index}.share`)}
                       type="number"
                       placeholder="e.g. 10%"
-                      disabled={detail?.blockchain.id === Blockchain.Polygon}
+                      disabled={type?.blockchain.id === Blockchain.Polygon}
                     />
                   </Form.Label>
                   {creators.length > 1 && (
@@ -367,7 +284,7 @@ export default function NewDropRoyaltiesPage() {
                   )}
                 </div>
               ))}
-              {detail?.blockchain.id === Blockchain.Solana && (
+              {type?.blockchain.id === Blockchain.Solana && (
                 <Button
                   className="mt-4 self-start"
                   variant="secondary"

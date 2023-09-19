@@ -13,6 +13,7 @@ import {
   Action,
   Blockchain,
   CreatorInput,
+  DropType,
 } from '../../../../../../../graphql.types';
 import { StoreApi, useStore } from 'zustand';
 import { ApolloError, useMutation } from '@apollo/client';
@@ -64,6 +65,7 @@ export default function NewDropPreviewPage() {
   const detail = useStore(store, (store) => store.detail);
   const payment = useStore(store, (store) => store.payment);
   const timing = useStore(store, (store) => store.timing);
+  const type = useStore(store, (store) => store.type);
   const [error, setError] = useState<string>();
 
   const creditBalanceQuery = useQuery<GetOrganizationCreditBalanceData, GetOrganizationBalanceVars>(
@@ -82,10 +84,10 @@ export default function NewDropPreviewPage() {
     return new CreditLookup(creditSheet || []);
   }, [creditSheet]);
 
-  const cost = creditLookup.cost(Action.CreateDrop, detail?.blockchain.id as Blockchain);
+  const cost = creditLookup.cost(Action.CreateDrop, type?.blockchain.id as Blockchain);
 
   const expectedCreditCost = useMemo(() => {
-    const supply = payment?.supply.replaceAll(',', '');
+    const supply = type?.supply.replaceAll(',', '');
 
     if (!supply) {
       return undefined;
@@ -93,12 +95,12 @@ export default function NewDropPreviewPage() {
 
     const amount = parseInt(supply);
     const mintDropCredits =
-      creditLookup.cost(Action.MintEdition, detail?.blockchain.id as Blockchain) || 0;
+      creditLookup.cost(Action.MintEdition, type?.blockchain.id as Blockchain) || 0;
     const createWalletCredits =
-      creditLookup.cost(Action.CreateWallet, detail?.blockchain.id as Blockchain) || 0;
+      creditLookup.cost(Action.CreateWallet, type?.blockchain.id as Blockchain) || 0;
 
     return (mintDropCredits + createWalletCredits) * amount;
-  }, [creditLookup, detail?.blockchain, payment?.supply]);
+  }, [creditLookup, type?.blockchain, type?.supply]);
 
   const back = () => {
     router.push(`/projects/${project?.id}/drops/new/schedule`);
@@ -147,7 +149,8 @@ export default function NewDropPreviewPage() {
       variables: {
         input: {
           project: project?.id,
-          blockchain: detail.blockchain.id,
+          blockchain: type?.blockchain.id as Blockchain,
+          type: type?.type as DropType,
           metadataJson: {
             name: detail.name,
             symbol: detail.symbol,
@@ -158,7 +161,9 @@ export default function NewDropPreviewPage() {
             animationUrl: when(isEmpty, always(null))(detail.animationUrl) as string | null,
           },
           creators: payment.creators,
-          supply: parseInt(payment.supply.replaceAll(',', '')),
+          supply: ifElse(isNil, always(null), (supply) => parseInt(supply.replaceAll(',', '')))(
+            type?.supply
+          ),
           price: 0,
           sellerFeeBasisPoints: ifElse(
             isNil,
@@ -225,15 +230,17 @@ export default function NewDropPreviewPage() {
             <span className="text-sm text-gray-400">{detail.description}</span>
             <div className="flex flex-col gap-2 py-2 px-4 bg-stone-800 rounded-lg">
               <span className="text-gray-400 text-sm">Supply</span>
-              <span className="text-sm text-white">
-                {payment.supply ? payment.supply : 'Unlimited'}
-              </span>
+              <span className="text-sm text-white">{type?.supply ? type.supply : 'Unlimited'}</span>
             </div>
           </div>
 
           <hr className="w-full bg-stone-800 my-4 h-px border-0" />
 
           <div className="flex flex-col gap-2 text-white text-sm w-full">
+            <div className="flex items-center justify-between gap-2">
+              <span>Type</span>
+              <span>{type?.type}</span>
+            </div>
             <div className="flex items-center justify-between gap-2">
               <span>Royalties</span>
               <span>{payment.royalties}</span>
@@ -280,18 +287,17 @@ export default function NewDropPreviewPage() {
             )}
             <div className="flex items-center justify-between gap-2">
               <span>Blockchain</span>
-              <span>{detail.blockchain.name}</span>
+              <span>{type?.blockchain.name}</span>
             </div>
           </div>
 
           <hr className="w-full bg-stone-800 my-4 h-px border-0" />
-
-          {payment.supply && creditBalance && expectedCreditCost && (
+          {!!type?.supply && !!creditBalance && !!expectedCreditCost && (
             <div className="flex items-center gap-4 rounded-lg bg-stone-950 p-4">
               <div className="text-gray-400 text-sm font-medium">
                 Based on estimated usage you will need about{' '}
                 <span className="text-white">{expectedCreditCost}</span> credits to create wallets
-                and mint {payment.supply} NFTs. You currently have{' '}
+                and mint {type.supply} NFTs. You currently have{' '}
                 <span
                   className={clsx({
                     'text-red-500': expectedCreditCost > creditBalance,
