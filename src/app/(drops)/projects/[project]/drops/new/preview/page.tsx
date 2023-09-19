@@ -13,6 +13,7 @@ import {
   Action,
   Blockchain,
   CreatorInput,
+  DropType,
 } from '../../../../../../../graphql.types';
 import { StoreApi, useStore } from 'zustand';
 import { ApolloError, useMutation } from '@apollo/client';
@@ -149,6 +150,7 @@ export default function NewDropPreviewPage() {
         input: {
           project: project?.id,
           blockchain: type?.blockchain.id as Blockchain,
+          type: type?.type as DropType,
           metadataJson: {
             name: detail.name,
             symbol: detail.symbol,
@@ -182,8 +184,6 @@ export default function NewDropPreviewPage() {
       },
     });
   };
-
-  console.log(type)
 
   return (
     <Card className="w-[906px]">
@@ -238,6 +238,10 @@ export default function NewDropPreviewPage() {
 
           <div className="flex flex-col gap-2 text-white text-sm w-full">
             <div className="flex items-center justify-between gap-2">
+              <span>Type</span>
+              <span>{type?.type}</span>
+            </div>
+            <div className="flex items-center justify-between gap-2">
               <span>Royalties</span>
               <span>{payment.royalties}</span>
             </div>
@@ -288,7 +292,7 @@ export default function NewDropPreviewPage() {
           </div>
 
           <hr className="w-full bg-stone-800 my-4 h-px border-0" />
-          {type?.supply && creditBalance && expectedCreditCost && (
+          {!!type?.supply && !!creditBalance && !!expectedCreditCost && (
             <div className="flex items-center gap-4 rounded-lg bg-stone-950 p-4">
               <div className="text-gray-400 text-sm font-medium">
                 Based on estimated usage you will need about{' '}

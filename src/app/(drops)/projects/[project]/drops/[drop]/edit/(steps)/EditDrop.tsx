@@ -12,6 +12,7 @@ import {
   Blockchain,
   MetadataJsonAttribute,
   AssetType,
+  DropType,
 } from '../../../../../../../../graphql.types';
 import {
   DropFormProvider,
@@ -74,13 +75,17 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
 
   const metadataJson = drop?.collection.metadataJson;
   const store = useDropFormState({
-    detail: {
-      name: metadataJson?.name as string,
-      description: metadataJson?.description as string,
+    type: {
       blockchain: {
         id: drop?.collection.blockchain as Blockchain,
         name: blockchainLabel[drop?.collection.blockchain as Blockchain],
       },
+      type: drop?.dropType as DropType,
+      supply: drop?.collection.supply?.toString() as string,
+    },
+    detail: {
+      name: metadataJson?.name as string,
+      description: metadataJson?.description as string,
       symbol: metadataJson?.symbol as string,
       image: metadataJson?.image as string,
       animationUrl: metadataJson?.animationUrl as string,
@@ -89,7 +94,6 @@ export default function EditDrop({ children, project }: CreateDropProps): JSX.El
       externalUrl: metadataJson?.externalUrl as string,
     },
     payment: {
-      supply: drop?.collection.supply?.toString() as string,
       creators: drop?.collection.creators as CollectionCreator[],
       royaltiesDestination: defaultRoyaltiesDestination,
       royaltiesShortcut: defaultRoyaltiesShortcut,

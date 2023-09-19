@@ -2,3 +2,8 @@ auth:
   username: nfts_solana
   password: nfts_solana
   database: nfts_solana
+primary:
+ resources:
+    requests:
+      cpu: 125m
+      memory: 128Mi

@@ -172,6 +172,7 @@ deploy:
       - name: hub-nfts-solana
         remoteChart: hub-nfts-solana
         repo: https://charts.holaplex.com
+        version: 0.4.1
         valuesFiles:
           - .helm/values.nfts-solana.yaml
           - .helm/secrets.nfts-solana.yaml

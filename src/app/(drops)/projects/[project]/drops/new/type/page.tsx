@@ -78,7 +78,7 @@ export default function NewDropTypePage() {
     }
 
     return (mintDropCredits + createWalletCredits) * supply;
-  }, [creditSheet, type?.blockchain, supply]);
+  }, [creditSheet, blockchain.id, supply]);
 
   const submit = (data: TypeSettings) => {
     if (data.type === DropType.Open) {
@@ -86,7 +86,8 @@ export default function NewDropTypePage() {
         id: Blockchain.Solana,
         name: 'Solana',
       };
-      data.supply = '';
+
+      data.supply = '0';
     }
     setType(data);
     router.push(`/projects/${project?.id}/drops/new/details`);

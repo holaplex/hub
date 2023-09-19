@@ -2,3 +2,8 @@ auth:
   username: kratos
   password: kratos
   database: kratos
+primary:
+ resources:
+    requests:
+      cpu: 125m
+      memory: 128Mi

@@ -118,7 +118,14 @@ export default function NewDropRoyaltiesPage() {
             <>
               All the NFTs in this drop will use the royalties structure you set here by default.
               You can set different rules for royalties for each or any NFT in this drop by
-              including them in the metadata files for the individual NFTs. <a href="#" className="text-yellow-300 hover:underline hover:text-yellow-500 transition">Learn how</a> to do this.
+              including them in the metadata files for the individual NFTs.{' '}
+              <a
+                href="#"
+                className="text-yellow-300 hover:underline hover:text-yellow-500 transition"
+              >
+                Learn how
+              </a>{' '}
+              to do this.
             </>
           ) : (
             <>

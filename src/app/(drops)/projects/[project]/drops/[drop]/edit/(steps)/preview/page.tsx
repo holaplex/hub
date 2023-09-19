@@ -36,14 +36,6 @@ interface PatchDropVars {
   input: PatchDropInput;
 }
 
-interface GetOrganizationBalanceVars {
-  organization: string;
-}
-
-interface GetOrganizationCreditBalanceData {
-  organization: Organization;
-}
-
 interface GetCreditSheetData {
   creditSheet: ActionCost[];
 }
@@ -56,6 +48,7 @@ export default function EditDropPreviewPage() {
   const detail = useStore(store, (store) => store.detail);
   const payment = useStore(store, (store) => store.payment);
   const timing = useStore(store, (store) => store.timing);
+  const type = useStore(store, (store) => store.type);
   const [error, setError] = useState<string>();
 
   const back = () => {
@@ -184,15 +177,17 @@ export default function EditDropPreviewPage() {
             <span className="text-sm text-gray-400">{detail.description}</span>
             <div className="flex flex-col gap-2 py-2 px-4 bg-stone-800 rounded-lg">
               <span className="text-gray-400 text-sm">Supply</span>
-              <span className="text-sm text-white">
-                {payment.supply ? payment.supply : 'Unlimited'}
-              </span>
+              <span className="text-sm text-white">{type?.supply ? type.supply : 'Unlimited'}</span>
             </div>
           </div>
 
           <hr className="w-full bg-stone-800 my-4 h-px border-0" />
 
           <div className="flex flex-col gap-2 text-white text-sm w-full">
+            <div className="flex items-center justify-between gap-2">
+              <span>Type</span>
+              <span>{type?.type}</span>
+            </div>
             <div className="flex items-center justify-between gap-2">
               <span>Royalties</span>
               <span>{payment.royalties}</span>
@@ -239,7 +234,7 @@ export default function EditDropPreviewPage() {
             )}
             <div className="flex items-center justify-between gap-2">
               <span>Blockchain</span>
-              <span>{detail.blockchain.name}</span>
+              <span>{type?.blockchain.name}</span>
             </div>
           </div>
 

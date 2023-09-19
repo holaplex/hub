@@ -40,7 +40,7 @@ export default function NewDrop({ children, project }: CreateDropProps): JSX.Ele
           </Link>
         </Navbar.Header>
         <Navbar.Menu>
-        <Navbar.Menu.Step
+          <Navbar.Menu.Step
             name="Type"
             icon={
               <Navbar.Menu.Step.StepCount

@@ -18,6 +18,7 @@ import {
   Blockchain,
   CreatorInput,
   DropStatus,
+  DropType,
   MetadataJsonAttribute,
   Project,
 } from '../../../../../../graphql.types';
@@ -27,6 +28,7 @@ import { cloneElement } from 'react';
 import Typography, { Size } from '../../../../../../components/Typography';
 import { shorten } from '../../../../../../modules/wallet';
 import { useRouter } from 'next/navigation';
+import { isNil, not, pipe } from 'ramda';
 
 type Drop = {
   name: string;
@@ -47,16 +49,30 @@ interface GetDropsData {
   project: Pick<Project, 'drop' | 'treasury'>;
 }
 
+const isNotNil = pipe(isNil, not);
+
 export default function Drop({ children, project, drop }: DropProps): JSX.Element {
   const pathname = usePathname();
   const router = useRouter();
 
   const dropQuery = useQuery<GetDropsData, GetDropVars>(GetDrop, { variables: { project, drop } });
-  const percent = Math.ceil(
-    ((dropQuery.data?.project?.drop?.collection?.totalMints as number) /
-      (dropQuery.data?.project?.drop?.collection?.supply as number)) *
-      100
-  );
+
+  const percent = useMemo(() => {
+    if (dropQuery.data?.project?.drop?.collection?.supply == 0) {
+      return 0;
+    }
+
+    return Math.ceil(
+      ((dropQuery.data?.project?.drop?.collection?.totalMints as number) /
+        (dropQuery.data?.project?.drop?.collection?.supply as number)) *
+        100
+    );
+  }, [
+    dropQuery.data?.project?.drop?.collection?.supply,
+    dropQuery.data?.project?.drop?.collection?.totalMints,
+  ]);
+
+  const hasSupply = isNotNil(dropQuery.data?.project?.drop?.collection?.supply);
 
   const loading = dropQuery.loading;
   const dropData = dropQuery.data?.project?.drop;
@@ -72,6 +88,33 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
         return <></>;
     }
   }, [dropData?.collection.blockchain]);
+
+  let tabs = [
+    <Tabs.Tab
+      name="Mint history"
+      key="mints"
+      href={`/projects/${project}/drops/${drop}/mints`}
+      active={pathname === `/projects/${project}/drops/${drop}/mints`}
+    />,
+    <Tabs.Tab
+      name="Current holders"
+      key="holders"
+      href={`/projects/${project}/drops/${drop}/holders`}
+      active={pathname === `/projects/${project}/drops/${drop}/holders`}
+    />,
+  ];
+
+  if (dropData?.dropType === DropType.Open) {
+    tabs = [
+      <Tabs.Tab
+        key="queued"
+        name="Unminted supply"
+        href={`/projects/${project}/drops/${drop}/supply`}
+        active={pathname === `/projects/${project}/drops/${drop}/supply`}
+      />,
+      ...tabs,
+    ];
+  }
 
   return (
     <div className="flex flex-col px-6 py-6">
@@ -159,7 +202,9 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                     router.push(`/projects/${project}/drops/${drop}/mint`);
                   }}
                 >
-                  Mint edition
+                  {dropQuery.data?.project?.drop?.dropType === DropType.Edition
+                    ? 'Mint edition'
+                    : 'Mint random'}
                 </Button>
               </Link>
             </div>
@@ -189,21 +234,17 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                       {`Status: ${dropQuery.data?.project?.drop?.status} - ${
                         dropQuery.data?.project?.drop?.collection?.totalMints
                       } ${` / ${
-                        dropQuery.data?.project?.drop?.collection?.supply
-                          ? dropQuery.data?.project?.drop?.collection?.supply
-                          : '∞'
+                        hasSupply ? dropQuery.data?.project?.drop?.collection?.supply : '∞'
                       }`}`}
                       <span className="text-gray-500"> - minted</span>
                     </span>
                     {inTheFuture(startTime) ? (
                       <span className="text-gray-400">{daysUntil(startTime)} to start</span>
                     ) : (
-                      dropQuery.data?.project?.drop?.collection?.supply && (
-                        <span>{`${percent}%`}</span>
-                      )
+                      hasSupply && <span>{`${percent}%`}</span>
                     )}
                   </div>
-                  {dropQuery.data?.project?.drop?.collection?.supply && (
+                  {hasSupply && (
                     <div className="w-full rounded-full h-[12px] bg-stone-800 mt-1 relative overflow-hidden">
                       <div
                         className={clsx('top-0 bottom-0 left-0 absolute rounded-r-full', {
@@ -224,7 +265,6 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
 
                   <div></div>
                 </div>
-
                 {dropQuery.data?.project?.drop?.status === DropStatus.Paused && (
                   <Link
                     href={`/projects/${project}/drops/${drop}/resume`}
@@ -236,7 +276,6 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
                     />
                   </Link>
                 )}
-
                 {dropQuery.data?.project?.drop?.status === DropStatus.Minting && (
                   <Link
                     href={`/projects/${project}/drops/${drop}/pause`}
@@ -374,18 +413,7 @@ export default function Drop({ children, project, drop }: DropProps): JSX.Elemen
       )}
 
       <Tabs.Page className="mt-8">
-        <Tabs.Panel loading={loading}>
-          <Tabs.Tab
-            name="Mint history"
-            href={`/projects/${project}/drops/${drop}/mints`}
-            active={pathname === `/projects/${project}/drops/${drop}/mints`}
-          />
-          <Tabs.Tab
-            name="Current holders"
-            href={`/projects/${project}/drops/${drop}/holders`}
-            active={pathname === `/projects/${project}/drops/${drop}/holders`}
-          />
-        </Tabs.Panel>
+        <Tabs.Panel loading={loading}>{tabs}</Tabs.Panel>
         <Tabs.Content>{cloneElement(children as JSX.Element, { loading })}</Tabs.Content>
       </Tabs.Page>
     </div>
