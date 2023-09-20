@@ -60,7 +60,7 @@ kratos:
         totp:
           enabled: true
           config:
-            issuer: Holaplex
+            issuer: Holaplex Local
         lookup_secret:
           enabled: true
         code:

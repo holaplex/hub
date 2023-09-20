@@ -16,7 +16,7 @@ import { toast } from 'react-toastify';
 import { useApolloClient } from '@apollo/client';
 import { GetUser } from './../queries/user.graphql';
 import { useSession } from './useSession';
-import { useProfileUpdateFlow, ProfileUpdateFlowContext } from './useProfileUpdateFlow';
+import { ProfileUpdateFlowContext } from './useProfileUpdateFlow';
 
 interface ProfileUpdateForm {
   name: { first: string; last: string };
@@ -31,17 +31,17 @@ interface ProfileUpdateContext {
   setValue: UseFormSetValue<ProfileUpdateForm>;
   control: Control<ProfileUpdateForm, any>;
   reset: UseFormReset<ProfileUpdateForm>;
-  flowContext: ProfileUpdateFlowContext;
 }
 
-export function useProfileUpdate(): ProfileUpdateContext {
-  const flowContext = useProfileUpdateFlow();
+export function useProfileUpdate(
+  flowContext: ProfileUpdateFlowContext | undefined
+): ProfileUpdateContext {
   const router = useRouter();
   const { ory } = useOry();
   const client = useApolloClient();
   const { session } = useSession();
 
-  const flow = flowContext.flow;
+  const flow = flowContext?.flow;
   const { register, handleSubmit, formState, setError, setValue, control, reset } =
     useForm<ProfileUpdateForm>();
 
@@ -95,6 +95,13 @@ export function useProfileUpdate(): ProfileUpdateContext {
 
       router.push(`/projects`);
     } catch (err: any) {
+      if (err.response.data?.error?.id === 'session_refresh_required') {
+        toast.error(err.response.data.error.reason);
+
+        router.push('/login');
+        return;
+      }
+
       const {
         response: {
           data: {
@@ -121,6 +128,5 @@ export function useProfileUpdate(): ProfileUpdateContext {
     setValue,
     control,
     reset,
-    flowContext,
   };
 }

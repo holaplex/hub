@@ -29,6 +29,7 @@ interface TwoFactorAuthenticationSetupContext {
 }
 
 export function useSetup2fa(flow: SettingsFlow | undefined): TwoFactorAuthenticationSetupContext {
+  const router = useRouter();
   const { ory } = useOry();
   const { logout } = useLogout();
 
@@ -57,7 +58,13 @@ export function useSetup2fa(flow: SettingsFlow | undefined): TwoFactorAuthentica
 
       logout();
     } catch (err: any) {
-      console.error(err);
+      if (err.response.data?.error?.id === 'session_refresh_required') {
+        toast.error(err.response.data.error.reason);
+
+        router.push('/login');
+        return;
+      }
+
       const {
         response: {
           data: {

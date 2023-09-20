@@ -1,4 +1,4 @@
-import { UiNodeInputAttributes } from '@ory/client';
+import { SettingsFlow, UiNodeInputAttributes } from '@ory/client';
 import { useRouter } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
@@ -14,27 +14,28 @@ import {
 import { toast } from 'react-toastify';
 import { ProfileUpdateFlowContext } from './useProfileUpdateFlow';
 
-interface Recover2faRecoveryForm {}
+interface DisableRecoveryCodesForm {}
 
-interface ProfileUpdateContext {
-  submit: (values: Recover2faRecoveryForm) => Promise<void>;
-  register: UseFormRegister<Recover2faRecoveryForm>;
-  handleSubmit: UseFormHandleSubmit<Recover2faRecoveryForm>;
-  formState: FormState<Recover2faRecoveryForm>;
-  setValue: UseFormSetValue<Recover2faRecoveryForm>;
-  control: Control<Recover2faRecoveryForm, any>;
-  reset: UseFormReset<Recover2faRecoveryForm>;
+interface ConfirmRecoveryCodeContext {
+  submit: (values: DisableRecoveryCodesForm) => Promise<void>;
+  register: UseFormRegister<DisableRecoveryCodesForm>;
+  handleSubmit: UseFormHandleSubmit<DisableRecoveryCodesForm>;
+  formState: FormState<DisableRecoveryCodesForm>;
+  setValue: UseFormSetValue<DisableRecoveryCodesForm>;
+  control: Control<DisableRecoveryCodesForm, any>;
+  reset: UseFormReset<DisableRecoveryCodesForm>;
 }
 
-export function use2faRecovery(
+export function useDisableRecoveryCodes(
   flowContext: ProfileUpdateFlowContext | undefined
-): ProfileUpdateContext {
+): ConfirmRecoveryCodeContext {
   const router = useRouter();
   const { ory } = useOry();
 
-  const flow = flowContext?.flow;
   const { register, handleSubmit, formState, setValue, control, reset } =
-    useForm<Recover2faRecoveryForm>();
+    useForm<DisableRecoveryCodesForm>();
+
+  const flow = flowContext?.flow;
 
   const onSubmit = async (): Promise<void> => {
     if (!flow) {
@@ -48,7 +49,7 @@ export function use2faRecovery(
       const response = await ory.updateSettingsFlow({
         flow: flow.id,
         updateSettingsFlowBody: {
-          lookup_secret_regenerate: true,
+          lookup_secret_disable: true,
           csrf_token: csrfToken,
           method: 'lookup',
         },
@@ -56,7 +57,7 @@ export function use2faRecovery(
 
       flowContext.setFlow(response.data);
 
-      toast.success('2FA recovery codes regenerated');
+      toast.success('2FA recovery codes disabled.');
     } catch (err: any) {
       if (err.response.data?.error?.id === 'session_refresh_required') {
         toast.error(err.response.data.error.reason);
@@ -72,9 +73,8 @@ export function use2faRecovery(
           },
         },
       } = err;
-
-      const lookupSecretRegenerateErr = extractFlowNode('lookup_secret_regenerate')(nodes)
-        .messages[0]?.text;
+      const lookupSecretRegenerateErr =
+        extractFlowNode('lookup_secret_disable')(nodes).messages[0]?.text;
 
       toast.error(lookupSecretRegenerateErr);
     }

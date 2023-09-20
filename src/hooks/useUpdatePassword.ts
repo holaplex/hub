@@ -9,6 +9,7 @@ import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
 import { FormState, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { ProfileUpdateFlowContext } from './useProfileUpdateFlow';
 
 interface UpdatePasswordForm {
   password: string;
@@ -21,11 +22,15 @@ interface UpdatePasswordContext {
   formState: FormState<UpdatePasswordForm>;
 }
 
-export function useUpdatePassword(flow: SettingsFlow | undefined): UpdatePasswordContext {
+export function useUpdatePassword(
+  flowContext: ProfileUpdateFlowContext | undefined
+): UpdatePasswordContext {
   const router = useRouter();
   const { ory } = useOry();
 
   const { register, handleSubmit, formState, setError } = useForm<UpdatePasswordForm>();
+
+  const flow = flowContext?.flow;
 
   const onSubmit = async (values: UpdatePasswordForm): Promise<void> => {
     if (!flow) {
@@ -41,10 +46,17 @@ export function useUpdatePassword(flow: SettingsFlow | undefined): UpdatePasswor
         updateSettingsFlowBody: { ...values, csrf_token: csrfToken, method: 'password' },
       });
 
-      toast.info('Password updated successfully');
+      toast.success('Password updated successfully');
 
       router.back();
     } catch (err: any) {
+      if (err.response.data?.error?.id === 'session_refresh_required') {
+        toast.error(err.response.data.error.reason);
+
+        router.push('/login');
+        return;
+      }
+
       const {
         response: {
           data: {

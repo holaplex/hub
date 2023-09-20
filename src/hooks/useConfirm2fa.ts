@@ -54,6 +54,13 @@ export function useConfirm2fa(flow: LoginFlow | undefined): Confirm2faContext {
 
       setSession(response.data.session);
     } catch (err: any) {
+      if (err.response.data?.error?.id === 'session_refresh_required') {
+        toast.error(err.response.data.error.reason);
+
+        router.push('/login');
+        return;
+      }
+
       const message = err.response.data.ui.messages[0].text;
       toast.error(message);
 

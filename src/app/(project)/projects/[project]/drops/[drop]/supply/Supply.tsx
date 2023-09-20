@@ -33,8 +33,8 @@ export default function Supply({ drop, project }: SupplyProps) {
   return (
     <div className="w-full flex justify-center">
       {queuedMintsQuery.loading ? (
-        <div className="grid grid-cols-2 gap-4 xs:grid-col-3 lg:grid-cols-4 xl:grid-cols-6">
-          {Array.from(Array(12)).map((index) => (
+        <div className="w-full grid grid-cols-2 gap-4 xs:grid-col-3 lg:grid-cols-4 xl:grid-cols-6">
+          {Array.from(Array(12)).map((_, index) => (
             <div
               key={index}
               className="flex flex-col gap-2 items-center justify-center p-2 bg-stone-900 rounded-lg animate-pulse"
@@ -48,7 +48,7 @@ export default function Supply({ drop, project }: SupplyProps) {
           ))}
         </div>
       ) : hasQueuedMints ? (
-        <div className="grid grid-cols-2 gap-4 xs:grid-col-3 lg:grid-cols-4 xl:grid-cols-6">
+        <div className="w-full grid grid-cols-2 gap-4 xs:grid-col-3 lg:grid-cols-4 xl:grid-cols-6">
           {queuedMints.map((mint) => {
             return (
               <div
