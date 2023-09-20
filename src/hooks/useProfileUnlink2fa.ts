@@ -11,12 +11,8 @@ import {
   UseFormReset,
   UseFormSetValue,
 } from 'react-hook-form';
-import { uploadFile } from '../modules/upload';
 import { toast } from 'react-toastify';
-import { useApolloClient } from '@apollo/client';
-import { GetUser } from './../queries/user.graphql';
-import { useSession } from './useSession';
-import { useProfileUpdateFlow, ProfileUpdateFlowContext } from './useProfileUpdateFlow';
+import { ProfileUpdateFlowContext } from './useProfileUpdateFlow';
 import { useLogout } from './useLogout';
 
 interface Unlink2faForm {}
@@ -29,19 +25,17 @@ interface ProfileUpdateContext {
   setValue: UseFormSetValue<Unlink2faForm>;
   control: Control<Unlink2faForm, any>;
   reset: UseFormReset<Unlink2faForm>;
-  flowContext: ProfileUpdateFlowContext;
 }
 
-export function useProfileUnlink2fa(): ProfileUpdateContext {
-  const flowContext = useProfileUpdateFlow();
+export function useProfileUnlink2fa(
+  flowContext: ProfileUpdateFlowContext | undefined
+): ProfileUpdateContext {
   const router = useRouter();
   const { ory } = useOry();
-  const { setSession } = useSession();
   const { logout } = useLogout();
-  const flow = flowContext.flow;
+  const flow = flowContext?.flow;
 
-  const { register, handleSubmit, formState, setError, setValue, control, reset } =
-    useForm<Unlink2faForm>();
+  const { register, handleSubmit, formState, setValue, control, reset } = useForm<Unlink2faForm>();
 
   const onSubmit = async ({}: Unlink2faForm): Promise<void> => {
     if (!flow) {
@@ -67,7 +61,13 @@ export function useProfileUnlink2fa(): ProfileUpdateContext {
 
       logout();
     } catch (err: any) {
-      console.error(err);
+      if (err.response.data?.error?.id === 'session_refresh_required') {
+        toast.error(err.response.data.error.reason);
+
+        router.push('/login');
+        return;
+      }
+
       const message = err.response.data.ui.messages[0].text;
       toast.error(message);
     }
@@ -81,6 +81,5 @@ export function useProfileUnlink2fa(): ProfileUpdateContext {
     setValue,
     control,
     reset,
-    flowContext,
   };
 }

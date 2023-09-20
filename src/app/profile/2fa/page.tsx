@@ -3,7 +3,6 @@ import { cookies } from 'next/headers';
 import { ory, serverConfig } from '../../../modules/ory';
 import { AuthenticatorAssuranceLevel, Session } from '@ory/client';
 import { redirect } from 'next/navigation';
-import { isSessionExpired } from '../../../modules/session';
 const client = ory(serverConfig);
 
 export default async function Profile2faPage(): Promise<JSX.Element> {
@@ -17,10 +16,6 @@ export default async function Profile2faPage(): Promise<JSX.Element> {
 
     session = data;
   } catch (e: any) {}
-
-  if (isSessionExpired(session?.expires_at as string)) {
-    return redirect('/login?return_to=/profile/2fa');
-  }
 
   if (session?.authenticator_assurance_level === AuthenticatorAssuranceLevel.Aal2) {
     return redirect('/profile/edit');

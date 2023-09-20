@@ -2,16 +2,14 @@
 import { Button, Form } from '@holaplex/ui-library-react';
 import Card from '../../../../components/Card';
 import Typography, { Size } from '../../../../components/Typography';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useRecoveryPassword } from '../../../../hooks/useRecoveryPassword';
-import { useRecoveryPasswordFlow } from '../../../../hooks/useRecoveryPasswordFlow';
-import { useUpdatePasswordFlow } from '../../../../hooks/useUpdatePasswordFlow';
+import { useRouter } from 'next/navigation';
+import { useProfileUpdateFlow } from '../../../../hooks/useProfileUpdateFlow';
 import { useUpdatePassword } from '../../../../hooks/useUpdatePassword';
 
 export default function ResetPassword() {
   const router = useRouter();
-  const { flow, loading } = useUpdatePasswordFlow();
-  const { submit, register, handleSubmit, formState } = useUpdatePassword(flow);
+  const flowContext = useProfileUpdateFlow();
+  const { submit, register, handleSubmit, formState } = useUpdatePassword(flowContext);
 
   const onClose = () => {
     router.back();
@@ -19,7 +17,7 @@ export default function ResetPassword() {
 
   return (
     <Card className="w-[422px] m-auto">
-      {loading ? (
+      {flowContext.loading ? (
         <>
           <div className="bg-stone-800 animate-pulse h-6 w-24 rounded-md" />
           <div className="bg-stone-800 animate-pulse h-4 w-56 rounded-md mt-5" />
