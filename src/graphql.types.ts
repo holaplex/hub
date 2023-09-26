@@ -19,6 +19,16 @@ export type Scalars = {
   /** A scalar that can represent any JSON value. */
   JSON: any;
   /**
+   * ISO 8601 calendar date without timezone.
+   * Format: %Y-%m-%d
+   *
+   * # Examples
+   *
+   * * `1994-11-13`
+   * * `2000-02-24`
+   */
+  NaiveDate: any;
+  /**
    * ISO 8601 combined date and time without timezone.
    *
    * # Examples
@@ -164,6 +174,7 @@ export type Collection = {
   shortTx?: Maybe<Scalars['String']>;
   /** The transaction signature of the collection. */
   signature?: Maybe<Scalars['String']>;
+  stats: Array<DataPoint>;
   /** The total supply of the collection. Setting to `null` implies unlimited minting. */
   supply?: Maybe<Scalars['Int']>;
   /** The current number of NFTs minted from the collection. */
@@ -758,6 +769,11 @@ export enum InviteStatus {
   /** The member invitation has been sent to the invited user. */
   Sent = 'SENT',
 }
+
+export type Measure = {
+  operation: Operation;
+  resource: Resource;
+};
 
 /** A member of a Holaplex organization, representing an individual who has been granted access to the organization. */
 export type Member = {
@@ -1363,6 +1379,7 @@ export type Organization = {
   profileImageUrlOriginal?: Maybe<Scalars['String']>;
   /** The projects that have been created and are currently associated with the Holaplex organization, which are used to organize NFT campaigns or initiatives within the organization. */
   projects: Array<Project>;
+  stats: Array<DataPoint>;
   /**
    * Retrieves a specific webhook associated with the organization, based on its ID.
    *
@@ -1404,7 +1421,6 @@ export type OrganizationAnalyticsArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   order?: InputMaybe<Order>;
 };
-
 /** A Holaplex organization is the top-level account within the Holaplex ecosystem. Each organization has a single owner who can invite members to join. Organizations use projects to organize NFT campaigns or initiatives. */
 export type OrganizationCredentialArgs = {
   clientId: Scalars['String'];
@@ -1500,7 +1516,6 @@ export type PauseDropPayload = {
 /** A Holaplex project that belongs to an organization. Projects are used to group unique NFT campaigns or initiatives, and are used to assign objects that end customers will interact with, such as drops and wallets. */
 export type Project = {
   __typename?: 'Project';
-  analytics: Array<DataPoint>;
   /**
    * Look up a collection associated with the project by its ID.
    * @deprecated Use `collection` root query field instead
@@ -1533,6 +1548,7 @@ export type Project = {
   profileImageUrl?: Maybe<Scalars['String']>;
   /** The optional profile image associated with the project, which can be used to visually represent the project. */
   profileImageUrlOriginal?: Maybe<Scalars['String']>;
+  stats: Array<DataPoint>;
   /** The treasury assigned to the project, which contains the project's wallets. */
   treasury?: Maybe<Treasury>;
 };
@@ -1559,8 +1575,19 @@ export type ProjectDropArgs = {
   id: Scalars['UUID'];
 };
 
+/** A Holaplex project that belongs to an organization. Projects are used to group unique NFT campaigns or initiatives, and are used to assign objects that end customers will interact with, such as drops and wallets. */
+export type ProjectStatsArgs = {
+  dateRange?: InputMaybe<DateRange>;
+  granularity?: InputMaybe<Granularity>;
+  limit?: InputMaybe<Scalars['Int']>;
+  measures?: InputMaybe<Array<Measure>>;
+  order?: InputMaybe<Order>;
+};
+
 export type Query = {
   __typename?: 'Query';
+  /** Look up a `collection` by its ID. */
+  collection?: Maybe<Collection>;
   /**
    * Returns a list of data points for a specific collection and timeframe.
    *
@@ -1611,6 +1638,26 @@ export type Query = {
   organization?: Maybe<Organization>;
   /** Query a project by it's ID, this query returns `null` if the project does not exist. */
   project?: Maybe<Project>;
+  /**
+   * Returns a list of data points for a specific collection and timeframe.
+   *
+   * # Arguments
+   * * `organizationId` - The ID of the organization
+   * * `projectId` - The ID of the project.
+   * * `collectionId` - The ID of the collection.
+   * * `measures` - An map array of resources to query (resource, operation).
+   * * `granularity` - The time granularity for grouping (e.g., Day, Week, Month, Year).
+   * * `dateRange` - DateFrom and DateTo, in YYYY-MM-DD format.
+   * * `order` - order the results by ASC or DESC.
+   * * `limit` - Optional limit on the number of data points to retrieve.
+   *
+   * # Returns
+   * A vector of Stats objects representing the analytics data.
+   *
+   * # Errors
+   * This function returns an error if there was a problem with retrieving the data points.
+   */
+  stats: Array<DataPoint>;
   /** Retrieve a user identity by providing their ID. */
   user?: Maybe<User>;
 };
@@ -1623,7 +1670,6 @@ export type QueryAnalyticsArgs = {
   organizationId?: InputMaybe<Scalars['UUID']>;
   projectId?: InputMaybe<Scalars['UUID']>;
 };
-
 export type QueryCollectionArgs = {
   id: Scalars['UUID'];
 };
@@ -1647,7 +1693,16 @@ export type QueryOrganizationArgs = {
 export type QueryProjectArgs = {
   id: Scalars['UUID'];
 };
-
+export type QueryStatsArgs = {
+  collectionId?: InputMaybe<Scalars['UUID']>;
+  dateRange?: InputMaybe<DateRange>;
+  granularity?: InputMaybe<Granularity>;
+  limit?: InputMaybe<Scalars['Int']>;
+  measures?: InputMaybe<Array<Measure>>;
+  order?: InputMaybe<Order>;
+  organizationId?: InputMaybe<Scalars['UUID']>;
+  projectId?: InputMaybe<Scalars['UUID']>;
+};
 export type QueryUserArgs = {
   id: Scalars['UUID'];
 };
@@ -1667,6 +1722,15 @@ export type QueueMintToDropPayload = {
 export type ReactivateMemberInput = {
   id: Scalars['UUID'];
 };
+
+export enum Resource {
+  Collections = 'COLLECTIONS',
+  Customers = 'CUSTOMERS',
+  Mints = 'MINTS',
+  Organizations = 'ORGANIZATIONS',
+  Projects = 'PROJECTS',
+  Wallets = 'WALLETS',
+}
 
 /** Represents input fields for resuming a paused drop. */
 export type ResumeDropInput = {

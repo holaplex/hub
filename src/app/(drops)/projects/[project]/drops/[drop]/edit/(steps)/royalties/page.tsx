@@ -45,6 +45,7 @@ export default function EditDropRoyaltiesPage() {
   const royaltiesDestination = watch('royaltiesDestination');
   const royaltiesShortcut = watch('royaltiesShortcut');
   const creators = watch('creators');
+  
   const supply = when(isNil, always('Unlimited'))(type?.supply);
 
   const submit = (data: PaymentSettings) => {
