@@ -23,6 +23,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
   const { project } = useProject();
   const store = useDropForm() as StoreApi<DropFormState>;
   const detail = useStore(store, (store) => store.detail);
+  const type = useStore(store, (store) => store.type);
   const setDetail = useStore(store, (store) => store.setDetail);
 
   const { handleSubmit, register, control, setValue, formState, watch, setError, clearErrors } =
@@ -131,8 +132,8 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
                 <Form.Input
                   {...register('name', {
                     required: 'Please enter a name.',
-                    validate: (value, { blockchain }) => {
-                      if (blockchain.id === Blockchain.Solana && value.length > 32) {
+                    validate: (value) => {
+                      if (type?.blockchain.id === Blockchain.Solana && value.length > 32) {
                         return 'Name length exceeded the limit of 32.';
                       }
                     },
@@ -148,8 +149,8 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
                 <Form.Input
                   {...register('symbol', {
                     required: 'Symbol required.',
-                    validate: (value, { blockchain }) => {
-                      if (blockchain.id === Blockchain.Solana && value.length > 10) {
+                    validate: (value) => {
+                      if (type?.blockchain.id === Blockchain.Solana && value.length > 10) {
                         return 'Symbol length exceeded the limit of 10.';
                       }
                     },
@@ -162,7 +163,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
           </div>
           <div className="mt-5 flex flex-col gap-1">
             <span className="form-label-text text-xs">Blockchain</span>
-            <span>{detail?.blockchain.name}</span>
+            <span>{type?.blockchain.name}</span>
           </div>
           <Form.Label name="Description" className="text-xs mt-5">
             <Form.TextArea

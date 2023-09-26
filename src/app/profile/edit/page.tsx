@@ -1,5 +1,5 @@
 import EditProfile from './EditProfile';
 
-export default function EditProfilePage(): React.ReactNode {
+export default async function EditProfilePage(): Promise<JSX.Element> {
   return <EditProfile />;
 }

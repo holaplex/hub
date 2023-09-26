@@ -1,4 +1,8 @@
-import { LoginFlow, UiNodeInputAttributes } from '@ory/client';
+import {
+  LoginFlow,
+  SessionAuthenticationMethodMethodEnum,
+  UiNodeInputAttributes,
+} from '@ory/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { extractFlowNode } from '../modules/ory';
 import { useOry } from './useOry';
@@ -44,10 +48,21 @@ export function useLogin(flow: LoginFlow | undefined): LoginContext {
         flow: flow.id,
         updateLoginFlowBody: {
           csrf_token: csrfToken,
-          method: 'password',
+          method: SessionAuthenticationMethodMethodEnum.Password,
           ...values,
         },
       });
+
+      try {
+        await ory.toSession();
+      } catch (err: any) {
+        if (err.response.data.error.id === 'session_aal2_required') {
+          router.push(
+            `/login/2fa${search?.has('return_to') ? `?return_to=${search.get('return_to')}` : ''}`
+          );
+          return;
+        }
+      }
 
       setSession(response.data.session);
     } catch (err: any) {

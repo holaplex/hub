@@ -2,3 +2,8 @@ auth:
   username: webhooks
   password: webhooks
   database: webhooks
+primary:
+ resources:
+    requests:
+      cpu: 125m
+      memory: 128Mi

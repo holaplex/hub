@@ -5,6 +5,7 @@ query GetOrganizationDrops($organization: UUID!) {
       id
       drops {
         id
+        dropType
         collection {
           id
           supply
@@ -24,6 +25,7 @@ query GetProjectDrops($project: UUID!) {
       id
       price
       status
+      dropType
       createdAt
       startTime
       endTime
@@ -61,6 +63,7 @@ query GetDrop($project: UUID!, $drop: UUID!) {
       createdAt
       startTime
       endTime
+      dropType
       collection {
         id
         supply
@@ -104,12 +107,29 @@ query GetDropBasicDetail($project: UUID!, $drop: UUID!) {
     id
     drop(id: $drop) {
       id
+      dropType
       collection {
         id
         metadataJson {
           id
           name
         }
+      }
+    }
+  }
+}
+
+
+query GetDropQueuedMints($drop: UUID!) {
+  drop(id: $drop) {
+    queuedMints {
+      id
+      metadataJson {
+        id
+        name
+        image
+        description
+        symbol
       }
     }
   }

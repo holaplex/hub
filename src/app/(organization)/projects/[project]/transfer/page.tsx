@@ -16,12 +16,7 @@ export default function TransferFundsProject() {
             name="Amount"
             className="text-xs text-white"
             asideComponent={
-              <div
-                className="text-white font-semibold text-xs cursor-pointer"
-                onClick={() => {
-                  console.log('Max clicked');
-                }}
-              >
+              <div className="text-white font-semibold text-xs cursor-pointer" onClick={() => {}}>
                 MAX
               </div>
             }

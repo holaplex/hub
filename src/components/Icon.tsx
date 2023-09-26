@@ -191,7 +191,7 @@ function Pause2({
       <path
         d="M13.5 3H10.5V15H13.5V3Z"
         stroke={stroke}
-        stroke-width="2"
+        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -808,12 +808,12 @@ function Webhook({
 }
 Icon.Webhook = Webhook;
 
-function Sol({ width = 24, height = 24, fill = 'fill-white', className = '' }: IconProps) {
+function Sol({ width = 20, height = 16, fill = 'fill-white', className = '' }: IconProps) {
   return (
     <svg
       width={width}
       height={height}
-      viewBox="0 0 24 24"
+      viewBox={`0 0 ${width} ${height}`}
       className={clsx(fill, className)}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -834,7 +834,7 @@ function Polygon({ width = 24, height = 22, fill = 'fill-white', className = '' 
     <svg
       width={width}
       height={height}
-      viewBox="0 0 24 22"
+      viewBox={` 0 0 ${width} ${height}`}
       className={clsx(fill, className)}
       fill={fill}
       xmlns="http://www.w3.org/2000/svg"
@@ -2273,6 +2273,34 @@ function AddWallet({
   );
 }
 Icon.AddWallet = AddWallet;
+
+function LockIcon({ width = 24, height = 24, fill = 'none', className = '', stroke }: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
+      fill="none"
+      className={clsx(className, stroke)}
+    >
+      <path
+        d="M19 11H5C3.89543 11 3 11.8954 3 13V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V13C21 11.8954 20.1046 11 19 11Z"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M7 11V7C7 5.67392 7.52678 4.40215 8.46447 3.46447C9.40215 2.52678 10.6739 2 12 2C13.3261 2 14.5979 2.52678 15.5355 3.46447C16.4732 4.40215 17 5.67392 17 7V11"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+Icon.Lock = LockIcon;
 
 function LargeTreasuryIcon({ width = 96, height = 96, fill = 'none', className = '' }: IconProps) {
   return (

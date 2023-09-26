@@ -16,10 +16,10 @@ import { toast } from 'react-toastify';
 import { useApolloClient } from '@apollo/client';
 import { GetUser } from './../queries/user.graphql';
 import { useSession } from './useSession';
+import { ProfileUpdateFlowContext } from './useProfileUpdateFlow';
 
 interface ProfileUpdateForm {
   name: { first: string; last: string };
-  email: string;
   file?: string | File | undefined;
 }
 
@@ -33,16 +33,19 @@ interface ProfileUpdateContext {
   reset: UseFormReset<ProfileUpdateForm>;
 }
 
-export function useProfileUpdate(flow: SettingsFlow | undefined): ProfileUpdateContext {
+export function useProfileUpdate(
+  flowContext: ProfileUpdateFlowContext | undefined
+): ProfileUpdateContext {
   const router = useRouter();
   const { ory } = useOry();
   const client = useApolloClient();
   const { session } = useSession();
 
+  const flow = flowContext?.flow;
   const { register, handleSubmit, formState, setError, setValue, control, reset } =
     useForm<ProfileUpdateForm>();
 
-  const onSubmit = async ({ email, name, file }: ProfileUpdateForm): Promise<void> => {
+  const onSubmit = async ({ name, file }: ProfileUpdateForm): Promise<void> => {
     if (!flow) {
       return;
     }
@@ -61,7 +64,11 @@ export function useProfileUpdate(flow: SettingsFlow | undefined): ProfileUpdateC
       await ory.updateSettingsFlow({
         flow: flow.id,
         updateSettingsFlowBody: {
-          traits: { email, name, profile_image: profileImageUrl },
+          traits: {
+            email: session?.identity.traits.email,
+            name,
+            profile_image: profileImageUrl,
+          },
           csrf_token: csrfToken,
           method: 'profile',
         },
@@ -84,10 +91,17 @@ export function useProfileUpdate(flow: SettingsFlow | undefined): ProfileUpdateC
         }
       );
 
-      toast.info('Profile updated successfully');
+      toast.success('Profile updated successfully');
 
-      router.back();
+      router.push(`/projects`);
     } catch (err: any) {
+      if (err.response.data?.error?.id === 'session_refresh_required') {
+        toast.error(err.response.data.error.reason);
+
+        router.push('/login');
+        return;
+      }
+
       const {
         response: {
           data: {
@@ -96,13 +110,10 @@ export function useProfileUpdate(flow: SettingsFlow | undefined): ProfileUpdateC
         },
       } = err;
       const nameErr = extractFlowNode('name')(nodes).messages[0]?.text;
-      const emailErr = extractFlowNode('email')(nodes).messages[0]?.text;
       const profileImageErr = extractFlowNode('profile_image')(nodes).messages[0]?.text;
 
       if (nameErr) {
         setError('name', { message: nameErr });
-      } else if (emailErr) {
-        setError('email', { message: emailErr });
       } else if (profileImageErr) {
         setError('file', { message: profileImageErr });
       }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import { useOry } from './useOry';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { defaultTo } from 'ramda';
@@ -6,9 +6,10 @@ import { SettingsFlow } from '@ory/client';
 
 const defaultUndefined = defaultTo(undefined);
 
-interface ProfileUpdateFlowContext {
+export interface ProfileUpdateFlowContext {
   flow?: SettingsFlow;
   loading: boolean;
+  setFlow: Dispatch<SetStateAction<SettingsFlow | undefined>>;
 }
 
 export function useProfileUpdateFlow(): ProfileUpdateFlowContext {
@@ -25,6 +26,7 @@ export function useProfileUpdateFlow(): ProfileUpdateFlowContext {
     (async () => {
       try {
         const { data } = await ory.createBrowserSettingsFlow({ returnTo });
+
         setFlow(data);
       } catch (err: any) {
       } finally {
@@ -36,5 +38,6 @@ export function useProfileUpdateFlow(): ProfileUpdateFlowContext {
   return {
     flow,
     loading,
+    setFlow,
   };
 }

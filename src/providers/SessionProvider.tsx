@@ -2,11 +2,9 @@ import { Session } from '@ory/client';
 import { createContext, useState, Dispatch, SetStateAction, useEffect } from 'react';
 import { compareAsc, sub, subMinutes } from 'date-fns';
 import { useLogout } from '../hooks/useLogout';
-import { convertLocalTime } from '../modules/time';
 import { parseISO } from 'date-fns';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import { toast } from 'react-toastify';
-import { Button } from '@holaplex/ui-library-react';
 
 export type SessionContextType = {
   session?: Session;

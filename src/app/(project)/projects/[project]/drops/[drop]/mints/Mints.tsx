@@ -114,9 +114,9 @@ export default function Mints({ loading, project, drop }: MintsProps) {
             You&apos;ve created a drop! Ok, what&apos;s next?
           </Typography.Header>
           <p className="text-gray-400 text-sm mt-6">
-            You can mint an edition from your drop directly to a wallet address by clicking the{' '}
+            You can mint from your drop directly to a wallet address by clicking the{' '}
             <Link href={`/projects/${project}/drops/${drop}/mint`} className="text-yellow-300">
-              Mint edition
+              Mint
             </Link>{' '}
             button in the upper right hand corner.
           </p>
@@ -140,6 +140,7 @@ export default function Mints({ loading, project, drop }: MintsProps) {
       ) : (
         <Table
           columns={[
+            // @ts-ignore
             columnHelper.accessor('shortWallet', {
               header: () => <span>Wallet</span>,
               cell: (info) => {

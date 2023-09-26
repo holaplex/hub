@@ -8,6 +8,26 @@ mutation MintEdition($input: MintDropInput!) {
   }
 }
 
+mutation MintRandomQueuedToDrop($input: MintRandomQueuedInput!) {
+  mintRandomQueuedToDrop(input: $input) {
+    collectionMint {
+      id
+      address
+      owner
+    }
+  }
+}
+
+mutation MintQueued($input: MintQueuedInput!) {
+  mintQueued(input: $input) {
+    collectionMint {
+      id
+      address
+      owner
+    }
+  }
+}
+
 mutation RetryMintEdition($input: RetryMintEditionInput!) {
   retryMintEdition(input: $input) {
     collectionMint {

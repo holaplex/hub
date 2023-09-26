@@ -13,7 +13,7 @@ import { StoreApi, useStore } from 'zustand';
 import {
   DropFormState,
   DetailSettings,
-  blockchainOptions,
+  DropType,
 } from '../../../../../../../providers/DropFormProvider';
 import { useDropForm } from '../../../../../../../hooks/useDropForm';
 
@@ -22,19 +22,19 @@ export default function NewDropDetailsPage() {
   const { project } = useProject();
   const store = useDropForm() as StoreApi<DropFormState>;
   const detail = useStore(store, (store) => store.detail);
+  const type = useStore(store, (store) => store.type);
   const setDetail = useStore(store, (store) => store.setDetail);
 
   const { handleSubmit, register, control, setValue, formState, watch, setError, clearErrors } =
     useForm<DetailSettings>({
-      defaultValues: detail || {
-        blockchain: {
-          id: Blockchain.Solana,
-          name: 'Solana',
-        },
-      },
+      defaultValues: detail || {},
     });
 
   const includeAnimationUrl = watch('includeAnimationUrl');
+
+  const back = () => {
+    router.push(`/projects/${project?.id}/drops/new/type`);
+  };
 
   const submit = (data: DetailSettings) => {
     setDetail(data);
@@ -135,8 +135,8 @@ export default function NewDropDetailsPage() {
                 <Form.Input
                   {...register('name', {
                     required: 'Please enter a name.',
-                    validate: (value, { blockchain }) => {
-                      if (blockchain.id === Blockchain.Solana && value.length > 32) {
+                    validate: (value) => {
+                      if (type?.blockchain.id === Blockchain.Solana && value.length > 32) {
                         return 'Name length exceeded the limit of 32.';
                       }
                     },
@@ -152,8 +152,8 @@ export default function NewDropDetailsPage() {
                 <Form.Input
                   {...register('symbol', {
                     required: 'Symbol required.',
-                    validate: (value, { blockchain }) => {
-                      if (blockchain.id === Blockchain.Solana && value.length > 10) {
+                    validate: (value) => {
+                      if (type?.blockchain.id === Blockchain.Solana && value.length > 10) {
                         return 'Symbol length exceeded the limit of 10.';
                       }
                     },
@@ -164,32 +164,7 @@ export default function NewDropDetailsPage() {
               <Form.Error message={formState.errors.symbol?.message} />
             </div>
           </div>
-          <div className="mt-5">
-            <Form.Label name="Blockchain" className="text-xs">
-              <Controller
-                name="blockchain"
-                control={control}
-                rules={{ required: 'Please select a blockchain.' }}
-                render={({ field: { value, onChange } }) => {
-                  return (
-                    <Form.Select value={value} onChange={onChange}>
-                      <Form.Select.Button placeholder="Select blockchain">
-                        {value.name}
-                      </Form.Select.Button>
-                      <Form.Select.Options>
-                        {blockchainOptions.map((i) => (
-                          <Form.Select.Option value={i} key={i.id}>
-                            <>{i.name}</>
-                          </Form.Select.Option>
-                        ))}
-                      </Form.Select.Options>
-                    </Form.Select>
-                  );
-                }}
-              />
-            </Form.Label>
-            <Form.Error message={formState.errors.blockchain?.message} />
-          </div>
+
           <Form.Label name="Description" className="text-xs mt-5">
             <Form.TextArea
               {...register('description')}
@@ -235,16 +210,33 @@ export default function NewDropDetailsPage() {
             Add attribute
           </Button>
           <hr className="w-full bg-stone-800 border-0 h-px my-5" />
-          <Button
-            htmlType="submit"
-            className="self-end"
-            loading={formState.isSubmitting}
-            disabled={formState.isSubmitting}
-          >
-            Next
-          </Button>
+          <div className="flex items-center justify-end gap-6">
+            <Button variant="secondary" onClick={back} disabled={formState.isSubmitting}>
+              Back
+            </Button>
+            <Button
+              htmlType="submit"
+              className="self-end"
+              loading={formState.isSubmitting}
+              disabled={formState.isSubmitting}
+            >
+              Next
+            </Button>
+          </div>
         </Form>
       </Card>
+      {type?.type === DropType.Edition && (
+        <p className="mt-4 text-gray-400">
+          Looking for compression?{' '}
+          <a
+            className="text-yellow-300 font-semibold hover:underline hover:text-yellow-400 transition cursor-pointer"
+            href="https://docs.holaplex.com/hub/Guides/cnfts/"
+            target="_blank"
+          >
+            Learn more
+          </a>
+        </p>
+      )}
     </>
   );
 }

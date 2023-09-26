@@ -2,3 +2,8 @@ auth:
   username: svix
   password: svix
   database: svix
+primary:
+ resources:
+    requests:
+      cpu: 125m
+      memory: 128Mi

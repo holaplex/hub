@@ -134,7 +134,7 @@ export default function Registration() {
       )}
 
       <span className="flex-wrap text-gray-400 text-xs mt-4">
-        By signing up I have read and agreed to Holaplex Hub{' '}
+        By signing up I have read and agreed to Holaplex HUB{' '}
         <Link href="/terms-of-service" target="_blank" className="underline">
           Terms
         </Link>{' '}

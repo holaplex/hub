@@ -12,7 +12,7 @@ import { useSearchParams } from 'next/navigation';
 export default function Login() {
   const { loading, flow } = useLoginFlow();
   const search = useSearchParams();
-  const { submit, register, handleSubmit, formState } = useLogin(flow);
+  const loginCredential = useLogin(flow);
 
   return (
     <Card className="w-[400px]">
@@ -34,10 +34,13 @@ export default function Login() {
           <div className="mt-3 w-full h-[44px] rounded-md bg-stone-800 animate-pulse" />
         </div>
       ) : (
-        <Form onSubmit={handleSubmit(submit)} className="flex flex-col gap-6 mt-3">
+        <Form
+          onSubmit={loginCredential.handleSubmit(loginCredential.submit)}
+          className="flex flex-col gap-6 mt-3"
+        >
           <Form.Label name="Email address" className="text-xs">
             <Form.Input
-              {...register('identifier', { required: true })}
+              {...loginCredential.register('identifier', { required: true })}
               autoFocus
               placeholder="e.g. name@example.com"
               className=""
@@ -49,7 +52,7 @@ export default function Login() {
             asideComponent={<Link href="/recovery">Forgot password?</Link>}
           >
             <Form.Password
-              {...register('password', { required: true })}
+              {...loginCredential.register('password', { required: true })}
               placeholder="Enter your password"
               showPasswordIcon={<Icon.ShowPassword stroke="stroke-gray-400" />}
               hidePasswordIcon={<Icon.HidePassword stroke="stroke-gray-400" />}
@@ -58,8 +61,8 @@ export default function Login() {
           <Button
             htmlType="submit"
             className="w-full mt-3"
-            loading={formState.isSubmitting}
-            disabled={formState.isSubmitting}
+            loading={loginCredential.formState.isSubmitting}
+            disabled={loginCredential.formState.isSubmitting}
           >
             Sign in
           </Button>
@@ -67,7 +70,7 @@ export default function Login() {
       )}
 
       <span className="flex-wrap text-gray-400 text-xs mt-4">
-        By signing in I have read and agreed to Holaplex Hub{' '}
+        By signing in I have read and agreed to Holaplex HUB{' '}
         <Link styled={false} href="/terms-of-service" target="_blank" className="underline">
           Terms
         </Link>{' '}

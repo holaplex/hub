@@ -22,6 +22,7 @@ export default function NewDrop({ children, project }: CreateDropProps): JSX.Ele
 
   const store = useDropFormState();
 
+  const type = useStore(store, (store) => store.type);
   const detail = useStore(store, (store) => store.detail);
   const payment = useStore(store, (store) => store.payment);
   const timing = useStore(store, (store) => store.timing);
@@ -40,22 +41,33 @@ export default function NewDrop({ children, project }: CreateDropProps): JSX.Ele
         </Navbar.Header>
         <Navbar.Menu>
           <Navbar.Menu.Step
-            name="Drop details"
+            name="Type"
+            icon={
+              <Navbar.Menu.Step.StepCount
+                active={pathname === `/projects/${project.id}/drops/new/type`}
+                count="1"
+                filled={isComplete(type)}
+              />
+            }
+            active={pathname === `/projects/${project.id}/drops/new/type`}
+          />
+          <Navbar.Menu.Step
+            name="Details"
             icon={
               <Navbar.Menu.Step.StepCount
                 active={pathname === `/projects/${project.id}/drops/new/details`}
-                count="1"
+                count="2"
                 filled={isComplete(detail)}
               />
             }
             active={pathname === `/projects/${project.id}/drops/new/details`}
           />
           <Navbar.Menu.Step
-            name="Supply and royalties"
+            name="Royalties"
             icon={
               <Navbar.Menu.Step.StepCount
                 active={pathname === `/projects/${project.id}/drops/new/royalties`}
-                count="2"
+                count="3"
                 filled={isComplete(payment)}
               />
             }
@@ -66,7 +78,7 @@ export default function NewDrop({ children, project }: CreateDropProps): JSX.Ele
             icon={
               <Navbar.Menu.Step.StepCount
                 active={pathname === `/projects/${project.id}/drops/new/schedule`}
-                count="3"
+                count="4"
                 filled={isComplete(timing)}
               />
             }
@@ -77,7 +89,7 @@ export default function NewDrop({ children, project }: CreateDropProps): JSX.Ele
             icon={
               <Navbar.Menu.Step.StepCount
                 active={pathname === `/projects/${project.id}/drops/new/preview`}
-                count="4"
+                count="5"
                 filled={false}
               />
             }

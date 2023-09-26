@@ -2,3 +2,8 @@ auth:
   username: treasuries
   password: treasuries
   database: treasuries
+primary:
+ resources:
+    requests:
+      cpu: 125m
+      memory: 128Mi

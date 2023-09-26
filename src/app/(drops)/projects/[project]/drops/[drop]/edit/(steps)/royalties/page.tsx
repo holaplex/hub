@@ -21,12 +21,12 @@ export default function EditDropRoyaltiesPage() {
   const router = useRouter();
   const { project } = useProject();
   const store = useDropForm() as StoreApi<DropFormState>;
-  const detail = useStore(store, (store) => store.detail);
   const payment = useStore(store, (store) => store.payment);
+  const type = useStore(store, (store) => store.type);
   const setPayment = useStore(store, (store) => store.setPayment);
 
   const wallet = project?.treasury?.wallets?.find((wallet) => {
-    switch (detail?.blockchain.id) {
+    switch (type?.blockchain.id) {
       case Blockchain.Solana:
         return wallet.assetId === AssetType.Sol;
       case Blockchain.Polygon:
@@ -45,7 +45,8 @@ export default function EditDropRoyaltiesPage() {
   const royaltiesDestination = watch('royaltiesDestination');
   const royaltiesShortcut = watch('royaltiesShortcut');
   const creators = watch('creators');
-  const supply = when(isNil, always('Unlimited'))(watch('supply'));
+  
+  const supply = when(isNil, always('Unlimited'))(type?.supply);
 
   const submit = (data: PaymentSettings) => {
     if (data.royaltiesDestination === RoyaltiesDestination.ProjectTreasury) {
@@ -83,7 +84,7 @@ export default function EditDropRoyaltiesPage() {
     rules: {
       required: true,
       validate: (creators) => {
-        switch (detail?.blockchain.id) {
+        switch (type?.blockchain.id) {
           case Blockchain.Solana:
             if (creators.length > 5) {
               return 'Can only set up to 5 creators.';
@@ -254,7 +255,7 @@ export default function EditDropRoyaltiesPage() {
                       {...register(`creators.${index}.share`)}
                       type="number"
                       placeholder="e.g. 10%"
-                      disabled={detail?.blockchain.id === Blockchain.Polygon}
+                      disabled={type?.blockchain.id === Blockchain.Polygon}
                     />
                   </Form.Label>
                   {creators.length > 1 && (
@@ -267,7 +268,7 @@ export default function EditDropRoyaltiesPage() {
                   )}
                 </div>
               ))}
-              {detail?.blockchain.id === Blockchain.Solana && (
+              {type?.blockchain.id === Blockchain.Solana && (
                 <Button
                   className="mt-4 self-start"
                   variant="secondary"

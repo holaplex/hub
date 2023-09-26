@@ -2,7 +2,7 @@ export default function TermsOfServicePage() {
   return (
     <article className="container">
       <header className="mb-8">
-        <h1>Hub Terms and Conditions</h1>
+        <h1>HUB Terms and Conditions</h1>
       </header>
       <div className="flex flex-col gap-2">
         <p id="456a17b4-8255-447b-8e05-64eae4827d2e">

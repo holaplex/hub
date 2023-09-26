@@ -9,8 +9,9 @@ import { GetProjectDrops } from './../../../../../queries/drop.graphql';
 import { Icon } from '../../../../../components/Icon';
 import Table from '../../../../../components/Table';
 import { DateFormat, convertLocalTime } from '../../../../../modules/time';
-import { Project, Drop as DropType, DropStatus, Blockchain } from '../../../../../graphql.types';
+import { Project, DropStatus, DropType, Drop } from '../../../../../graphql.types';
 import Copy from '../../../../../components/Copy';
+import { is, isNil, not, pipe } from 'ramda';
 
 interface DropsPageProps {
   project: string;
@@ -24,6 +25,8 @@ interface GetDropsVars {
   project: string;
 }
 
+const isNotNil = pipe(isNil, not);
+
 export default function Drops({ project }: DropsPageProps) {
   const dropsQuery = useQuery<GetDropsData, GetDropsVars>(GetProjectDrops, {
     variables: { project },
@@ -32,7 +35,7 @@ export default function Drops({ project }: DropsPageProps) {
   const drops = dropsQuery.data?.project.drops || [];
   const noDrops = drops.length === 0;
   const loadingColumnHelper = createColumnHelper<any>();
-  const columnHelper = createColumnHelper<DropType>();
+  const columnHelper = createColumnHelper<Drop>();
 
   return (
     <>
@@ -123,7 +126,7 @@ export default function Drops({ project }: DropsPageProps) {
                 <span className="mt-2 text-gray-400 text-sm">
                   Click button below to mint your first drop
                 </span>
-                <Link href={`/projects/${dropsQuery.data?.project.id}/drops/new/details`}>
+                <Link href={`/projects/${dropsQuery.data?.project.id}/drops/new/type`}>
                   <Button icon={<Icon.Add stroke="stroke-stone-950" />} className="mt-8">
                     Create drop
                   </Button>
@@ -132,7 +135,7 @@ export default function Drops({ project }: DropsPageProps) {
             ) : (
               <div className="mt-4 flex flex-col">
                 <Link
-                  href={`/projects/${dropsQuery.data?.project.id}/drops/new/details`}
+                  href={`/projects/${dropsQuery.data?.project.id}/drops/new/type`}
                   className="self-end"
                 >
                   <Button icon={<Icon.Add stroke="stroke-stone-950" />} variant="primary">
@@ -143,7 +146,7 @@ export default function Drops({ project }: DropsPageProps) {
                   className="mt-4"
                   columns={[
                     columnHelper.accessor(
-                      ({ collection, id }) => {
+                      ({ collection, id, dropType }) => {
                         if (!collection) {
                           throw new Error('no collection');
                         }
@@ -155,6 +158,7 @@ export default function Drops({ project }: DropsPageProps) {
                           image: metadataJson?.image,
                           symbol: metadataJson?.symbol,
                           id,
+                          dropType,
                         };
                       },
                       // @ts-ignore
@@ -171,7 +175,7 @@ export default function Drops({ project }: DropsPageProps) {
                             <Link
                               href={`/projects/${dropsQuery.data?.project.id}/drops/${
                                 info.getValue().id
-                              }/mints`}
+                              }/${info.getValue().dropType === DropType.Open ? 'supply' : 'mints'}`}
                               className="flex flex-col gap-1"
                             >
                               <span className="text-xs text-white font-medium">
@@ -192,12 +196,9 @@ export default function Drops({ project }: DropsPageProps) {
                         const blockchain = info.getValue();
 
                         return (
-                          <PopoverBox
-                            triggerButton={
-                              <Icon.Crypto blockchain={blockchain} className="cursor-pointer" />
-                            }
-                            elements={[<span key="blockchain">{blockchain}</span>]}
-                          />
+                          <div className="flex items-center gap-1">
+                            <Icon.Crypto blockchain={blockchain} /> {blockchain}
+                          </div>
                         );
                       },
                     }),
@@ -244,9 +245,11 @@ export default function Drops({ project }: DropsPageProps) {
                         cell: (info) => {
                           const { supply, totalMints, status } = info.getValue();
 
+                          const hasSupply = isNotNil(supply);
+
                           return (
                             <div className="flex items-center text-white text-xs font-medium">
-                              {supply ? `${totalMints} / ${supply} minted` : 'Unlimited'}
+                              {hasSupply ? `${totalMints} / ${supply} minted` : 'Unlimited'}
                             </div>
                           );
                         },
@@ -270,11 +273,17 @@ export default function Drops({ project }: DropsPageProps) {
                         cell: (info) => {
                           const { supply, totalMints, status } = info.getValue();
 
-                          const percent = Math.ceil((totalMints / supply) * 100);
+                          let percent = Math.ceil((totalMints / supply) * 100);
+
+                          if (supply === 0) {
+                            percent = 0;
+                          }
+
+                          const hasSupply = isNotNil(supply);
 
                           return (
                             <div className="flex gap-2 items-center">
-                              {supply ? (
+                              {hasSupply ? (
                                 <span
                                   className="w-6 h-6 rounded-full flex items-center justify-center"
                                   style={{

@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Holaplex Hub | Projects',
+  title: 'Holaplex HUB | Projects',
 };
 
 export default function OrganizationProjectsLayout({

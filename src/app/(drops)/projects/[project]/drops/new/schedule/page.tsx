@@ -50,7 +50,8 @@ export default function NewDropTimingPage() {
       <Card className="w-[364px]">
         <Typography.Header size={Size.H2}>Drop schedule</Typography.Header>
         <Typography.Header size={Size.H3} color={TextColor.Gray}>
-          Scheduled in your current timezone
+          Set an optional start and or end date to ensure your drop is only active for a set amount
+          of time. Scheduled in your current timezone.
         </Typography.Header>
         <Form className="flex flex-col mt-5" onSubmit={handleSubmit(submit)}>
           {/* Start Date */}
