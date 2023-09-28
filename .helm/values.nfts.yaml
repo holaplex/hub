@@ -3,6 +3,12 @@ image:
 
 creditSheetName: hub-credits-credit-sheet
 
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: false
+
 migrate:
   image:
     pullPolicy: Always
