@@ -9,7 +9,7 @@ build:
         target: development
         dockerfile: Dockerfile
         buildArgs:
-          APP_FQDN: http://hub.127.0.0.1.nip.io:9080
+          APP_FQDN: http://hub.127.0.0.1.nip.io:9443
       sync:
         manual:
           - src: 'src/**/*.tsx'
@@ -27,6 +27,11 @@ portForward:
   - resourceType: service
     resourceName: apisix-gateway
     namespace: ingress-apisix
+    port: 443
+    localPort: 9443
+  - resourceType: service
+    resourceName: apisix-gateway
+    namespace: ingress-apisix
     port: 80
     localPort: 9080
   - resourceType: service
@@ -37,6 +42,13 @@ portForward:
 deploy:
   helm:
     releases:
+      - name: cert-manager
+        createNamespace: true
+        remoteChart: cert-manager
+        namespace: cert-manager
+        repo: https://charts.jetstack.io
+        setValueTemplates:
+          installCRDs: true
       - name: hub-gateway
         createNamespace: true
         namespace: ingress-apisix
@@ -196,7 +208,7 @@ deploy:
           - .helm/secrets.credentials.yaml
       - name: federated-router
         remoteChart: oci://ghcr.io/apollographql/helm-charts/router
-        version: 1.19.0
+        version: 1.30.0
         valuesFiles:
           - .helm/values.router.yaml
           - .helm/secrets.router.yaml

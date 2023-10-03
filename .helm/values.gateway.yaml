@@ -4,9 +4,23 @@ port: 9080
 sessionCookieName: 'hub_session'
 forceVerification: false
 verificationUri: 'http://hub.127.0.0.1.nip.io:9080/verification'
+
+certificates:
+  deploy: true
+  devMode: true
+  email: "engineering@holaplex.com"
+
 apisix:
   configurationSnippet:
     httpStart: |
       proxy_read_timeout 300;
       proxy_connect_timeout 300;
       proxy_send_timeout 300;
+
+  gateway:
+      type: NodePort
+      externalTrafficPolicy: Cluster
+      tls:
+        enabled: true
+        servicePort: 443
+        containerPort: 9443
