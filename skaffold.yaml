@@ -9,7 +9,7 @@ build:
         target: development
         dockerfile: Dockerfile
         buildArgs:
-          APP_FQDN: http://hub.127.0.0.1.nip.io:9443
+          APP_FQDN: https://hub.127.0.0.1.nip.io:9443
       sync:
         manual:
           - src: 'src/**/*.tsx'
