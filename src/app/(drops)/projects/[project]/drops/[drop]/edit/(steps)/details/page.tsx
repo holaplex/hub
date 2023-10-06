@@ -96,7 +96,7 @@ export default function EditDropDetailsPage({}: EditDropDetailsPageProps) {
                                 to upload.
                                 <br />
                                 <br />
-                                JPEG, GIF and PNG supported. Must be under 10 MB.
+                                JPEG, GIF and PNG supported. Must be under 250 MB.
                               </p>
                             </div>
                           )}

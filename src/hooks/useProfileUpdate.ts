@@ -57,8 +57,8 @@ export function useProfileUpdate(
       let profileImageUrl = file;
 
       if (file instanceof File) {
-        const { url } = await uploadFile(file);
-        profileImageUrl = url;
+        const { uri } = await uploadFile(file);
+        profileImageUrl = uri;
       }
 
       await ory.updateSettingsFlow({

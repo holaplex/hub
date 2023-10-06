@@ -39,8 +39,8 @@ export default function CreateOrganizationPage() {
   const onSubmit = async ({ name, file }: CreateOrganizationForm) => {
     let profileImageUrl;
     if (file) {
-      const { url } = await uploadFile(file);
-      profileImageUrl = url;
+      const { uri } = await uploadFile(file);
+      profileImageUrl = uri;
     }
 
     createOrganization({

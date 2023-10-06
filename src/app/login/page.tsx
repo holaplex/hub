@@ -88,12 +88,20 @@ export default function Login() {
         }`}
         styled={false}
       >
-        <Button icon={<Icon.LightBulb stroke="stroke-gray-400" />} block variant="secondary">
+        <Button
+          icon={<Icon.LightBulb stroke="stroke-gray-400" />}
+          block
+          variant="secondary"
+          className="group"
+        >
           <div className="flex items-center my-1">
             <span className="text-gray-400 font-medium">Do not have an account?</span>
             <span className="flex items-center ml-1 font-semibold">
               Create account
-              <Icon.ArrowRight stroke="stroke-yellow-300" />
+              <Icon.ArrowRight
+                stroke="stroke-yellow-300"
+                className="group-hover:stroke-yellow-500"
+              />
             </span>
           </div>
         </Button>
