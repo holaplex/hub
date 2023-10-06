@@ -102,8 +102,8 @@ export default function CollectionNftEdit({
     let imageUrl = image;
 
     if (image instanceof File) {
-      const { url } = await uploadFile(image);
-      imageUrl = url;
+      const { uri } = await uploadFile(image);
+      imageUrl = uri;
     }
 
     if (royaltiesDestination === RoyaltiesDestination.ProjectTreasury) {
@@ -424,7 +424,7 @@ export default function CollectionNftEdit({
                                   to upload.
                                   <br />
                                   <br />
-                                  JPEG, GIF and PNG supported. Must be under 10 MB.
+                                  JPEG, GIF and PNG supported. Must be under 250 MB.
                                 </p>
                               </div>
                             )}

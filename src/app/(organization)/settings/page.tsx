@@ -57,8 +57,8 @@ export default function OrganizationSettingsPage() {
     let profileImageUrl = profileImage;
 
     if (profileImage instanceof File) {
-      const { url } = await uploadFile(profileImage);
-      profileImageUrl = url;
+      const { uri } = await uploadFile(profileImage);
+      profileImageUrl = uri;
     }
 
     editOrganization({

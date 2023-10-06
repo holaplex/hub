@@ -70,8 +70,8 @@ export default function EditProject({ project }: { project: string }) {
     let profileImageUrl = profileImage;
 
     if (profileImage instanceof File) {
-      const { url } = await uploadFile(profileImage);
-      profileImageUrl = url;
+      const { uri } = await uploadFile(profileImage);
+      profileImageUrl = uri;
     }
 
     editProject({

@@ -139,6 +139,12 @@ deploy:
         remoteChart: hydra
         valuesFiles:
           - .helm/values.hydra.yaml
+      - name: hub-uploads
+        remoteChart: hub-uploads
+        repo: https://charts.holaplex.com
+        valuesFiles:
+          - .helm/values.uploads.yaml
+          - .helm/secrets.uploads.yaml
       - name: hub-credits
         remoteChart: hub-credits
         repo: https://charts.holaplex.com

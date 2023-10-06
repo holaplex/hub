@@ -89,7 +89,7 @@ export default function EditDropPreviewPage() {
     setSubmitting(true);
     let imageUrl = detail.image;
     if (detail.image instanceof File) {
-      const { url: image } = await uploadFile(detail.image);
+      const { uri: image } = await uploadFile(detail.image);
       imageUrl = image;
     }
 

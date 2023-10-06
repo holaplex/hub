@@ -17,7 +17,6 @@ import {
   UseFormRegister,
   UseFormSetValue,
 } from 'react-hook-form';
-import { uploadFile } from '../modules/upload';
 
 interface LoginResponse {
   redirect_path: string;
@@ -27,7 +26,6 @@ interface RegistrationForm {
   email: string;
   password: string;
   name: { first: string; last: string };
-  file?: File;
 }
 interface RegisterContext {
   flow: RegistrationFlow | undefined;
@@ -48,8 +46,9 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
   const { register, handleSubmit, formState, setError, control, setValue } =
     useForm<RegistrationForm>();
 
-  const onSubmit = async ({ email, password, name, file }: RegistrationForm): Promise<void> => {
+  const onSubmit = async ({ email, password, name }: RegistrationForm): Promise<void> => {
     let response;
+
     if (!flow) {
       return;
     }
@@ -59,19 +58,13 @@ export function useRegister(flow: RegistrationFlow | undefined): RegisterContext
         extractFlowNode('csrf_token')(flow.ui.nodes).attributes as UiNodeInputAttributes
       ).value;
 
-      let profileImage;
-      if (file) {
-        const { url } = await uploadFile(file);
-        profileImage = url;
-      }
-
       response = await ory.updateRegistrationFlow({
         flow: flow.id,
 
         updateRegistrationFlowBody: {
           method: 'password',
           password,
-          traits: { email, name, profile_image: profileImage },
+          traits: { email, name },
           csrf_token: csrfToken,
         },
       });
