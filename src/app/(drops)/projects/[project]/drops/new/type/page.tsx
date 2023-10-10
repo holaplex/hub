@@ -23,6 +23,7 @@ import {
 } from '../../../../../../../queries/credits.graphql';
 import clsx from 'clsx';
 import { CreditLookup } from '../../../../../../../modules/credit';
+import Link from 'next/link';
 
 interface GetOrganizationBalanceVars {
   organization: string;
@@ -225,9 +226,9 @@ export default function NewDropTypePage() {
                     </div>
                   </div>
                   {expectedCreditCost > creditBalance && (
-                    <form action="/api/credits/purchase" method="POST" className="shrink-0">
-                      <Button htmlType="submit">Buy credits</Button>
-                    </form>
+                    <Link href="/credits/costs">
+                      <Button>Buy credits</Button>
+                    </Link>
                   )}
                 </div>
               )}

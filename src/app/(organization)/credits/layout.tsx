@@ -3,6 +3,7 @@ import { Button } from '@holaplex/ui-library-react';
 import { usePathname } from 'next/navigation';
 import { cloneElement, useMemo } from 'react';
 import { Icon } from '../../../components/Icon';
+import Link from 'next/link';
 import Tabs from '../../../layouts/Tabs';
 import {
   GetOrganizationCreditAndDeductionTotals,
@@ -38,7 +39,9 @@ interface GetCreditSheetData {
 
 export default function CreditsLayout({
   children,
+  modal,
 }: {
+  modal: React.ReactNode;
   children: React.ReactNode;
 }): React.ReactNode {
   const pathname = usePathname();
@@ -129,11 +132,17 @@ export default function CreditsLayout({
             <div className="flex flex-col basis-1/3 gap-4 items-center justify-center p-6 bg-stone-900 rounded-lg">
               <span className="text-gray-400">Current credit balance</span>
               <span className="text-6xl font-semibold">{balance}</span>
-              <form action="/api/credits/purchase" method="POST">
-                <Button icon={<Icon.Add />} htmlType="submit">
-                  Buy more credits
-                </Button>
-              </form>
+
+              <span className="text-xs text-gray-400">
+                Reach out to{' '}
+                <a
+                  className="text-yellow-300 hover:underline hover:text-yellow-500 transition"
+                  href="mailto:support@holaplex.com"
+                >
+                  support@holaplex.com
+                </a>{' '}
+                to purchase credits.
+              </span>
             </div>
             <div className="flex basis-2/3 gap-8 bg-stone-900 rounded-lg p-6">
               <div className="flex flex-col gap-4 basis-1/4">
@@ -201,6 +210,7 @@ export default function CreditsLayout({
         </Tabs.Panel>
         <Tabs.Content>{cloneElement(children as JSX.Element, { loading })}</Tabs.Content>
       </Tabs.Page>
+      {modal}
     </div>
   );
 }

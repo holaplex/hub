@@ -208,7 +208,7 @@ export default function MintQueuedSupply({ project, drop, mint }: MintQueuedSupp
                   </div>
 
                   {mintCredits > creditBalance && (
-                    <Link href="/credits/buy" className="flex-none">
+                    <Link href="/credits/costs" className="flex-none">
                       <Button>Buy credits</Button>
                     </Link>
                   )}
