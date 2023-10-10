@@ -23,7 +23,7 @@ import {
 } from '../../../../../../../queries/credits.graphql';
 import clsx from 'clsx';
 import { CreditLookup } from '../../../../../../../modules/credit';
-import Link from 'next/link';
+import Link from 'next/link';e
 
 interface GetOrganizationBalanceVars {
   organization: string;
